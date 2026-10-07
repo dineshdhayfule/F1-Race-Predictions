@@ -5,7 +5,7 @@ Performs chronological out-of-fold walk-forward validation across season rounds.
 Calculates MAE, RMSE, Spearman correlation, Top-K overlap, and calibration residuals.
 """
 
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Tuple, Any, Optional
 import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
@@ -68,6 +68,7 @@ class ModelEvaluator:
 
         round_predictions = {name: [] for _, _, name in tested_weights}
         round_actuals = []
+        round_grids = []
 
         for r in val_rounds:
             train = training_df[training_df["Round"] < r].copy()
@@ -118,6 +119,10 @@ class ModelEvaluator:
             rf_residuals.extend(y_test - rf_pred)
             xgb_residuals.extend(y_test - xgb_pred)
             round_actuals.extend(y_test)
+
+            grid_col = "ActualStartingGrid" if "ActualStartingGrid" in test.columns else "GridPosition"
+            grids = pd.to_numeric(test.get(grid_col, test.get("GridPosition")), errors="coerce").fillna(12.0).values
+            round_grids.extend(grids)
 
             for w_rf, w_xgb, name in tested_weights:
                 blend_pred = w_rf * rf_pred + w_xgb * xgb_pred
@@ -170,5 +175,80 @@ class ModelEvaluator:
             "rf_mae": ensemble_results[0]["mae"],
             "xgb_mae": ensemble_results[-1]["mae"],
             "empirical_dnf_rate": round(empirical_dnf_rate, 4),
+            "grid_positions": np.array(round_grids),
+            "round_predictions": round_predictions,
+            "actuals": actuals,
         }
+
+    def evaluate_grid_blend_sweep(
+        self,
+        training_df: pd.DataFrame,
+        ml_models: Optional[Dict[str, Tuple[float, float]]] = None,
+        grid_weights: Optional[List[float]] = None
+    ) -> Dict[str, List[Dict[str, Any]]]:
+        """
+        Evaluates ML + ActualStartingGrid blending across specified grid weights
+        using the exact same chronological OOF walk-forward predictions.
+
+        Parameters
+        ----------
+        training_df : pd.DataFrame
+            Completed training features dataset.
+        ml_models : dict, optional
+            Mapping of model_name -> (w_rf, w_xgb). Default evaluates:
+            100% RF, 75% RF / 25% XGB, and 60% RF / 40% XGB.
+        grid_weights : list of float, optional
+            Grid weight values to sweep (e.g. [0.0, 0.05, ..., 0.50]).
+        """
+        eval_base = self.evaluate_walk_forward(training_df)
+        actuals = eval_base["actuals"]
+        grids = eval_base["grid_positions"]
+        round_preds = eval_base["round_predictions"]
+
+        if ml_models is None:
+            ml_models = {
+                "100% RF": (1.0, 0.0),
+                "75% RF / 25% XGB": (0.75, 0.25),
+                "60% RF / 40% XGB": (0.60, 0.40),
+            }
+
+        if grid_weights is None:
+            grid_weights = [0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50]
+
+        sweep_results = {}
+
+        for m_name, (w_rf, w_xgb) in ml_models.items():
+            if m_name in round_preds:
+                ml_pred = np.array(round_preds[m_name])
+            else:
+                rf_p = np.array(round_preds["100% RF"])
+                xgb_p = np.array(round_preds["100% XGB"])
+                ml_pred = w_rf * rf_p + w_xgb * xgb_p
+
+            pure_ml_mae = float(mean_absolute_error(actuals, ml_pred))
+            model_evals = []
+
+            for w_grid in grid_weights:
+                w_ml = round(1.0 - w_grid, 4)
+                blended = w_ml * ml_pred + w_grid * grids
+                mae = float(mean_absolute_error(actuals, blended))
+                medae = float(median_absolute_error(actuals, blended))
+                rmse = float(np.sqrt(mean_squared_error(actuals, blended)))
+                spearman_corr = float(spearmanr(actuals, blended).statistic)
+
+                model_evals.append({
+                    "ml_model": m_name,
+                    "ml_weight": w_ml,
+                    "grid_weight": round(w_grid, 4),
+                    "mae": round(mae, 4),
+                    "delta_mae": round(mae - pure_ml_mae, 4),
+                    "medae": round(medae, 4),
+                    "rmse": round(rmse, 4),
+                    "spearman": round(spearman_corr, 4),
+                })
+
+            sweep_results[m_name] = model_evals
+
+        return sweep_results
+
 

@@ -4,10 +4,12 @@ Teammate-Relative Feature Engineering Module
 Calculates intra-team comparative metrics:
 1. teammate_quali_gap_pct: Percentage lap time delta to teammate in qualifying.
    Negative = faster than teammate; Positive = slower than teammate.
-2. teammate_grid_delta: Starting grid difference to teammate (Grid_driver - Grid_teammate).
+   Evaluates to NaN if qualifying times are missing, invalid, or teammate is missing.
+2. teammate_grid_delta: Starting grid difference to teammate (ActualStartingGrid_driver - ActualStartingGrid_teammate).
    Negative = starting ahead of teammate; Positive = starting behind teammate.
-3. driver_teammate_h2h_ratio: Empirical Bayes shrunk head-to-head finish win-rate in prior races.
-   Bounded [0, 1], prior = 0.50.
+   Evaluates to NaN if grid is missing or teammate is missing.
+3. driver_teammate_h2h_ratio: Empirical Bayes shrunk head-to-head finish win-rate in prior races (< r).
+   Shrunk with prior M=3 (prior=0.50) and bounded to [0.15, 0.85].
 """
 
 from typing import Dict, List, Optional, Any
@@ -29,11 +31,13 @@ def compute_teammate_quali_gap(
     drivers: List[str]
 ) -> pd.DataFrame:
     """
-    Computes percentage lap time difference to teammate in qualifying.
+    Computes percentage lap time difference to teammate in qualifying:
     teammate_quali_gap_pct = (time_driver - time_teammate) / time_teammate * 100.
     Negative = faster than teammate. Positive = slower.
 
-    If qualifying is unheld or unavailable (e.g. pre-qualifying stages), returns NaN.
+    STRICT MISSINGNESS RULE:
+    If either driver's qualifying time is missing, invalid, or teammate cannot be
+    identified, teammate_quali_gap_pct must be NaN. No synthetic offsets.
     """
     master = pd.DataFrame({"Abbreviation": list(drivers)})
     if quali_df is None or quali_df.empty:
@@ -52,7 +56,7 @@ def compute_teammate_quali_gap(
 
     team_col = "TeamName" if "TeamName" in q.columns else ("Team" if "Team" in q.columns else None)
     if team_col is None:
-        master["teammate_quali_gap_pct"] = 0.0
+        master["teammate_quali_gap_pct"] = np.nan
         return master
 
     # Extract best valid lap time in seconds
@@ -78,22 +82,15 @@ def compute_teammate_quali_gap(
             if pd.notna(t1) and pd.notna(t2) and t1 > 0 and t2 > 0:
                 gaps[d1] = (t1 - t2) / t2 * 100.0
                 gaps[d2] = (t2 - t1) / t1 * 100.0
-            elif pd.notna(t1) and pd.isna(t2):
-                gaps[d1] = -2.5
-                gaps[d2] = 2.5
-            elif pd.isna(t1) and pd.notna(t2):
-                gaps[d1] = 2.5
-                gaps[d2] = -2.5
             else:
-                gaps[d1] = 0.0
-                gaps[d2] = 0.0
+                gaps[d1] = np.nan
+                gaps[d2] = np.nan
         else:
             for d in drvs:
-                gaps[d] = 0.0
+                gaps[d] = np.nan
 
     res = pd.DataFrame(list(gaps.items()), columns=["Abbreviation", "teammate_quali_gap_pct"])
     merged = master.merge(res, on="Abbreviation", how="left")
-    merged["teammate_quali_gap_pct"] = merged["teammate_quali_gap_pct"].fillna(0.0)
     return merged
 
 
@@ -104,10 +101,10 @@ def compute_teammate_grid_delta(
 ) -> pd.DataFrame:
     """
     Computes starting grid delta to teammate:
-    teammate_grid_delta = Grid_driver - Grid_teammate.
+    teammate_grid_delta = ActualStartingGrid_driver - ActualStartingGrid_teammate.
     Negative = starting ahead of teammate. Positive = starting behind teammate.
 
-    If starting grid is unheld or unavailable, returns NaN.
+    If starting grid is unheld, missing, or teammate cannot be identified, returns NaN.
     """
     master = pd.DataFrame({"Abbreviation": list(drivers)})
     if grid_df is None or grid_df.empty:
@@ -128,7 +125,7 @@ def compute_teammate_grid_delta(
     col = grid_col if grid_col in gdf.columns else ("GridPosition" if "GridPosition" in gdf.columns else None)
 
     if team_col is None or col is None:
-        master["teammate_grid_delta"] = 0.0
+        master["teammate_grid_delta"] = np.nan
         return master
 
     deltas = {}
@@ -143,28 +140,30 @@ def compute_teammate_grid_delta(
                 deltas[d1] = float(g1 - g2)
                 deltas[d2] = float(g2 - g1)
             else:
-                deltas[d1] = 0.0
-                deltas[d2] = 0.0
+                deltas[d1] = np.nan
+                deltas[d2] = np.nan
         else:
             for d in drvs:
-                deltas[d] = 0.0
+                deltas[d] = np.nan
 
     res = pd.DataFrame(list(deltas.items()), columns=["Abbreviation", "teammate_grid_delta"])
     merged = master.merge(res, on="Abbreviation", how="left")
-    merged["teammate_grid_delta"] = merged["teammate_grid_delta"].fillna(0.0)
     return merged
 
 
 def compute_rolling_teammate_h2h(
     prior_races_df: pd.DataFrame,
     current_lineup_df: pd.DataFrame,
-    prior_weight: float = 3.0
+    prior_weight: float = 3.0,
+    lower_bound: float = 0.15,
+    upper_bound: float = 0.85
 ) -> Dict[str, float]:
     """
     Computes Empirical Bayes shrunk head-to-head win-rate against current teammate across prior rounds.
     Strict anti-leakage guarantee: relies exclusively on completed prior_races_df (Round < current_round).
 
     shrunk_h2h = (wins + prior_weight * 0.50) / (comparable_races + prior_weight)
+    Clamped to [lower_bound, upper_bound].
     """
     if current_lineup_df is None or current_lineup_df.empty:
         return {}
@@ -256,6 +255,7 @@ def compute_rolling_teammate_h2h(
                 valid_races += 1
 
         shrunk_rate = (wins + prior_weight * 0.50) / float(valid_races + prior_weight)
-        h2h_results[drv] = round(float(shrunk_rate), 4)
+        bounded_rate = float(np.clip(shrunk_rate, lower_bound, upper_bound))
+        h2h_results[drv] = round(bounded_rate, 4)
 
     return h2h_results
