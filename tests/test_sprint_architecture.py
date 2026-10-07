@@ -213,3 +213,136 @@ def test_cli_accepts_sprint_stages():
     assert res.returncode == 0
     assert "after_sprint_qualifying" in res.stdout
     assert "after_sprint_race" in res.stdout
+
+
+# -------------------------------------------------------------------------
+# OBJECTIVE 9: Historical Sprint Round Detection & Session Loading Tests
+# -------------------------------------------------------------------------
+
+def test_historical_sprint_detection_by_year_and_round(tmp_path):
+    """
+    Validates:
+    1. Historical Sprint round detection strictly by (year, round) files.
+    2. Historical Normal round detection by (year, round).
+    3. Same circuit having different formats across seasons (independent of circuit name).
+    4. Missing Sprint files safely treated as Normal / no sprint data.
+    """
+    season_dir_2024 = tmp_path / "data" / "raw" / "season" / "2024"
+    season_dir_2025 = tmp_path / "data" / "raw" / "season" / "2025"
+    season_dir_2024.mkdir(parents=True)
+    season_dir_2025.mkdir(parents=True)
+
+    loader = DataLoader(root_dir=tmp_path)
+
+    # In 2024, Round 5 was a NORMAL weekend (only fp1, fp2, fp3)
+    for s in ("fp1", "fp2", "fp3", "qualifying", "race"):
+        (season_dir_2024 / f"2024_round_5_{s}.csv").write_text("Driver,Position\nVER,1\n", encoding="utf-8")
+
+    # In 2025, Round 5 of the same track became a SPRINT weekend (fp1, sprint_qualifying, sprint_race)
+    for s in ("fp1", "sprint_qualifying", "sprint_race", "qualifying", "race"):
+        (season_dir_2025 / f"2025_round_5_{s}.csv").write_text("Driver,Position\nVER,1\n", encoding="utf-8")
+
+    # 1. 2024 Round 5 must be detected as NORMAL
+    assert loader.is_historical_sprint_round(2024, 5, season_dir=season_dir_2024) is False
+
+    # 2. 2025 Round 5 must be detected as SPRINT
+    assert loader.is_historical_sprint_round(2025, 5, season_dir=season_dir_2025) is True
+
+    # 3. Missing files for non-existent round 99 safely returns False
+    assert loader.is_historical_sprint_round(2025, 99, season_dir=season_dir_2025) is False
+
+    # 4. Explicit calendar override works if provided
+    assert loader.is_historical_sprint_round(2024, 5, sprint_calendar={2024: [5]}) is True
+    assert loader.is_historical_sprint_round(2025, 5, sprint_calendar={2025: []}) is False
+
+
+def test_historical_sprint_session_loading_and_feature_population(tmp_path):
+    """
+    Validates:
+    1. Historical Sprint Qualifying & Sprint Race loading.
+    2. Historical Normal weekend keeps FP2/FP3 and sets Sprint features to NaN.
+    3. Historical Sprint weekend keeps FP2/FP3 as None and populates Sprint features.
+    4. Anti-leakage: GP race result is never used in sprint feature creation.
+    """
+    from src.features.build_features import FeatureEngineer
+
+    season_dir = tmp_path / "data" / "raw" / "season" / "2025"
+    season_dir.mkdir(parents=True)
+
+    # Round 1: Normal weekend
+    for s in ("fp1", "fp2", "fp3"):
+        pd.DataFrame({"Abbreviation": ["VER", "NOR"], "LapTimeSeconds": [90.0, 91.0]}).to_csv(
+            season_dir / f"2025_round_1_{s}.csv", index=False
+        )
+    pd.DataFrame({"Abbreviation": ["VER", "NOR"], "Position": [1, 2], "Round": 1}).to_csv(
+        season_dir / "2025_round_1_qualifying.csv", index=False
+    )
+    pd.DataFrame({"Abbreviation": ["VER", "NOR"], "TeamName": ["Red Bull Racing", "McLaren"], "Position": [1, 2], "Round": 1, "GridPosition": [1, 2], "Points": [25, 18]}).to_csv(
+        season_dir / "2025_round_1_race.csv", index=False
+    )
+
+    # Round 2: Sprint weekend
+    pd.DataFrame({"Abbreviation": ["VER", "NOR"], "LapTimeSeconds": [89.5, 90.5]}).to_csv(
+        season_dir / "2025_round_2_fp1.csv", index=False
+    )
+    pd.DataFrame({"Abbreviation": ["VER", "NOR"], "Position": [1, 2]}).to_csv(
+        season_dir / "2025_round_2_sprint_qualifying.csv", index=False
+    )
+    pd.DataFrame({"Abbreviation": ["VER", "NOR"], "Position": [2, 1], "StartingGrid": [1, 2]}).to_csv(
+        season_dir / "2025_round_2_sprint_race.csv", index=False
+    )
+    pd.DataFrame({"Abbreviation": ["VER", "NOR"], "Position": [1, 2], "Round": 2}).to_csv(
+        season_dir / "2025_round_2_qualifying.csv", index=False
+    )
+    pd.DataFrame({"Abbreviation": ["VER", "NOR"], "TeamName": ["Red Bull Racing", "McLaren"], "Position": [1, 2], "Round": 2, "GridPosition": [1, 2], "Points": [25, 18]}).to_csv(
+        season_dir / "2025_round_2_race.csv", index=False
+    )
+
+    loader = DataLoader(root_dir=tmp_path)
+    sessions_by_round = loader.load_all_practice_sessions(2025, [1, 2])
+
+    # Round 1 (Normal):
+    assert sessions_by_round[1]["fp1"] is not None
+    assert sessions_by_round[1]["fp2"] is not None
+    assert sessions_by_round[1]["fp3"] is not None
+    assert sessions_by_round[1]["sprint_qualifying"] is None
+    assert sessions_by_round[1]["sprint_race"] is None
+
+    # Round 2 (Sprint):
+    assert sessions_by_round[2]["fp1"] is not None
+    assert sessions_by_round[2]["fp2"] is None
+    assert sessions_by_round[2]["fp3"] is None
+    assert sessions_by_round[2]["sprint_qualifying"] is not None
+    assert sessions_by_round[2]["sprint_race"] is not None
+
+    # Verify FeatureEngineer builds features with correct Sprint vs Normal coverage
+    races_df, qualis_df = loader.load_season_rounds(2025, [1, 2])
+    fe = FeatureEngineer(expected_grid_size=2)
+    train_df = fe.build_training_dataset(
+        races_df=races_df,
+        qualis_df=qualis_df,
+        practice_sessions_by_round=sessions_by_round,
+        train_rounds=[1, 2]
+    )
+
+    r1_df = train_df[train_df["Round"] == 1]
+    r2_df = train_df[train_df["Round"] == 2]
+
+    # Normal round: sprint features are NaN
+    assert r1_df["sprint_quali_pos"].isna().all()
+    assert r1_df["sprint_finish_pos"].isna().all()
+    assert r1_df["sprint_pos_delta"].isna().all()
+
+    # Sprint round: sprint features are populated with real numbers
+    assert r2_df["sprint_quali_pos"].notna().all()
+    assert r2_df["sprint_finish_pos"].notna().all()
+    assert r2_df["sprint_pos_delta"].notna().all()
+
+    # Verify exact delta: StartingGrid - FinishPosition
+    # VER: StartingGrid 1, Finish 2 -> delta = -1.0
+    ver_r2 = r2_df[r2_df["Abbreviation"] == "VER"].iloc[0]
+    assert ver_r2["sprint_pos_delta"] == -1.0
+    # NOR: StartingGrid 2, Finish 1 -> delta = +1.0
+    nor_r2 = r2_df[r2_df["Abbreviation"] == "NOR"].iloc[0]
+    assert nor_r2["sprint_pos_delta"] == 1.0
+

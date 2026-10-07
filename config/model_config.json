@@ -9,9 +9,9 @@
     "incident_shock_scale": 12.0
   },
   "model_selection": {
-    "mode": "walk_forward_auto",
-    "fallback_rf_weight": 1.0,
-    "fallback_xgb_weight": 0.0
+    "mode": "fixed_ensemble",
+    "fixed_rf_weight": 0.6,
+    "fixed_xgb_weight": 0.4
   },
   "blending": {
     "ml_weight": 0.65,

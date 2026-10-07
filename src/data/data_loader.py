@@ -52,6 +52,50 @@ def normalize_session_name(session_name: str) -> str:
     return clean.replace(" ", "_")
 
 
+def is_historical_sprint_round(
+    year: int,
+    round_num: int,
+    season_dir: Optional[Path] = None,
+    sprint_calendar: Optional[Dict[int, list]] = None,
+) -> bool:
+    """
+    Determines whether a historical round was a Sprint weekend based strictly
+    on (year, round) ground-truth session files or explicit calendar specification.
+    NEVER uses circuit name or 2026 target configuration.
+    """
+    if sprint_calendar is not None and year in sprint_calendar:
+        return round_num in sprint_calendar[year]
+
+    if season_dir is None:
+        raw_season = Path(__file__).resolve().parents[2] / "data" / "raw" / "season" / str(year)
+        proc_season = Path(__file__).resolve().parents[2] / "data" / "processed" / "season" / str(year)
+        if raw_season.exists():
+            season_dir = raw_season
+        elif proc_season.exists():
+            season_dir = proc_season
+        else:
+            season_dir = raw_season
+
+    if not season_dir or not season_dir.exists():
+        return False
+
+    sq_names = [
+        f"{year}_round_{round_num}_sprint_qualifying.csv",
+        f"{year}_round_{round_num}_sprint_shootout.csv",
+        f"{year}_round_{round_num}_sprint_quali.csv",
+        f"{year}_round_{round_num}_sq.csv",
+    ]
+    sr_names = [
+        f"{year}_round_{round_num}_sprint_race.csv",
+        f"{year}_round_{round_num}_sprint.csv",
+        f"{year}_round_{round_num}_sr.csv",
+    ]
+
+    has_sq = any((season_dir / f).exists() for f in sq_names)
+    has_sr = any((season_dir / f).exists() for f in sr_names)
+    return has_sq or has_sr
+
+
 class DataLoader:
     """
     Loads raw and processed datasets while respecting strict stage boundaries.
@@ -102,6 +146,7 @@ class DataLoader:
         """
         Determines whether a track is configured as a Sprint weekend for the given year.
         Checks 'sprint_weekend_{year}' first, then falls back to 'sprint_weekend'.
+        Authoritative ONLY for the specified target calendar (e.g. 2026).
         """
         try:
             info = self.get_track_info(track_id)
@@ -112,6 +157,30 @@ class DataLoader:
         if year_key in info:
             return bool(info[year_key])
         return bool(info.get("sprint_weekend", False))
+
+    def is_historical_sprint_round(
+        self,
+        year: int,
+        round_num: int,
+        season_dir: Optional[Path] = None,
+        sprint_calendar: Optional[Dict[int, list]] = None,
+    ) -> bool:
+        """
+        Determines whether a historical round was a Sprint weekend based strictly
+        on (year, round) ground-truth session files or explicit calendar specification.
+        NEVER uses circuit name or 2026 target configuration.
+        """
+        if season_dir is None:
+            season_dir = self.raw_data_dir / "season" / str(year)
+            if not season_dir.exists():
+                season_dir = self.processed_data_dir / "season" / str(year)
+
+        return is_historical_sprint_round(
+            year=year,
+            round_num=round_num,
+            season_dir=season_dir,
+            sprint_calendar=sprint_calendar,
+        )
 
     def load_season_races(self, year: int, max_round: Optional[int] = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
@@ -186,24 +255,72 @@ class DataLoader:
         quali_df = pd.concat(qualis, ignore_index=True) if qualis else pd.DataFrame()
         return race_df, quali_df
 
-    def load_all_practice_sessions(self, year: int, rounds: list) -> Dict[int, Dict[str, Optional[pd.DataFrame]]]:
+    def load_all_practice_sessions(
+        self,
+        year: int,
+        rounds: list,
+        sprint_calendar: Optional[Dict[int, list]] = None,
+    ) -> Dict[int, Dict[str, Optional[pd.DataFrame]]]:
         """
-        Loads fp1, fp2, and fp3 sessions for all requested completed rounds.
+        Loads session data (practice and sprint sessions where applicable)
+        for all requested completed rounds.
+        Distinguishes Normal vs Sprint weekend per (year, round) without using
+        track names or 2026 target configuration.
         """
         season_dir = self.raw_data_dir / "season" / str(year)
+        if not season_dir.exists():
+            season_dir = self.processed_data_dir / "season" / str(year)
         if not season_dir.exists():
             season_dir = self.processed_data_dir
 
         sessions_by_round = {}
         for r_num in rounds:
-            r_sessions = {}
-            for s in ("fp1", "fp2", "fp3"):
-                sf = season_dir / f"{year}_round_{r_num}_{s}.csv"
-                if sf.exists():
-                    df = pd.read_csv(sf)
-                    r_sessions[s] = normalize_driver(df)
-                else:
-                    r_sessions[s] = None
+            r_sessions = {
+                "fp1": None,
+                "fp2": None,
+                "fp3": None,
+                "sprint_qualifying": None,
+                "sprint_race": None,
+            }
+
+            is_sprint = self.is_historical_sprint_round(
+                year, r_num, season_dir=season_dir, sprint_calendar=sprint_calendar
+            )
+
+            if is_sprint:
+                # Sprint weekend: load FP1, Sprint Qualifying, Sprint Race
+                fp1_file = season_dir / f"{year}_round_{r_num}_fp1.csv"
+                if fp1_file.exists():
+                    df = pd.read_csv(fp1_file)
+                    r_sessions["fp1"] = normalize_driver(df)
+
+                # Sprint Qualifying / Shootout
+                for sq_name in ("sprint_qualifying", "sprint_shootout", "sprint_quali", "sq"):
+                    sq_file = season_dir / f"{year}_round_{r_num}_{sq_name}.csv"
+                    if sq_file.exists():
+                        df = pd.read_csv(sq_file)
+                        r_sessions["sprint_qualifying"] = normalize_driver(df)
+                        break
+
+                # Sprint Race
+                for sr_name in ("sprint_race", "sprint", "sr"):
+                    sr_file = season_dir / f"{year}_round_{r_num}_{sr_name}.csv"
+                    if sr_file.exists():
+                        df = pd.read_csv(sr_file)
+                        r_sessions["sprint_race"] = normalize_driver(df)
+                        break
+
+                # FP2 and FP3 remain None for Sprint weekends
+            else:
+                # Normal weekend: load FP1, FP2, FP3
+                for s in ("fp1", "fp2", "fp3"):
+                    sf = season_dir / f"{year}_round_{r_num}_{s}.csv"
+                    if sf.exists():
+                        df = pd.read_csv(sf)
+                        r_sessions[s] = normalize_driver(df)
+
+                # sprint_qualifying and sprint_race remain None for Normal weekends
+
             sessions_by_round[r_num] = r_sessions
 
         return sessions_by_round
