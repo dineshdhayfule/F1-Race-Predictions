@@ -18,6 +18,11 @@ from src.features.weekend_features import (
     build_sprint_qualifying_features,
     build_sprint_race_features,
 )
+from src.features.teammate_features import (
+    compute_teammate_quali_gap,
+    compute_teammate_grid_delta,
+    compute_rolling_teammate_h2h,
+)
 from src.utils.driver_mapping import normalize_driver_series
 from src.utils.logging_utils import get_logger
 
@@ -90,6 +95,11 @@ class FeatureEngineer:
             prior_races = races_df[races_df["Round"] < r]
             grid_conv_map = compute_grid_conversion_map(prior_races, expected_grid_size=self.expected_grid_size)
 
+            # Teammate features
+            tm_quali_feats = compute_teammate_quali_gap(round_quali, drivers)
+            tm_grid_feats = compute_teammate_grid_delta(race, drivers, grid_col="GridPosition")
+            tm_h2h_map = compute_rolling_teammate_h2h(prior_races, race[["Abbreviation", "TeamName"]])
+
             for _, rr in race.iterrows():
                 drv = rr["Abbreviation"]
                 team = str(rr.get("TeamName", rr.get("Team", "Unknown")))
@@ -103,6 +113,12 @@ class FeatureEngineer:
                 q_dict = q.iloc[0].to_dict() if not q.empty else {}
                 sq_dict = sq_row.iloc[0].to_dict() if not sq_row.empty else {}
                 sr_dict = sr_row.iloc[0].to_dict() if not sr_row.empty else {}
+
+                tm_q_row = tm_quali_feats[tm_quali_feats["Abbreviation"] == drv]
+                tm_g_row = tm_grid_feats[tm_grid_feats["Abbreviation"] == drv]
+                tm_q_gap = tm_q_row["teammate_quali_gap_pct"].iloc[0] if not tm_q_row.empty else np.nan
+                tm_g_delta = tm_g_row["teammate_grid_delta"].iloc[0] if not tm_g_row.empty else np.nan
+                tm_h2h = tm_h2h_map.get(drv, 0.50)
 
                 grid = pd.to_numeric(rr.get("GridPosition"), errors="coerce")
                 if pd.isna(grid):
@@ -126,6 +142,10 @@ class FeatureEngineer:
                     "grid_norm": (float(grid) - 1.0) / float(self.expected_grid_size - 1),
                     "expected_grid_finish": conv_feat["expected_grid_finish"],
                     "grid_retention_prob": conv_feat["grid_retention_prob"],
+
+                    "teammate_quali_gap_pct": float(tm_q_gap) if pd.notna(tm_q_gap) else np.nan,
+                    "teammate_grid_delta": float(tm_g_delta) if pd.notna(tm_g_delta) else np.nan,
+                    "driver_teammate_h2h_ratio": float(tm_h2h),
 
                     "sprint_quali_pos": float(sq_dict["sprint_quali_pos"]) if pd.notna(sq_dict.get("sprint_quali_pos")) else np.nan,
                     "sprint_finish_pos": float(sr_dict["sprint_finish_pos"]) if pd.notna(sr_dict.get("sprint_finish_pos")) else np.nan,
@@ -266,6 +286,11 @@ class FeatureEngineer:
         prior_target_races = season_races_df[season_races_df["Round"] < target_round]
         target_conv_map = compute_grid_conversion_map(prior_target_races, expected_grid_size=self.expected_grid_size)
 
+        # Teammate features
+        tm_quali_feats = compute_teammate_quali_gap(q, drivers)
+        tm_grid_feats = compute_teammate_grid_delta(q_grid, drivers, grid_col="ActualStartingGrid")
+        tm_h2h_map = compute_rolling_teammate_h2h(prior_target_races, q)
+
         rows = []
         for drv in drivers:
             p = practice[practice["Abbreviation"] == drv]
@@ -277,6 +302,12 @@ class FeatureEngineer:
             q_dict = qq.iloc[0].to_dict() if not qq.empty else {}
             sq_dict = sq_row.iloc[0].to_dict() if not sq_row.empty else {}
             sr_dict = sr_row.iloc[0].to_dict() if not sr_row.empty else {}
+
+            tm_q_row = tm_quali_feats[tm_quali_feats["Abbreviation"] == drv]
+            tm_g_row = tm_grid_feats[tm_grid_feats["Abbreviation"] == drv]
+            tm_q_gap = tm_q_row["teammate_quali_gap_pct"].iloc[0] if not tm_q_row.empty else np.nan
+            tm_g_delta = tm_g_row["teammate_grid_delta"].iloc[0] if not tm_g_row.empty else np.nan
+            tm_h2h = tm_h2h_map.get(drv, 0.50)
 
             team = str(team_map.get(drv, "Unknown"))
             dfv = dform.get(drv, {})
@@ -299,6 +330,10 @@ class FeatureEngineer:
                 "grid_norm": (effective_grid - 1.0) / float(self.expected_grid_size - 1),
                 "expected_grid_finish": conv_feat["expected_grid_finish"],
                 "grid_retention_prob": conv_feat["grid_retention_prob"],
+
+                "teammate_quali_gap_pct": float(tm_q_gap) if pd.notna(tm_q_gap) else np.nan,
+                "teammate_grid_delta": float(tm_g_delta) if pd.notna(tm_g_delta) else np.nan,
+                "driver_teammate_h2h_ratio": float(tm_h2h),
 
                 "sprint_quali_pos": float(sq_dict["sprint_quali_pos"]) if pd.notna(sq_dict.get("sprint_quali_pos")) else np.nan,
                 "sprint_finish_pos": float(sr_dict["sprint_finish_pos"]) if pd.notna(sr_dict.get("sprint_finish_pos")) else np.nan,

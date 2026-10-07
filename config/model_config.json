@@ -51,7 +51,10 @@
     "team_points",
     "sprint_quali_pos",
     "sprint_finish_pos",
-    "sprint_pos_delta"
+    "sprint_pos_delta",
+    "teammate_quali_gap_pct",
+    "teammate_grid_delta",
+    "driver_teammate_h2h_ratio"
   ],
   "models": {
     "random_forest": {
