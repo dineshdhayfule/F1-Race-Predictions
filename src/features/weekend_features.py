@@ -214,6 +214,7 @@ def build_sprint_qualifying_features(
 ) -> pd.DataFrame:
     """
     Computes sprint qualifying finishing position feature.
+    Experimental Sprint features: supported and leakage-free, but Phase 6E showed only marginal/mixed predictive improvement.
     Returns NaN for all drivers if sprint qualifying session is unavailable
     (e.g. normal weekends, or stages prior to sprint qualifying).
     """
@@ -248,6 +249,7 @@ def build_sprint_race_features(
     """
     Computes sprint race finishing position and position change delta features.
     sprint_pos_delta = SprintStartingGrid - SprintFinish (positive = gained positions).
+    Experimental Sprint features: supported and leakage-free, but Phase 6E showed only marginal/mixed predictive improvement.
     Returns NaN for all drivers if sprint race is unavailable
     (e.g. normal weekends, or stages prior to sprint race).
     """

@@ -147,6 +147,7 @@ class FeatureEngineer:
                     "teammate_grid_delta": float(tm_g_delta) if pd.notna(tm_g_delta) else np.nan,
                     "driver_teammate_h2h_ratio": float(tm_h2h),
 
+                    # Experimental Sprint features: supported and leakage-free, but Phase 6E showed only marginal/mixed predictive improvement.
                     "sprint_quali_pos": float(sq_dict["sprint_quali_pos"]) if pd.notna(sq_dict.get("sprint_quali_pos")) else np.nan,
                     "sprint_finish_pos": float(sr_dict["sprint_finish_pos"]) if pd.notna(sr_dict.get("sprint_finish_pos")) else np.nan,
                     "sprint_pos_delta": float(sr_dict["sprint_pos_delta"]) if pd.notna(sr_dict.get("sprint_pos_delta")) else np.nan,
@@ -335,6 +336,7 @@ class FeatureEngineer:
                 "teammate_grid_delta": float(tm_g_delta) if pd.notna(tm_g_delta) else np.nan,
                 "driver_teammate_h2h_ratio": float(tm_h2h),
 
+                # Experimental Sprint features: supported and leakage-free, but Phase 6E showed only marginal/mixed predictive improvement.
                 "sprint_quali_pos": float(sq_dict["sprint_quali_pos"]) if pd.notna(sq_dict.get("sprint_quali_pos")) else np.nan,
                 "sprint_finish_pos": float(sr_dict["sprint_finish_pos"]) if pd.notna(sr_dict.get("sprint_finish_pos")) else np.nan,
                 "sprint_pos_delta": float(sr_dict["sprint_pos_delta"]) if pd.notna(sr_dict.get("sprint_pos_delta")) else np.nan,
