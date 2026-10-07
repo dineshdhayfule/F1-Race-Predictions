@@ -54,6 +54,8 @@ cache/
 *.log
 *.tmp
 *.temp
+scratch/
+scratch_*
 
 # ==============================
 # F1 Generated Data

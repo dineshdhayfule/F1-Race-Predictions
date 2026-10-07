@@ -20,11 +20,12 @@ class MonteCarloSimulator:
 
     def __init__(self, config: Dict[str, Any]):
         self.config = config
-        sim_cfg = config.get("simulation", {})
-        self.n_simulations = sim_cfg.get("n_simulations", 25000)
+        sim_cfg = config.get("monte_carlo", config.get("simulation", {}))
+        self.n_simulations = sim_cfg.get("default_simulations", sim_cfg.get("n_simulations", 25000))
         self.random_state = config.get("random_seed", 42)
-        self.incident_scale = sim_cfg.get("incident_scale", 12.0)
-        self.default_sigma = sim_cfg.get("default_calibrated_sigma", 2.85)
+        self.incident_scale = sim_cfg.get("incident_shock_scale", sim_cfg.get("incident_scale", 12.0))
+        self.default_sigma = sim_cfg.get("fallback_sigma", sim_cfg.get("default_calibrated_sigma", 2.85))
+        self.fallback_dnf_prob = sim_cfg.get("fallback_dnf_prob", 0.158)
 
     def simulate(
         self,
@@ -65,7 +66,7 @@ class MonteCarloSimulator:
         if empirical_dnf_rate is not None:
             dnf_prob = float(np.clip(empirical_dnf_rate, 0.05, 0.25))
         else:
-            dnf_prob = 0.158
+            dnf_prob = float(self.fallback_dnf_prob)
         logger.info(f"Using empirical DNF incident probability: {dnf_prob:.4f}")
 
         n = len(target_df)
