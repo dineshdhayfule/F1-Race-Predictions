@@ -1,0 +1,694 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,34.702,29.204,INTERMEDIATE,1.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+NOR,1,95.035,95.035,2.0,1.0,29.892,31.504,33.639,INTERMEDIATE,2.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+NOR,1,,,3.0,2.0,,31.719,26.008,MEDIUM,1.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+NOR,1,78.821,78.821,4.0,2.0,26.925,26.998,24.898,MEDIUM,2.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,75.539,75.539,5.0,2.0,26.284,26.483,22.772,MEDIUM,3.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,117.992,117.992,6.0,2.0,36.92,47.053,34.019,MEDIUM,4.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,79.533,79.533,7.0,2.0,25.87,26.22,27.443,MEDIUM,5.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,118.075,118.075,8.0,2.0,44.622,43.179,30.274,MEDIUM,6.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,74.958,74.958,9.0,2.0,25.708,26.298,22.952,MEDIUM,7.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,106.877,106.877,10.0,2.0,36.786,38.056,32.035,MEDIUM,8.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+NOR,1,,,11.0,3.0,,33.695,25.745,MEDIUM,9.0,False,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+NOR,1,81.958,81.958,12.0,3.0,28.805,27.6,25.553,MEDIUM,10.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,74.724,74.724,13.0,3.0,25.642,26.244,22.838,MEDIUM,11.0,False,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,82.663,82.663,14.0,3.0,30.431,28.822,23.41,MEDIUM,12.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,76.084,76.084,15.0,3.0,26.232,26.884,22.968,MEDIUM,13.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,75.584,75.584,16.0,3.0,25.994,26.794,22.796,MEDIUM,14.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,76.037,76.037,17.0,3.0,25.929,26.956,23.152,MEDIUM,15.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,76.016,76.016,18.0,3.0,25.968,26.968,23.08,MEDIUM,16.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,76.07,76.07,19.0,3.0,25.964,27.182,22.924,MEDIUM,17.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,76.212,76.212,20.0,3.0,25.923,26.874,23.415,MEDIUM,18.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,82.516,82.516,21.0,3.0,25.961,27.446,29.109,MEDIUM,19.0,False,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+NOR,1,,,22.0,4.0,,28.351,32.223,SOFT,1.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+NOR,1,83.622,83.622,23.0,4.0,26.592,31.926,25.104,SOFT,2.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,73.105,73.105,24.0,4.0,24.957,25.828,22.32,SOFT,3.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,116.513,116.513,25.0,4.0,42.751,46.422,27.34,SOFT,4.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,89.169,89.169,26.0,4.0,30.433,32.012,26.724,SOFT,5.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,73.07,73.07,27.0,4.0,25.175,25.529,22.366,SOFT,6.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,110.689,110.689,28.0,4.0,32.636,34.104,43.949,SOFT,7.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+NOR,1,,,29.0,4.0,59.654,29.454,69.991,SOFT,8.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+NOR,1,86.515,86.515,30.0,4.0,27.779,28.488,30.248,SOFT,9.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+VER,3,,,1.0,1.0,,33.838,26.786,HARD,1.0,True,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+VER,3,77.735,77.735,2.0,1.0,26.893,27.278,23.564,HARD,2.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,76.292,76.292,3.0,1.0,26.38,26.806,23.106,HARD,3.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,106.488,106.488,4.0,1.0,41.906,38.195,26.387,HARD,4.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,75.381,75.381,5.0,1.0,25.899,26.597,22.885,HARD,5.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,113.386,113.386,6.0,1.0,40.392,43.645,29.349,HARD,6.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,74.942,74.942,7.0,1.0,25.673,26.38,22.889,HARD,7.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,110.25,110.25,8.0,1.0,43.275,37.937,29.038,HARD,8.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,74.848,74.848,9.0,1.0,25.686,26.39,22.772,HARD,9.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,93.855,93.855,10.0,1.0,32.366,31.001,30.488,HARD,10.0,True,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+VER,3,,,11.0,2.0,,28.1,31.168,HARD,11.0,False,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+VER,3,77.226,77.226,12.0,2.0,26.55,27.375,23.301,HARD,12.0,False,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,77.121,77.121,13.0,2.0,26.424,27.454,23.243,HARD,13.0,False,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,76.852,76.852,14.0,2.0,26.188,27.466,23.198,HARD,14.0,False,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,77.092,77.092,15.0,2.0,26.227,27.579,23.286,HARD,15.0,False,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,77.378,77.378,16.0,2.0,26.378,27.526,23.474,HARD,16.0,False,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,86.616,86.616,17.0,2.0,27.612,27.661,31.343,HARD,17.0,False,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,83.99,83.99,18.0,2.0,27.551,27.991,28.448,HARD,18.0,False,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+VER,3,,,19.0,3.0,,32.238,25.18,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+VER,3,74.325,74.325,20.0,3.0,25.514,26.323,22.488,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,115.347,115.347,21.0,3.0,39.011,42.251,34.085,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+VER,3,,,22.0,4.0,,38.118,40.548,HARD,19.0,False,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+VER,3,102.258,102.258,23.0,4.0,30.368,30.907,40.983,HARD,20.0,False,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+VER,3,,,24.0,4.0,55.863,29.577,69.275,HARD,21.0,False,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+VER,3,92.773,92.773,25.0,4.0,30.017,28.29,34.466,HARD,22.0,False,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,,,1.0,1.0,,31.311,31.055,INTERMEDIATE,1.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,,,2.0,2.0,,31.487,27.674,HARD,1.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,82.021,82.021,3.0,2.0,27.284,28.136,26.601,HARD,2.0,True,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,76.326,76.326,4.0,2.0,26.162,27.152,23.012,HARD,3.0,True,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,105.081,105.081,5.0,2.0,34.526,38.337,32.218,HARD,4.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,93.0,93.0,6.0,2.0,27.923,34.124,30.953,HARD,5.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,75.67,75.67,7.0,2.0,25.911,26.927,22.832,HARD,6.0,True,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,106.403,106.403,8.0,2.0,39.021,33.186,34.196,HARD,7.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,80.29,80.29,9.0,2.0,25.889,26.968,27.433,HARD,8.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,131.707,131.707,10.0,3.0,60.246,40.882,30.579,HARD,9.0,False,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,75.097,75.097,11.0,3.0,25.967,26.576,22.554,HARD,10.0,False,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,98.142,98.142,12.0,3.0,32.554,33.04,32.548,HARD,11.0,False,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,,,13.0,4.0,,29.778,25.768,HARD,12.0,False,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,82.159,82.159,14.0,4.0,26.856,27.34,27.963,HARD,13.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,75.54,75.54,15.0,4.0,26.105,26.678,22.757,HARD,14.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,77.019,77.019,16.0,4.0,26.537,27.362,23.12,HARD,15.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,77.864,77.864,17.0,4.0,27.106,27.556,23.202,HARD,16.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,77.946,77.946,18.0,4.0,26.985,27.754,23.207,HARD,17.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,77.123,77.123,19.0,4.0,26.506,27.482,23.135,HARD,18.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,83.337,83.337,20.0,4.0,26.653,27.505,29.179,HARD,19.0,False,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,,,21.0,5.0,,29.024,30.875,MEDIUM,1.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,73.992,73.992,22.0,5.0,25.563,26.091,22.338,MEDIUM,2.0,True,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,119.516,119.516,23.0,5.0,41.535,42.537,35.444,MEDIUM,3.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,106.78,106.78,24.0,6.0,43.369,30.39,33.021,MEDIUM,4.0,False,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOR,5,74.053,74.053,25.0,6.0,25.451,26.055,22.547,MEDIUM,5.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,101.677,101.677,26.0,6.0,35.727,38.451,27.499,MEDIUM,6.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,138.884,138.884,27.0,6.0,32.678,37.899,68.307,MEDIUM,7.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,113.379,113.379,28.0,6.0,29.031,28.457,55.891,MEDIUM,8.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOR,5,127.731,127.731,29.0,6.0,59.791,26.936,41.004,MEDIUM,9.0,False,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+GAS,10,,,1.0,1.0,,34.0,28.779,INTERMEDIATE,1.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+GAS,10,86.628,86.628,2.0,1.0,30.045,30.982,25.601,INTERMEDIATE,2.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,110.839,110.839,3.0,1.0,37.665,37.317,35.857,INTERMEDIATE,3.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+GAS,10,,,4.0,2.0,,30.201,27.229,HARD,1.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+GAS,10,87.943,87.943,5.0,2.0,28.523,30.502,28.918,HARD,2.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,77.232,77.232,6.0,2.0,26.544,27.364,23.324,HARD,3.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,101.759,101.759,7.0,2.0,35.941,32.997,32.821,HARD,4.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,96.86,96.86,8.0,2.0,30.957,34.206,31.697,HARD,5.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,77.397,77.397,9.0,2.0,27.06,27.183,23.154,HARD,6.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,104.756,104.756,10.0,2.0,37.342,37.662,29.752,HARD,7.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,76.144,76.144,11.0,2.0,26.154,26.789,23.201,HARD,8.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,115.965,115.965,12.0,2.0,43.706,45.046,27.213,HARD,9.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,75.73,75.73,13.0,2.0,26.194,26.682,22.854,HARD,10.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,106.185,106.185,14.0,2.0,39.08,40.4,26.705,HARD,11.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,75.309,75.309,15.0,2.0,25.995,26.593,22.721,HARD,12.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,79.613,79.613,16.0,2.0,28.357,27.764,23.492,HARD,13.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,77.367,77.367,17.0,2.0,26.916,27.315,23.136,HARD,14.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,77.126,77.126,18.0,2.0,26.542,27.536,23.048,HARD,15.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,85.344,85.344,19.0,2.0,26.303,27.526,31.515,HARD,16.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+GAS,10,,,20.0,3.0,,29.733,25.533,SOFT,1.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+GAS,10,73.911,73.911,21.0,3.0,25.367,26.1,22.444,SOFT,2.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,123.578,123.578,22.0,3.0,43.658,44.351,35.569,SOFT,3.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,100.072,100.072,23.0,3.0,35.27,37.94,26.862,SOFT,4.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,81.33,81.33,24.0,3.0,25.714,26.525,29.091,SOFT,5.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+GAS,10,,,25.0,4.0,94.437,37.568,29.326,HARD,17.0,False,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+GAS,10,116.374,116.374,26.0,4.0,34.398,35.224,46.752,HARD,18.0,False,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,128.715,128.715,27.0,4.0,55.779,33.335,39.601,HARD,19.0,False,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+GAS,10,124.315,124.315,28.0,4.0,58.675,28.59,37.05,HARD,20.0,False,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+PER,11,,,1.0,1.0,,35.149,36.931,INTERMEDIATE,1.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+PER,11,132.856,132.856,2.0,2.0,70.89,30.517,31.449,INTERMEDIATE,1.0,False,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+PER,11,,,3.0,3.0,,33.931,32.016,MEDIUM,1.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+PER,11,81.344,81.344,4.0,3.0,27.831,28.816,24.697,MEDIUM,2.0,True,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,99.001,99.001,5.0,3.0,27.912,38.88,32.209,MEDIUM,3.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,79.973,79.973,6.0,3.0,27.257,28.309,24.407,MEDIUM,4.0,True,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,104.178,104.178,7.0,3.0,36.507,35.275,32.396,MEDIUM,5.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,77.385,77.385,8.0,3.0,26.796,27.423,23.166,MEDIUM,6.0,True,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,104.887,104.887,9.0,3.0,36.494,41.903,26.49,MEDIUM,7.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,76.774,76.774,10.0,3.0,26.52,27.257,22.997,MEDIUM,8.0,True,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,98.746,98.746,11.0,3.0,32.136,35.324,31.286,MEDIUM,9.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+PER,11,,,12.0,4.0,,30.311,25.408,MEDIUM,10.0,False,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+PER,11,78.169,78.169,13.0,4.0,27.088,27.94,23.141,MEDIUM,11.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,102.8,102.8,14.0,4.0,31.73,42.265,28.805,MEDIUM,12.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,81.218,81.218,15.0,4.0,26.439,27.411,27.368,MEDIUM,13.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,96.691,96.691,16.0,4.0,32.86,39.382,24.449,MEDIUM,14.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,77.445,77.445,17.0,4.0,26.526,27.662,23.257,MEDIUM,15.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,78.265,78.265,18.0,4.0,26.683,28.093,23.489,MEDIUM,16.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,89.56,89.56,19.0,4.0,28.872,29.827,30.861,MEDIUM,17.0,False,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+PER,11,,,20.0,5.0,,34.26,25.68,SOFT,1.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+PER,11,75.7,75.7,21.0,5.0,26.19,26.746,22.764,SOFT,2.0,True,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,102.286,102.286,22.0,5.0,37.037,37.893,27.356,SOFT,3.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,76.139,76.139,23.0,5.0,26.234,26.973,22.932,SOFT,4.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,99.63,99.63,24.0,5.0,36.489,34.713,28.428,SOFT,5.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,83.254,83.254,25.0,5.0,28.687,27.967,26.6,SOFT,6.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,116.325,116.325,26.0,5.0,33.126,33.462,49.737,SOFT,7.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+PER,11,,,27.0,5.0,62.039,32.338,62.871,SOFT,8.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+PER,11,99.81,99.81,28.0,5.0,28.539,32.052,39.219,SOFT,9.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+ANT,12,,,1.0,1.0,,35.858,35.244,INTERMEDIATE,1.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+ANT,12,,,2.0,2.0,,29.487,29.645,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+ANT,12,78.264,78.264,3.0,2.0,27.963,27.179,23.122,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,76.112,76.112,4.0,2.0,26.52,26.782,22.81,MEDIUM,3.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,109.158,109.158,5.0,2.0,37.309,44.363,27.486,MEDIUM,4.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,75.351,75.351,6.0,2.0,25.925,26.745,22.681,MEDIUM,5.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,109.975,109.975,7.0,2.0,41.77,42.051,26.154,MEDIUM,6.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,99.274,99.274,8.0,2.0,31.793,36.478,31.003,MEDIUM,7.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,101.488,101.488,9.0,2.0,26.062,35.741,39.685,MEDIUM,8.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+ANT,12,132.333,132.333,10.0,3.0,71.443,31.382,29.508,MEDIUM,9.0,False,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+ANT,12,91.692,91.692,11.0,3.0,29.799,32.38,29.513,MEDIUM,10.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,93.387,93.387,12.0,3.0,28.572,36.747,28.068,MEDIUM,11.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,74.269,74.269,13.0,3.0,25.448,26.379,22.442,MEDIUM,12.0,False,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,115.989,115.989,14.0,3.0,39.234,48.053,28.702,MEDIUM,13.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,82.665,82.665,15.0,3.0,25.574,26.196,30.895,MEDIUM,14.0,False,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+ANT,12,,,16.0,4.0,,30.013,23.108,MEDIUM,15.0,False,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+ANT,12,75.889,75.889,17.0,4.0,25.953,27.14,22.796,MEDIUM,16.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,76.393,76.393,18.0,4.0,26.027,27.428,22.938,MEDIUM,17.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,76.14,76.14,19.0,4.0,26.109,27.296,22.735,MEDIUM,18.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,76.106,76.106,20.0,4.0,26.076,27.149,22.881,MEDIUM,19.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,79.359,79.359,21.0,4.0,26.007,27.224,26.128,MEDIUM,20.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,76.438,76.438,22.0,4.0,26.397,27.188,22.853,MEDIUM,21.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,76.338,76.338,23.0,4.0,26.129,27.408,22.801,MEDIUM,22.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,76.346,76.346,24.0,4.0,26.106,27.427,22.813,MEDIUM,23.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,76.383,76.383,25.0,4.0,26.064,27.487,22.832,MEDIUM,24.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,76.37,76.37,26.0,4.0,26.053,27.514,22.803,MEDIUM,25.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,101.774,101.774,27.0,4.0,33.998,32.379,35.397,MEDIUM,26.0,False,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+ANT,12,,,28.0,5.0,,29.138,28.378,SOFT,1.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+ANT,12,90.824,90.824,29.0,5.0,29.59,31.068,30.166,SOFT,2.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,89.99,89.99,30.0,5.0,27.927,34.014,28.049,SOFT,3.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,72.949,72.949,31.0,5.0,25.042,25.714,22.193,SOFT,4.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,111.361,111.361,32.0,5.0,36.394,49.037,25.93,SOFT,5.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,82.448,82.448,33.0,5.0,25.105,25.725,31.618,SOFT,6.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,,,34.0,5.0,39.155,42.749,88.076,SOFT,7.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+ANT,12,117.654,117.654,35.0,5.0,28.786,34.552,54.316,SOFT,8.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+ANT,12,125.551,125.551,36.0,5.0,57.865,29.722,37.964,SOFT,9.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALO,14,,,1.0,1.0,,36.186,30.626,INTERMEDIATE,1.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALO,14,95.72,95.72,2.0,1.0,30.471,31.24,34.009,INTERMEDIATE,2.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALO,14,,,3.0,2.0,,31.791,30.322,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALO,14,77.631,77.631,4.0,2.0,27.16,27.163,23.308,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,84.11,84.11,5.0,2.0,26.616,31.394,26.1,MEDIUM,3.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,91.477,91.477,6.0,2.0,26.315,30.217,34.945,MEDIUM,4.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,83.094,83.094,7.0,2.0,26.368,27.116,29.61,MEDIUM,5.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,96.301,96.301,8.0,2.0,31.823,34.005,30.473,MEDIUM,6.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,75.766,75.766,9.0,2.0,26.007,26.719,23.04,MEDIUM,7.0,True,Aston Martin,True,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,102.657,102.657,10.0,2.0,34.512,37.154,30.991,MEDIUM,8.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,83.825,83.825,11.0,2.0,26.009,26.767,31.049,MEDIUM,9.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALO,14,,,12.0,3.0,,29.745,26.021,MEDIUM,10.0,False,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALO,14,80.756,80.756,13.0,3.0,25.983,26.708,28.065,MEDIUM,11.0,False,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,97.269,97.269,14.0,3.0,33.48,37.349,26.44,MEDIUM,12.0,False,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,75.695,75.695,15.0,3.0,25.919,26.831,22.945,MEDIUM,13.0,False,Aston Martin,True,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,98.79,98.79,16.0,3.0,37.391,36.06,25.339,MEDIUM,14.0,False,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,77.005,77.005,17.0,3.0,26.429,27.407,23.169,MEDIUM,15.0,False,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,77.48,77.48,18.0,3.0,26.37,27.67,23.44,MEDIUM,16.0,False,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,86.092,86.092,19.0,3.0,26.433,27.469,32.19,MEDIUM,17.0,False,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALO,14,,,20.0,4.0,,30.956,26.638,SOFT,1.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALO,14,74.511,74.511,21.0,4.0,25.51,26.437,22.564,SOFT,2.0,True,Aston Martin,True,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,100.189,100.189,22.0,4.0,36.815,36.03,27.344,SOFT,3.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,99.462,99.462,23.0,4.0,26.447,38.789,34.226,SOFT,4.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,98.215,98.215,24.0,4.0,29.763,38.832,29.62,SOFT,5.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALO,14,82.647,82.647,25.0,4.0,25.622,26.625,30.4,SOFT,6.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,,,1.0,1.0,,34.785,35.508,INTERMEDIATE,1.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,94.806,94.806,2.0,1.0,29.595,31.009,34.202,INTERMEDIATE,2.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,,,3.0,2.0,,35.393,26.068,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,80.227,80.227,4.0,2.0,28.194,28.326,23.707,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,76.695,76.695,5.0,2.0,26.67,27.119,22.906,MEDIUM,3.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,75.766,75.766,6.0,2.0,26.08,26.857,22.829,MEDIUM,4.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,113.112,113.112,7.0,2.0,42.076,45.063,25.973,MEDIUM,5.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,75.477,75.477,8.0,2.0,26.248,26.557,22.672,MEDIUM,6.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,88.523,88.523,9.0,2.0,26.305,31.896,30.322,MEDIUM,7.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,74.925,74.925,10.0,2.0,25.9,26.528,22.497,MEDIUM,8.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,107.391,107.391,11.0,2.0,38.917,39.118,29.356,MEDIUM,9.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,89.854,89.854,12.0,2.0,28.81,29.038,32.006,MEDIUM,10.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,85.444,85.444,13.0,2.0,26.238,32.388,26.818,MEDIUM,11.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,74.506,74.506,14.0,2.0,25.639,26.465,22.402,MEDIUM,12.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,96.953,96.953,15.0,2.0,33.898,34.775,28.28,MEDIUM,13.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,79.178,79.178,16.0,2.0,25.745,27.942,25.491,MEDIUM,14.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,74.146,74.146,17.0,2.0,25.501,26.308,22.337,MEDIUM,15.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,88.108,88.108,18.0,2.0,28.639,29.897,29.572,MEDIUM,16.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,,,19.0,3.0,,38.784,24.863,MEDIUM,17.0,False,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,76.34,76.34,20.0,3.0,26.298,27.104,22.938,MEDIUM,18.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,75.982,75.982,21.0,3.0,26.06,27.117,22.805,MEDIUM,19.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,75.738,75.738,22.0,3.0,25.875,27.03,22.833,MEDIUM,20.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,75.77,75.77,23.0,3.0,25.924,27.064,22.782,MEDIUM,21.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,75.763,75.763,24.0,3.0,25.941,27.111,22.711,MEDIUM,22.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,76.653,76.653,25.0,3.0,26.105,27.436,23.112,MEDIUM,23.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,76.53,76.53,26.0,3.0,26.191,27.397,22.942,MEDIUM,24.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,84.804,84.804,27.0,3.0,26.07,27.507,31.227,MEDIUM,25.0,False,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,117.637,117.637,28.0,4.0,63.494,28.811,25.332,SOFT,1.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,88.179,88.179,29.0,4.0,26.255,33.822,28.102,SOFT,2.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,73.347,73.347,30.0,4.0,25.408,25.803,22.136,SOFT,3.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,100.689,100.689,31.0,4.0,33.555,35.39,31.744,SOFT,4.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,119.758,119.758,32.0,5.0,56.145,32.28,31.333,SOFT,5.0,False,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,87.888,87.888,33.0,5.0,27.499,32.28,28.109,SOFT,6.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,73.238,73.238,34.0,5.0,25.221,25.961,22.056,SOFT,7.0,False,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,92.582,92.582,35.0,5.0,30.78,34.292,27.51,SOFT,8.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,76.544,76.544,36.0,5.0,25.023,25.954,25.567,SOFT,9.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,,,37.0,5.0,36.169,39.829,84.819,SOFT,10.0,False,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+LEC,16,125.815,125.815,38.0,5.0,39.695,38.217,47.903,SOFT,11.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+LEC,16,127.464,127.464,39.0,5.0,55.578,29.931,41.955,SOFT,12.0,False,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+STR,18,,,1.0,1.0,,45.434,31.187,INTERMEDIATE,1.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+STR,18,121.849,121.849,2.0,1.0,40.451,40.889,40.509,INTERMEDIATE,2.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+STR,18,,,3.0,2.0,,32.016,27.457,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+STR,18,79.762,79.762,4.0,2.0,27.547,28.276,23.939,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,106.468,106.468,5.0,2.0,33.263,36.373,36.832,MEDIUM,3.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,77.184,77.184,6.0,2.0,26.717,27.156,23.311,MEDIUM,4.0,True,Aston Martin,True,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,110.184,110.184,7.0,2.0,35.702,45.436,29.046,MEDIUM,5.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,76.229,76.229,8.0,2.0,26.312,26.712,23.205,MEDIUM,6.0,True,Aston Martin,True,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,112.31,112.31,9.0,2.0,41.33,39.847,31.133,MEDIUM,7.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,76.295,76.295,10.0,2.0,26.405,26.691,23.199,MEDIUM,8.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,100.375,100.375,11.0,2.0,31.722,33.233,35.42,MEDIUM,9.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+STR,18,,,12.0,3.0,,29.755,26.468,MEDIUM,10.0,False,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+STR,18,90.415,90.415,13.0,3.0,31.479,34.22,24.716,MEDIUM,11.0,False,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,77.577,77.577,14.0,3.0,27.073,27.316,23.188,MEDIUM,12.0,False,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,77.174,77.174,15.0,3.0,26.617,27.551,23.006,MEDIUM,13.0,False,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,77.393,77.393,16.0,3.0,26.589,27.562,23.242,MEDIUM,14.0,False,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,88.913,88.913,17.0,3.0,26.663,29.113,33.137,MEDIUM,15.0,False,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+STR,18,,,18.0,4.0,,28.897,28.722,SOFT,1.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+STR,18,75.199,75.199,19.0,4.0,26.01,26.479,22.71,SOFT,2.0,True,Aston Martin,True,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,105.579,105.579,20.0,4.0,36.606,41.77,27.203,SOFT,3.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,75.362,75.362,21.0,4.0,26.062,26.535,22.765,SOFT,4.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,115.928,115.928,22.0,4.0,42.455,37.88,35.593,SOFT,5.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,97.529,97.529,23.0,4.0,26.689,37.026,33.814,SOFT,6.0,True,Aston Martin,False,,,True,2026,Dutch Grand Prix,Practice 1
+STR,18,103.277,103.277,24.0,4.0,34.625,34.503,34.149,SOFT,7.0,True,Aston Martin,False,,,False,2026,Dutch Grand Prix,Practice 1
+TSU,22,,,1.0,1.0,,36.538,39.125,INTERMEDIATE,1.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+TSU,22,,,2.0,2.0,,31.847,26.247,HARD,1.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+TSU,22,81.448,81.448,3.0,2.0,28.72,28.168,24.56,HARD,2.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,78.927,78.927,4.0,2.0,27.715,27.578,23.634,HARD,3.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,77.322,77.322,5.0,2.0,26.753,27.304,23.265,HARD,4.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,95.366,95.366,6.0,2.0,34.909,33.708,26.749,HARD,5.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,77.299,77.299,7.0,2.0,26.495,27.442,23.362,HARD,6.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,117.548,117.548,8.0,2.0,39.228,42.918,35.402,HARD,7.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,94.863,94.863,9.0,2.0,32.967,33.382,28.514,HARD,8.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,83.741,83.741,10.0,2.0,27.759,29.123,26.859,HARD,9.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,76.674,76.674,11.0,2.0,26.156,27.159,23.359,HARD,10.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,100.859,100.859,12.0,2.0,34.098,36.444,30.317,HARD,11.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,76.497,76.497,13.0,2.0,26.016,27.195,23.286,HARD,12.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,107.45,107.45,14.0,2.0,40.725,40.444,26.281,HARD,13.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,75.865,75.865,15.0,2.0,25.928,26.93,23.007,HARD,14.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,97.547,97.547,16.0,2.0,31.979,32.669,32.899,HARD,15.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+TSU,22,,,17.0,3.0,,28.242,23.584,HARD,16.0,False,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+TSU,22,78.156,78.156,18.0,3.0,26.687,28.019,23.45,HARD,17.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,78.476,78.476,19.0,3.0,26.81,28.121,23.545,HARD,18.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,78.647,78.647,20.0,3.0,26.923,28.198,23.526,HARD,19.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,78.825,78.825,21.0,3.0,27.033,28.164,23.628,HARD,20.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,78.549,78.549,22.0,3.0,26.801,28.137,23.611,HARD,21.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,78.271,78.271,23.0,3.0,26.491,28.317,23.463,HARD,22.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,85.951,85.951,24.0,3.0,26.571,28.477,30.903,HARD,23.0,False,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+TSU,22,,,25.0,4.0,,30.41,28.21,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+TSU,22,75.11,75.11,26.0,4.0,25.798,26.543,22.769,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,106.906,106.906,27.0,4.0,40.516,39.393,26.997,MEDIUM,3.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,102.462,102.462,28.0,4.0,31.831,35.841,34.79,MEDIUM,4.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,75.294,75.294,29.0,4.0,25.655,26.602,23.037,MEDIUM,5.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,107.638,107.638,30.0,4.0,40.629,41.117,25.892,MEDIUM,6.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,75.556,75.556,31.0,4.0,25.813,26.718,23.025,MEDIUM,7.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,111.1,111.1,32.0,4.0,41.58,40.001,29.519,MEDIUM,8.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,,,33.0,4.0,33.198,33.789,91.018,MEDIUM,9.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+TSU,22,117.424,117.424,34.0,4.0,32.25,36.108,49.066,MEDIUM,10.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+TSU,22,138.839,138.839,35.0,4.0,64.688,37.532,36.619,MEDIUM,11.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALB,23,,,1.0,1.0,,36.375,34.367,INTERMEDIATE,1.0,True,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALB,23,,,2.0,2.0,,32.612,27.446,SOFT,1.0,True,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALB,23,86.143,86.143,3.0,2.0,28.124,30.39,27.629,SOFT,2.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,78.876,78.876,4.0,2.0,27.137,27.669,24.07,SOFT,3.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,115.801,115.801,5.0,2.0,40.971,46.45,28.38,SOFT,4.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,100.051,100.051,6.0,2.0,26.622,36.929,36.5,SOFT,5.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,97.858,97.858,7.0,2.0,30.51,35.408,31.94,SOFT,6.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,77.437,77.437,8.0,2.0,26.707,27.297,23.433,SOFT,7.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,112.96,112.96,9.0,2.0,43.832,40.836,28.292,SOFT,8.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,76.764,76.764,10.0,2.0,26.394,27.283,23.087,SOFT,9.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,115.738,115.738,11.0,2.0,43.212,37.876,34.65,SOFT,10.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,76.312,76.312,12.0,2.0,26.259,27.124,22.929,SOFT,11.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,102.29,102.29,13.0,2.0,38.336,36.692,27.262,SOFT,12.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,76.408,76.408,14.0,2.0,26.148,27.311,22.949,SOFT,13.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,94.004,94.004,15.0,2.0,30.912,32.893,30.199,SOFT,14.0,True,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALB,23,119.094,119.094,16.0,3.0,58.334,30.385,30.375,SOFT,15.0,False,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALB,23,105.187,105.187,17.0,4.0,48.549,28.056,28.582,SOFT,16.0,False,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALB,23,78.736,78.736,18.0,4.0,26.851,28.545,23.34,SOFT,17.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,77.668,77.668,19.0,4.0,26.676,27.848,23.144,SOFT,18.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,77.933,77.933,20.0,4.0,26.702,27.999,23.232,SOFT,19.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,77.894,77.894,21.0,4.0,26.693,28.107,23.094,SOFT,20.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,77.797,77.797,22.0,4.0,26.705,28.044,23.048,SOFT,21.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,99.798,99.798,23.0,4.0,33.677,34.206,31.915,SOFT,22.0,False,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALB,23,,,24.0,5.0,,31.274,27.847,MEDIUM,1.0,True,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+ALB,23,75.357,75.357,25.0,5.0,25.837,26.736,22.784,MEDIUM,2.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,122.447,122.447,26.0,5.0,41.322,50.274,30.851,MEDIUM,3.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,104.318,104.318,27.0,5.0,25.765,48.958,29.595,MEDIUM,4.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,75.575,75.575,28.0,5.0,25.84,27.017,22.718,MEDIUM,5.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,94.505,94.505,29.0,5.0,32.737,32.502,29.266,MEDIUM,6.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,75.847,75.847,30.0,5.0,25.914,26.931,23.002,MEDIUM,7.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,122.646,122.646,31.0,5.0,33.316,40.277,49.053,MEDIUM,8.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,143.851,143.851,32.0,5.0,54.739,29.358,59.754,MEDIUM,9.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+ALB,23,99.329,99.329,33.0,5.0,29.834,27.816,41.679,MEDIUM,10.0,True,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+HUL,27,,,1.0,1.0,,36.531,29.155,INTERMEDIATE,1.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+HUL,27,86.555,86.555,2.0,1.0,30.015,30.699,25.841,INTERMEDIATE,2.0,True,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,105.164,105.164,3.0,1.0,34.205,35.132,35.827,INTERMEDIATE,3.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+HUL,27,,,4.0,2.0,,31.714,27.239,HARD,1.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+HUL,27,81.175,81.175,5.0,2.0,27.776,28.482,24.917,HARD,2.0,True,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,77.507,77.507,6.0,2.0,26.921,27.424,23.162,HARD,3.0,True,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,76.456,76.456,7.0,2.0,26.644,26.988,22.824,HARD,4.0,True,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,100.256,100.256,8.0,2.0,37.963,36.437,25.856,HARD,5.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,75.751,75.751,9.0,2.0,26.322,26.756,22.673,HARD,6.0,True,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,102.544,102.544,10.0,2.0,36.192,38.165,28.187,HARD,7.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,78.858,78.858,11.0,2.0,26.077,26.711,26.07,HARD,8.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,104.178,104.178,12.0,2.0,40.633,37.193,26.352,HARD,9.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,83.491,83.491,13.0,2.0,26.346,26.746,30.399,HARD,10.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+HUL,27,,,14.0,3.0,,31.787,25.629,HARD,11.0,False,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+HUL,27,82.012,82.012,15.0,3.0,26.604,30.22,25.188,HARD,12.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,75.65,75.65,16.0,3.0,26.183,26.693,22.774,HARD,13.0,False,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,103.178,103.178,17.0,3.0,36.526,37.686,28.966,HARD,14.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,79.252,79.252,18.0,3.0,28.107,27.912,23.233,HARD,15.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,76.979,76.979,19.0,3.0,26.468,27.396,23.115,HARD,16.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,76.652,76.652,20.0,3.0,26.431,27.348,22.873,HARD,17.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,77.183,77.183,21.0,3.0,26.392,27.161,23.63,HARD,18.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,77.65,77.65,22.0,3.0,27.012,27.37,23.268,HARD,19.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,76.577,76.577,23.0,3.0,26.345,27.292,22.94,HARD,20.0,False,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,84.185,84.185,24.0,3.0,28.388,28.419,27.378,HARD,21.0,False,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+HUL,27,,,25.0,4.0,,29.222,24.547,MEDIUM,1.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+HUL,27,73.784,73.784,26.0,4.0,25.434,26.079,22.271,MEDIUM,2.0,True,Audi,True,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,104.953,104.953,27.0,4.0,37.478,37.093,30.382,MEDIUM,3.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,102.572,102.572,28.0,4.0,36.522,36.469,29.581,MEDIUM,4.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,73.858,73.858,29.0,4.0,25.436,26.021,22.401,MEDIUM,5.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,97.23,97.23,30.0,4.0,36.959,33.699,26.572,MEDIUM,6.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,85.839,85.839,31.0,4.0,28.665,30.736,26.438,MEDIUM,7.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,141.459,141.459,32.0,4.0,31.4,33.935,76.124,MEDIUM,8.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,133.281,133.281,33.0,4.0,28.562,27.846,76.873,MEDIUM,9.0,True,Audi,False,,,True,2026,Dutch Grand Prix,Practice 1
+HUL,27,100.665,100.665,34.0,4.0,32.682,30.465,37.518,MEDIUM,10.0,True,Audi,False,,,False,2026,Dutch Grand Prix,Practice 1
+LAW,30,,,1.0,1.0,,30.92,26.191,HARD,1.0,True,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+LAW,30,79.066,79.066,2.0,1.0,28.051,27.068,23.947,HARD,2.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,89.286,89.286,3.0,1.0,31.106,31.129,27.051,HARD,3.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,88.552,88.552,4.0,1.0,26.48,31.291,30.781,HARD,4.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,75.631,75.631,5.0,1.0,26.254,26.448,22.929,HARD,5.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,119.688,119.688,6.0,1.0,37.304,47.809,34.575,HARD,6.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,75.952,75.952,7.0,1.0,26.387,26.398,23.167,HARD,7.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,114.031,114.031,8.0,1.0,38.184,40.429,35.418,HARD,8.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,92.265,92.265,9.0,1.0,35.436,30.764,26.065,HARD,9.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,75.655,75.655,10.0,1.0,26.249,26.571,22.835,HARD,10.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,109.274,109.274,11.0,1.0,37.606,41.269,30.399,HARD,11.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,75.359,75.359,12.0,1.0,26.195,26.464,22.7,HARD,12.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,98.39,98.39,13.0,1.0,33.374,31.77,33.246,HARD,13.0,True,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+LAW,30,,,14.0,2.0,,28.293,23.729,HARD,14.0,False,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+LAW,30,78.4,78.4,15.0,2.0,27.046,27.672,23.682,HARD,15.0,False,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,77.765,77.765,16.0,2.0,26.889,27.575,23.301,HARD,16.0,False,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,77.736,77.736,17.0,2.0,26.824,27.575,23.337,HARD,17.0,False,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,81.997,81.997,18.0,2.0,26.771,27.675,27.551,HARD,18.0,False,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+LAW,30,,,19.0,3.0,,31.202,28.056,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+LAW,30,89.018,89.018,20.0,3.0,30.313,30.793,27.912,SOFT,2.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,75.309,75.309,21.0,3.0,26.005,26.57,22.734,SOFT,3.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,102.869,102.869,22.0,3.0,37.168,35.968,29.733,SOFT,4.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,94.223,94.223,23.0,3.0,33.355,35.607,25.261,SOFT,5.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,74.861,74.861,24.0,3.0,25.751,26.249,22.861,SOFT,6.0,True,Red Bull Racing,True,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,104.904,104.904,25.0,3.0,38.111,38.157,28.636,SOFT,7.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,91.532,91.532,26.0,3.0,31.335,32.135,28.062,SOFT,8.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,86.392,86.392,27.0,3.0,29.676,30.538,26.178,SOFT,9.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,,,28.0,3.0,33.353,32.982,97.593,SOFT,10.0,True,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+LAW,30,114.158,114.158,29.0,3.0,29.963,32.44,51.755,SOFT,11.0,True,Red Bull Racing,False,,,True,2026,Dutch Grand Prix,Practice 1
+LAW,30,122.94,122.94,30.0,3.0,61.124,27.525,34.291,SOFT,12.0,True,Red Bull Racing,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,,,1.0,1.0,,36.709,37.987,INTERMEDIATE,1.0,True,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,,,2.0,2.0,,32.558,29.039,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,82.246,82.246,3.0,2.0,28.657,29.472,24.117,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,81.505,81.505,4.0,2.0,27.957,29.097,24.451,MEDIUM,3.0,True,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,113.113,113.113,5.0,2.0,39.622,39.295,34.196,MEDIUM,4.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,84.545,84.545,6.0,2.0,27.125,27.869,29.551,MEDIUM,5.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,106.35,106.35,7.0,2.0,38.23,34.863,33.257,MEDIUM,6.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,76.787,76.787,8.0,2.0,26.493,27.27,23.024,MEDIUM,7.0,True,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,122.774,122.774,9.0,2.0,41.389,42.631,38.754,MEDIUM,8.0,True,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,112.847,112.847,10.0,3.0,49.747,32.932,30.168,MEDIUM,1.0,False,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,76.231,76.231,11.0,3.0,26.263,26.97,22.998,MEDIUM,2.0,False,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,99.496,99.496,12.0,3.0,31.643,35.084,32.769,MEDIUM,3.0,False,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,,,13.0,4.0,,29.542,23.886,MEDIUM,4.0,False,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,77.899,77.899,14.0,4.0,26.742,27.733,23.424,MEDIUM,5.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,77.947,77.947,15.0,4.0,26.727,27.813,23.407,MEDIUM,6.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,77.663,77.663,16.0,4.0,26.655,27.749,23.259,MEDIUM,7.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,77.621,77.621,17.0,4.0,26.69,27.709,23.222,MEDIUM,8.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,77.424,77.424,18.0,4.0,26.393,27.727,23.304,MEDIUM,9.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,77.106,77.106,19.0,4.0,26.321,27.644,23.141,MEDIUM,10.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,77.633,77.633,20.0,4.0,26.425,27.921,23.287,MEDIUM,11.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,77.484,77.484,21.0,4.0,26.405,27.85,23.229,MEDIUM,12.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,96.141,96.141,22.0,4.0,30.115,33.82,32.206,MEDIUM,13.0,False,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,,,23.0,5.0,,32.912,26.23,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,74.961,74.961,24.0,5.0,25.842,26.556,22.563,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,127.103,127.103,25.0,5.0,39.424,44.283,43.396,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,112.86,112.86,26.0,6.0,46.303,34.111,32.446,SOFT,1.0,False,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+OCO,31,74.897,74.897,27.0,6.0,25.85,26.572,22.475,SOFT,2.0,False,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,128.806,128.806,28.0,6.0,36.989,42.159,49.658,SOFT,3.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,107.388,107.388,29.0,6.0,30.156,33.63,43.602,SOFT,4.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,130.967,130.967,30.0,6.0,48.165,32.593,50.209,SOFT,5.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+OCO,31,122.068,122.068,31.0,6.0,51.996,27.653,42.419,SOFT,6.0,False,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+LIN,41,,,1.0,1.0,,35.028,39.3,INTERMEDIATE,1.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+LIN,41,,,2.0,2.0,,31.097,26.034,HARD,1.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+LIN,41,82.042,82.042,3.0,2.0,28.646,28.803,24.593,HARD,2.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,78.408,78.408,4.0,2.0,27.288,27.569,23.551,HARD,3.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,79.48,79.48,5.0,2.0,26.9,27.427,25.153,HARD,4.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,102.835,102.835,6.0,2.0,33.541,39.761,29.533,HARD,5.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,76.472,76.472,7.0,2.0,26.298,26.847,23.327,HARD,6.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,100.462,100.462,8.0,2.0,32.667,40.218,27.577,HARD,7.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,75.952,75.952,9.0,2.0,26.194,26.636,23.122,HARD,8.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,102.102,102.102,10.0,2.0,34.268,40.447,27.387,HARD,9.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,75.742,75.742,11.0,2.0,25.98,26.764,22.998,HARD,10.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,104.571,104.571,12.0,2.0,36.36,37.863,30.348,HARD,11.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,96.231,96.231,13.0,2.0,38.419,30.417,27.395,HARD,12.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,76.344,76.344,14.0,2.0,26.372,26.796,23.176,HARD,13.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,86.482,86.482,15.0,2.0,28.259,30.595,27.628,HARD,14.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+LIN,41,,,16.0,3.0,,28.381,23.91,HARD,10.0,False,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+LIN,41,78.706,78.706,17.0,3.0,27.322,27.895,23.489,HARD,11.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,78.14,78.14,18.0,3.0,26.902,27.815,23.423,HARD,12.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,78.099,78.099,19.0,3.0,26.74,27.877,23.482,HARD,13.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,78.423,78.423,20.0,3.0,26.904,28.028,23.491,HARD,14.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,78.322,78.322,21.0,3.0,26.782,27.941,23.599,HARD,15.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,79.872,79.872,22.0,3.0,27.879,28.31,23.683,HARD,16.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,77.839,77.839,23.0,3.0,26.524,27.896,23.419,HARD,17.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,78.008,78.008,24.0,3.0,26.462,27.983,23.563,HARD,18.0,False,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,81.899,81.899,25.0,3.0,26.822,28.399,26.678,HARD,19.0,False,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+LIN,41,,,26.0,4.0,,29.172,28.355,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+LIN,41,74.73,74.73,27.0,4.0,25.62,26.391,22.719,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,103.541,103.541,28.0,4.0,32.323,44.298,26.92,MEDIUM,3.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,98.212,98.212,29.0,4.0,35.157,35.542,27.513,MEDIUM,4.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,80.775,80.775,30.0,4.0,25.51,29.243,26.022,MEDIUM,5.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,74.285,74.285,31.0,4.0,25.393,26.313,22.579,MEDIUM,6.0,True,Racing Bulls,True,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,105.875,105.875,32.0,4.0,43.215,37.321,25.339,MEDIUM,7.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,74.778,74.778,33.0,4.0,25.587,26.543,22.648,MEDIUM,8.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,89.027,89.027,34.0,4.0,31.543,31.22,26.264,MEDIUM,9.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,109.449,109.449,35.0,4.0,31.341,32.878,45.23,MEDIUM,10.0,True,Racing Bulls,False,,,True,2026,Dutch Grand Prix,Practice 1
+LIN,41,,,36.0,4.0,63.125,30.904,64.949,MEDIUM,11.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+LIN,41,104.071,104.071,37.0,4.0,29.113,34.156,40.802,MEDIUM,12.0,True,Racing Bulls,False,,,False,2026,Dutch Grand Prix,Practice 1
+COL,43,,,1.0,1.0,,34.33,32.299,INTERMEDIATE,1.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+COL,43,85.843,85.843,2.0,1.0,29.523,30.161,26.159,INTERMEDIATE,2.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,104.235,104.235,3.0,1.0,34.325,34.578,35.332,INTERMEDIATE,3.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+COL,43,,,4.0,2.0,,30.2,24.866,HARD,1.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+COL,43,78.704,78.704,5.0,2.0,27.328,27.727,23.649,HARD,2.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,77.683,77.683,6.0,2.0,26.645,27.547,23.491,HARD,3.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,112.339,112.339,7.0,2.0,36.294,42.312,33.733,HARD,4.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,81.012,81.012,8.0,2.0,27.098,28.459,25.455,HARD,5.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,82.068,82.068,9.0,2.0,26.667,28.006,27.395,HARD,6.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,76.969,76.969,10.0,2.0,26.418,27.271,23.28,HARD,7.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,78.588,78.588,11.0,2.0,27.048,27.956,23.584,HARD,8.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,77.617,77.617,12.0,2.0,26.544,27.734,23.339,HARD,9.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,77.387,77.387,13.0,2.0,26.363,27.642,23.382,HARD,10.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,77.934,77.934,14.0,2.0,26.74,27.95,23.244,HARD,11.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,77.343,77.343,15.0,2.0,26.439,27.56,23.344,HARD,12.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,78.334,78.334,16.0,2.0,27.002,27.943,23.389,HARD,13.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,77.092,77.092,17.0,2.0,26.328,27.613,23.151,HARD,14.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,137.632,137.632,18.0,2.0,47.453,58.604,31.575,HARD,15.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,85.659,85.659,19.0,2.0,26.875,27.558,31.226,HARD,16.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+COL,43,,,20.0,3.0,,29.578,25.697,SOFT,1.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+COL,43,74.826,74.826,21.0,3.0,25.782,26.562,22.482,SOFT,2.0,True,Alpine,True,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,140.259,140.259,22.0,3.0,49.983,56.798,33.478,SOFT,3.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,95.302,95.302,23.0,3.0,36.327,33.226,25.749,SOFT,4.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,75.35,75.35,24.0,3.0,25.806,26.508,23.036,SOFT,5.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,146.969,146.969,25.0,3.0,48.727,62.829,35.413,SOFT,6.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,79.226,79.226,26.0,3.0,27.114,28.611,23.501,SOFT,7.0,True,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,82.139,82.139,27.0,3.0,28.211,27.224,26.704,SOFT,8.0,True,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+COL,43,122.145,122.145,28.0,4.0,53.869,38.725,29.551,HARD,17.0,False,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+COL,43,139.589,139.589,29.0,4.0,32.697,35.58,71.312,HARD,18.0,False,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,110.383,110.383,30.0,4.0,30.904,29.783,49.696,HARD,19.0,False,Alpine,False,,,True,2026,Dutch Grand Prix,Practice 1
+COL,43,141.544,141.544,31.0,4.0,74.27,30.568,36.706,HARD,20.0,False,Alpine,False,,,False,2026,Dutch Grand Prix,Practice 1
+HAM,44,,,1.0,1.0,,33.445,27.428,INTERMEDIATE,1.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+HAM,44,85.562,85.562,2.0,1.0,29.704,30.302,25.556,INTERMEDIATE,2.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,98.046,98.046,3.0,1.0,29.855,31.536,36.655,INTERMEDIATE,3.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+HAM,44,,,4.0,2.0,,34.38,28.144,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+HAM,44,77.709,77.709,5.0,2.0,27.139,27.415,23.155,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,104.177,104.177,6.0,2.0,32.494,43.297,28.386,MEDIUM,3.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,75.886,75.886,7.0,2.0,26.582,26.701,22.603,MEDIUM,4.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,114.922,114.922,8.0,2.0,41.141,46.228,27.553,MEDIUM,5.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,75.124,75.124,9.0,2.0,26.147,26.451,22.526,MEDIUM,6.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,123.793,123.793,10.0,2.0,47.071,46.023,30.699,MEDIUM,7.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,74.742,74.742,11.0,2.0,25.735,26.375,22.632,MEDIUM,8.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,119.845,119.845,12.0,2.0,50.704,42.623,26.518,MEDIUM,9.0,True,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,74.259,74.259,13.0,2.0,25.734,26.154,22.371,MEDIUM,10.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,100.901,100.901,14.0,2.0,41.206,29.817,29.878,MEDIUM,11.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+HAM,44,,,15.0,3.0,,29.352,24.009,MEDIUM,12.0,False,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+HAM,44,76.49,76.49,16.0,3.0,26.438,27.148,22.904,MEDIUM,13.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,75.837,75.837,17.0,3.0,26.082,26.907,22.848,MEDIUM,14.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,75.547,75.547,18.0,3.0,25.988,26.796,22.763,MEDIUM,15.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,75.534,75.534,19.0,3.0,25.903,26.899,22.732,MEDIUM,16.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,75.604,75.604,20.0,3.0,25.939,26.872,22.793,MEDIUM,17.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,77.185,77.185,21.0,3.0,25.865,26.914,24.406,MEDIUM,18.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,81.727,81.727,22.0,3.0,26.295,28.189,27.243,MEDIUM,19.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,75.741,75.741,23.0,3.0,25.856,26.954,22.931,MEDIUM,20.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,76.137,76.137,24.0,3.0,25.869,27.14,23.128,MEDIUM,21.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,79.363,79.363,25.0,3.0,26.053,27.068,26.242,MEDIUM,22.0,False,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+HAM,44,,,26.0,4.0,,33.922,25.701,SOFT,1.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+HAM,44,73.139,73.139,27.0,4.0,25.09,25.915,22.134,SOFT,2.0,True,Ferrari,True,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,133.781,133.781,28.0,4.0,50.052,46.092,37.637,SOFT,3.0,True,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+HAM,44,143.022,143.022,29.0,5.0,78.207,36.499,28.316,SOFT,4.0,False,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+HAM,44,85.896,85.896,30.0,5.0,29.142,29.945,26.809,SOFT,5.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,91.014,91.014,31.0,5.0,29.779,34.083,27.152,SOFT,6.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,138.304,138.304,32.0,5.0,25.505,38.481,74.318,SOFT,7.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,118.863,118.863,33.0,5.0,30.762,30.811,57.29,SOFT,8.0,False,Ferrari,False,,,True,2026,Dutch Grand Prix,Practice 1
+HAM,44,127.94,127.94,34.0,5.0,55.327,33.594,39.019,SOFT,9.0,False,Ferrari,False,,,False,2026,Dutch Grand Prix,Practice 1
+SAI,55,,,1.0,1.0,,35.241,39.708,INTERMEDIATE,1.0,True,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+SAI,55,,,2.0,2.0,,32.334,32.579,SOFT,1.0,True,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+SAI,55,83.692,83.692,3.0,2.0,27.632,28.397,27.663,SOFT,2.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,78.056,78.056,4.0,2.0,26.715,27.624,23.717,SOFT,3.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,119.198,119.198,5.0,2.0,44.011,44.837,30.35,SOFT,4.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,87.878,87.878,6.0,2.0,26.723,31.912,29.243,SOFT,5.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,99.531,99.531,7.0,2.0,26.181,27.409,45.941,SOFT,6.0,True,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+SAI,55,,,8.0,3.0,95.159,31.131,25.839,SOFT,1.0,False,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+SAI,55,87.491,87.491,9.0,3.0,26.382,27.665,33.444,SOFT,2.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,108.676,108.676,10.0,3.0,40.005,36.654,32.017,SOFT,3.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,77.49,77.49,11.0,3.0,26.431,27.651,23.408,SOFT,4.0,False,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,115.159,115.159,12.0,3.0,43.241,45.413,26.505,SOFT,5.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,77.141,77.141,13.0,3.0,26.354,27.532,23.255,SOFT,6.0,False,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,96.646,96.646,14.0,3.0,33.658,37.201,25.787,SOFT,7.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,84.676,84.676,15.0,3.0,27.045,28.21,29.421,SOFT,8.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,80.734,80.734,16.0,3.0,27.928,28.613,24.193,SOFT,9.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,79.672,79.672,17.0,3.0,27.485,28.636,23.551,SOFT,10.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,78.786,78.786,18.0,3.0,26.854,28.358,23.574,SOFT,11.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,79.033,79.033,19.0,3.0,26.999,28.419,23.615,SOFT,12.0,False,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,88.245,88.245,20.0,3.0,27.864,29.391,30.99,SOFT,13.0,False,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+SAI,55,,,21.0,4.0,,30.21,25.769,MEDIUM,1.0,True,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+SAI,55,94.329,94.329,22.0,4.0,30.047,35.991,28.291,MEDIUM,2.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,76.883,76.883,23.0,4.0,26.219,27.333,23.331,MEDIUM,3.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,106.182,106.182,24.0,4.0,45.587,34.373,26.222,MEDIUM,4.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,76.807,76.807,25.0,4.0,26.29,27.583,22.934,MEDIUM,5.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,112.999,112.999,26.0,4.0,42.682,41.807,28.51,MEDIUM,6.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,97.216,97.216,27.0,4.0,33.064,34.68,29.472,MEDIUM,7.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,76.345,76.345,28.0,4.0,26.092,27.361,22.892,MEDIUM,8.0,True,Williams,True,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,109.018,109.018,29.0,4.0,39.402,38.828,30.788,MEDIUM,9.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,111.375,111.375,30.0,4.0,31.289,36.467,43.619,MEDIUM,10.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,129.062,129.062,31.0,4.0,56.976,29.506,42.58,MEDIUM,11.0,True,Williams,False,,,True,2026,Dutch Grand Prix,Practice 1
+SAI,55,119.546,119.546,32.0,4.0,55.512,28.97,35.064,MEDIUM,12.0,True,Williams,False,,,False,2026,Dutch Grand Prix,Practice 1
+RUS,63,,,1.0,1.0,,38.928,38.364,INTERMEDIATE,1.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+RUS,63,,,2.0,2.0,,32.088,26.544,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+RUS,63,80.93,80.93,3.0,2.0,28.856,28.256,23.818,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,77.444,77.444,4.0,2.0,27.097,27.291,23.056,MEDIUM,3.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,76.669,76.669,5.0,2.0,26.509,27.024,23.136,MEDIUM,4.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,76.564,76.564,6.0,2.0,26.288,27.144,23.132,MEDIUM,5.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,82.814,82.814,7.0,2.0,26.353,28.561,27.9,MEDIUM,6.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,75.445,75.445,8.0,2.0,25.786,26.892,22.767,MEDIUM,7.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,113.73,113.73,9.0,2.0,40.33,46.021,27.379,MEDIUM,8.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,74.951,74.951,10.0,2.0,25.822,26.533,22.596,MEDIUM,9.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,127.905,127.905,11.0,2.0,45.894,54.274,27.737,MEDIUM,10.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,74.908,74.908,12.0,2.0,25.745,26.522,22.641,MEDIUM,11.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,107.658,107.658,13.0,2.0,33.483,44.954,29.221,MEDIUM,12.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,74.526,74.526,14.0,2.0,25.599,26.386,22.541,MEDIUM,13.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,95.348,95.348,15.0,2.0,34.385,30.702,30.261,MEDIUM,14.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+RUS,63,,,16.0,3.0,,28.072,23.215,MEDIUM,15.0,False,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+RUS,63,76.51,76.51,17.0,3.0,26.347,27.15,23.013,MEDIUM,16.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,76.212,76.212,18.0,3.0,26.21,27.11,22.892,MEDIUM,17.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,82.842,82.842,19.0,3.0,26.501,27.904,28.437,MEDIUM,18.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,76.186,76.186,20.0,3.0,26.162,27.134,22.89,MEDIUM,19.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,76.092,76.092,21.0,3.0,25.96,27.188,22.944,MEDIUM,20.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,76.213,76.213,22.0,3.0,25.923,27.258,23.032,MEDIUM,21.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,76.079,76.079,23.0,3.0,25.938,27.233,22.908,MEDIUM,22.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,76.665,76.665,24.0,3.0,25.856,27.615,23.194,MEDIUM,23.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,76.723,76.723,25.0,3.0,26.06,27.533,23.13,MEDIUM,24.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,78.463,78.463,26.0,3.0,26.2,28.969,23.294,MEDIUM,25.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,77.081,77.081,27.0,3.0,26.169,27.64,23.272,MEDIUM,26.0,False,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,88.748,88.748,28.0,3.0,26.457,27.583,34.708,MEDIUM,27.0,False,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+RUS,63,,,29.0,4.0,,31.19,24.437,SOFT,1.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+RUS,63,87.211,87.211,30.0,4.0,28.29,30.392,28.529,SOFT,2.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,73.466,73.466,31.0,4.0,25.152,26.076,22.238,SOFT,3.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,133.781,133.781,32.0,4.0,45.041,53.481,35.259,SOFT,4.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,86.516,86.516,33.0,4.0,30.596,30.103,25.817,SOFT,5.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,73.074,73.074,34.0,4.0,25.043,25.794,22.237,SOFT,6.0,True,Mercedes,True,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,,,35.0,4.0,42.508,48.167,81.189,SOFT,7.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+RUS,63,133.689,133.689,36.0,4.0,28.472,29.73,75.487,SOFT,8.0,True,Mercedes,False,,,True,2026,Dutch Grand Prix,Practice 1
+RUS,63,95.385,95.385,37.0,4.0,29.454,27.916,38.015,SOFT,9.0,True,Mercedes,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOT,77,,,1.0,1.0,,32.768,35.713,INTERMEDIATE,1.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOT,77,122.057,122.057,2.0,2.0,59.544,30.596,31.917,INTERMEDIATE,1.0,False,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOT,77,,,3.0,3.0,,33.619,27.011,MEDIUM,1.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOT,77,79.88,79.88,4.0,3.0,27.567,28.635,23.678,MEDIUM,2.0,True,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,100.35,100.35,5.0,3.0,34.199,36.918,29.233,MEDIUM,3.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,78.748,78.748,6.0,3.0,27.105,28.168,23.475,MEDIUM,4.0,True,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,99.817,99.817,7.0,3.0,35.486,35.78,28.551,MEDIUM,5.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,77.742,77.742,8.0,3.0,26.789,27.878,23.075,MEDIUM,6.0,True,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,97.394,97.394,9.0,3.0,34.516,35.484,27.394,MEDIUM,7.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,77.148,77.148,10.0,3.0,26.639,27.412,23.097,MEDIUM,8.0,True,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,101.184,101.184,11.0,3.0,35.049,31.989,34.146,MEDIUM,9.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOT,77,,,12.0,4.0,,35.41,26.827,MEDIUM,10.0,False,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOT,77,76.9,76.9,13.0,4.0,26.419,27.175,23.306,MEDIUM,11.0,False,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,97.018,97.018,14.0,4.0,36.02,35.062,25.936,MEDIUM,12.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,96.363,96.363,15.0,4.0,30.268,39.497,26.598,MEDIUM,13.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,77.329,77.329,16.0,4.0,26.429,27.714,23.186,MEDIUM,14.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,85.896,85.896,17.0,4.0,28.966,32.881,24.049,MEDIUM,15.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,77.602,77.602,18.0,4.0,26.528,27.883,23.191,MEDIUM,16.0,False,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,84.492,84.492,19.0,4.0,26.702,28.263,29.527,MEDIUM,17.0,False,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOT,77,,,20.0,5.0,,29.685,28.055,SOFT,1.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+BOT,77,75.58,75.58,21.0,5.0,26.068,26.832,22.68,SOFT,2.0,True,Cadillac,True,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,97.94,97.94,22.0,5.0,31.618,32.972,33.35,SOFT,3.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,76.48,76.48,23.0,5.0,26.31,27.408,22.762,SOFT,4.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,102.997,102.997,24.0,5.0,34.368,36.498,32.131,SOFT,5.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,76.978,76.978,25.0,5.0,26.351,27.811,22.816,SOFT,6.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,147.002,147.002,26.0,5.0,37.813,32.65,76.539,SOFT,7.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,134.502,134.502,27.0,5.0,29.264,34.205,71.033,SOFT,8.0,True,Cadillac,False,,,True,2026,Dutch Grand Prix,Practice 1
+BOT,77,95.849,95.849,28.0,5.0,29.251,28.811,37.787,SOFT,9.0,True,Cadillac,False,,,False,2026,Dutch Grand Prix,Practice 1
+PIA,81,,,1.0,1.0,,35.129,36.636,INTERMEDIATE,1.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+PIA,81,120.304,120.304,2.0,2.0,62.278,31.471,26.555,MEDIUM,1.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+PIA,81,83.311,83.311,3.0,2.0,29.283,28.741,25.287,MEDIUM,2.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,80.48,80.48,4.0,2.0,28.276,27.712,24.492,MEDIUM,3.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,106.342,106.342,5.0,2.0,37.59,39.67,29.082,MEDIUM,4.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,77.035,77.035,6.0,2.0,26.599,26.808,23.628,MEDIUM,5.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,108.769,108.769,7.0,2.0,37.649,39.915,31.205,MEDIUM,6.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,76.114,76.114,8.0,2.0,26.249,26.659,23.206,MEDIUM,7.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,100.622,100.622,9.0,2.0,35.401,38.705,26.516,MEDIUM,8.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,75.618,75.618,10.0,2.0,25.886,26.377,23.355,MEDIUM,9.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,108.561,108.561,11.0,2.0,37.647,32.091,38.823,MEDIUM,10.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+PIA,81,,,12.0,3.0,,29.713,25.739,MEDIUM,11.0,False,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+PIA,81,89.965,89.965,13.0,3.0,28.397,30.694,30.874,MEDIUM,12.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,75.279,75.279,14.0,3.0,25.658,26.459,23.162,MEDIUM,13.0,False,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,103.1,103.1,15.0,3.0,34.232,40.616,28.252,MEDIUM,14.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,75.216,75.216,16.0,3.0,26.015,26.288,22.913,MEDIUM,15.0,False,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,88.148,88.148,17.0,3.0,29.572,33.563,25.013,MEDIUM,16.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,76.51,76.51,18.0,3.0,26.643,26.862,23.005,MEDIUM,17.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,76.195,76.195,19.0,3.0,26.204,26.766,23.225,MEDIUM,18.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,76.763,76.763,20.0,3.0,26.076,27.38,23.307,MEDIUM,19.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,77.184,77.184,21.0,3.0,26.772,27.164,23.248,MEDIUM,20.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,76.566,76.566,22.0,3.0,26.166,27.246,23.154,MEDIUM,21.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,76.682,76.682,23.0,3.0,26.293,27.178,23.211,MEDIUM,22.0,False,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,81.293,81.293,24.0,3.0,26.047,27.15,28.096,MEDIUM,23.0,False,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+PIA,81,,,25.0,4.0,,29.337,24.636,SOFT,1.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+PIA,81,73.608,73.608,26.0,4.0,25.189,25.859,22.56,SOFT,2.0,True,McLaren,True,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,109.97,109.97,27.0,4.0,38.509,41.085,30.376,SOFT,3.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,73.934,73.934,28.0,4.0,25.546,25.977,22.411,SOFT,4.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,110.244,110.244,29.0,4.0,36.618,37.312,36.314,SOFT,5.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,102.689,102.689,30.0,4.0,33.592,39.062,30.035,SOFT,6.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,73.82,73.82,31.0,4.0,25.236,26.062,22.522,SOFT,7.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,97.779,97.779,32.0,4.0,33.918,34.744,29.117,SOFT,8.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,113.756,113.756,33.0,4.0,28.204,34.744,50.808,SOFT,9.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,144.539,144.539,34.0,4.0,57.461,32.659,54.419,SOFT,10.0,True,McLaren,False,,,True,2026,Dutch Grand Prix,Practice 1
+PIA,81,128.109,128.109,35.0,4.0,57.052,30.708,40.349,SOFT,11.0,True,McLaren,False,,,False,2026,Dutch Grand Prix,Practice 1
+BEA,87,,,1.0,1.0,,39.736,37.0,INTERMEDIATE,1.0,True,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+BEA,87,,,2.0,2.0,,31.598,25.077,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+BEA,87,86.866,86.866,3.0,2.0,28.174,32.736,25.956,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,78.101,78.101,4.0,2.0,26.894,27.836,23.371,MEDIUM,3.0,True,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,132.549,132.549,5.0,2.0,52.486,50.334,29.729,MEDIUM,4.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,76.957,76.957,6.0,2.0,26.619,27.306,23.032,MEDIUM,5.0,True,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,138.951,138.951,7.0,2.0,56.076,53.142,29.733,MEDIUM,6.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,106.423,106.423,8.0,2.0,32.84,39.625,33.958,MEDIUM,7.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,76.869,76.869,9.0,2.0,26.639,27.17,23.06,MEDIUM,8.0,True,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,115.832,115.832,10.0,2.0,46.063,41.23,28.539,MEDIUM,9.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,76.455,76.455,11.0,2.0,26.289,27.15,23.016,MEDIUM,10.0,True,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,111.822,111.822,12.0,2.0,35.801,41.273,34.748,MEDIUM,11.0,True,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+BEA,87,,,13.0,3.0,,30.239,25.775,MEDIUM,2.0,False,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+BEA,87,76.451,76.451,14.0,3.0,26.394,27.092,22.965,MEDIUM,3.0,False,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,106.098,106.098,15.0,3.0,43.099,38.914,24.085,MEDIUM,4.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,78.273,78.273,16.0,3.0,26.996,27.882,23.395,MEDIUM,5.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,77.882,77.882,17.0,3.0,26.788,27.723,23.371,MEDIUM,6.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,78.596,78.596,18.0,3.0,27.01,28.023,23.563,MEDIUM,7.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,77.401,77.401,19.0,3.0,26.492,27.66,23.249,MEDIUM,8.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,77.656,77.656,20.0,3.0,26.487,27.836,23.333,MEDIUM,9.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,77.852,77.852,21.0,3.0,26.648,27.821,23.383,MEDIUM,10.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,78.483,78.483,22.0,3.0,27.202,27.806,23.475,MEDIUM,11.0,False,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,87.64,87.64,23.0,3.0,30.346,29.753,27.541,MEDIUM,12.0,False,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+BEA,87,,,24.0,4.0,,33.419,27.931,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1
+BEA,87,74.874,74.874,25.0,4.0,25.852,26.577,22.445,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,128.145,128.145,26.0,4.0,48.373,46.458,33.314,SOFT,3.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,99.319,99.319,27.0,4.0,36.528,37.311,25.48,SOFT,4.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,74.888,74.888,28.0,4.0,25.842,26.525,22.521,SOFT,5.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,95.827,95.827,29.0,4.0,34.752,33.536,27.539,SOFT,6.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,104.308,104.308,30.0,4.0,29.87,30.726,43.712,SOFT,7.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,144.985,144.985,31.0,4.0,53.048,30.067,61.87,SOFT,8.0,True,Haas F1 Team,False,,,True,2026,Dutch Grand Prix,Practice 1
+BEA,87,95.814,95.814,32.0,4.0,29.533,28.219,38.062,SOFT,9.0,True,Haas F1 Team,False,,,False,2026,Dutch Grand Prix,Practice 1

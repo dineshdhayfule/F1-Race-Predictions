@@ -1,0 +1,578 @@
+{
+  "tracks": {
+    "australia": {
+      "display_name": "Australian Grand Prix",
+      "circuit_name": "Albert Park Grand Prix Circuit",
+      "country": "Australia",
+      "event_name_patterns": [
+        "Australian",
+        "Australia",
+        "Melbourne",
+        "Albert Park"
+      ],
+      "round_2026": 1,
+      "circuit_type": "temporary",
+      "track_length_km": 5.278,
+      "straightness": 0.47,
+      "speed_bias": 0.72,
+      "overtaking_ease": 0.48,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "china": {
+      "display_name": "Chinese Grand Prix",
+      "circuit_name": "Shanghai International Circuit",
+      "country": "China",
+      "event_name_patterns": [
+        "Chinese",
+        "China",
+        "Shanghai"
+      ],
+      "round_2026": 2,
+      "circuit_type": "permanent",
+      "track_length_km": 5.451,
+      "straightness": 0.48,
+      "speed_bias": 0.62,
+      "overtaking_ease": 0.55,
+      "historical_data_available": true,
+      "historical_years": [
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": true,
+      "known_penalties_2026": {}
+    },
+    "japan": {
+      "display_name": "Japanese Grand Prix",
+      "circuit_name": "Suzuka International Racing Course",
+      "country": "Japan",
+      "event_name_patterns": [
+        "Japanese",
+        "Japan",
+        "Suzuka"
+      ],
+      "round_2026": 3,
+      "circuit_type": "permanent",
+      "track_length_km": 5.807,
+      "straightness": 0.39,
+      "speed_bias": 0.78,
+      "overtaking_ease": 0.34,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "miami": {
+      "display_name": "Miami Grand Prix",
+      "circuit_name": "Miami International Autodrome",
+      "country": "United States",
+      "event_name_patterns": [
+        "Miami",
+        "Miami Grand Prix"
+      ],
+      "round_2026": 4,
+      "circuit_type": "temporary",
+      "track_length_km": 5.412,
+      "straightness": 0.55,
+      "speed_bias": 0.70,
+      "overtaking_ease": 0.52,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": true,
+      "known_penalties_2026": {}
+    },
+    "canada": {
+      "display_name": "Canadian Grand Prix",
+      "circuit_name": "Circuit Gilles-Villeneuve",
+      "country": "Canada",
+      "event_name_patterns": [
+        "Canadian",
+        "Canada",
+        "Montreal",
+        "Gilles-Villeneuve"
+      ],
+      "round_2026": 5,
+      "circuit_type": "temporary",
+      "track_length_km": 4.361,
+      "straightness": 0.57,
+      "speed_bias": 0.73,
+      "overtaking_ease": 0.60,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": true,
+      "known_penalties_2026": {}
+    },
+    "monaco": {
+      "display_name": "Monaco Grand Prix",
+      "circuit_name": "Circuit de Monaco",
+      "country": "Monaco",
+      "event_name_patterns": [
+        "Monaco",
+        "Monte Carlo"
+      ],
+      "round_2026": 6,
+      "circuit_type": "street",
+      "track_length_km": 3.337,
+      "straightness": 0.25,
+      "speed_bias": 0.25,
+      "overtaking_ease": 0.08,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "barcelona": {
+      "display_name": "Spanish Grand Prix",
+      "circuit_name": "Circuit de Barcelona-Catalunya",
+      "country": "Spain",
+      "event_name_patterns": [
+        "Spanish",
+        "Spain",
+        "Barcelona",
+        "Barcelona-Catalunya"
+      ],
+      "round_2026": 7,
+      "circuit_type": "permanent",
+      "track_length_km": 4.657,
+      "straightness": 0.44,
+      "speed_bias": 0.67,
+      "overtaking_ease": 0.42,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "austria": {
+      "display_name": "Austrian Grand Prix",
+      "circuit_name": "Red Bull Ring",
+      "country": "Austria",
+      "event_name_patterns": [
+        "Austrian",
+        "Austria",
+        "Spielberg",
+        "Red Bull Ring"
+      ],
+      "round_2026": 8,
+      "circuit_type": "permanent",
+      "track_length_km": 4.318,
+      "straightness": 0.57,
+      "speed_bias": 0.76,
+      "overtaking_ease": 0.55,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "silverstone": {
+      "display_name": "British Grand Prix",
+      "circuit_name": "Silverstone Circuit",
+      "country": "Great Britain",
+      "event_name_patterns": [
+        "British",
+        "Great Britain",
+        "Silverstone"
+      ],
+      "round_2026": 9,
+      "circuit_type": "permanent",
+      "track_length_km": 5.891,
+      "straightness": 0.42,
+      "speed_bias": 0.75,
+      "overtaking_ease": 0.45,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": true,
+      "known_penalties_2026": {}
+    },
+    "spa": {
+      "display_name": "Belgian Grand Prix",
+      "circuit_name": "Circuit de Spa-Francorchamps",
+      "country": "Belgium",
+      "event_name_patterns": [
+        "Belgian",
+        "Belgium",
+        "Spa",
+        "Spa-Francorchamps"
+      ],
+      "round_2026": 10,
+      "circuit_type": "permanent",
+      "track_length_km": 7.004,
+      "straightness": 0.55,
+      "speed_bias": 0.82,
+      "overtaking_ease": 0.62,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "hungary": {
+      "display_name": "Hungarian Grand Prix",
+      "circuit_name": "Hungaroring",
+      "country": "Hungary",
+      "event_name_patterns": [
+        "Hungarian",
+        "Hungary",
+        "Budapest",
+        "Hungaroring"
+      ],
+      "round_2026": 11,
+      "circuit_type": "permanent",
+      "track_length_km": 4.381,
+      "straightness": 0.28,
+      "speed_bias": 0.42,
+      "overtaking_ease": 0.22,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "zandvoort": {
+      "display_name": "Dutch Grand Prix",
+      "circuit_name": "Circuit Zandvoort",
+      "country": "Netherlands",
+      "event_name_patterns": [
+        "Dutch",
+        "Netherlands",
+        "Zandvoort"
+      ],
+      "round_2026": 12,
+      "circuit_type": "permanent",
+      "track_length_km": 4.259,
+      "straightness": 0.30,
+      "speed_bias": 0.48,
+      "overtaking_ease": 0.25,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": true,
+      "known_penalties_2026": {}
+    },
+    "monza": {
+      "display_name": "Italian Grand Prix",
+      "circuit_name": "Autodromo Nazionale Monza",
+      "country": "Italy",
+      "event_name_patterns": [
+        "Italian",
+        "Italy",
+        "Monza"
+      ],
+      "round_2026": 13,
+      "circuit_type": "permanent",
+      "track_length_km": 5.793,
+      "straightness": 0.65,
+      "speed_bias": 0.85,
+      "overtaking_ease": 0.55,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "madrid": {
+      "display_name": "Spanish Grand Prix",
+      "circuit_name": "Madring",
+      "country": "Spain",
+      "event_name_patterns": [
+        "Spanish",
+        "Spain",
+        "Madrid",
+        "Madring"
+      ],
+      "round_2026": 14,
+      "circuit_type": "street",
+      "track_length_km": 5.414,
+      "straightness": 0.46,
+      "speed_bias": 0.68,
+      "overtaking_ease": 0.50,
+      "historical_data_available": false,
+      "historical_years": [],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "baku": {
+      "display_name": "Azerbaijan Grand Prix",
+      "circuit_name": "Baku City Circuit",
+      "country": "Azerbaijan",
+      "event_name_patterns": [
+        "Azerbaijan",
+        "Azerbaijan Grand Prix",
+        "Baku"
+      ],
+      "round_2026": 15,
+      "circuit_type": "street",
+      "track_length_km": 6.003,
+      "straightness": 0.583,
+      "speed_bias": 0.60,
+      "overtaking_ease": 0.42,
+      "historical_data_available": true,
+      "historical_years": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "sepang": {
+      "display_name": "Bahrain Grand Prix",
+      "circuit_name": "Sepang International Circuit",
+      "country": "Malaysia",
+      "event_name_patterns": [
+        "Bahrain",
+        "Sepang",
+        "Kuala Lumpur",
+        "Bahrain Grand Prix in Malaysia"
+      ],
+      "round_2026": 16,
+      "circuit_type": "permanent",
+      "track_length_km": 5.543,
+      "straightness": 0.46,
+      "speed_bias": 0.62,
+      "overtaking_ease": 0.48,
+      "historical_data_available": false,
+      "historical_years": [],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {
+        "HAD": 5,
+        "COL": 15,
+        "LIN": 30
+      }
+    },
+    "singapore": {
+      "display_name": "Singapore Grand Prix",
+      "circuit_name": "Marina Bay Street Circuit",
+      "country": "Singapore",
+      "event_name_patterns": [
+        "Singapore",
+        "Marina Bay"
+      ],
+      "round_2026": 17,
+      "circuit_type": "street",
+      "track_length_km": 4.940,
+      "straightness": 0.36,
+      "speed_bias": 0.38,
+      "overtaking_ease": 0.28,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": true,
+      "known_penalties_2026": {}
+    },
+    "austin": {
+      "display_name": "United States Grand Prix",
+      "circuit_name": "Circuit of the Americas",
+      "country": "United States",
+      "event_name_patterns": [
+        "United States",
+        "USA",
+        "Austin",
+        "COTA",
+        "Circuit of the Americas"
+      ],
+      "round_2026": 18,
+      "circuit_type": "permanent",
+      "track_length_km": 5.513,
+      "straightness": 0.48,
+      "speed_bias": 0.68,
+      "overtaking_ease": 0.52,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "mexico": {
+      "display_name": "Mexico City Grand Prix",
+      "circuit_name": "Autódromo Hermanos Rodríguez",
+      "country": "Mexico",
+      "event_name_patterns": [
+        "Mexico",
+        "Mexico City",
+        "Mexican",
+        "Hermanos Rodríguez"
+      ],
+      "round_2026": 19,
+      "circuit_type": "permanent",
+      "track_length_km": 4.304,
+      "straightness": 0.52,
+      "speed_bias": 0.65,
+      "overtaking_ease": 0.48,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "sao_paulo": {
+      "display_name": "São Paulo Grand Prix",
+      "circuit_name": "Autódromo José Carlos Pace",
+      "country": "Brazil",
+      "event_name_patterns": [
+        "São Paulo",
+        "Sao Paulo",
+        "Brazilian",
+        "Brazil",
+        "Interlagos"
+      ],
+      "round_2026": 20,
+      "circuit_type": "permanent",
+      "track_length_km": 4.309,
+      "straightness": 0.42,
+      "speed_bias": 0.63,
+      "overtaking_ease": 0.55,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "las_vegas": {
+      "display_name": "Las Vegas Grand Prix",
+      "circuit_name": "Las Vegas Strip Circuit",
+      "country": "United States",
+      "event_name_patterns": [
+        "Las Vegas",
+        "Vegas",
+        "Las Vegas Strip"
+      ],
+      "round_2026": 21,
+      "circuit_type": "street",
+      "track_length_km": 6.201,
+      "straightness": 0.61,
+      "speed_bias": 0.86,
+      "overtaking_ease": 0.58,
+      "historical_data_available": true,
+      "historical_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "qatar": {
+      "display_name": "Qatar Grand Prix",
+      "circuit_name": "Lusail International Circuit",
+      "country": "Qatar",
+      "event_name_patterns": [
+        "Qatar",
+        "Lusail"
+      ],
+      "round_2026": 22,
+      "circuit_type": "permanent",
+      "track_length_km": 5.419,
+      "straightness": 0.43,
+      "speed_bias": 0.72,
+      "overtaking_ease": 0.42,
+      "historical_data_available": true,
+      "historical_years": [
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    },
+    "abu_dhabi": {
+      "display_name": "Abu Dhabi Grand Prix",
+      "circuit_name": "Yas Marina Circuit",
+      "country": "United Arab Emirates",
+      "event_name_patterns": [
+        "Abu Dhabi",
+        "Yas Marina"
+      ],
+      "round_2026": 23,
+      "circuit_type": "permanent",
+      "track_length_km": 5.281,
+      "straightness": 0.48,
+      "speed_bias": 0.66,
+      "overtaking_ease": 0.50,
+      "historical_data_available": true,
+      "historical_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sprint_weekend_2026": false,
+      "known_penalties_2026": {}
+    }
+  }
+}

@@ -1,0 +1,259 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,37.447,34.017,SOFT,1.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+NOR,1,117.686,117.686,2.0,1.0,32.326,45.265,40.095,SOFT,2.0,True,McLaren,True,,,True,2026,Spanish Grand Prix,Practice 3
+NOR,1,122.976,122.976,3.0,1.0,29.785,54.427,38.764,SOFT,3.0,True,McLaren,True,,,True,2026,Spanish Grand Prix,Practice 3
+NOR,1,94.099,94.099,4.0,1.0,29.035,33.902,31.162,SOFT,4.0,True,McLaren,True,,,True,2026,Spanish Grand Prix,Practice 3
+NOR,1,,,5.0,1.0,54.205,56.624,40.07,SOFT,5.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+NOR,1,,,6.0,1.0,28.967,33.505,,SOFT,6.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+NOR,1,,,7.0,2.0,,41.319,41.922,SOFT,1.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+NOR,1,105.711,105.711,8.0,2.0,29.042,42.43,34.239,SOFT,2.0,True,McLaren,False,,,True,2026,Spanish Grand Prix,Practice 3
+NOR,1,93.033,93.033,9.0,2.0,28.894,33.374,30.765,SOFT,3.0,True,McLaren,True,,,True,2026,Spanish Grand Prix,Practice 3
+NOR,1,,,10.0,2.0,53.519,63.183,48.683,SOFT,4.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+NOR,1,93.181,93.181,11.0,2.0,28.799,33.454,30.928,SOFT,5.0,True,McLaren,False,,,True,2026,Spanish Grand Prix,Practice 3
+NOR,1,,,12.0,2.0,46.882,61.638,41.575,SOFT,6.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+NOR,1,,,13.0,2.0,28.948,,,SOFT,7.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+VER,3,,,1.0,1.0,,44.479,41.304,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+VER,3,,,2.0,1.0,29.124,,,SOFT,2.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+VER,3,,,3.0,2.0,,38.153,37.348,SOFT,3.0,False,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+VER,3,93.522,93.522,4.0,2.0,28.92,33.222,31.38,SOFT,4.0,False,Red Bull Racing,True,,,True,2026,Spanish Grand Prix,Practice 3
+VER,3,109.065,109.065,5.0,2.0,34.197,36.704,38.164,SOFT,5.0,False,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+VER,3,,,6.0,3.0,66.895,46.534,37.911,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+VER,3,93.172,93.172,7.0,3.0,28.675,33.154,31.343,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Spanish Grand Prix,Practice 3
+VER,3,128.612,128.612,8.0,3.0,44.803,45.254,38.555,SOFT,3.0,True,Red Bull Racing,False,,,True,2026,Spanish Grand Prix,Practice 3
+VER,3,,,9.0,3.0,43.274,50.093,,SOFT,4.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOR,5,,,1.0,1.0,,38.821,35.438,MEDIUM,1.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOR,5,95.777,95.777,2.0,1.0,29.411,34.231,32.135,MEDIUM,2.0,True,Audi,True,,,True,2026,Spanish Grand Prix,Practice 3
+BOR,5,,,3.0,1.0,58.29,56.735,38.31,MEDIUM,3.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOR,5,113.561,113.561,4.0,1.0,34.945,42.09,36.526,MEDIUM,4.0,True,Audi,False,,,True,2026,Spanish Grand Prix,Practice 3
+BOR,5,95.513,95.513,5.0,1.0,29.357,34.049,32.107,MEDIUM,5.0,True,Audi,True,,,True,2026,Spanish Grand Prix,Practice 3
+BOR,5,,,6.0,1.0,55.033,67.053,41.645,MEDIUM,6.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOR,5,96.045,96.045,7.0,1.0,29.573,34.378,32.094,MEDIUM,7.0,True,Audi,False,,,True,2026,Spanish Grand Prix,Practice 3
+BOR,5,140.706,140.706,8.0,1.0,47.132,53.047,40.527,MEDIUM,8.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOR,5,,,9.0,2.0,,39.236,38.049,SOFT,1.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOR,5,94.551,94.551,10.0,2.0,29.206,33.814,31.531,SOFT,2.0,True,Audi,True,,,True,2026,Spanish Grand Prix,Practice 3
+BOR,5,,,11.0,2.0,52.524,58.476,48.301,SOFT,3.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOR,5,,,12.0,3.0,73.388,46.378,47.402,SOFT,4.0,False,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOR,5,94.288,94.288,13.0,3.0,29.187,33.789,31.312,SOFT,5.0,False,Audi,True,,,True,2026,Spanish Grand Prix,Practice 3
+BOR,5,,,14.0,3.0,60.239,59.801,50.405,SOFT,6.0,False,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+GAS,10,,,1.0,1.0,,41.31,38.926,SOFT,1.0,True,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+GAS,10,128.897,128.897,2.0,1.0,43.319,49.1,36.478,SOFT,2.0,True,Alpine,True,,,True,2026,Spanish Grand Prix,Practice 3
+GAS,10,95.644,95.644,3.0,1.0,29.778,34.33,31.536,SOFT,3.0,True,Alpine,True,,,True,2026,Spanish Grand Prix,Practice 3
+GAS,10,,,4.0,1.0,53.844,61.911,46.691,SOFT,4.0,True,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+GAS,10,,,5.0,1.0,38.639,44.429,,SOFT,5.0,True,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+GAS,10,,,6.0,2.0,,38.043,40.439,SOFT,6.0,False,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+GAS,10,94.971,94.971,7.0,2.0,29.249,34.267,31.455,SOFT,7.0,False,Alpine,True,,,True,2026,Spanish Grand Prix,Practice 3
+GAS,10,119.553,119.553,8.0,2.0,34.255,47.096,38.202,SOFT,8.0,False,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+GAS,10,135.891,135.891,9.0,3.0,59.401,39.173,37.317,SOFT,1.0,True,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+GAS,10,115.325,115.325,10.0,3.0,29.051,37.975,48.299,SOFT,2.0,True,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+GAS,10,,,11.0,4.0,65.432,51.296,43.752,SOFT,3.0,False,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+GAS,10,118.864,118.864,12.0,4.0,39.308,42.429,37.127,SOFT,4.0,False,Alpine,False,,,True,2026,Spanish Grand Prix,Practice 3
+GAS,10,,,13.0,4.0,,,,SOFT,5.0,False,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+PER,11,,,1.0,1.0,,42.468,35.912,SOFT,1.0,True,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+PER,11,97.916,97.916,2.0,1.0,30.125,35.119,32.672,SOFT,2.0,True,Cadillac,True,,,True,2026,Spanish Grand Prix,Practice 3
+PER,11,,,3.0,1.0,51.619,57.198,50.501,SOFT,3.0,True,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+PER,11,148.884,148.884,4.0,2.0,64.266,45.642,38.976,SOFT,4.0,False,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+PER,11,96.483,96.483,5.0,2.0,29.685,34.375,32.423,SOFT,5.0,False,Cadillac,True,,,True,2026,Spanish Grand Prix,Practice 3
+PER,11,,,6.0,2.0,54.705,54.507,44.851,SOFT,6.0,False,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+PER,11,,,7.0,3.0,,40.303,38.291,SOFT,1.0,True,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+PER,11,96.869,96.869,8.0,3.0,29.589,34.903,32.377,SOFT,2.0,True,Cadillac,False,,,True,2026,Spanish Grand Prix,Practice 3
+PER,11,135.78,135.78,9.0,3.0,47.724,45.705,42.351,SOFT,3.0,True,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+PER,11,,,10.0,4.0,71.948,57.858,45.388,SOFT,4.0,False,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+PER,11,96.441,96.441,11.0,4.0,29.389,34.68,32.372,SOFT,5.0,False,Cadillac,True,,,True,2026,Spanish Grand Prix,Practice 3
+PER,11,,,12.0,4.0,53.687,66.702,47.521,SOFT,6.0,False,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+PER,11,,,13.0,4.0,37.947,42.016,,SOFT,7.0,False,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+ANT,12,,,1.0,1.0,,44.897,38.791,SOFT,1.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+ANT,12,122.63,122.63,2.0,1.0,43.415,43.982,35.233,SOFT,2.0,True,Mercedes,True,,,True,2026,Spanish Grand Prix,Practice 3
+ANT,12,93.664,93.664,3.0,1.0,29.227,33.442,30.995,SOFT,3.0,True,Mercedes,True,,,True,2026,Spanish Grand Prix,Practice 3
+ANT,12,143.529,143.529,4.0,1.0,46.506,54.662,42.361,SOFT,4.0,True,Mercedes,False,,,True,2026,Spanish Grand Prix,Practice 3
+ANT,12,124.109,124.109,5.0,1.0,46.659,40.565,36.885,SOFT,5.0,True,Mercedes,False,,,True,2026,Spanish Grand Prix,Practice 3
+ANT,12,,,6.0,1.0,,,,SOFT,6.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+ANT,12,,,7.0,2.0,,37.644,35.515,SOFT,1.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+ANT,12,93.26,93.26,8.0,2.0,28.724,33.537,30.999,SOFT,2.0,True,Mercedes,True,,,True,2026,Spanish Grand Prix,Practice 3
+ANT,12,,,9.0,2.0,55.465,69.862,40.346,SOFT,3.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+ANT,12,92.797,92.797,10.0,2.0,28.683,33.306,30.808,SOFT,4.0,True,Mercedes,True,,,True,2026,Spanish Grand Prix,Practice 3
+ANT,12,,,11.0,2.0,50.93,61.348,44.868,SOFT,5.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+ANT,12,117.461,117.461,12.0,2.0,42.339,41.55,33.572,SOFT,6.0,True,Mercedes,False,,,True,2026,Spanish Grand Prix,Practice 3
+ANT,12,,,13.0,2.0,28.743,,,SOFT,7.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+ALO,14,,,1.0,1.0,,37.259,35.523,SOFT,1.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+ALO,14,97.425,97.425,2.0,1.0,30.35,34.913,32.162,SOFT,2.0,True,Aston Martin,True,,,True,2026,Spanish Grand Prix,Practice 3
+ALO,14,123.236,123.236,3.0,1.0,39.539,42.705,40.992,SOFT,3.0,True,Aston Martin,False,,,True,2026,Spanish Grand Prix,Practice 3
+ALO,14,95.708,95.708,4.0,1.0,29.924,34.335,31.449,SOFT,4.0,True,Aston Martin,True,,,True,2026,Spanish Grand Prix,Practice 3
+ALO,14,128.059,128.059,5.0,1.0,41.737,46.676,39.646,SOFT,5.0,True,Aston Martin,False,,,True,2026,Spanish Grand Prix,Practice 3
+ALO,14,96.672,96.672,6.0,1.0,30.059,34.933,31.68,SOFT,6.0,True,Aston Martin,False,,,True,2026,Spanish Grand Prix,Practice 3
+ALO,14,122.243,122.243,7.0,1.0,37.075,44.628,40.54,SOFT,7.0,True,Aston Martin,False,,,True,2026,Spanish Grand Prix,Practice 3
+ALO,14,95.649,95.649,8.0,1.0,29.793,34.373,31.483,SOFT,8.0,True,Aston Martin,True,,,True,2026,Spanish Grand Prix,Practice 3
+ALO,14,,,9.0,1.0,37.022,48.811,,SOFT,9.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+ALO,14,,,10.0,2.0,,37.055,35.823,SOFT,1.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+ALO,14,95.571,95.571,11.0,2.0,29.738,34.23,31.603,SOFT,2.0,True,Aston Martin,True,,,True,2026,Spanish Grand Prix,Practice 3
+ALO,14,131.753,131.753,12.0,2.0,41.859,47.041,42.853,SOFT,3.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+ALO,14,,,13.0,3.0,66.969,44.477,39.572,SOFT,4.0,False,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+ALO,14,95.02,95.02,14.0,3.0,29.645,33.978,31.397,SOFT,5.0,False,Aston Martin,True,,,True,2026,Spanish Grand Prix,Practice 3
+ALO,14,138.528,138.528,15.0,3.0,45.124,50.426,42.978,SOFT,6.0,False,Aston Martin,False,,,True,2026,Spanish Grand Prix,Practice 3
+ALO,14,116.475,116.475,16.0,3.0,34.538,44.057,37.88,SOFT,7.0,False,Aston Martin,False,,,True,2026,Spanish Grand Prix,Practice 3
+LEC,16,,,1.0,1.0,,40.449,35.217,SOFT,1.0,True,Ferrari,False,,,False,2026,Spanish Grand Prix,Practice 3
+LEC,16,94.433,94.433,2.0,1.0,29.449,33.657,31.327,SOFT,2.0,True,Ferrari,True,,,True,2026,Spanish Grand Prix,Practice 3
+LEC,16,,,3.0,1.0,46.757,52.029,51.274,SOFT,3.0,True,Ferrari,False,,,False,2026,Spanish Grand Prix,Practice 3
+LEC,16,93.332,93.332,4.0,1.0,29.016,33.308,31.008,SOFT,4.0,True,Ferrari,True,,,True,2026,Spanish Grand Prix,Practice 3
+LEC,16,140.085,140.085,5.0,1.0,46.045,50.115,43.925,SOFT,5.0,True,Ferrari,False,,,False,2026,Spanish Grand Prix,Practice 3
+LEC,16,,,6.0,2.0,,,,SOFT,6.0,False,Ferrari,False,,,False,2026,Spanish Grand Prix,Practice 3
+LEC,16,,,7.0,3.0,,39.858,36.456,SOFT,1.0,True,Ferrari,False,,,False,2026,Spanish Grand Prix,Practice 3
+LEC,16,92.963,92.963,8.0,3.0,28.81,33.083,31.07,SOFT,2.0,True,Ferrari,True,,,True,2026,Spanish Grand Prix,Practice 3
+LEC,16,139.274,139.274,9.0,3.0,40.674,55.563,43.037,SOFT,3.0,True,Ferrari,False,,,True,2026,Spanish Grand Prix,Practice 3
+LEC,16,93.185,93.185,10.0,3.0,28.971,33.218,30.996,SOFT,4.0,True,Ferrari,False,,,True,2026,Spanish Grand Prix,Practice 3
+LEC,16,142.976,142.976,11.0,3.0,47.959,50.786,44.231,SOFT,5.0,True,Ferrari,False,,,True,2026,Spanish Grand Prix,Practice 3
+LEC,16,131.929,131.929,12.0,3.0,44.174,51.065,36.69,SOFT,6.0,True,Ferrari,False,,,True,2026,Spanish Grand Prix,Practice 3
+LEC,16,,,13.0,3.0,29.114,40.777,,SOFT,7.0,True,Ferrari,False,,,False,2026,Spanish Grand Prix,Practice 3
+STR,18,,,1.0,1.0,,37.29,36.502,SOFT,1.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+STR,18,96.907,96.907,2.0,1.0,30.3,34.706,31.901,SOFT,2.0,True,Aston Martin,True,,,True,2026,Spanish Grand Prix,Practice 3
+STR,18,,,3.0,1.0,52.765,64.41,43.373,SOFT,3.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+STR,18,96.491,96.491,4.0,1.0,30.232,34.463,31.796,SOFT,4.0,True,Aston Martin,True,,,True,2026,Spanish Grand Prix,Practice 3
+STR,18,,,5.0,1.0,59.384,71.531,41.867,SOFT,5.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+STR,18,122.095,122.095,6.0,1.0,30.104,34.386,57.605,SOFT,6.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+STR,18,,,7.0,2.0,,37.409,47.962,SOFT,1.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+STR,18,95.575,95.575,8.0,2.0,29.668,34.264,31.643,SOFT,2.0,True,Aston Martin,True,,,True,2026,Spanish Grand Prix,Practice 3
+STR,18,,,9.0,2.0,51.804,59.325,46.35,SOFT,3.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+STR,18,95.57,95.57,10.0,2.0,29.721,34.061,31.788,SOFT,4.0,True,Aston Martin,True,,,True,2026,Spanish Grand Prix,Practice 3
+STR,18,,,11.0,2.0,55.796,65.485,53.142,SOFT,5.0,True,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+STR,18,,,12.0,3.0,78.195,42.105,,SOFT,6.0,False,Aston Martin,False,,,False,2026,Spanish Grand Prix,Practice 3
+TSU,22,,,1.0,1.0,,40.994,34.812,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+TSU,22,95.288,95.288,2.0,1.0,29.605,33.963,31.72,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Spanish Grand Prix,Practice 3
+TSU,22,,,3.0,1.0,53.773,62.658,46.66,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+TSU,22,122.842,122.842,4.0,1.0,40.378,42.864,39.6,SOFT,4.0,True,Racing Bulls,False,,,True,2026,Spanish Grand Prix,Practice 3
+TSU,22,,,5.0,1.0,30.866,55.557,,SOFT,5.0,True,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+TSU,22,,,6.0,2.0,,37.006,36.082,SOFT,6.0,False,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+TSU,22,94.897,94.897,7.0,2.0,29.263,33.716,31.918,SOFT,7.0,False,Racing Bulls,True,,,True,2026,Spanish Grand Prix,Practice 3
+TSU,22,116.19,116.19,8.0,2.0,36.582,40.464,39.144,SOFT,8.0,False,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+TSU,22,145.377,145.377,9.0,3.0,70.2,37.938,37.239,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+TSU,22,94.565,94.565,10.0,3.0,29.207,33.786,31.572,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Spanish Grand Prix,Practice 3
+TSU,22,,,11.0,3.0,57.697,62.607,47.099,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+TSU,22,,,12.0,3.0,39.044,40.196,,SOFT,4.0,True,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+ALB,23,,,1.0,1.0,,39.027,34.792,SOFT,1.0,True,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+ALB,23,106.647,106.647,2.0,1.0,29.948,34.673,42.026,SOFT,2.0,True,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+HUL,27,,,1.0,1.0,,37.464,33.254,MEDIUM,1.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+HUL,27,95.721,95.721,2.0,1.0,29.366,34.236,32.119,MEDIUM,2.0,True,Audi,True,,,True,2026,Spanish Grand Prix,Practice 3
+HUL,27,143.737,143.737,3.0,1.0,49.677,54.451,39.609,MEDIUM,3.0,True,Audi,False,,,True,2026,Spanish Grand Prix,Practice 3
+HUL,27,94.665,94.665,4.0,1.0,29.22,33.952,31.493,MEDIUM,4.0,True,Audi,True,,,True,2026,Spanish Grand Prix,Practice 3
+HUL,27,,,5.0,1.0,48.739,58.244,44.002,MEDIUM,5.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+HUL,27,119.529,119.529,6.0,1.0,40.223,42.665,36.641,MEDIUM,6.0,True,Audi,False,,,True,2026,Spanish Grand Prix,Practice 3
+HUL,27,94.642,94.642,7.0,1.0,29.14,34.03,31.472,MEDIUM,7.0,True,Audi,True,,,True,2026,Spanish Grand Prix,Practice 3
+HUL,27,115.385,115.385,8.0,1.0,39.839,40.586,34.96,MEDIUM,8.0,True,Audi,False,,,True,2026,Spanish Grand Prix,Practice 3
+HUL,27,96.897,96.897,9.0,1.0,29.586,35.107,32.204,MEDIUM,9.0,True,Audi,False,,,True,2026,Spanish Grand Prix,Practice 3
+HUL,27,,,10.0,1.0,,,,MEDIUM,10.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+HUL,27,,,11.0,2.0,,38.001,37.309,SOFT,1.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+HUL,27,93.933,93.933,12.0,2.0,28.637,33.806,31.49,SOFT,2.0,True,Audi,True,,,True,2026,Spanish Grand Prix,Practice 3
+HUL,27,132.979,132.979,13.0,2.0,43.534,44.602,44.843,SOFT,3.0,True,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+HUL,27,,,14.0,3.0,,45.978,,SOFT,4.0,False,Audi,False,,,False,2026,Spanish Grand Prix,Practice 3
+LAW,30,,,1.0,1.0,,43.073,34.552,HARD,1.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+LAW,30,95.602,95.602,2.0,1.0,29.913,33.895,31.794,HARD,2.0,True,Red Bull Racing,True,,,True,2026,Spanish Grand Prix,Practice 3
+LAW,30,,,3.0,1.0,49.586,57.651,44.564,HARD,3.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+LAW,30,127.299,127.299,4.0,1.0,29.548,50.771,46.98,HARD,4.0,True,Red Bull Racing,False,,,True,2026,Spanish Grand Prix,Practice 3
+LAW,30,102.036,102.036,5.0,1.0,29.445,33.665,38.926,HARD,5.0,True,Red Bull Racing,False,,,True,2026,Spanish Grand Prix,Practice 3
+LAW,30,149.017,149.017,6.0,1.0,49.308,58.129,41.58,HARD,6.0,True,Red Bull Racing,False,,,True,2026,Spanish Grand Prix,Practice 3
+LAW,30,,,7.0,1.0,29.256,,,HARD,7.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+LAW,30,,,8.0,2.0,,41.523,34.434,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+LAW,30,94.407,94.407,9.0,2.0,29.494,33.505,31.408,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Spanish Grand Prix,Practice 3
+LAW,30,,,10.0,2.0,49.853,64.578,45.706,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+LAW,30,93.902,93.902,11.0,2.0,29.08,33.34,31.482,SOFT,4.0,True,Red Bull Racing,True,,,True,2026,Spanish Grand Prix,Practice 3
+LAW,30,,,12.0,2.0,48.053,65.132,37.981,SOFT,5.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+LAW,30,136.1,136.1,13.0,2.0,29.664,60.23,46.206,SOFT,6.0,True,Red Bull Racing,False,,,True,2026,Spanish Grand Prix,Practice 3
+LAW,30,,,14.0,2.0,29.228,33.344,,SOFT,7.0,True,Red Bull Racing,False,,,False,2026,Spanish Grand Prix,Practice 3
+OCO,31,,,1.0,1.0,,41.517,41.426,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+OCO,31,95.216,95.216,2.0,1.0,29.527,34.241,31.448,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Spanish Grand Prix,Practice 3
+OCO,31,144.172,144.172,3.0,1.0,48.964,50.729,44.479,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+OCO,31,,,4.0,2.0,95.951,44.027,35.006,UNKNOWN,1.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+OCO,31,,,5.0,2.0,29.269,33.995,,UNKNOWN,2.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+OCO,31,,,6.0,3.0,,37.567,39.273,SOFT,6.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+OCO,31,101.232,101.232,7.0,3.0,29.417,34.24,37.575,SOFT,7.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+OCO,31,138.905,138.905,8.0,4.0,64.461,37.192,37.252,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+OCO,31,94.43,94.43,9.0,4.0,28.999,33.907,31.524,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Spanish Grand Prix,Practice 3
+OCO,31,146.519,146.519,10.0,4.0,44.074,54.72,47.725,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+OCO,31,,,11.0,5.0,,42.862,35.636,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+OCO,31,,,12.0,5.0,28.999,33.835,,SOFT,5.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+LIN,41,,,1.0,1.0,,42.767,34.115,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+LIN,41,94.9,94.9,2.0,1.0,29.212,33.903,31.785,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Spanish Grand Prix,Practice 3
+LIN,41,139.6,139.6,3.0,1.0,47.834,55.153,36.613,SOFT,3.0,True,Racing Bulls,False,,,True,2026,Spanish Grand Prix,Practice 3
+LIN,41,94.505,94.505,4.0,1.0,29.182,33.759,31.564,SOFT,4.0,True,Racing Bulls,True,,,True,2026,Spanish Grand Prix,Practice 3
+LIN,41,120.725,120.725,5.0,1.0,39.755,41.576,39.394,SOFT,5.0,True,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+LIN,41,148.149,148.149,6.0,2.0,60.667,47.422,40.06,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+LIN,41,,,7.0,2.0,31.15,48.651,,SOFT,2.0,True,Racing Bulls,False,,,False,2026,Spanish Grand Prix,Practice 3
+COL,43,,,1.0,1.0,,48.553,35.926,SOFT,1.0,True,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+COL,43,97.075,97.075,2.0,1.0,29.881,34.95,32.244,SOFT,2.0,True,Alpine,True,,,True,2026,Spanish Grand Prix,Practice 3
+COL,43,147.778,147.778,3.0,1.0,52.439,51.81,43.529,SOFT,3.0,True,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+COL,43,,,4.0,2.0,76.559,48.696,37.718,SOFT,4.0,False,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+COL,43,122.457,122.457,5.0,2.0,38.971,47.873,35.613,SOFT,5.0,False,Alpine,False,,,True,2026,Spanish Grand Prix,Practice 3
+COL,43,95.551,95.551,6.0,2.0,29.415,34.366,31.77,SOFT,6.0,False,Alpine,True,,,True,2026,Spanish Grand Prix,Practice 3
+COL,43,149.944,149.944,7.0,2.0,59.723,47.21,43.011,SOFT,7.0,False,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+COL,43,,,8.0,3.0,,41.609,34.796,SOFT,1.0,True,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+COL,43,94.957,94.957,9.0,3.0,29.102,34.208,31.647,SOFT,2.0,True,Alpine,True,,,True,2026,Spanish Grand Prix,Practice 3
+COL,43,141.587,141.587,10.0,3.0,53.676,44.282,43.629,SOFT,3.0,True,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+COL,43,,,11.0,4.0,70.678,46.89,39.716,SOFT,4.0,False,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+COL,43,94.346,94.346,12.0,4.0,29.034,33.877,31.435,SOFT,5.0,False,Alpine,True,,,True,2026,Spanish Grand Prix,Practice 3
+COL,43,142.439,142.439,13.0,4.0,55.627,43.887,42.925,SOFT,6.0,False,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+COL,43,,,14.0,5.0,69.43,52.38,,SOFT,7.0,False,Alpine,False,,,False,2026,Spanish Grand Prix,Practice 3
+HAM,44,,,1.0,1.0,,43.308,33.934,SOFT,1.0,True,Ferrari,False,,,False,2026,Spanish Grand Prix,Practice 3
+HAM,44,94.284,94.284,2.0,1.0,29.598,33.387,31.299,SOFT,2.0,True,Ferrari,True,,,True,2026,Spanish Grand Prix,Practice 3
+HAM,44,,,3.0,1.0,49.567,58.801,51.479,SOFT,3.0,True,Ferrari,False,,,False,2026,Spanish Grand Prix,Practice 3
+HAM,44,143.214,143.214,4.0,2.0,63.407,39.395,40.412,SOFT,4.0,False,Ferrari,False,,,False,2026,Spanish Grand Prix,Practice 3
+HAM,44,,,5.0,2.0,29.081,33.051,,SOFT,5.0,False,Ferrari,False,,,False,2026,Spanish Grand Prix,Practice 3
+SAI,55,,,1.0,1.0,,37.339,35.912,SOFT,1.0,True,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+SAI,55,97.145,97.145,2.0,1.0,30.272,34.42,32.453,SOFT,2.0,True,Williams,True,,,True,2026,Spanish Grand Prix,Practice 3
+SAI,55,,,3.0,1.0,54.385,56.661,41.463,SOFT,3.0,True,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+SAI,55,113.584,113.584,4.0,1.0,38.605,39.714,35.265,SOFT,4.0,True,Williams,False,,,True,2026,Spanish Grand Prix,Practice 3
+SAI,55,129.033,129.033,5.0,1.0,29.654,58.416,40.963,SOFT,5.0,True,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+SAI,55,147.929,147.929,6.0,2.0,74.705,38.303,34.921,SOFT,6.0,False,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+SAI,55,95.947,95.947,7.0,2.0,29.644,34.098,32.205,SOFT,7.0,False,Williams,True,,,True,2026,Spanish Grand Prix,Practice 3
+SAI,55,,,8.0,2.0,64.398,,,SOFT,8.0,False,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+SAI,55,,,9.0,3.0,,37.623,38.872,SOFT,9.0,False,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+SAI,55,146.238,146.238,10.0,4.0,68.485,37.23,40.523,SOFT,1.0,True,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+SAI,55,95.565,95.565,11.0,4.0,29.441,34.15,31.974,SOFT,2.0,True,Williams,True,,,True,2026,Spanish Grand Prix,Practice 3
+SAI,55,,,12.0,4.0,63.212,51.392,43.562,SOFT,3.0,True,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+SAI,55,121.268,121.268,13.0,4.0,44.134,42.834,34.3,SOFT,4.0,True,Williams,False,,,True,2026,Spanish Grand Prix,Practice 3
+SAI,55,95.464,95.464,14.0,4.0,29.398,34.1,31.966,SOFT,5.0,True,Williams,True,,,True,2026,Spanish Grand Prix,Practice 3
+SAI,55,,,15.0,4.0,40.107,56.826,,SOFT,6.0,True,Williams,False,,,False,2026,Spanish Grand Prix,Practice 3
+RUS,63,,,1.0,1.0,,38.774,40.188,SOFT,1.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+RUS,63,138.248,138.248,2.0,1.0,32.917,53.222,52.109,SOFT,2.0,True,Mercedes,True,,,True,2026,Spanish Grand Prix,Practice 3
+RUS,63,107.511,107.511,3.0,1.0,29.166,33.696,44.649,SOFT,3.0,True,Mercedes,True,,,True,2026,Spanish Grand Prix,Practice 3
+RUS,63,149.616,149.616,4.0,1.0,53.048,52.136,44.432,SOFT,4.0,True,Mercedes,False,,,True,2026,Spanish Grand Prix,Practice 3
+RUS,63,,,5.0,1.0,28.738,,,SOFT,5.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+RUS,63,,,6.0,2.0,,40.313,35.373,SOFT,1.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+RUS,63,93.499,93.499,7.0,2.0,28.696,33.621,31.182,SOFT,2.0,True,Mercedes,True,,,True,2026,Spanish Grand Prix,Practice 3
+RUS,63,,,8.0,2.0,63.981,62.111,41.294,SOFT,3.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+RUS,63,93.561,93.561,9.0,2.0,28.999,33.554,31.008,SOFT,4.0,True,Mercedes,False,,,True,2026,Spanish Grand Prix,Practice 3
+RUS,63,,,10.0,2.0,54.825,72.252,49.976,SOFT,5.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+RUS,63,,,11.0,2.0,37.528,41.649,,SOFT,6.0,True,Mercedes,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOT,77,,,1.0,1.0,,43.255,37.704,SOFT,1.0,True,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOT,77,98.356,98.356,2.0,1.0,30.137,35.347,32.872,SOFT,2.0,True,Cadillac,True,,,True,2026,Spanish Grand Prix,Practice 3
+BOT,77,145.83,145.83,3.0,1.0,47.323,52.752,45.755,SOFT,3.0,True,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOT,77,,,4.0,2.0,70.719,45.116,39.582,SOFT,4.0,False,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOT,77,97.065,97.065,5.0,2.0,29.664,34.856,32.545,SOFT,5.0,False,Cadillac,True,,,True,2026,Spanish Grand Prix,Practice 3
+BOT,77,128.463,128.463,6.0,2.0,38.137,45.192,45.134,SOFT,6.0,False,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOT,77,,,7.0,3.0,,41.314,37.715,SOFT,1.0,True,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOT,77,97.444,97.444,8.0,3.0,29.619,35.005,32.82,SOFT,2.0,True,Cadillac,False,,,True,2026,Spanish Grand Prix,Practice 3
+BOT,77,142.749,142.749,9.0,3.0,46.646,50.561,45.542,SOFT,3.0,True,Cadillac,False,,,True,2026,Spanish Grand Prix,Practice 3
+BOT,77,,,10.0,3.0,45.124,61.537,44.618,SOFT,4.0,True,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+BOT,77,96.67,96.67,11.0,3.0,29.441,34.654,32.575,SOFT,5.0,True,Cadillac,True,,,True,2026,Spanish Grand Prix,Practice 3
+BOT,77,143.025,143.025,12.0,3.0,40.465,55.614,46.946,SOFT,6.0,True,Cadillac,False,,,True,2026,Spanish Grand Prix,Practice 3
+BOT,77,,,13.0,3.0,56.06,51.778,,SOFT,7.0,True,Cadillac,False,,,False,2026,Spanish Grand Prix,Practice 3
+PIA,81,,,1.0,1.0,,41.349,36.921,SOFT,1.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+PIA,81,132.628,132.628,2.0,1.0,31.045,54.003,47.58,SOFT,2.0,True,McLaren,True,,,True,2026,Spanish Grand Prix,Practice 3
+PIA,81,97.687,97.687,3.0,1.0,29.403,33.939,34.345,SOFT,3.0,True,McLaren,True,,,True,2026,Spanish Grand Prix,Practice 3
+PIA,81,148.411,148.411,4.0,1.0,49.709,58.636,40.066,SOFT,4.0,True,McLaren,False,,,True,2026,Spanish Grand Prix,Practice 3
+PIA,81,,,5.0,1.0,29.045,,,SOFT,5.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+PIA,81,,,6.0,2.0,,38.983,43.83,SOFT,1.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+PIA,81,93.288,93.288,7.0,2.0,29.048,33.317,30.923,SOFT,2.0,True,McLaren,True,,,True,2026,Spanish Grand Prix,Practice 3
+PIA,81,143.146,143.146,8.0,2.0,49.123,51.979,42.044,SOFT,3.0,True,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+PIA,81,,,9.0,3.0,68.453,48.734,36.936,SOFT,4.0,False,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+PIA,81,92.986,92.986,10.0,3.0,28.698,33.324,30.964,SOFT,5.0,False,McLaren,True,,,True,2026,Spanish Grand Prix,Practice 3
+PIA,81,,,11.0,3.0,44.364,67.742,42.715,SOFT,6.0,False,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+PIA,81,,,12.0,3.0,29.115,,,SOFT,7.0,False,McLaren,False,,,False,2026,Spanish Grand Prix,Practice 3
+BEA,87,,,1.0,1.0,,43.218,38.693,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+BEA,87,94.769,94.769,2.0,1.0,29.211,34.038,31.52,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Spanish Grand Prix,Practice 3
+BEA,87,,,3.0,1.0,59.61,57.456,47.144,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+BEA,87,,,4.0,2.0,85.563,41.416,45.899,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+BEA,87,,,5.0,2.0,29.139,,,SOFT,5.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+BEA,87,,,6.0,3.0,,38.295,35.182,SOFT,6.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+BEA,87,100.028,100.028,7.0,3.0,29.048,34.166,36.814,SOFT,7.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+BEA,87,149.226,149.226,8.0,4.0,71.737,42.327,35.162,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+BEA,87,94.481,94.481,9.0,4.0,29.017,33.872,31.592,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Spanish Grand Prix,Practice 3
+BEA,87,,,10.0,4.0,66.103,62.915,48.704,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3
+BEA,87,,,11.0,5.0,87.741,43.347,39.942,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Spanish Grand Prix,Practice 3

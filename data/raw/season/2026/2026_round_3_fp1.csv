@@ -1,0 +1,530 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,47.991,28.662,MEDIUM,1.0,True,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+NOR,1,,,2.0,2.0,,45.227,21.57,MEDIUM,2.0,False,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+NOR,1,94.595,94.595,3.0,2.0,33.696,42.133,18.766,MEDIUM,3.0,False,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,124.621,124.621,4.0,2.0,43.813,56.858,23.95,MEDIUM,4.0,False,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,93.151,93.151,5.0,2.0,33.658,41.167,18.326,MEDIUM,5.0,False,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,142.135,142.135,6.0,2.0,47.169,60.13,34.836,MEDIUM,6.0,False,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,104.45,104.45,7.0,2.0,33.783,50.633,20.034,MEDIUM,7.0,False,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,92.517,92.517,8.0,2.0,33.186,41.156,18.175,MEDIUM,8.0,False,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,123.332,123.332,9.0,2.0,43.66,59.129,20.543,MEDIUM,9.0,False,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,92.276,92.276,10.0,2.0,33.237,40.939,18.1,MEDIUM,10.0,False,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,114.351,114.351,11.0,2.0,43.365,48.711,22.275,MEDIUM,11.0,False,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+NOR,1,,,12.0,3.0,,43.287,24.995,SOFT,1.0,True,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+NOR,1,109.156,109.156,13.0,3.0,35.012,52.158,21.986,SOFT,2.0,True,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,91.798,91.798,14.0,3.0,33.176,40.719,17.903,SOFT,3.0,True,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,114.276,114.276,15.0,3.0,43.014,50.422,20.84,SOFT,4.0,True,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,94.355,94.355,16.0,3.0,34.361,41.811,18.183,SOFT,5.0,True,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,94.506,94.506,17.0,3.0,34.452,41.776,18.278,SOFT,6.0,True,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,93.726,93.726,18.0,3.0,33.962,41.641,18.123,SOFT,7.0,True,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,93.965,93.965,19.0,3.0,34.101,41.789,18.075,SOFT,8.0,True,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+NOR,1,128.258,128.258,20.0,3.0,43.567,55.643,29.048,SOFT,9.0,True,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+VER,3,,,1.0,1.0,,55.171,27.834,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+VER,3,94.089,94.089,2.0,1.0,34.236,41.805,18.048,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,117.236,117.236,3.0,1.0,45.614,50.459,21.163,MEDIUM,3.0,True,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,93.362,93.362,4.0,1.0,33.611,41.768,17.983,MEDIUM,4.0,True,Red Bull Racing,True,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,114.111,114.111,5.0,1.0,41.522,48.592,23.997,MEDIUM,5.0,True,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+VER,3,148.669,148.669,6.0,2.0,81.516,45.821,21.332,MEDIUM,6.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+VER,3,93.292,93.292,7.0,2.0,33.869,41.38,18.043,MEDIUM,7.0,False,Red Bull Racing,True,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,110.238,110.238,8.0,2.0,39.606,47.127,23.505,MEDIUM,8.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+VER,3,,,9.0,3.0,,46.301,21.969,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+VER,3,92.457,92.457,10.0,3.0,33.292,41.096,18.069,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,118.928,118.928,11.0,3.0,45.368,50.862,22.698,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+VER,3,146.812,146.812,12.0,4.0,76.365,46.231,24.216,SOFT,4.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+VER,3,92.74,92.74,13.0,4.0,33.433,41.223,18.084,SOFT,5.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,107.391,107.391,14.0,4.0,38.648,46.342,22.401,SOFT,6.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+VER,3,,,15.0,5.0,,45.433,21.628,MEDIUM,9.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+VER,3,96.602,96.602,16.0,5.0,35.186,43.048,18.368,MEDIUM,10.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,97.031,97.031,17.0,5.0,35.222,43.134,18.675,MEDIUM,11.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,96.614,96.614,18.0,5.0,35.232,42.89,18.492,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,96.941,96.941,19.0,5.0,35.209,43.379,18.353,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,96.447,96.447,20.0,5.0,35.362,42.812,18.273,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,96.316,96.316,21.0,5.0,35.359,42.683,18.274,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,97.698,97.698,22.0,5.0,35.339,43.774,18.585,MEDIUM,16.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,96.76,96.76,23.0,5.0,35.584,42.779,18.397,MEDIUM,17.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,96.839,96.839,24.0,5.0,35.758,42.697,18.384,MEDIUM,18.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,96.408,96.408,25.0,5.0,35.277,42.879,18.252,MEDIUM,19.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,119.414,119.414,26.0,5.0,43.939,47.226,28.249,MEDIUM,20.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+VER,3,,,27.0,5.0,92.187,46.807,21.904,MEDIUM,21.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOR,5,,,1.0,1.0,,57.37,27.98,HARD,1.0,True,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOR,5,,,2.0,2.0,,55.287,26.065,HARD,2.0,False,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOR,5,,,3.0,3.0,,55.639,23.873,HARD,3.0,False,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOR,5,117.479,117.479,4.0,3.0,42.128,51.431,23.92,HARD,4.0,False,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,97.444,97.444,5.0,3.0,35.682,42.778,18.984,HARD,5.0,False,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,111.061,111.061,6.0,3.0,42.294,46.684,22.083,HARD,6.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,95.009,95.009,7.0,3.0,34.521,41.968,18.52,HARD,7.0,False,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,118.162,118.162,8.0,3.0,43.416,48.43,26.316,HARD,8.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,93.844,93.844,9.0,3.0,34.167,41.522,18.155,HARD,9.0,False,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,114.002,114.002,10.0,3.0,43.489,47.252,23.261,HARD,10.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,93.073,93.073,11.0,3.0,33.811,41.082,18.18,HARD,11.0,False,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,108.785,108.785,12.0,3.0,38.481,47.129,23.175,HARD,12.0,False,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOR,5,,,13.0,4.0,,46.416,23.791,SOFT,1.0,True,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOR,5,104.72,104.72,14.0,4.0,36.786,46.172,21.762,SOFT,2.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,93.046,93.046,15.0,4.0,33.69,41.149,18.207,SOFT,3.0,True,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,118.053,118.053,16.0,4.0,44.946,52.2,20.907,SOFT,4.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,92.759,92.759,17.0,4.0,33.494,41.252,18.013,SOFT,5.0,True,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,146.155,146.155,18.0,4.0,52.118,65.948,28.089,SOFT,6.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,104.17,104.17,19.0,4.0,37.567,45.405,21.198,SOFT,7.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,95.317,95.317,20.0,4.0,34.605,42.437,18.275,SOFT,8.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,94.766,94.766,21.0,4.0,34.058,42.085,18.623,SOFT,9.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,97.132,97.132,22.0,4.0,35.424,43.112,18.596,SOFT,10.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,94.631,94.631,23.0,4.0,34.235,42.092,18.304,SOFT,11.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,95.935,95.935,24.0,4.0,34.63,42.984,18.321,SOFT,12.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,95.278,95.278,25.0,4.0,34.694,42.403,18.181,SOFT,13.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,122.186,122.186,26.0,4.0,42.738,50.061,29.387,SOFT,14.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOR,5,,,27.0,4.0,75.802,54.407,26.698,SOFT,15.0,True,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAD,6,,,1.0,1.0,,53.64,26.362,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAD,6,94.508,94.508,2.0,1.0,34.383,41.727,18.398,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,132.575,132.575,3.0,1.0,52.815,53.063,26.697,MEDIUM,3.0,True,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,93.693,93.693,4.0,1.0,33.734,41.904,18.055,MEDIUM,4.0,True,Red Bull Racing,True,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,147.865,147.865,5.0,1.0,56.151,62.523,29.191,MEDIUM,5.0,True,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,112.988,112.988,6.0,1.0,33.971,53.681,25.336,MEDIUM,6.0,True,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,92.87,92.87,7.0,1.0,33.689,41.287,17.894,MEDIUM,7.0,True,Red Bull Racing,True,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,125.358,125.358,8.0,1.0,48.144,52.958,24.256,MEDIUM,8.0,True,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAD,6,147.8,147.8,9.0,2.0,77.106,48.037,22.657,MEDIUM,9.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAD,6,100.978,100.978,10.0,2.0,33.709,41.349,25.92,MEDIUM,10.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAD,6,,,11.0,3.0,,48.46,23.069,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAD,6,92.803,92.803,12.0,3.0,33.491,41.261,18.051,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,135.479,135.479,13.0,3.0,52.902,57.545,25.032,SOFT,3.0,True,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,92.996,92.996,14.0,3.0,33.601,41.321,18.074,SOFT,4.0,True,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,116.406,116.406,15.0,3.0,44.028,49.18,23.198,SOFT,5.0,True,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAD,6,,,16.0,4.0,,43.972,18.972,MEDIUM,11.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAD,6,97.829,97.829,17.0,4.0,35.996,43.271,18.562,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,97.578,97.578,18.0,4.0,35.416,43.551,18.611,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,97.355,97.355,19.0,4.0,35.375,43.44,18.54,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,105.676,105.676,20.0,4.0,38.913,48.18,18.583,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,101.101,101.101,21.0,4.0,35.518,43.557,22.026,MEDIUM,16.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAD,6,144.553,144.553,22.0,5.0,73.16,46.956,24.437,MEDIUM,17.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAD,6,97.649,97.649,23.0,5.0,35.599,43.296,18.754,MEDIUM,18.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,97.128,97.128,24.0,5.0,35.811,42.855,18.462,MEDIUM,19.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,102.648,102.648,25.0,5.0,38.235,44.758,19.655,MEDIUM,20.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,130.886,130.886,26.0,5.0,46.699,49.195,34.992,MEDIUM,21.0,False,Red Bull Racing,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAD,6,,,27.0,5.0,93.725,44.266,21.526,MEDIUM,22.0,False,Red Bull Racing,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,,,1.0,1.0,,46.379,32.738,MEDIUM,1.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,96.409,96.409,2.0,1.0,35.641,42.395,18.373,MEDIUM,2.0,True,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,127.252,127.252,3.0,1.0,49.9,54.122,23.23,MEDIUM,3.0,True,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,94.237,94.237,4.0,1.0,34.478,41.625,18.134,MEDIUM,4.0,True,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,128.659,128.659,5.0,1.0,50.971,49.617,28.071,MEDIUM,5.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,141.792,141.792,6.0,2.0,71.017,49.87,20.905,MEDIUM,6.0,False,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,93.816,93.816,7.0,2.0,34.267,41.502,18.047,MEDIUM,7.0,False,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,127.506,127.506,8.0,2.0,49.554,55.38,22.572,MEDIUM,8.0,False,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,93.609,93.609,9.0,2.0,34.281,41.292,18.036,MEDIUM,9.0,False,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,118.273,118.273,10.0,2.0,40.138,50.852,27.283,MEDIUM,10.0,False,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,,,11.0,3.0,,45.39,27.802,MEDIUM,11.0,False,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,93.996,93.996,12.0,3.0,34.348,41.422,18.226,MEDIUM,12.0,False,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,132.386,132.386,13.0,3.0,47.915,55.922,28.549,MEDIUM,13.0,False,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,137.617,137.617,14.0,4.0,70.736,45.483,21.398,SOFT,1.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,92.978,92.978,15.0,4.0,33.351,41.588,18.039,SOFT,2.0,True,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,,,16.0,4.0,64.156,74.305,22.9,SOFT,3.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,96.903,96.903,17.0,4.0,34.077,41.435,21.391,SOFT,4.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,,,18.0,5.0,,44.513,19.341,MEDIUM,14.0,False,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+GAS,10,98.272,98.272,19.0,5.0,36.119,42.762,19.391,MEDIUM,15.0,False,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,97.367,97.367,20.0,5.0,35.775,43.021,18.571,MEDIUM,16.0,False,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,98.308,98.308,21.0,5.0,36.732,43.011,18.565,MEDIUM,17.0,False,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,97.46,97.46,22.0,5.0,35.734,43.036,18.69,MEDIUM,18.0,False,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,98.292,98.292,23.0,5.0,36.258,43.421,18.613,MEDIUM,19.0,False,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,134.967,134.967,24.0,5.0,44.88,54.669,35.418,MEDIUM,20.0,False,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+GAS,10,,,25.0,5.0,81.144,60.219,26.511,MEDIUM,21.0,False,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+PER,11,,,1.0,1.0,,48.601,24.992,MEDIUM,1.0,True,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+PER,11,98.511,98.511,2.0,1.0,35.766,43.675,19.07,MEDIUM,2.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+PER,11,118.594,118.594,3.0,1.0,42.609,50.901,25.084,MEDIUM,3.0,True,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+PER,11,96.438,96.438,4.0,1.0,35.046,42.899,18.493,MEDIUM,4.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+PER,11,122.98,122.98,5.0,1.0,49.187,48.576,25.217,MEDIUM,5.0,True,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+PER,11,143.9,143.9,6.0,2.0,70.705,48.244,24.951,MEDIUM,6.0,False,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+PER,11,95.461,95.461,7.0,2.0,34.775,42.213,18.473,MEDIUM,7.0,False,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+PER,11,122.821,122.821,8.0,2.0,51.857,46.827,24.137,MEDIUM,8.0,False,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+PER,11,,,9.0,3.0,,45.564,23.887,SOFT,1.0,True,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+PER,11,94.37,94.37,10.0,3.0,34.34,41.684,18.346,SOFT,2.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+PER,11,139.579,139.579,11.0,3.0,56.906,59.006,23.667,SOFT,3.0,True,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+PER,11,94.221,94.221,12.0,3.0,34.127,41.697,18.397,SOFT,4.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+PER,11,111.284,111.284,13.0,3.0,40.971,47.412,22.901,SOFT,5.0,True,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+PER,11,,,14.0,4.0,,43.351,18.931,MEDIUM,9.0,False,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+PER,11,98.002,98.002,15.0,4.0,35.952,43.182,18.868,MEDIUM,10.0,False,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+PER,11,98.509,98.509,16.0,4.0,36.391,43.264,18.854,MEDIUM,11.0,False,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+PER,11,98.554,98.554,17.0,4.0,36.641,43.283,18.63,MEDIUM,12.0,False,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+PER,11,108.595,108.595,18.0,4.0,36.277,43.456,28.862,MEDIUM,13.0,False,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+ANT,12,,,1.0,1.0,,48.408,21.556,HARD,1.0,True,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+ANT,12,108.692,108.692,2.0,1.0,39.685,47.107,21.9,HARD,2.0,True,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,94.644,94.644,3.0,1.0,34.7,41.76,18.184,HARD,3.0,True,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,131.772,131.772,4.0,1.0,45.452,61.366,24.954,HARD,4.0,True,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,116.147,116.147,5.0,1.0,40.408,48.113,27.626,HARD,5.0,True,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,92.958,92.958,6.0,1.0,33.85,41.17,17.938,HARD,6.0,True,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,126.504,126.504,7.0,1.0,48.126,48.07,30.308,HARD,7.0,True,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,92.304,92.304,8.0,1.0,33.696,40.703,17.905,HARD,8.0,True,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,129.682,129.682,9.0,1.0,51.134,54.492,24.056,HARD,9.0,True,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+ANT,12,,,10.0,2.0,,45.064,23.592,SOFT,1.0,True,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+ANT,12,92.032,92.032,11.0,2.0,33.421,40.68,17.931,SOFT,2.0,True,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,138.209,138.209,12.0,2.0,46.95,66.338,24.921,SOFT,3.0,True,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,91.692,91.692,13.0,2.0,33.547,40.258,17.887,SOFT,4.0,True,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,140.065,140.065,14.0,2.0,56.973,60.898,22.194,SOFT,5.0,True,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,101.962,101.962,15.0,2.0,33.183,43.263,25.516,SOFT,6.0,True,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+ANT,12,,,16.0,3.0,,43.29,19.276,SOFT,7.0,False,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+ANT,12,96.164,96.164,17.0,3.0,35.278,42.598,18.288,SOFT,8.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,95.812,95.812,18.0,3.0,34.804,42.702,18.306,SOFT,9.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,97.361,97.361,19.0,3.0,35.766,42.711,18.884,SOFT,10.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,97.081,97.081,20.0,3.0,35.187,43.302,18.592,SOFT,11.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,95.562,95.562,21.0,3.0,34.786,42.489,18.287,SOFT,12.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,95.676,95.676,22.0,3.0,34.818,42.492,18.366,SOFT,13.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,99.921,99.921,23.0,3.0,34.726,42.603,22.592,SOFT,14.0,False,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+ANT,12,,,24.0,4.0,,52.916,19.874,HARD,10.0,False,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+ANT,12,126.644,126.644,25.0,4.0,40.093,54.311,32.24,HARD,11.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+ANT,12,,,26.0,4.0,89.053,44.085,21.784,HARD,12.0,False,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+LEC,16,,,1.0,1.0,,48.731,20.312,HARD,1.0,True,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+LEC,16,97.246,97.246,2.0,1.0,35.165,43.232,18.849,HARD,2.0,True,Ferrari,True,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,94.511,94.511,3.0,1.0,34.136,42.034,18.341,HARD,3.0,True,Ferrari,True,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,134.235,134.235,4.0,1.0,45.823,65.517,22.895,HARD,4.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,92.833,92.833,5.0,1.0,33.32,41.422,18.091,HARD,5.0,True,Ferrari,True,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,125.071,125.071,6.0,1.0,45.552,59.85,19.669,HARD,6.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,92.26,92.26,7.0,1.0,33.229,40.892,18.139,HARD,7.0,True,Ferrari,True,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,119.351,119.351,8.0,1.0,42.714,51.07,25.567,HARD,8.0,True,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+LEC,16,,,9.0,2.0,,45.25,24.997,HARD,9.0,False,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+LEC,16,140.903,140.903,10.0,3.0,74.387,42.603,23.913,HARD,10.0,False,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+LEC,16,,,11.0,4.0,,44.66,22.898,SOFT,1.0,True,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+LEC,16,110.679,110.679,12.0,4.0,32.984,54.483,23.212,SOFT,2.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,107.813,107.813,13.0,4.0,33.182,45.805,28.826,SOFT,3.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,144.378,144.378,14.0,4.0,57.843,65.298,21.237,SOFT,4.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,105.388,105.388,15.0,4.0,34.54,48.643,22.205,SOFT,5.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,112.134,112.134,16.0,4.0,34.478,56.156,21.5,SOFT,6.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,91.955,91.955,17.0,4.0,33.129,40.59,18.236,SOFT,7.0,True,Ferrari,True,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,111.682,111.682,18.0,4.0,39.777,45.847,26.058,SOFT,8.0,True,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+LEC,16,,,19.0,5.0,,42.438,21.709,SOFT,9.0,False,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+LEC,16,95.074,95.074,20.0,5.0,34.541,42.366,18.167,SOFT,10.0,False,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,95.216,95.216,21.0,5.0,34.71,42.349,18.157,SOFT,11.0,False,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,96.18,96.18,22.0,5.0,35.242,42.595,18.343,SOFT,12.0,False,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,96.053,96.053,23.0,5.0,34.669,42.978,18.406,SOFT,13.0,False,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,107.878,107.878,24.0,5.0,34.921,42.296,30.661,SOFT,14.0,False,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+LEC,16,148.686,148.686,25.0,5.0,74.683,46.464,27.539,SOFT,15.0,False,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+STR,18,,,1.0,1.0,,48.975,30.81,HARD,1.0,True,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+STR,18,102.445,102.445,2.0,1.0,37.09,45.617,19.738,HARD,2.0,True,Aston Martin,True,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,123.015,123.015,3.0,1.0,36.489,50.229,36.297,HARD,3.0,True,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+STR,18,,,4.0,2.0,,51.992,31.048,HARD,4.0,False,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+STR,18,98.307,98.307,5.0,2.0,36.115,43.551,18.641,HARD,5.0,False,Aston Martin,True,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,121.316,121.316,6.0,2.0,44.678,51.637,25.001,HARD,6.0,False,Aston Martin,False,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,97.128,97.128,7.0,2.0,35.401,43.187,18.54,HARD,7.0,False,Aston Martin,True,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,132.222,132.222,8.0,2.0,51.029,54.704,26.489,HARD,8.0,False,Aston Martin,False,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,96.939,96.939,9.0,2.0,35.403,43.133,18.403,HARD,9.0,False,Aston Martin,True,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,142.833,142.833,10.0,2.0,46.487,63.421,32.925,HARD,10.0,False,Aston Martin,False,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,123.919,123.919,11.0,2.0,41.423,55.699,26.797,HARD,11.0,False,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+STR,18,,,12.0,3.0,,45.43,25.248,HARD,12.0,False,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+STR,18,98.877,98.877,13.0,3.0,35.839,44.236,18.802,HARD,13.0,False,Aston Martin,False,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,112.795,112.795,14.0,3.0,35.605,48.833,28.357,HARD,14.0,False,Aston Martin,False,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,113.376,113.376,15.0,3.0,43.515,45.216,24.645,HARD,15.0,False,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+STR,18,,,16.0,4.0,,50.962,21.516,SOFT,1.0,True,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+STR,18,95.769,95.769,17.0,4.0,34.765,42.518,18.486,SOFT,2.0,True,Aston Martin,True,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,129.047,129.047,18.0,4.0,54.887,50.321,23.839,SOFT,3.0,True,Aston Martin,False,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,95.294,95.294,19.0,4.0,34.508,42.324,18.462,SOFT,4.0,True,Aston Martin,True,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,138.248,138.248,20.0,4.0,50.72,57.971,29.557,SOFT,5.0,True,Aston Martin,False,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,143.69,143.69,21.0,4.0,39.802,61.668,42.22,SOFT,6.0,True,Aston Martin,False,,,True,2026,Japanese Grand Prix,Practice 1
+STR,18,,,22.0,4.0,,63.196,35.115,SOFT,7.0,True,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+ALB,23,,,1.0,1.0,,50.409,31.304,HARD,1.0,True,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+ALB,23,,,2.0,2.0,,46.649,23.372,HARD,2.0,False,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+ALB,23,95.486,95.486,3.0,2.0,34.939,42.144,18.403,HARD,3.0,False,Williams,True,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,112.059,112.059,4.0,2.0,40.909,48.294,22.856,HARD,4.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,94.243,94.243,5.0,2.0,34.481,41.508,18.254,HARD,5.0,False,Williams,True,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,128.597,128.597,6.0,2.0,53.576,52.075,22.946,HARD,6.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,125.662,125.662,7.0,2.0,34.708,64.279,26.675,HARD,7.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,102.176,102.176,8.0,2.0,36.272,44.355,21.549,HARD,8.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,96.16,96.16,9.0,2.0,34.671,43.049,18.44,HARD,9.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,121.776,121.776,10.0,2.0,49.195,51.789,20.792,HARD,10.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,93.886,93.886,11.0,2.0,34.227,41.41,18.249,HARD,11.0,False,Williams,True,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,114.969,114.969,12.0,2.0,42.396,50.953,21.62,HARD,12.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,117.591,117.591,13.0,2.0,34.196,59.029,24.366,HARD,13.0,False,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+ALB,23,,,14.0,3.0,,45.64,21.835,SOFT,1.0,True,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+ALB,23,93.791,93.791,15.0,3.0,33.819,41.661,18.311,SOFT,2.0,True,Williams,True,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,147.478,147.478,16.0,3.0,56.298,68.289,22.891,SOFT,3.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,93.697,93.697,17.0,3.0,34.089,41.333,18.275,SOFT,4.0,True,Williams,True,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,124.367,124.367,18.0,3.0,54.473,46.733,23.161,SOFT,5.0,True,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+ALB,23,,,19.0,4.0,75.766,43.117,31.127,HARD,14.0,False,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+ALB,23,,,20.0,5.0,,43.599,20.879,SOFT,6.0,False,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+ALB,23,124.21,124.21,21.0,5.0,39.165,49.831,35.214,SOFT,7.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+ALB,23,,,22.0,5.0,82.819,47.156,21.721,SOFT,8.0,False,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+HUL,27,,,1.0,1.0,,49.353,25.069,MEDIUM,1.0,True,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+HUL,27,,,2.0,2.0,,47.075,24.47,MEDIUM,2.0,False,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+HUL,27,95.725,95.725,3.0,2.0,34.796,42.521,18.408,MEDIUM,3.0,False,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,123.44,123.44,4.0,2.0,47.678,51.62,24.142,MEDIUM,4.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,94.737,94.737,5.0,2.0,34.333,42.054,18.35,MEDIUM,5.0,False,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,141.249,141.249,6.0,2.0,50.282,64.015,26.952,MEDIUM,6.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,94.079,94.079,7.0,2.0,34.287,41.569,18.223,MEDIUM,7.0,False,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,111.563,111.563,8.0,2.0,42.617,45.448,23.498,MEDIUM,8.0,False,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+HUL,27,,,9.0,3.0,,46.434,21.726,SOFT,1.0,True,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+HUL,27,93.077,93.077,10.0,3.0,33.704,41.37,18.003,SOFT,2.0,True,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,147.347,147.347,11.0,3.0,49.404,61.707,36.236,SOFT,3.0,True,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,92.798,92.798,12.0,3.0,33.803,41.143,17.852,SOFT,4.0,True,Audi,True,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,110.74,110.74,13.0,3.0,38.745,46.912,25.083,SOFT,5.0,True,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+HUL,27,,,14.0,4.0,,46.89,23.022,SOFT,6.0,False,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+HUL,27,93.032,93.032,15.0,4.0,33.936,41.218,17.878,SOFT,7.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,138.567,138.567,16.0,4.0,51.372,63.648,23.547,SOFT,8.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,99.31,99.31,17.0,4.0,33.888,41.028,24.394,SOFT,9.0,False,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+HUL,27,,,18.0,5.0,,43.535,18.37,MEDIUM,9.0,False,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+HUL,27,95.606,95.606,19.0,5.0,34.826,42.425,18.355,MEDIUM,10.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,97.76,97.76,20.0,5.0,35.568,43.732,18.46,MEDIUM,11.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,95.926,95.926,21.0,5.0,34.899,42.539,18.488,MEDIUM,12.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,96.644,96.644,22.0,5.0,35.381,42.791,18.472,MEDIUM,13.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,96.15,96.15,23.0,5.0,35.251,42.555,18.344,MEDIUM,14.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,96.066,96.066,24.0,5.0,35.178,42.582,18.306,MEDIUM,15.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,123.457,123.457,25.0,5.0,42.31,51.827,29.32,MEDIUM,16.0,False,Audi,False,,,True,2026,Japanese Grand Prix,Practice 1
+HUL,27,,,26.0,5.0,78.943,48.837,25.202,MEDIUM,17.0,False,Audi,False,,,False,2026,Japanese Grand Prix,Practice 1
+LAW,30,,,1.0,1.0,,49.388,28.186,HARD,1.0,True,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LAW,30,97.315,97.315,2.0,1.0,35.115,43.433,18.767,HARD,2.0,True,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,96.245,96.245,3.0,1.0,35.059,42.841,18.345,HARD,3.0,True,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,126.046,126.046,4.0,1.0,44.889,59.792,21.365,HARD,4.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,93.677,93.677,5.0,1.0,34.28,41.367,18.03,HARD,5.0,True,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,111.997,111.997,6.0,1.0,39.867,47.65,24.48,HARD,6.0,True,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LAW,30,137.908,137.908,7.0,2.0,68.679,48.782,20.447,HARD,7.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LAW,30,93.105,93.105,8.0,2.0,33.966,41.134,18.005,HARD,8.0,False,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,117.19,117.19,9.0,2.0,41.705,54.428,21.057,HARD,9.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,93.022,93.022,10.0,2.0,33.958,41.122,17.942,HARD,10.0,False,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,112.794,112.794,11.0,2.0,39.814,48.64,24.34,HARD,11.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LAW,30,,,12.0,3.0,,47.155,22.477,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LAW,30,102.669,102.669,13.0,3.0,33.519,43.061,26.089,SOFT,2.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,131.83,131.83,14.0,3.0,47.164,60.964,23.702,SOFT,3.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,93.029,93.029,15.0,3.0,33.763,41.039,18.227,SOFT,4.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,124.676,124.676,16.0,3.0,44.939,57.737,22.0,SOFT,5.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,118.851,118.851,17.0,3.0,41.769,55.798,21.284,SOFT,6.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,92.529,92.529,18.0,3.0,33.679,40.807,18.043,SOFT,7.0,True,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,115.515,115.515,19.0,3.0,39.037,51.044,25.434,SOFT,8.0,True,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LAW,30,,,20.0,4.0,,43.63,18.478,SOFT,9.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LAW,30,97.009,97.009,21.0,4.0,35.549,42.667,18.793,SOFT,10.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,96.811,96.811,22.0,4.0,35.683,42.825,18.303,SOFT,11.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,97.54,97.54,23.0,4.0,35.585,43.399,18.556,SOFT,12.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,97.48,97.48,24.0,4.0,35.743,43.156,18.581,SOFT,13.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,98.374,98.374,25.0,4.0,35.876,43.635,18.863,SOFT,14.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,144.598,144.598,26.0,4.0,43.683,60.061,40.854,SOFT,15.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LAW,30,,,27.0,4.0,83.477,49.337,27.778,SOFT,16.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+OCO,31,,,1.0,1.0,,73.123,37.817,HARD,1.0,True,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+OCO,31,,,2.0,2.0,,46.672,23.489,HARD,2.0,False,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+OCO,31,96.879,96.879,3.0,2.0,35.78,42.388,18.711,HARD,3.0,False,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,112.688,112.688,4.0,2.0,38.672,48.221,25.795,HARD,4.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,94.679,94.679,5.0,2.0,34.613,41.731,18.335,HARD,5.0,False,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,123.028,123.028,6.0,2.0,47.601,50.337,25.09,HARD,6.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,93.955,93.955,7.0,2.0,34.265,41.545,18.145,HARD,7.0,False,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,118.808,118.808,8.0,2.0,46.411,51.639,20.758,HARD,8.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,93.362,93.362,9.0,2.0,34.011,41.277,18.074,HARD,9.0,False,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,113.443,113.443,10.0,2.0,40.867,46.426,26.15,HARD,10.0,False,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+OCO,31,,,11.0,3.0,,48.12,21.552,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+OCO,31,92.674,92.674,12.0,3.0,33.392,41.206,18.076,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,132.034,132.034,13.0,3.0,47.623,57.119,27.292,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+OCO,31,,,14.0,4.0,,51.629,22.073,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+OCO,31,92.601,92.601,15.0,4.0,33.759,40.923,17.919,SOFT,5.0,False,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,103.418,103.418,16.0,4.0,36.25,45.187,21.981,SOFT,6.0,False,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+OCO,31,,,17.0,5.0,,42.149,19.543,HARD,11.0,False,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+OCO,31,95.993,95.993,18.0,5.0,35.302,42.282,18.409,HARD,12.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,96.154,96.154,19.0,5.0,35.25,42.355,18.549,HARD,13.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,96.28,96.28,20.0,5.0,35.43,42.388,18.462,HARD,14.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,96.329,96.329,21.0,5.0,35.353,42.589,18.387,HARD,15.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,138.401,138.401,22.0,5.0,45.077,56.651,36.673,HARD,16.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+OCO,31,149.661,149.661,23.0,5.0,78.71,48.936,22.015,HARD,17.0,False,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+CRA,34,,,1.0,1.0,,55.279,25.151,HARD,1.0,True,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+CRA,34,116.847,116.847,2.0,1.0,40.909,49.751,26.187,HARD,2.0,True,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+CRA,34,,,3.0,2.0,83.428,49.534,21.126,HARD,3.0,False,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+CRA,34,111.899,111.899,4.0,2.0,38.365,47.954,25.58,HARD,4.0,False,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+CRA,34,,,5.0,3.0,,50.051,24.12,HARD,5.0,False,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+CRA,34,99.495,99.495,6.0,3.0,36.282,44.08,19.133,HARD,6.0,False,Aston Martin,True,,,True,2026,Japanese Grand Prix,Practice 1
+CRA,34,128.202,128.202,7.0,3.0,51.834,52.438,23.93,HARD,7.0,False,Aston Martin,False,,,True,2026,Japanese Grand Prix,Practice 1
+CRA,34,97.099,97.099,8.0,3.0,35.29,42.949,18.86,HARD,8.0,False,Aston Martin,True,,,True,2026,Japanese Grand Prix,Practice 1
+CRA,34,120.304,120.304,9.0,3.0,45.391,50.727,24.186,HARD,9.0,False,Aston Martin,False,,,True,2026,Japanese Grand Prix,Practice 1
+CRA,34,96.362,96.362,10.0,3.0,34.927,42.791,18.644,HARD,10.0,False,Aston Martin,True,,,True,2026,Japanese Grand Prix,Practice 1
+CRA,34,136.719,136.719,11.0,3.0,46.055,61.66,29.004,HARD,11.0,False,Aston Martin,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,,,1.0,1.0,,47.286,28.256,HARD,1.0,True,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,97.043,97.043,2.0,1.0,35.782,42.963,18.298,HARD,2.0,True,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,108.037,108.037,3.0,1.0,41.114,45.4,21.523,HARD,3.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,96.978,96.978,4.0,1.0,34.598,44.012,18.368,HARD,4.0,True,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,94.794,94.794,5.0,1.0,34.027,42.425,18.342,HARD,5.0,True,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,107.731,107.731,6.0,1.0,38.399,46.585,22.747,HARD,6.0,True,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,136.524,136.524,7.0,2.0,68.225,47.122,21.177,HARD,7.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,93.458,93.458,8.0,2.0,34.161,41.408,17.889,HARD,8.0,False,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,123.889,123.889,9.0,2.0,48.555,50.061,25.273,HARD,9.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,92.891,92.891,10.0,2.0,33.889,41.015,17.987,HARD,10.0,False,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,115.542,115.542,11.0,2.0,42.454,51.347,21.741,HARD,11.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,137.108,137.108,12.0,3.0,70.487,46.023,20.598,HARD,12.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,97.094,97.094,13.0,3.0,34.056,41.932,21.106,HARD,13.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,,,14.0,4.0,,49.147,21.174,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,104.059,104.059,15.0,4.0,33.739,44.642,25.678,SOFT,2.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,124.401,124.401,16.0,4.0,48.644,50.989,24.768,SOFT,3.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,109.654,109.654,17.0,4.0,33.681,45.7,30.273,SOFT,4.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,127.872,127.872,18.0,4.0,47.169,57.94,22.763,SOFT,5.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,93.177,93.177,19.0,4.0,34.04,41.272,17.865,SOFT,6.0,True,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,,,20.0,4.0,79.899,53.696,21.716,SOFT,7.0,True,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,92.665,92.665,21.0,4.0,33.697,41.095,17.873,SOFT,8.0,True,Racing Bulls,True,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,110.889,110.889,22.0,4.0,37.144,50.917,22.828,SOFT,9.0,True,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,,,23.0,5.0,,43.263,21.721,SOFT,10.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,120.985,120.985,24.0,6.0,58.716,43.639,18.63,HARD,14.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+LIN,41,96.951,96.951,25.0,6.0,35.771,43.048,18.132,HARD,15.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,97.123,97.123,26.0,6.0,36.199,42.809,18.115,HARD,16.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,97.403,97.403,27.0,6.0,36.048,42.848,18.507,HARD,17.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,130.764,130.764,28.0,6.0,39.773,56.996,33.995,HARD,18.0,False,Racing Bulls,False,,,True,2026,Japanese Grand Prix,Practice 1
+LIN,41,137.26,137.26,29.0,6.0,73.777,43.015,20.468,HARD,19.0,False,Racing Bulls,False,,,False,2026,Japanese Grand Prix,Practice 1
+COL,43,,,1.0,1.0,,48.994,22.994,HARD,1.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+COL,43,97.349,97.349,2.0,1.0,36.121,42.848,18.38,HARD,2.0,True,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,131.773,131.773,3.0,1.0,47.731,55.626,28.416,HARD,3.0,True,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,107.787,107.787,4.0,1.0,35.458,43.467,28.862,HARD,4.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+COL,43,,,5.0,2.0,,44.727,19.918,HARD,5.0,False,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+COL,43,96.025,96.025,6.0,2.0,35.402,42.322,18.301,HARD,6.0,False,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,95.687,95.687,7.0,2.0,35.004,42.491,18.192,HARD,7.0,False,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,95.403,95.403,8.0,2.0,34.796,42.545,18.062,HARD,8.0,False,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,95.167,95.167,9.0,2.0,34.831,42.285,18.051,HARD,9.0,False,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,101.52,101.52,10.0,2.0,35.269,44.317,21.934,HARD,10.0,False,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+COL,43,,,11.0,3.0,,45.822,24.673,SOFT,1.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+COL,43,93.934,93.934,12.0,3.0,34.211,41.608,18.115,SOFT,2.0,True,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,,,13.0,3.0,78.873,87.592,24.695,SOFT,3.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+COL,43,119.478,119.478,14.0,3.0,36.234,60.615,22.629,SOFT,4.0,True,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,123.112,123.112,15.0,3.0,43.443,57.032,22.637,SOFT,5.0,True,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,93.361,93.361,16.0,3.0,34.122,41.118,18.121,SOFT,6.0,True,Alpine,True,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,,,17.0,3.0,58.956,78.832,28.16,SOFT,7.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+COL,43,94.048,94.048,18.0,3.0,34.658,41.306,18.084,SOFT,8.0,True,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,99.985,99.985,19.0,3.0,38.088,43.366,18.531,SOFT,9.0,True,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,95.264,95.264,20.0,3.0,34.267,42.688,18.309,SOFT,10.0,True,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,94.892,94.892,21.0,3.0,34.663,42.07,18.159,SOFT,11.0,True,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,96.405,96.405,22.0,3.0,34.97,42.973,18.462,SOFT,12.0,True,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,117.784,117.784,23.0,3.0,35.313,46.926,35.545,SOFT,13.0,True,Alpine,False,,,True,2026,Japanese Grand Prix,Practice 1
+COL,43,140.481,140.481,24.0,3.0,68.927,43.596,27.958,SOFT,14.0,True,Alpine,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAM,44,,,1.0,1.0,,49.262,23.506,HARD,1.0,True,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAM,44,97.256,97.256,2.0,1.0,34.99,43.332,18.934,HARD,2.0,True,Ferrari,True,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,95.644,95.644,3.0,1.0,34.608,42.427,18.609,HARD,3.0,True,Ferrari,True,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,121.529,121.529,4.0,1.0,38.882,50.786,31.861,HARD,4.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,93.822,93.822,5.0,1.0,33.69,41.871,18.261,HARD,5.0,True,Ferrari,True,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,137.355,137.355,6.0,1.0,52.489,63.105,21.761,HARD,6.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,93.356,93.356,7.0,1.0,33.77,41.427,18.159,HARD,7.0,True,Ferrari,True,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,132.945,132.945,8.0,1.0,48.278,62.591,22.076,HARD,8.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,99.063,99.063,9.0,1.0,33.859,41.909,23.295,HARD,9.0,True,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAM,44,,,10.0,2.0,,44.807,22.948,HARD,10.0,False,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAM,44,136.48,136.48,11.0,3.0,70.799,42.806,22.875,HARD,11.0,False,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAM,44,,,12.0,4.0,,47.099,22.287,SOFT,1.0,True,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAM,44,92.04,92.04,13.0,4.0,33.249,40.798,17.993,SOFT,2.0,True,Ferrari,True,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,,,14.0,4.0,62.347,91.695,32.442,SOFT,3.0,True,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAM,44,119.119,119.119,15.0,4.0,33.727,64.443,20.949,SOFT,4.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,92.083,92.083,16.0,4.0,33.324,40.807,17.952,SOFT,5.0,True,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,,,17.0,4.0,54.424,78.191,41.993,SOFT,6.0,True,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAM,44,95.755,95.755,18.0,4.0,33.611,40.771,21.373,SOFT,7.0,True,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAM,44,,,19.0,5.0,,50.536,23.824,SOFT,8.0,False,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+HAM,44,94.719,94.719,20.0,5.0,34.547,41.862,18.31,SOFT,9.0,False,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,96.657,96.657,21.0,5.0,34.573,43.471,18.613,SOFT,10.0,False,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,135.006,135.006,22.0,5.0,47.479,56.428,31.099,SOFT,11.0,False,Ferrari,False,,,True,2026,Japanese Grand Prix,Practice 1
+HAM,44,,,23.0,5.0,97.608,43.467,20.888,SOFT,12.0,False,Ferrari,False,,,False,2026,Japanese Grand Prix,Practice 1
+SAI,55,,,1.0,1.0,,50.405,26.587,MEDIUM,1.0,True,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+SAI,55,95.119,95.119,2.0,1.0,34.978,42.04,18.101,MEDIUM,2.0,True,Williams,True,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,133.037,133.037,3.0,1.0,54.391,52.86,25.786,MEDIUM,3.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,94.354,94.354,4.0,1.0,34.357,41.885,18.112,MEDIUM,4.0,True,Williams,True,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,129.544,129.544,5.0,1.0,51.769,56.949,20.826,MEDIUM,5.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,93.758,93.758,6.0,1.0,34.206,41.485,18.067,MEDIUM,6.0,True,Williams,True,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,130.793,130.793,7.0,1.0,50.494,57.302,22.997,MEDIUM,7.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,93.383,93.383,8.0,1.0,34.159,41.17,18.054,MEDIUM,8.0,True,Williams,True,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,124.28,124.28,9.0,1.0,47.284,52.546,24.45,MEDIUM,9.0,True,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+SAI,55,,,10.0,2.0,,47.014,26.681,SOFT,1.0,True,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+SAI,55,112.222,112.222,11.0,2.0,39.68,51.507,21.035,SOFT,2.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,133.265,133.265,12.0,2.0,33.971,72.049,27.245,SOFT,3.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,108.764,108.764,13.0,2.0,39.719,48.849,20.196,SOFT,4.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,94.341,94.341,14.0,2.0,33.981,42.195,18.165,SOFT,5.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,146.858,146.858,15.0,2.0,57.776,67.684,21.398,SOFT,6.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,93.674,93.674,16.0,2.0,34.016,41.522,18.136,SOFT,7.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,138.575,138.575,17.0,2.0,58.431,59.626,20.518,SOFT,8.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,93.478,93.478,18.0,2.0,34.029,41.317,18.132,SOFT,9.0,True,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,111.963,111.963,19.0,2.0,40.654,47.942,23.367,SOFT,10.0,True,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+SAI,55,,,20.0,3.0,,42.699,19.234,MEDIUM,10.0,False,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+SAI,55,94.683,94.683,21.0,3.0,34.323,42.154,18.206,MEDIUM,11.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,95.048,95.048,22.0,3.0,34.768,42.089,18.191,MEDIUM,12.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,95.422,95.422,23.0,3.0,34.87,42.348,18.204,MEDIUM,13.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,94.972,94.972,24.0,3.0,34.739,41.995,18.238,MEDIUM,14.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,133.519,133.519,25.0,3.0,34.716,63.536,35.267,MEDIUM,15.0,False,Williams,False,,,True,2026,Japanese Grand Prix,Practice 1
+SAI,55,,,26.0,3.0,79.896,49.529,27.102,MEDIUM,16.0,False,Williams,False,,,False,2026,Japanese Grand Prix,Practice 1
+RUS,63,,,1.0,1.0,,48.822,26.38,HARD,1.0,True,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+RUS,63,,,2.0,2.0,81.99,48.767,20.304,HARD,2.0,False,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+RUS,63,93.312,93.312,3.0,2.0,33.361,41.598,18.353,HARD,3.0,False,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,129.642,129.642,4.0,2.0,46.103,62.938,20.601,HARD,4.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,92.429,92.429,5.0,2.0,33.004,41.112,18.313,HARD,5.0,False,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,133.726,133.726,6.0,2.0,57.154,56.415,20.157,HARD,6.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,92.273,92.273,7.0,2.0,33.245,40.725,18.303,HARD,7.0,False,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,112.044,112.044,8.0,2.0,43.09,45.518,23.436,HARD,8.0,False,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+RUS,63,,,9.0,3.0,,45.335,20.676,SOFT,1.0,True,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+RUS,63,91.755,91.755,10.0,3.0,33.071,40.582,18.102,SOFT,2.0,True,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,144.584,144.584,11.0,3.0,56.553,65.816,22.215,SOFT,3.0,True,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,92.084,92.084,12.0,3.0,32.965,40.946,18.173,SOFT,4.0,True,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,139.364,139.364,13.0,3.0,57.813,61.68,19.871,SOFT,5.0,True,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,91.666,91.666,14.0,3.0,33.058,40.322,18.286,SOFT,6.0,True,Mercedes,True,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,114.127,114.127,15.0,3.0,44.311,46.561,23.255,SOFT,7.0,True,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+RUS,63,,,16.0,4.0,,42.566,18.295,HARD,9.0,False,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+RUS,63,95.419,95.419,17.0,4.0,34.729,42.449,18.241,HARD,10.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,95.564,95.564,18.0,4.0,34.773,42.651,18.14,HARD,11.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,95.572,95.572,19.0,4.0,34.885,42.454,18.233,HARD,12.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,95.56,95.56,20.0,4.0,34.759,42.496,18.305,HARD,13.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,95.818,95.818,21.0,4.0,34.856,42.577,18.385,HARD,14.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,95.185,95.185,22.0,4.0,34.699,42.327,18.159,HARD,15.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,95.311,95.311,23.0,4.0,34.633,42.327,18.351,HARD,16.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,99.168,99.168,24.0,4.0,34.908,42.664,21.596,HARD,17.0,False,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+RUS,63,,,25.0,5.0,,50.146,25.292,SOFT,8.0,False,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+RUS,63,134.783,134.783,26.0,5.0,42.834,52.806,39.143,SOFT,9.0,False,Mercedes,False,,,True,2026,Japanese Grand Prix,Practice 1
+RUS,63,,,27.0,5.0,85.105,50.969,22.636,SOFT,10.0,False,Mercedes,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOT,77,,,1.0,1.0,,49.322,27.074,HARD,1.0,True,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOT,77,98.311,98.311,2.0,1.0,36.436,42.999,18.876,HARD,2.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,127.873,127.873,3.0,1.0,42.188,55.591,30.094,HARD,3.0,True,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,97.276,97.276,4.0,1.0,35.71,42.456,19.11,HARD,4.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,116.257,116.257,5.0,1.0,45.181,47.938,23.138,HARD,5.0,True,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,95.598,95.598,6.0,1.0,35.103,42.293,18.202,HARD,6.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,128.838,128.838,7.0,1.0,43.727,59.727,25.384,HARD,7.0,True,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,95.485,95.485,8.0,1.0,35.199,42.242,18.044,HARD,8.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,117.341,117.341,9.0,1.0,40.448,48.963,27.93,HARD,9.0,True,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOT,77,,,10.0,2.0,,50.035,28.904,SOFT,1.0,True,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOT,77,94.766,94.766,11.0,2.0,34.644,41.815,18.307,SOFT,2.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,131.589,131.589,12.0,2.0,43.482,61.188,26.919,SOFT,3.0,True,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,94.724,94.724,13.0,2.0,34.752,41.883,18.089,SOFT,4.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,139.99,139.99,14.0,2.0,43.453,64.53,32.007,SOFT,5.0,True,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,94.49,94.49,15.0,2.0,34.401,41.739,18.35,SOFT,6.0,True,Cadillac,True,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,133.771,133.771,16.0,2.0,40.522,59.555,33.694,SOFT,7.0,True,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOT,77,,,17.0,3.0,,45.257,19.27,HARD,10.0,False,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+BOT,77,99.634,99.634,18.0,3.0,36.851,43.597,19.186,HARD,11.0,False,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,99.771,99.771,19.0,3.0,37.224,43.92,18.627,HARD,12.0,False,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,101.043,101.043,20.0,3.0,38.653,43.599,18.791,HARD,13.0,False,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,100.649,100.649,21.0,3.0,36.672,44.756,19.221,HARD,14.0,False,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,100.263,100.263,22.0,3.0,36.581,44.109,19.573,HARD,15.0,False,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,120.29,120.29,23.0,3.0,38.347,49.37,32.573,HARD,16.0,False,Cadillac,False,,,True,2026,Japanese Grand Prix,Practice 1
+BOT,77,,,24.0,3.0,80.565,47.621,25.154,HARD,17.0,False,Cadillac,False,,,False,2026,Japanese Grand Prix,Practice 1
+PIA,81,,,1.0,1.0,,46.624,38.288,MEDIUM,1.0,True,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+PIA,81,94.053,94.053,2.0,1.0,34.473,41.419,18.161,MEDIUM,2.0,True,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,137.116,137.116,3.0,1.0,46.806,59.906,30.404,MEDIUM,3.0,True,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,92.812,92.812,4.0,1.0,33.657,40.956,18.199,MEDIUM,4.0,True,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,120.247,120.247,5.0,1.0,47.608,48.87,23.769,MEDIUM,5.0,True,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+PIA,81,144.48,144.48,6.0,2.0,70.932,49.799,23.749,MEDIUM,6.0,False,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+PIA,81,92.778,92.778,7.0,2.0,33.542,41.086,18.15,MEDIUM,7.0,False,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,131.491,131.491,8.0,2.0,46.048,59.726,25.717,MEDIUM,8.0,False,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,92.339,92.339,9.0,2.0,33.359,40.869,18.111,MEDIUM,9.0,False,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,110.761,110.761,10.0,2.0,41.364,46.431,22.966,MEDIUM,10.0,False,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+PIA,81,,,11.0,3.0,,45.335,27.539,SOFT,1.0,True,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+PIA,81,92.397,92.397,12.0,3.0,33.227,41.168,18.002,SOFT,2.0,True,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,144.486,144.486,13.0,3.0,48.797,65.031,30.658,SOFT,3.0,True,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,108.44,108.44,14.0,3.0,42.878,45.178,20.384,SOFT,4.0,True,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,91.865,91.865,15.0,3.0,33.133,40.689,18.043,SOFT,5.0,True,McLaren,True,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,111.456,111.456,16.0,3.0,40.416,47.516,23.524,SOFT,6.0,True,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+PIA,81,,,17.0,4.0,,42.689,24.18,MEDIUM,11.0,False,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+PIA,81,96.413,96.413,18.0,4.0,35.624,42.499,18.29,MEDIUM,12.0,False,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,96.17,96.17,19.0,4.0,35.647,42.352,18.171,MEDIUM,13.0,False,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,96.172,96.172,20.0,4.0,35.348,42.867,17.957,MEDIUM,14.0,False,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,99.33,99.33,21.0,4.0,37.233,43.475,18.622,MEDIUM,15.0,False,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,128.002,128.002,22.0,4.0,39.262,50.152,38.588,MEDIUM,16.0,False,McLaren,False,,,True,2026,Japanese Grand Prix,Practice 1
+PIA,81,147.873,147.873,23.0,4.0,76.466,45.553,25.854,MEDIUM,17.0,False,McLaren,False,,,False,2026,Japanese Grand Prix,Practice 1
+BEA,87,,,1.0,1.0,,49.01,24.051,HARD,1.0,True,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+BEA,87,97.274,97.274,2.0,1.0,35.697,43.099,18.478,HARD,2.0,True,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,128.161,128.161,3.0,1.0,54.557,51.151,22.453,HARD,3.0,True,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,94.949,94.949,4.0,1.0,34.426,42.275,18.248,HARD,4.0,True,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,125.1,125.1,5.0,1.0,47.257,52.102,25.741,HARD,5.0,True,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+BEA,87,,,6.0,2.0,,44.97,21.462,HARD,6.0,False,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+BEA,87,94.221,94.221,7.0,2.0,34.354,41.809,18.058,HARD,7.0,False,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,138.757,138.757,8.0,2.0,57.701,60.246,20.81,HARD,8.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,93.913,93.913,9.0,2.0,34.347,41.365,18.201,HARD,9.0,False,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,110.863,110.863,10.0,2.0,35.999,48.238,26.626,HARD,10.0,False,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+BEA,87,,,11.0,3.0,,46.607,31.503,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+BEA,87,124.329,124.329,12.0,3.0,47.026,51.68,25.623,SOFT,2.0,True,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,92.9,92.9,13.0,3.0,33.44,41.389,18.071,SOFT,3.0,True,Haas F1 Team,True,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,,,14.0,3.0,68.297,70.698,21.371,SOFT,4.0,True,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+BEA,87,92.9,92.9,15.0,3.0,33.555,41.401,17.944,SOFT,5.0,True,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,140.33,140.33,16.0,3.0,48.071,62.645,29.614,SOFT,6.0,True,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+BEA,87,,,17.0,4.0,,49.021,18.79,SOFT,7.0,False,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1
+BEA,87,96.384,96.384,18.0,4.0,35.09,42.646,18.648,SOFT,8.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,96.563,96.563,19.0,4.0,35.336,42.669,18.558,SOFT,9.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,97.558,97.558,20.0,4.0,35.448,42.808,19.302,SOFT,10.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,97.016,97.016,21.0,4.0,35.575,42.814,18.627,SOFT,11.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,97.207,97.207,22.0,4.0,35.654,42.915,18.638,SOFT,12.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,97.367,97.367,23.0,4.0,35.662,43.103,18.602,SOFT,13.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,98.469,98.469,24.0,4.0,36.303,43.456,18.71,SOFT,14.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,115.276,115.276,25.0,4.0,39.134,56.551,19.591,SOFT,15.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,123.572,123.572,26.0,4.0,41.961,48.918,32.693,SOFT,16.0,False,Haas F1 Team,False,,,True,2026,Japanese Grand Prix,Practice 1
+BEA,87,,,27.0,4.0,73.701,71.292,21.24,SOFT,17.0,False,Haas F1 Team,False,,,False,2026,Japanese Grand Prix,Practice 1

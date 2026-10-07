@@ -1,0 +1,615 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,40.9,56.953,SOFT,1.0,True,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:39.029000,99.029,2.0,1.0,25.521,32.999,40.509,SOFT,2.0,True,McLaren,True,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,,,3.0,1.0,37.099,56.351,66.856,SOFT,3.0,True,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,,,4.0,1.0,43.263,52.688,61.319,SOFT,4.0,True,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:39.457000,99.457,5.0,1.0,25.666,32.989,40.802,SOFT,5.0,True,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:02:07.358000,127.358,6.0,1.0,33.848,40.595,52.915,SOFT,6.0,True,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,,,7.0,2.0,,42.236,53.66,SOFT,1.0,True,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:37.665000,97.665,8.0,2.0,25.208,32.47,39.987,SOFT,2.0,True,McLaren,True,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:02:07.659000,127.659,9.0,2.0,31.861,40.598,55.2,SOFT,3.0,True,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,,,10.0,3.0,,36.251,42.514,SOFT,4.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:44.283000,104.283,11.0,3.0,26.277,35.582,42.424,SOFT,5.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:45.512000,105.512,12.0,3.0,26.538,35.722,43.252,SOFT,6.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:44.989000,104.989,13.0,3.0,26.724,35.592,42.673,SOFT,7.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:45.083000,105.083,14.0,3.0,27.083,35.35,42.65,SOFT,8.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:45.032000,105.032,15.0,3.0,27.172,35.109,42.751,SOFT,9.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:45.343000,105.343,16.0,3.0,27.196,35.519,42.628,SOFT,10.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:45.252000,105.252,17.0,3.0,27.225,35.446,42.581,SOFT,11.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:44.783000,104.783,18.0,3.0,26.899,35.425,42.459,SOFT,12.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:44.881000,104.881,19.0,3.0,26.837,35.354,42.69,SOFT,13.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:44.727000,104.727,20.0,3.0,26.71,35.366,42.651,SOFT,14.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:02:15.924000,135.924,21.0,3.0,26.826,42.494,66.604,SOFT,15.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:02:23.240000,143.24,22.0,4.0,53.51,46.834,42.896,SOFT,7.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,,,23.0,4.0,28.986,39.588,,SOFT,8.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,,,24.0,4.0,28.979,38.792,91.859,SOFT,9.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+NOR,1,0 days 00:01:57.126000,117.126,25.0,4.0,29.162,36.527,51.437,SOFT,10.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,,,1.0,1.0,,47.091,59.336,SOFT,1.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:38.677000,98.677,2.0,1.0,25.284,33.142,40.251,SOFT,2.0,True,Alpine,True,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,,,3.0,1.0,39.633,57.586,70.829,SOFT,3.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,,,4.0,2.0,79.957,53.656,58.814,SOFT,4.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:48.143000,108.143,5.0,2.0,25.623,33.83,48.69,SOFT,5.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,,,6.0,3.0,,49.151,57.224,MEDIUM,1.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:38.588000,98.588,7.0,3.0,25.377,32.911,40.3,MEDIUM,2.0,True,Alpine,True,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,,,8.0,3.0,37.341,56.709,74.63,MEDIUM,3.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,,,9.0,4.0,50.402,57.077,56.82,MEDIUM,4.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:39.176000,99.176,10.0,4.0,25.487,33.321,40.368,MEDIUM,5.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:02:07.327000,127.327,11.0,4.0,29.725,43.474,54.128,MEDIUM,6.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,,,12.0,5.0,,38.004,43.44,MEDIUM,7.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:44.099000,104.099,13.0,5.0,26.509,35.21,42.38,MEDIUM,8.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:44.571000,104.571,14.0,5.0,26.557,35.486,42.528,MEDIUM,9.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:45.283000,105.283,15.0,5.0,26.721,35.539,43.023,MEDIUM,10.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:45.874000,105.874,16.0,5.0,26.798,35.875,43.201,MEDIUM,11.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:48.044000,108.044,17.0,5.0,27.045,37.303,43.696,MEDIUM,12.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:46.074000,106.074,18.0,5.0,27.172,35.817,43.085,MEDIUM,13.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:46.056000,106.056,19.0,5.0,27.026,35.924,43.106,MEDIUM,14.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:45.986000,105.986,20.0,5.0,26.824,35.839,43.323,MEDIUM,15.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:46.572000,106.572,21.0,5.0,27.237,36.118,43.217,MEDIUM,16.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:46.565000,106.565,22.0,5.0,27.167,36.293,43.105,MEDIUM,17.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:53.820000,113.82,23.0,5.0,27.229,36.304,50.287,MEDIUM,18.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:02:07.951000,127.951,24.0,6.0,48.03,35.649,44.272,SOFT,6.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:02:24.677000,144.677,25.0,6.0,26.701,55.416,62.56,SOFT,7.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:01:54.740000,114.74,26.0,6.0,27.977,44.021,42.742,SOFT,8.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:02:29.366000,149.366,27.0,6.0,26.395,39.621,83.35,SOFT,9.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+GAS,10,,,28.0,6.0,30.568,42.315,86.798,SOFT,10.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+GAS,10,0 days 00:02:00.789000,120.789,29.0,6.0,29.437,36.224,55.128,SOFT,11.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,,,1.0,1.0,,40.908,56.923,SOFT,1.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:02:10.627000,130.627,2.0,1.0,26.102,42.895,61.63,SOFT,2.0,True,Cadillac,True,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:41.611000,101.611,3.0,1.0,25.967,34.263,41.381,SOFT,3.0,True,Cadillac,True,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,,,4.0,1.0,39.942,54.653,65.265,SOFT,4.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,,,5.0,2.0,,42.635,49.311,SOFT,1.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:40.938000,100.938,6.0,2.0,25.805,33.999,41.134,SOFT,2.0,True,Cadillac,True,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,,,7.0,2.0,34.294,48.908,71.324,SOFT,3.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,,,8.0,3.0,72.381,50.439,52.286,SOFT,4.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:41.266000,101.266,9.0,3.0,26.056,34.019,41.191,SOFT,5.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:59.671000,119.671,10.0,3.0,30.767,37.787,51.117,SOFT,6.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,,,11.0,4.0,,37.022,43.021,SOFT,7.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:46.117000,106.117,12.0,4.0,26.701,36.144,43.272,SOFT,8.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:47.192000,107.192,13.0,4.0,27.062,36.529,43.601,SOFT,9.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:48.559000,108.559,14.0,4.0,27.454,37.338,43.767,SOFT,10.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:47.797000,107.797,15.0,4.0,27.228,36.794,43.775,SOFT,11.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:48.702000,108.702,16.0,4.0,27.726,37.161,43.815,SOFT,12.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:50.343000,110.343,17.0,4.0,27.669,38.002,44.672,SOFT,13.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:49.131000,109.131,18.0,4.0,27.544,37.371,44.216,SOFT,14.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:48.915000,108.915,19.0,4.0,27.578,37.201,44.136,SOFT,15.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:49.205000,109.205,20.0,4.0,27.649,37.392,44.164,SOFT,16.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:49.971000,109.971,21.0,4.0,27.931,37.529,44.511,SOFT,17.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:49.600000,109.6,22.0,4.0,27.649,37.422,44.529,SOFT,18.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:01:49.849000,109.849,23.0,4.0,27.884,37.378,44.587,SOFT,19.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:02:25.373000,145.373,24.0,4.0,28.053,43.966,73.354,SOFT,20.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:02:14.570000,134.57,25.0,5.0,50.52,40.857,43.193,SOFT,5.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,,,26.0,5.0,33.301,49.684,89.497,SOFT,6.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:02:25.982000,145.982,27.0,5.0,28.772,41.282,75.928,SOFT,7.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PER,11,0 days 00:02:06.263000,126.263,28.0,5.0,28.316,41.253,56.694,SOFT,8.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,,,1.0,1.0,,48.107,59.472,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:38.060000,98.06,2.0,1.0,25.413,32.451,40.196,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,,,3.0,1.0,37.612,59.189,74.329,MEDIUM,3.0,True,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,,,4.0,2.0,77.87,54.928,56.067,MEDIUM,4.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:48.601000,108.601,5.0,2.0,25.664,32.635,50.302,MEDIUM,5.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,,,6.0,3.0,,54.712,51.915,SOFT,1.0,True,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:38.125000,98.125,7.0,3.0,25.498,32.264,40.363,SOFT,2.0,True,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:02:22.023000,142.023,8.0,3.0,34.755,51.533,55.735,SOFT,3.0,True,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,,,9.0,4.0,,35.549,44.798,SOFT,4.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:44.034000,104.034,10.0,4.0,26.569,35.157,42.308,SOFT,5.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:43.964000,103.964,11.0,4.0,26.416,35.226,42.322,SOFT,6.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:44.297000,104.297,12.0,4.0,26.773,35.054,42.47,SOFT,7.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:44.340000,104.34,13.0,4.0,26.55,35.198,42.592,SOFT,8.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:48.455000,108.455,14.0,4.0,26.698,35.233,46.524,SOFT,9.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:45.703000,105.703,15.0,4.0,27.164,35.519,43.02,SOFT,10.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:45.239000,105.239,16.0,4.0,26.81,35.439,42.99,SOFT,11.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:51.841000,111.841,17.0,4.0,27.074,35.427,49.34,SOFT,12.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:02:15.723000,135.723,18.0,5.0,52.355,36.118,47.25,MEDIUM,6.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:43.455000,103.455,19.0,5.0,26.305,34.852,42.298,MEDIUM,7.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:43.985000,103.985,20.0,5.0,26.632,35.099,42.254,MEDIUM,8.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:44.795000,104.795,21.0,5.0,26.798,35.282,42.715,MEDIUM,9.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:44.908000,104.908,22.0,5.0,26.595,35.786,42.527,MEDIUM,10.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:44.555000,104.555,23.0,5.0,26.836,35.227,42.492,MEDIUM,11.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:01:51.015000,111.015,24.0,5.0,26.727,35.142,49.146,MEDIUM,12.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,,,25.0,6.0,,45.564,45.908,SOFT,13.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,,,26.0,6.0,32.15,43.686,,SOFT,14.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:02:15.598000,135.598,27.0,6.0,29.996,43.019,62.583,SOFT,15.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ANT,12,0 days 00:02:25.701000,145.701,28.0,6.0,55.4,35.944,54.357,SOFT,16.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,,,1.0,1.0,,49.293,58.307,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:39.981000,99.981,2.0,1.0,25.556,33.529,40.896,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,,,3.0,1.0,46.467,55.934,62.42,MEDIUM,3.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,,,4.0,1.0,26.058,46.016,85.266,MEDIUM,4.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:41.053000,101.053,5.0,1.0,25.898,33.878,41.277,MEDIUM,5.0,True,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:55.188000,115.188,6.0,1.0,28.122,35.593,51.473,MEDIUM,6.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,,,7.0,2.0,,47.575,57.667,SOFT,1.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:39.478000,99.478,8.0,2.0,25.669,33.252,40.557,SOFT,2.0,True,Aston Martin,True,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,,,9.0,2.0,41.176,58.552,68.072,SOFT,3.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,,,10.0,3.0,67.543,58.061,57.15,SOFT,4.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:39.603000,99.603,11.0,3.0,25.8,33.219,40.584,SOFT,5.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:02:09.952000,129.952,12.0,3.0,31.08,41.765,57.107,SOFT,6.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,,,13.0,4.0,,36.902,43.081,SOFT,7.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:45.648000,105.648,14.0,4.0,26.818,36.001,42.829,SOFT,8.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:45.911000,105.911,15.0,4.0,26.809,35.806,43.296,SOFT,9.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:46.818000,106.818,16.0,4.0,27.395,36.389,43.034,SOFT,10.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:45.533000,105.533,17.0,4.0,26.76,35.858,42.915,SOFT,11.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:46.038000,106.038,18.0,4.0,26.947,35.99,43.101,SOFT,12.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:46.611000,106.611,19.0,4.0,26.927,36.316,43.368,SOFT,13.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:46.763000,106.763,20.0,4.0,26.998,36.802,42.963,SOFT,14.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:49.964000,109.964,21.0,4.0,27.322,38.609,44.033,SOFT,15.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:01:54.460000,114.46,22.0,4.0,27.437,36.664,50.359,SOFT,16.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:02:04.840000,124.84,23.0,5.0,46.744,35.385,42.711,MEDIUM,7.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:02:25.979000,145.979,24.0,5.0,26.695,44.581,74.703,MEDIUM,8.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:02:00.895000,120.895,25.0,5.0,31.293,45.857,43.745,MEDIUM,9.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:02:27.644000,147.644,26.0,5.0,26.341,39.362,81.941,MEDIUM,10.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:02:13.525000,133.525,27.0,5.0,30.968,38.459,64.098,MEDIUM,11.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALO,14,0 days 00:02:03.715000,123.715,28.0,5.0,31.448,37.803,54.464,MEDIUM,12.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,,,1.0,1.0,,45.787,56.265,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:38.039000,98.039,2.0,1.0,25.296,32.312,40.431,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,,,3.0,1.0,38.377,61.129,70.855,MEDIUM,3.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:02:12.580000,132.58,4.0,1.0,25.651,44.234,62.695,MEDIUM,4.0,True,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:39.447000,99.447,5.0,1.0,25.36,32.787,41.3,MEDIUM,5.0,True,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:02:16.437000,136.437,6.0,1.0,31.778,43.297,61.362,MEDIUM,6.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,,,7.0,2.0,,42.507,54.463,SOFT,1.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:02:17.519000,137.519,8.0,2.0,34.047,53.486,49.986,SOFT,2.0,True,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:37.528000,97.528,9.0,2.0,25.371,32.266,39.891,SOFT,3.0,True,Ferrari,True,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:02:18.586000,138.586,10.0,2.0,35.274,52.071,51.241,SOFT,4.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,,,11.0,3.0,,35.753,48.613,SOFT,5.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:43.055000,103.055,12.0,3.0,26.053,35.02,41.982,SOFT,6.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:44.535000,104.535,13.0,3.0,26.396,35.242,42.897,SOFT,7.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:44.223000,104.223,14.0,3.0,26.452,35.207,42.564,SOFT,8.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:44.545000,104.545,15.0,3.0,26.527,35.173,42.845,SOFT,9.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:44.752000,104.752,16.0,3.0,26.68,35.174,42.898,SOFT,10.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:44.785000,104.785,17.0,3.0,26.71,35.143,42.932,SOFT,11.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:45.449000,105.449,18.0,3.0,26.83,35.354,43.265,SOFT,12.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:48.296000,108.296,19.0,3.0,26.958,35.871,45.467,SOFT,13.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:45.311000,105.311,20.0,3.0,26.735,35.574,43.002,SOFT,14.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:53.198000,113.198,21.0,3.0,27.055,36.617,49.526,SOFT,15.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:02:06.431000,126.431,22.0,4.0,48.364,35.496,42.571,MEDIUM,7.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:43.604000,103.604,23.0,4.0,26.329,34.92,42.355,MEDIUM,8.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:43.525000,103.525,24.0,4.0,26.229,35.101,42.195,MEDIUM,9.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:02:29.300000,149.3,25.0,4.0,26.834,60.259,62.207,MEDIUM,10.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:02:05.331000,125.331,26.0,4.0,28.189,50.441,46.701,MEDIUM,11.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LEC,16,,,27.0,4.0,33.789,49.189,,MEDIUM,12.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,,,28.0,4.0,30.246,49.179,89.445,MEDIUM,13.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LEC,16,0 days 00:01:52.139000,112.139,29.0,4.0,27.401,35.031,49.707,MEDIUM,14.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,,,1.0,1.0,,45.41,58.437,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:41.929000,101.929,2.0,1.0,25.8,33.418,42.711,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,,,3.0,1.0,43.609,68.828,68.24,MEDIUM,3.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,,,4.0,1.0,37.413,52.613,63.769,MEDIUM,4.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:02:08.828000,128.828,5.0,1.0,25.974,35.701,67.153,MEDIUM,5.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,,,6.0,2.0,,56.037,63.715,SOFT,1.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:40.150000,100.15,7.0,2.0,25.919,33.559,40.672,SOFT,2.0,True,Aston Martin,True,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,,,8.0,2.0,41.41,61.734,76.678,SOFT,3.0,True,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,,,9.0,3.0,90.748,48.375,59.213,SOFT,4.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:40.458000,100.458,10.0,3.0,26.107,33.678,40.673,SOFT,5.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:02:07.702000,127.702,11.0,3.0,29.909,41.448,56.345,SOFT,6.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,,,12.0,4.0,,36.151,42.838,SOFT,7.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:46.348000,106.348,13.0,4.0,26.719,36.274,43.355,SOFT,8.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:46.314000,106.314,14.0,4.0,26.933,36.07,43.311,SOFT,9.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:47.305000,107.305,15.0,4.0,27.001,36.913,43.391,SOFT,10.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:47.010000,107.01,16.0,4.0,27.045,36.473,43.492,SOFT,11.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:47.790000,107.79,17.0,4.0,27.243,36.462,44.085,SOFT,12.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:54.639000,114.639,18.0,4.0,27.277,36.624,50.738,SOFT,13.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:02:09.838000,129.838,19.0,5.0,51.582,35.727,42.529,MEDIUM,6.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:45.629000,105.629,20.0,5.0,26.711,35.908,43.01,MEDIUM,7.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:46.137000,106.137,21.0,5.0,27.017,36.005,43.115,MEDIUM,8.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:01:46.134000,106.134,22.0,5.0,26.809,35.866,43.459,MEDIUM,9.0,False,Aston Martin,False,,,True,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:02:17.243000,137.243,23.0,5.0,26.989,54.715,55.539,MEDIUM,10.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:02:00.004000,120.004,24.0,5.0,30.965,44.974,44.065,MEDIUM,11.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,,,25.0,5.0,28.83,44.956,88.934,MEDIUM,12.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+STR,18,0 days 00:02:14.749000,134.749,26.0,5.0,31.482,39.977,63.29,MEDIUM,13.0,False,Aston Martin,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,,,1.0,1.0,,42.123,52.289,MEDIUM,1.0,True,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:40.247000,100.247,2.0,1.0,25.521,33.695,41.031,MEDIUM,2.0,True,Williams,True,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,,,3.0,1.0,39.642,60.675,62.619,MEDIUM,3.0,True,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:02:21.340000,141.34,4.0,1.0,32.531,52.21,56.599,MEDIUM,4.0,True,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:41.640000,101.64,5.0,1.0,25.904,34.109,41.627,MEDIUM,5.0,True,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:02:20.466000,140.466,6.0,1.0,31.128,43.105,66.233,MEDIUM,6.0,True,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,,,7.0,2.0,55.087,43.362,53.617,SOFT,1.0,True,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:02:15.922000,135.922,8.0,2.0,25.729,52.751,57.442,SOFT,2.0,True,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:40.221000,100.221,9.0,2.0,25.582,33.633,41.006,SOFT,3.0,True,Williams,True,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,,,10.0,2.0,40.202,53.053,64.975,SOFT,4.0,True,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,,,11.0,3.0,,37.352,49.601,MEDIUM,7.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:02:08.909000,128.909,12.0,4.0,49.556,36.802,42.551,SOFT,5.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:45.098000,105.098,13.0,4.0,26.466,36.069,42.563,SOFT,6.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:45.698000,105.698,14.0,4.0,26.656,35.989,43.053,SOFT,7.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:46.382000,106.382,15.0,4.0,26.899,36.418,43.065,SOFT,8.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:47.337000,107.337,16.0,4.0,27.369,36.412,43.556,SOFT,9.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:52.142000,112.142,17.0,4.0,27.094,39.927,45.121,SOFT,10.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:47.683000,107.683,18.0,4.0,27.331,36.471,43.881,SOFT,11.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:47.578000,107.578,19.0,4.0,27.262,36.473,43.843,SOFT,12.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:47.760000,107.76,20.0,4.0,27.189,36.607,43.964,SOFT,13.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:47.371000,107.371,21.0,4.0,26.995,36.718,43.658,SOFT,14.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:48.346000,108.346,22.0,4.0,27.053,37.189,44.104,SOFT,15.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:55.359000,115.359,23.0,4.0,27.052,37.612,50.695,SOFT,16.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:02:07.366000,127.366,24.0,5.0,47.975,36.131,43.26,MEDIUM,8.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:45.521000,105.521,25.0,5.0,26.37,36.009,43.142,MEDIUM,9.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:02:11.937000,131.937,26.0,5.0,26.455,51.695,53.787,MEDIUM,10.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:56.831000,116.831,27.0,5.0,29.98,43.294,43.557,MEDIUM,11.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,,,28.0,5.0,26.578,36.269,90.807,MEDIUM,12.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,,,29.0,5.0,31.094,38.27,82.17,MEDIUM,13.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+ALB,23,0 days 00:01:55.739000,115.739,30.0,5.0,28.946,36.382,50.411,MEDIUM,14.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,,,1.0,1.0,,45.776,51.394,MEDIUM,1.0,True,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:39.434000,99.434,2.0,1.0,25.883,33.181,40.37,MEDIUM,2.0,True,Audi,True,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:02:26.433000,146.433,3.0,1.0,39.142,50.594,56.697,MEDIUM,3.0,True,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:02:27.993000,147.993,4.0,1.0,39.333,50.495,58.165,MEDIUM,4.0,True,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:52.353000,112.353,5.0,1.0,26.047,33.373,52.933,MEDIUM,5.0,True,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,,,6.0,2.0,,45.524,55.171,MEDIUM,6.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:49.202000,109.202,7.0,2.0,25.943,33.757,49.502,MEDIUM,7.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,,,8.0,3.0,72.011,46.731,51.715,SOFT,1.0,True,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:39.109000,99.109,9.0,3.0,25.759,32.857,40.493,SOFT,2.0,True,Audi,True,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:02:03.139000,123.139,10.0,3.0,35.522,37.119,50.498,SOFT,3.0,True,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,,,11.0,4.0,,36.383,42.417,MEDIUM,8.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:44.654000,104.654,12.0,4.0,26.382,35.667,42.605,MEDIUM,9.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:46.175000,106.175,13.0,4.0,27.186,35.83,43.159,MEDIUM,10.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:45.078000,105.078,14.0,4.0,26.68,35.627,42.771,MEDIUM,11.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:45.603000,105.603,15.0,4.0,26.786,35.816,43.001,MEDIUM,12.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:45.890000,105.89,16.0,4.0,27.065,35.799,43.026,MEDIUM,13.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:45.834000,105.834,17.0,4.0,27.005,35.805,43.024,MEDIUM,14.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:46.438000,106.438,18.0,4.0,26.772,36.4,43.266,MEDIUM,15.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:50.197000,110.197,19.0,4.0,27.227,36.526,46.444,MEDIUM,16.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:53.670000,113.67,20.0,4.0,27.742,36.139,49.789,MEDIUM,17.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:02:05.408000,125.408,21.0,5.0,46.003,36.803,42.602,SOFT,4.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:46.675000,106.675,22.0,5.0,27.346,36.855,42.474,SOFT,5.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:44.663000,104.663,23.0,5.0,26.639,35.707,42.317,SOFT,6.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:45.289000,105.289,24.0,5.0,26.651,35.856,42.782,SOFT,7.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:45.289000,105.289,25.0,5.0,26.275,35.876,43.138,SOFT,8.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:55.965000,115.965,26.0,5.0,27.125,35.727,53.113,SOFT,9.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:02:06.950000,126.95,27.0,5.0,34.379,47.414,45.157,SOFT,10.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,,,28.0,5.0,29.758,46.604,87.191,SOFT,11.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:02:23.699000,143.699,29.0,5.0,29.383,36.74,77.576,SOFT,12.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HUL,27,0 days 00:01:59.848000,119.848,30.0,5.0,30.598,38.875,50.375,SOFT,13.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+VER,3,,,1.0,1.0,,48.344,54.784,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:37.785000,97.785,2.0,1.0,25.186,32.433,40.166,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,,,3.0,1.0,49.135,83.539,59.836,MEDIUM,3.0,True,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:38.519000,98.519,4.0,1.0,25.59,32.653,40.276,MEDIUM,4.0,True,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:02:01.598000,121.598,5.0,1.0,34.385,36.979,50.234,MEDIUM,5.0,True,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+VER,3,,,6.0,2.0,,37.173,42.741,MEDIUM,6.0,False,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:43.559000,103.559,7.0,2.0,26.174,35.314,42.071,MEDIUM,7.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:43.513000,103.513,8.0,2.0,26.405,35.292,41.816,MEDIUM,8.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:44.285000,104.285,9.0,2.0,26.523,35.417,42.345,MEDIUM,9.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:44.598000,104.598,10.0,2.0,26.469,35.512,42.617,MEDIUM,10.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:44.054000,104.054,11.0,2.0,26.34,35.448,42.266,MEDIUM,11.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:45.288000,105.288,12.0,2.0,26.554,35.809,42.925,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:45.589000,105.589,13.0,2.0,27.019,36.021,42.549,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:44.817000,104.817,14.0,2.0,26.703,35.532,42.582,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:45.062000,105.062,15.0,2.0,26.911,35.574,42.577,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:45.019000,105.019,16.0,2.0,26.858,35.485,42.676,MEDIUM,16.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:45.527000,105.527,17.0,2.0,26.805,35.781,42.941,MEDIUM,17.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:45.531000,105.531,18.0,2.0,26.883,35.833,42.815,MEDIUM,18.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:45.662000,105.662,19.0,2.0,26.946,35.851,42.865,MEDIUM,19.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+VER,3,0 days 00:01:57.408000,117.408,20.0,2.0,27.348,38.096,51.964,MEDIUM,20.0,False,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,,,1.0,1.0,,43.498,57.272,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:38.748000,98.748,2.0,1.0,25.52,32.94,40.288,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,,,3.0,1.0,40.069,57.281,63.179,MEDIUM,3.0,True,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:02:18.744000,138.744,4.0,1.0,32.668,48.085,57.991,MEDIUM,4.0,True,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:52.271000,112.271,5.0,1.0,25.755,33.432,53.084,MEDIUM,5.0,True,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,,,6.0,2.0,,45.258,53.714,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:38.496000,98.496,7.0,2.0,25.352,33.02,40.124,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:02:17.456000,137.456,8.0,2.0,33.385,44.412,59.659,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,,,9.0,3.0,,36.849,42.467,MEDIUM,4.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:44.785000,104.785,10.0,3.0,26.493,35.637,42.655,MEDIUM,5.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:45.009000,105.009,11.0,3.0,26.761,35.579,42.669,MEDIUM,6.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:44.999000,104.999,12.0,3.0,26.808,35.558,42.633,MEDIUM,7.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:45.126000,105.126,13.0,3.0,26.556,35.652,42.918,MEDIUM,8.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:46.124000,106.124,14.0,3.0,27.199,35.738,43.187,MEDIUM,9.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:47.011000,107.011,15.0,3.0,27.6,36.21,43.201,MEDIUM,10.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:46.633000,106.633,16.0,3.0,27.357,36.316,42.96,MEDIUM,11.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:47.015000,107.015,17.0,3.0,27.033,36.257,43.725,MEDIUM,12.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:47.039000,107.039,18.0,3.0,27.137,36.406,43.496,MEDIUM,13.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:47.401000,107.401,19.0,3.0,27.313,36.645,43.443,MEDIUM,14.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:48.140000,108.14,20.0,3.0,27.572,36.667,43.901,MEDIUM,15.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:53.767000,113.767,21.0,3.0,27.425,36.576,49.766,MEDIUM,16.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:02:05.039000,125.039,22.0,4.0,47.284,35.707,42.048,SOFT,4.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:44.079000,104.079,23.0,4.0,26.451,35.429,42.199,SOFT,5.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:44.287000,104.287,24.0,4.0,26.711,35.262,42.314,SOFT,6.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:44.393000,104.393,25.0,4.0,26.691,35.323,42.379,SOFT,7.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:50.572000,110.572,26.0,4.0,26.621,35.9,48.051,SOFT,8.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:02:09.132000,129.132,27.0,4.0,35.045,49.384,44.703,SOFT,9.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,,,28.0,4.0,30.802,47.045,92.046,SOFT,10.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:02:27.683000,147.683,29.0,4.0,29.5,36.499,81.684,SOFT,11.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LAW,30,0 days 00:01:55.056000,115.056,30.0,4.0,28.511,36.098,50.447,SOFT,12.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,,,1.0,1.0,,43.907,48.169,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:39.361000,99.361,2.0,1.0,25.656,33.134,40.571,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,,,3.0,1.0,38.83,58.756,68.613,MEDIUM,3.0,True,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,,,4.0,2.0,89.972,51.888,58.713,MEDIUM,4.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:41.268000,101.268,5.0,2.0,25.799,33.554,41.915,MEDIUM,5.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:02:05.080000,125.08,6.0,2.0,30.766,41.18,53.134,MEDIUM,6.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,,,7.0,3.0,68.746,48.137,50.406,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:39.407000,99.407,8.0,3.0,25.546,33.212,40.649,SOFT,2.0,True,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,,,9.0,3.0,36.38,50.549,68.436,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,,,10.0,4.0,,36.969,42.761,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:44.848000,104.848,11.0,4.0,26.323,35.821,42.704,SOFT,5.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:45.631000,105.631,12.0,4.0,26.579,36.023,43.029,SOFT,6.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:46.867000,106.867,13.0,4.0,27.026,36.687,43.154,SOFT,7.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:46.424000,106.424,14.0,4.0,26.688,36.379,43.357,SOFT,8.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:46.650000,106.65,15.0,4.0,26.677,36.402,43.571,SOFT,9.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:47.269000,107.269,16.0,4.0,26.999,36.493,43.777,SOFT,10.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:47.850000,107.85,17.0,4.0,26.94,37.056,43.854,SOFT,11.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:47.826000,107.826,18.0,4.0,27.04,36.939,43.847,SOFT,12.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:47.310000,107.31,19.0,4.0,26.94,36.567,43.803,SOFT,13.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:47.503000,107.503,20.0,4.0,27.209,36.619,43.675,SOFT,14.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:47.269000,107.269,21.0,4.0,27.181,36.609,43.479,SOFT,15.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:47.275000,107.275,22.0,4.0,27.101,36.586,43.588,SOFT,16.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:47.634000,107.634,23.0,4.0,27.168,36.675,43.791,SOFT,17.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:02:06.305000,126.305,24.0,4.0,29.912,43.173,53.22,SOFT,18.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,,,25.0,5.0,48.677,58.23,61.128,MEDIUM,7.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:02:01.754000,121.754,26.0,5.0,27.969,50.65,43.135,MEDIUM,8.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,,,27.0,5.0,31.535,46.621,92.905,MEDIUM,9.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:02:28.887000,148.887,28.0,5.0,28.324,37.499,83.064,MEDIUM,10.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+OCO,31,0 days 00:01:54.641000,114.641,29.0,5.0,28.227,36.051,50.363,MEDIUM,11.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,,,1.0,1.0,,42.121,54.413,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:38.880000,98.88,2.0,1.0,25.431,33.006,40.443,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:02:03.695000,123.695,3.0,1.0,31.794,38.077,53.824,MEDIUM,3.0,True,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,,,4.0,2.0,61.846,43.634,47.939,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:38.678000,98.678,5.0,2.0,25.283,32.818,40.577,SOFT,2.0,True,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:02:19.666000,139.666,6.0,2.0,31.043,49.805,58.818,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,,,7.0,3.0,,37.729,44.429,MEDIUM,4.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:46.032000,106.032,8.0,3.0,26.808,36.173,43.051,MEDIUM,5.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:45.521000,105.521,9.0,3.0,26.528,36.114,42.879,MEDIUM,6.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:45.228000,105.228,10.0,3.0,26.471,36.012,42.745,MEDIUM,7.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:45.178000,105.178,11.0,3.0,26.589,35.896,42.693,MEDIUM,8.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:45.981000,105.981,12.0,3.0,26.583,36.362,43.036,MEDIUM,9.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:45.566000,105.566,13.0,3.0,26.619,36.038,42.909,MEDIUM,10.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:46.069000,106.069,14.0,3.0,26.766,36.211,43.092,MEDIUM,11.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:46.415000,106.415,15.0,3.0,27.125,36.142,43.148,MEDIUM,12.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:46.920000,106.92,16.0,3.0,27.11,36.341,43.469,MEDIUM,13.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:47.618000,107.618,17.0,3.0,26.933,37.009,43.676,MEDIUM,14.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:47.998000,107.998,18.0,3.0,27.242,37.173,43.583,MEDIUM,15.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:47.290000,107.29,19.0,3.0,27.047,36.65,43.593,MEDIUM,16.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:55.100000,115.1,20.0,3.0,27.242,37.504,50.354,MEDIUM,17.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:02:05.778000,125.778,21.0,4.0,47.777,35.725,42.276,SOFT,4.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:44.133000,104.133,22.0,4.0,26.59,35.481,42.062,SOFT,5.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:44.307000,104.307,23.0,4.0,26.496,35.348,42.463,SOFT,6.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:44.675000,104.675,24.0,4.0,26.594,35.413,42.668,SOFT,7.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:45.216000,105.216,25.0,4.0,26.712,35.683,42.821,SOFT,8.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:45.642000,105.642,26.0,4.0,26.936,35.88,42.826,SOFT,9.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:45.559000,105.559,27.0,4.0,26.747,35.786,43.026,SOFT,10.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:01:46.118000,106.118,28.0,4.0,26.814,36.09,43.214,SOFT,11.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:02:22.147000,142.147,29.0,4.0,31.031,54.586,56.53,SOFT,12.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:02:03.336000,123.336,30.0,4.0,27.287,48.558,47.491,SOFT,13.0,False,Racing Bulls,False,,,True,2026,Bahrain Grand Prix,Practice 2
+LIN,41,,,31.0,4.0,36.328,47.506,86.375,SOFT,14.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,,,32.0,4.0,29.921,44.492,87.831,SOFT,15.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+LIN,41,0 days 00:02:00.684000,120.684,33.0,4.0,30.253,39.418,51.013,SOFT,16.0,False,Racing Bulls,False,,,False,2026,Bahrain Grand Prix,Practice 2
+COL,43,,,1.0,1.0,,39.46,44.829,MEDIUM,1.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:43.391000,103.391,2.0,1.0,26.27,35.315,41.806,MEDIUM,2.0,True,Alpine,True,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:44.165000,104.165,3.0,1.0,26.493,35.407,42.265,MEDIUM,3.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:44.675000,104.675,4.0,1.0,26.769,35.54,42.366,MEDIUM,4.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:45.373000,105.373,5.0,1.0,26.722,35.899,42.752,MEDIUM,5.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:45.698000,105.698,6.0,1.0,27.045,35.823,42.83,MEDIUM,6.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:46.624000,106.624,7.0,1.0,27.202,35.969,43.453,MEDIUM,7.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:46.177000,106.177,8.0,1.0,27.199,36.062,42.916,MEDIUM,8.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:55.408000,115.408,9.0,1.0,27.059,36.146,52.203,MEDIUM,9.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+COL,43,,,10.0,2.0,73.752,38.465,44.701,MEDIUM,10.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:46.937000,106.937,11.0,2.0,27.175,36.286,43.476,MEDIUM,11.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:45.812000,105.812,12.0,2.0,26.883,36.021,42.908,MEDIUM,12.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:45.804000,105.804,13.0,2.0,26.768,36.099,42.937,MEDIUM,13.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:45.693000,105.693,14.0,2.0,26.777,36.008,42.908,MEDIUM,14.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:46.669000,106.669,15.0,2.0,26.949,36.497,43.223,MEDIUM,15.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:47.071000,107.071,16.0,2.0,26.869,36.583,43.619,MEDIUM,16.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:47.055000,107.055,17.0,2.0,26.917,36.721,43.417,MEDIUM,17.0,False,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:55.209000,115.209,18.0,2.0,26.907,36.801,51.501,MEDIUM,18.0,False,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+COL,43,,,19.0,3.0,,36.441,41.371,SOFT,1.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:44.146000,104.146,20.0,3.0,26.168,35.759,42.219,SOFT,2.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:44.152000,104.152,21.0,3.0,26.783,35.274,42.095,SOFT,3.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:44.451000,104.451,22.0,3.0,26.693,35.371,42.387,SOFT,4.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:44.761000,104.761,23.0,3.0,26.579,35.677,42.505,SOFT,5.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:45.218000,105.218,24.0,3.0,26.95,35.687,42.581,SOFT,6.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:44.821000,104.821,25.0,3.0,26.785,35.429,42.607,SOFT,7.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:46.304000,106.304,26.0,3.0,26.888,36.281,43.135,SOFT,8.0,True,Alpine,False,,,True,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:02:20.050000,140.05,27.0,3.0,26.812,42.821,70.417,SOFT,9.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:59.656000,119.656,28.0,3.0,32.377,44.223,43.056,SOFT,10.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+COL,43,,,29.0,3.0,27.35,42.432,88.87,SOFT,11.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+COL,43,,,30.0,3.0,31.583,39.287,79.255,SOFT,12.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+COL,43,0 days 00:01:58.861000,118.861,31.0,3.0,31.187,37.368,50.306,SOFT,13.0,True,Alpine,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,,,1.0,1.0,,45.86,54.881,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:38.577000,98.577,2.0,1.0,25.373,32.502,40.702,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,,,3.0,1.0,49.583,81.369,78.437,MEDIUM,3.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,,,4.0,1.0,35.232,62.885,61.841,MEDIUM,4.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:02:14.518000,134.518,5.0,1.0,27.141,48.307,59.07,MEDIUM,5.0,True,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:52.186000,112.186,6.0,1.0,25.651,35.922,50.613,MEDIUM,6.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,,,7.0,2.0,,53.966,56.122,SOFT,1.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:37.833000,97.833,8.0,2.0,25.36,32.333,40.14,SOFT,2.0,True,Ferrari,True,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,,,9.0,2.0,45.874,86.182,89.137,SOFT,3.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:02:18.997000,138.997,10.0,2.0,28.211,52.267,58.519,SOFT,4.0,True,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:47.195000,107.195,11.0,2.0,25.536,32.466,49.193,SOFT,5.0,True,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,,,12.0,3.0,,39.312,44.238,SOFT,6.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:44.466000,104.466,13.0,3.0,26.39,35.511,42.565,SOFT,7.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:44.180000,104.18,14.0,3.0,26.4,35.052,42.728,SOFT,8.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:44.762000,104.762,15.0,3.0,26.684,35.129,42.949,SOFT,9.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:45.196000,105.196,16.0,3.0,26.76,35.361,43.075,SOFT,10.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:49.036000,109.036,17.0,3.0,26.924,35.645,46.467,SOFT,11.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:45.485000,105.485,18.0,3.0,26.76,35.781,42.944,SOFT,12.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:45.489000,105.489,19.0,3.0,26.911,35.49,43.088,SOFT,13.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:46.225000,106.225,20.0,3.0,27.047,35.982,43.196,SOFT,14.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:53.909000,113.909,21.0,3.0,27.73,36.751,49.428,SOFT,15.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:02:05.976000,125.976,22.0,4.0,47.648,36.049,42.279,MEDIUM,7.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:44.504000,104.504,23.0,4.0,26.419,35.101,42.984,MEDIUM,8.0,False,Ferrari,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:02:25.859000,145.859,24.0,4.0,26.66,61.334,57.865,MEDIUM,9.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:58.582000,118.582,25.0,4.0,27.488,47.526,43.568,MEDIUM,10.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,,,26.0,4.0,27.791,43.872,,MEDIUM,11.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,,,27.0,4.0,28.785,46.405,84.663,MEDIUM,12.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAM,44,0 days 00:01:57.332000,117.332,28.0,4.0,28.547,36.841,51.944,MEDIUM,13.0,False,Ferrari,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,,,1.0,1.0,,39.696,49.183,MEDIUM,1.0,True,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:39.702000,99.702,2.0,1.0,25.697,33.128,40.877,MEDIUM,2.0,True,Audi,True,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,,,3.0,1.0,40.801,50.391,66.896,MEDIUM,3.0,True,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,,,4.0,2.0,60.876,48.508,56.275,MEDIUM,4.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:40.422000,100.422,5.0,2.0,25.843,33.494,41.085,MEDIUM,5.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,,,6.0,2.0,37.066,53.562,60.607,MEDIUM,6.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,,,7.0,3.0,,41.491,57.929,MEDIUM,7.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:54.776000,114.776,8.0,3.0,26.032,34.921,53.823,MEDIUM,8.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,,,9.0,4.0,,41.392,49.671,SOFT,1.0,True,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:39.051000,99.051,10.0,4.0,25.612,32.991,40.448,SOFT,2.0,True,Audi,True,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:55.908000,115.908,11.0,4.0,32.536,36.095,47.277,SOFT,3.0,True,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,,,12.0,5.0,,35.873,42.21,MEDIUM,9.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:44.620000,104.62,13.0,5.0,26.372,35.344,42.904,MEDIUM,10.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:47.355000,107.355,14.0,5.0,26.705,37.223,43.427,MEDIUM,11.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:48.221000,108.221,15.0,5.0,27.404,37.246,43.571,MEDIUM,12.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:47.134000,107.134,16.0,5.0,27.109,36.767,43.258,MEDIUM,13.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:46.454000,106.454,17.0,5.0,26.84,36.031,43.583,MEDIUM,14.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:47.171000,107.171,18.0,5.0,27.478,36.183,43.51,MEDIUM,15.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:47.489000,107.489,19.0,5.0,27.329,36.785,43.375,MEDIUM,16.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:47.862000,107.862,20.0,5.0,27.428,36.778,43.656,MEDIUM,17.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:53.150000,113.15,21.0,5.0,27.097,36.306,49.747,MEDIUM,18.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:02:14.466000,134.466,22.0,6.0,57.347,35.212,41.907,SOFT,4.0,False,Audi,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:44.248000,104.248,23.0,6.0,26.672,35.124,42.452,SOFT,5.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,0 days 00:01:44.934000,104.934,24.0,6.0,26.743,35.481,42.71,SOFT,6.0,False,Audi,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOR,5,,,25.0,6.0,,,,SOFT,7.0,False,Audi,,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,,,1.0,1.0,,39.76,55.051,MEDIUM,1.0,True,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:40.311000,100.311,2.0,1.0,25.65,33.679,40.982,MEDIUM,2.0,True,Williams,True,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,,,3.0,1.0,47.332,47.257,60.454,MEDIUM,3.0,True,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:02:16.319000,136.319,4.0,1.0,38.093,43.303,54.923,MEDIUM,4.0,True,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:41.091000,101.091,5.0,1.0,25.861,33.975,41.255,MEDIUM,5.0,True,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:02:16.150000,136.15,6.0,1.0,31.998,45.081,59.071,MEDIUM,6.0,True,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,,,7.0,2.0,58.97,40.561,56.996,SOFT,1.0,True,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:39.930000,99.93,8.0,2.0,25.718,33.562,40.65,SOFT,2.0,True,Williams,True,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:02:20.996000,140.996,9.0,2.0,39.979,45.064,55.953,SOFT,3.0,True,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,,,10.0,3.0,,37.029,43.509,MEDIUM,7.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:45.016000,105.016,11.0,3.0,26.555,35.847,42.614,MEDIUM,8.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:45.750000,105.75,12.0,3.0,26.689,36.158,42.903,MEDIUM,9.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:45.573000,105.573,13.0,3.0,26.827,35.986,42.76,MEDIUM,10.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:46.498000,106.498,14.0,3.0,26.834,36.412,43.252,MEDIUM,11.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:46.866000,106.866,15.0,3.0,26.886,36.337,43.643,MEDIUM,12.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:48.071000,108.071,16.0,3.0,26.99,37.169,43.912,MEDIUM,13.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:47.776000,107.776,17.0,3.0,27.241,36.846,43.689,MEDIUM,14.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:47.815000,107.815,18.0,3.0,27.489,36.674,43.652,MEDIUM,15.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:54.331000,114.331,19.0,3.0,27.512,37.186,49.633,MEDIUM,16.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:02:17.883000,137.883,20.0,4.0,58.313,36.855,42.715,SOFT,4.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:45.528000,105.528,21.0,4.0,26.315,36.114,43.099,SOFT,5.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:45.984000,105.984,22.0,4.0,26.778,36.224,42.982,SOFT,6.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:45.989000,105.989,23.0,4.0,26.634,36.24,43.115,SOFT,7.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:46.167000,106.167,24.0,4.0,26.757,36.272,43.138,SOFT,8.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:46.113000,106.113,25.0,4.0,26.77,36.477,42.866,SOFT,9.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:47.804000,107.804,26.0,4.0,26.946,37.376,43.482,SOFT,10.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:02:25.801000,145.801,27.0,4.0,31.798,55.274,58.729,SOFT,11.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:57.847000,117.847,28.0,4.0,27.474,47.348,43.025,SOFT,12.0,False,Williams,False,,,True,2026,Bahrain Grand Prix,Practice 2
+SAI,55,,,29.0,4.0,39.552,55.349,93.107,SOFT,13.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,,,30.0,4.0,28.532,38.672,90.143,SOFT,14.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+SAI,55,0 days 00:01:54.507000,114.507,31.0,4.0,28.364,36.768,49.375,SOFT,15.0,False,Williams,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAD,6,,,1.0,1.0,,44.805,54.379,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:39.006000,99.006,2.0,1.0,25.472,32.874,40.66,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,,,3.0,1.0,47.11,76.975,69.226,MEDIUM,3.0,True,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:39.245000,99.245,4.0,1.0,25.575,32.905,40.765,MEDIUM,4.0,True,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:02:06.124000,126.124,5.0,1.0,34.239,40.423,51.462,MEDIUM,5.0,True,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAD,6,,,6.0,2.0,,41.72,48.692,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:37.627000,97.627,7.0,2.0,25.189,32.229,40.209,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:58.232000,118.232,8.0,2.0,29.764,36.432,52.036,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAD,6,,,9.0,3.0,,36.42,42.478,MEDIUM,6.0,False,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:44.994000,104.994,10.0,3.0,26.527,35.683,42.784,MEDIUM,7.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:45.351000,105.351,11.0,3.0,26.642,35.803,42.906,MEDIUM,8.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:44.929000,104.929,12.0,3.0,26.632,35.513,42.784,MEDIUM,9.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:46.039000,106.039,13.0,3.0,26.795,35.883,43.361,MEDIUM,10.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:46.387000,106.387,14.0,3.0,27.326,36.078,42.983,MEDIUM,11.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:45.289000,105.289,15.0,3.0,26.938,35.47,42.881,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:45.566000,105.566,16.0,3.0,26.973,35.581,43.012,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:45.655000,105.655,17.0,3.0,26.916,35.644,43.095,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:45.732000,105.732,18.0,3.0,26.866,35.694,43.172,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:01:54.626000,114.626,19.0,3.0,26.883,35.692,52.051,MEDIUM,16.0,False,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAD,6,,,20.0,4.0,70.07,48.306,41.481,SOFT,4.0,False,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:02:17.936000,137.936,21.0,4.0,27.785,42.876,67.275,SOFT,5.0,False,Red Bull Racing,False,,,True,2026,Bahrain Grand Prix,Practice 2
+HAD,6,,,22.0,4.0,56.81,44.146,77.292,SOFT,6.0,False,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+HAD,6,0 days 00:02:02.555000,122.555,23.0,4.0,32.617,36.968,52.97,SOFT,7.0,False,Red Bull Racing,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,,,1.0,1.0,,49.011,53.471,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:38.020000,98.02,2.0,1.0,25.351,32.62,40.049,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,,,3.0,1.0,31.858,61.016,75.795,MEDIUM,3.0,True,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,,,4.0,1.0,41.697,60.501,67.533,MEDIUM,4.0,True,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:49.613000,109.613,5.0,1.0,25.513,32.906,51.194,MEDIUM,5.0,True,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,,,6.0,2.0,,46.187,51.775,SOFT,1.0,True,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:48.819000,108.819,7.0,2.0,25.363,32.314,51.142,SOFT,2.0,True,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,,,8.0,3.0,,39.443,42.854,SOFT,3.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:44.726000,104.726,9.0,3.0,26.574,36.011,42.141,SOFT,4.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:44.826000,104.826,10.0,3.0,26.48,35.963,42.383,SOFT,5.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:44.542000,104.542,11.0,3.0,26.638,35.601,42.303,SOFT,6.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:44.617000,104.617,12.0,3.0,26.762,35.539,42.316,SOFT,7.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:44.315000,104.315,13.0,3.0,26.47,35.36,42.485,SOFT,8.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:44.960000,104.96,14.0,3.0,26.675,35.429,42.856,SOFT,9.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:53.067000,113.067,15.0,3.0,28.094,42.163,42.81,SOFT,10.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:45.334000,105.334,16.0,3.0,26.832,35.682,42.82,SOFT,11.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:45.269000,105.269,17.0,3.0,26.867,35.671,42.731,SOFT,12.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:45.471000,105.471,18.0,3.0,26.888,35.702,42.881,SOFT,13.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:45.729000,105.729,19.0,3.0,26.831,35.855,43.043,SOFT,14.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:45.743000,105.743,20.0,3.0,26.987,35.747,43.009,SOFT,15.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:45.779000,105.779,21.0,3.0,26.848,36.139,42.792,SOFT,16.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:45.827000,105.827,22.0,3.0,27.054,35.838,42.935,SOFT,17.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:45.770000,105.77,23.0,3.0,27.051,35.773,42.946,SOFT,18.0,False,Mercedes,False,,,True,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:52.091000,112.091,24.0,3.0,27.192,35.73,49.169,SOFT,19.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,,,25.0,4.0,,43.669,47.961,MEDIUM,6.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,,,26.0,4.0,31.202,48.038,74.209,MEDIUM,7.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,,,27.0,4.0,55.596,41.368,90.209,MEDIUM,8.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+RUS,63,0 days 00:01:56.735000,116.735,28.0,4.0,29.493,35.963,51.279,MEDIUM,9.0,False,Mercedes,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,,,1.0,1.0,,43.683,57.677,SOFT,1.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:40.680000,100.68,2.0,1.0,25.891,33.565,41.224,SOFT,2.0,True,Cadillac,True,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,,,3.0,1.0,35.194,54.451,66.573,SOFT,3.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,,,4.0,1.0,42.846,53.99,53.884,SOFT,4.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:41.558000,101.558,5.0,1.0,26.137,33.971,41.45,SOFT,5.0,True,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:02:02.817000,122.817,6.0,1.0,28.303,37.399,57.115,SOFT,6.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,,,7.0,2.0,,47.042,49.635,SOFT,1.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:02:13.769000,133.769,8.0,2.0,25.75,46.251,61.768,SOFT,2.0,True,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,,,9.0,2.0,42.037,54.737,53.663,SOFT,3.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:40.186000,100.186,10.0,2.0,25.71,33.698,40.778,SOFT,4.0,True,Cadillac,True,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:02:16.997000,136.997,11.0,2.0,31.139,40.029,65.829,SOFT,5.0,True,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,,,12.0,3.0,,38.461,44.125,SOFT,6.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:45.237000,105.237,13.0,3.0,26.559,35.863,42.815,SOFT,7.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:46.775000,106.775,14.0,3.0,26.958,36.54,43.277,SOFT,8.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:47.237000,107.237,15.0,3.0,26.978,36.657,43.602,SOFT,9.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:47.133000,107.133,16.0,3.0,27.088,36.532,43.513,SOFT,10.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:47.343000,107.343,17.0,3.0,27.062,36.639,43.642,SOFT,11.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:47.879000,107.879,18.0,3.0,27.097,37.336,43.446,SOFT,12.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:47.676000,107.676,19.0,3.0,27.226,36.696,43.754,SOFT,13.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:49.003000,109.003,20.0,3.0,27.144,37.913,43.946,SOFT,14.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:48.022000,108.022,21.0,3.0,27.341,36.708,43.973,SOFT,15.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:01:51.547000,111.547,22.0,3.0,27.58,37.601,46.366,SOFT,16.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:02:02.323000,122.323,23.0,3.0,27.423,37.169,57.731,SOFT,17.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:02:26.403000,146.403,24.0,4.0,58.146,45.073,43.184,SOFT,7.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,,,25.0,4.0,28.861,39.953,87.957,SOFT,8.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:02:26.580000,146.58,26.0,4.0,29.767,36.979,79.834,SOFT,9.0,False,Cadillac,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BOT,77,0 days 00:02:07.783000,127.783,27.0,4.0,30.373,36.626,60.784,SOFT,10.0,False,Cadillac,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,,,1.0,1.0,,41.795,58.656,SOFT,1.0,True,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:39.165000,99.165,2.0,1.0,25.582,32.91,40.673,SOFT,2.0,True,McLaren,True,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,,,3.0,1.0,36.092,47.54,67.857,SOFT,3.0,True,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,,,4.0,2.0,51.393,50.172,53.417,SOFT,4.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:39.540000,99.54,5.0,2.0,25.62,32.969,40.951,SOFT,5.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:02:11.076000,131.076,6.0,2.0,30.16,44.534,56.382,SOFT,6.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,,,7.0,3.0,,48.319,57.611,SOFT,1.0,True,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:37.899000,97.899,8.0,3.0,25.255,32.542,40.102,SOFT,2.0,True,McLaren,True,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,,,9.0,3.0,36.786,50.53,68.343,SOFT,3.0,True,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,,,10.0,4.0,51.89,52.467,55.89,SOFT,4.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:38.633000,98.633,11.0,4.0,25.414,32.717,40.502,SOFT,5.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:02:03.805000,123.805,12.0,4.0,30.125,40.782,52.898,SOFT,6.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,,,13.0,5.0,,36.82,42.827,SOFT,7.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:45.463000,105.463,14.0,5.0,26.694,36.055,42.714,SOFT,8.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:45.002000,105.002,15.0,5.0,26.734,35.545,42.723,SOFT,9.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:44.765000,104.765,16.0,5.0,26.523,35.329,42.913,SOFT,10.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:45.203000,105.203,17.0,5.0,26.478,35.825,42.9,SOFT,11.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:45.393000,105.393,18.0,5.0,26.665,35.576,43.152,SOFT,12.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:45.034000,105.034,19.0,5.0,26.686,35.428,42.92,SOFT,13.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:44.774000,104.774,20.0,5.0,26.629,35.231,42.914,SOFT,14.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:01:45.246000,105.246,21.0,5.0,26.626,35.683,42.937,SOFT,15.0,False,McLaren,False,,,True,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:02:18.902000,138.902,22.0,5.0,26.723,47.177,65.002,SOFT,16.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:02:24.585000,144.585,23.0,6.0,51.403,50.05,43.132,SOFT,7.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,,,24.0,6.0,31.362,47.225,98.206,SOFT,8.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,,,25.0,6.0,28.139,43.75,85.351,SOFT,9.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+PIA,81,0 days 00:02:01.159000,121.159,26.0,6.0,27.45,34.833,58.876,SOFT,10.0,False,McLaren,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,,,1.0,1.0,,42.465,49.578,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:40.473000,100.473,2.0,1.0,25.853,33.762,40.858,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,,,3.0,1.0,44.609,58.382,64.071,MEDIUM,3.0,True,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,,,4.0,2.0,80.228,50.565,57.346,MEDIUM,4.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:40.801000,100.801,5.0,2.0,25.954,33.76,41.087,MEDIUM,5.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:02:05.893000,125.893,6.0,2.0,32.539,39.74,53.614,MEDIUM,6.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,,,7.0,3.0,63.746,47.251,50.922,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:39.706000,99.706,8.0,3.0,25.65,33.351,40.705,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:02:14.752000,134.752,9.0,3.0,34.555,44.289,55.908,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,,,10.0,4.0,,36.8,45.857,MEDIUM,7.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:47.288000,107.288,11.0,4.0,26.928,36.165,44.195,MEDIUM,8.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:45.851000,105.851,12.0,4.0,26.705,35.914,43.232,MEDIUM,9.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:46.134000,106.134,13.0,4.0,26.927,35.974,43.233,MEDIUM,10.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:46.920000,106.92,14.0,4.0,26.923,36.499,43.498,MEDIUM,11.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:46.743000,106.743,15.0,4.0,26.761,36.392,43.59,MEDIUM,12.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:47.695000,107.695,16.0,4.0,27.046,37.068,43.581,MEDIUM,13.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:49.747000,109.747,17.0,4.0,27.155,38.706,43.886,MEDIUM,14.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:47.286000,107.286,18.0,4.0,26.964,36.645,43.677,MEDIUM,15.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:54.177000,114.177,19.0,4.0,27.325,36.957,49.895,MEDIUM,16.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,,,20.0,5.0,71.123,36.533,43.361,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:45.984000,105.984,21.0,5.0,26.553,36.22,43.211,SOFT,5.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:45.563000,105.563,22.0,5.0,26.662,35.903,42.998,SOFT,6.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:45.952000,105.952,23.0,5.0,26.932,36.094,42.926,SOFT,7.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:45.448000,105.448,24.0,5.0,26.65,35.9,42.898,SOFT,8.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:46.078000,106.078,25.0,5.0,26.8,36.033,43.245,SOFT,9.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:46.221000,106.221,26.0,5.0,26.729,35.991,43.501,SOFT,10.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,,,27.0,5.0,27.048,61.596,68.523,SOFT,11.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:02:25.713000,145.713,28.0,5.0,38.948,44.111,62.654,SOFT,12.0,False,Haas F1 Team,False,,,True,2026,Bahrain Grand Prix,Practice 2
+BEA,87,,,29.0,5.0,55.877,44.192,86.343,SOFT,13.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2
+BEA,87,0 days 00:01:54.984000,114.984,30.0,5.0,29.95,36.359,48.675,SOFT,14.0,False,Haas F1 Team,False,,,False,2026,Bahrain Grand Prix,Practice 2

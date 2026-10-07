@@ -1,0 +1,541 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,36.604,50.656,MEDIUM,1.0,True,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,106.73,106.73,2.0,1.0,28.276,32.957,45.497,MEDIUM,2.0,True,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,97.542,97.542,3.0,1.0,25.762,29.433,42.347,MEDIUM,3.0,True,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,123.126,123.126,4.0,1.0,31.004,36.784,55.338,MEDIUM,4.0,True,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,,,5.0,2.0,55.215,46.507,64.313,MEDIUM,5.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,108.094,108.094,6.0,2.0,27.416,31.201,49.477,MEDIUM,6.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,137.294,137.294,7.0,2.0,24.861,30.153,82.28,MEDIUM,7.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,121.882,121.882,8.0,2.0,30.039,33.544,58.299,MEDIUM,8.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,109.021,109.021,9.0,2.0,28.921,30.812,49.288,MEDIUM,9.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,95.572,95.572,10.0,2.0,24.857,28.836,41.879,MEDIUM,10.0,False,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,116.553,116.553,11.0,2.0,33.376,33.525,49.652,MEDIUM,11.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,114.401,114.401,12.0,2.0,32.952,33.881,47.568,MEDIUM,12.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,102.826,102.826,13.0,2.0,24.907,28.862,49.057,MEDIUM,13.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,,,14.0,3.0,,31.036,44.362,MEDIUM,14.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,98.882,98.882,15.0,3.0,25.427,29.527,43.928,MEDIUM,15.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,100.206,100.206,16.0,3.0,25.936,29.962,44.308,MEDIUM,16.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,97.747,97.747,17.0,3.0,25.665,29.597,42.485,MEDIUM,17.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,97.366,97.366,18.0,3.0,25.63,29.478,42.258,MEDIUM,18.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,97.795,97.795,19.0,3.0,25.781,29.485,42.529,MEDIUM,19.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,103.805,103.805,20.0,3.0,25.774,29.923,48.108,MEDIUM,20.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,,,21.0,4.0,,30.222,44.677,SOFT,1.0,True,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,93.7,93.7,22.0,4.0,24.337,28.275,41.088,SOFT,2.0,True,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,125.589,125.589,23.0,4.0,33.422,36.51,55.657,SOFT,3.0,True,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,93.745,93.745,24.0,4.0,24.43,28.305,41.01,SOFT,4.0,True,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,125.306,125.306,25.0,4.0,33.232,40.959,51.115,SOFT,5.0,True,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,93.296,93.296,26.0,4.0,24.358,28.258,40.68,SOFT,6.0,True,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,126.301,126.301,27.0,4.0,32.593,35.021,58.687,SOFT,7.0,True,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+NOR,1,,,28.0,4.0,70.602,31.252,53.108,SOFT,8.0,True,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+NOR,1,,,29.0,4.0,66.678,28.96,58.752,SOFT,9.0,True,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+VER,3,,,1.0,1.0,,33.719,48.811,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+VER,3,106.986,106.986,2.0,1.0,27.885,31.257,47.844,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,96.052,96.052,3.0,1.0,25.152,28.977,41.923,MEDIUM,3.0,True,Red Bull Racing,True,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,127.672,127.672,4.0,1.0,31.821,39.111,56.74,MEDIUM,4.0,True,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,133.324,133.324,5.0,1.0,25.066,36.221,72.037,MEDIUM,5.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+VER,3,96.04,96.04,6.0,1.0,24.962,28.807,42.271,MEDIUM,6.0,True,Red Bull Racing,True,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,117.654,117.654,7.0,1.0,28.428,32.023,57.203,MEDIUM,7.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+VER,3,,,8.0,2.0,,31.001,43.466,MEDIUM,8.0,False,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+VER,3,98.731,98.731,9.0,2.0,25.893,30.206,42.632,MEDIUM,9.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,99.24,99.24,10.0,2.0,26.076,30.437,42.727,MEDIUM,10.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,99.498,99.498,11.0,2.0,26.209,30.454,42.835,MEDIUM,11.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,100.366,100.366,12.0,2.0,26.323,30.669,43.374,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,99.627,99.627,13.0,2.0,26.317,30.639,42.671,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,99.798,99.798,14.0,2.0,26.202,30.481,43.115,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,100.426,100.426,15.0,2.0,26.435,30.71,43.281,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,110.418,110.418,16.0,2.0,26.566,31.13,52.722,MEDIUM,16.0,False,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+VER,3,,,17.0,3.0,,30.857,47.193,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+VER,3,94.541,94.541,18.0,3.0,24.709,28.499,41.333,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,130.505,130.505,19.0,3.0,36.342,42.26,51.903,SOFT,3.0,True,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,94.806,94.806,20.0,3.0,24.774,28.747,41.285,SOFT,4.0,True,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,132.199,132.199,21.0,3.0,31.595,42.185,58.419,SOFT,5.0,True,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,117.259,117.259,22.0,3.0,30.237,31.742,55.28,SOFT,6.0,True,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,139.658,139.658,23.0,3.0,45.269,31.155,63.234,SOFT,7.0,True,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+VER,3,147.488,147.488,24.0,3.0,65.592,31.03,50.866,SOFT,8.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,,,1.0,1.0,,34.198,59.405,MEDIUM,1.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,100.29,100.29,2.0,1.0,26.847,30.631,42.812,MEDIUM,2.0,True,Audi,True,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,127.891,127.891,3.0,1.0,32.096,36.128,59.667,MEDIUM,3.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,114.577,114.577,4.0,1.0,25.462,38.241,50.874,MEDIUM,4.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,138.262,138.262,5.0,1.0,47.299,36.02,54.943,MEDIUM,5.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,97.743,97.743,6.0,1.0,25.5,29.82,42.423,MEDIUM,6.0,True,Audi,True,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,143.758,143.758,7.0,1.0,35.834,42.927,64.997,MEDIUM,7.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,128.507,128.507,8.0,1.0,31.677,36.535,60.295,MEDIUM,8.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,103.362,103.362,9.0,1.0,25.534,29.496,48.332,MEDIUM,9.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,,,10.0,2.0,,34.479,47.237,MEDIUM,10.0,False,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,107.68,107.68,11.0,2.0,27.643,31.571,48.466,MEDIUM,11.0,False,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,96.232,96.232,12.0,2.0,25.288,29.313,41.631,MEDIUM,12.0,False,Audi,True,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,127.761,127.761,13.0,2.0,31.561,37.726,58.474,MEDIUM,13.0,False,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,105.812,105.812,14.0,2.0,30.559,32.255,42.998,MEDIUM,14.0,False,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,98.302,98.302,15.0,2.0,25.888,29.841,42.573,MEDIUM,15.0,False,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,98.752,98.752,16.0,2.0,25.961,29.967,42.824,MEDIUM,16.0,False,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,99.295,99.295,17.0,2.0,25.981,30.096,43.218,MEDIUM,17.0,False,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,109.664,109.664,18.0,2.0,26.003,30.117,53.544,MEDIUM,18.0,False,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,,,19.0,3.0,,32.607,48.743,SOFT,1.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,114.992,114.992,20.0,3.0,28.012,31.493,55.487,SOFT,2.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,95.148,95.148,21.0,3.0,24.973,28.745,41.43,SOFT,3.0,True,Audi,True,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,136.456,136.456,22.0,3.0,37.862,44.908,53.686,SOFT,4.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,94.828,94.828,23.0,3.0,25.02,28.689,41.119,SOFT,5.0,True,Audi,True,,,True,2026,Chinese Grand Prix,Practice 1
+BOR,5,,,24.0,3.0,37.025,45.535,80.76,SOFT,6.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,,,25.0,3.0,67.547,39.511,68.978,SOFT,7.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOR,5,,,26.0,3.0,64.862,36.663,59.029,SOFT,8.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAD,6,,,1.0,1.0,,34.436,52.79,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAD,6,135.198,135.198,2.0,1.0,25.562,42.406,67.23,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,114.572,114.572,3.0,1.0,25.204,34.357,55.011,MEDIUM,3.0,True,Red Bull Racing,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,96.544,96.544,4.0,1.0,25.247,28.973,42.324,MEDIUM,4.0,True,Red Bull Racing,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,149.05,149.05,5.0,1.0,45.456,40.749,62.845,MEDIUM,5.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAD,6,95.951,95.951,6.0,1.0,25.106,28.868,41.977,MEDIUM,6.0,True,Red Bull Racing,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,144.798,144.798,7.0,1.0,28.24,40.139,76.419,MEDIUM,7.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAD,6,,,8.0,2.0,,31.092,43.121,MEDIUM,8.0,False,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAD,6,98.721,98.721,9.0,2.0,25.931,30.109,42.681,MEDIUM,9.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,98.916,98.916,10.0,2.0,26.009,30.122,42.785,MEDIUM,10.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,100.014,100.014,11.0,2.0,26.069,30.722,43.223,MEDIUM,11.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,100.524,100.524,12.0,2.0,26.397,30.833,43.294,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,104.98,104.98,13.0,2.0,26.181,31.007,47.792,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,101.186,101.186,14.0,2.0,26.436,31.393,43.357,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,101.612,101.612,15.0,2.0,26.402,31.303,43.907,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,101.151,101.151,16.0,2.0,26.365,31.181,43.605,MEDIUM,16.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,101.578,101.578,17.0,2.0,26.542,31.178,43.858,MEDIUM,17.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,101.36,101.36,18.0,2.0,26.542,31.18,43.638,MEDIUM,18.0,False,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,108.649,108.649,19.0,2.0,26.67,31.419,50.56,MEDIUM,19.0,False,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAD,6,,,20.0,3.0,,33.493,55.01,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAD,6,95.185,95.185,21.0,3.0,24.987,28.667,41.531,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,145.436,145.436,22.0,3.0,38.593,45.835,61.008,SOFT,3.0,True,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,94.856,94.856,23.0,3.0,25.0,28.672,41.184,SOFT,4.0,True,Red Bull Racing,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,139.009,139.009,24.0,3.0,34.725,39.43,64.854,SOFT,5.0,True,Red Bull Racing,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAD,6,,,25.0,3.0,64.445,32.31,67.346,SOFT,6.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAD,6,142.122,142.122,26.0,3.0,64.657,30.171,47.294,SOFT,7.0,True,Red Bull Racing,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,,,1.0,1.0,,33.154,51.319,MEDIUM,1.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,97.754,97.754,2.0,1.0,25.818,29.965,41.971,MEDIUM,2.0,True,Alpine,True,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,140.983,140.983,3.0,1.0,42.288,47.55,51.145,MEDIUM,3.0,True,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,95.974,95.974,4.0,1.0,25.147,29.032,41.795,MEDIUM,4.0,True,Alpine,True,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,144.195,144.195,5.0,1.0,36.215,44.393,63.587,MEDIUM,5.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,120.52,120.52,6.0,1.0,31.229,35.566,53.725,MEDIUM,6.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,101.626,101.626,7.0,1.0,25.366,28.91,47.35,MEDIUM,7.0,True,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,142.416,142.416,8.0,1.0,41.249,41.313,59.854,MEDIUM,8.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,122.122,122.122,9.0,1.0,31.063,37.512,53.547,MEDIUM,9.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,95.639,95.639,10.0,1.0,25.45,28.721,41.468,MEDIUM,10.0,True,Alpine,True,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,120.356,120.356,11.0,1.0,29.583,38.17,52.603,MEDIUM,11.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,,,12.0,2.0,,32.029,44.562,MEDIUM,12.0,False,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,97.956,97.956,13.0,2.0,25.761,29.657,42.538,MEDIUM,13.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,97.916,97.916,14.0,2.0,26.129,29.523,42.264,MEDIUM,14.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,97.907,97.907,15.0,2.0,25.817,29.5,42.59,MEDIUM,15.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,98.192,98.192,16.0,2.0,25.929,29.733,42.53,MEDIUM,16.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,98.725,98.725,17.0,2.0,26.086,30.114,42.525,MEDIUM,17.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,98.664,98.664,18.0,2.0,26.002,30.143,42.519,MEDIUM,18.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,105.099,105.099,19.0,2.0,26.366,30.051,48.682,MEDIUM,19.0,False,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,,,20.0,3.0,,32.028,49.299,SOFT,1.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,94.676,94.676,21.0,3.0,24.675,28.285,41.716,SOFT,2.0,True,Alpine,True,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,134.829,134.829,22.0,3.0,32.171,45.377,57.281,SOFT,3.0,True,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,94.853,94.853,23.0,3.0,24.783,28.601,41.469,SOFT,4.0,True,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,121.107,121.107,24.0,3.0,30.18,36.233,54.694,SOFT,5.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,,,25.0,4.0,66.397,39.057,54.777,MEDIUM,20.0,False,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,128.782,128.782,26.0,4.0,32.299,36.831,59.652,MEDIUM,21.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+GAS,10,,,27.0,4.0,67.048,37.244,62.68,MEDIUM,22.0,False,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+GAS,10,149.676,149.676,28.0,4.0,62.503,31.23,55.943,MEDIUM,23.0,False,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+PER,11,,,1.0,1.0,,36.784,51.439,MEDIUM,1.0,True,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+PER,11,103.34,103.34,2.0,1.0,26.63,31.465,45.245,MEDIUM,2.0,True,Cadillac,True,,,True,2026,Chinese Grand Prix,Practice 1
+PER,11,124.978,124.978,3.0,1.0,28.995,36.767,59.216,MEDIUM,3.0,True,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+PER,11,99.2,99.2,4.0,1.0,26.3,29.813,43.087,MEDIUM,4.0,True,Cadillac,True,,,True,2026,Chinese Grand Prix,Practice 1
+PER,11,145.702,145.702,5.0,1.0,37.401,45.394,62.907,MEDIUM,5.0,True,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+PER,11,101.142,101.142,6.0,1.0,25.755,29.594,45.793,MEDIUM,6.0,True,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+PER,11,142.222,142.222,7.0,1.0,29.276,45.379,67.567,MEDIUM,7.0,True,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+PER,11,130.776,130.776,8.0,1.0,28.399,34.55,67.827,MEDIUM,8.0,True,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+PER,11,,,9.0,2.0,,32.533,47.214,MEDIUM,9.0,False,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+PER,11,101.916,101.916,10.0,2.0,26.651,30.75,44.515,MEDIUM,10.0,False,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+PER,11,101.925,101.925,11.0,2.0,27.436,30.92,43.569,MEDIUM,11.0,False,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+PER,11,101.57,101.57,12.0,2.0,27.046,30.861,43.663,MEDIUM,12.0,False,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+PER,11,122.528,122.528,13.0,2.0,26.777,38.28,57.471,MEDIUM,13.0,False,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,,,1.0,1.0,,32.465,54.158,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,110.628,110.628,2.0,1.0,28.049,30.862,51.717,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,95.094,95.094,3.0,1.0,25.013,28.602,41.479,MEDIUM,3.0,True,Mercedes,True,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,133.855,133.855,4.0,1.0,34.885,47.451,51.519,MEDIUM,4.0,True,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,99.187,99.187,5.0,1.0,24.51,28.23,46.447,MEDIUM,5.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,141.979,141.979,6.0,1.0,43.566,36.407,62.006,MEDIUM,6.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,94.794,94.794,7.0,1.0,24.413,28.1,42.281,MEDIUM,7.0,True,Mercedes,True,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,,,8.0,1.0,36.038,52.446,71.204,MEDIUM,8.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,,,9.0,2.0,,31.265,42.434,MEDIUM,9.0,False,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,96.672,96.672,10.0,2.0,25.412,29.026,42.234,MEDIUM,10.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,96.342,96.342,11.0,2.0,25.549,28.973,41.82,MEDIUM,11.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,96.134,96.134,12.0,2.0,25.524,28.924,41.686,MEDIUM,12.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,96.162,96.162,13.0,2.0,25.484,28.974,41.704,MEDIUM,13.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,96.032,96.032,14.0,2.0,25.442,28.986,41.604,MEDIUM,14.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,96.215,96.215,15.0,2.0,25.434,29.13,41.651,MEDIUM,15.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,96.222,96.222,16.0,2.0,25.456,29.199,41.567,MEDIUM,16.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,96.837,96.837,17.0,2.0,25.555,29.347,41.935,MEDIUM,17.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,97.683,97.683,18.0,2.0,25.622,29.594,42.467,MEDIUM,18.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,102.759,102.759,19.0,2.0,25.584,29.521,47.654,MEDIUM,19.0,False,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,,,20.0,3.0,,31.575,53.196,SOFT,1.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,92.963,92.963,21.0,3.0,24.508,27.999,40.456,SOFT,2.0,True,Mercedes,True,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,123.906,123.906,22.0,3.0,36.075,40.335,47.496,SOFT,3.0,True,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,96.08,96.08,23.0,3.0,24.396,27.922,43.762,SOFT,4.0,True,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,138.221,138.221,24.0,3.0,43.672,39.762,54.787,SOFT,5.0,True,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,92.861,92.861,25.0,3.0,24.267,27.943,40.651,SOFT,6.0,True,Mercedes,True,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,114.968,114.968,26.0,3.0,28.544,32.751,53.673,SOFT,7.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,,,27.0,4.0,,30.667,47.165,SOFT,8.0,False,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,130.601,130.601,28.0,4.0,30.68,32.67,67.251,SOFT,9.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+ANT,12,,,29.0,4.0,78.101,32.352,57.949,SOFT,10.0,False,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ANT,12,,,30.0,4.0,79.151,31.431,51.894,SOFT,11.0,False,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALO,14,,,1.0,1.0,,38.468,50.099,SOFT,1.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALO,14,116.395,116.395,2.0,1.0,27.717,33.756,54.922,SOFT,2.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALO,14,,,3.0,2.0,,32.233,47.937,SOFT,3.0,False,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALO,14,98.579,98.579,4.0,2.0,25.863,29.576,43.14,SOFT,4.0,False,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+ALO,14,113.516,113.516,5.0,2.0,32.235,32.893,48.388,SOFT,5.0,False,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALO,14,117.962,117.962,6.0,2.0,25.301,29.85,62.811,SOFT,6.0,False,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALO,14,97.329,97.329,7.0,2.0,25.327,29.287,42.715,SOFT,7.0,False,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+ALO,14,115.353,115.353,8.0,2.0,28.846,33.237,53.27,SOFT,8.0,False,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALO,14,,,9.0,3.0,,36.234,49.062,SOFT,1.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALO,14,96.761,96.761,10.0,3.0,25.266,28.912,42.583,SOFT,2.0,True,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+ALO,14,117.089,117.089,11.0,3.0,31.518,35.532,50.039,SOFT,3.0,True,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALO,14,106.905,106.905,12.0,3.0,25.177,28.954,52.774,SOFT,4.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALO,14,,,13.0,4.0,,32.863,55.934,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALO,14,95.875,95.875,14.0,4.0,24.885,28.886,42.104,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+ALO,14,122.46,122.46,15.0,4.0,32.577,34.887,54.996,MEDIUM,3.0,True,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALO,14,95.856,95.856,16.0,4.0,24.944,28.854,42.058,MEDIUM,4.0,True,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+ALO,14,119.86,119.86,17.0,4.0,32.198,31.692,55.97,MEDIUM,5.0,True,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALO,14,,,18.0,4.0,72.152,37.084,60.095,MEDIUM,6.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,,,1.0,1.0,,36.708,54.228,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,111.963,111.963,2.0,1.0,25.347,32.323,54.293,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,95.543,95.543,3.0,1.0,24.931,29.039,41.573,MEDIUM,3.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,139.602,139.602,4.0,1.0,31.921,48.201,59.48,MEDIUM,4.0,True,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,143.39,143.39,5.0,1.0,35.977,44.768,62.645,MEDIUM,5.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,104.477,104.477,6.0,1.0,24.925,29.74,49.812,MEDIUM,6.0,True,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,132.394,132.394,7.0,1.0,24.971,40.767,66.656,MEDIUM,7.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,132.975,132.975,8.0,1.0,26.462,46.354,60.159,MEDIUM,8.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,94.707,94.707,9.0,1.0,25.066,28.198,41.443,MEDIUM,9.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,117.652,117.652,10.0,1.0,29.309,32.91,55.433,MEDIUM,10.0,True,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,94.409,94.409,11.0,1.0,24.916,28.388,41.105,MEDIUM,11.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,116.563,116.563,12.0,1.0,29.705,32.949,53.909,MEDIUM,12.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,133.5,133.5,13.0,2.0,60.874,29.06,43.566,MEDIUM,13.0,False,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,95.961,95.961,14.0,2.0,24.971,29.042,41.948,MEDIUM,14.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,96.56,96.56,15.0,2.0,25.46,29.108,41.992,MEDIUM,15.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,96.871,96.871,16.0,2.0,25.64,29.157,42.074,MEDIUM,16.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,102.847,102.847,17.0,2.0,25.505,29.245,48.097,MEDIUM,17.0,False,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,,,18.0,3.0,,29.976,47.911,SOFT,1.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,93.599,93.599,19.0,3.0,24.637,28.205,40.757,SOFT,2.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,127.341,127.341,20.0,3.0,31.593,45.152,50.596,SOFT,3.0,True,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,113.03,113.03,21.0,3.0,24.598,28.252,60.18,SOFT,4.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,,,22.0,4.0,73.011,31.271,50.904,SOFT,5.0,False,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,106.884,106.884,23.0,4.0,25.151,34.911,46.822,SOFT,6.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,94.618,94.618,24.0,4.0,24.461,28.235,41.922,SOFT,7.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,112.871,112.871,25.0,4.0,30.217,33.872,48.782,SOFT,8.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,127.253,127.253,26.0,4.0,29.934,35.277,62.042,SOFT,9.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+LEC,16,,,27.0,4.0,67.476,32.65,54.761,SOFT,10.0,False,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+LEC,16,147.638,147.638,28.0,4.0,57.313,34.005,56.32,SOFT,11.0,False,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+STR,18,,,1.0,1.0,,40.823,56.603,SOFT,1.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+STR,18,104.01,104.01,2.0,1.0,27.726,31.516,44.768,SOFT,2.0,True,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,106.98,106.98,3.0,1.0,27.65,32.612,46.718,SOFT,3.0,True,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,143.633,143.633,4.0,1.0,35.667,45.608,62.358,SOFT,4.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+STR,18,,,5.0,2.0,,39.565,53.487,SOFT,5.0,False,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+STR,18,100.417,100.417,6.0,2.0,26.592,30.213,43.612,SOFT,6.0,False,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,128.384,128.384,7.0,2.0,35.74,40.648,51.996,SOFT,7.0,False,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,99.223,99.223,8.0,2.0,25.778,29.465,43.98,SOFT,8.0,False,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,138.212,138.212,9.0,2.0,35.175,40.077,62.96,SOFT,9.0,False,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+STR,18,,,10.0,3.0,,35.612,53.33,SOFT,1.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+STR,18,97.267,97.267,11.0,3.0,25.425,29.133,42.709,SOFT,2.0,True,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,129.746,129.746,12.0,3.0,37.708,43.117,48.921,SOFT,3.0,True,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,97.232,97.232,13.0,3.0,25.377,29.063,42.792,SOFT,4.0,True,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,138.064,138.064,14.0,3.0,32.567,36.701,68.796,SOFT,5.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+STR,18,,,15.0,4.0,,34.787,51.618,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+STR,18,146.301,146.301,16.0,4.0,25.411,50.502,70.388,MEDIUM,2.0,True,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,97.224,97.224,17.0,4.0,25.709,29.254,42.261,MEDIUM,3.0,True,Aston Martin,True,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,139.206,139.206,18.0,4.0,36.941,38.456,63.809,MEDIUM,4.0,True,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,122.598,122.598,19.0,4.0,27.84,37.265,57.493,MEDIUM,5.0,True,Aston Martin,False,,,True,2026,Chinese Grand Prix,Practice 1
+STR,18,,,20.0,4.0,66.251,33.597,59.811,MEDIUM,6.0,True,Aston Martin,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,,,1.0,1.0,,37.198,55.514,MEDIUM,1.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,107.953,107.953,2.0,1.0,27.35,32.25,48.353,MEDIUM,2.0,True,Williams,True,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,97.771,97.771,3.0,1.0,25.762,29.648,42.361,MEDIUM,3.0,True,Williams,True,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,119.701,119.701,4.0,1.0,31.831,35.859,52.011,MEDIUM,4.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,134.654,134.654,5.0,1.0,25.32,36.828,72.506,MEDIUM,5.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,96.738,96.738,6.0,1.0,25.233,29.43,42.075,MEDIUM,6.0,True,Williams,True,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,,,7.0,1.0,32.662,35.085,86.955,MEDIUM,7.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,118.072,118.072,8.0,1.0,29.716,34.425,53.931,MEDIUM,8.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,111.485,111.485,9.0,1.0,29.463,31.67,50.352,MEDIUM,9.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,107.384,107.384,10.0,1.0,26.337,31.662,49.385,MEDIUM,10.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,96.494,96.494,11.0,1.0,25.366,29.302,41.826,MEDIUM,11.0,True,Williams,True,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,118.202,118.202,12.0,1.0,29.007,35.837,53.358,MEDIUM,12.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,,,13.0,2.0,73.819,33.255,60.754,MEDIUM,13.0,False,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,,,14.0,3.0,73.576,35.359,45.832,MEDIUM,14.0,False,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,98.108,98.108,15.0,3.0,25.971,29.77,42.367,MEDIUM,15.0,False,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,98.268,98.268,16.0,3.0,26.111,29.698,42.459,MEDIUM,16.0,False,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,98.301,98.301,17.0,3.0,26.127,29.802,42.372,MEDIUM,17.0,False,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,99.37,99.37,18.0,3.0,26.099,30.071,43.2,MEDIUM,18.0,False,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,98.751,98.751,19.0,3.0,26.157,29.888,42.706,MEDIUM,19.0,False,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,98.304,98.304,20.0,3.0,26.098,29.732,42.474,MEDIUM,20.0,False,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,109.038,109.038,21.0,3.0,26.127,30.071,52.84,MEDIUM,21.0,False,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,,,22.0,4.0,,38.311,58.87,SOFT,1.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,112.296,112.296,23.0,4.0,30.663,33.781,47.852,SOFT,2.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,116.493,116.493,24.0,4.0,30.127,35.519,50.847,SOFT,3.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,95.48,95.48,25.0,4.0,24.941,29.038,41.501,SOFT,4.0,True,Williams,True,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,127.053,127.053,26.0,4.0,34.421,38.886,53.746,SOFT,5.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,95.572,95.572,27.0,4.0,25.153,28.957,41.462,SOFT,6.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,117.564,117.564,28.0,4.0,30.81,35.906,50.848,SOFT,7.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,119.084,119.084,29.0,4.0,25.497,29.078,64.509,SOFT,8.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+ALB,23,,,30.0,4.0,75.859,35.62,61.911,SOFT,9.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+ALB,23,139.51,139.51,31.0,4.0,58.919,30.159,50.432,SOFT,10.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+HUL,27,,,1.0,1.0,,33.165,53.524,MEDIUM,1.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+HUL,27,99.64,99.64,2.0,1.0,26.724,30.242,42.674,MEDIUM,2.0,True,Audi,True,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,123.273,123.273,3.0,1.0,35.35,40.52,47.403,MEDIUM,3.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,99.307,99.307,4.0,1.0,25.42,29.087,44.8,MEDIUM,4.0,True,Audi,True,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,108.563,108.563,5.0,1.0,32.136,30.954,45.473,MEDIUM,5.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,136.571,136.571,6.0,1.0,38.556,43.691,54.324,MEDIUM,6.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+HUL,27,,,7.0,2.0,,32.216,56.236,MEDIUM,7.0,False,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+HUL,27,105.31,105.31,8.0,2.0,25.471,29.368,50.471,MEDIUM,8.0,False,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+HUL,27,,,9.0,3.0,,30.968,45.737,MEDIUM,9.0,False,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+HUL,27,96.074,96.074,10.0,3.0,25.361,29.016,41.697,MEDIUM,10.0,False,Audi,True,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,113.219,113.219,11.0,3.0,28.818,32.071,52.33,MEDIUM,11.0,False,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+HUL,27,130.408,130.408,12.0,4.0,51.912,33.662,44.834,MEDIUM,12.0,False,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+HUL,27,96.128,96.128,13.0,4.0,25.296,29.097,41.735,MEDIUM,13.0,False,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,110.693,110.693,14.0,4.0,29.462,35.599,45.632,MEDIUM,14.0,False,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,98.679,98.679,15.0,4.0,25.894,30.485,42.3,MEDIUM,15.0,False,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,97.733,97.733,16.0,4.0,25.634,29.832,42.267,MEDIUM,16.0,False,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,104.178,104.178,17.0,4.0,25.839,29.912,48.427,MEDIUM,17.0,False,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+HUL,27,,,18.0,5.0,,33.743,50.286,SOFT,1.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+HUL,27,104.026,104.026,19.0,5.0,27.723,30.572,45.731,SOFT,2.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,94.925,94.925,20.0,5.0,25.1,28.499,41.326,SOFT,3.0,True,Audi,True,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,121.773,121.773,21.0,5.0,30.494,35.869,55.41,SOFT,4.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,94.639,94.639,22.0,5.0,24.951,28.682,41.006,SOFT,5.0,True,Audi,True,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,124.608,124.608,23.0,5.0,30.698,39.575,54.335,SOFT,6.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,95.066,95.066,24.0,5.0,25.165,28.9,41.001,SOFT,7.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,134.292,134.292,25.0,5.0,30.295,38.151,65.846,SOFT,8.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,146.973,146.973,26.0,5.0,58.922,32.072,55.979,SOFT,9.0,True,Audi,False,,,True,2026,Chinese Grand Prix,Practice 1
+HUL,27,139.911,139.911,27.0,5.0,58.381,31.611,49.919,SOFT,10.0,True,Audi,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,,,1.0,1.0,,33.682,59.674,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,102.06,102.06,2.0,1.0,27.563,30.294,44.203,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,99.239,99.239,3.0,1.0,25.877,30.231,43.131,MEDIUM,3.0,True,Racing Bulls,True,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,127.571,127.571,4.0,1.0,25.764,41.868,59.939,MEDIUM,4.0,True,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,138.913,138.913,5.0,1.0,31.177,43.859,63.877,MEDIUM,5.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,96.755,96.755,6.0,1.0,25.407,29.443,41.905,MEDIUM,6.0,True,Racing Bulls,True,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,139.006,139.006,7.0,1.0,29.77,40.104,69.132,MEDIUM,7.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,126.944,126.944,8.0,1.0,29.075,38.091,59.778,MEDIUM,8.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,111.148,111.148,9.0,1.0,31.204,32.786,47.158,MEDIUM,9.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,95.656,95.656,10.0,1.0,25.059,28.878,41.719,MEDIUM,10.0,True,Racing Bulls,True,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,123.208,123.208,11.0,1.0,28.028,33.518,61.662,MEDIUM,11.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,,,12.0,2.0,,30.896,43.221,MEDIUM,12.0,False,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,99.432,99.432,13.0,2.0,26.064,30.261,43.107,MEDIUM,13.0,False,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,99.007,99.007,14.0,2.0,25.897,30.114,42.996,MEDIUM,14.0,False,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,100.533,100.533,15.0,2.0,26.502,30.933,43.098,MEDIUM,15.0,False,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,99.343,99.343,16.0,2.0,25.936,30.397,43.01,MEDIUM,16.0,False,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,99.285,99.285,17.0,2.0,26.045,30.341,42.899,MEDIUM,17.0,False,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,99.316,99.316,18.0,2.0,26.031,30.427,42.858,MEDIUM,18.0,False,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,99.602,99.602,19.0,2.0,26.259,30.402,42.941,MEDIUM,19.0,False,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,104.968,104.968,20.0,2.0,26.199,30.533,48.236,MEDIUM,20.0,False,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,,,21.0,3.0,,32.603,51.609,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,95.286,95.286,22.0,3.0,25.038,29.104,41.144,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,110.349,110.349,23.0,3.0,28.307,33.684,48.358,SOFT,3.0,True,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,94.773,94.773,24.0,3.0,24.721,28.964,41.088,SOFT,4.0,True,Racing Bulls,True,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,115.914,115.914,25.0,3.0,28.202,33.749,53.963,SOFT,5.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,,,26.0,4.0,,32.726,48.861,MEDIUM,21.0,False,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,115.56,115.56,27.0,4.0,29.051,32.193,54.316,MEDIUM,22.0,False,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LAW,30,,,28.0,4.0,76.85,34.296,60.273,MEDIUM,23.0,False,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LAW,30,,,29.0,4.0,71.617,32.336,52.604,MEDIUM,24.0,False,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,,,1.0,1.0,,35.679,49.456,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,117.465,117.465,2.0,1.0,28.581,33.48,55.404,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,98.726,98.726,3.0,1.0,26.008,29.424,43.294,MEDIUM,3.0,True,Haas F1 Team,True,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,127.128,127.128,4.0,1.0,30.891,37.714,58.523,MEDIUM,4.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,,,5.0,2.0,,41.87,69.658,MEDIUM,5.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,,,6.0,3.0,,31.104,54.849,MEDIUM,6.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,96.542,96.542,7.0,3.0,25.477,28.97,42.095,MEDIUM,7.0,False,Haas F1 Team,True,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,118.213,118.213,8.0,3.0,30.169,36.509,51.535,MEDIUM,8.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,95.781,95.781,9.0,3.0,25.099,28.704,41.978,MEDIUM,9.0,False,Haas F1 Team,True,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,119.902,119.902,10.0,3.0,27.447,30.485,61.97,MEDIUM,10.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,,,11.0,4.0,,30.164,43.098,MEDIUM,11.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,97.501,97.501,12.0,4.0,25.563,29.375,42.563,MEDIUM,12.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,97.571,97.571,13.0,4.0,25.882,29.356,42.333,MEDIUM,13.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,97.875,97.875,14.0,4.0,25.693,29.541,42.641,MEDIUM,14.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,98.378,98.378,15.0,4.0,25.962,29.884,42.532,MEDIUM,15.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,134.199,134.199,16.0,4.0,28.113,40.428,65.658,MEDIUM,16.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,,,17.0,5.0,,33.486,47.741,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,94.877,94.877,18.0,5.0,24.895,28.435,41.547,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,137.43,137.43,19.0,5.0,31.877,43.833,61.72,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,141.583,141.583,20.0,6.0,48.603,39.245,53.735,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,95.249,95.249,21.0,6.0,25.22,28.638,41.391,SOFT,5.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,118.473,118.473,22.0,6.0,31.67,36.429,50.374,SOFT,6.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,124.518,124.518,23.0,6.0,29.315,33.524,61.679,SOFT,7.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+OCO,31,,,24.0,6.0,74.195,31.433,61.303,SOFT,8.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+OCO,31,137.744,137.744,25.0,6.0,58.116,30.016,49.612,SOFT,9.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+LIN,41,,,1.0,1.0,,35.135,54.09,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LIN,41,103.61,103.61,2.0,1.0,26.498,30.822,46.29,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Chinese Grand Prix,Practice 1
+LIN,41,97.896,97.896,3.0,1.0,25.753,29.525,42.618,MEDIUM,3.0,True,Racing Bulls,True,,,True,2026,Chinese Grand Prix,Practice 1
+LIN,41,113.404,113.404,4.0,1.0,25.633,32.099,55.672,MEDIUM,4.0,True,Racing Bulls,False,,,True,2026,Chinese Grand Prix,Practice 1
+LIN,41,140.215,140.215,5.0,1.0,25.133,43.319,71.763,MEDIUM,5.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+LIN,41,,,6.0,1.0,25.183,29.157,,MEDIUM,6.0,True,Racing Bulls,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,,,1.0,1.0,,53.018,49.693,MEDIUM,1.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,111.177,111.177,2.0,1.0,28.394,33.075,49.708,MEDIUM,2.0,True,Alpine,True,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,98.371,98.371,3.0,1.0,25.749,29.883,42.739,MEDIUM,3.0,True,Alpine,True,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,140.183,140.183,4.0,1.0,36.371,48.509,55.303,MEDIUM,4.0,True,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,132.527,132.527,5.0,1.0,25.598,31.168,75.761,MEDIUM,5.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,96.767,96.767,6.0,1.0,25.42,29.297,42.05,MEDIUM,6.0,True,Alpine,True,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,,,7.0,1.0,35.82,42.118,90.926,MEDIUM,7.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,118.088,118.088,8.0,1.0,29.795,33.308,54.985,MEDIUM,8.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,106.938,106.938,9.0,1.0,27.006,30.09,49.842,MEDIUM,9.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,96.176,96.176,10.0,1.0,25.556,29.11,41.51,MEDIUM,10.0,True,Alpine,True,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,112.295,112.295,11.0,1.0,28.994,33.029,50.272,MEDIUM,11.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,,,12.0,2.0,,33.157,46.941,MEDIUM,12.0,False,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,98.994,98.994,13.0,2.0,26.404,30.039,42.551,MEDIUM,13.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,98.678,98.678,14.0,2.0,26.227,30.166,42.285,MEDIUM,14.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,99.098,99.098,15.0,2.0,26.136,30.113,42.849,MEDIUM,15.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,98.369,98.369,16.0,2.0,26.054,29.872,42.443,MEDIUM,16.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,98.507,98.507,17.0,2.0,26.132,29.852,42.523,MEDIUM,17.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,98.551,98.551,18.0,2.0,26.184,29.84,42.527,MEDIUM,18.0,False,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,107.299,107.299,19.0,2.0,26.437,30.427,50.435,MEDIUM,19.0,False,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,,,20.0,3.0,,34.598,48.778,SOFT,1.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,95.267,95.267,21.0,3.0,25.161,28.782,41.324,SOFT,2.0,True,Alpine,True,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,147.564,147.564,22.0,3.0,42.744,50.835,53.985,SOFT,3.0,True,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,94.947,94.947,23.0,3.0,25.088,28.757,41.102,SOFT,4.0,True,Alpine,True,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,136.571,136.571,24.0,3.0,29.975,38.075,68.521,SOFT,5.0,True,Alpine,False,,,True,2026,Chinese Grand Prix,Practice 1
+COL,43,,,25.0,3.0,68.734,32.983,55.732,SOFT,6.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+COL,43,135.779,135.779,26.0,3.0,58.052,30.131,47.596,SOFT,7.0,True,Alpine,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,,,1.0,1.0,,34.146,61.643,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,136.972,136.972,2.0,1.0,25.861,54.795,56.316,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,98.535,98.535,3.0,1.0,26.279,29.748,42.508,MEDIUM,3.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,128.78,128.78,4.0,1.0,33.054,39.811,55.915,MEDIUM,4.0,True,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,139.966,139.966,5.0,1.0,27.493,49.135,63.338,MEDIUM,5.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,96.108,96.108,6.0,1.0,25.343,28.92,41.845,MEDIUM,6.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,149.268,149.268,7.0,1.0,32.061,43.11,74.097,MEDIUM,7.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,,,8.0,2.0,,32.417,48.72,SOFT,1.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,94.985,94.985,9.0,2.0,25.106,28.519,41.36,SOFT,2.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,,,10.0,2.0,42.455,54.834,56.628,SOFT,3.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,94.617,94.617,11.0,2.0,24.917,28.499,41.201,SOFT,4.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,149.56,149.56,12.0,2.0,47.175,53.535,48.85,SOFT,5.0,True,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,94.377,94.377,13.0,2.0,24.841,28.335,41.201,SOFT,6.0,True,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,,,14.0,2.0,45.326,51.372,68.515,SOFT,7.0,True,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,,,15.0,3.0,73.102,31.485,48.162,SOFT,8.0,False,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,106.471,106.471,16.0,3.0,28.678,30.525,47.268,SOFT,9.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,106.44,106.44,17.0,3.0,24.977,31.535,49.928,SOFT,10.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,109.922,109.922,18.0,3.0,26.108,34.632,49.182,SOFT,11.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,94.299,94.299,19.0,3.0,24.915,28.118,41.266,SOFT,12.0,False,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,116.335,116.335,20.0,3.0,29.363,37.161,49.811,SOFT,13.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,94.129,94.129,21.0,3.0,24.913,28.099,41.117,SOFT,14.0,False,Ferrari,True,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,109.235,109.235,22.0,3.0,26.615,32.196,50.424,SOFT,15.0,False,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,,,23.0,4.0,,31.732,47.945,SOFT,16.0,False,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,122.75,122.75,24.0,4.0,24.94,35.208,62.602,SOFT,17.0,False,Ferrari,False,,,True,2026,Chinese Grand Prix,Practice 1
+HAM,44,,,25.0,4.0,60.738,35.805,65.077,SOFT,18.0,False,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+HAM,44,145.051,145.051,26.0,4.0,52.136,29.65,63.265,SOFT,19.0,False,Ferrari,False,,,False,2026,Chinese Grand Prix,Practice 1
+SAI,55,,,1.0,1.0,,34.444,55.201,MEDIUM,1.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+SAI,55,,,2.0,2.0,,31.65,47.114,MEDIUM,2.0,False,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+SAI,55,108.785,108.785,3.0,2.0,26.043,30.518,52.224,MEDIUM,3.0,False,Williams,True,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,97.055,97.055,4.0,2.0,25.404,29.481,42.17,MEDIUM,4.0,False,Williams,True,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,111.877,111.877,5.0,2.0,29.083,32.371,50.423,MEDIUM,5.0,False,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,96.648,96.648,6.0,2.0,25.32,29.438,41.89,MEDIUM,6.0,False,Williams,True,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,113.396,113.396,7.0,2.0,31.934,33.815,47.647,MEDIUM,7.0,False,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,103.423,103.423,8.0,2.0,28.191,30.524,44.708,MEDIUM,8.0,False,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,104.238,104.238,9.0,2.0,25.416,29.392,49.43,MEDIUM,9.0,False,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+SAI,55,128.525,128.525,10.0,3.0,51.181,31.256,46.088,SOFT,1.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+SAI,55,108.033,108.033,11.0,3.0,26.291,31.136,50.606,SOFT,2.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,95.679,95.679,12.0,3.0,24.903,29.049,41.727,SOFT,3.0,True,Williams,True,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,117.104,117.104,13.0,3.0,33.493,37.798,45.813,SOFT,4.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,95.697,95.697,14.0,3.0,25.092,29.036,41.569,SOFT,5.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,114.985,114.985,15.0,3.0,33.142,35.295,46.548,SOFT,6.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,114.957,114.957,16.0,3.0,25.45,32.947,56.56,SOFT,7.0,True,Williams,False,,,True,2026,Chinese Grand Prix,Practice 1
+SAI,55,,,17.0,3.0,73.848,30.853,53.974,SOFT,8.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+SAI,55,,,18.0,3.0,67.529,32.411,53.212,SOFT,9.0,True,Williams,False,,,False,2026,Chinese Grand Prix,Practice 1
+RUS,63,,,1.0,1.0,,32.476,47.315,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+RUS,63,102.309,102.309,2.0,1.0,27.225,30.138,44.946,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,103.43,103.43,3.0,1.0,24.947,29.696,48.787,MEDIUM,3.0,True,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,118.602,118.602,4.0,1.0,33.988,35.069,49.545,MEDIUM,4.0,True,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,95.065,95.065,5.0,1.0,24.799,28.557,41.709,MEDIUM,5.0,True,Mercedes,True,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,131.902,131.902,6.0,1.0,34.349,46.716,50.837,MEDIUM,6.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+RUS,63,94.169,94.169,7.0,1.0,24.572,28.333,41.264,MEDIUM,7.0,True,Mercedes,True,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,,,8.0,1.0,28.223,35.988,92.358,MEDIUM,8.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+RUS,63,,,9.0,2.0,,32.899,45.419,MEDIUM,9.0,False,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+RUS,63,96.771,96.771,10.0,2.0,25.333,29.376,42.062,MEDIUM,10.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,96.393,96.393,11.0,2.0,25.435,29.132,41.826,MEDIUM,11.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,96.007,96.007,12.0,2.0,25.571,28.862,41.574,MEDIUM,12.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,95.668,95.668,13.0,2.0,25.459,28.715,41.494,MEDIUM,13.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,96.252,96.252,14.0,2.0,25.422,29.216,41.614,MEDIUM,14.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,96.315,96.315,15.0,2.0,25.533,29.079,41.703,MEDIUM,15.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,96.475,96.475,16.0,2.0,25.543,28.971,41.961,MEDIUM,16.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,97.76,97.76,17.0,2.0,25.666,29.648,42.446,MEDIUM,17.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,97.492,97.492,18.0,2.0,25.896,29.487,42.109,MEDIUM,18.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,103.457,103.457,19.0,2.0,25.587,29.353,48.517,MEDIUM,19.0,False,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+RUS,63,,,20.0,3.0,,30.768,45.293,SOFT,1.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+RUS,63,92.807,92.807,21.0,3.0,24.315,27.976,40.516,SOFT,2.0,True,Mercedes,True,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,119.596,119.596,22.0,3.0,30.868,38.431,50.297,SOFT,3.0,True,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,92.741,92.741,23.0,3.0,24.414,27.911,40.416,SOFT,4.0,True,Mercedes,True,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,125.037,125.037,24.0,3.0,37.28,39.253,48.504,SOFT,5.0,True,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,102.354,102.354,25.0,3.0,24.38,27.985,49.989,SOFT,6.0,True,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+RUS,63,,,26.0,4.0,,32.338,49.558,SOFT,7.0,False,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+RUS,63,133.122,133.122,27.0,4.0,30.895,31.446,70.781,SOFT,8.0,False,Mercedes,False,,,True,2026,Chinese Grand Prix,Practice 1
+RUS,63,,,28.0,4.0,74.878,33.805,67.807,SOFT,9.0,False,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+RUS,63,134.914,134.914,29.0,4.0,57.605,29.143,48.166,SOFT,10.0,False,Mercedes,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOT,77,,,1.0,1.0,,36.328,58.972,MEDIUM,1.0,True,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOT,77,106.738,106.738,2.0,1.0,26.668,30.534,49.536,MEDIUM,2.0,True,Cadillac,True,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,127.44,127.44,3.0,1.0,32.034,39.01,56.396,MEDIUM,3.0,True,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,99.689,99.689,4.0,1.0,26.241,30.182,43.266,MEDIUM,4.0,True,Cadillac,True,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,,,5.0,1.0,41.721,46.395,62.234,MEDIUM,5.0,True,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOT,77,98.702,98.702,6.0,1.0,25.737,30.011,42.954,MEDIUM,6.0,True,Cadillac,True,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,132.203,132.203,7.0,1.0,26.763,41.699,63.741,MEDIUM,7.0,True,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOT,77,134.478,134.478,8.0,1.0,29.313,39.906,65.259,MEDIUM,8.0,True,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOT,77,,,9.0,2.0,,31.79,52.988,MEDIUM,9.0,False,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOT,77,97.04,97.04,10.0,2.0,25.41,29.467,42.163,MEDIUM,10.0,False,Cadillac,True,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,105.149,105.149,11.0,2.0,30.282,31.701,43.166,MEDIUM,11.0,False,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,99.196,99.196,12.0,2.0,26.231,29.992,42.973,MEDIUM,12.0,False,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,98.911,98.911,13.0,2.0,26.109,30.058,42.744,MEDIUM,13.0,False,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,99.834,99.834,14.0,2.0,26.367,30.248,43.219,MEDIUM,14.0,False,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,100.334,100.334,15.0,2.0,26.39,30.563,43.381,MEDIUM,15.0,False,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,101.062,101.062,16.0,2.0,26.536,30.817,43.709,MEDIUM,16.0,False,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,115.162,115.162,17.0,2.0,28.052,31.857,55.253,MEDIUM,17.0,False,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOT,77,,,18.0,3.0,,35.667,48.197,SOFT,1.0,True,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+BOT,77,96.057,96.057,19.0,3.0,25.316,28.848,41.893,SOFT,2.0,True,Cadillac,True,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,122.193,122.193,20.0,3.0,29.159,39.541,53.493,SOFT,3.0,True,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,96.193,96.193,21.0,3.0,25.229,28.848,42.116,SOFT,4.0,True,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,120.71,120.71,22.0,3.0,30.049,39.611,51.05,SOFT,5.0,True,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,127.224,127.224,23.0,3.0,32.259,35.613,59.352,SOFT,6.0,True,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,147.557,147.557,24.0,3.0,57.263,33.533,56.761,SOFT,7.0,True,Cadillac,False,,,True,2026,Chinese Grand Prix,Practice 1
+BOT,77,147.664,147.664,25.0,3.0,57.443,35.472,54.749,SOFT,8.0,True,Cadillac,False,,,False,2026,Chinese Grand Prix,Practice 1
+PIA,81,,,1.0,1.0,,37.541,50.478,MEDIUM,1.0,True,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+PIA,81,112.02,112.02,2.0,1.0,27.984,33.521,50.515,MEDIUM,2.0,True,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,96.043,96.043,3.0,1.0,24.988,29.178,41.877,MEDIUM,3.0,True,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,131.607,131.607,4.0,1.0,32.169,38.363,61.075,MEDIUM,4.0,True,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,135.756,135.756,5.0,1.0,24.996,39.555,71.205,MEDIUM,5.0,True,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+PIA,81,,,6.0,2.0,,32.043,45.907,MEDIUM,6.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+PIA,81,111.197,111.197,7.0,2.0,27.987,31.383,51.827,MEDIUM,7.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,95.12,95.12,8.0,2.0,24.818,28.801,41.501,MEDIUM,8.0,False,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,133.348,133.348,9.0,2.0,34.741,40.288,58.319,MEDIUM,9.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+PIA,81,133.228,133.228,10.0,3.0,53.725,32.883,46.62,MEDIUM,10.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+PIA,81,116.171,116.171,11.0,3.0,32.046,37.335,46.79,MEDIUM,11.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,94.55,94.55,12.0,3.0,24.748,28.49,41.312,MEDIUM,12.0,False,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,104.258,104.258,13.0,3.0,29.419,32.658,42.181,MEDIUM,13.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,96.523,96.523,14.0,3.0,25.091,29.234,42.198,MEDIUM,14.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,97.671,97.671,15.0,3.0,25.303,30.189,42.179,MEDIUM,15.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,96.739,96.739,16.0,3.0,25.376,29.294,42.069,MEDIUM,16.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,96.35,96.35,17.0,3.0,25.416,29.082,41.852,MEDIUM,17.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,96.807,96.807,18.0,3.0,25.493,29.355,41.959,MEDIUM,18.0,False,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,102.82,102.82,19.0,3.0,25.778,29.237,47.805,MEDIUM,19.0,False,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+PIA,81,,,20.0,4.0,,35.551,49.012,SOFT,1.0,True,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+PIA,81,103.017,103.017,21.0,4.0,26.401,31.502,45.114,SOFT,2.0,True,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,93.477,93.477,22.0,4.0,24.402,28.2,40.875,SOFT,3.0,True,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,124.334,124.334,23.0,4.0,33.348,38.471,52.515,SOFT,4.0,True,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,93.472,93.472,24.0,4.0,24.545,28.164,40.763,SOFT,5.0,True,McLaren,True,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,111.923,111.923,25.0,4.0,31.154,33.511,47.258,SOFT,6.0,True,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,134.269,134.269,26.0,4.0,30.892,36.847,66.53,SOFT,7.0,True,McLaren,False,,,True,2026,Chinese Grand Prix,Practice 1
+PIA,81,,,27.0,4.0,64.604,32.455,60.588,SOFT,8.0,True,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+PIA,81,142.559,142.559,28.0,4.0,63.934,29.237,49.388,SOFT,9.0,True,McLaren,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,,,1.0,1.0,,35.167,50.787,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,118.94,118.94,2.0,1.0,27.89,33.214,57.836,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,96.655,96.655,3.0,1.0,25.791,29.026,41.838,MEDIUM,3.0,True,Haas F1 Team,True,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,132.672,132.672,4.0,1.0,38.7,43.916,50.056,MEDIUM,4.0,True,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,97.556,97.556,5.0,1.0,25.527,28.87,43.159,MEDIUM,5.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,143.353,143.353,6.0,1.0,47.373,39.444,56.536,MEDIUM,6.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,94.95,94.95,7.0,1.0,25.268,28.656,41.026,MEDIUM,7.0,True,Haas F1 Team,True,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,,,8.0,1.0,41.471,49.153,74.878,MEDIUM,8.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,,,9.0,2.0,,31.492,46.488,MEDIUM,9.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,104.702,104.702,10.0,2.0,26.788,31.14,46.774,MEDIUM,10.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,96.31,96.31,11.0,2.0,24.751,29.323,42.236,MEDIUM,11.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,112.121,112.121,12.0,2.0,30.877,35.897,45.347,MEDIUM,12.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,97.796,97.796,13.0,2.0,26.169,29.575,42.052,MEDIUM,13.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,97.254,97.254,14.0,2.0,25.862,29.373,42.019,MEDIUM,14.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,97.331,97.331,15.0,2.0,25.622,29.463,42.246,MEDIUM,15.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,97.826,97.826,16.0,2.0,25.917,29.616,42.293,MEDIUM,16.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,97.74,97.74,17.0,2.0,25.739,29.379,42.622,MEDIUM,17.0,False,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,103.213,103.213,18.0,2.0,26.237,29.742,47.234,MEDIUM,18.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,,,19.0,3.0,73.865,32.287,50.485,MEDIUM,19.0,False,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,,,20.0,4.0,,32.513,51.421,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,94.512,94.512,21.0,4.0,25.136,28.248,41.128,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,,,22.0,4.0,49.524,46.175,58.238,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,111.189,111.189,23.0,4.0,28.584,34.506,48.099,SOFT,4.0,True,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,94.426,94.426,24.0,4.0,24.937,28.381,41.108,SOFT,5.0,True,Haas F1 Team,True,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,142.589,142.589,25.0,4.0,38.019,40.191,64.379,SOFT,6.0,True,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,138.804,138.804,26.0,4.0,42.328,34.728,61.748,SOFT,7.0,True,Haas F1 Team,False,,,True,2026,Chinese Grand Prix,Practice 1
+BEA,87,,,27.0,4.0,67.915,32.446,56.86,SOFT,8.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1
+BEA,87,140.653,140.653,28.0,4.0,58.684,30.202,51.767,SOFT,9.0,True,Haas F1 Team,False,,,False,2026,Chinese Grand Prix,Practice 1

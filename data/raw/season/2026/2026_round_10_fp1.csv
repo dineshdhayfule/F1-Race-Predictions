@@ -1,0 +1,487 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,63.258,46.131,MEDIUM,1.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+NOR,1,,,2.0,2.0,,56.591,43.15,SOFT,1.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+NOR,1,,,3.0,3.0,,60.038,38.85,SOFT,1.0,False,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+NOR,1,110.406,110.406,4.0,3.0,31.488,49.026,29.892,SOFT,2.0,False,McLaren,True,,,True,2026,Belgian Grand Prix,Practice 1
+NOR,1,,,5.0,3.0,54.395,72.577,35.357,SOFT,3.0,False,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+NOR,1,108.903,108.903,6.0,3.0,31.406,48.007,29.49,SOFT,4.0,False,McLaren,True,,,True,2026,Belgian Grand Prix,Practice 1
+NOR,1,,,7.0,3.0,55.887,87.499,39.43,SOFT,5.0,False,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+NOR,1,116.422,116.422,8.0,3.0,31.391,47.741,37.29,SOFT,6.0,False,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+NOR,1,,,9.0,4.0,,54.862,34.249,SOFT,1.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+NOR,1,107.931,107.931,10.0,4.0,30.972,47.78,29.179,SOFT,2.0,True,McLaren,True,,,True,2026,Belgian Grand Prix,Practice 1
+NOR,1,,,11.0,4.0,52.399,87.365,38.907,SOFT,3.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+NOR,1,108.592,108.592,12.0,4.0,31.198,47.705,29.689,SOFT,4.0,True,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+NOR,1,117.753,117.753,13.0,4.0,38.987,48.629,30.137,SOFT,5.0,True,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+NOR,1,111.284,111.284,14.0,4.0,32.761,48.724,29.799,SOFT,6.0,True,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+NOR,1,109.949,109.949,15.0,4.0,31.537,48.723,29.689,SOFT,7.0,True,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+NOR,1,112.669,112.669,16.0,4.0,31.583,50.392,30.694,SOFT,8.0,True,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+NOR,1,112.946,112.946,17.0,4.0,32.098,50.847,30.001,SOFT,9.0,True,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+NOR,1,144.588,144.588,18.0,4.0,40.212,62.823,41.553,SOFT,10.0,True,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+NOR,1,,,19.0,4.0,68.013,50.543,42.504,SOFT,11.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+VER,3,,,1.0,1.0,,65.855,36.185,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+VER,3,109.307,109.307,2.0,1.0,31.174,49.044,29.089,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,,,3.0,1.0,56.84,87.75,36.674,MEDIUM,3.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+VER,3,108.237,108.237,4.0,1.0,31.056,48.112,29.069,MEDIUM,4.0,True,Red Bull Racing,True,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,,,5.0,1.0,69.489,87.084,48.07,MEDIUM,5.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+VER,3,107.859,107.859,6.0,1.0,31.045,48.055,28.759,MEDIUM,6.0,True,Red Bull Racing,True,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,149.219,149.219,7.0,1.0,44.534,65.862,38.823,MEDIUM,7.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+VER,3,,,8.0,2.0,,63.779,32.676,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+VER,3,107.07,107.07,9.0,2.0,30.974,47.308,28.788,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,134.93,134.93,10.0,2.0,41.743,55.923,37.264,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+VER,3,,,11.0,3.0,,53.018,32.546,MEDIUM,8.0,False,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+VER,3,111.564,111.564,12.0,3.0,31.959,49.949,29.656,MEDIUM,9.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,111.694,111.694,13.0,3.0,32.151,49.979,29.564,MEDIUM,10.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,111.776,111.776,14.0,3.0,31.89,50.107,29.779,MEDIUM,11.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,111.735,111.735,15.0,3.0,31.824,50.125,29.786,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,112.673,112.673,16.0,3.0,31.985,50.695,29.993,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,112.826,112.826,17.0,3.0,32.139,50.635,30.052,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,112.83,112.83,18.0,3.0,31.93,50.727,30.173,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,113.183,113.183,19.0,3.0,32.085,50.926,30.172,MEDIUM,16.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,112.987,112.987,20.0,3.0,32.009,50.992,29.986,MEDIUM,17.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,120.37,120.37,21.0,3.0,32.321,52.243,35.806,MEDIUM,18.0,False,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+VER,3,128.326,128.326,22.0,4.0,48.012,50.386,29.928,SOFT,4.0,False,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+VER,3,144.933,144.933,23.0,4.0,40.585,54.385,49.963,SOFT,5.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+VER,3,,,24.0,4.0,70.562,56.922,37.712,SOFT,6.0,False,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOR,5,,,1.0,1.0,,56.92,51.165,HARD,1.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOR,5,110.992,110.992,2.0,1.0,31.651,49.542,29.799,HARD,2.0,True,Audi,True,,,True,2026,Belgian Grand Prix,Practice 1
+BOR,5,,,3.0,1.0,47.522,72.831,47.985,HARD,3.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOR,5,110.166,110.166,4.0,1.0,31.479,49.125,29.562,HARD,4.0,True,Audi,True,,,True,2026,Belgian Grand Prix,Practice 1
+BOR,5,,,5.0,1.0,50.751,74.067,54.312,HARD,5.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOR,5,109.825,109.825,6.0,1.0,31.626,48.69,29.509,HARD,6.0,True,Audi,True,,,True,2026,Belgian Grand Prix,Practice 1
+BOR,5,,,7.0,1.0,50.143,70.973,39.967,HARD,7.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOR,5,109.24,109.24,8.0,1.0,31.371,48.681,29.188,HARD,8.0,True,Audi,True,,,True,2026,Belgian Grand Prix,Practice 1
+BOR,5,138.907,138.907,9.0,1.0,39.383,61.542,37.982,HARD,9.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOR,5,,,10.0,2.0,,59.855,38.397,SOFT,1.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOR,5,108.406,108.406,11.0,2.0,31.189,48.078,29.139,SOFT,2.0,True,Audi,True,,,True,2026,Belgian Grand Prix,Practice 1
+BOR,5,,,12.0,2.0,60.572,84.797,41.12,SOFT,3.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOR,5,114.372,114.372,13.0,2.0,31.35,48.48,34.542,SOFT,4.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOR,5,,,14.0,3.0,77.1,50.061,29.511,SOFT,5.0,False,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOR,5,110.756,110.756,15.0,3.0,31.73,49.35,29.676,SOFT,6.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOR,5,110.547,110.547,16.0,3.0,31.456,49.511,29.58,SOFT,7.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOR,5,110.895,110.895,17.0,3.0,31.446,49.654,29.795,SOFT,8.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOR,5,136.097,136.097,18.0,3.0,38.367,61.521,36.209,SOFT,9.0,False,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAD,6,,,1.0,1.0,,55.178,42.813,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAD,6,108.918,108.918,2.0,1.0,31.189,48.483,29.246,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,,,3.0,1.0,65.19,77.683,46.983,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAD,6,108.464,108.464,4.0,1.0,31.502,47.721,29.241,SOFT,4.0,True,Red Bull Racing,True,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,,,5.0,1.0,58.668,81.939,50.861,SOFT,5.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAD,6,107.778,107.778,6.0,1.0,31.187,47.64,28.951,SOFT,6.0,True,Red Bull Racing,True,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,140.662,140.662,7.0,1.0,36.611,63.102,40.949,SOFT,7.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAD,6,,,8.0,2.0,,59.558,39.435,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAD,6,107.322,107.322,9.0,2.0,30.983,47.503,28.836,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,,,10.0,2.0,70.89,85.31,38.988,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAD,6,107.633,107.633,11.0,2.0,31.295,47.495,28.843,SOFT,4.0,True,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,145.851,145.851,12.0,2.0,39.351,62.472,44.028,SOFT,5.0,True,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAD,6,,,13.0,3.0,,50.827,36.473,SOFT,6.0,False,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAD,6,112.402,112.402,14.0,3.0,32.756,49.996,29.65,SOFT,7.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,111.776,111.776,15.0,3.0,31.804,50.38,29.592,SOFT,8.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,112.43,112.43,16.0,3.0,32.205,50.397,29.828,SOFT,9.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,112.223,112.223,17.0,3.0,31.9,50.455,29.868,SOFT,10.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,112.554,112.554,18.0,3.0,31.967,50.696,29.891,SOFT,11.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,112.816,112.816,19.0,3.0,31.95,50.955,29.911,SOFT,12.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,112.862,112.862,20.0,3.0,32.032,51.165,29.665,SOFT,13.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,113.659,113.659,21.0,3.0,31.662,52.037,29.96,SOFT,14.0,False,Red Bull Racing,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAD,6,,,22.0,3.0,48.84,69.778,50.884,SOFT,15.0,False,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAD,6,,,23.0,3.0,80.867,73.044,48.251,SOFT,16.0,False,Red Bull Racing,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,,,1.0,1.0,,60.319,33.578,HARD,1.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,112.228,112.228,2.0,1.0,32.092,50.24,29.896,HARD,2.0,True,Alpine,True,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,,,3.0,1.0,42.953,77.666,39.766,HARD,3.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,111.608,111.608,4.0,1.0,31.942,49.921,29.745,HARD,4.0,True,Alpine,True,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,,,5.0,1.0,54.442,71.722,42.89,HARD,5.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,111.286,111.286,6.0,1.0,31.832,49.887,29.567,HARD,6.0,True,Alpine,True,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,,,7.0,1.0,47.764,78.382,41.608,HARD,7.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,,,8.0,2.0,79.512,60.02,33.852,HARD,8.0,False,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,110.511,110.511,9.0,2.0,31.745,49.529,29.237,HARD,9.0,False,Alpine,True,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,144.916,144.916,10.0,2.0,38.285,65.215,41.416,HARD,10.0,False,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,,,11.0,3.0,,57.83,39.274,SOFT,1.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,109.712,109.712,12.0,3.0,31.439,48.638,29.635,SOFT,2.0,True,Alpine,True,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,,,13.0,3.0,51.538,79.244,39.717,SOFT,3.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,117.748,117.748,14.0,3.0,31.836,49.21,36.702,SOFT,4.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,,,15.0,4.0,,54.51,32.073,HARD,11.0,False,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+GAS,10,113.528,113.528,16.0,4.0,31.654,51.456,30.418,HARD,12.0,False,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,113.759,113.759,17.0,4.0,31.882,51.504,30.373,HARD,13.0,False,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,114.112,114.112,18.0,4.0,31.801,51.843,30.468,HARD,14.0,False,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,114.168,114.168,19.0,4.0,32.13,51.576,30.462,HARD,15.0,False,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,113.835,113.835,20.0,4.0,32.006,51.468,30.361,HARD,16.0,False,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,118.691,118.691,21.0,4.0,34.966,52.762,30.963,HARD,17.0,False,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,114.436,114.436,22.0,4.0,32.222,51.743,30.471,HARD,18.0,False,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+GAS,10,122.344,122.344,23.0,4.0,31.959,51.855,38.53,HARD,19.0,False,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+PER,11,,,1.0,1.0,,57.004,33.541,HARD,1.0,True,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+PER,11,113.734,113.734,2.0,1.0,32.161,51.085,30.488,HARD,2.0,True,Cadillac,True,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,145.232,145.232,3.0,1.0,40.122,71.535,33.575,HARD,3.0,True,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,112.031,112.031,4.0,1.0,31.724,50.105,30.202,HARD,4.0,True,Cadillac,True,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,,,5.0,1.0,43.008,75.497,43.699,HARD,5.0,True,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+PER,11,,,6.0,2.0,,59.603,39.727,HARD,6.0,False,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+PER,11,112.035,112.035,7.0,2.0,31.675,50.441,29.919,HARD,7.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,147.67,147.67,8.0,2.0,46.626,64.769,36.275,HARD,8.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,111.852,111.852,9.0,2.0,31.682,50.132,30.038,HARD,9.0,False,Cadillac,True,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,139.218,139.218,10.0,2.0,39.415,58.28,41.523,HARD,10.0,False,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+PER,11,,,11.0,3.0,,72.717,38.71,SOFT,1.0,True,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+PER,11,110.226,110.226,12.0,3.0,31.248,49.419,29.559,SOFT,2.0,True,Cadillac,True,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,,,13.0,3.0,47.551,76.258,43.187,SOFT,3.0,True,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+PER,11,111.364,111.364,14.0,3.0,31.858,49.77,29.736,SOFT,4.0,True,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,134.537,134.537,15.0,3.0,36.99,54.404,43.143,SOFT,5.0,True,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+PER,11,,,16.0,4.0,,59.374,34.402,SOFT,6.0,False,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+PER,11,115.143,115.143,17.0,4.0,32.144,52.292,30.707,SOFT,7.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,115.375,115.375,18.0,4.0,32.358,52.194,30.823,SOFT,8.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,115.227,115.227,19.0,4.0,32.519,52.13,30.578,SOFT,9.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,116.444,116.444,20.0,4.0,32.941,52.3,31.203,SOFT,10.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+PER,11,,,21.0,4.0,40.797,60.924,48.763,SOFT,11.0,False,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+PER,11,,,22.0,4.0,85.7,64.031,43.892,SOFT,12.0,False,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,,,1.0,1.0,,59.812,47.783,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,110.397,110.397,2.0,1.0,31.825,49.503,29.069,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,,,3.0,1.0,47.799,76.39,41.689,MEDIUM,3.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,109.32,109.32,4.0,1.0,31.436,48.823,29.061,MEDIUM,4.0,True,Mercedes,True,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,,,5.0,1.0,52.629,86.233,58.079,MEDIUM,5.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,138.039,138.039,6.0,1.0,37.938,64.615,35.486,MEDIUM,6.0,True,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,120.918,120.918,7.0,1.0,31.496,48.88,40.542,MEDIUM,7.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,,,8.0,2.0,,65.232,36.852,SOFT,1.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,107.603,107.603,9.0,2.0,30.715,48.177,28.711,SOFT,2.0,True,Mercedes,True,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,,,10.0,2.0,55.866,87.605,51.08,SOFT,3.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,,,11.0,3.0,,50.704,30.306,MEDIUM,8.0,False,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,112.508,112.508,12.0,3.0,31.469,51.037,30.002,MEDIUM,9.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,112.442,112.442,13.0,3.0,31.558,51.049,29.835,MEDIUM,10.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,112.215,112.215,14.0,3.0,31.516,50.771,29.928,MEDIUM,11.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,111.978,111.978,15.0,3.0,31.71,50.443,29.825,MEDIUM,12.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,112.087,112.087,16.0,3.0,31.686,50.55,29.851,MEDIUM,13.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,112.075,112.075,17.0,3.0,31.676,50.513,29.886,MEDIUM,14.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,112.554,112.554,18.0,3.0,31.765,50.726,30.063,MEDIUM,15.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,112.643,112.643,19.0,3.0,31.579,51.08,29.984,MEDIUM,16.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+ANT,12,117.952,117.952,20.0,3.0,31.766,51.11,35.076,MEDIUM,17.0,False,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,,,21.0,4.0,,55.804,34.354,SOFT,4.0,False,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,,,22.0,4.0,37.74,58.409,87.664,SOFT,5.0,False,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+ANT,12,135.953,135.953,23.0,4.0,33.451,57.361,45.141,SOFT,6.0,False,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+LEC,16,,,1.0,1.0,,72.607,41.413,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+LEC,16,109.887,109.887,2.0,1.0,31.644,48.838,29.405,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,,,3.0,1.0,51.874,76.343,40.312,MEDIUM,3.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+LEC,16,108.969,108.969,4.0,1.0,31.327,48.413,29.229,MEDIUM,4.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,,,5.0,1.0,65.079,76.552,36.289,MEDIUM,5.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+LEC,16,108.577,108.577,6.0,1.0,31.346,48.225,29.006,MEDIUM,6.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,,,7.0,1.0,47.178,83.134,46.134,MEDIUM,7.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+LEC,16,108.145,108.145,8.0,1.0,31.405,48.052,28.688,MEDIUM,8.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,144.406,144.406,9.0,1.0,36.527,65.7,42.179,MEDIUM,9.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+LEC,16,,,10.0,2.0,,59.956,33.417,SOFT,1.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+LEC,16,107.49,107.49,11.0,2.0,31.14,47.544,28.806,SOFT,2.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,,,12.0,2.0,49.569,89.661,34.389,SOFT,3.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+LEC,16,107.277,107.277,13.0,2.0,31.02,47.281,28.976,SOFT,4.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,136.072,136.072,14.0,2.0,36.108,58.884,41.08,SOFT,5.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+LEC,16,,,15.0,3.0,,51.559,31.781,MEDIUM,10.0,False,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+LEC,16,111.853,111.853,16.0,3.0,31.873,49.939,30.041,MEDIUM,11.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,112.451,112.451,17.0,3.0,32.253,50.05,30.148,MEDIUM,12.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,116.6,116.6,18.0,3.0,32.132,54.354,30.114,MEDIUM,13.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,112.326,112.326,19.0,3.0,32.248,50.385,29.693,MEDIUM,14.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,112.654,112.654,20.0,3.0,32.085,50.732,29.837,MEDIUM,15.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,143.334,143.334,21.0,3.0,38.3,58.036,46.998,MEDIUM,16.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+LEC,16,,,22.0,3.0,65.936,52.497,36.605,MEDIUM,17.0,False,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,,,1.0,1.0,,59.916,35.699,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,114.921,114.921,2.0,1.0,33.014,51.425,30.482,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+STR,18,,,3.0,1.0,43.582,85.039,51.87,MEDIUM,3.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,114.084,114.084,4.0,1.0,32.899,51.028,30.157,MEDIUM,4.0,True,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+STR,18,,,5.0,1.0,53.265,,41.024,MEDIUM,5.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,113.664,113.664,6.0,1.0,32.765,50.843,30.056,MEDIUM,6.0,True,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+STR,18,,,7.0,1.0,52.008,67.617,47.058,MEDIUM,7.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,,,8.0,2.0,,63.338,37.198,MEDIUM,8.0,False,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,113.606,113.606,9.0,2.0,32.611,50.752,30.243,MEDIUM,9.0,False,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+STR,18,,,10.0,2.0,48.913,71.173,48.318,MEDIUM,10.0,False,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,,,11.0,3.0,,61.503,34.219,SOFT,1.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,112.808,112.808,12.0,3.0,32.56,50.478,29.77,SOFT,2.0,True,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+STR,18,,,13.0,3.0,52.075,89.72,37.046,SOFT,3.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,112.931,112.931,14.0,3.0,32.495,50.536,29.9,SOFT,4.0,True,Aston Martin,False,,,True,2026,Belgian Grand Prix,Practice 1
+STR,18,,,15.0,3.0,43.287,81.193,34.839,SOFT,5.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,135.6,135.6,16.0,3.0,32.611,52.342,50.647,SOFT,6.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,,,17.0,4.0,,58.1,32.738,SOFT,7.0,False,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,,,18.0,4.0,39.147,72.636,89.114,SOFT,8.0,False,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+STR,18,139.756,139.756,19.0,4.0,36.209,58.221,45.326,SOFT,9.0,False,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,,,1.0,1.0,,60.374,40.202,MEDIUM,1.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,,,2.0,2.0,,56.308,44.564,MEDIUM,1.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,112.125,112.125,3.0,2.0,32.1,50.053,29.972,MEDIUM,2.0,True,Williams,True,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,,,4.0,2.0,48.376,81.783,45.317,MEDIUM,3.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,110.816,110.816,5.0,2.0,31.534,49.653,29.629,MEDIUM,4.0,True,Williams,True,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,,,6.0,2.0,55.481,74.585,40.661,MEDIUM,5.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,110.447,110.447,7.0,2.0,31.11,49.793,29.544,MEDIUM,6.0,True,Williams,True,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,,,8.0,2.0,51.021,71.284,33.144,MEDIUM,7.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,110.734,110.734,9.0,2.0,31.3,50.232,29.202,MEDIUM,8.0,True,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,138.212,138.212,10.0,2.0,37.845,59.941,40.426,MEDIUM,9.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,,,11.0,3.0,,60.244,34.899,SOFT,1.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,109.79,109.79,12.0,3.0,31.341,49.218,29.231,SOFT,2.0,True,Williams,True,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,,,13.0,3.0,50.761,85.972,34.395,SOFT,3.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,109.337,109.337,14.0,3.0,30.999,49.143,29.195,SOFT,4.0,True,Williams,True,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,134.727,134.727,15.0,3.0,41.655,56.141,36.931,SOFT,5.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,,,16.0,4.0,,52.453,30.488,SOFT,6.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,113.712,113.712,17.0,4.0,31.954,51.419,30.339,SOFT,7.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,114.055,114.055,18.0,4.0,32.038,51.617,30.4,SOFT,8.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,114.397,114.397,19.0,4.0,32.125,51.876,30.396,SOFT,9.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,114.971,114.971,20.0,4.0,32.072,51.89,31.009,SOFT,10.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,115.08,115.08,21.0,4.0,32.411,51.781,30.888,SOFT,11.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,115.235,115.235,22.0,4.0,32.089,52.631,30.515,SOFT,12.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+ALB,23,,,23.0,4.0,36.799,69.248,77.538,SOFT,13.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+ALB,23,127.296,127.296,24.0,4.0,35.578,56.169,35.549,SOFT,14.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+HUL,27,,,1.0,1.0,,59.069,36.949,HARD,1.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+HUL,27,111.64,111.64,2.0,1.0,31.956,49.473,30.211,HARD,2.0,True,Audi,True,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,,,3.0,1.0,48.36,77.644,42.034,HARD,3.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+HUL,27,137.894,137.894,4.0,1.0,31.63,63.714,42.55,HARD,4.0,True,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,110.823,110.823,5.0,1.0,31.916,49.104,29.803,HARD,5.0,True,Audi,True,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,,,6.0,1.0,48.077,75.565,41.968,HARD,6.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+HUL,27,110.435,110.435,7.0,1.0,31.791,48.998,29.646,HARD,7.0,True,Audi,True,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,135.403,135.403,8.0,1.0,38.323,59.561,37.519,HARD,8.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+HUL,27,,,9.0,2.0,,64.45,37.861,SOFT,1.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+HUL,27,108.962,108.962,10.0,2.0,31.741,47.829,29.392,SOFT,2.0,True,Audi,True,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,,,11.0,2.0,53.28,75.257,44.755,SOFT,3.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+HUL,27,115.79,115.79,12.0,2.0,31.753,48.098,35.939,SOFT,4.0,True,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+HUL,27,,,13.0,3.0,,52.134,30.337,HARD,9.0,False,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+HUL,27,113.047,113.047,14.0,3.0,31.873,50.92,30.254,HARD,10.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,114.054,114.054,15.0,3.0,32.106,51.723,30.225,HARD,11.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,113.689,113.689,16.0,3.0,32.186,50.996,30.507,HARD,12.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,113.844,113.844,17.0,3.0,32.228,51.034,30.582,HARD,13.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,113.203,113.203,18.0,3.0,32.09,50.58,30.533,HARD,14.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,113.495,113.495,19.0,3.0,32.129,51.0,30.366,HARD,15.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,113.955,113.955,20.0,3.0,32.254,51.262,30.439,HARD,16.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,114.118,114.118,21.0,3.0,32.542,51.207,30.369,HARD,17.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,146.34,146.34,22.0,3.0,38.356,61.003,46.981,HARD,18.0,False,Audi,False,,,True,2026,Belgian Grand Prix,Practice 1
+HUL,27,,,23.0,3.0,76.369,52.517,34.607,HARD,19.0,False,Audi,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,,,1.0,1.0,,60.724,39.212,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,110.118,110.118,2.0,1.0,31.418,49.355,29.345,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,,,3.0,1.0,49.67,79.113,47.836,MEDIUM,3.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,109.427,109.427,4.0,1.0,31.318,48.626,29.483,MEDIUM,4.0,True,Racing Bulls,True,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,140.797,140.797,5.0,1.0,40.419,56.595,43.783,MEDIUM,5.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,,,6.0,2.0,,64.517,34.772,MEDIUM,6.0,False,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,109.451,109.451,7.0,2.0,31.387,48.814,29.25,MEDIUM,7.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,,,8.0,2.0,47.421,90.192,37.147,MEDIUM,8.0,False,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,109.247,109.247,9.0,2.0,31.205,48.782,29.26,MEDIUM,9.0,False,Racing Bulls,True,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,138.955,138.955,10.0,2.0,40.467,55.967,42.521,MEDIUM,10.0,False,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,,,11.0,3.0,,60.147,40.264,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,108.58,108.58,12.0,3.0,31.302,48.075,29.203,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,,,13.0,3.0,55.693,78.809,35.878,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,108.432,108.432,14.0,3.0,31.279,48.182,28.971,SOFT,4.0,True,Racing Bulls,True,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,,,15.0,3.0,49.705,60.067,41.545,SOFT,5.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,,,16.0,4.0,,51.967,30.053,MEDIUM,11.0,False,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,114.119,114.119,17.0,4.0,32.025,52.008,30.086,MEDIUM,12.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,113.202,113.202,18.0,4.0,31.824,51.128,30.25,MEDIUM,13.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,113.833,113.833,19.0,4.0,32.256,51.548,30.029,MEDIUM,14.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,113.658,113.658,20.0,4.0,32.078,51.4,30.18,MEDIUM,15.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,113.358,113.358,21.0,4.0,32.122,51.163,30.073,MEDIUM,16.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,113.704,113.704,22.0,4.0,31.948,51.734,30.022,MEDIUM,17.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LAW,30,,,23.0,4.0,40.629,68.411,46.358,MEDIUM,18.0,False,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LAW,30,,,24.0,4.0,62.937,60.067,45.545,MEDIUM,19.0,False,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,,,1.0,1.0,,63.935,35.673,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,115.369,115.369,2.0,1.0,32.348,52.369,30.652,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+OCO,31,113.753,113.753,3.0,1.0,32.639,50.802,30.312,MEDIUM,3.0,True,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+OCO,31,113.202,113.202,4.0,1.0,32.303,50.621,30.278,MEDIUM,4.0,True,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+OCO,31,136.276,136.276,5.0,1.0,37.596,60.885,37.795,MEDIUM,5.0,True,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,,,6.0,2.0,,61.653,35.499,MEDIUM,6.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,112.527,112.527,7.0,2.0,32.102,50.476,29.949,MEDIUM,7.0,False,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+OCO,31,112.97,112.97,8.0,2.0,32.221,50.723,30.026,MEDIUM,8.0,False,Haas F1 Team,False,,,True,2026,Belgian Grand Prix,Practice 1
+OCO,31,,,9.0,2.0,42.865,66.038,45.302,MEDIUM,9.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,,,10.0,3.0,,61.327,38.904,MEDIUM,10.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,111.836,111.836,11.0,3.0,31.829,50.307,29.7,MEDIUM,11.0,False,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+OCO,31,,,12.0,3.0,50.868,76.085,39.637,MEDIUM,12.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,111.3,111.3,13.0,3.0,31.841,49.924,29.535,MEDIUM,13.0,False,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+OCO,31,125.88,125.88,14.0,3.0,34.457,54.456,36.967,MEDIUM,14.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,,,15.0,4.0,,60.528,33.145,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,109.449,109.449,16.0,4.0,31.392,48.908,29.149,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+OCO,31,,,17.0,4.0,45.612,77.417,52.392,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,,,18.0,5.0,76.986,64.64,36.004,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+OCO,31,110.773,110.773,19.0,5.0,31.81,49.456,29.507,SOFT,5.0,False,Haas F1 Team,False,,,True,2026,Belgian Grand Prix,Practice 1
+OCO,31,143.426,143.426,20.0,5.0,37.992,60.678,44.756,SOFT,6.0,False,Haas F1 Team,False,,,True,2026,Belgian Grand Prix,Practice 1
+OCO,31,148.628,148.628,21.0,5.0,59.199,51.644,37.785,SOFT,7.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,1.0,1.0,,61.013,45.79,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,117.383,117.383,2.0,1.0,33.156,53.391,30.836,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,3.0,1.0,41.911,75.804,45.346,MEDIUM,3.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,115.453,115.453,4.0,1.0,32.819,52.057,30.577,MEDIUM,4.0,True,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,5.0,1.0,48.317,73.8,54.613,MEDIUM,5.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,115.373,115.373,6.0,1.0,32.999,51.903,30.471,MEDIUM,6.0,True,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,7.0,1.0,51.83,74.884,49.092,MEDIUM,7.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,8.0,2.0,,62.506,36.99,MEDIUM,8.0,False,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,115.184,115.184,9.0,2.0,32.972,51.672,30.54,MEDIUM,9.0,False,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,10.0,2.0,51.465,70.746,39.769,MEDIUM,10.0,False,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,114.56,114.56,11.0,2.0,32.89,51.344,30.326,MEDIUM,11.0,False,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,12.0,2.0,44.709,69.785,50.711,MEDIUM,12.0,False,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,13.0,3.0,,67.535,35.023,SOFT,1.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,113.811,113.811,14.0,3.0,32.747,50.774,30.29,SOFT,2.0,True,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,15.0,3.0,49.886,71.4,36.995,SOFT,3.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,113.199,113.199,16.0,3.0,32.302,50.909,29.988,SOFT,4.0,True,Aston Martin,True,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,137.755,137.755,17.0,3.0,44.765,61.876,31.114,SOFT,5.0,True,Aston Martin,False,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,116.053,116.053,18.0,3.0,32.991,52.124,30.938,SOFT,6.0,True,Aston Martin,False,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,115.828,115.828,19.0,3.0,33.158,51.689,30.981,SOFT,7.0,True,Aston Martin,False,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,115.811,115.811,20.0,3.0,33.118,51.842,30.851,SOFT,8.0,True,Aston Martin,False,,,True,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,21.0,3.0,42.046,64.058,49.549,SOFT,9.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+CRA,34,,,22.0,3.0,68.331,73.069,59.849,SOFT,10.0,True,Aston Martin,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,,,1.0,1.0,,59.142,33.983,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,111.45,111.45,2.0,1.0,31.527,50.114,29.809,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,,,3.0,1.0,41.43,76.935,35.757,MEDIUM,3.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,109.765,109.765,4.0,1.0,31.226,49.049,29.49,MEDIUM,4.0,True,Racing Bulls,True,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,,,5.0,1.0,53.698,72.739,34.924,MEDIUM,5.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,109.343,109.343,6.0,1.0,31.16,48.737,29.446,MEDIUM,6.0,True,Racing Bulls,True,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,,,7.0,1.0,47.83,77.033,34.262,MEDIUM,7.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,113.082,113.082,8.0,1.0,31.003,48.917,33.162,MEDIUM,8.0,True,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,144.156,144.156,9.0,1.0,49.348,58.491,36.317,MEDIUM,9.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,,,10.0,2.0,,61.609,33.393,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,108.234,108.234,11.0,2.0,30.967,48.211,29.056,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,,,12.0,2.0,54.078,75.048,32.604,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,108.652,108.652,13.0,2.0,30.989,48.353,29.31,SOFT,4.0,True,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,,,14.0,2.0,61.416,89.995,39.851,SOFT,5.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,108.42,108.42,15.0,2.0,31.108,48.198,29.114,SOFT,6.0,True,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,127.917,127.917,16.0,2.0,38.783,49.44,39.694,SOFT,7.0,True,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,,,17.0,3.0,,52.038,30.382,MEDIUM,10.0,False,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,113.457,113.457,18.0,3.0,32.193,51.314,29.95,MEDIUM,11.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,113.373,113.373,19.0,3.0,32.272,50.981,30.12,MEDIUM,12.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,113.426,113.426,20.0,3.0,32.291,51.005,30.13,MEDIUM,13.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,113.776,113.776,21.0,3.0,32.228,51.357,30.191,MEDIUM,14.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,114.011,114.011,22.0,3.0,32.279,51.703,30.029,MEDIUM,15.0,False,Racing Bulls,False,,,True,2026,Belgian Grand Prix,Practice 1
+LIN,41,,,23.0,3.0,44.626,70.786,47.555,MEDIUM,16.0,False,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+LIN,41,,,24.0,3.0,75.84,51.799,35.007,MEDIUM,17.0,False,Racing Bulls,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,,,1.0,1.0,,75.095,36.937,HARD,1.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,112.738,112.738,2.0,1.0,31.812,50.56,30.366,HARD,2.0,True,Alpine,True,,,True,2026,Belgian Grand Prix,Practice 1
+COL,43,,,3.0,1.0,52.536,71.57,35.74,HARD,3.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,111.223,111.223,4.0,1.0,31.786,49.696,29.741,HARD,4.0,True,Alpine,True,,,True,2026,Belgian Grand Prix,Practice 1
+COL,43,143.234,143.234,5.0,1.0,39.641,63.534,40.059,HARD,5.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,,,6.0,2.0,73.065,75.137,34.393,HARD,6.0,False,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,111.138,111.138,7.0,2.0,31.847,49.919,29.372,HARD,7.0,False,Alpine,True,,,True,2026,Belgian Grand Prix,Practice 1
+COL,43,,,8.0,2.0,41.066,68.091,43.175,HARD,8.0,False,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,,,9.0,3.0,,58.5,33.665,HARD,9.0,False,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,136.013,136.013,10.0,3.0,35.998,66.989,33.026,HARD,10.0,False,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+COL,43,110.335,110.335,11.0,3.0,31.418,49.23,29.687,HARD,11.0,False,Alpine,True,,,True,2026,Belgian Grand Prix,Practice 1
+COL,43,,,12.0,3.0,55.455,83.574,33.868,HARD,12.0,False,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,116.793,116.793,13.0,3.0,31.975,49.274,35.544,HARD,13.0,False,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,,,14.0,4.0,,61.519,32.359,SOFT,1.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,109.403,109.403,15.0,4.0,31.326,48.618,29.459,SOFT,2.0,True,Alpine,True,,,True,2026,Belgian Grand Prix,Practice 1
+COL,43,,,16.0,4.0,52.436,90.249,38.904,SOFT,3.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,109.907,109.907,17.0,4.0,31.56,48.911,29.436,SOFT,4.0,True,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+COL,43,,,18.0,4.0,56.041,88.709,34.866,SOFT,5.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,109.493,109.493,19.0,4.0,31.237,49.112,29.144,SOFT,6.0,True,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+COL,43,,,20.0,4.0,55.203,86.604,35.894,SOFT,7.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+COL,43,109.433,109.433,21.0,4.0,31.201,49.064,29.168,SOFT,8.0,True,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+COL,43,148.597,148.597,22.0,4.0,43.042,61.872,43.683,SOFT,9.0,True,Alpine,False,,,True,2026,Belgian Grand Prix,Practice 1
+COL,43,,,23.0,4.0,69.482,52.765,36.304,SOFT,10.0,True,Alpine,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,,,1.0,1.0,,63.684,33.595,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,110.438,110.438,2.0,1.0,31.519,49.642,29.277,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,,,3.0,1.0,50.089,92.1,38.735,MEDIUM,3.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,108.842,108.842,4.0,1.0,31.429,48.189,29.224,MEDIUM,4.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,,,5.0,1.0,64.889,,38.797,MEDIUM,5.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,108.366,108.366,6.0,1.0,31.358,47.981,29.027,MEDIUM,6.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,,,7.0,1.0,67.826,,38.801,MEDIUM,7.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,108.056,108.056,8.0,1.0,31.293,47.821,28.942,MEDIUM,8.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,120.581,120.581,9.0,1.0,34.174,49.582,36.825,MEDIUM,9.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,,,10.0,2.0,,69.179,38.143,SOFT,1.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,107.711,107.711,11.0,2.0,31.297,47.416,28.998,SOFT,2.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,,,12.0,2.0,73.991,,38.032,SOFT,3.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,107.215,107.215,13.0,2.0,30.941,47.421,28.853,SOFT,4.0,True,Ferrari,True,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,128.496,128.496,14.0,2.0,35.783,49.887,42.826,SOFT,5.0,True,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,,,15.0,3.0,,53.163,35.228,SOFT,6.0,False,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,111.576,111.576,16.0,3.0,31.932,49.74,29.904,SOFT,7.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,111.525,111.525,17.0,3.0,32.007,49.667,29.851,SOFT,8.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,111.721,111.721,18.0,3.0,31.893,49.996,29.832,SOFT,9.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,112.432,112.432,19.0,3.0,32.158,50.346,29.928,SOFT,10.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,112.103,112.103,20.0,3.0,32.171,50.179,29.753,SOFT,11.0,False,Ferrari,False,,,True,2026,Belgian Grand Prix,Practice 1
+HAM,44,,,21.0,3.0,47.562,73.486,43.476,SOFT,12.0,False,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+HAM,44,,,22.0,3.0,79.217,52.919,36.631,SOFT,13.0,False,Ferrari,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,,,1.0,1.0,,62.46,39.482,MEDIUM,1.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,,,2.0,2.0,,54.716,33.103,MEDIUM,1.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,112.467,112.467,3.0,2.0,31.675,50.726,30.066,MEDIUM,2.0,False,Williams,True,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,,,4.0,2.0,49.181,69.506,36.333,MEDIUM,3.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,112.364,112.364,5.0,2.0,31.529,50.555,30.28,MEDIUM,4.0,False,Williams,True,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,,,6.0,2.0,51.247,75.478,35.164,MEDIUM,5.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,134.457,134.457,7.0,2.0,38.778,60.104,35.575,MEDIUM,6.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,117.771,117.771,8.0,2.0,31.668,50.121,35.982,MEDIUM,7.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,,,9.0,3.0,55.144,62.853,33.557,MEDIUM,9.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,115.075,115.075,10.0,3.0,31.205,50.008,33.862,MEDIUM,10.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,134.765,134.765,11.0,3.0,38.778,57.68,38.307,MEDIUM,11.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,,,12.0,4.0,,58.889,38.213,SOFT,1.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,139.921,139.921,13.0,4.0,46.373,60.105,33.443,SOFT,2.0,True,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,,,14.0,4.0,42.321,72.626,39.862,SOFT,3.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,110.862,110.862,15.0,4.0,31.661,49.324,29.877,SOFT,4.0,True,Williams,True,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,125.599,125.599,16.0,4.0,36.831,51.662,37.106,SOFT,5.0,True,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,,,17.0,5.0,,55.156,30.638,MEDIUM,12.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,115.448,115.448,18.0,5.0,32.195,51.968,31.285,MEDIUM,13.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,114.919,114.919,19.0,5.0,32.243,52.034,30.642,MEDIUM,14.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,115.086,115.086,20.0,5.0,32.294,52.182,30.61,MEDIUM,15.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,115.292,115.292,21.0,5.0,32.479,52.129,30.684,MEDIUM,16.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,115.568,115.568,22.0,5.0,32.57,52.191,30.807,MEDIUM,17.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,115.943,115.943,23.0,5.0,32.515,52.517,30.911,MEDIUM,18.0,False,Williams,False,,,True,2026,Belgian Grand Prix,Practice 1
+SAI,55,,,24.0,5.0,48.011,61.821,41.121,MEDIUM,19.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+SAI,55,,,25.0,5.0,62.071,55.168,43.714,MEDIUM,20.0,False,Williams,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,,,1.0,1.0,,54.708,36.393,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,110.654,110.654,2.0,1.0,31.315,49.739,29.6,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Belgian Grand Prix,Practice 1
+RUS,63,,,3.0,1.0,52.506,76.545,33.644,MEDIUM,3.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,109.928,109.928,4.0,1.0,31.278,49.354,29.296,MEDIUM,4.0,True,Mercedes,True,,,True,2026,Belgian Grand Prix,Practice 1
+RUS,63,,,5.0,1.0,51.054,73.522,32.745,MEDIUM,5.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,,,6.0,1.0,31.075,72.533,47.594,MEDIUM,6.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,109.577,109.577,7.0,1.0,31.122,49.218,29.237,MEDIUM,7.0,True,Mercedes,True,,,True,2026,Belgian Grand Prix,Practice 1
+RUS,63,141.409,141.409,8.0,1.0,46.68,55.169,39.56,MEDIUM,8.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,,,9.0,2.0,,56.135,32.442,SOFT,1.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,107.959,107.959,10.0,2.0,30.693,48.29,28.976,SOFT,2.0,True,Mercedes,True,,,True,2026,Belgian Grand Prix,Practice 1
+RUS,63,,,11.0,2.0,59.507,89.671,32.773,SOFT,3.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,135.231,135.231,12.0,2.0,31.031,70.432,33.768,SOFT,4.0,True,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+RUS,63,114.929,114.929,13.0,2.0,30.819,48.316,35.794,SOFT,5.0,True,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,,,14.0,3.0,,51.415,30.02,MEDIUM,9.0,False,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,112.337,112.337,15.0,3.0,31.782,50.678,29.877,MEDIUM,10.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+RUS,63,112.29,112.29,16.0,3.0,31.667,50.7,29.923,MEDIUM,11.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+RUS,63,112.594,112.594,17.0,3.0,31.59,50.955,30.049,MEDIUM,12.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+RUS,63,113.249,113.249,18.0,3.0,31.879,51.082,30.288,MEDIUM,13.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+RUS,63,120.119,120.119,19.0,3.0,32.01,51.27,36.839,MEDIUM,14.0,False,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,,,20.0,4.0,,53.113,55.145,SOFT,6.0,False,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+RUS,63,145.839,145.839,21.0,4.0,39.294,61.769,44.776,SOFT,7.0,False,Mercedes,False,,,True,2026,Belgian Grand Prix,Practice 1
+RUS,63,,,22.0,4.0,67.785,53.023,38.693,SOFT,8.0,False,Mercedes,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOT,77,,,1.0,1.0,,60.103,40.296,HARD,1.0,True,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOT,77,113.826,113.826,2.0,1.0,32.173,51.361,30.292,HARD,2.0,True,Cadillac,True,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,148.285,148.285,3.0,1.0,43.067,66.65,38.568,HARD,3.0,True,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,111.431,111.431,4.0,1.0,31.237,50.443,29.751,HARD,4.0,True,Cadillac,True,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,143.948,143.948,5.0,1.0,40.781,62.574,40.593,HARD,5.0,True,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOT,77,,,6.0,2.0,,63.462,37.36,HARD,6.0,False,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOT,77,111.64,111.64,7.0,2.0,31.754,50.347,29.539,HARD,7.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,146.399,146.399,8.0,2.0,41.529,67.74,37.13,HARD,8.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,111.0,111.0,9.0,2.0,31.405,50.097,29.498,HARD,9.0,False,Cadillac,True,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,134.109,134.109,10.0,2.0,39.478,56.185,38.446,HARD,10.0,False,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOT,77,,,11.0,3.0,,67.685,36.574,SOFT,1.0,True,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOT,77,109.839,109.839,12.0,3.0,31.377,49.123,29.339,SOFT,2.0,True,Cadillac,True,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,146.061,146.061,13.0,3.0,40.401,70.315,35.345,SOFT,3.0,True,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,117.749,117.749,14.0,3.0,31.35,49.136,37.263,SOFT,4.0,True,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOT,77,,,15.0,4.0,,53.996,31.072,HARD,11.0,False,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+BOT,77,117.367,117.367,16.0,4.0,33.976,52.364,31.027,HARD,12.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,122.749,122.749,17.0,4.0,32.247,58.903,31.599,HARD,13.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,116.252,116.252,18.0,4.0,32.505,52.865,30.882,HARD,14.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,115.825,115.825,19.0,4.0,32.407,52.865,30.553,HARD,15.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,140.783,140.783,20.0,4.0,35.767,59.603,45.413,HARD,16.0,False,Cadillac,False,,,True,2026,Belgian Grand Prix,Practice 1
+BOT,77,,,21.0,4.0,67.031,62.008,38.238,HARD,17.0,False,Cadillac,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,,,1.0,1.0,,60.073,44.743,MEDIUM,1.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,111.33,111.33,2.0,1.0,32.498,49.378,29.454,MEDIUM,2.0,True,McLaren,True,,,True,2026,Belgian Grand Prix,Practice 1
+PIA,81,,,3.0,1.0,43.443,78.328,60.531,MEDIUM,3.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,149.036,149.036,4.0,1.0,43.002,65.865,40.169,MEDIUM,4.0,True,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+PIA,81,109.801,109.801,5.0,1.0,32.112,48.442,29.247,MEDIUM,5.0,True,McLaren,True,,,True,2026,Belgian Grand Prix,Practice 1
+PIA,81,,,6.0,1.0,46.638,76.582,44.346,MEDIUM,6.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,130.005,130.005,7.0,1.0,31.548,49.138,49.319,MEDIUM,7.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,,,8.0,2.0,,59.673,34.603,MEDIUM,8.0,False,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,109.585,109.585,9.0,2.0,31.047,48.8,29.738,MEDIUM,9.0,False,McLaren,True,,,True,2026,Belgian Grand Prix,Practice 1
+PIA,81,,,10.0,2.0,45.905,69.026,36.447,MEDIUM,10.0,False,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,116.068,116.068,11.0,2.0,31.306,48.437,36.325,MEDIUM,11.0,False,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,,,12.0,3.0,,56.833,33.057,SOFT,1.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,107.522,107.522,13.0,3.0,30.91,47.383,29.229,SOFT,2.0,True,McLaren,True,,,True,2026,Belgian Grand Prix,Practice 1
+PIA,81,133.173,133.173,14.0,3.0,42.516,55.57,35.087,SOFT,3.0,True,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,126.403,126.403,15.0,4.0,47.187,49.316,29.9,MEDIUM,12.0,False,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+PIA,81,110.25,110.25,16.0,4.0,31.315,49.298,29.637,MEDIUM,13.0,False,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+PIA,81,110.557,110.557,17.0,4.0,31.381,49.574,29.602,MEDIUM,14.0,False,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+PIA,81,110.78,110.78,18.0,4.0,31.739,49.397,29.644,MEDIUM,15.0,False,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+PIA,81,110.651,110.651,19.0,4.0,31.666,49.483,29.502,MEDIUM,16.0,False,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+PIA,81,111.089,111.089,20.0,4.0,31.591,49.874,29.624,MEDIUM,17.0,False,McLaren,False,,,True,2026,Belgian Grand Prix,Practice 1
+PIA,81,,,21.0,4.0,40.582,,51.171,MEDIUM,18.0,False,McLaren,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,,,1.0,1.0,,63.085,33.961,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,113.962,113.962,2.0,1.0,32.41,51.152,30.4,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+BEA,87,112.053,112.053,3.0,1.0,31.897,50.428,29.728,MEDIUM,3.0,True,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+BEA,87,,,4.0,1.0,42.619,70.104,44.386,MEDIUM,4.0,True,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,,,5.0,2.0,,58.942,34.052,MEDIUM,5.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,111.262,111.262,6.0,2.0,31.931,49.663,29.668,MEDIUM,6.0,False,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+BEA,87,112.576,112.576,7.0,2.0,32.014,50.534,30.028,MEDIUM,7.0,False,Haas F1 Team,False,,,True,2026,Belgian Grand Prix,Practice 1
+BEA,87,147.677,147.677,8.0,2.0,36.501,71.811,39.365,MEDIUM,8.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,,,9.0,3.0,,63.842,33.269,MEDIUM,9.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,110.58,110.58,10.0,3.0,31.465,49.79,29.325,MEDIUM,10.0,False,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+BEA,87,,,11.0,3.0,74.648,86.002,39.333,MEDIUM,11.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,133.207,133.207,12.0,3.0,40.865,58.136,34.206,MEDIUM,12.0,False,Haas F1 Team,False,,,True,2026,Belgian Grand Prix,Practice 1
+BEA,87,110.152,110.152,13.0,3.0,31.509,49.556,29.087,MEDIUM,13.0,False,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+BEA,87,142.854,142.854,14.0,3.0,53.029,51.42,38.405,MEDIUM,14.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,,,15.0,4.0,,63.312,32.049,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,109.01,109.01,16.0,4.0,31.161,48.929,28.92,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Belgian Grand Prix,Practice 1
+BEA,87,,,17.0,4.0,66.915,77.06,49.322,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,148.598,148.598,18.0,5.0,65.528,50.733,32.337,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1
+BEA,87,112.508,112.508,19.0,5.0,32.456,49.967,30.085,SOFT,5.0,False,Haas F1 Team,False,,,True,2026,Belgian Grand Prix,Practice 1
+BEA,87,137.21,137.21,20.0,5.0,31.905,50.676,54.629,SOFT,6.0,False,Haas F1 Team,False,,,True,2026,Belgian Grand Prix,Practice 1
+BEA,87,146.835,146.835,21.0,5.0,61.589,50.345,34.901,SOFT,7.0,False,Haas F1 Team,False,,,False,2026,Belgian Grand Prix,Practice 1

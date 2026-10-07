@@ -1,0 +1,472 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,49.832,32.03,MEDIUM,1.0,True,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+NOR,1,83.652,83.652,2.0,1.0,27.544,27.956,28.152,MEDIUM,2.0,True,McLaren,True,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,125.651,125.651,3.0,1.0,41.517,40.707,43.427,MEDIUM,3.0,True,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+NOR,1,130.611,130.611,4.0,2.0,62.899,37.385,30.327,MEDIUM,4.0,False,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+NOR,1,101.571,101.571,5.0,2.0,28.224,40.944,32.403,MEDIUM,5.0,False,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,83.959,83.959,6.0,2.0,27.583,28.082,28.294,MEDIUM,6.0,False,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,121.519,121.519,7.0,2.0,42.357,45.88,33.282,MEDIUM,7.0,False,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,83.431,83.431,8.0,2.0,27.452,27.872,28.107,MEDIUM,8.0,False,McLaren,True,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,110.86,110.86,9.0,2.0,33.516,37.474,39.87,MEDIUM,9.0,False,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+NOR,1,,,10.0,3.0,,31.371,33.794,SOFT,1.0,True,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+NOR,1,82.774,82.774,11.0,3.0,27.164,27.808,27.802,SOFT,2.0,True,McLaren,True,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,146.111,146.111,12.0,3.0,58.614,47.483,40.014,SOFT,3.0,True,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,82.625,82.625,13.0,3.0,27.318,27.704,27.603,SOFT,4.0,True,McLaren,True,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,,,14.0,3.0,46.505,61.151,43.251,SOFT,5.0,True,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+NOR,1,109.435,109.435,15.0,3.0,39.33,34.931,35.174,SOFT,6.0,True,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,82.863,82.863,16.0,3.0,27.217,27.896,27.75,SOFT,7.0,True,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,129.507,129.507,17.0,3.0,37.316,42.297,49.894,SOFT,8.0,True,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+NOR,1,,,18.0,3.0,81.991,34.708,39.394,SOFT,9.0,True,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+VER,3,,,1.0,1.0,,31.769,35.593,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+VER,3,83.467,83.467,2.0,1.0,27.354,28.342,27.771,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,122.773,122.773,3.0,1.0,43.712,40.512,38.549,MEDIUM,3.0,True,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+VER,3,128.729,128.729,4.0,2.0,60.346,36.673,31.71,MEDIUM,4.0,False,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+VER,3,83.692,83.692,5.0,2.0,27.545,28.372,27.775,MEDIUM,5.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,146.902,146.902,6.0,2.0,54.503,50.576,41.823,MEDIUM,6.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,83.455,83.455,7.0,2.0,27.479,28.241,27.735,MEDIUM,7.0,False,Red Bull Racing,True,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,,,8.0,2.0,44.655,71.901,44.298,MEDIUM,8.0,False,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+VER,3,120.42,120.42,9.0,2.0,37.521,41.489,41.41,MEDIUM,9.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,83.1,83.1,10.0,2.0,27.574,28.085,27.441,MEDIUM,10.0,False,Red Bull Racing,True,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,102.415,102.415,11.0,2.0,33.586,31.84,36.989,MEDIUM,11.0,False,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+VER,3,,,12.0,3.0,,31.585,32.578,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+VER,3,82.79,82.79,13.0,3.0,27.263,28.186,27.341,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,135.122,135.122,14.0,3.0,46.508,50.107,38.507,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+VER,3,141.583,141.583,15.0,4.0,68.595,41.036,31.952,SOFT,4.0,False,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+VER,3,101.181,101.181,16.0,4.0,27.355,34.525,39.301,SOFT,5.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,101.293,101.293,17.0,4.0,27.35,28.292,45.651,SOFT,6.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,130.469,130.469,18.0,4.0,47.085,44.531,38.853,SOFT,7.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,82.569,82.569,19.0,4.0,27.26,28.027,27.282,SOFT,8.0,False,Red Bull Racing,True,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,143.437,143.437,20.0,4.0,50.276,52.464,40.697,SOFT,9.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,108.035,108.035,21.0,4.0,38.882,35.403,33.75,SOFT,10.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,110.76,110.76,22.0,4.0,33.08,42.582,35.098,SOFT,11.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,125.519,125.519,23.0,4.0,39.36,37.179,48.98,SOFT,12.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+VER,3,,,24.0,4.0,86.995,32.959,34.025,SOFT,13.0,False,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,,,1.0,1.0,,38.623,43.342,MEDIUM,1.0,True,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,,,2.0,2.0,,32.666,36.09,MEDIUM,2.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,84.309,84.309,3.0,2.0,27.611,28.596,28.102,MEDIUM,3.0,False,Audi,True,,,True,2026,Italian Grand Prix,Practice 3
+BOR,5,125.536,125.536,4.0,2.0,48.103,37.822,39.611,MEDIUM,4.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,127.704,127.704,5.0,3.0,63.348,32.521,31.835,MEDIUM,5.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,83.893,83.893,6.0,3.0,27.542,28.444,27.907,MEDIUM,6.0,False,Audi,True,,,True,2026,Italian Grand Prix,Practice 3
+BOR,5,145.736,145.736,7.0,3.0,52.395,49.444,43.897,MEDIUM,7.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,143.288,143.288,8.0,4.0,66.427,32.816,44.045,MEDIUM,8.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,83.561,83.561,9.0,4.0,27.516,28.322,27.723,MEDIUM,9.0,False,Audi,True,,,True,2026,Italian Grand Prix,Practice 3
+BOR,5,140.616,140.616,10.0,4.0,44.269,46.104,50.243,MEDIUM,10.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,145.148,145.148,11.0,5.0,79.619,32.6,32.929,MEDIUM,11.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,88.338,88.338,12.0,5.0,27.397,28.362,32.579,MEDIUM,12.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,,,13.0,6.0,,31.242,32.923,SOFT,1.0,True,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,83.319,83.319,14.0,6.0,27.412,28.273,27.634,SOFT,2.0,True,Audi,True,,,True,2026,Italian Grand Prix,Practice 3
+BOR,5,127.536,127.536,15.0,6.0,40.26,43.755,43.521,SOFT,3.0,True,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,,,16.0,7.0,80.623,40.396,39.718,SOFT,4.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,83.298,83.298,17.0,7.0,27.401,28.208,27.689,SOFT,5.0,False,Audi,True,,,True,2026,Italian Grand Prix,Practice 3
+BOR,5,148.16,148.16,18.0,7.0,49.007,52.873,46.28,SOFT,6.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,128.606,128.606,19.0,8.0,66.18,32.615,29.811,SOFT,7.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+BOR,5,123.939,123.939,20.0,8.0,36.593,36.52,50.826,SOFT,8.0,False,Audi,False,,,True,2026,Italian Grand Prix,Practice 3
+BOR,5,146.816,146.816,21.0,8.0,71.582,35.299,39.935,SOFT,9.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+GAS,10,,,1.0,1.0,,35.489,31.653,MEDIUM,1.0,True,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+GAS,10,85.349,85.349,2.0,1.0,27.628,29.258,28.463,MEDIUM,2.0,True,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,126.608,126.608,3.0,1.0,46.493,47.591,32.524,MEDIUM,3.0,True,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,83.878,83.878,4.0,1.0,27.355,28.449,28.074,MEDIUM,4.0,True,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,130.1,130.1,5.0,1.0,43.022,48.94,38.138,MEDIUM,5.0,True,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,83.875,83.875,6.0,1.0,27.492,28.281,28.102,MEDIUM,6.0,True,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,121.458,121.458,7.0,1.0,37.381,42.967,41.11,MEDIUM,7.0,True,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+GAS,10,,,8.0,2.0,,33.812,32.498,MEDIUM,8.0,False,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+GAS,10,83.416,83.416,9.0,2.0,27.223,28.113,28.08,MEDIUM,9.0,False,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,99.713,99.713,10.0,2.0,33.949,36.867,28.897,MEDIUM,10.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,85.143,85.143,11.0,2.0,27.785,28.844,28.514,MEDIUM,11.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,85.056,85.056,12.0,2.0,28.195,28.914,27.947,MEDIUM,12.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,84.991,84.991,13.0,2.0,28.183,28.811,27.997,MEDIUM,13.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,84.843,84.843,14.0,2.0,28.157,28.793,27.893,MEDIUM,14.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,84.716,84.716,15.0,2.0,27.994,28.759,27.963,MEDIUM,15.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,84.581,84.581,16.0,2.0,27.974,28.68,27.927,MEDIUM,16.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,111.558,111.558,17.0,2.0,33.968,36.86,40.73,MEDIUM,17.0,False,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+GAS,10,,,18.0,3.0,,33.727,31.544,SOFT,1.0,True,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+GAS,10,83.096,83.096,19.0,3.0,27.219,28.142,27.735,SOFT,2.0,True,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,123.527,123.527,20.0,3.0,38.254,41.346,43.927,SOFT,3.0,True,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+GAS,10,,,21.0,4.0,,37.07,38.74,SOFT,4.0,False,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+GAS,10,82.898,82.898,22.0,4.0,27.236,28.028,27.634,SOFT,5.0,False,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,122.25,122.25,23.0,4.0,35.614,37.828,48.808,SOFT,6.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+GAS,10,138.465,138.465,24.0,4.0,69.035,30.369,39.061,SOFT,7.0,False,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,,,1.0,1.0,,33.48,33.799,SOFT,1.0,True,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,86.381,86.381,2.0,1.0,27.916,29.189,29.276,SOFT,2.0,True,Cadillac,True,,,True,2026,Italian Grand Prix,Practice 3
+PER,11,147.874,147.874,3.0,1.0,45.766,51.747,50.361,SOFT,3.0,True,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,145.762,145.762,4.0,2.0,60.04,51.104,34.618,SOFT,4.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,86.102,86.102,5.0,2.0,28.007,29.23,28.865,SOFT,5.0,False,Cadillac,True,,,True,2026,Italian Grand Prix,Practice 3
+PER,11,138.496,138.496,6.0,2.0,43.798,45.298,49.4,SOFT,6.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,,,7.0,3.0,,34.251,44.187,SOFT,7.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,85.031,85.031,8.0,3.0,27.569,28.911,28.551,SOFT,8.0,False,Cadillac,True,,,True,2026,Italian Grand Prix,Practice 3
+PER,11,142.279,142.279,9.0,3.0,49.025,44.949,48.305,SOFT,9.0,False,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+PER,11,145.552,145.552,10.0,3.0,49.816,55.802,39.934,SOFT,10.0,False,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+PER,11,121.841,121.841,11.0,3.0,33.664,40.424,47.753,SOFT,11.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,,,12.0,4.0,,41.476,31.211,SOFT,1.0,True,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,98.908,98.908,13.0,4.0,27.608,33.739,37.561,SOFT,2.0,True,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+PER,11,128.767,128.767,14.0,4.0,28.063,54.015,46.689,SOFT,3.0,True,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,,,15.0,5.0,73.242,46.146,31.271,SOFT,4.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,85.454,85.454,16.0,5.0,27.772,28.804,28.878,SOFT,5.0,False,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+PER,11,115.035,115.035,17.0,5.0,32.092,35.013,47.93,SOFT,6.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,,,18.0,6.0,,34.636,30.704,SOFT,7.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PER,11,108.495,108.495,19.0,6.0,29.348,33.576,45.571,SOFT,8.0,False,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+PER,11,,,20.0,6.0,75.515,35.132,41.335,SOFT,9.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,,,1.0,1.0,,32.792,31.179,SOFT,1.0,True,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,83.032,83.032,2.0,1.0,27.269,28.173,27.59,SOFT,2.0,True,Mercedes,True,,,True,2026,Italian Grand Prix,Practice 3
+ANT,12,126.353,126.353,3.0,1.0,42.209,44.564,39.58,SOFT,3.0,True,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,,,4.0,2.0,,42.552,31.65,SOFT,4.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,83.565,83.565,5.0,2.0,27.257,27.858,28.45,SOFT,5.0,False,Mercedes,False,,,True,2026,Italian Grand Prix,Practice 3
+ANT,12,110.017,110.017,6.0,2.0,31.962,36.995,41.06,SOFT,6.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,,,7.0,3.0,,43.765,36.602,SOFT,7.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,97.726,97.726,8.0,3.0,28.347,32.969,36.41,SOFT,8.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,,,9.0,4.0,,33.643,31.729,SOFT,1.0,True,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,120.465,120.465,10.0,4.0,40.348,46.357,33.76,SOFT,2.0,True,Mercedes,False,,,True,2026,Italian Grand Prix,Practice 3
+ANT,12,82.696,82.696,11.0,4.0,27.359,27.837,27.5,SOFT,3.0,True,Mercedes,True,,,True,2026,Italian Grand Prix,Practice 3
+ANT,12,119.841,119.841,12.0,4.0,35.46,41.759,42.622,SOFT,4.0,True,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,,,13.0,5.0,,37.523,32.039,SOFT,5.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,82.58,82.58,14.0,5.0,27.147,27.935,27.498,SOFT,6.0,False,Mercedes,True,,,True,2026,Italian Grand Prix,Practice 3
+ANT,12,119.869,119.869,15.0,5.0,35.788,39.442,44.639,SOFT,7.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,,,16.0,6.0,,29.53,29.301,SOFT,9.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ANT,12,117.81,117.81,17.0,6.0,34.409,33.281,50.12,SOFT,10.0,False,Mercedes,False,,,True,2026,Italian Grand Prix,Practice 3
+ANT,12,,,18.0,6.0,77.118,33.736,42.32,SOFT,11.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+ALO,14,,,1.0,1.0,,34.047,33.802,SOFT,1.0,True,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+ALO,14,86.288,86.288,2.0,1.0,28.107,29.335,28.846,SOFT,2.0,True,Aston Martin,True,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,125.875,125.875,3.0,1.0,42.882,41.885,41.108,SOFT,3.0,True,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,109.936,109.936,4.0,1.0,37.592,33.903,38.441,SOFT,4.0,True,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,97.589,97.589,5.0,1.0,28.166,29.032,40.391,SOFT,5.0,True,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,120.786,120.786,6.0,1.0,51.668,37.902,31.216,SOFT,6.0,True,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,85.306,85.306,7.0,1.0,27.942,29.013,28.351,SOFT,7.0,True,Aston Martin,True,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,121.857,121.857,8.0,1.0,42.991,37.68,41.186,SOFT,8.0,True,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+ALO,14,,,9.0,2.0,,35.469,31.07,SOFT,1.0,True,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+ALO,14,120.342,120.342,10.0,2.0,37.744,48.22,34.378,SOFT,2.0,True,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,85.216,85.216,11.0,2.0,27.907,28.922,28.387,SOFT,3.0,True,Aston Martin,True,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,118.781,118.781,12.0,2.0,42.258,36.769,39.754,SOFT,4.0,True,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,123.454,123.454,13.0,2.0,51.602,40.178,31.674,SOFT,5.0,True,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,114.448,114.448,14.0,2.0,28.817,41.884,43.747,SOFT,6.0,True,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,116.785,116.785,15.0,2.0,37.809,45.589,33.387,SOFT,7.0,True,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,84.919,84.919,16.0,2.0,27.833,28.649,28.437,SOFT,8.0,True,Aston Martin,True,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,112.525,112.525,17.0,2.0,32.47,36.819,43.236,SOFT,9.0,True,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+ALO,14,,,18.0,3.0,,34.358,31.566,SOFT,10.0,False,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+ALO,14,118.18,118.18,19.0,3.0,35.512,35.772,46.896,SOFT,11.0,False,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+ALO,14,149.794,149.794,20.0,3.0,78.948,30.931,39.915,SOFT,12.0,False,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+LEC,16,,,1.0,1.0,,33.23,36.664,SOFT,1.0,True,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+LEC,16,83.25,83.25,2.0,1.0,27.265,28.328,27.657,SOFT,2.0,True,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,134.43,134.43,3.0,1.0,42.56,44.234,47.636,SOFT,3.0,True,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+LEC,16,,,4.0,2.0,92.219,41.615,33.085,SOFT,4.0,False,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+LEC,16,99.271,99.271,5.0,2.0,35.02,33.302,30.949,SOFT,5.0,False,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,83.271,83.271,6.0,2.0,27.53,28.131,27.61,SOFT,6.0,False,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,119.86,119.86,7.0,2.0,39.374,41.941,38.545,SOFT,7.0,False,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+LEC,16,,,8.0,3.0,,31.829,30.328,SOFT,8.0,False,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+LEC,16,83.065,83.065,9.0,3.0,27.439,28.11,27.516,SOFT,9.0,False,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,107.641,107.641,10.0,3.0,36.226,34.621,36.794,SOFT,10.0,False,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,82.913,82.913,11.0,3.0,27.215,28.169,27.529,SOFT,11.0,False,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,112.641,112.641,12.0,3.0,34.081,36.317,42.243,SOFT,12.0,False,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+LEC,16,,,13.0,4.0,,32.985,32.255,SOFT,1.0,True,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+LEC,16,82.708,82.708,14.0,4.0,27.307,28.016,27.385,SOFT,2.0,True,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,135.905,135.905,15.0,4.0,43.139,46.033,46.733,SOFT,3.0,True,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+LEC,16,143.275,143.275,16.0,5.0,76.331,34.284,32.66,SOFT,4.0,False,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+LEC,16,106.577,106.577,17.0,5.0,30.166,35.432,40.979,SOFT,5.0,False,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,105.368,105.368,18.0,5.0,40.908,32.417,32.043,SOFT,6.0,False,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,82.972,82.972,19.0,5.0,27.24,28.242,27.49,SOFT,7.0,False,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,139.21,139.21,20.0,5.0,42.632,43.341,53.237,SOFT,8.0,False,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+LEC,16,,,21.0,5.0,79.833,36.154,41.748,SOFT,9.0,False,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+STR,18,,,1.0,1.0,,34.529,33.07,SOFT,1.0,True,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+STR,18,87.31,87.31,2.0,1.0,28.532,29.722,29.056,SOFT,2.0,True,Aston Martin,True,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,149.996,149.996,3.0,1.0,44.901,54.012,51.083,SOFT,3.0,True,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+STR,18,,,4.0,2.0,59.248,51.476,45.634,SOFT,4.0,False,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+STR,18,87.571,87.571,5.0,2.0,29.003,29.476,29.092,SOFT,5.0,False,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,137.027,137.027,6.0,2.0,45.652,50.675,40.7,SOFT,6.0,False,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,122.118,122.118,7.0,2.0,43.063,40.286,38.769,SOFT,7.0,False,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,86.506,86.506,8.0,2.0,28.346,29.242,28.918,SOFT,8.0,False,Aston Martin,True,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,148.979,148.979,9.0,2.0,40.218,57.091,51.67,SOFT,9.0,False,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+STR,18,,,10.0,3.0,84.225,44.378,51.498,SOFT,10.0,False,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+STR,18,,,11.0,4.0,,34.825,31.712,SOFT,1.0,True,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+STR,18,119.863,119.863,12.0,4.0,38.736,46.41,34.717,SOFT,2.0,True,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,85.68,85.68,13.0,4.0,28.177,28.991,28.512,SOFT,3.0,True,Aston Martin,True,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,127.972,127.972,14.0,4.0,45.178,40.098,42.696,SOFT,4.0,True,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+STR,18,134.754,134.754,15.0,5.0,68.604,33.606,32.544,SOFT,5.0,False,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+STR,18,85.765,85.765,16.0,5.0,28.177,28.961,28.627,SOFT,6.0,False,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,131.809,131.809,17.0,5.0,45.609,45.523,40.677,SOFT,7.0,False,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,122.572,122.572,18.0,5.0,46.917,42.967,32.688,SOFT,8.0,False,Aston Martin,False,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,85.555,85.555,19.0,5.0,27.978,28.945,28.632,SOFT,9.0,False,Aston Martin,True,,,True,2026,Italian Grand Prix,Practice 3
+STR,18,117.76,117.76,20.0,5.0,39.599,39.331,38.83,SOFT,10.0,False,Aston Martin,False,,,False,2026,Italian Grand Prix,Practice 3
+TSU,22,,,1.0,1.0,,33.373,32.212,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+TSU,22,84.31,84.31,2.0,1.0,27.804,28.69,27.816,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Italian Grand Prix,Practice 3
+TSU,22,130.347,130.347,3.0,1.0,41.281,45.788,43.278,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+TSU,22,,,4.0,2.0,,36.078,31.292,SOFT,4.0,False,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+TSU,22,83.817,83.817,5.0,2.0,27.672,28.333,27.812,SOFT,5.0,False,Racing Bulls,True,,,True,2026,Italian Grand Prix,Practice 3
+TSU,22,114.928,114.928,6.0,2.0,44.554,39.842,30.532,SOFT,6.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+TSU,22,85.118,85.118,7.0,2.0,27.921,29.218,27.979,SOFT,7.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+TSU,22,85.435,85.435,8.0,2.0,28.401,29.027,28.007,SOFT,8.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+TSU,22,90.514,90.514,9.0,2.0,28.197,29.315,33.002,SOFT,9.0,False,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+TSU,22,,,10.0,3.0,,34.83,37.852,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+TSU,22,108.193,108.193,11.0,3.0,27.644,37.495,43.054,SOFT,2.0,True,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+TSU,22,,,12.0,4.0,,40.125,37.754,SOFT,3.0,False,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+TSU,22,122.0,122.0,13.0,4.0,40.296,49.618,32.086,SOFT,4.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+TSU,22,99.946,99.946,14.0,4.0,27.89,38.364,33.692,SOFT,5.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+TSU,22,84.013,84.013,15.0,4.0,27.676,28.411,27.926,SOFT,6.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+TSU,22,138.375,138.375,16.0,4.0,42.199,53.077,43.099,SOFT,7.0,False,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+ALB,23,,,1.0,1.0,,33.116,31.914,SOFT,1.0,True,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+ALB,23,108.807,108.807,2.0,1.0,27.746,46.059,35.002,SOFT,2.0,True,Williams,True,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,84.922,84.922,3.0,1.0,27.705,28.772,28.445,SOFT,3.0,True,Williams,True,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,133.189,133.189,4.0,1.0,44.1,47.721,41.368,SOFT,4.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,106.932,106.932,5.0,1.0,34.859,40.094,31.979,SOFT,5.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,84.437,84.437,6.0,1.0,27.35,28.697,28.39,SOFT,6.0,True,Williams,True,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,113.809,113.809,7.0,1.0,36.746,38.056,39.007,SOFT,7.0,True,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+ALB,23,,,8.0,2.0,,29.662,28.472,SOFT,1.0,True,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+ALB,23,86.049,86.049,9.0,2.0,28.095,29.365,28.589,SOFT,2.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,85.887,85.887,10.0,2.0,28.186,29.199,28.502,SOFT,3.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,86.21,86.21,11.0,2.0,28.36,29.234,28.616,SOFT,4.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,87.048,87.048,12.0,2.0,28.43,29.583,29.035,SOFT,5.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,86.001,86.001,13.0,2.0,28.083,29.35,28.568,SOFT,6.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,86.645,86.645,14.0,2.0,28.543,29.399,28.703,SOFT,7.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,86.032,86.032,15.0,2.0,28.299,29.43,28.303,SOFT,8.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,86.007,86.007,16.0,2.0,28.023,29.451,28.533,SOFT,9.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,93.681,93.681,17.0,2.0,28.144,30.13,35.407,SOFT,10.0,True,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+ALB,23,,,18.0,3.0,,32.905,31.74,SOFT,8.0,False,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+ALB,23,88.309,88.309,19.0,3.0,27.531,28.98,31.798,SOFT,9.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,109.092,109.092,20.0,3.0,38.14,34.111,36.841,SOFT,10.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,85.872,85.872,21.0,3.0,27.647,29.602,28.623,SOFT,11.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,86.591,86.591,22.0,3.0,28.306,29.605,28.68,SOFT,12.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,85.858,85.858,23.0,3.0,28.035,29.523,28.3,SOFT,13.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,85.479,85.479,24.0,3.0,27.94,29.322,28.217,SOFT,14.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,85.713,85.713,25.0,3.0,27.954,29.451,28.308,SOFT,15.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,86.214,86.214,26.0,3.0,28.053,29.844,28.317,SOFT,16.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,85.886,85.886,27.0,3.0,28.148,29.435,28.303,SOFT,17.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,114.388,114.388,28.0,3.0,33.296,38.45,42.642,SOFT,18.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+ALB,23,125.53,125.53,29.0,3.0,60.548,29.734,35.248,SOFT,19.0,False,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,,,1.0,1.0,,34.759,40.741,MEDIUM,1.0,True,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,,,2.0,2.0,,33.785,33.555,MEDIUM,2.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,84.683,84.683,3.0,2.0,27.884,28.654,28.145,MEDIUM,3.0,False,Audi,True,,,True,2026,Italian Grand Prix,Practice 3
+HUL,27,128.458,128.458,4.0,2.0,39.555,45.429,43.474,MEDIUM,4.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,128.294,128.294,5.0,3.0,64.954,32.132,31.208,MEDIUM,5.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,84.388,84.388,6.0,3.0,27.586,28.572,28.23,MEDIUM,6.0,False,Audi,True,,,True,2026,Italian Grand Prix,Practice 3
+HUL,27,146.148,146.148,7.0,3.0,52.04,46.836,47.272,MEDIUM,7.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,141.091,141.091,8.0,4.0,66.934,33.097,41.06,MEDIUM,8.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,84.745,84.745,9.0,4.0,27.862,28.436,28.447,MEDIUM,9.0,False,Audi,False,,,True,2026,Italian Grand Prix,Practice 3
+HUL,27,140.979,140.979,10.0,4.0,44.538,46.307,50.134,MEDIUM,10.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,144.046,144.046,11.0,5.0,81.19,32.028,30.828,MEDIUM,11.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,84.181,84.181,12.0,5.0,27.539,28.352,28.29,MEDIUM,12.0,False,Audi,True,,,True,2026,Italian Grand Prix,Practice 3
+HUL,27,111.768,111.768,13.0,5.0,34.276,36.991,40.501,MEDIUM,13.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,,,14.0,6.0,,33.752,32.766,SOFT,1.0,True,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,83.126,83.126,15.0,6.0,27.214,28.253,27.659,SOFT,2.0,True,Audi,True,,,True,2026,Italian Grand Prix,Practice 3
+HUL,27,124.696,124.696,16.0,6.0,38.701,41.092,44.903,SOFT,3.0,True,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,125.196,125.196,17.0,7.0,59.233,33.201,32.762,SOFT,4.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,83.827,83.827,18.0,7.0,27.554,28.488,27.785,SOFT,5.0,False,Audi,False,,,True,2026,Italian Grand Prix,Practice 3
+HUL,27,129.934,129.934,19.0,7.0,42.287,41.292,46.355,SOFT,6.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,,,20.0,8.0,,37.594,31.155,SOFT,7.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+HUL,27,115.169,115.169,21.0,8.0,31.682,36.129,47.358,SOFT,8.0,False,Audi,False,,,True,2026,Italian Grand Prix,Practice 3
+HUL,27,148.121,148.121,22.0,8.0,78.461,31.3,38.36,SOFT,9.0,False,Audi,False,,,False,2026,Italian Grand Prix,Practice 3
+LAW,30,,,1.0,1.0,,34.349,32.537,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+LAW,30,84.24,84.24,2.0,1.0,27.772,28.666,27.802,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,125.493,125.493,3.0,1.0,49.078,44.009,32.406,MEDIUM,3.0,True,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,83.769,83.769,4.0,1.0,27.575,28.47,27.724,MEDIUM,4.0,True,Red Bull Racing,True,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,130.991,130.991,5.0,1.0,38.724,45.939,46.328,MEDIUM,5.0,True,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,108.357,108.357,6.0,1.0,40.158,36.1,32.099,MEDIUM,6.0,True,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,131.46,131.46,7.0,1.0,58.631,36.928,35.901,MEDIUM,7.0,True,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+LAW,30,,,8.0,2.0,,29.971,28.787,MEDIUM,8.0,False,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+LAW,30,87.4,87.4,9.0,2.0,28.74,29.786,28.874,MEDIUM,9.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,90.803,90.803,10.0,2.0,28.763,32.897,29.143,MEDIUM,10.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,87.569,87.569,11.0,2.0,28.852,29.883,28.834,MEDIUM,11.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,86.362,86.362,12.0,2.0,28.337,29.561,28.464,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,86.658,86.658,13.0,2.0,28.465,29.573,28.62,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,93.703,93.703,14.0,2.0,28.599,29.692,35.412,MEDIUM,14.0,False,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+LAW,30,,,15.0,3.0,,36.268,31.786,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+LAW,30,83.714,83.714,16.0,3.0,27.535,28.376,27.803,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,124.586,124.586,17.0,3.0,46.763,45.918,31.905,SOFT,3.0,True,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,83.203,83.203,18.0,3.0,27.45,28.179,27.574,SOFT,4.0,True,Red Bull Racing,True,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,139.025,139.025,19.0,3.0,45.838,51.228,41.959,SOFT,5.0,True,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+LAW,30,143.175,143.175,20.0,4.0,62.642,42.2,38.333,SOFT,6.0,False,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+LAW,30,96.828,96.828,21.0,4.0,29.879,35.381,31.568,SOFT,7.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,111.748,111.748,22.0,4.0,27.372,29.374,55.002,SOFT,8.0,False,Red Bull Racing,False,,,True,2026,Italian Grand Prix,Practice 3
+LAW,30,141.981,141.981,23.0,4.0,75.255,28.959,37.767,SOFT,9.0,False,Red Bull Racing,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,,,1.0,1.0,,36.025,34.379,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,86.547,86.547,2.0,1.0,28.379,29.399,28.769,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+OCO,31,,,3.0,1.0,49.029,52.91,49.354,MEDIUM,3.0,True,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,,,4.0,2.0,,35.016,34.789,MEDIUM,4.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,85.908,85.908,5.0,2.0,28.072,29.164,28.672,MEDIUM,5.0,False,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+OCO,31,118.288,118.288,6.0,2.0,38.554,36.753,42.981,MEDIUM,6.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,,,7.0,3.0,,31.798,33.71,MEDIUM,7.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,85.478,85.478,8.0,3.0,27.788,29.286,28.404,MEDIUM,8.0,False,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+OCO,31,133.285,133.285,9.0,3.0,45.792,44.105,43.388,MEDIUM,9.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,135.798,135.798,10.0,4.0,69.131,33.089,33.578,MEDIUM,10.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,95.203,95.203,11.0,4.0,27.527,34.848,32.828,MEDIUM,11.0,False,Haas F1 Team,False,,,True,2026,Italian Grand Prix,Practice 3
+OCO,31,104.444,104.444,12.0,4.0,32.611,33.981,37.852,MEDIUM,12.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,122.536,122.536,13.0,5.0,53.588,35.376,33.572,MEDIUM,13.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,85.091,85.091,14.0,5.0,27.891,28.914,28.286,MEDIUM,14.0,False,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+OCO,31,100.432,100.432,15.0,5.0,32.569,32.234,35.629,MEDIUM,15.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,,,16.0,6.0,,32.302,32.739,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,84.13,84.13,17.0,6.0,27.402,28.745,27.983,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+OCO,31,125.823,125.823,18.0,6.0,44.176,39.78,41.867,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,129.846,129.846,19.0,7.0,62.261,33.391,34.194,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,84.02,84.02,20.0,7.0,27.461,28.644,27.915,SOFT,5.0,False,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+OCO,31,112.11,112.11,21.0,7.0,33.683,40.171,38.256,SOFT,6.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,,,22.0,8.0,,32.953,39.396,SOFT,7.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+OCO,31,105.649,105.649,23.0,8.0,30.978,38.045,36.626,SOFT,8.0,False,Haas F1 Team,False,,,True,2026,Italian Grand Prix,Practice 3
+OCO,31,122.987,122.987,24.0,8.0,37.478,37.508,48.001,SOFT,9.0,False,Haas F1 Team,False,,,True,2026,Italian Grand Prix,Practice 3
+OCO,31,145.619,145.619,25.0,8.0,75.1,30.96,39.559,SOFT,10.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+LIN,41,,,1.0,1.0,,33.365,31.169,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+LIN,41,84.307,84.307,2.0,1.0,27.685,28.722,27.9,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,118.356,118.356,3.0,1.0,35.055,42.668,40.633,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+LIN,41,,,4.0,2.0,,40.076,30.838,SOFT,4.0,False,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+LIN,41,83.641,83.641,5.0,2.0,27.538,28.457,27.646,SOFT,5.0,False,Racing Bulls,True,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,112.282,112.282,6.0,2.0,33.585,36.552,42.145,SOFT,6.0,False,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+LIN,41,126.578,126.578,7.0,3.0,68.071,29.435,29.072,SOFT,7.0,False,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+LIN,41,85.84,85.84,8.0,3.0,28.506,29.2,28.134,SOFT,8.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,85.538,85.538,9.0,3.0,28.561,29.074,27.903,SOFT,9.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,84.875,84.875,10.0,3.0,28.268,28.871,27.736,SOFT,10.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,84.632,84.632,11.0,3.0,28.049,28.863,27.72,SOFT,11.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,89.591,89.591,12.0,3.0,28.249,29.162,32.18,SOFT,12.0,False,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+LIN,41,,,13.0,4.0,,33.904,34.036,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+LIN,41,82.724,82.724,14.0,4.0,27.232,28.192,27.3,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,125.545,125.545,15.0,4.0,38.151,43.066,44.328,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+LIN,41,,,16.0,5.0,,35.604,30.122,SOFT,4.0,False,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+LIN,41,83.083,83.083,17.0,5.0,27.44,28.108,27.535,SOFT,5.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,127.229,127.229,18.0,5.0,36.625,43.777,46.827,SOFT,6.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,109.627,109.627,19.0,5.0,37.656,41.019,30.952,SOFT,7.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,124.92,124.92,20.0,5.0,36.404,40.672,47.844,SOFT,8.0,False,Racing Bulls,False,,,True,2026,Italian Grand Prix,Practice 3
+LIN,41,138.799,138.799,21.0,5.0,72.983,29.37,36.446,SOFT,9.0,False,Racing Bulls,False,,,False,2026,Italian Grand Prix,Practice 3
+COL,43,,,1.0,1.0,,36.183,31.775,MEDIUM,1.0,True,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+COL,43,86.561,86.561,2.0,1.0,28.268,29.22,29.073,MEDIUM,2.0,True,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,129.407,129.407,3.0,1.0,48.05,48.08,33.277,MEDIUM,3.0,True,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,84.733,84.733,4.0,1.0,27.477,28.77,28.486,MEDIUM,4.0,True,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,136.785,136.785,5.0,1.0,49.533,48.209,39.043,MEDIUM,5.0,True,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,83.766,83.766,6.0,1.0,27.408,28.319,28.039,MEDIUM,6.0,True,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,123.984,123.984,7.0,1.0,38.618,46.076,39.29,MEDIUM,7.0,True,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+COL,43,,,8.0,2.0,,30.476,28.833,MEDIUM,8.0,False,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+COL,43,86.521,86.521,9.0,2.0,28.48,29.333,28.708,MEDIUM,9.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,85.492,85.492,10.0,2.0,28.062,28.921,28.509,MEDIUM,10.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,85.536,85.536,11.0,2.0,28.138,28.977,28.421,MEDIUM,11.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,85.483,85.483,12.0,2.0,28.243,29.007,28.233,MEDIUM,12.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,84.492,84.492,13.0,2.0,27.739,28.833,27.92,MEDIUM,13.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,85.083,85.083,14.0,2.0,28.067,29.05,27.966,MEDIUM,14.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,85.061,85.061,15.0,2.0,28.102,29.049,27.91,MEDIUM,15.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,110.121,110.121,16.0,2.0,29.636,34.287,46.198,MEDIUM,16.0,False,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+COL,43,,,17.0,3.0,,40.184,31.495,SOFT,1.0,True,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+COL,43,83.101,83.101,18.0,3.0,27.098,28.174,27.829,SOFT,2.0,True,Alpine,True,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,139.651,139.651,19.0,3.0,43.577,50.332,45.742,SOFT,3.0,True,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+COL,43,,,20.0,4.0,,39.022,39.413,SOFT,4.0,False,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+COL,43,83.726,83.726,21.0,4.0,27.583,28.222,27.921,SOFT,5.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,127.538,127.538,22.0,4.0,38.153,38.846,50.539,SOFT,6.0,False,Alpine,False,,,True,2026,Italian Grand Prix,Practice 3
+COL,43,140.254,140.254,23.0,4.0,64.367,29.012,46.875,SOFT,7.0,False,Alpine,False,,,False,2026,Italian Grand Prix,Practice 3
+HAM,44,,,1.0,1.0,,32.77,36.946,SOFT,1.0,True,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+HAM,44,84.912,84.912,2.0,1.0,27.659,29.181,28.072,SOFT,2.0,True,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,,,3.0,1.0,56.314,56.743,46.22,SOFT,3.0,True,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+HAM,44,139.762,139.762,4.0,1.0,62.819,43.174,33.769,SOFT,4.0,True,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,83.683,83.683,5.0,1.0,27.465,28.408,27.81,SOFT,5.0,True,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,,,6.0,1.0,49.568,50.726,50.463,SOFT,6.0,True,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+HAM,44,,,7.0,2.0,82.428,56.975,47.306,SOFT,7.0,False,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+HAM,44,116.84,116.84,8.0,2.0,27.423,47.603,41.814,SOFT,8.0,False,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,83.111,83.111,9.0,2.0,27.455,28.22,27.436,SOFT,9.0,False,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,146.507,146.507,10.0,2.0,47.56,58.728,40.219,SOFT,10.0,False,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,83.04,83.04,11.0,2.0,27.193,28.145,27.702,SOFT,11.0,False,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,113.379,113.379,12.0,2.0,34.842,43.689,34.848,SOFT,12.0,False,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+HAM,44,,,13.0,3.0,,31.935,31.825,SOFT,1.0,True,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+HAM,44,111.326,111.326,14.0,3.0,27.061,42.085,42.18,SOFT,2.0,True,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,123.094,123.094,15.0,3.0,39.808,44.244,39.042,SOFT,3.0,True,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,82.445,82.445,16.0,3.0,27.046,27.896,27.503,SOFT,4.0,True,Ferrari,True,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,143.315,143.315,17.0,3.0,44.933,54.805,43.577,SOFT,5.0,True,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,111.42,111.42,18.0,3.0,44.879,32.733,33.808,SOFT,6.0,True,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,104.393,104.393,19.0,3.0,30.904,39.155,34.334,SOFT,7.0,True,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,126.402,126.402,20.0,3.0,27.221,44.267,54.914,SOFT,8.0,True,Ferrari,False,,,True,2026,Italian Grand Prix,Practice 3
+HAM,44,,,21.0,3.0,74.281,40.808,73.402,SOFT,9.0,True,Ferrari,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,,,1.0,1.0,,33.096,32.172,SOFT,1.0,True,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,85.482,85.482,2.0,1.0,27.923,28.964,28.595,SOFT,2.0,True,Williams,True,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,128.198,128.198,3.0,1.0,40.627,47.833,39.738,SOFT,3.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,119.422,119.422,4.0,1.0,49.552,36.675,33.195,SOFT,4.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,84.642,84.642,5.0,1.0,27.333,28.9,28.409,SOFT,5.0,True,Williams,True,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,124.133,124.133,6.0,1.0,41.054,38.819,44.26,SOFT,6.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,122.052,122.052,7.0,1.0,44.902,41.64,35.51,SOFT,7.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,99.313,99.313,8.0,1.0,27.167,28.737,43.409,SOFT,8.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,107.836,107.836,9.0,1.0,40.06,34.747,33.029,SOFT,9.0,True,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,94.814,94.814,10.0,1.0,27.291,28.778,38.745,SOFT,10.0,True,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,,,11.0,2.0,,31.073,29.401,SOFT,11.0,False,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,86.215,86.215,12.0,2.0,28.433,29.223,28.559,SOFT,12.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,85.511,85.511,13.0,2.0,28.029,29.178,28.304,SOFT,13.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,85.433,85.433,14.0,2.0,27.877,29.382,28.174,SOFT,14.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,85.752,85.752,15.0,2.0,27.921,29.451,28.38,SOFT,15.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,85.902,85.902,16.0,2.0,27.576,29.588,28.738,SOFT,16.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,90.197,90.197,17.0,2.0,28.089,29.399,32.709,SOFT,17.0,False,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,120.254,120.254,18.0,3.0,53.847,31.199,35.208,SOFT,18.0,False,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,,,19.0,4.0,,32.263,31.387,SOFT,1.0,True,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,83.948,83.948,20.0,4.0,27.207,28.694,28.047,SOFT,2.0,True,Williams,True,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,127.601,127.601,21.0,4.0,43.057,40.787,43.757,SOFT,3.0,True,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,126.854,126.854,22.0,5.0,59.942,35.239,31.673,SOFT,4.0,False,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,83.875,83.875,23.0,5.0,27.309,28.492,28.074,SOFT,5.0,False,Williams,True,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,110.711,110.711,24.0,5.0,39.296,34.934,36.481,SOFT,6.0,False,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,,,25.0,6.0,,29.777,30.924,SOFT,7.0,False,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+SAI,55,84.481,84.481,26.0,6.0,27.624,28.653,28.204,SOFT,8.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,126.253,126.253,27.0,6.0,41.552,39.933,44.768,SOFT,9.0,False,Williams,False,,,True,2026,Italian Grand Prix,Practice 3
+SAI,55,145.42,145.42,28.0,6.0,78.165,31.145,36.11,SOFT,10.0,False,Williams,False,,,False,2026,Italian Grand Prix,Practice 3
+RUS,63,,,1.0,1.0,,38.737,34.388,SOFT,1.0,True,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+RUS,63,83.508,83.508,2.0,1.0,27.224,28.224,28.06,SOFT,2.0,True,Mercedes,True,,,True,2026,Italian Grand Prix,Practice 3
+RUS,63,,,3.0,1.0,52.18,52.686,47.865,SOFT,3.0,True,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+RUS,63,,,4.0,2.0,,42.739,37.21,SOFT,4.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+RUS,63,82.687,82.687,5.0,2.0,27.094,27.933,27.66,SOFT,5.0,False,Mercedes,True,,,True,2026,Italian Grand Prix,Practice 3
+RUS,63,127.269,127.269,6.0,2.0,40.885,46.998,39.386,SOFT,6.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+RUS,63,,,7.0,3.0,,36.498,32.001,SOFT,1.0,True,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+RUS,63,82.463,82.463,8.0,3.0,27.251,27.709,27.503,SOFT,2.0,True,Mercedes,True,,,True,2026,Italian Grand Prix,Practice 3
+RUS,63,120.383,120.383,9.0,3.0,38.313,38.685,43.385,SOFT,3.0,True,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+RUS,63,,,10.0,4.0,,56.39,32.198,SOFT,4.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+RUS,63,116.541,116.541,11.0,4.0,35.868,48.081,32.592,SOFT,5.0,False,Mercedes,False,,,True,2026,Italian Grand Prix,Practice 3
+RUS,63,82.219,82.219,12.0,4.0,27.112,27.768,27.339,SOFT,6.0,False,Mercedes,True,,,True,2026,Italian Grand Prix,Practice 3
+RUS,63,103.699,103.699,13.0,4.0,34.884,32.44,36.375,SOFT,7.0,False,Mercedes,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,,,1.0,1.0,,36.935,32.525,SOFT,1.0,True,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,87.019,87.019,2.0,1.0,28.177,29.408,29.434,SOFT,2.0,True,Cadillac,True,,,True,2026,Italian Grand Prix,Practice 3
+BOT,77,147.547,147.547,3.0,1.0,45.29,51.692,50.565,SOFT,3.0,True,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,,,4.0,2.0,59.373,52.386,51.765,SOFT,4.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,86.091,86.091,5.0,2.0,27.908,29.098,29.085,SOFT,5.0,False,Cadillac,True,,,True,2026,Italian Grand Prix,Practice 3
+BOT,77,108.489,108.489,6.0,2.0,34.62,33.236,40.633,SOFT,6.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,,,7.0,3.0,,35.126,32.372,SOFT,7.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,85.004,85.004,8.0,3.0,27.608,28.648,28.748,SOFT,8.0,False,Cadillac,True,,,True,2026,Italian Grand Prix,Practice 3
+BOT,77,118.113,118.113,9.0,3.0,42.464,39.53,36.119,SOFT,9.0,False,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+BOT,77,116.412,116.412,10.0,3.0,39.023,39.434,37.955,SOFT,10.0,False,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+BOT,77,85.209,85.209,11.0,3.0,27.652,28.854,28.703,SOFT,11.0,False,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+BOT,77,106.372,106.372,12.0,3.0,31.219,34.218,40.935,SOFT,12.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,,,13.0,4.0,,39.698,32.7,SOFT,1.0,True,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,85.093,85.093,14.0,4.0,27.585,28.779,28.729,SOFT,2.0,True,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+BOT,77,143.05,143.05,15.0,4.0,42.568,46.771,53.711,SOFT,3.0,True,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,131.481,131.481,16.0,5.0,61.874,36.116,33.491,SOFT,4.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,85.099,85.099,17.0,5.0,27.291,29.102,28.706,SOFT,5.0,False,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+BOT,77,,,18.0,5.0,40.847,46.454,73.152,SOFT,6.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+BOT,77,132.905,132.905,19.0,5.0,37.069,34.887,60.949,SOFT,7.0,False,Cadillac,False,,,True,2026,Italian Grand Prix,Practice 3
+BOT,77,135.821,135.821,20.0,5.0,68.802,31.52,35.499,SOFT,8.0,False,Cadillac,False,,,False,2026,Italian Grand Prix,Practice 3
+PIA,81,,,1.0,1.0,,31.867,34.548,MEDIUM,1.0,True,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+PIA,81,83.878,83.878,2.0,1.0,27.578,28.257,28.043,MEDIUM,2.0,True,McLaren,True,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,119.519,119.519,3.0,1.0,42.267,40.65,36.602,MEDIUM,3.0,True,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,123.248,123.248,4.0,1.0,37.623,32.73,52.895,MEDIUM,4.0,True,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+PIA,81,149.903,149.903,5.0,2.0,70.176,45.54,34.187,MEDIUM,5.0,False,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+PIA,81,135.341,135.341,6.0,2.0,33.413,53.697,48.231,MEDIUM,6.0,False,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,83.672,83.672,7.0,2.0,27.462,28.03,28.18,MEDIUM,7.0,False,McLaren,True,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,137.274,137.274,8.0,2.0,34.072,49.875,53.327,MEDIUM,8.0,False,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+PIA,81,142.108,142.108,9.0,3.0,69.682,41.646,30.78,MEDIUM,9.0,False,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+PIA,81,83.342,83.342,10.0,3.0,27.229,28.1,28.013,MEDIUM,10.0,False,McLaren,True,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,109.77,109.77,11.0,3.0,34.622,34.665,40.483,MEDIUM,11.0,False,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+PIA,81,135.631,135.631,12.0,4.0,67.328,32.228,36.075,MEDIUM,12.0,False,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+PIA,81,,,13.0,5.0,,32.955,31.835,SOFT,1.0,True,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+PIA,81,100.606,100.606,14.0,5.0,27.063,35.44,38.103,SOFT,2.0,True,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,130.891,130.891,15.0,5.0,45.652,44.577,40.662,SOFT,3.0,True,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,83.022,83.022,16.0,5.0,27.422,27.86,27.74,SOFT,4.0,True,McLaren,True,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,,,17.0,5.0,48.832,59.036,44.169,SOFT,5.0,True,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+PIA,81,113.965,113.965,18.0,5.0,42.631,34.198,37.136,SOFT,6.0,True,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,82.773,82.773,19.0,5.0,26.981,27.883,27.909,SOFT,7.0,True,McLaren,True,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,134.045,134.045,20.0,5.0,38.043,43.198,52.804,SOFT,8.0,True,McLaren,False,,,True,2026,Italian Grand Prix,Practice 3
+PIA,81,,,21.0,5.0,81.978,38.635,49.325,SOFT,9.0,True,McLaren,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,,,1.0,1.0,,32.454,32.572,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,84.922,84.922,2.0,1.0,28.077,28.667,28.178,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,148.842,148.842,3.0,1.0,51.847,52.684,44.311,MEDIUM,3.0,True,Haas F1 Team,False,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,108.671,108.671,4.0,1.0,36.522,38.643,33.506,MEDIUM,4.0,True,Haas F1 Team,False,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,84.784,84.784,5.0,1.0,27.826,28.645,28.313,MEDIUM,5.0,True,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,137.107,137.107,6.0,1.0,45.864,45.371,45.872,MEDIUM,6.0,True,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,,,7.0,2.0,,31.8,32.149,MEDIUM,7.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,118.351,118.351,8.0,2.0,27.796,52.603,37.952,MEDIUM,8.0,False,Haas F1 Team,False,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,85.29,85.29,9.0,2.0,27.801,28.761,28.728,MEDIUM,9.0,False,Haas F1 Team,False,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,,,10.0,2.0,49.13,56.269,57.54,MEDIUM,10.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,,,11.0,3.0,94.464,36.55,34.02,MEDIUM,11.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,84.663,84.663,12.0,3.0,27.831,28.713,28.119,MEDIUM,12.0,False,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,125.102,125.102,13.0,3.0,49.998,38.899,36.205,MEDIUM,13.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,,,14.0,4.0,,32.229,31.941,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,83.947,83.947,15.0,4.0,27.584,28.475,27.888,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,126.314,126.314,16.0,4.0,45.391,38.843,42.08,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,129.337,129.337,17.0,5.0,63.764,32.681,32.892,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,83.95,83.95,18.0,5.0,27.593,28.463,27.894,SOFT,5.0,False,Haas F1 Team,False,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,133.993,133.993,19.0,5.0,33.322,45.306,55.365,SOFT,6.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,,,20.0,6.0,84.976,40.579,37.207,SOFT,7.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3
+BEA,87,83.585,83.585,21.0,6.0,27.498,28.41,27.677,SOFT,8.0,False,Haas F1 Team,True,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,126.404,126.404,22.0,6.0,39.967,37.199,49.238,SOFT,9.0,False,Haas F1 Team,False,,,True,2026,Italian Grand Prix,Practice 3
+BEA,87,134.118,134.118,23.0,6.0,70.504,29.623,33.991,SOFT,10.0,False,Haas F1 Team,False,,,False,2026,Italian Grand Prix,Practice 3

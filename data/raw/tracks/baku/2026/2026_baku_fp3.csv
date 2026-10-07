@@ -1,0 +1,447 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,57.136,41.335,SOFT,1.0,True,McLaren,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,,,2.0,2.0,92.019,50.032,30.295,SOFT,2.0,False,McLaren,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,108.304,108.304,3.0,2.0,38.182,43.484,26.638,SOFT,3.0,False,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,129.976,129.976,4.0,2.0,46.274,53.259,30.443,SOFT,4.0,False,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,106.478,106.478,5.0,2.0,37.604,42.992,25.882,SOFT,5.0,False,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,132.095,132.095,6.0,2.0,48.421,54.403,29.271,SOFT,6.0,False,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,106.135,106.135,7.0,2.0,37.196,43.016,25.923,SOFT,7.0,False,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,135.42,135.42,8.0,2.0,52.848,53.005,29.567,SOFT,8.0,False,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,119.786,119.786,9.0,2.0,38.547,51.829,29.41,SOFT,9.0,False,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,113.228,113.228,10.0,2.0,36.685,43.127,33.416,SOFT,10.0,False,McLaren,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,,,11.0,3.0,,52.362,29.245,SOFT,1.0,True,McLaren,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,105.326,105.326,12.0,3.0,36.957,42.82,25.549,SOFT,2.0,True,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,123.348,123.348,13.0,3.0,46.014,48.476,28.858,SOFT,3.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,104.899,104.899,14.0,3.0,36.756,42.474,25.669,SOFT,4.0,True,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,123.362,123.362,15.0,3.0,45.842,47.787,29.733,SOFT,5.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,115.005,115.005,16.0,3.0,36.793,49.282,28.93,SOFT,6.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,105.61,105.61,17.0,3.0,36.859,42.696,26.055,SOFT,7.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,128.174,128.174,18.0,3.0,47.413,51.423,29.338,SOFT,8.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,104.911,104.911,19.0,3.0,36.563,42.704,25.644,SOFT,9.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+NOR,1,141.316,141.316,20.0,3.0,48.995,58.665,33.656,SOFT,10.0,True,McLaren,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,,,1.0,1.0,,50.948,29.94,MEDIUM,1.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,110.582,110.582,2.0,1.0,39.502,45.092,25.988,MEDIUM,2.0,True,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,131.393,131.393,3.0,1.0,50.068,51.811,29.514,MEDIUM,3.0,True,Alpine,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,108.295,108.295,4.0,1.0,38.479,44.026,25.79,MEDIUM,4.0,True,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,137.303,137.303,5.0,1.0,54.95,53.244,29.109,MEDIUM,5.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,107.714,107.714,6.0,1.0,38.166,43.766,25.782,MEDIUM,6.0,True,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,133.044,133.044,7.0,1.0,51.547,52.413,29.084,MEDIUM,7.0,True,Alpine,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,120.043,120.043,8.0,1.0,37.981,43.543,38.519,MEDIUM,8.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,,,9.0,2.0,,53.022,29.432,MEDIUM,9.0,False,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,125.343,125.343,10.0,2.0,41.774,54.074,29.495,MEDIUM,10.0,False,Alpine,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,106.413,106.413,11.0,2.0,37.883,43.144,25.386,MEDIUM,11.0,False,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,145.976,145.976,12.0,2.0,60.656,56.392,28.928,MEDIUM,12.0,False,Alpine,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,133.04,133.04,13.0,2.0,37.51,55.887,39.643,MEDIUM,13.0,False,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,,,14.0,3.0,,53.645,30.339,SOFT,1.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,106.116,106.116,15.0,3.0,37.892,43.0,25.224,SOFT,2.0,True,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,145.185,145.185,16.0,3.0,54.957,61.742,28.486,SOFT,3.0,True,Alpine,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,105.276,105.276,17.0,3.0,37.231,42.772,25.273,SOFT,4.0,True,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,,,18.0,3.0,65.307,58.974,28.475,SOFT,5.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,104.637,104.637,19.0,3.0,37.261,42.722,24.654,SOFT,6.0,True,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+GAS,10,,,20.0,3.0,53.588,62.465,35.976,SOFT,7.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,,,1.0,1.0,,50.991,30.54,SOFT,1.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,115.059,115.059,2.0,1.0,39.199,46.594,29.266,SOFT,2.0,True,Cadillac,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,107.578,107.578,3.0,1.0,38.14,43.647,25.791,SOFT,3.0,True,Cadillac,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,,,4.0,1.0,62.008,65.37,29.482,SOFT,4.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,143.618,143.618,5.0,1.0,59.28,55.175,29.163,SOFT,5.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,118.38,118.38,6.0,1.0,38.198,51.07,29.112,SOFT,6.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,122.59,122.59,7.0,1.0,41.635,51.885,29.07,SOFT,7.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,107.134,107.134,8.0,1.0,37.706,43.484,25.944,SOFT,8.0,True,Cadillac,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,149.937,149.937,9.0,1.0,65.575,54.79,29.572,SOFT,9.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,107.027,107.027,10.0,1.0,37.655,43.497,25.875,SOFT,10.0,True,Cadillac,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,129.522,129.522,11.0,1.0,43.508,48.91,37.104,SOFT,11.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,,,12.0,2.0,,56.774,32.882,SOFT,1.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,114.476,114.476,13.0,2.0,39.431,45.837,29.208,SOFT,2.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,132.034,132.034,14.0,2.0,44.132,58.877,29.025,SOFT,3.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,106.185,106.185,15.0,2.0,37.424,43.184,25.577,SOFT,4.0,True,Cadillac,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,,,16.0,2.0,58.612,65.033,29.026,SOFT,5.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,106.004,106.004,17.0,2.0,37.164,43.004,25.836,SOFT,6.0,True,Cadillac,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,,,18.0,2.0,48.265,58.703,43.566,SOFT,7.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PER,11,,,19.0,2.0,66.494,50.113,34.877,SOFT,8.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,,,1.0,1.0,,49.789,28.85,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,117.535,117.535,2.0,1.0,40.522,47.639,29.374,MEDIUM,2.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,,,3.0,2.0,71.663,54.546,29.433,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,106.582,106.582,4.0,2.0,37.828,42.9,25.854,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,,,5.0,2.0,52.119,63.256,36.042,MEDIUM,3.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,125.743,125.743,6.0,2.0,44.725,51.511,29.507,MEDIUM,4.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,105.046,105.046,7.0,2.0,37.287,42.588,25.171,MEDIUM,5.0,True,Mercedes,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,132.724,132.724,8.0,2.0,50.106,53.3,29.318,MEDIUM,6.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,144.332,144.332,9.0,2.0,53.663,56.601,34.068,MEDIUM,7.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,,,10.0,3.0,,47.808,27.296,SOFT,1.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,128.51,128.51,11.0,3.0,51.351,47.742,29.417,SOFT,2.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,104.797,104.797,12.0,3.0,36.934,42.488,25.375,SOFT,3.0,True,Mercedes,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,135.879,135.879,13.0,3.0,50.451,56.006,29.422,SOFT,4.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,104.273,104.273,14.0,3.0,36.821,42.259,25.193,SOFT,5.0,True,Mercedes,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,138.664,138.664,15.0,3.0,57.195,52.274,29.195,SOFT,6.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,123.703,123.703,16.0,3.0,36.687,57.243,29.773,SOFT,7.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,131.79,131.79,17.0,3.0,52.781,49.902,29.107,SOFT,8.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,118.545,118.545,18.0,3.0,37.295,49.285,31.965,SOFT,9.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,,,19.0,4.0,,48.444,29.821,MEDIUM,3.0,False,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,143.678,143.678,20.0,4.0,45.541,49.376,48.761,MEDIUM,4.0,False,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ANT,12,,,21.0,4.0,77.64,49.138,33.943,MEDIUM,5.0,False,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,,,1.0,1.0,,49.554,29.566,SOFT,1.0,True,Aston Martin,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,125.659,125.659,2.0,1.0,42.976,52.016,30.667,SOFT,2.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,109.909,109.909,3.0,1.0,38.886,44.728,26.295,SOFT,3.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,134.514,134.514,4.0,1.0,49.913,54.695,29.906,SOFT,4.0,True,Aston Martin,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,116.84,116.84,5.0,1.0,38.115,44.139,34.586,SOFT,5.0,True,Aston Martin,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,135.316,135.316,6.0,1.0,50.739,54.8,29.777,SOFT,6.0,True,Aston Martin,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,108.655,108.655,7.0,1.0,37.872,44.124,26.659,SOFT,7.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,137.019,137.019,8.0,1.0,53.111,54.232,29.676,SOFT,8.0,True,Aston Martin,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,107.832,107.832,9.0,1.0,37.612,43.887,26.333,SOFT,9.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,136.114,136.114,10.0,1.0,45.891,53.511,36.712,SOFT,10.0,True,Aston Martin,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,,,11.0,2.0,,48.499,30.003,SOFT,1.0,True,Aston Martin,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,107.387,107.387,12.0,2.0,37.671,43.477,26.239,SOFT,2.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,133.81,133.81,13.0,2.0,47.535,56.085,30.19,SOFT,3.0,True,Aston Martin,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,107.01,107.01,14.0,2.0,37.524,43.331,26.155,SOFT,4.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,132.182,132.182,15.0,2.0,46.568,55.485,30.129,SOFT,5.0,True,Aston Martin,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,106.8,106.8,16.0,2.0,37.442,43.103,26.255,SOFT,6.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,,,17.0,2.0,71.622,62.464,29.349,SOFT,7.0,True,Aston Martin,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,106.512,106.512,18.0,2.0,37.252,43.172,26.088,SOFT,8.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALO,14,140.865,140.865,19.0,2.0,46.935,55.383,38.547,SOFT,9.0,True,Aston Martin,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,,,1.0,1.0,,50.834,29.516,SOFT,1.0,True,Ferrari,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,124.809,124.809,2.0,1.0,43.215,51.693,29.901,SOFT,2.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,111.606,111.606,3.0,1.0,37.267,44.928,29.411,SOFT,3.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,105.564,105.564,4.0,1.0,36.966,42.832,25.766,SOFT,4.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,145.912,145.912,5.0,1.0,60.571,56.169,29.172,SOFT,5.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,118.803,118.803,6.0,1.0,37.688,50.878,30.237,SOFT,6.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,105.298,105.298,7.0,1.0,36.813,42.718,25.767,SOFT,7.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,137.779,137.779,8.0,1.0,53.212,55.373,29.194,SOFT,8.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,104.877,104.877,9.0,1.0,36.755,42.717,25.405,SOFT,9.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,131.579,131.579,10.0,1.0,50.396,51.422,29.761,SOFT,10.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,125.297,125.297,11.0,1.0,46.084,48.989,30.224,SOFT,11.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,112.771,112.771,12.0,1.0,36.888,42.494,33.389,SOFT,12.0,True,Ferrari,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,,,13.0,2.0,,48.582,29.973,SOFT,1.0,True,Ferrari,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,117.693,117.693,14.0,2.0,37.4,50.164,30.129,SOFT,2.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,104.544,104.544,15.0,2.0,36.483,42.628,25.433,SOFT,3.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,133.701,133.701,16.0,2.0,49.932,53.672,30.097,SOFT,4.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,130.95,130.95,17.0,2.0,43.749,57.162,30.039,SOFT,5.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,118.379,118.379,18.0,2.0,36.77,51.739,29.87,SOFT,6.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,137.976,137.976,19.0,2.0,36.528,72.231,29.217,SOFT,7.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,129.233,129.233,20.0,2.0,38.759,56.508,33.966,SOFT,8.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,,,21.0,2.0,52.269,56.959,48.224,SOFT,9.0,True,Ferrari,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LEC,16,,,22.0,2.0,67.595,45.648,37.783,SOFT,10.0,True,Ferrari,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+STR,18,,,1.0,1.0,,57.66,30.002,SOFT,1.0,True,Aston Martin,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+STR,18,123.031,123.031,2.0,1.0,43.371,49.524,30.136,SOFT,2.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+STR,18,110.592,110.592,3.0,1.0,39.23,44.801,26.561,SOFT,3.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+STR,18,139.965,139.965,4.0,1.0,49.481,60.379,30.105,SOFT,4.0,True,Aston Martin,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+STR,18,109.793,109.793,5.0,1.0,38.949,44.317,26.527,SOFT,5.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+STR,18,144.031,144.031,6.0,1.0,47.422,54.52,42.089,SOFT,6.0,True,Aston Martin,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+STR,18,109.279,109.279,7.0,1.0,38.768,44.278,26.233,SOFT,7.0,True,Aston Martin,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+STR,18,140.198,140.198,8.0,1.0,49.365,60.023,30.81,SOFT,8.0,True,Aston Martin,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+STR,18,,,9.0,1.0,,,,SOFT,9.0,True,Aston Martin,,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,,,1.0,1.0,,59.921,27.852,MEDIUM,1.0,True,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,124.032,124.032,2.0,1.0,44.577,50.301,29.154,MEDIUM,2.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,108.653,108.653,3.0,1.0,38.628,44.324,25.701,MEDIUM,3.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,135.713,135.713,4.0,1.0,50.343,56.089,29.281,MEDIUM,4.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,107.505,107.505,5.0,1.0,38.094,43.94,25.471,MEDIUM,5.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,136.731,136.731,6.0,1.0,52.493,54.15,30.088,MEDIUM,6.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,121.706,121.706,7.0,1.0,40.507,51.786,29.413,MEDIUM,7.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,107.213,107.213,8.0,1.0,37.936,43.756,25.521,MEDIUM,8.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,132.378,132.378,9.0,1.0,46.874,52.377,33.127,MEDIUM,9.0,True,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,,,10.0,2.0,83.822,57.59,26.272,MEDIUM,10.0,False,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,110.572,110.572,11.0,2.0,40.164,44.681,25.727,MEDIUM,11.0,False,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,134.082,134.082,12.0,2.0,59.59,48.389,26.103,MEDIUM,12.0,False,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,109.065,109.065,13.0,2.0,39.263,44.096,25.706,MEDIUM,13.0,False,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,119.555,119.555,14.0,2.0,39.163,44.053,36.339,MEDIUM,14.0,False,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,128.856,128.856,15.0,2.0,43.973,48.769,36.114,MEDIUM,15.0,False,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,,,16.0,3.0,,53.38,29.698,SOFT,1.0,True,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,126.207,126.207,17.0,3.0,37.406,59.921,28.88,SOFT,2.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,106.275,106.275,18.0,3.0,37.634,43.661,24.98,SOFT,3.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,,,19.0,3.0,62.534,64.139,29.238,SOFT,4.0,True,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,106.106,106.106,20.0,3.0,37.601,43.205,25.3,SOFT,5.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,137.998,137.998,21.0,3.0,51.18,58.204,28.614,SOFT,6.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,106.076,106.076,22.0,3.0,37.475,43.336,25.265,SOFT,7.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,,,23.0,3.0,48.649,54.431,46.997,SOFT,8.0,True,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+ALB,23,146.25,146.25,24.0,3.0,66.582,50.543,29.125,SOFT,9.0,True,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,,,1.0,1.0,,49.2,30.205,MEDIUM,1.0,True,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,108.741,108.741,2.0,1.0,38.977,44.018,25.746,MEDIUM,2.0,True,Audi,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,133.035,133.035,3.0,1.0,53.744,49.762,29.529,MEDIUM,3.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,107.1,107.1,4.0,1.0,38.107,43.372,25.621,MEDIUM,4.0,True,Audi,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,135.168,135.168,5.0,1.0,53.79,52.145,29.233,MEDIUM,5.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,106.933,106.933,6.0,1.0,37.883,43.148,25.902,MEDIUM,6.0,True,Audi,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,135.749,135.749,7.0,1.0,51.288,55.186,29.275,MEDIUM,7.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,106.944,106.944,8.0,1.0,38.087,43.355,25.502,MEDIUM,8.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,135.678,135.678,9.0,1.0,46.913,52.83,35.935,MEDIUM,9.0,True,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,,,10.0,2.0,,45.369,28.834,SOFT,1.0,True,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,121.189,121.189,11.0,2.0,41.523,50.288,29.378,SOFT,2.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,105.998,105.998,12.0,2.0,37.456,42.821,25.721,SOFT,3.0,True,Audi,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,140.915,140.915,13.0,2.0,55.529,55.52,29.866,SOFT,4.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,125.878,125.878,14.0,2.0,46.992,47.173,31.713,SOFT,5.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,110.681,110.681,15.0,2.0,37.521,43.027,30.133,SOFT,6.0,True,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,,,16.0,3.0,,51.0,26.251,SOFT,7.0,False,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,138.168,138.168,17.0,3.0,40.662,52.03,45.476,SOFT,8.0,False,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HUL,27,,,18.0,3.0,67.995,48.239,37.411,SOFT,9.0,False,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,,,1.0,1.0,,50.706,29.633,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,124.772,124.772,2.0,1.0,44.036,51.832,28.904,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,107.214,107.214,3.0,1.0,38.444,43.185,25.585,MEDIUM,3.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,142.905,142.905,4.0,1.0,60.293,51.216,31.396,MEDIUM,4.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,105.329,105.329,5.0,1.0,37.457,42.74,25.132,MEDIUM,5.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,145.579,145.579,6.0,1.0,56.014,58.64,30.925,MEDIUM,6.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,131.781,131.781,7.0,1.0,48.059,54.864,28.858,MEDIUM,7.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,128.639,128.639,8.0,1.0,37.18,56.482,34.977,MEDIUM,8.0,True,Red Bull Racing,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,,,9.0,2.0,,47.159,30.348,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,119.778,119.778,10.0,2.0,44.084,46.512,29.182,SOFT,2.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,105.168,105.168,11.0,2.0,37.183,42.381,25.604,SOFT,3.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,139.899,139.899,12.0,2.0,55.241,55.739,28.919,SOFT,4.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,104.162,104.162,13.0,2.0,36.807,42.123,25.232,SOFT,5.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,138.65,138.65,14.0,2.0,54.035,55.343,29.272,SOFT,6.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,104.126,104.126,15.0,2.0,36.594,42.182,25.35,SOFT,7.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,126.33,126.33,16.0,2.0,48.195,49.151,28.984,SOFT,8.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,103.922,103.922,17.0,2.0,36.536,42.053,25.333,SOFT,9.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,131.486,131.486,18.0,2.0,51.694,50.957,28.835,SOFT,10.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,126.754,126.754,19.0,2.0,36.589,56.769,33.396,SOFT,11.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,143.741,143.741,20.0,2.0,45.541,49.866,48.334,SOFT,12.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+VER,3,,,21.0,2.0,74.968,48.497,33.508,SOFT,13.0,True,Red Bull Racing,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,,,1.0,1.0,,50.827,29.639,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,128.251,128.251,2.0,1.0,38.38,60.34,29.531,SOFT,2.0,True,Racing Bulls,True,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,130.639,130.639,3.0,1.0,49.822,51.094,29.723,SOFT,3.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,108.362,108.362,4.0,1.0,38.383,43.918,26.061,SOFT,4.0,True,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,144.321,144.321,5.0,1.0,58.071,56.376,29.874,SOFT,5.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,107.469,107.469,6.0,1.0,38.083,43.468,25.918,SOFT,6.0,True,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,,,7.0,1.0,55.977,56.837,38.933,SOFT,7.0,True,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,,,8.0,2.0,,52.918,29.131,SOFT,8.0,False,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,129.272,129.272,9.0,2.0,44.021,54.332,30.919,SOFT,9.0,False,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,107.185,107.185,10.0,2.0,37.88,43.555,25.75,SOFT,10.0,False,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,136.377,136.377,11.0,2.0,53.012,53.12,30.245,SOFT,11.0,False,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,132.471,132.471,12.0,2.0,37.759,58.948,35.764,SOFT,12.0,False,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,,,13.0,3.0,,50.503,29.271,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,106.281,106.281,14.0,3.0,37.52,42.983,25.778,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,132.876,132.876,15.0,3.0,48.394,54.928,29.554,SOFT,3.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,130.84,130.84,16.0,3.0,50.864,50.442,29.534,SOFT,4.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,106.374,106.374,17.0,3.0,37.531,43.123,25.72,SOFT,5.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,140.611,140.611,18.0,3.0,55.914,55.466,29.231,SOFT,6.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,106.222,106.222,19.0,3.0,37.457,42.992,25.773,SOFT,7.0,True,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,127.241,127.241,20.0,3.0,45.268,51.97,30.003,SOFT,8.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,110.033,110.033,21.0,3.0,37.463,44.716,27.854,SOFT,9.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,147.92,147.92,22.0,3.0,49.606,53.949,44.365,SOFT,10.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LAW,30,,,23.0,3.0,76.435,50.239,31.091,SOFT,11.0,True,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,,,1.0,1.0,,48.39,30.487,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,120.873,120.873,2.0,1.0,43.258,47.779,29.836,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,109.081,109.081,3.0,1.0,38.526,44.251,26.304,MEDIUM,3.0,True,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,139.485,139.485,4.0,1.0,51.394,57.508,30.583,MEDIUM,4.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,108.016,108.016,5.0,1.0,38.083,43.742,26.191,MEDIUM,5.0,True,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,135.32,135.32,6.0,1.0,47.503,58.03,29.787,MEDIUM,6.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,106.971,106.971,7.0,1.0,37.841,43.556,25.574,MEDIUM,7.0,True,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,134.034,134.034,8.0,1.0,49.502,54.853,29.679,MEDIUM,8.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,123.435,123.435,9.0,1.0,42.982,51.385,29.068,MEDIUM,9.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,106.761,106.761,10.0,1.0,37.719,43.381,25.661,MEDIUM,10.0,True,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,135.977,135.977,11.0,1.0,43.194,53.218,39.565,MEDIUM,11.0,True,Haas F1 Team,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,,,12.0,2.0,,54.547,31.391,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,118.494,118.494,13.0,2.0,40.865,48.075,29.554,SOFT,2.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,105.921,105.921,14.0,2.0,37.308,43.172,25.441,SOFT,3.0,True,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,131.29,131.29,15.0,2.0,46.919,54.703,29.668,SOFT,4.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,138.938,138.938,16.0,2.0,53.966,54.991,29.981,SOFT,5.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,107.731,107.731,17.0,2.0,38.252,43.787,25.692,SOFT,6.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,121.986,121.986,18.0,2.0,40.788,51.622,29.576,SOFT,7.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,105.918,105.918,19.0,2.0,37.309,43.028,25.581,SOFT,8.0,True,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,144.369,144.369,20.0,2.0,47.53,54.049,42.79,SOFT,9.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+OCO,31,,,21.0,2.0,72.837,45.759,32.893,SOFT,10.0,True,Haas F1 Team,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,,,1.0,1.0,,51.484,31.403,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,127.622,127.622,2.0,1.0,42.629,48.421,36.572,SOFT,2.0,True,Racing Bulls,True,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,131.369,131.369,3.0,1.0,43.166,57.107,31.096,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,109.545,109.545,4.0,1.0,39.301,44.377,25.867,SOFT,4.0,True,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,139.77,139.77,5.0,1.0,54.945,54.172,30.653,SOFT,5.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,108.698,108.698,6.0,1.0,38.404,44.505,25.789,SOFT,6.0,True,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,134.13,134.13,7.0,1.0,49.235,54.846,30.049,SOFT,7.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,107.548,107.548,8.0,1.0,38.185,43.709,25.654,SOFT,8.0,True,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,127.861,127.861,9.0,1.0,45.092,50.643,32.126,SOFT,9.0,True,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,,,10.0,2.0,,55.259,30.133,SOFT,10.0,False,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,129.194,129.194,11.0,2.0,47.337,50.431,31.426,SOFT,11.0,False,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,107.403,107.403,12.0,2.0,37.889,43.534,25.98,SOFT,12.0,False,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,121.098,121.098,13.0,2.0,41.511,47.169,32.418,SOFT,13.0,False,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,,,14.0,3.0,,46.56,30.43,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,121.379,121.379,15.0,3.0,40.618,50.295,30.466,SOFT,2.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,106.91,106.91,16.0,3.0,37.881,43.37,25.659,SOFT,3.0,True,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,148.991,148.991,17.0,3.0,58.452,58.621,31.918,SOFT,4.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,106.692,106.692,18.0,3.0,37.656,43.448,25.588,SOFT,5.0,True,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,139.647,139.647,19.0,3.0,50.69,57.506,31.451,SOFT,6.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,106.271,106.271,20.0,3.0,37.576,43.296,25.399,SOFT,7.0,True,Racing Bulls,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,137.721,137.721,21.0,3.0,50.796,53.646,33.279,SOFT,8.0,True,Racing Bulls,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+LIN,41,109.621,109.621,22.0,3.0,37.678,43.114,28.829,SOFT,9.0,True,Racing Bulls,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,,,1.0,1.0,,51.018,29.245,MEDIUM,1.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,111.899,111.899,2.0,1.0,40.979,45.005,25.915,MEDIUM,2.0,True,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,149.876,149.876,3.0,1.0,65.578,54.976,29.322,MEDIUM,3.0,True,Alpine,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,130.449,130.449,4.0,1.0,38.427,62.458,29.564,MEDIUM,4.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,116.01,116.01,5.0,1.0,38.676,43.973,33.361,MEDIUM,5.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,,,6.0,2.0,,48.477,29.801,MEDIUM,6.0,False,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,107.18,107.18,7.0,2.0,37.9,43.657,25.623,MEDIUM,7.0,False,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,147.171,147.171,8.0,2.0,55.236,62.499,29.436,MEDIUM,8.0,False,Alpine,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,106.75,106.75,9.0,2.0,37.909,43.275,25.566,MEDIUM,9.0,False,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,143.856,143.856,10.0,2.0,60.167,54.223,29.466,MEDIUM,10.0,False,Alpine,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,106.694,106.694,11.0,2.0,37.651,43.402,25.641,MEDIUM,11.0,False,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,130.441,130.441,12.0,2.0,47.717,49.86,32.864,MEDIUM,12.0,False,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,,,13.0,3.0,,52.499,29.325,SOFT,1.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,106.007,106.007,14.0,3.0,37.661,42.973,25.373,SOFT,2.0,True,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,,,15.0,3.0,63.229,62.856,31.664,SOFT,3.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,105.635,105.635,16.0,3.0,37.295,42.921,25.419,SOFT,4.0,True,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,,,17.0,3.0,62.957,60.527,29.072,SOFT,5.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,105.592,105.592,18.0,3.0,37.354,42.878,25.36,SOFT,6.0,True,Alpine,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,144.001,144.001,19.0,3.0,46.573,50.041,47.387,SOFT,7.0,True,Alpine,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+COL,43,146.431,146.431,20.0,3.0,71.592,44.53,30.309,SOFT,8.0,True,Alpine,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,,,1.0,1.0,,54.016,29.675,SOFT,1.0,True,Ferrari,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,123.957,123.957,2.0,1.0,42.639,51.594,29.724,SOFT,2.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,106.168,106.168,3.0,1.0,37.541,43.252,25.375,SOFT,3.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,128.098,128.098,4.0,1.0,46.545,52.063,29.49,SOFT,4.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,114.304,114.304,5.0,1.0,37.214,47.596,29.494,SOFT,5.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,105.093,105.093,6.0,1.0,36.945,43.122,25.026,SOFT,6.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,149.665,149.665,7.0,1.0,65.502,55.122,29.041,SOFT,7.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,113.534,113.534,8.0,1.0,37.003,47.684,28.847,SOFT,8.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,139.925,139.925,9.0,1.0,52.827,58.136,28.962,SOFT,9.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,141.611,141.611,10.0,1.0,52.628,60.267,28.716,SOFT,10.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,113.648,113.648,11.0,1.0,36.924,42.763,33.961,SOFT,11.0,True,Ferrari,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,,,12.0,2.0,,54.586,28.227,SOFT,1.0,True,Ferrari,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,127.373,127.373,13.0,2.0,42.816,55.471,29.086,SOFT,2.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,104.789,104.789,14.0,2.0,36.73,42.677,25.382,SOFT,3.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,141.533,141.533,15.0,2.0,49.913,62.581,29.039,SOFT,4.0,True,Ferrari,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,104.033,104.033,16.0,2.0,36.592,42.506,24.935,SOFT,5.0,True,Ferrari,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,,,17.0,2.0,53.365,52.513,49.111,SOFT,6.0,True,Ferrari,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAM,44,,,18.0,2.0,71.633,47.507,33.044,SOFT,7.0,True,Ferrari,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,,,1.0,1.0,,55.19,30.094,MEDIUM,1.0,True,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,129.069,129.069,2.0,1.0,42.987,56.458,29.624,MEDIUM,2.0,True,Audi,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,108.643,108.643,3.0,1.0,38.598,43.997,26.048,MEDIUM,3.0,True,Audi,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,141.378,141.378,4.0,1.0,57.044,52.663,31.671,MEDIUM,4.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,107.304,107.304,5.0,1.0,38.097,43.495,25.712,MEDIUM,5.0,True,Audi,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,143.467,143.467,6.0,1.0,54.752,57.454,31.261,MEDIUM,6.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,107.704,107.704,7.0,1.0,37.732,43.872,26.1,MEDIUM,7.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,141.48,141.48,8.0,1.0,59.099,53.057,29.324,MEDIUM,8.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,125.036,125.036,9.0,1.0,42.25,49.681,33.105,MEDIUM,9.0,True,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,,,10.0,2.0,,51.701,28.962,SOFT,1.0,True,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,106.293,106.293,11.0,2.0,37.319,43.332,25.642,SOFT,2.0,True,Audi,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,149.661,149.661,12.0,2.0,61.348,59.113,29.2,SOFT,3.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,142.182,142.182,13.0,2.0,60.002,52.482,29.698,SOFT,4.0,True,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,105.854,105.854,14.0,2.0,37.358,42.974,25.522,SOFT,5.0,True,Audi,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,126.881,126.881,15.0,2.0,45.427,49.326,32.128,SOFT,6.0,True,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,,,16.0,3.0,,48.538,28.632,SOFT,7.0,False,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,129.588,129.588,17.0,3.0,42.401,46.941,40.246,SOFT,8.0,False,Audi,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOR,5,,,18.0,3.0,69.788,61.652,32.403,SOFT,9.0,False,Audi,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,,,1.0,1.0,,59.921,28.607,MEDIUM,1.0,True,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,122.023,122.023,2.0,1.0,41.856,50.103,30.064,MEDIUM,2.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,109.037,109.037,3.0,1.0,38.691,44.59,25.756,MEDIUM,3.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,128.903,128.903,4.0,1.0,46.806,52.534,29.563,MEDIUM,4.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,117.592,117.592,5.0,1.0,38.411,49.95,29.231,MEDIUM,5.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,107.739,107.739,6.0,1.0,37.946,43.816,25.977,MEDIUM,6.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,135.987,135.987,7.0,1.0,56.285,50.282,29.42,MEDIUM,7.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,107.245,107.245,8.0,1.0,38.042,43.718,25.485,MEDIUM,8.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,141.66,141.66,9.0,1.0,54.352,57.903,29.405,MEDIUM,9.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,113.14,113.14,10.0,1.0,37.903,43.825,31.412,MEDIUM,10.0,True,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,,,11.0,2.0,84.151,48.772,26.229,MEDIUM,1.0,False,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,109.643,109.643,12.0,2.0,39.346,44.518,25.779,MEDIUM,2.0,False,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,108.691,108.691,13.0,2.0,38.917,44.101,25.673,MEDIUM,3.0,False,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,107.947,107.947,14.0,2.0,38.622,43.733,25.592,MEDIUM,4.0,False,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,136.198,136.198,15.0,2.0,45.731,53.776,36.691,MEDIUM,5.0,False,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,,,16.0,3.0,,47.907,29.275,SOFT,1.0,True,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,106.15,106.15,17.0,3.0,37.643,43.225,25.282,SOFT,2.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,145.828,145.828,18.0,3.0,50.381,66.606,28.841,SOFT,3.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,131.544,131.544,19.0,3.0,47.277,54.694,29.573,SOFT,4.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,105.605,105.605,20.0,3.0,37.167,43.153,25.285,SOFT,5.0,True,Williams,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,148.622,148.622,21.0,3.0,56.07,63.423,29.129,SOFT,6.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,119.357,119.357,22.0,3.0,37.335,52.857,29.165,SOFT,7.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,137.097,137.097,23.0,3.0,39.918,56.825,40.354,SOFT,8.0,True,Williams,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+SAI,55,144.507,144.507,24.0,3.0,67.664,47.268,29.575,SOFT,9.0,True,Williams,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,,,1.0,1.0,,49.279,29.676,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,131.074,131.074,2.0,1.0,46.506,52.521,32.047,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,108.129,108.129,3.0,1.0,38.662,43.52,25.947,MEDIUM,3.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,132.618,132.618,4.0,1.0,46.269,56.746,29.603,MEDIUM,4.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,124.06,124.06,5.0,1.0,43.846,51.481,28.733,MEDIUM,5.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,106.439,106.439,6.0,1.0,37.629,43.114,25.696,MEDIUM,6.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,130.42,130.42,7.0,1.0,43.62,57.515,29.285,MEDIUM,7.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,123.444,123.444,8.0,1.0,42.901,50.942,29.601,MEDIUM,8.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,105.699,105.699,9.0,1.0,37.224,42.862,25.613,MEDIUM,9.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,124.382,124.382,10.0,1.0,44.641,50.727,29.014,MEDIUM,10.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,113.281,113.281,11.0,1.0,36.994,42.545,33.742,MEDIUM,11.0,True,Red Bull Racing,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,,,12.0,2.0,,48.391,30.116,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,120.328,120.328,13.0,2.0,42.93,48.63,28.768,SOFT,2.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,105.227,105.227,14.0,2.0,36.91,42.797,25.52,SOFT,3.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,,,15.0,2.0,57.199,64.476,29.501,SOFT,4.0,True,Red Bull Racing,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,144.057,144.057,16.0,2.0,57.309,57.86,28.888,SOFT,5.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,105.327,105.327,17.0,2.0,36.955,42.615,25.757,SOFT,6.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,129.283,129.283,18.0,2.0,42.763,55.477,31.043,SOFT,7.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,130.651,130.651,19.0,2.0,52.769,48.403,29.479,SOFT,8.0,True,Red Bull Racing,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,105.176,105.176,20.0,2.0,37.06,42.578,25.538,SOFT,9.0,True,Red Bull Racing,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,,,21.0,2.0,45.498,54.023,51.486,SOFT,10.0,True,Red Bull Racing,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+HAD,6,,,22.0,2.0,73.105,46.664,35.943,SOFT,11.0,True,Red Bull Racing,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,,,1.0,1.0,,47.996,26.744,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,116.391,116.391,2.0,1.0,41.129,46.106,29.156,MEDIUM,2.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,,,3.0,2.0,67.676,52.589,31.458,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,106.843,106.843,4.0,2.0,38.174,43.062,25.607,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,122.61,122.61,5.0,2.0,45.93,47.291,29.389,MEDIUM,3.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,105.377,105.377,6.0,2.0,37.173,42.366,25.838,MEDIUM,4.0,True,Mercedes,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,130.881,130.881,7.0,2.0,51.684,50.174,29.023,MEDIUM,5.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,104.715,104.715,8.0,2.0,36.877,42.355,25.483,MEDIUM,6.0,True,Mercedes,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,123.618,123.618,9.0,2.0,43.116,48.812,31.69,MEDIUM,7.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,,,10.0,3.0,,44.977,26.433,SOFT,1.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,129.037,129.037,11.0,3.0,53.723,46.426,28.888,SOFT,2.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,104.177,104.177,12.0,3.0,36.783,42.053,25.341,SOFT,3.0,True,Mercedes,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,124.838,124.838,13.0,3.0,45.51,50.697,28.631,SOFT,4.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,104.021,104.021,14.0,3.0,36.57,42.225,25.226,SOFT,5.0,True,Mercedes,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,136.789,136.789,15.0,3.0,49.759,58.241,28.789,SOFT,6.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,126.961,126.961,16.0,3.0,46.992,51.215,28.754,SOFT,7.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,133.364,133.364,17.0,3.0,36.509,68.222,28.633,SOFT,8.0,True,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,130.569,130.569,18.0,3.0,50.975,49.096,30.498,SOFT,9.0,True,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,,,19.0,4.0,,48.898,28.949,MEDIUM,8.0,False,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,147.534,147.534,20.0,4.0,46.625,55.572,45.337,MEDIUM,9.0,False,Mercedes,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+RUS,63,,,21.0,4.0,73.3,46.702,32.616,MEDIUM,10.0,False,Mercedes,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,,,1.0,1.0,,50.741,30.891,SOFT,1.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,113.474,113.474,2.0,1.0,40.228,46.488,26.758,SOFT,2.0,True,Cadillac,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,,,3.0,1.0,58.587,56.567,39.638,SOFT,3.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,,,4.0,2.0,,57.583,30.438,SOFT,4.0,False,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,120.506,120.506,5.0,2.0,43.439,47.417,29.65,SOFT,5.0,False,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,111.845,111.845,6.0,2.0,39.47,45.67,26.705,SOFT,6.0,False,Cadillac,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,134.329,134.329,7.0,2.0,52.903,52.095,29.331,SOFT,7.0,False,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,121.883,121.883,8.0,2.0,41.202,51.094,29.587,SOFT,8.0,False,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,109.358,109.358,9.0,2.0,38.517,44.631,26.21,SOFT,9.0,False,Cadillac,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,143.009,143.009,10.0,2.0,49.94,63.564,29.505,SOFT,10.0,False,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,115.78,115.78,11.0,2.0,38.329,44.669,32.782,SOFT,11.0,False,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,,,12.0,3.0,,57.547,32.735,SOFT,1.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,115.269,115.269,13.0,3.0,39.211,46.721,29.337,SOFT,2.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,127.295,127.295,14.0,3.0,40.905,56.639,29.751,SOFT,3.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,126.4,126.4,15.0,3.0,43.954,52.799,29.647,SOFT,4.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,118.975,118.975,16.0,3.0,38.21,46.03,34.735,SOFT,5.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,108.587,108.587,17.0,3.0,38.552,44.14,25.895,SOFT,6.0,True,Cadillac,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,141.49,141.49,18.0,3.0,48.313,53.771,39.406,SOFT,7.0,True,Cadillac,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BOT,77,,,19.0,3.0,67.938,47.864,35.633,SOFT,8.0,True,Cadillac,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,,,1.0,1.0,,54.354,29.615,MEDIUM,1.0,True,McLaren,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,129.321,129.321,2.0,1.0,42.524,57.689,29.108,MEDIUM,2.0,True,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,106.971,106.971,3.0,1.0,37.735,43.466,25.77,MEDIUM,3.0,True,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,135.233,135.233,4.0,1.0,56.295,50.105,28.833,MEDIUM,4.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,106.16,106.16,5.0,1.0,37.393,43.213,25.554,MEDIUM,5.0,True,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,143.372,143.372,6.0,1.0,54.361,59.774,29.237,MEDIUM,6.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,125.091,125.091,7.0,1.0,42.927,53.04,29.124,MEDIUM,7.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,105.855,105.855,8.0,1.0,37.313,43.022,25.52,MEDIUM,8.0,True,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,140.156,140.156,9.0,1.0,53.069,54.482,32.605,MEDIUM,9.0,True,McLaren,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,,,10.0,2.0,,47.7,28.747,SOFT,1.0,True,McLaren,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,104.969,104.969,11.0,2.0,37.02,42.451,25.498,SOFT,2.0,True,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,132.048,132.048,12.0,2.0,51.359,51.392,29.297,SOFT,3.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,138.533,138.533,13.0,2.0,48.669,57.211,32.653,SOFT,4.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,122.422,122.422,14.0,2.0,46.3,47.135,28.987,SOFT,5.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,105.171,105.171,15.0,2.0,36.882,42.777,25.512,SOFT,6.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,129.832,129.832,16.0,2.0,50.741,50.091,29.0,SOFT,7.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,104.746,104.746,17.0,2.0,36.667,42.686,25.393,SOFT,8.0,True,McLaren,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,132.713,132.713,18.0,2.0,49.165,53.724,29.824,SOFT,9.0,True,McLaren,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,,,19.0,2.0,51.773,62.352,42.744,SOFT,10.0,True,McLaren,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+PIA,81,149.238,149.238,20.0,2.0,71.595,44.914,32.729,SOFT,11.0,True,McLaren,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,,,1.0,1.0,,49.369,30.943,SOFT,2.0,False,Haas F1 Team,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,131.214,131.214,2.0,1.0,44.71,49.5,37.004,SOFT,3.0,False,Haas F1 Team,True,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,129.761,129.761,3.0,1.0,43.683,54.728,31.35,SOFT,4.0,False,Haas F1 Team,True,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,109.031,109.031,4.0,1.0,38.991,44.207,25.833,SOFT,5.0,False,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,139.544,139.544,5.0,1.0,56.264,53.174,30.106,SOFT,6.0,False,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,108.081,108.081,6.0,1.0,38.376,43.934,25.771,SOFT,7.0,False,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,136.649,136.649,7.0,1.0,51.353,55.918,29.378,SOFT,8.0,False,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,107.019,107.019,8.0,1.0,37.75,43.581,25.688,SOFT,9.0,False,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,133.142,133.142,9.0,1.0,50.209,52.06,30.873,SOFT,10.0,False,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,106.708,106.708,10.0,1.0,37.826,43.205,25.677,SOFT,11.0,False,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,129.29,129.29,11.0,1.0,49.023,51.191,29.076,SOFT,12.0,False,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,122.348,122.348,12.0,1.0,42.884,50.31,29.154,SOFT,13.0,False,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,106.284,106.284,13.0,1.0,37.777,43.173,25.334,SOFT,14.0,False,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,124.677,124.677,14.0,1.0,43.696,48.797,32.184,SOFT,15.0,False,Haas F1 Team,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,,,15.0,2.0,,47.632,30.407,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,119.461,119.461,16.0,2.0,40.52,48.137,30.804,SOFT,2.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,106.032,106.032,17.0,2.0,37.452,43.13,25.45,SOFT,3.0,True,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,,,18.0,2.0,56.277,59.749,35.39,SOFT,4.0,True,Haas F1 Team,False,,,False,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,129.771,129.771,19.0,2.0,49.375,50.95,29.446,SOFT,5.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,105.692,105.692,20.0,2.0,37.239,42.886,25.567,SOFT,6.0,True,Haas F1 Team,True,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,140.001,140.001,21.0,2.0,56.016,54.497,29.488,SOFT,7.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,106.129,106.129,22.0,2.0,37.211,42.999,25.919,SOFT,8.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,146.025,146.025,23.0,2.0,59.303,57.699,29.023,SOFT,9.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,140.934,140.934,24.0,2.0,45.488,52.687,42.759,SOFT,10.0,True,Haas F1 Team,False,,,True,2026,Azerbaijan Grand Prix,Practice 3
+BEA,87,148.216,148.216,25.0,2.0,64.494,46.731,36.991,SOFT,11.0,True,Haas F1 Team,False,,,False,2026,Azerbaijan Grand Prix,Practice 3

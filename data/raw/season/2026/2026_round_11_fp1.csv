@@ -1,0 +1,546 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,34.065,39.23,MEDIUM,1.0,True,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+NOR,1,90.464,90.464,2.0,1.0,29.252,35.391,25.821,MEDIUM,2.0,True,McLaren,True,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,82.404,82.404,3.0,1.0,28.523,30.282,23.599,MEDIUM,3.0,True,McLaren,True,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,121.845,121.845,4.0,1.0,46.193,44.495,31.157,MEDIUM,4.0,True,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,110.812,110.812,5.0,1.0,37.577,38.523,34.712,MEDIUM,5.0,True,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,81.787,81.787,6.0,1.0,28.625,29.754,23.408,MEDIUM,6.0,True,McLaren,True,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,127.805,127.805,7.0,1.0,47.423,49.59,30.792,MEDIUM,7.0,True,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,103.194,103.194,8.0,1.0,28.244,38.121,36.829,MEDIUM,8.0,True,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,102.345,102.345,9.0,1.0,34.696,37.595,30.054,MEDIUM,9.0,True,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+NOR,1,,,10.0,2.0,,32.196,28.184,SOFT,1.0,True,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+NOR,1,93.04,93.04,11.0,2.0,28.03,29.141,35.869,SOFT,2.0,True,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+NOR,1,,,12.0,3.0,78.328,49.631,27.609,SOFT,3.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+NOR,1,81.024,81.024,13.0,3.0,28.234,28.988,23.802,SOFT,4.0,False,McLaren,True,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,104.94,104.94,14.0,3.0,38.314,36.409,30.217,SOFT,5.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+NOR,1,,,15.0,4.0,,31.248,23.929,MEDIUM,10.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+NOR,1,84.377,84.377,16.0,4.0,29.211,30.745,24.421,MEDIUM,11.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,86.561,86.561,17.0,4.0,30.422,31.279,24.86,MEDIUM,12.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,88.877,88.877,18.0,4.0,29.411,31.293,28.173,MEDIUM,13.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+NOR,1,110.064,110.064,19.0,5.0,54.071,31.873,24.12,SOFT,6.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+NOR,1,83.835,83.835,20.0,5.0,28.992,30.782,24.061,SOFT,7.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,86.004,86.004,21.0,5.0,29.394,31.528,25.082,SOFT,8.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,84.083,84.083,22.0,5.0,29.146,30.665,24.272,SOFT,9.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,85.935,85.935,23.0,5.0,29.487,31.833,24.615,SOFT,10.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,83.707,83.707,24.0,5.0,29.198,30.468,24.041,SOFT,11.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+NOR,1,,,25.0,5.0,36.729,43.521,75.438,SOFT,12.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+NOR,1,94.308,94.308,26.0,5.0,31.145,32.939,30.224,SOFT,13.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VER,3,,,1.0,1.0,,32.594,26.834,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VER,3,90.504,90.504,2.0,1.0,28.562,29.556,32.386,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,108.281,108.281,3.0,1.0,40.753,42.546,24.982,MEDIUM,3.0,True,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,80.788,80.788,4.0,1.0,28.38,29.238,23.17,MEDIUM,4.0,True,Red Bull Racing,True,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,132.355,132.355,5.0,1.0,49.795,48.237,34.323,MEDIUM,5.0,True,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,103.774,103.774,6.0,1.0,38.356,35.003,30.415,MEDIUM,6.0,True,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,80.807,80.807,7.0,1.0,28.211,29.169,23.427,MEDIUM,7.0,True,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,99.742,99.742,8.0,1.0,35.464,35.082,29.196,MEDIUM,8.0,True,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VER,3,,,9.0,2.0,,34.046,24.533,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VER,3,79.559,79.559,10.0,2.0,28.031,28.879,22.649,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,121.584,121.584,11.0,2.0,45.329,45.325,30.93,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VER,3,,,12.0,3.0,,33.347,32.355,MEDIUM,9.0,False,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VER,3,84.731,84.731,13.0,3.0,29.466,31.23,24.035,MEDIUM,10.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,84.713,84.713,14.0,3.0,29.428,30.991,24.294,MEDIUM,11.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,85.082,85.082,15.0,3.0,29.361,31.276,24.445,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,86.625,86.625,16.0,3.0,30.377,31.508,24.74,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,85.619,85.619,17.0,3.0,29.691,31.263,24.665,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,86.392,86.392,18.0,3.0,29.616,31.41,25.366,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,86.115,86.115,19.0,3.0,29.589,31.595,24.931,MEDIUM,16.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,85.796,85.796,20.0,3.0,29.798,31.335,24.663,MEDIUM,17.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,85.458,85.458,21.0,3.0,29.662,31.251,24.545,MEDIUM,18.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,85.106,85.106,22.0,3.0,29.623,31.054,24.429,MEDIUM,19.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,85.639,85.639,23.0,3.0,29.661,31.328,24.65,MEDIUM,20.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,129.419,129.419,24.0,3.0,43.943,42.528,42.948,MEDIUM,21.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VER,3,128.852,128.852,25.0,3.0,65.433,34.401,29.018,MEDIUM,22.0,False,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,,,1.0,1.0,,39.417,34.217,MEDIUM,1.0,True,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,,,2.0,2.0,79.34,39.165,33.422,MEDIUM,2.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,129.099,129.099,3.0,3.0,67.574,34.67,26.855,MEDIUM,2.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,93.586,93.586,4.0,3.0,33.207,33.672,26.707,MEDIUM,3.0,False,Audi,True,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,83.926,83.926,5.0,3.0,29.202,31.01,23.714,MEDIUM,4.0,False,Audi,True,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,109.25,109.25,6.0,3.0,37.679,43.334,28.237,MEDIUM,5.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,82.18,82.18,7.0,3.0,28.699,29.954,23.527,MEDIUM,6.0,False,Audi,True,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,110.873,110.873,8.0,3.0,36.874,43.223,30.776,MEDIUM,7.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,110.312,110.312,9.0,4.0,49.143,35.576,25.593,MEDIUM,9.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,82.129,82.129,10.0,4.0,28.639,29.944,23.546,MEDIUM,10.0,False,Audi,True,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,103.292,103.292,11.0,4.0,34.923,38.135,30.234,MEDIUM,11.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,120.125,120.125,12.0,5.0,58.449,35.964,25.712,MEDIUM,12.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,81.425,81.425,13.0,5.0,28.493,29.59,23.342,MEDIUM,13.0,False,Audi,True,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,108.087,108.087,14.0,5.0,35.521,40.094,32.472,MEDIUM,14.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,,,15.0,6.0,,35.841,27.764,SOFT,1.0,True,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,80.36,80.36,16.0,6.0,28.104,29.15,23.106,SOFT,2.0,True,Audi,True,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,,,17.0,6.0,,,,SOFT,3.0,True,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,,,18.0,7.0,,35.808,30.321,SOFT,4.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,124.416,124.416,19.0,8.0,67.989,32.247,24.18,SOFT,5.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+BOR,5,84.764,84.764,20.0,8.0,29.44,31.25,24.074,SOFT,6.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,85.818,85.818,21.0,8.0,30.425,31.192,24.201,SOFT,7.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,84.088,84.088,22.0,8.0,29.309,30.887,23.892,SOFT,8.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,84.32,84.32,23.0,8.0,29.383,30.864,24.073,SOFT,9.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,84.556,84.556,24.0,8.0,29.402,30.902,24.252,SOFT,10.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,84.344,84.344,25.0,8.0,29.394,30.708,24.242,SOFT,11.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,84.803,84.803,26.0,8.0,29.472,30.849,24.482,SOFT,12.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,85.125,85.125,27.0,8.0,29.455,31.175,24.495,SOFT,13.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,84.702,84.702,28.0,8.0,29.363,30.842,24.497,SOFT,14.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,119.14,119.14,29.0,8.0,33.462,48.048,37.63,SOFT,15.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+BOR,5,118.859,118.859,30.0,8.0,50.592,38.033,30.234,SOFT,16.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAD,6,,,1.0,1.0,,41.665,31.453,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAD,6,94.951,94.951,2.0,1.0,34.9,34.342,25.709,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,88.389,88.389,3.0,1.0,30.685,32.837,24.867,MEDIUM,3.0,True,Red Bull Racing,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,98.333,98.333,4.0,1.0,31.036,35.773,31.524,MEDIUM,4.0,True,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAD,6,,,5.0,2.0,,36.918,25.079,MEDIUM,5.0,False,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAD,6,82.783,82.783,6.0,2.0,28.956,30.107,23.72,MEDIUM,6.0,False,Red Bull Racing,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,116.202,116.202,7.0,2.0,38.228,47.099,30.875,MEDIUM,7.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,81.616,81.616,8.0,2.0,28.683,29.444,23.489,MEDIUM,8.0,False,Red Bull Racing,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,112.686,112.686,9.0,2.0,43.533,38.013,31.14,MEDIUM,9.0,False,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAD,6,,,10.0,3.0,,32.038,24.583,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAD,6,79.997,79.997,11.0,3.0,27.866,29.016,23.115,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,122.537,122.537,12.0,3.0,48.782,43.566,30.189,SOFT,3.0,True,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,,,13.0,3.0,,,,SOFT,4.0,True,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAD,6,,,14.0,4.0,,31.955,24.284,MEDIUM,10.0,False,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAD,6,85.318,85.318,15.0,4.0,29.478,31.238,24.602,MEDIUM,11.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,85.224,85.224,16.0,4.0,29.403,31.299,24.522,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,85.356,85.356,17.0,4.0,29.502,31.283,24.571,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,85.564,85.564,18.0,4.0,29.409,31.256,24.899,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,88.53,88.53,19.0,4.0,29.557,31.267,27.706,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,85.657,85.657,20.0,4.0,29.69,31.277,24.69,MEDIUM,16.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,85.207,85.207,21.0,4.0,29.581,31.034,24.592,MEDIUM,17.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,85.19,85.19,22.0,4.0,29.503,31.154,24.533,MEDIUM,18.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,85.206,85.206,23.0,4.0,29.586,31.135,24.485,MEDIUM,19.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,148.973,148.973,24.0,4.0,43.258,52.214,53.501,MEDIUM,20.0,False,Red Bull Racing,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAD,6,124.687,124.687,25.0,4.0,63.764,32.329,28.594,MEDIUM,21.0,False,Red Bull Racing,False,,,False,2026,Hungarian Grand Prix,Practice 1
+GAS,10,,,1.0,1.0,,38.796,25.594,MEDIUM,1.0,True,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+GAS,10,102.308,102.308,2.0,1.0,37.074,35.588,29.646,MEDIUM,2.0,True,Alpine,True,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,84.549,84.549,3.0,1.0,28.987,31.495,24.067,MEDIUM,3.0,True,Alpine,True,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,110.527,110.527,4.0,1.0,42.127,42.185,26.215,MEDIUM,4.0,True,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,82.694,82.694,5.0,1.0,28.584,30.439,23.671,MEDIUM,5.0,True,Alpine,True,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,110.49,110.49,6.0,1.0,41.858,36.77,31.862,MEDIUM,6.0,True,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+GAS,10,143.172,143.172,7.0,2.0,81.613,35.671,25.888,MEDIUM,7.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+GAS,10,83.537,83.537,8.0,2.0,28.87,30.777,23.89,MEDIUM,8.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,112.948,112.948,9.0,2.0,44.067,43.207,25.674,MEDIUM,9.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,84.289,84.289,10.0,2.0,29.027,31.161,24.101,MEDIUM,10.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,106.401,106.401,11.0,2.0,35.637,39.243,31.521,MEDIUM,11.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+GAS,10,147.85,147.85,12.0,3.0,83.67,38.487,25.693,MEDIUM,12.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+GAS,10,83.15,83.15,13.0,3.0,28.857,30.534,23.759,MEDIUM,13.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,109.204,109.204,14.0,3.0,43.824,39.29,26.09,MEDIUM,14.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,93.469,93.469,15.0,3.0,28.805,32.226,32.438,MEDIUM,15.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+GAS,10,,,16.0,4.0,,35.144,,SOFT,1.0,True,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+GAS,10,,,17.0,5.0,,34.626,25.271,SOFT,2.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+GAS,10,81.704,81.704,18.0,5.0,28.558,29.88,23.266,SOFT,3.0,False,Alpine,True,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,126.565,126.565,19.0,5.0,48.021,44.128,34.416,SOFT,4.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,105.522,105.522,20.0,5.0,36.369,43.193,25.96,SOFT,5.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,82.588,82.588,21.0,5.0,28.498,30.228,23.862,SOFT,6.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,98.869,98.869,22.0,5.0,32.338,36.003,30.528,SOFT,7.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,85.718,85.718,23.0,5.0,29.415,31.977,24.326,SOFT,8.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,88.408,88.408,24.0,5.0,29.473,31.89,27.045,SOFT,9.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,84.918,84.918,25.0,5.0,29.273,31.357,24.288,SOFT,10.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,84.577,84.577,26.0,5.0,29.105,31.275,24.197,SOFT,11.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,84.921,84.921,27.0,5.0,29.042,31.529,24.35,SOFT,12.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,113.516,113.516,28.0,5.0,36.81,40.3,36.406,SOFT,13.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+GAS,10,122.073,122.073,29.0,5.0,60.017,33.376,28.68,SOFT,14.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+PER,11,,,1.0,1.0,,36.79,27.268,HARD,1.0,True,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+PER,11,86.497,86.497,2.0,1.0,30.201,31.913,24.383,HARD,2.0,True,Cadillac,True,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,113.288,113.288,3.0,1.0,41.437,43.895,27.956,HARD,3.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,83.704,83.704,4.0,1.0,29.153,30.865,23.686,HARD,4.0,True,Cadillac,True,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,103.796,103.796,5.0,1.0,37.063,39.085,27.648,HARD,5.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,83.648,83.648,6.0,1.0,29.016,30.831,23.801,HARD,6.0,True,Cadillac,True,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,118.83,118.83,7.0,1.0,43.792,41.765,33.273,HARD,7.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,84.943,84.943,8.0,1.0,29.151,30.896,24.896,HARD,8.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,103.167,103.167,9.0,1.0,35.73,35.987,31.45,HARD,9.0,True,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+PER,11,,,10.0,2.0,,41.463,27.625,SOFT,1.0,True,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+PER,11,82.089,82.089,11.0,2.0,28.609,30.251,23.229,SOFT,2.0,True,Cadillac,True,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,,,12.0,2.0,,,,SOFT,3.0,True,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+PER,11,,,13.0,3.0,,34.047,24.648,SOFT,4.0,False,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+PER,11,85.944,85.944,14.0,3.0,29.605,31.9,24.439,SOFT,5.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,86.122,86.122,15.0,3.0,29.558,32.009,24.555,SOFT,6.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,86.216,86.216,16.0,3.0,29.866,31.817,24.533,SOFT,7.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,86.734,86.734,17.0,3.0,29.99,31.986,24.758,SOFT,8.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,86.633,86.633,18.0,3.0,30.01,32.09,24.533,SOFT,9.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,86.162,86.162,19.0,3.0,29.782,31.741,24.639,SOFT,10.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,87.334,87.334,20.0,3.0,30.421,32.229,24.684,SOFT,11.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+PER,11,,,21.0,3.0,38.48,41.498,85.53,SOFT,12.0,False,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+PER,11,100.17,100.17,22.0,3.0,34.831,36.303,29.036,SOFT,13.0,False,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALO,14,,,1.0,1.0,,35.706,27.663,HARD,1.0,True,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALO,14,84.527,84.527,2.0,1.0,29.941,31.068,23.518,HARD,2.0,True,Aston Martin,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,106.795,106.795,3.0,1.0,39.646,37.682,29.467,HARD,3.0,True,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,83.219,83.219,4.0,1.0,29.45,30.192,23.577,HARD,4.0,True,Aston Martin,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,118.861,118.861,5.0,1.0,42.542,44.34,31.979,HARD,5.0,True,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,85.595,85.595,6.0,1.0,29.805,31.552,24.238,HARD,6.0,True,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,85.921,85.921,7.0,1.0,29.95,31.602,24.369,HARD,7.0,True,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,107.714,107.714,8.0,1.0,31.899,41.931,33.884,HARD,8.0,True,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALO,14,,,9.0,2.0,,32.672,28.019,HARD,9.0,False,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALO,14,85.702,85.702,10.0,2.0,29.89,31.614,24.198,HARD,10.0,False,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,85.56,85.56,11.0,2.0,29.607,31.558,24.395,HARD,11.0,False,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,99.581,99.581,12.0,2.0,31.971,35.822,31.788,HARD,12.0,False,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALO,14,,,13.0,3.0,,33.476,25.936,SOFT,1.0,True,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALO,14,81.55,81.55,14.0,3.0,28.899,29.471,23.18,SOFT,2.0,True,Aston Martin,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,124.992,124.992,15.0,3.0,52.508,39.339,33.145,SOFT,3.0,True,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALO,14,128.16,128.16,16.0,4.0,62.532,37.546,28.082,SOFT,4.0,False,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALO,14,88.252,88.252,17.0,4.0,28.966,29.739,29.547,SOFT,5.0,False,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,115.442,115.442,18.0,4.0,39.433,49.882,26.127,SOFT,6.0,False,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,81.904,81.904,19.0,4.0,28.866,29.57,23.468,SOFT,7.0,False,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALO,14,92.513,92.513,20.0,4.0,31.321,31.927,29.265,SOFT,8.0,False,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LEC,16,,,1.0,1.0,,35.145,30.142,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LEC,16,82.705,82.705,2.0,1.0,29.163,30.244,23.298,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LEC,16,112.246,112.246,3.0,1.0,44.9,41.369,25.977,MEDIUM,3.0,True,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LEC,16,80.884,80.884,4.0,1.0,28.554,29.452,22.878,MEDIUM,4.0,True,Ferrari,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LEC,16,112.594,112.594,5.0,1.0,42.753,42.791,27.05,MEDIUM,5.0,True,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LEC,16,86.655,86.655,6.0,1.0,28.475,29.43,28.75,MEDIUM,6.0,True,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LEC,16,116.284,116.284,7.0,1.0,46.559,44.451,25.274,MEDIUM,7.0,True,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LEC,16,80.287,80.287,8.0,1.0,28.233,29.137,22.917,MEDIUM,8.0,True,Ferrari,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LEC,16,111.363,111.363,9.0,1.0,41.26,36.606,33.497,MEDIUM,9.0,True,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LEC,16,134.692,134.692,10.0,2.0,71.623,34.422,28.647,MEDIUM,10.0,False,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LEC,16,88.521,88.521,11.0,2.0,28.279,32.003,28.239,MEDIUM,11.0,False,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LEC,16,87.506,87.506,12.0,2.0,28.255,29.183,30.068,MEDIUM,12.0,False,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LEC,16,,,13.0,3.0,,33.551,26.216,SOFT,1.0,True,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LEC,16,79.075,79.075,14.0,3.0,27.846,28.625,22.604,SOFT,2.0,True,Ferrari,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LEC,16,110.661,110.661,15.0,3.0,38.546,39.188,32.927,SOFT,3.0,True,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LEC,16,,,16.0,4.0,,,,SOFT,4.0,False,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LEC,16,,,17.0,5.0,,31.556,23.948,SOFT,5.0,False,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LEC,16,85.666,85.666,18.0,5.0,30.831,30.93,23.905,SOFT,6.0,False,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LEC,16,,,19.0,5.0,28.905,30.547,,SOFT,7.0,False,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+STR,18,,,1.0,1.0,,34.034,28.954,HARD,1.0,True,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+STR,18,84.395,84.395,2.0,1.0,29.963,30.879,23.553,HARD,2.0,True,Aston Martin,True,,,True,2026,Hungarian Grand Prix,Practice 1
+STR,18,113.394,113.394,3.0,1.0,39.123,41.322,32.949,HARD,3.0,True,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+STR,18,83.471,83.471,4.0,1.0,29.636,30.353,23.482,HARD,4.0,True,Aston Martin,True,,,True,2026,Hungarian Grand Prix,Practice 1
+STR,18,119.824,119.824,5.0,1.0,39.626,46.884,33.314,HARD,5.0,True,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+STR,18,,,6.0,2.0,,35.463,27.367,HARD,6.0,False,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+STR,18,85.86,85.86,7.0,2.0,30.241,31.498,24.121,HARD,7.0,False,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+STR,18,84.998,84.998,8.0,2.0,29.739,31.214,24.045,HARD,8.0,False,Aston Martin,False,,,True,2026,Hungarian Grand Prix,Practice 1
+STR,18,110.381,110.381,9.0,2.0,36.137,39.896,34.348,HARD,9.0,False,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+STR,18,,,10.0,3.0,,32.583,26.693,HARD,10.0,False,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+STR,18,,,11.0,3.0,,,,HARD,11.0,False,Aston Martin,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,,,1.0,1.0,,37.466,28.917,MEDIUM,1.0,True,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,85.972,85.972,2.0,1.0,30.263,31.562,24.147,MEDIUM,2.0,True,Williams,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,112.851,112.851,3.0,1.0,46.175,40.293,26.383,MEDIUM,3.0,True,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,84.601,84.601,4.0,1.0,29.686,30.885,24.03,MEDIUM,4.0,True,Williams,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,112.2,112.2,5.0,1.0,44.192,41.286,26.722,MEDIUM,5.0,True,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,83.678,83.678,6.0,1.0,29.125,30.647,23.906,MEDIUM,6.0,True,Williams,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,117.752,117.752,7.0,1.0,41.34,45.817,30.595,MEDIUM,7.0,True,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,,,8.0,2.0,,40.528,27.311,MEDIUM,8.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,83.006,83.006,9.0,2.0,28.823,30.22,23.963,MEDIUM,9.0,False,Williams,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,118.13,118.13,10.0,2.0,45.634,44.555,27.941,MEDIUM,10.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,105.447,105.447,11.0,2.0,35.914,36.849,32.684,MEDIUM,11.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,,,12.0,3.0,,34.164,25.756,SOFT,1.0,True,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,81.819,81.819,13.0,3.0,28.505,29.742,23.572,SOFT,2.0,True,Williams,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,125.711,125.711,14.0,3.0,47.833,46.427,31.451,SOFT,3.0,True,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,,,15.0,3.0,39.976,,,SOFT,4.0,True,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,,,16.0,4.0,,33.491,29.979,SOFT,5.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,91.636,91.636,17.0,4.0,28.577,31.627,31.432,SOFT,6.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,113.316,113.316,18.0,5.0,53.676,35.38,24.26,SOFT,7.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,85.625,85.625,19.0,5.0,29.938,31.465,24.222,SOFT,8.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,83.956,83.956,20.0,5.0,28.964,30.943,24.049,SOFT,9.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,84.633,84.633,21.0,5.0,29.145,31.27,24.218,SOFT,10.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,84.386,84.386,22.0,5.0,29.104,30.921,24.361,SOFT,11.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,89.271,89.271,23.0,5.0,32.411,32.295,24.565,SOFT,12.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,84.553,84.553,24.0,5.0,29.273,30.995,24.285,SOFT,13.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,89.223,89.223,25.0,5.0,29.24,31.321,28.662,SOFT,14.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,84.568,84.568,26.0,5.0,29.2,31.08,24.288,SOFT,15.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ALB,23,,,27.0,5.0,35.457,41.284,74.762,SOFT,16.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ALB,23,100.019,100.019,28.0,5.0,35.406,32.045,32.568,SOFT,17.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HER,25,,,1.0,1.0,,42.682,30.499,HARD,1.0,True,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HER,25,91.434,91.434,2.0,1.0,30.728,33.377,27.329,HARD,2.0,True,Cadillac,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,86.44,86.44,3.0,1.0,30.256,32.152,24.032,HARD,3.0,True,Cadillac,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,87.157,87.157,4.0,1.0,29.782,33.089,24.286,HARD,4.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,119.459,119.459,5.0,1.0,40.323,46.997,32.139,HARD,5.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,118.547,118.547,6.0,1.0,38.405,43.922,36.22,HARD,6.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,85.616,85.616,7.0,1.0,29.708,31.913,23.995,HARD,7.0,True,Cadillac,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,124.847,124.847,8.0,1.0,45.152,47.08,32.615,HARD,8.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,84.843,84.843,9.0,1.0,29.246,31.537,24.06,HARD,9.0,True,Cadillac,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,123.407,123.407,10.0,1.0,46.439,46.302,30.666,HARD,10.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,85.774,85.774,11.0,1.0,30.091,31.717,23.966,HARD,11.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,113.406,113.406,12.0,1.0,36.278,43.044,34.084,HARD,12.0,True,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HER,25,,,13.0,2.0,,42.88,30.621,SOFT,1.0,True,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HER,25,83.118,83.118,14.0,2.0,28.944,30.707,23.467,SOFT,2.0,True,Cadillac,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,126.899,126.899,15.0,2.0,44.882,48.393,33.624,SOFT,3.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,124.736,124.736,16.0,2.0,43.779,50.273,30.684,SOFT,4.0,True,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,,,17.0,2.0,35.373,,,SOFT,5.0,True,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HER,25,,,18.0,3.0,,36.401,27.242,SOFT,6.0,False,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HER,25,83.539,83.539,19.0,3.0,29.267,30.743,23.529,SOFT,7.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,98.291,98.291,20.0,3.0,32.559,34.665,31.067,SOFT,8.0,False,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HER,25,,,21.0,4.0,,40.913,25.021,SOFT,9.0,False,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HER,25,86.969,86.969,22.0,4.0,30.164,32.209,24.596,SOFT,10.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,86.518,86.518,23.0,4.0,29.825,32.037,24.656,SOFT,11.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,87.136,87.136,24.0,4.0,30.19,32.047,24.899,SOFT,12.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,87.348,87.348,25.0,4.0,30.299,32.171,24.878,SOFT,13.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,87.344,87.344,26.0,4.0,30.428,32.14,24.776,SOFT,14.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,131.064,131.064,27.0,4.0,38.285,43.819,48.96,SOFT,15.0,False,Cadillac,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HER,25,117.475,117.475,28.0,4.0,49.279,33.88,34.316,SOFT,16.0,False,Cadillac,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,,,1.0,1.0,,36.746,32.784,MEDIUM,1.0,True,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,139.703,139.703,2.0,2.0,71.593,37.184,30.926,MEDIUM,2.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,,,3.0,3.0,,35.005,28.513,MEDIUM,3.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,82.442,82.442,4.0,3.0,28.727,30.318,23.397,MEDIUM,4.0,False,Audi,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,111.52,111.52,5.0,3.0,42.153,43.131,26.236,MEDIUM,5.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,81.504,81.504,6.0,3.0,28.477,29.823,23.204,MEDIUM,6.0,False,Audi,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,113.38,113.38,7.0,3.0,35.339,44.143,33.898,MEDIUM,7.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,119.671,119.671,8.0,4.0,57.306,36.965,25.4,MEDIUM,8.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,81.708,81.708,9.0,4.0,28.447,29.667,23.594,MEDIUM,9.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,110.735,110.735,10.0,4.0,37.941,42.169,30.625,MEDIUM,10.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,,,11.0,5.0,,34.659,24.728,SOFT,1.0,True,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,80.789,80.789,12.0,5.0,28.165,29.344,23.28,SOFT,2.0,True,Audi,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,117.068,117.068,13.0,5.0,41.357,44.335,31.376,SOFT,3.0,True,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,103.306,103.306,14.0,5.0,33.029,41.393,28.884,SOFT,4.0,True,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,80.623,80.623,15.0,5.0,28.13,29.377,23.116,SOFT,5.0,True,Audi,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,,,16.0,5.0,,,,SOFT,6.0,True,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,,,17.0,6.0,,32.274,24.182,MEDIUM,11.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,84.332,84.332,18.0,6.0,29.316,30.929,24.087,MEDIUM,12.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,84.617,84.617,19.0,6.0,29.29,31.119,24.208,MEDIUM,13.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,85.152,85.152,20.0,6.0,29.394,31.248,24.51,MEDIUM,14.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,86.249,86.249,21.0,6.0,29.671,31.481,25.097,MEDIUM,15.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,86.526,86.526,22.0,6.0,30.176,31.509,24.841,MEDIUM,16.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,86.006,86.006,23.0,6.0,29.707,31.443,24.856,MEDIUM,17.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,86.624,86.624,24.0,6.0,29.812,31.743,25.069,MEDIUM,18.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,86.16,86.16,25.0,6.0,29.679,31.598,24.883,MEDIUM,19.0,False,Audi,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HUL,27,89.422,89.422,26.0,6.0,30.085,31.617,27.72,MEDIUM,20.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,148.005,148.005,27.0,7.0,89.611,34.135,24.259,SOFT,7.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,,,28.0,7.0,33.593,37.259,92.875,SOFT,8.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HUL,27,103.588,103.588,29.0,7.0,33.122,39.169,31.297,SOFT,9.0,False,Audi,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LAW,30,,,1.0,1.0,,34.972,25.792,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LAW,30,83.506,83.506,2.0,1.0,28.888,30.932,23.686,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,129.399,129.399,3.0,1.0,47.906,52.688,28.805,MEDIUM,3.0,True,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,83.423,83.423,4.0,1.0,28.675,29.935,24.813,MEDIUM,4.0,True,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,121.074,121.074,5.0,1.0,48.95,40.731,31.393,MEDIUM,5.0,True,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LAW,30,128.07,128.07,6.0,2.0,67.078,35.171,25.821,MEDIUM,6.0,False,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LAW,30,82.009,82.009,7.0,2.0,28.563,29.975,23.471,MEDIUM,7.0,False,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,127.213,127.213,8.0,2.0,51.49,43.434,32.289,MEDIUM,8.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,99.578,99.578,9.0,2.0,36.458,36.709,26.411,MEDIUM,9.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,81.457,81.457,10.0,2.0,28.483,29.591,23.383,MEDIUM,10.0,False,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,102.221,102.221,11.0,2.0,35.149,35.745,31.327,MEDIUM,11.0,False,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LAW,30,,,12.0,3.0,,36.077,25.09,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LAW,30,80.866,80.866,13.0,3.0,28.201,29.385,23.28,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,108.633,108.633,14.0,3.0,36.624,38.526,33.483,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LAW,30,,,15.0,4.0,,38.071,,SOFT,4.0,False,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LAW,30,,,16.0,5.0,,32.964,25.236,MEDIUM,12.0,False,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LAW,30,87.344,87.344,17.0,5.0,30.194,32.276,24.874,MEDIUM,13.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,86.958,86.958,18.0,5.0,29.964,32.089,24.905,MEDIUM,14.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,86.273,86.273,19.0,5.0,29.77,31.708,24.795,MEDIUM,15.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,86.87,86.87,20.0,5.0,29.979,31.891,25.0,MEDIUM,16.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,86.645,86.645,21.0,5.0,29.827,31.803,25.015,MEDIUM,17.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,86.557,86.557,22.0,5.0,29.906,31.832,24.819,MEDIUM,18.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,86.278,86.278,23.0,5.0,29.762,31.646,24.87,MEDIUM,19.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,86.228,86.228,24.0,5.0,29.667,31.648,24.913,MEDIUM,20.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,86.344,86.344,25.0,5.0,29.957,31.512,24.875,MEDIUM,21.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,86.035,86.035,26.0,5.0,29.699,31.365,24.971,MEDIUM,22.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,127.66,127.66,27.0,5.0,38.941,46.406,42.313,MEDIUM,23.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LAW,30,120.568,120.568,28.0,5.0,55.885,35.944,28.739,MEDIUM,24.0,False,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,,,1.0,1.0,,39.436,29.073,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,94.153,94.153,2.0,1.0,29.746,31.686,32.721,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,89.565,89.565,3.0,1.0,29.496,30.83,29.239,MEDIUM,3.0,True,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,,,4.0,2.0,,34.904,28.007,MEDIUM,4.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,82.574,82.574,5.0,2.0,28.845,30.228,23.501,MEDIUM,5.0,False,Haas F1 Team,True,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,132.887,132.887,6.0,2.0,48.133,54.163,30.591,MEDIUM,6.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,82.248,82.248,7.0,2.0,28.588,29.867,23.793,MEDIUM,7.0,False,Haas F1 Team,True,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,130.225,130.225,8.0,2.0,46.16,49.823,34.242,MEDIUM,8.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,139.073,139.073,9.0,3.0,74.595,38.564,25.914,MEDIUM,9.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,84.821,84.821,10.0,3.0,30.149,31.006,23.666,MEDIUM,10.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,105.731,105.731,11.0,3.0,38.047,39.48,28.204,MEDIUM,11.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,,,12.0,4.0,,35.856,29.515,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,,,13.0,4.0,,,,SOFT,2.0,True,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,,,14.0,5.0,,32.559,26.559,SOFT,3.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,95.641,95.641,15.0,5.0,31.723,36.187,27.731,SOFT,4.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,81.051,81.051,16.0,5.0,28.408,29.482,23.161,SOFT,5.0,False,Haas F1 Team,True,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,119.14,119.14,17.0,5.0,40.791,44.342,34.007,SOFT,6.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,126.26,126.26,18.0,5.0,45.495,46.533,34.232,SOFT,7.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,81.882,81.882,19.0,5.0,28.554,29.801,23.527,SOFT,8.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,103.703,103.703,20.0,5.0,39.936,34.905,28.862,SOFT,9.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,,,21.0,6.0,,32.216,24.214,MEDIUM,12.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+OCO,31,84.694,84.694,22.0,6.0,29.367,31.212,24.115,MEDIUM,13.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,110.295,110.295,23.0,6.0,35.839,36.234,38.222,MEDIUM,14.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+OCO,31,121.268,121.268,24.0,6.0,57.049,31.927,32.292,MEDIUM,15.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LIN,41,,,1.0,1.0,,41.442,33.994,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LIN,41,85.792,85.792,2.0,1.0,29.948,31.076,24.768,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,111.62,111.62,3.0,1.0,43.382,41.895,26.343,MEDIUM,3.0,True,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,82.448,82.448,4.0,1.0,28.924,30.113,23.411,MEDIUM,4.0,True,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,114.797,114.797,5.0,1.0,40.547,45.22,29.03,MEDIUM,5.0,True,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,110.288,110.288,6.0,1.0,37.588,42.612,30.088,MEDIUM,6.0,True,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,81.825,81.825,7.0,1.0,28.647,29.654,23.524,MEDIUM,7.0,True,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,124.262,124.262,8.0,1.0,47.198,42.708,34.356,MEDIUM,8.0,True,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,102.331,102.331,9.0,1.0,40.085,36.885,25.361,MEDIUM,9.0,True,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,81.619,81.619,10.0,1.0,28.634,29.557,23.428,MEDIUM,10.0,True,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,96.747,96.747,11.0,1.0,36.812,33.551,26.384,MEDIUM,11.0,True,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LIN,41,,,12.0,2.0,,37.965,25.458,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LIN,41,80.76,80.76,13.0,2.0,28.485,29.119,23.156,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,116.783,116.783,14.0,2.0,38.596,44.643,33.544,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LIN,41,,,15.0,3.0,,37.72,,SOFT,4.0,False,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LIN,41,,,16.0,4.0,,33.298,25.623,MEDIUM,12.0,False,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+LIN,41,87.234,87.234,17.0,4.0,30.417,32.134,24.683,MEDIUM,13.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,86.215,86.215,18.0,4.0,30.281,31.471,24.463,MEDIUM,14.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,86.188,86.188,19.0,4.0,29.958,31.515,24.715,MEDIUM,15.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,86.809,86.809,20.0,4.0,30.298,31.753,24.758,MEDIUM,16.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,86.156,86.156,21.0,4.0,29.795,31.639,24.722,MEDIUM,17.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,86.856,86.856,22.0,4.0,29.957,31.998,24.901,MEDIUM,18.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,86.989,86.989,23.0,4.0,29.936,31.872,25.181,MEDIUM,19.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,88.264,88.264,24.0,4.0,30.895,32.343,25.026,MEDIUM,20.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,87.135,87.135,25.0,4.0,30.102,31.949,25.084,MEDIUM,21.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,86.673,86.673,26.0,4.0,30.017,31.705,24.951,MEDIUM,22.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,106.56,106.56,27.0,4.0,34.988,37.073,34.499,MEDIUM,23.0,False,Racing Bulls,False,,,True,2026,Hungarian Grand Prix,Practice 1
+LIN,41,126.562,126.562,28.0,4.0,66.12,32.945,27.497,MEDIUM,24.0,False,Racing Bulls,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAM,44,,,1.0,1.0,,37.281,31.746,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAM,44,98.307,98.307,2.0,1.0,38.164,35.026,25.117,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,89.678,89.678,3.0,1.0,29.043,35.172,25.463,MEDIUM,3.0,True,Ferrari,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,82.482,82.482,4.0,1.0,28.263,29.45,24.769,MEDIUM,4.0,True,Ferrari,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,,,5.0,1.0,56.999,65.269,34.581,MEDIUM,5.0,True,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAM,44,81.065,81.065,6.0,1.0,28.586,29.431,23.048,MEDIUM,6.0,True,Ferrari,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,141.731,141.731,7.0,1.0,60.339,53.841,27.551,MEDIUM,7.0,True,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,80.613,80.613,8.0,1.0,28.19,29.302,23.121,MEDIUM,8.0,True,Ferrari,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,,,9.0,1.0,82.558,64.634,25.897,MEDIUM,9.0,True,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAM,44,97.281,97.281,10.0,1.0,28.411,38.073,30.797,MEDIUM,10.0,True,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAM,44,,,11.0,2.0,,35.547,25.9,SOFT,1.0,True,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAM,44,79.618,79.618,12.0,2.0,27.931,28.907,22.78,SOFT,2.0,True,Ferrari,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,,,13.0,2.0,,,,SOFT,3.0,True,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAM,44,,,14.0,3.0,,32.704,24.819,MEDIUM,11.0,False,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAM,44,84.064,84.064,15.0,3.0,29.182,30.826,24.056,MEDIUM,12.0,False,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,84.557,84.557,16.0,3.0,29.273,31.111,24.173,MEDIUM,13.0,False,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,84.14,84.14,17.0,3.0,29.186,30.872,24.082,MEDIUM,14.0,False,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,84.129,84.129,18.0,3.0,29.412,30.651,24.066,MEDIUM,15.0,False,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,84.589,84.589,19.0,3.0,29.568,30.859,24.162,MEDIUM,16.0,False,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,89.924,89.924,20.0,3.0,29.403,30.982,29.539,MEDIUM,17.0,False,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,84.373,84.373,21.0,3.0,29.413,30.785,24.175,MEDIUM,18.0,False,Ferrari,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HAM,44,,,22.0,3.0,43.898,44.596,78.34,MEDIUM,19.0,False,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HAM,44,99.522,99.522,23.0,3.0,32.459,33.583,33.48,MEDIUM,20.0,False,Ferrari,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,,,1.0,1.0,,39.494,28.076,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,94.406,94.406,2.0,1.0,31.312,35.453,27.641,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,121.99,121.99,3.0,1.0,41.26,47.095,33.635,MEDIUM,3.0,True,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,,,4.0,2.0,,34.531,30.997,MEDIUM,4.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,84.73,84.73,5.0,2.0,29.423,31.293,24.014,MEDIUM,5.0,False,Haas F1 Team,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,119.023,119.023,6.0,2.0,45.646,46.399,26.978,MEDIUM,6.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,84.219,84.219,7.0,2.0,29.655,30.869,23.695,MEDIUM,7.0,False,Haas F1 Team,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,136.062,136.062,8.0,2.0,53.32,49.314,33.428,MEDIUM,8.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,147.234,147.234,9.0,3.0,86.384,34.883,25.967,MEDIUM,9.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,83.64,83.64,10.0,3.0,29.268,30.726,23.646,MEDIUM,10.0,False,Haas F1 Team,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,113.256,113.256,11.0,3.0,43.208,38.028,32.02,MEDIUM,11.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,,,12.0,4.0,,35.061,28.975,MEDIUM,12.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,84.388,84.388,13.0,4.0,29.417,31.188,23.783,MEDIUM,13.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,,,14.0,4.0,34.907,,,MEDIUM,14.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,,,15.0,5.0,,37.925,26.651,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,103.256,103.256,16.0,5.0,36.306,37.422,29.528,SOFT,2.0,True,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,108.635,108.635,17.0,5.0,36.843,45.727,26.065,SOFT,3.0,True,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,82.808,82.808,18.0,5.0,28.919,30.345,23.544,SOFT,4.0,True,Haas F1 Team,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,127.363,127.363,19.0,5.0,47.595,43.098,36.67,SOFT,5.0,True,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,102.824,102.824,20.0,5.0,41.304,35.81,25.71,SOFT,6.0,True,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,82.001,82.001,21.0,5.0,28.653,29.86,23.488,SOFT,7.0,True,Haas F1 Team,True,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,93.654,93.654,22.0,5.0,32.177,32.621,28.856,SOFT,8.0,True,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,,,23.0,6.0,,34.806,26.925,MEDIUM,15.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+HIR,50,118.844,118.844,24.0,6.0,37.683,38.446,42.715,MEDIUM,16.0,False,Haas F1 Team,False,,,True,2026,Hungarian Grand Prix,Practice 1
+HIR,50,145.693,145.693,25.0,6.0,72.36,41.392,31.941,MEDIUM,17.0,False,Haas F1 Team,False,,,False,2026,Hungarian Grand Prix,Practice 1
+SAI,55,,,1.0,1.0,,36.207,27.551,MEDIUM,1.0,True,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+SAI,55,84.887,84.887,2.0,1.0,29.642,31.015,24.23,MEDIUM,2.0,True,Williams,True,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,120.143,120.143,3.0,1.0,45.128,39.646,35.369,MEDIUM,3.0,True,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+SAI,55,,,4.0,2.0,85.302,33.562,32.494,MEDIUM,4.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+SAI,55,84.094,84.094,5.0,2.0,29.448,30.776,23.87,MEDIUM,5.0,False,Williams,True,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,104.707,104.707,6.0,2.0,40.451,37.494,26.762,MEDIUM,6.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,83.734,83.734,7.0,2.0,29.046,30.657,24.031,MEDIUM,7.0,False,Williams,True,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,126.871,126.871,8.0,2.0,48.072,46.987,31.812,MEDIUM,8.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,83.767,83.767,9.0,2.0,29.209,30.651,23.907,MEDIUM,9.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,98.7,98.7,10.0,2.0,35.566,32.839,30.295,MEDIUM,10.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+SAI,55,,,11.0,3.0,,,,SOFT,1.0,True,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+SAI,55,,,12.0,4.0,,36.758,26.58,SOFT,2.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+SAI,55,104.547,104.547,13.0,4.0,28.632,37.262,38.653,SOFT,3.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,117.072,117.072,14.0,4.0,45.626,40.235,31.211,SOFT,4.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,,,15.0,4.0,98.261,42.106,31.618,SOFT,5.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+SAI,55,142.573,142.573,16.0,5.0,84.866,32.694,25.013,MEDIUM,11.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+SAI,55,85.347,85.347,17.0,5.0,29.574,31.361,24.412,MEDIUM,12.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,85.324,85.324,18.0,5.0,29.653,31.169,24.502,MEDIUM,13.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,88.479,88.479,19.0,5.0,29.741,31.338,27.4,MEDIUM,14.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,85.682,85.682,20.0,5.0,29.862,31.244,24.576,MEDIUM,15.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,86.014,86.014,21.0,5.0,29.805,31.499,24.71,MEDIUM,16.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,122.579,122.579,22.0,5.0,40.492,43.037,39.05,MEDIUM,17.0,False,Williams,False,,,True,2026,Hungarian Grand Prix,Practice 1
+SAI,55,123.082,123.082,23.0,5.0,59.891,33.127,30.064,MEDIUM,18.0,False,Williams,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ARO,61,,,1.0,1.0,,37.164,29.131,MEDIUM,1.0,True,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ARO,61,84.241,84.241,2.0,1.0,29.637,30.594,24.01,MEDIUM,2.0,True,Alpine,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,118.938,118.938,3.0,1.0,42.786,42.291,33.861,MEDIUM,3.0,True,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ARO,61,149.363,149.363,4.0,2.0,84.294,39.119,25.95,MEDIUM,4.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ARO,61,111.568,111.568,5.0,2.0,38.498,42.577,30.493,MEDIUM,5.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,84.555,84.555,6.0,2.0,29.121,31.188,24.246,MEDIUM,6.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,123.477,123.477,7.0,2.0,46.184,49.462,27.831,MEDIUM,7.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,83.587,83.587,8.0,2.0,29.198,30.364,24.025,MEDIUM,8.0,False,Alpine,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,114.452,114.452,9.0,2.0,40.75,42.09,31.612,MEDIUM,9.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ARO,61,,,10.0,3.0,,34.536,25.898,SOFT,1.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ARO,61,84.329,84.329,11.0,3.0,28.815,29.642,25.872,SOFT,2.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,129.101,129.101,12.0,3.0,47.413,50.763,30.925,SOFT,3.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,109.613,109.613,13.0,3.0,35.896,46.057,27.66,SOFT,4.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,82.168,82.168,14.0,3.0,28.618,29.851,23.699,SOFT,5.0,False,Alpine,True,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,,,15.0,3.0,,,,SOFT,6.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ARO,61,,,16.0,4.0,,36.608,25.326,SOFT,7.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ARO,61,87.196,87.196,17.0,4.0,30.086,32.115,24.995,SOFT,8.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,86.97,86.97,18.0,4.0,29.873,32.06,25.037,SOFT,9.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,88.479,88.479,19.0,4.0,30.597,32.628,25.254,SOFT,10.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,86.69,86.69,20.0,4.0,30.021,31.8,24.869,SOFT,11.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,86.454,86.454,21.0,4.0,29.772,31.826,24.856,SOFT,12.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,86.649,86.649,22.0,4.0,29.845,31.953,24.851,SOFT,13.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,87.272,87.272,23.0,4.0,30.156,31.98,25.136,SOFT,14.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,93.092,93.092,24.0,4.0,34.594,33.226,25.272,SOFT,15.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,86.888,86.888,25.0,4.0,29.913,31.967,25.008,SOFT,16.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,88.155,88.155,26.0,4.0,30.749,32.339,25.067,SOFT,17.0,False,Alpine,False,,,True,2026,Hungarian Grand Prix,Practice 1
+ARO,61,,,27.0,4.0,36.316,41.605,,SOFT,18.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+ARO,61,94.803,94.803,28.0,4.0,32.332,32.479,29.992,SOFT,19.0,False,Alpine,False,,,False,2026,Hungarian Grand Prix,Practice 1
+RUS,63,,,1.0,1.0,,33.959,24.878,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+RUS,63,82.056,82.056,2.0,1.0,28.714,30.081,23.261,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,131.284,131.284,3.0,1.0,50.251,49.554,31.479,MEDIUM,3.0,True,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+RUS,63,147.064,147.064,4.0,2.0,83.785,34.719,28.56,MEDIUM,4.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+RUS,63,81.191,81.191,5.0,2.0,28.326,29.623,23.242,MEDIUM,5.0,False,Mercedes,True,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,134.097,134.097,6.0,2.0,52.757,48.299,33.041,MEDIUM,6.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,98.612,98.612,7.0,2.0,36.304,35.401,26.907,MEDIUM,7.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,80.843,80.843,8.0,2.0,28.453,29.38,23.01,MEDIUM,8.0,False,Mercedes,True,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,102.18,102.18,9.0,2.0,34.775,38.163,29.242,MEDIUM,9.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+RUS,63,,,10.0,3.0,,35.412,24.89,SOFT,1.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+RUS,63,80.066,80.066,11.0,3.0,28.191,29.064,22.811,SOFT,2.0,False,Mercedes,True,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,141.91,141.91,12.0,3.0,54.331,51.007,36.572,SOFT,3.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,108.545,108.545,13.0,3.0,41.5,41.413,25.632,SOFT,4.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,103.866,103.866,14.0,3.0,36.951,36.717,30.198,SOFT,5.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+RUS,63,,,15.0,4.0,,32.567,24.791,MEDIUM,10.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+RUS,63,84.924,84.924,16.0,4.0,29.559,31.059,24.306,MEDIUM,11.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,92.148,92.148,17.0,4.0,36.59,31.525,24.033,MEDIUM,12.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,84.372,84.372,18.0,4.0,29.36,30.853,24.159,MEDIUM,13.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,84.523,84.523,19.0,4.0,29.525,30.677,24.321,MEDIUM,14.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+RUS,63,,,20.0,4.0,43.366,48.534,71.906,MEDIUM,15.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+RUS,63,92.825,92.825,21.0,4.0,32.002,32.329,28.494,MEDIUM,16.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,,,1.0,1.0,,41.148,27.072,MEDIUM,1.0,True,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,84.719,84.719,2.0,1.0,30.063,30.75,23.906,MEDIUM,2.0,True,McLaren,True,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,115.333,115.333,3.0,1.0,38.814,43.716,32.803,MEDIUM,3.0,True,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,82.084,82.084,4.0,1.0,28.799,29.989,23.296,MEDIUM,4.0,True,McLaren,True,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,112.703,112.703,5.0,1.0,39.025,43.005,30.673,MEDIUM,5.0,True,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,81.89,81.89,6.0,1.0,28.519,29.806,23.565,MEDIUM,6.0,True,McLaren,True,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,113.575,113.575,7.0,1.0,38.656,39.161,35.758,MEDIUM,7.0,True,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,,,8.0,2.0,,38.986,26.394,MEDIUM,8.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,82.0,82.0,9.0,2.0,28.544,29.817,23.639,MEDIUM,9.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,106.341,106.341,10.0,2.0,38.642,41.505,26.194,MEDIUM,10.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,82.709,82.709,11.0,2.0,28.811,30.12,23.778,MEDIUM,11.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,112.694,112.694,12.0,2.0,39.086,44.239,29.369,MEDIUM,12.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,82.721,82.721,13.0,2.0,28.682,30.388,23.651,MEDIUM,13.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,113.088,113.088,14.0,2.0,38.222,41.511,33.355,MEDIUM,14.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,125.012,125.012,15.0,3.0,56.888,37.393,30.731,MEDIUM,15.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,127.524,127.524,16.0,4.0,55.053,40.079,32.392,MEDIUM,1.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,,,17.0,5.0,60.09,,,MEDIUM,17.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,,,18.0,6.0,,35.543,26.849,SOFT,1.0,True,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,117.067,117.067,19.0,6.0,36.351,43.271,37.445,SOFT,2.0,True,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,82.422,82.422,20.0,6.0,29.126,29.795,23.501,SOFT,3.0,True,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,119.287,119.287,21.0,6.0,40.653,46.511,32.123,SOFT,4.0,True,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,139.631,139.631,22.0,7.0,61.907,47.848,29.876,MEDIUM,18.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,85.079,85.079,23.0,7.0,29.599,31.398,24.082,MEDIUM,19.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,84.001,84.001,24.0,7.0,28.919,30.982,24.1,MEDIUM,20.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,85.481,85.481,25.0,7.0,29.234,31.617,24.63,MEDIUM,21.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,89.773,89.773,26.0,7.0,29.793,31.95,28.03,MEDIUM,22.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,84.401,84.401,27.0,7.0,29.3,30.845,24.256,MEDIUM,23.0,False,McLaren,False,,,True,2026,Hungarian Grand Prix,Practice 1
+FOR,67,,,28.0,7.0,38.205,48.24,66.514,MEDIUM,24.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+FOR,67,116.23,116.23,29.0,7.0,40.014,42.398,33.818,MEDIUM,25.0,False,McLaren,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,,,1.0,1.0,,36.72,25.876,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,88.783,88.783,2.0,1.0,31.257,32.983,24.543,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,86.469,86.469,3.0,1.0,29.995,32.203,24.271,MEDIUM,3.0,True,Mercedes,True,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,85.377,85.377,4.0,1.0,29.65,31.736,23.991,MEDIUM,4.0,True,Mercedes,True,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,107.335,107.335,5.0,1.0,36.961,40.079,30.295,MEDIUM,5.0,True,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,,,6.0,2.0,,34.869,25.452,MEDIUM,6.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,82.831,82.831,7.0,2.0,29.079,30.308,23.444,MEDIUM,7.0,False,Mercedes,True,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,125.288,125.288,8.0,2.0,40.682,57.365,27.241,MEDIUM,8.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,82.014,82.014,9.0,2.0,28.844,30.054,23.116,MEDIUM,9.0,False,Mercedes,True,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,129.216,129.216,10.0,2.0,50.336,53.678,25.202,MEDIUM,10.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,82.099,82.099,11.0,2.0,28.584,30.241,23.274,MEDIUM,11.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,86.07,86.07,12.0,2.0,30.613,31.426,24.031,MEDIUM,12.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,83.985,83.985,13.0,2.0,29.166,31.022,23.797,MEDIUM,13.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,85.281,85.281,14.0,2.0,29.427,31.617,24.237,MEDIUM,14.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,106.838,106.838,15.0,2.0,38.396,38.98,29.462,MEDIUM,15.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,,,16.0,3.0,,40.729,28.595,SOFT,1.0,True,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,80.467,80.467,17.0,3.0,28.3,29.29,22.877,SOFT,2.0,True,Mercedes,True,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,140.824,140.824,18.0,3.0,51.678,53.522,35.624,SOFT,3.0,True,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,122.77,122.77,19.0,4.0,53.985,43.434,25.351,SOFT,4.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,82.037,82.037,20.0,4.0,28.511,30.407,23.119,SOFT,5.0,False,Mercedes,False,,,True,2026,Hungarian Grand Prix,Practice 1
+VES,72,95.08,95.08,21.0,4.0,31.823,34.22,29.037,SOFT,6.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,,,22.0,5.0,,33.853,24.398,MEDIUM,16.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,,,23.0,5.0,37.236,42.612,85.479,MEDIUM,17.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1
+VES,72,108.387,108.387,24.0,5.0,37.485,41.637,29.265,MEDIUM,18.0,False,Mercedes,False,,,False,2026,Hungarian Grand Prix,Practice 1

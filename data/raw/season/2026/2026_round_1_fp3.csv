@@ -1,0 +1,378 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,148.3,148.3,1.0,1.0,80.197,21.307,46.796,SOFT,1.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+NOR,1,100.995,100.995,2.0,1.0,34.687,20.724,45.584,SOFT,2.0,True,McLaren,True,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,87.517,87.517,3.0,1.0,28.821,17.877,40.819,SOFT,3.0,True,McLaren,True,,,False,2026,Australian Grand Prix,Practice 3
+NOR,1,129.252,129.252,4.0,1.0,48.332,25.025,55.895,SOFT,4.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+NOR,1,,,5.0,1.0,40.239,27.328,,SOFT,5.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+NOR,1,,,6.0,2.0,93.72,20.735,40.271,SOFT,6.0,False,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+NOR,1,81.438,81.438,7.0,2.0,28.357,18.139,34.942,SOFT,7.0,False,McLaren,True,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,116.975,116.975,8.0,2.0,41.083,25.693,50.199,SOFT,8.0,False,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,115.536,115.536,9.0,2.0,38.567,25.496,51.473,SOFT,9.0,False,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,95.658,95.658,10.0,2.0,36.34,20.518,38.8,SOFT,10.0,False,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,81.163,81.163,11.0,2.0,28.4,17.983,34.78,SOFT,11.0,False,McLaren,True,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,112.408,112.408,12.0,2.0,39.435,25.198,47.775,SOFT,12.0,False,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,105.721,105.721,13.0,2.0,35.779,24.101,45.841,SOFT,13.0,False,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,81.458,81.458,14.0,2.0,28.298,17.807,35.353,SOFT,14.0,False,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,110.214,110.214,15.0,2.0,39.663,24.962,45.589,SOFT,15.0,False,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,81.039,81.039,16.0,2.0,28.496,17.932,34.611,SOFT,16.0,False,McLaren,True,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,,,17.0,2.0,32.35,20.925,,SOFT,17.0,False,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+NOR,1,,,18.0,3.0,,20.151,39.354,SOFT,1.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+NOR,1,80.443,80.443,19.0,3.0,28.224,17.784,34.435,SOFT,2.0,True,McLaren,True,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,87.635,87.635,20.0,3.0,31.166,20.78,35.689,SOFT,3.0,True,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+NOR,1,,,21.0,3.0,37.383,24.431,,SOFT,4.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+NOR,1,,,22.0,3.0,37.138,18.221,,SOFT,5.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+VER,3,,,1.0,1.0,,20.328,39.272,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+VER,3,80.979,80.979,2.0,1.0,28.38,17.776,34.823,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Australian Grand Prix,Practice 3
+VER,3,136.003,136.003,3.0,1.0,46.401,24.626,64.976,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+VER,3,103.25,103.25,4.0,2.0,38.758,20.623,43.869,SOFT,4.0,False,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+VER,3,80.508,80.508,5.0,2.0,28.061,17.905,34.542,SOFT,5.0,False,Red Bull Racing,True,,,True,2026,Australian Grand Prix,Practice 3
+VER,3,103.15,103.15,6.0,2.0,43.571,20.726,38.853,SOFT,6.0,False,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+VER,3,82.062,82.062,7.0,2.0,28.356,18.281,35.425,SOFT,7.0,False,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+VER,3,84.351,84.351,8.0,2.0,30.935,17.951,35.465,SOFT,8.0,False,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+VER,3,81.973,81.973,9.0,2.0,28.33,17.671,35.972,SOFT,9.0,False,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+VER,3,82.186,82.186,10.0,2.0,28.563,18.106,35.517,SOFT,10.0,False,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+VER,3,,,11.0,2.0,29.873,18.903,,SOFT,11.0,False,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+VER,3,118.928,118.928,12.0,3.0,55.03,19.31,44.588,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+VER,3,80.197,80.197,13.0,3.0,27.798,17.902,34.497,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Australian Grand Prix,Practice 3
+VER,3,,,14.0,3.0,41.294,23.22,,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+VER,3,,,15.0,3.0,30.688,18.307,,SOFT,4.0,True,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+BOR,5,124.999,124.999,1.0,1.0,62.469,21.053,41.477,SOFT,1.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+BOR,5,98.239,98.239,2.0,1.0,32.291,20.754,45.194,SOFT,2.0,True,Audi,True,,,True,2026,Australian Grand Prix,Practice 3
+BOR,5,82.287,82.287,3.0,1.0,29.181,17.806,35.3,SOFT,3.0,True,Audi,True,,,True,2026,Australian Grand Prix,Practice 3
+BOR,5,130.034,130.034,4.0,1.0,49.105,28.953,51.976,SOFT,4.0,True,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+BOR,5,135.482,135.482,5.0,1.0,28.806,39.516,67.16,SOFT,5.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+BOR,5,,,6.0,1.0,33.89,20.612,,SOFT,6.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+BOR,5,120.019,120.019,7.0,2.0,57.364,20.938,41.717,SOFT,7.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+BOR,5,90.446,90.446,8.0,2.0,31.192,20.392,38.862,SOFT,8.0,False,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+BOR,5,95.592,95.592,9.0,2.0,34.874,20.48,40.238,SOFT,9.0,False,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+BOR,5,80.575,80.575,10.0,2.0,28.531,17.411,34.633,SOFT,10.0,False,Audi,True,,,True,2026,Australian Grand Prix,Practice 3
+BOR,5,127.469,127.469,11.0,2.0,37.426,31.772,58.271,SOFT,11.0,False,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+BOR,5,,,12.0,2.0,28.68,17.716,,SOFT,12.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+BOR,5,102.19,102.19,13.0,3.0,39.183,20.501,42.506,SOFT,1.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+BOR,5,,,14.0,3.0,,,,SOFT,2.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+BOR,5,128.955,128.955,15.0,4.0,69.333,20.585,39.037,SOFT,3.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+BOR,5,80.459,80.459,16.0,4.0,28.42,17.505,34.534,SOFT,4.0,False,Audi,True,,,True,2026,Australian Grand Prix,Practice 3
+BOR,5,111.594,111.594,17.0,4.0,43.72,21.031,46.843,SOFT,5.0,False,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+BOR,5,,,18.0,4.0,35.841,21.282,,SOFT,6.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+BOR,5,,,19.0,4.0,35.91,21.039,,SOFT,7.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HAD,6,120.651,120.651,1.0,1.0,56.397,20.574,43.68,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+HAD,6,81.311,81.311,2.0,1.0,28.601,17.632,35.078,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Australian Grand Prix,Practice 3
+HAD,6,111.551,111.551,3.0,1.0,46.499,22.494,42.558,SOFT,3.0,True,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+HAD,6,114.581,114.581,4.0,1.0,35.968,23.627,54.986,SOFT,4.0,True,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+HAD,6,80.691,80.691,5.0,1.0,28.291,17.75,34.65,SOFT,5.0,True,Red Bull Racing,True,,,True,2026,Australian Grand Prix,Practice 3
+HAD,6,114.491,114.491,6.0,1.0,45.766,29.531,39.194,SOFT,6.0,True,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+HAD,6,81.263,81.263,7.0,1.0,28.472,17.801,34.99,SOFT,7.0,True,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+HAD,6,82.449,82.449,8.0,1.0,29.132,18.185,35.132,SOFT,8.0,True,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+HAD,6,82.025,82.025,9.0,1.0,28.776,18.181,35.068,SOFT,9.0,True,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+HAD,6,82.175,82.175,10.0,1.0,28.778,18.305,35.092,SOFT,10.0,True,Red Bull Racing,False,,,True,2026,Australian Grand Prix,Practice 3
+HAD,6,,,11.0,1.0,28.659,18.87,,SOFT,11.0,True,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+HAD,6,117.347,117.347,12.0,2.0,53.317,21.455,42.575,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+HAD,6,80.137,80.137,13.0,2.0,28.097,17.725,34.315,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Australian Grand Prix,Practice 3
+HAD,6,,,14.0,2.0,47.626,29.229,91.519,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+HAD,6,,,15.0,2.0,31.781,18.331,,SOFT,4.0,True,Red Bull Racing,False,,,False,2026,Australian Grand Prix,Practice 3
+GAS,10,103.838,103.838,1.0,1.0,41.143,20.609,42.086,HARD,1.0,True,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+GAS,10,83.473,83.473,2.0,1.0,29.52,17.934,36.019,HARD,2.0,True,Alpine,True,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,106.504,106.504,3.0,1.0,39.122,23.223,44.159,HARD,3.0,True,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,82.663,82.663,4.0,1.0,29.049,17.909,35.705,HARD,4.0,True,Alpine,True,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,141.191,141.191,5.0,1.0,54.088,30.931,56.172,HARD,5.0,True,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,115.499,115.499,6.0,1.0,37.326,26.248,51.925,HARD,6.0,True,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+GAS,10,117.575,117.575,7.0,1.0,36.816,25.484,55.275,HARD,7.0,True,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+GAS,10,,,8.0,1.0,,,,HARD,8.0,True,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+GAS,10,134.603,134.603,9.0,2.0,73.026,20.214,41.363,HARD,9.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+GAS,10,86.532,86.532,10.0,2.0,30.537,18.385,37.61,HARD,10.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,100.613,100.613,11.0,2.0,34.708,20.255,45.65,HARD,11.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,83.046,83.046,12.0,2.0,29.259,17.919,35.868,HARD,12.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,86.225,86.225,13.0,2.0,30.421,18.617,37.187,HARD,13.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,84.539,84.539,14.0,2.0,29.717,18.119,36.703,HARD,14.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,87.327,87.327,15.0,2.0,32.288,18.541,36.498,HARD,15.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,84.437,84.437,16.0,2.0,29.266,17.954,37.217,HARD,16.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,83.782,83.782,17.0,2.0,29.282,17.924,36.576,HARD,17.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,83.528,83.528,18.0,2.0,29.542,17.79,36.196,HARD,18.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,103.895,103.895,19.0,2.0,29.502,18.044,56.349,HARD,19.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+GAS,10,,,20.0,3.0,35.388,19.756,,HARD,20.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+GAS,10,,,21.0,4.0,,,,SOFT,1.0,True,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+GAS,10,129.561,129.561,22.0,5.0,65.361,20.214,43.986,SOFT,2.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+GAS,10,81.071,81.071,23.0,5.0,28.456,17.75,34.865,SOFT,3.0,False,Alpine,True,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,113.044,113.044,24.0,5.0,43.657,23.14,46.247,SOFT,4.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,147.958,147.958,25.0,5.0,31.095,23.518,93.345,SOFT,5.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+GAS,10,,,26.0,5.0,32.633,18.03,,SOFT,6.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+PER,11,107.154,107.154,1.0,1.0,42.371,21.693,43.09,MEDIUM,1.0,True,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+PER,11,85.722,85.722,2.0,1.0,30.497,18.193,37.032,MEDIUM,2.0,True,Cadillac,True,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,130.03,130.03,3.0,1.0,45.499,35.984,48.547,MEDIUM,3.0,True,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,84.397,84.397,4.0,1.0,29.862,18.168,36.367,MEDIUM,4.0,True,Cadillac,True,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,,,5.0,1.0,46.284,25.055,,MEDIUM,5.0,True,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+PER,11,,,6.0,2.0,87.896,19.755,42.76,MEDIUM,6.0,False,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+PER,11,87.702,87.702,7.0,2.0,31.312,18.418,37.972,MEDIUM,7.0,False,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,86.575,86.575,8.0,2.0,30.404,18.292,37.879,MEDIUM,8.0,False,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,86.259,86.259,9.0,2.0,30.476,18.22,37.563,MEDIUM,9.0,False,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,86.335,86.335,10.0,2.0,30.374,18.393,37.568,MEDIUM,10.0,False,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,86.565,86.565,11.0,2.0,30.515,18.15,37.9,MEDIUM,11.0,False,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,86.378,86.378,12.0,2.0,30.519,18.38,37.479,MEDIUM,12.0,False,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,86.129,86.129,13.0,2.0,30.399,18.29,37.44,MEDIUM,13.0,False,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,85.54,85.54,14.0,2.0,30.056,18.217,37.267,MEDIUM,14.0,False,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,86.181,86.181,15.0,2.0,30.365,18.304,37.512,MEDIUM,15.0,False,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,86.24,86.24,16.0,2.0,30.409,18.325,37.506,MEDIUM,16.0,False,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,,,17.0,2.0,39.467,23.518,,MEDIUM,17.0,False,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+PER,11,135.041,135.041,18.0,3.0,62.3,21.27,51.471,SOFT,1.0,True,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+PER,11,102.572,102.572,19.0,3.0,37.66,20.351,44.561,SOFT,2.0,True,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+PER,11,,,20.0,3.0,32.192,24.388,97.134,SOFT,3.0,True,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+PER,11,,,21.0,3.0,35.386,20.368,,SOFT,4.0,True,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+ANT,12,133.092,133.092,1.0,1.0,68.62,19.972,44.5,SOFT,1.0,True,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+ANT,12,107.429,107.429,2.0,1.0,28.34,17.523,61.566,SOFT,2.0,True,Mercedes,True,,,False,2026,Australian Grand Prix,Practice 3
+ANT,12,115.667,115.667,3.0,1.0,39.549,23.798,52.32,SOFT,3.0,True,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+ANT,12,,,4.0,1.0,,,,SOFT,4.0,True,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+ANT,12,126.752,126.752,5.0,2.0,57.818,20.18,48.754,SOFT,5.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+ANT,12,80.324,80.324,6.0,2.0,28.23,17.582,34.512,SOFT,6.0,False,Mercedes,True,,,True,2026,Australian Grand Prix,Practice 3
+ANT,12,120.967,120.967,7.0,2.0,36.259,21.544,63.164,SOFT,7.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+ANT,12,117.27,117.27,8.0,3.0,61.347,18.581,37.342,SOFT,8.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+ANT,12,81.911,81.911,9.0,3.0,28.533,17.977,35.401,SOFT,9.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+ANT,12,82.126,82.126,10.0,3.0,28.691,17.942,35.493,SOFT,10.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+ANT,12,81.732,81.732,11.0,3.0,28.657,17.859,35.216,SOFT,11.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+ANT,12,81.268,81.268,12.0,3.0,28.396,17.76,35.112,SOFT,12.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+ANT,12,81.13,81.13,13.0,3.0,28.302,17.74,35.088,SOFT,13.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+ANT,12,81.17,81.17,14.0,3.0,28.497,17.719,34.954,SOFT,14.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+ANT,12,80.884,80.884,15.0,3.0,28.377,17.67,34.837,SOFT,15.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+ANT,12,,,16.0,3.0,31.403,19.474,,SOFT,16.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+ANT,12,98.493,98.493,17.0,4.0,38.476,20.137,39.88,SOFT,1.0,True,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+ANT,12,,,18.0,4.0,,,,SOFT,2.0,True,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+ALO,14,103.389,103.389,1.0,1.0,40.33,21.553,41.506,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Australian Grand Prix,Practice 3
+ALO,14,86.04,86.04,2.0,1.0,30.566,18.763,36.711,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,Australian Grand Prix,Practice 3
+ALO,14,101.774,101.774,3.0,1.0,38.174,21.138,42.462,MEDIUM,3.0,True,Aston Martin,False,,,True,2026,Australian Grand Prix,Practice 3
+ALO,14,84.101,84.101,4.0,1.0,29.731,18.233,36.137,MEDIUM,4.0,True,Aston Martin,True,,,True,2026,Australian Grand Prix,Practice 3
+ALO,14,,,5.0,1.0,33.766,20.937,,MEDIUM,5.0,True,Aston Martin,False,,,False,2026,Australian Grand Prix,Practice 3
+ALO,14,,,6.0,2.0,,,,MEDIUM,6.0,False,Aston Martin,False,,,False,2026,Australian Grand Prix,Practice 3
+ALO,14,122.162,122.162,7.0,3.0,53.721,21.026,47.415,SOFT,1.0,True,Aston Martin,False,,,False,2026,Australian Grand Prix,Practice 3
+ALO,14,83.717,83.717,8.0,3.0,29.507,18.317,35.893,SOFT,2.0,True,Aston Martin,True,,,True,2026,Australian Grand Prix,Practice 3
+ALO,14,103.393,103.393,9.0,3.0,35.049,20.831,47.513,SOFT,3.0,True,Aston Martin,False,,,True,2026,Australian Grand Prix,Practice 3
+ALO,14,82.972,82.972,10.0,3.0,29.272,18.176,35.524,SOFT,4.0,True,Aston Martin,True,,,True,2026,Australian Grand Prix,Practice 3
+ALO,14,,,11.0,3.0,33.927,20.438,,SOFT,5.0,True,Aston Martin,False,,,False,2026,Australian Grand Prix,Practice 3
+ALO,14,107.836,107.836,12.0,4.0,47.016,21.058,39.762,SOFT,6.0,False,Aston Martin,False,,,False,2026,Australian Grand Prix,Practice 3
+ALO,14,83.054,83.054,13.0,4.0,29.285,18.185,35.584,SOFT,7.0,False,Aston Martin,False,,,True,2026,Australian Grand Prix,Practice 3
+ALO,14,101.289,101.289,14.0,4.0,37.197,20.895,43.197,SOFT,8.0,False,Aston Martin,False,,,True,2026,Australian Grand Prix,Practice 3
+ALO,14,82.837,82.837,15.0,4.0,29.259,18.248,35.33,SOFT,9.0,False,Aston Martin,True,,,True,2026,Australian Grand Prix,Practice 3
+ALO,14,,,16.0,4.0,32.769,20.226,,SOFT,10.0,False,Aston Martin,False,,,False,2026,Australian Grand Prix,Practice 3
+ALO,14,117.097,117.097,17.0,5.0,49.66,20.876,46.561,SOFT,1.0,True,Aston Martin,False,,,False,2026,Australian Grand Prix,Practice 3
+ALO,14,82.72,82.72,18.0,5.0,29.185,18.179,35.356,SOFT,2.0,True,Aston Martin,True,,,True,2026,Australian Grand Prix,Practice 3
+ALO,14,,,19.0,5.0,41.113,27.524,,SOFT,3.0,True,Aston Martin,False,,,False,2026,Australian Grand Prix,Practice 3
+ALO,14,,,20.0,5.0,35.003,21.071,,SOFT,4.0,True,Aston Martin,False,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,114.579,114.579,1.0,1.0,40.945,21.264,52.37,SOFT,1.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,114.611,114.611,2.0,1.0,36.909,21.54,56.162,SOFT,2.0,True,Ferrari,True,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,112.015,112.015,3.0,1.0,37.149,23.381,51.485,SOFT,3.0,True,Ferrari,True,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,,,4.0,1.0,,,,SOFT,4.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,,,5.0,2.0,,20.938,38.886,SOFT,5.0,False,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,80.979,80.979,6.0,2.0,28.448,17.929,34.602,SOFT,6.0,False,Ferrari,True,,,True,2026,Australian Grand Prix,Practice 3
+LEC,16,113.168,113.168,7.0,2.0,41.739,23.033,48.396,SOFT,7.0,False,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+LEC,16,80.271,80.271,8.0,2.0,28.174,17.592,34.505,SOFT,8.0,False,Ferrari,True,,,True,2026,Australian Grand Prix,Practice 3
+LEC,16,146.044,146.044,9.0,2.0,42.256,32.919,70.869,SOFT,9.0,False,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,134.903,134.903,10.0,3.0,56.697,20.154,58.052,SOFT,10.0,False,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,99.546,99.546,11.0,3.0,30.965,21.16,47.421,SOFT,11.0,False,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+LEC,16,79.827,79.827,12.0,3.0,27.915,17.54,34.372,SOFT,12.0,False,Ferrari,True,,,True,2026,Australian Grand Prix,Practice 3
+LEC,16,107.101,107.101,13.0,3.0,36.416,25.565,45.12,SOFT,13.0,False,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+LEC,16,79.869,79.869,14.0,3.0,27.786,17.626,34.457,SOFT,14.0,False,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+LEC,16,,,15.0,3.0,31.087,20.058,,SOFT,15.0,False,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,,,16.0,4.0,,22.207,40.082,SOFT,1.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,79.935,79.935,17.0,4.0,28.111,17.615,34.209,SOFT,2.0,True,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+LEC,16,106.341,106.341,18.0,4.0,34.304,23.516,48.521,SOFT,3.0,True,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+LEC,16,,,19.0,4.0,33.206,22.319,,SOFT,4.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+LEC,16,,,20.0,4.0,31.614,18.519,,SOFT,5.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+ALB,23,125.203,125.203,1.0,1.0,61.956,21.378,41.869,MEDIUM,1.0,True,Williams,False,,,False,2026,Australian Grand Prix,Practice 3
+ALB,23,83.46,83.46,2.0,1.0,29.737,18.226,35.497,MEDIUM,2.0,True,Williams,True,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,110.644,110.644,3.0,1.0,40.677,22.397,47.57,MEDIUM,3.0,True,Williams,False,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,82.589,82.589,4.0,1.0,28.999,18.064,35.526,MEDIUM,4.0,True,Williams,True,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,107.841,107.841,5.0,1.0,42.654,23.241,41.946,MEDIUM,5.0,True,Williams,False,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,81.942,81.942,6.0,1.0,28.897,17.896,35.149,MEDIUM,6.0,True,Williams,True,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,,,7.0,1.0,85.15,23.527,45.036,MEDIUM,7.0,True,Williams,False,,,False,2026,Australian Grand Prix,Practice 3
+ALB,23,81.949,81.949,8.0,1.0,28.875,17.8,35.274,MEDIUM,8.0,True,Williams,False,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,110.045,110.045,9.0,1.0,42.194,28.068,39.783,MEDIUM,9.0,True,Williams,False,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,101.257,101.257,10.0,1.0,35.726,21.87,43.661,MEDIUM,10.0,True,Williams,False,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,82.309,82.309,11.0,1.0,28.901,18.002,35.406,MEDIUM,11.0,True,Williams,False,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,,,12.0,1.0,33.607,23.042,,MEDIUM,12.0,True,Williams,False,,,False,2026,Australian Grand Prix,Practice 3
+ALB,23,,,13.0,2.0,,20.718,41.785,SOFT,1.0,True,Williams,False,,,False,2026,Australian Grand Prix,Practice 3
+ALB,23,102.551,102.551,14.0,2.0,33.776,21.619,47.156,SOFT,2.0,True,Williams,False,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,81.664,81.664,15.0,2.0,28.869,17.8,34.995,SOFT,3.0,True,Williams,True,,,True,2026,Australian Grand Prix,Practice 3
+ALB,23,,,16.0,2.0,42.42,26.958,89.376,SOFT,4.0,True,Williams,False,,,False,2026,Australian Grand Prix,Practice 3
+ALB,23,,,17.0,2.0,36.263,21.918,,SOFT,5.0,True,Williams,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,115.013,115.013,1.0,1.0,55.264,20.326,39.423,SOFT,1.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,100.144,100.144,2.0,1.0,31.315,19.501,49.328,SOFT,2.0,True,Audi,True,,,True,2026,Australian Grand Prix,Practice 3
+HUL,27,82.129,82.129,3.0,1.0,29.258,17.75,35.121,SOFT,3.0,True,Audi,True,,,True,2026,Australian Grand Prix,Practice 3
+HUL,27,120.064,120.064,4.0,1.0,41.722,27.356,50.986,SOFT,4.0,True,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+HUL,27,94.645,94.645,5.0,1.0,28.955,17.708,47.982,SOFT,5.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,115.975,115.975,6.0,1.0,42.254,25.513,48.208,SOFT,6.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,,,7.0,1.0,37.204,,,SOFT,7.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,117.94,117.94,8.0,2.0,61.028,19.539,37.373,SOFT,8.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,96.537,96.537,9.0,2.0,29.707,19.381,47.449,SOFT,9.0,False,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+HUL,27,81.067,81.067,10.0,2.0,28.434,17.717,34.916,SOFT,10.0,False,Audi,True,,,True,2026,Australian Grand Prix,Practice 3
+HUL,27,123.3,123.3,11.0,2.0,41.905,20.283,61.112,SOFT,11.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,112.306,112.306,12.0,3.0,38.848,19.739,53.719,SOFT,12.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,81.716,81.716,13.0,3.0,28.938,17.592,35.186,SOFT,13.0,False,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+HUL,27,,,14.0,3.0,33.023,24.16,,SOFT,14.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,95.606,95.606,15.0,4.0,37.86,19.613,38.133,SOFT,1.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,89.567,89.567,16.0,4.0,30.068,19.949,39.55,SOFT,2.0,True,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+HUL,27,82.51,82.51,17.0,4.0,28.381,17.766,36.363,SOFT,3.0,True,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+HUL,27,,,18.0,4.0,43.356,27.898,,SOFT,4.0,True,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,126.538,126.538,19.0,5.0,58.681,19.768,48.089,SOFT,5.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,81.644,81.644,20.0,5.0,28.939,17.937,34.768,SOFT,6.0,False,Audi,False,,,True,2026,Australian Grand Prix,Practice 3
+HUL,27,,,21.0,5.0,35.197,26.044,96.238,SOFT,7.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+HUL,27,,,22.0,5.0,39.194,19.132,,SOFT,8.0,False,Audi,False,,,False,2026,Australian Grand Prix,Practice 3
+LAW,30,135.09,135.09,1.0,1.0,71.225,21.079,42.786,HARD,1.0,True,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LAW,30,82.199,82.199,2.0,1.0,29.159,17.68,35.36,HARD,2.0,True,Racing Bulls,True,,,True,2026,Australian Grand Prix,Practice 3
+LAW,30,112.355,112.355,3.0,1.0,41.477,27.07,43.808,HARD,3.0,True,Racing Bulls,False,,,True,2026,Australian Grand Prix,Practice 3
+LAW,30,81.466,81.466,4.0,1.0,28.765,17.642,35.059,HARD,4.0,True,Racing Bulls,True,,,True,2026,Australian Grand Prix,Practice 3
+LAW,30,109.68,109.68,5.0,1.0,36.628,26.554,46.498,HARD,5.0,True,Racing Bulls,False,,,True,2026,Australian Grand Prix,Practice 3
+LAW,30,81.217,81.217,6.0,1.0,28.657,17.554,35.006,HARD,6.0,True,Racing Bulls,True,,,True,2026,Australian Grand Prix,Practice 3
+LAW,30,131.895,131.895,7.0,1.0,67.292,22.203,42.4,HARD,7.0,True,Racing Bulls,False,,,True,2026,Australian Grand Prix,Practice 3
+LAW,30,80.89,80.89,8.0,1.0,28.57,17.607,34.713,HARD,8.0,True,Racing Bulls,True,,,True,2026,Australian Grand Prix,Practice 3
+LAW,30,112.734,112.734,9.0,1.0,34.73,23.201,54.803,HARD,9.0,True,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LAW,30,,,10.0,2.0,70.256,20.518,,HARD,10.0,False,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LAW,30,,,11.0,3.0,42.806,20.731,,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LAW,30,127.94,127.94,12.0,4.0,55.037,22.895,50.008,SOFT,2.0,False,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LAW,30,,,13.0,4.0,28.431,19.905,,SOFT,3.0,False,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+OCO,31,105.958,105.958,1.0,1.0,41.746,21.705,42.507,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+OCO,31,91.194,91.194,2.0,1.0,29.966,18.224,43.004,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Australian Grand Prix,Practice 3
+OCO,31,115.379,115.379,3.0,1.0,39.773,25.44,50.166,MEDIUM,3.0,True,Haas F1 Team,False,,,True,2026,Australian Grand Prix,Practice 3
+OCO,31,123.59,123.59,4.0,1.0,41.504,26.027,56.059,MEDIUM,4.0,True,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+OCO,31,,,5.0,1.0,40.864,27.848,,MEDIUM,5.0,True,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+OCO,31,123.412,123.412,6.0,2.0,60.085,20.203,43.124,MEDIUM,6.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+OCO,31,84.182,84.182,7.0,2.0,29.704,18.159,36.319,MEDIUM,7.0,False,Haas F1 Team,True,,,True,2026,Australian Grand Prix,Practice 3
+OCO,31,101.732,101.732,8.0,2.0,37.211,20.483,44.038,MEDIUM,8.0,False,Haas F1 Team,False,,,True,2026,Australian Grand Prix,Practice 3
+OCO,31,82.485,82.485,9.0,2.0,29.355,17.842,35.288,MEDIUM,9.0,False,Haas F1 Team,True,,,True,2026,Australian Grand Prix,Practice 3
+OCO,31,107.349,107.349,10.0,2.0,43.095,23.881,40.373,MEDIUM,10.0,False,Haas F1 Team,False,,,True,2026,Australian Grand Prix,Practice 3
+OCO,31,82.421,82.421,11.0,2.0,29.139,18.006,35.276,MEDIUM,11.0,False,Haas F1 Team,True,,,True,2026,Australian Grand Prix,Practice 3
+OCO,31,,,12.0,2.0,42.45,23.401,,MEDIUM,12.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+OCO,31,103.824,103.824,13.0,3.0,42.023,20.927,40.874,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+OCO,31,,,14.0,3.0,,,,SOFT,2.0,True,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+OCO,31,123.466,123.466,15.0,4.0,64.024,21.22,38.222,SOFT,3.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+OCO,31,94.204,94.204,16.0,4.0,30.592,20.043,43.569,SOFT,4.0,False,Haas F1 Team,False,,,True,2026,Australian Grand Prix,Practice 3
+OCO,31,80.983,80.983,17.0,4.0,28.643,17.645,34.695,SOFT,5.0,False,Haas F1 Team,True,,,True,2026,Australian Grand Prix,Practice 3
+OCO,31,,,18.0,4.0,38.564,23.81,,SOFT,6.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+OCO,31,,,19.0,4.0,31.127,25.313,,SOFT,7.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+LIN,41,132.155,132.155,1.0,1.0,66.335,21.277,44.543,HARD,1.0,True,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LIN,41,82.793,82.793,2.0,1.0,29.466,17.743,35.584,HARD,2.0,True,Racing Bulls,True,,,True,2026,Australian Grand Prix,Practice 3
+LIN,41,103.962,103.962,3.0,1.0,35.865,22.735,45.362,HARD,3.0,True,Racing Bulls,False,,,True,2026,Australian Grand Prix,Practice 3
+LIN,41,81.458,81.458,4.0,1.0,28.788,17.579,35.091,HARD,4.0,True,Racing Bulls,True,,,True,2026,Australian Grand Prix,Practice 3
+LIN,41,112.962,112.962,5.0,1.0,36.204,25.319,51.439,HARD,5.0,True,Racing Bulls,False,,,True,2026,Australian Grand Prix,Practice 3
+LIN,41,113.037,113.037,6.0,1.0,31.141,27.44,54.456,HARD,6.0,True,Racing Bulls,False,,,True,2026,Australian Grand Prix,Practice 3
+LIN,41,81.109,81.109,7.0,1.0,28.598,17.609,34.902,HARD,7.0,True,Racing Bulls,True,,,True,2026,Australian Grand Prix,Practice 3
+LIN,41,107.195,107.195,8.0,1.0,33.824,23.292,50.079,HARD,8.0,True,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LIN,41,,,9.0,2.0,68.249,18.278,,HARD,9.0,False,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LIN,41,102.468,102.468,10.0,3.0,41.421,20.808,40.239,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LIN,41,,,11.0,3.0,,,,SOFT,2.0,True,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LIN,41,135.403,135.403,12.0,4.0,71.812,21.128,42.463,SOFT,3.0,False,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+LIN,41,80.838,80.838,13.0,4.0,28.624,17.589,34.625,SOFT,4.0,False,Racing Bulls,True,,,True,2026,Australian Grand Prix,Practice 3
+LIN,41,123.245,123.245,14.0,4.0,38.039,22.44,62.766,SOFT,5.0,False,Racing Bulls,False,,,True,2026,Australian Grand Prix,Practice 3
+LIN,41,,,15.0,4.0,53.613,17.88,,SOFT,6.0,False,Racing Bulls,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,,,1.0,1.0,,20.716,43.004,HARD,1.0,True,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,84.222,84.222,2.0,1.0,29.853,18.191,36.178,HARD,2.0,True,Alpine,True,,,True,2026,Australian Grand Prix,Practice 3
+COL,43,117.822,117.822,3.0,1.0,51.056,23.564,43.202,HARD,3.0,True,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+COL,43,83.071,83.071,4.0,1.0,29.412,18.033,35.626,HARD,4.0,True,Alpine,True,,,True,2026,Australian Grand Prix,Practice 3
+COL,43,149.344,149.344,5.0,1.0,53.062,39.509,56.773,HARD,5.0,True,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+COL,43,88.034,88.034,6.0,1.0,29.28,17.882,40.872,HARD,6.0,True,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,132.323,132.323,7.0,1.0,58.775,21.303,52.245,HARD,7.0,True,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,,,8.0,1.0,35.16,,,HARD,8.0,True,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,114.272,114.272,9.0,2.0,54.521,20.865,38.886,HARD,9.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,129.413,129.413,10.0,2.0,30.986,20.328,78.099,HARD,10.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,111.855,111.855,11.0,3.0,45.199,20.557,46.099,HARD,11.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,83.438,83.438,12.0,3.0,29.812,17.932,35.694,HARD,12.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+COL,43,121.906,121.906,13.0,3.0,45.256,28.269,48.381,HARD,13.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+COL,43,82.908,82.908,14.0,3.0,29.157,17.938,35.813,HARD,14.0,False,Alpine,True,,,True,2026,Australian Grand Prix,Practice 3
+COL,43,129.012,129.012,15.0,3.0,48.407,35.149,45.456,HARD,15.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+COL,43,83.336,83.336,16.0,3.0,29.411,17.958,35.967,HARD,16.0,False,Alpine,False,,,True,2026,Australian Grand Prix,Practice 3
+COL,43,,,17.0,3.0,38.108,23.264,,HARD,17.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,,,18.0,4.0,40.867,20.347,,SOFT,1.0,True,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,132.233,132.233,19.0,5.0,70.127,20.32,41.786,SOFT,2.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,81.413,81.413,20.0,5.0,28.684,17.739,34.99,SOFT,3.0,False,Alpine,True,,,True,2026,Australian Grand Prix,Practice 3
+COL,43,,,21.0,5.0,36.634,25.065,,SOFT,4.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+COL,43,,,22.0,5.0,31.528,18.074,,SOFT,5.0,False,Alpine,False,,,False,2026,Australian Grand Prix,Practice 3
+HAM,44,114.228,114.228,1.0,1.0,50.045,20.763,43.42,SOFT,1.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+HAM,44,81.599,81.599,2.0,1.0,28.754,17.889,34.956,SOFT,2.0,True,Ferrari,True,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,145.916,145.916,3.0,1.0,54.382,40.05,51.484,SOFT,3.0,True,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,80.572,80.572,4.0,1.0,28.449,17.598,34.525,SOFT,4.0,True,Ferrari,True,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,135.807,135.807,5.0,1.0,49.538,34.007,52.262,SOFT,5.0,True,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,110.286,110.286,6.0,1.0,33.324,31.039,45.923,SOFT,6.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+HAM,44,121.93,121.93,7.0,1.0,41.36,28.079,52.491,SOFT,7.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+HAM,44,,,8.0,1.0,,,,SOFT,8.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+HAM,44,131.462,131.462,9.0,2.0,67.657,20.291,43.514,SOFT,9.0,False,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+HAM,44,102.337,102.337,10.0,2.0,31.681,23.138,47.518,SOFT,10.0,False,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,97.78,97.78,11.0,2.0,28.826,21.76,47.194,SOFT,11.0,False,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,80.176,80.176,12.0,2.0,28.312,17.56,34.304,SOFT,12.0,False,Ferrari,True,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,,,13.0,2.0,48.919,44.105,58.9,SOFT,13.0,False,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+HAM,44,89.145,89.145,14.0,2.0,29.683,20.843,38.619,SOFT,14.0,False,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,80.728,80.728,15.0,2.0,28.25,17.721,34.757,SOFT,15.0,False,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,113.402,113.402,16.0,2.0,44.788,26.732,41.882,SOFT,16.0,False,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,80.243,80.243,17.0,2.0,27.957,17.676,34.61,SOFT,17.0,False,Ferrari,False,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,,,18.0,2.0,37.948,21.254,,SOFT,18.0,False,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+HAM,44,131.811,131.811,19.0,3.0,66.201,20.31,45.3,SOFT,1.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+HAM,44,79.669,79.669,20.0,3.0,28.01,17.431,34.228,SOFT,2.0,True,Ferrari,True,,,True,2026,Australian Grand Prix,Practice 3
+HAM,44,,,21.0,3.0,40.615,28.323,89.119,SOFT,3.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+HAM,44,,,22.0,3.0,34.498,19.351,,SOFT,4.0,True,Ferrari,False,,,False,2026,Australian Grand Prix,Practice 3
+SAI,55,,,1.0,1.0,40.294,20.502,,SOFT,1.0,True,Williams,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,131.62,131.62,1.0,1.0,67.8,21.345,42.475,SOFT,1.0,True,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,136.908,136.908,2.0,1.0,49.531,27.421,59.956,SOFT,2.0,True,Mercedes,True,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,,,3.0,1.0,35.055,,,SOFT,3.0,True,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,,,4.0,2.0,98.465,19.322,44.961,SOFT,4.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,103.571,103.571,5.0,2.0,31.787,20.073,51.711,SOFT,5.0,False,Mercedes,True,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,81.429,81.429,6.0,2.0,28.579,17.831,35.019,SOFT,6.0,False,Mercedes,True,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,112.741,112.741,7.0,2.0,33.292,21.494,57.955,SOFT,7.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,113.863,113.863,8.0,3.0,58.312,18.214,37.337,SOFT,8.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,82.245,82.245,9.0,3.0,28.922,18.003,35.32,SOFT,9.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,82.221,82.221,10.0,3.0,28.79,17.935,35.496,SOFT,10.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,83.286,83.286,11.0,3.0,29.713,17.929,35.644,SOFT,11.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,83.341,83.341,12.0,3.0,29.736,17.863,35.742,SOFT,12.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,81.73,81.73,13.0,3.0,28.651,17.816,35.263,SOFT,13.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,81.677,81.677,14.0,3.0,28.655,17.745,35.277,SOFT,14.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,81.572,81.572,15.0,3.0,28.692,17.738,35.142,SOFT,15.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,,,16.0,3.0,28.753,17.808,,SOFT,16.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,98.007,98.007,17.0,4.0,38.19,19.928,39.889,SOFT,1.0,True,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,,,18.0,4.0,27.726,17.398,,SOFT,2.0,True,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,,,19.0,5.0,,19.971,42.939,SOFT,3.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,79.053,79.053,20.0,5.0,27.77,17.276,34.007,SOFT,4.0,False,Mercedes,True,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,106.234,106.234,21.0,5.0,38.899,25.592,41.743,SOFT,5.0,False,Mercedes,False,,,True,2026,Australian Grand Prix,Practice 3
+RUS,63,,,22.0,5.0,39.985,24.75,,SOFT,6.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+RUS,63,,,23.0,5.0,30.337,18.4,,SOFT,7.0,False,Mercedes,False,,,False,2026,Australian Grand Prix,Practice 3
+BOT,77,134.017,134.017,1.0,1.0,67.685,21.286,45.046,SOFT,1.0,True,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+BOT,77,85.146,85.146,2.0,1.0,30.445,18.246,36.455,SOFT,2.0,True,Cadillac,True,,,True,2026,Australian Grand Prix,Practice 3
+BOT,77,120.31,120.31,3.0,1.0,45.595,26.73,47.985,SOFT,3.0,True,Cadillac,False,,,True,2026,Australian Grand Prix,Practice 3
+BOT,77,84.583,84.583,4.0,1.0,30.055,18.241,36.287,SOFT,4.0,True,Cadillac,True,,,True,2026,Australian Grand Prix,Practice 3
+BOT,77,129.748,129.748,5.0,1.0,36.521,21.955,71.272,SOFT,5.0,True,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+BOT,77,125.549,125.549,6.0,2.0,47.463,23.362,54.724,SOFT,6.0,False,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+BOT,77,84.275,84.275,7.0,2.0,29.917,18.109,36.249,SOFT,7.0,False,Cadillac,True,,,True,2026,Australian Grand Prix,Practice 3
+BOT,77,,,8.0,2.0,34.259,20.539,,SOFT,8.0,False,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+BOT,77,135.321,135.321,9.0,3.0,69.151,20.602,45.568,SOFT,1.0,True,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+BOT,77,83.514,83.514,10.0,3.0,29.481,18.237,35.796,SOFT,2.0,True,Cadillac,True,,,True,2026,Australian Grand Prix,Practice 3
+BOT,77,,,11.0,3.0,38.284,24.553,,SOFT,3.0,True,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+BOT,77,,,12.0,3.0,32.602,18.658,,SOFT,4.0,True,Cadillac,False,,,False,2026,Australian Grand Prix,Practice 3
+PIA,81,,,1.0,1.0,99.389,20.219,40.064,SOFT,1.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+PIA,81,81.179,81.179,2.0,1.0,28.499,17.827,34.853,SOFT,2.0,True,McLaren,True,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,119.164,119.164,3.0,1.0,40.273,28.143,50.748,SOFT,3.0,True,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,114.252,114.252,4.0,1.0,39.999,23.656,50.597,SOFT,4.0,True,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,80.317,80.317,5.0,1.0,28.265,17.698,34.354,SOFT,5.0,True,McLaren,True,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,111.565,111.565,6.0,1.0,39.56,22.654,49.351,SOFT,6.0,True,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,111.945,111.945,7.0,1.0,43.673,26.568,41.704,SOFT,7.0,True,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,80.164,80.164,8.0,1.0,28.121,17.646,34.397,SOFT,8.0,True,McLaren,True,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,95.378,95.378,9.0,1.0,37.784,20.621,36.973,SOFT,9.0,True,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,81.428,81.428,10.0,1.0,28.36,18.028,35.04,SOFT,10.0,True,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,81.693,81.693,11.0,1.0,28.591,18.088,35.014,SOFT,11.0,True,McLaren,False,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,95.029,95.029,12.0,1.0,28.64,18.009,48.38,SOFT,12.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+PIA,81,,,13.0,2.0,60.945,17.958,,SOFT,13.0,False,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+PIA,81,138.33,138.33,14.0,3.0,68.111,20.022,50.197,SOFT,1.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+PIA,81,80.087,80.087,15.0,3.0,28.31,17.565,34.212,SOFT,2.0,True,McLaren,True,,,True,2026,Australian Grand Prix,Practice 3
+PIA,81,,,16.0,3.0,37.757,23.231,99.008,SOFT,3.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+PIA,81,,,17.0,3.0,32.39,18.756,,SOFT,4.0,True,McLaren,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,107.437,107.437,1.0,1.0,42.365,20.124,44.948,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,99.241,99.241,2.0,1.0,34.857,20.186,44.198,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Australian Grand Prix,Practice 3
+BEA,87,,,3.0,1.0,29.612,17.899,,MEDIUM,3.0,True,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,128.735,128.735,4.0,2.0,61.263,21.193,46.279,MEDIUM,4.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,112.136,112.136,5.0,2.0,37.244,21.187,53.705,MEDIUM,5.0,False,Haas F1 Team,False,,,True,2026,Australian Grand Prix,Practice 3
+BEA,87,81.53,81.53,6.0,2.0,28.963,17.614,34.953,MEDIUM,6.0,False,Haas F1 Team,True,,,True,2026,Australian Grand Prix,Practice 3
+BEA,87,127.359,127.359,7.0,2.0,52.513,26.668,48.178,MEDIUM,7.0,False,Haas F1 Team,False,,,True,2026,Australian Grand Prix,Practice 3
+BEA,87,106.775,106.775,8.0,2.0,40.908,21.209,44.658,MEDIUM,8.0,False,Haas F1 Team,False,,,True,2026,Australian Grand Prix,Practice 3
+BEA,87,81.129,81.129,9.0,2.0,28.823,17.608,34.698,MEDIUM,9.0,False,Haas F1 Team,True,,,True,2026,Australian Grand Prix,Practice 3
+BEA,87,146.22,146.22,10.0,2.0,45.91,30.043,70.267,MEDIUM,10.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,140.368,140.368,11.0,3.0,67.031,21.041,52.296,MEDIUM,11.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,104.313,104.313,12.0,3.0,30.041,20.752,53.52,MEDIUM,12.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,,,13.0,4.0,56.32,20.078,,MEDIUM,13.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,,,14.0,5.0,43.48,20.909,,SOFT,2.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,124.351,124.351,15.0,6.0,63.562,21.149,39.64,SOFT,2.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,80.778,80.778,16.0,6.0,28.696,17.567,34.515,SOFT,3.0,False,Haas F1 Team,True,,,True,2026,Australian Grand Prix,Practice 3
+BEA,87,,,17.0,6.0,39.239,22.692,,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3
+BEA,87,,,18.0,6.0,30.384,18.445,,SOFT,5.0,False,Haas F1 Team,False,,,False,2026,Australian Grand Prix,Practice 3

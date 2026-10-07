@@ -1,0 +1,73 @@
+{
+  "random_seed": 42,
+  "ewma_alpha": 0.3,
+  "expected_grid_size": 22,
+  "monte_carlo": {
+    "default_simulations": 25000,
+    "fallback_sigma": 2.85,
+    "fallback_dnf_prob": 0.158,
+    "incident_shock_scale": 12.0
+  },
+  "model_selection": {
+    "mode": "walk_forward_auto",
+    "fallback_rf_weight": 1.0,
+    "fallback_xgb_weight": 0.0
+  },
+  "blending": {
+    "ml_weight": 0.65,
+    "grid_weight": 0.35
+  },
+  "features": [
+    "GridPosition",
+    "grid_norm",
+    "expected_grid_finish",
+    "grid_retention_prob",
+    "QualifyingPosition",
+    "quali_pos_norm",
+    "quali_gap_pct",
+    "quali_no_time",
+    "q1_gap_pct",
+    "q2_gap_pct",
+    "q3_gap_pct",
+    "practice_gap_pct",
+    "practice_rank",
+    "practice_laps_norm",
+    "fp1_gap_pct",
+    "fp2_gap_pct",
+    "fp3_gap_pct",
+    "driver_finish_ewma",
+    "driver_quali_ewma",
+    "driver_dnf_rate",
+    "recent_finish",
+    "recent_grid",
+    "recent_points",
+    "avg_finish",
+    "avg_grid",
+    "total_points",
+    "races_completed",
+    "team_finish_ewma",
+    "team_points_rate",
+    "team_avg_finish",
+    "team_points",
+    "sprint_quali_pos",
+    "sprint_finish_pos",
+    "sprint_pos_delta"
+  ],
+  "models": {
+    "random_forest": {
+      "n_estimators": 500,
+      "max_depth": 8,
+      "min_samples_leaf": 2,
+      "n_jobs": -1
+    },
+    "xgboost": {
+      "n_estimators": 300,
+      "final_n_estimators": 400,
+      "max_depth": 4,
+      "learning_rate": 0.03,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "objective": "reg:squarederror"
+    }
+  }
+}

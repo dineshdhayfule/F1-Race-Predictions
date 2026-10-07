@@ -1,0 +1,15 @@
+{
+  "paths": {
+    "raw_data_dir": "data/raw",
+    "processed_data_dir": "data/processed",
+    "cache_dir": "data/cache",
+    "saved_models_dir": "models/saved",
+    "metrics_dir": "models/metrics",
+    "predictions_dir": "predictions",
+    "outputs_dir": "outputs"
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s [%(levelname)s] %(message)s"
+  }
+}

@@ -1,0 +1,614 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,42.035,38.547,HARD,1.0,True,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+NOR,1,93.212,93.212,2.0,1.0,29.313,37.423,26.476,HARD,2.0,True,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+NOR,1,,,3.0,1.0,44.708,64.497,40.942,HARD,3.0,True,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+NOR,1,106.833,106.833,4.0,1.0,31.841,43.196,31.796,HARD,4.0,True,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+NOR,1,92.179,92.179,5.0,1.0,29.139,37.392,25.648,HARD,5.0,True,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+NOR,1,132.965,132.965,6.0,1.0,41.963,56.229,34.773,HARD,6.0,True,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+NOR,1,91.595,91.595,7.0,1.0,28.898,37.099,25.598,HARD,7.0,True,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+NOR,1,125.918,125.918,8.0,1.0,38.404,53.15,34.364,HARD,8.0,True,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+NOR,1,93.026,93.026,9.0,1.0,28.801,37.318,26.907,HARD,9.0,True,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+NOR,1,,,10.0,2.0,,42.544,31.235,HARD,10.0,False,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+NOR,1,91.575,91.575,11.0,2.0,28.886,36.989,25.7,HARD,11.0,False,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+NOR,1,102.087,102.087,12.0,2.0,33.728,42.001,26.358,HARD,12.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+NOR,1,94.02,94.02,13.0,2.0,29.684,37.637,26.699,HARD,13.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+NOR,1,92.289,92.289,14.0,2.0,29.051,37.433,25.805,HARD,14.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+NOR,1,94.517,94.517,15.0,2.0,29.614,38.993,25.91,HARD,15.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+NOR,1,93.92,93.92,16.0,2.0,29.632,37.981,26.307,HARD,16.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+NOR,1,94.028,94.028,17.0,2.0,30.247,37.947,25.834,HARD,17.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+NOR,1,93.069,93.069,18.0,2.0,29.616,37.714,25.739,HARD,18.0,False,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+NOR,1,,,19.0,3.0,,41.731,27.665,SOFT,1.0,True,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+NOR,1,90.288,90.288,20.0,3.0,28.508,36.41,25.37,SOFT,2.0,True,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+NOR,1,136.339,136.339,21.0,3.0,41.631,60.169,34.539,SOFT,3.0,True,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+NOR,1,142.737,142.737,22.0,4.0,65.749,48.22,28.768,SOFT,4.0,False,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+NOR,1,90.676,90.676,23.0,4.0,28.635,36.483,25.558,SOFT,5.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+NOR,1,123.585,123.585,24.0,4.0,41.116,49.246,33.223,SOFT,6.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+NOR,1,125.534,125.534,25.0,4.0,37.931,46.601,41.002,SOFT,7.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+NOR,1,,,26.0,4.0,73.267,43.945,38.897,SOFT,8.0,False,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+NOR,1,125.887,125.887,27.0,4.0,59.883,37.664,28.34,SOFT,9.0,False,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+VER,3,,,1.0,1.0,,44.64,38.005,HARD,1.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+VER,3,92.653,92.653,2.0,1.0,29.301,37.645,25.707,HARD,2.0,True,Red Bull Racing,True,,,True,2026,British Grand Prix,Practice 1
+VER,3,145.112,145.112,3.0,1.0,47.98,55.759,41.373,HARD,3.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,91.277,91.277,4.0,1.0,28.789,37.017,25.471,HARD,4.0,True,Red Bull Racing,True,,,True,2026,British Grand Prix,Practice 1
+VER,3,,,5.0,1.0,52.115,61.943,41.829,HARD,5.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+VER,3,116.106,116.106,6.0,1.0,30.198,46.679,39.229,HARD,6.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,92.646,92.646,7.0,1.0,28.952,37.113,26.581,HARD,7.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,99.867,99.867,8.0,1.0,31.751,41.769,26.347,HARD,8.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+VER,3,,,9.0,2.0,,38.335,26.666,HARD,9.0,False,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+VER,3,93.039,93.039,10.0,2.0,29.762,37.812,25.465,HARD,10.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,94.128,94.128,11.0,2.0,30.043,38.252,25.833,HARD,11.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,93.633,93.633,12.0,2.0,29.581,38.27,25.782,HARD,12.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,94.132,94.132,13.0,2.0,30.012,37.925,26.195,HARD,13.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,94.429,94.429,14.0,2.0,30.175,38.517,25.737,HARD,14.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,94.852,94.852,15.0,2.0,30.3,38.159,26.393,HARD,15.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,95.093,95.093,16.0,2.0,30.529,38.617,25.947,HARD,16.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,94.35,94.35,17.0,2.0,30.341,38.228,25.781,HARD,17.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,94.876,94.876,18.0,2.0,30.295,38.349,26.232,HARD,18.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,101.985,101.985,19.0,2.0,31.13,40.386,30.469,HARD,19.0,False,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+VER,3,,,20.0,3.0,,44.797,32.869,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+VER,3,90.24,90.24,21.0,3.0,28.692,36.628,24.92,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,British Grand Prix,Practice 1
+VER,3,,,22.0,3.0,52.275,61.809,38.351,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+VER,3,115.529,115.529,23.0,3.0,39.12,46.272,30.137,SOFT,4.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,90.268,90.268,24.0,3.0,28.671,36.462,25.135,SOFT,5.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,143.733,143.733,25.0,3.0,46.709,53.943,43.081,SOFT,6.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+VER,3,,,26.0,3.0,75.017,43.668,38.463,SOFT,7.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+VER,3,137.879,137.879,27.0,3.0,71.108,39.901,26.87,SOFT,8.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,,,1.0,1.0,,46.006,33.388,HARD,1.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,94.93,94.93,2.0,1.0,30.373,38.411,26.146,HARD,2.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+BOR,5,143.114,143.114,3.0,1.0,44.837,52.693,45.584,HARD,3.0,True,Audi,False,,,True,2026,British Grand Prix,Practice 1
+BOR,5,93.545,93.545,4.0,1.0,30.315,37.541,25.689,HARD,4.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+BOR,5,144.275,144.275,5.0,1.0,46.774,54.495,43.006,HARD,5.0,True,Audi,False,,,True,2026,British Grand Prix,Practice 1
+BOR,5,92.355,92.355,6.0,1.0,29.651,37.252,25.452,HARD,6.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+BOR,5,,,7.0,1.0,48.172,62.731,50.336,HARD,7.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,92.016,92.016,8.0,1.0,29.352,37.198,25.466,HARD,8.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+BOR,5,139.252,139.252,9.0,1.0,41.372,62.187,35.693,HARD,9.0,True,Audi,False,,,True,2026,British Grand Prix,Practice 1
+BOR,5,91.813,91.813,10.0,1.0,29.324,37.026,25.463,HARD,10.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+BOR,5,105.523,105.523,11.0,1.0,38.774,40.47,26.279,HARD,11.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,,,12.0,2.0,,49.207,28.223,HARD,12.0,False,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,93.607,93.607,13.0,2.0,29.274,37.355,26.978,HARD,13.0,False,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,141.355,141.355,14.0,3.0,65.936,45.625,29.794,HARD,14.0,False,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,92.621,92.621,15.0,3.0,29.465,37.359,25.797,HARD,15.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+BOR,5,100.678,100.678,16.0,3.0,36.237,38.492,25.949,HARD,16.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+BOR,5,94.509,94.509,17.0,3.0,29.971,38.615,25.923,HARD,17.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+BOR,5,94.4,94.4,18.0,3.0,29.796,38.31,26.294,HARD,18.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+BOR,5,94.441,94.441,19.0,3.0,29.708,38.607,26.126,HARD,19.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+BOR,5,93.988,93.988,20.0,3.0,29.952,38.775,25.261,HARD,20.0,False,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,,,21.0,4.0,,43.931,32.632,MEDIUM,1.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,91.035,91.035,22.0,4.0,29.018,36.864,25.153,MEDIUM,2.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+BOR,5,118.775,118.775,23.0,4.0,40.315,47.943,30.517,MEDIUM,3.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,135.959,135.959,24.0,5.0,56.161,48.758,31.04,MEDIUM,4.0,False,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,92.267,92.267,25.0,5.0,29.154,37.45,25.663,MEDIUM,5.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+BOR,5,136.104,136.104,26.0,5.0,43.357,52.027,40.72,MEDIUM,6.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+BOR,5,,,27.0,5.0,65.899,46.735,41.927,MEDIUM,7.0,False,Audi,False,,,False,2026,British Grand Prix,Practice 1
+BOR,5,136.679,136.679,28.0,5.0,63.153,42.125,31.401,MEDIUM,8.0,False,Audi,False,,,False,2026,British Grand Prix,Practice 1
+HAD,6,,,1.0,1.0,,44.225,37.003,HARD,1.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+HAD,6,93.177,93.177,2.0,1.0,29.716,37.74,25.721,HARD,2.0,True,Red Bull Racing,True,,,True,2026,British Grand Prix,Practice 1
+HAD,6,,,3.0,1.0,52.93,58.373,41.75,HARD,3.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+HAD,6,91.697,91.697,4.0,1.0,29.009,37.093,25.595,HARD,4.0,True,Red Bull Racing,True,,,True,2026,British Grand Prix,Practice 1
+HAD,6,,,5.0,1.0,57.235,62.269,34.36,HARD,5.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+HAD,6,90.969,90.969,6.0,1.0,28.809,36.816,25.344,HARD,6.0,True,Red Bull Racing,True,,,True,2026,British Grand Prix,Practice 1
+HAD,6,121.266,121.266,7.0,1.0,37.689,53.462,30.115,HARD,7.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+HAD,6,,,8.0,2.0,,39.341,25.95,HARD,8.0,False,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+HAD,6,94.234,94.234,9.0,2.0,29.98,38.362,25.892,HARD,9.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,93.708,93.708,10.0,2.0,29.874,38.102,25.732,HARD,10.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,94.165,94.165,11.0,2.0,30.025,38.282,25.858,HARD,11.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,102.116,102.116,12.0,2.0,30.03,43.171,28.915,HARD,12.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,93.492,93.492,13.0,2.0,29.818,38.068,25.606,HARD,13.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,94.144,94.144,14.0,2.0,29.981,38.239,25.924,HARD,14.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,93.936,93.936,15.0,2.0,29.964,38.212,25.76,HARD,15.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,94.36,94.36,16.0,2.0,30.198,38.326,25.836,HARD,16.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,94.423,94.423,17.0,2.0,30.012,38.565,25.846,HARD,17.0,False,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,94.169,94.169,18.0,2.0,30.023,38.471,25.675,HARD,18.0,False,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+HAD,6,,,19.0,3.0,,42.803,31.69,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+HAD,6,90.338,90.338,20.0,3.0,28.665,36.652,25.021,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,British Grand Prix,Practice 1
+HAD,6,144.481,144.481,21.0,3.0,49.083,59.759,35.639,SOFT,3.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,115.479,115.479,22.0,3.0,36.525,47.598,31.356,SOFT,4.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,112.345,112.345,23.0,3.0,36.244,45.73,30.371,SOFT,5.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,90.414,90.414,24.0,3.0,28.673,36.558,25.183,SOFT,6.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,131.384,131.384,25.0,3.0,41.965,51.402,38.017,SOFT,7.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,136.421,136.421,26.0,3.0,40.703,51.532,44.186,SOFT,8.0,True,Red Bull Racing,False,,,True,2026,British Grand Prix,Practice 1
+HAD,6,,,27.0,3.0,79.15,42.085,75.915,SOFT,9.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+HAD,6,108.373,108.373,28.0,3.0,32.662,49.346,26.365,SOFT,10.0,True,Red Bull Racing,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,,,1.0,1.0,,52.548,30.97,HARD,1.0,True,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,139.526,139.526,2.0,2.0,57.896,46.514,35.116,HARD,2.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,95.045,95.045,3.0,2.0,30.13,38.609,26.306,HARD,3.0,False,Alpine,True,,,True,2026,British Grand Prix,Practice 1
+GAS,10,142.152,142.152,4.0,2.0,44.198,59.778,38.176,HARD,4.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+GAS,10,93.398,93.398,5.0,2.0,29.671,37.999,25.728,HARD,5.0,False,Alpine,True,,,True,2026,British Grand Prix,Practice 1
+GAS,10,141.361,141.361,6.0,2.0,49.223,61.626,30.512,HARD,6.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+GAS,10,107.647,107.647,7.0,2.0,29.335,46.233,32.079,HARD,7.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+GAS,10,93.512,93.512,8.0,2.0,29.634,38.089,25.789,HARD,8.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+GAS,10,133.915,133.915,9.0,2.0,44.715,57.864,31.336,HARD,9.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+GAS,10,93.019,93.019,10.0,2.0,29.379,37.803,25.837,HARD,10.0,False,Alpine,True,,,True,2026,British Grand Prix,Practice 1
+GAS,10,116.393,116.393,11.0,2.0,34.097,50.239,32.057,HARD,11.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,,,12.0,3.0,,42.758,32.598,HARD,12.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,98.015,98.015,13.0,3.0,29.556,38.157,30.302,HARD,13.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,144.662,144.662,14.0,4.0,63.229,47.854,33.579,HARD,14.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,93.803,93.803,15.0,4.0,29.567,38.24,25.996,HARD,15.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+GAS,10,101.628,101.628,16.0,4.0,32.577,42.31,26.741,HARD,16.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+GAS,10,96.739,96.739,17.0,4.0,30.208,39.385,27.146,HARD,17.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,,,18.0,5.0,,46.331,31.703,MEDIUM,1.0,True,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,123.885,123.885,19.0,5.0,38.093,52.812,32.98,MEDIUM,2.0,True,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+GAS,10,92.195,92.195,20.0,5.0,29.311,37.29,25.594,MEDIUM,3.0,True,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+GAS,10,103.193,103.193,21.0,5.0,32.889,42.776,27.528,MEDIUM,4.0,True,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,137.277,137.277,22.0,6.0,59.737,44.668,32.872,HARD,18.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,122.996,122.996,23.0,6.0,35.515,46.874,40.607,HARD,19.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+GAS,10,,,24.0,6.0,72.468,49.857,34.342,HARD,20.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+GAS,10,134.356,134.356,25.0,6.0,61.16,45.921,27.275,HARD,21.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+PER,11,,,1.0,1.0,,47.271,37.66,HARD,1.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+PER,11,97.536,97.536,2.0,1.0,31.185,39.187,27.164,HARD,2.0,True,Cadillac,True,,,True,2026,British Grand Prix,Practice 1
+PER,11,144.575,144.575,3.0,1.0,46.355,54.371,43.849,HARD,3.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+PER,11,95.382,95.382,4.0,1.0,30.508,38.56,26.314,HARD,4.0,True,Cadillac,True,,,True,2026,British Grand Prix,Practice 1
+PER,11,,,5.0,1.0,55.447,58.914,36.306,HARD,5.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+PER,11,93.969,93.969,6.0,1.0,29.794,37.982,26.193,HARD,6.0,True,Cadillac,True,,,True,2026,British Grand Prix,Practice 1
+PER,11,,,7.0,1.0,50.289,63.909,36.988,HARD,7.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+PER,11,95.907,95.907,8.0,1.0,30.712,38.935,26.26,HARD,8.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+PER,11,95.541,95.541,9.0,1.0,30.062,38.996,26.483,HARD,9.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+PER,11,97.04,97.04,10.0,1.0,31.451,39.117,26.472,HARD,10.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+PER,11,95.262,95.262,11.0,1.0,30.282,38.619,26.361,HARD,11.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+PER,11,95.223,95.223,12.0,1.0,30.387,38.748,26.088,HARD,12.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+PER,11,95.482,95.482,13.0,1.0,30.319,38.822,26.341,HARD,13.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+PER,11,95.225,95.225,14.0,1.0,30.211,38.648,26.366,HARD,14.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+PER,11,105.657,105.657,15.0,1.0,30.811,43.196,31.65,HARD,15.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+PER,11,,,16.0,2.0,,44.346,29.967,SOFT,1.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+PER,11,92.951,92.951,17.0,2.0,29.474,37.731,25.746,SOFT,2.0,True,Cadillac,True,,,True,2026,British Grand Prix,Practice 1
+PER,11,142.322,142.322,18.0,2.0,47.96,63.171,31.191,SOFT,3.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+PER,11,,,19.0,3.0,,41.19,34.023,MEDIUM,1.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+PER,11,92.241,92.241,20.0,3.0,29.318,37.2,25.723,MEDIUM,2.0,True,Cadillac,True,,,True,2026,British Grand Prix,Practice 1
+PER,11,127.096,127.096,21.0,3.0,44.611,52.015,30.47,MEDIUM,3.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+PER,11,125.368,125.368,22.0,3.0,29.704,53.303,42.361,MEDIUM,4.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+PER,11,143.081,143.081,23.0,3.0,75.296,40.372,27.413,MEDIUM,5.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+ANT,12,,,1.0,1.0,,43.29,34.132,HARD,1.0,True,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+ANT,12,92.579,92.579,2.0,1.0,29.083,37.308,26.188,HARD,2.0,True,Mercedes,True,,,True,2026,British Grand Prix,Practice 1
+ANT,12,,,3.0,1.0,42.477,64.271,43.255,HARD,3.0,True,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+ANT,12,111.169,111.169,4.0,1.0,32.855,50.104,28.21,HARD,4.0,True,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,91.806,91.806,5.0,1.0,28.877,36.948,25.981,HARD,5.0,True,Mercedes,True,,,True,2026,British Grand Prix,Practice 1
+ANT,12,130.019,130.019,6.0,1.0,44.954,52.486,32.579,HARD,6.0,True,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,90.976,90.976,7.0,1.0,28.87,36.643,25.463,HARD,7.0,True,Mercedes,True,,,True,2026,British Grand Prix,Practice 1
+ANT,12,143.349,143.349,8.0,1.0,48.637,54.268,40.444,HARD,8.0,True,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,111.026,111.026,9.0,1.0,34.345,45.072,31.609,HARD,9.0,True,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,106.922,106.922,10.0,1.0,33.393,44.286,29.243,HARD,10.0,True,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,90.777,90.777,11.0,1.0,28.826,36.766,25.185,HARD,11.0,True,Mercedes,True,,,True,2026,British Grand Prix,Practice 1
+ANT,12,117.855,117.855,12.0,1.0,35.442,47.057,35.356,HARD,12.0,True,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+ANT,12,,,13.0,2.0,,43.166,26.043,HARD,13.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+ANT,12,93.253,93.253,14.0,2.0,29.63,37.992,25.631,HARD,14.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,96.162,96.162,15.0,2.0,29.377,37.924,28.861,HARD,15.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,92.668,92.668,16.0,2.0,29.553,37.475,25.64,HARD,16.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,93.253,93.253,17.0,2.0,29.483,38.012,25.758,HARD,17.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,92.618,92.618,18.0,2.0,29.596,37.294,25.728,HARD,18.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,98.082,98.082,19.0,2.0,29.501,38.574,30.007,HARD,19.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,93.297,93.297,20.0,2.0,29.868,37.518,25.911,HARD,20.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,92.584,92.584,21.0,2.0,29.426,37.486,25.672,HARD,21.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,92.874,92.874,22.0,2.0,29.303,37.341,26.23,HARD,22.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+ANT,12,,,23.0,3.0,,41.538,27.665,SOFT,1.0,True,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+ANT,12,89.473,89.473,24.0,3.0,28.369,36.209,24.895,SOFT,2.0,True,Mercedes,True,,,True,2026,British Grand Prix,Practice 1
+ANT,12,127.389,127.389,25.0,3.0,38.035,59.521,29.833,SOFT,3.0,True,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+ANT,12,,,26.0,4.0,,43.886,27.64,SOFT,4.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+ANT,12,107.693,107.693,27.0,4.0,31.206,38.177,38.31,SOFT,5.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+ANT,12,,,28.0,4.0,64.119,54.966,49.739,SOFT,6.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+ANT,12,144.097,144.097,29.0,4.0,70.246,43.906,29.945,SOFT,7.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+ALO,14,,,1.0,1.0,,43.241,37.691,HARD,1.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+ALO,14,96.571,96.571,2.0,1.0,30.83,39.35,26.391,HARD,2.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+ALO,14,95.939,95.939,3.0,1.0,30.784,38.98,26.175,HARD,3.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+ALO,14,137.44,137.44,4.0,1.0,40.097,53.751,43.592,HARD,4.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+ALO,14,95.35,95.35,5.0,1.0,30.04,38.816,26.494,HARD,5.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+ALO,14,131.948,131.948,6.0,1.0,47.553,51.053,33.342,HARD,6.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+ALO,14,94.771,94.771,7.0,1.0,29.829,38.46,26.482,HARD,7.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+ALO,14,133.653,133.653,8.0,1.0,42.254,56.031,35.368,HARD,8.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+ALO,14,94.88,94.88,9.0,1.0,29.816,38.513,26.551,HARD,9.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+ALO,14,109.179,109.179,10.0,1.0,34.354,43.194,31.631,HARD,10.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+ALO,14,,,11.0,2.0,,46.796,35.702,SOFT,1.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+ALO,14,93.204,93.204,12.0,2.0,29.399,37.916,25.889,SOFT,2.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+ALO,14,122.552,122.552,13.0,2.0,42.741,48.765,31.046,SOFT,3.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+ALO,14,,,14.0,3.0,88.163,51.774,33.202,SOFT,4.0,False,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+ALO,14,94.178,94.178,15.0,3.0,29.767,38.057,26.354,SOFT,5.0,False,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+ALO,14,107.363,107.363,16.0,3.0,34.481,44.786,28.096,SOFT,6.0,False,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+ALO,14,,,17.0,4.0,,42.072,33.191,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+ALO,14,117.368,117.368,18.0,4.0,34.714,51.343,31.311,MEDIUM,2.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+ALO,14,92.957,92.957,19.0,4.0,29.475,37.713,25.769,MEDIUM,3.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+ALO,14,147.467,147.467,20.0,4.0,49.324,65.992,32.151,MEDIUM,4.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+ALO,14,121.839,121.839,21.0,4.0,31.088,53.579,37.172,MEDIUM,5.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+ALO,14,94.584,94.584,22.0,4.0,29.61,37.847,27.127,MEDIUM,6.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+ALO,14,113.496,113.496,23.0,4.0,33.909,42.126,37.461,MEDIUM,7.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+ALO,14,,,24.0,4.0,70.438,46.83,37.421,MEDIUM,8.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+ALO,14,138.852,138.852,25.0,4.0,68.331,42.346,28.175,MEDIUM,9.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+LEC,16,,,1.0,1.0,,42.239,38.683,HARD,1.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+LEC,16,93.8,93.8,2.0,1.0,30.34,37.803,25.657,HARD,2.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+LEC,16,143.269,143.269,3.0,1.0,40.236,55.822,47.211,HARD,3.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,92.6,92.6,4.0,1.0,29.735,37.372,25.493,HARD,4.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+LEC,16,145.255,145.255,5.0,1.0,47.301,57.016,40.938,HARD,5.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,91.548,91.548,6.0,1.0,29.289,36.942,25.317,HARD,6.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+LEC,16,142.075,142.075,7.0,1.0,42.579,53.394,46.102,HARD,7.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,91.327,91.327,8.0,1.0,29.155,36.784,25.388,HARD,8.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+LEC,16,133.347,133.347,9.0,1.0,41.177,59.356,32.814,HARD,9.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,102.285,102.285,10.0,1.0,30.64,43.006,28.639,HARD,10.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,91.351,91.351,11.0,1.0,29.378,36.899,25.074,HARD,11.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,116.733,116.733,12.0,1.0,39.495,48.283,28.955,HARD,12.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+LEC,16,,,13.0,2.0,,41.576,28.355,HARD,13.0,False,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+LEC,16,91.001,91.001,14.0,2.0,29.059,36.845,25.097,HARD,14.0,False,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+LEC,16,100.589,100.589,15.0,2.0,31.74,40.86,27.989,HARD,15.0,False,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+LEC,16,145.848,145.848,16.0,3.0,80.95,38.145,26.753,HARD,16.0,False,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+LEC,16,92.333,92.333,17.0,3.0,29.425,37.259,25.649,HARD,17.0,False,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,92.288,92.288,18.0,3.0,29.722,36.954,25.612,HARD,18.0,False,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,92.965,92.965,19.0,3.0,29.892,37.301,25.772,HARD,19.0,False,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,92.445,92.445,20.0,3.0,29.627,37.236,25.582,HARD,20.0,False,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,92.134,92.134,21.0,3.0,29.366,37.26,25.508,HARD,21.0,False,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+LEC,16,,,22.0,4.0,,44.539,28.432,SOFT,1.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+LEC,16,90.039,90.039,23.0,4.0,28.747,36.471,24.821,SOFT,2.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+LEC,16,134.076,134.076,24.0,4.0,46.105,59.169,28.802,SOFT,3.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,89.859,89.859,25.0,4.0,28.743,36.405,24.711,SOFT,4.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+LEC,16,123.91,123.91,26.0,4.0,38.608,50.717,34.585,SOFT,5.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,107.404,107.404,27.0,4.0,34.57,44.234,28.6,SOFT,6.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,90.287,90.287,28.0,4.0,28.918,36.233,25.136,SOFT,7.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,133.295,133.295,29.0,4.0,41.411,52.469,39.415,SOFT,8.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+LEC,16,,,30.0,4.0,65.918,45.953,41.87,SOFT,9.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+LEC,16,135.712,135.712,31.0,4.0,67.407,39.927,28.378,SOFT,10.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+STR,18,,,1.0,1.0,,44.512,38.498,HARD,1.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+STR,18,98.716,98.716,2.0,1.0,31.651,40.373,26.692,HARD,2.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+STR,18,96.367,96.367,3.0,1.0,30.643,39.546,26.178,HARD,3.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+STR,18,139.59,139.59,4.0,1.0,43.409,54.099,42.082,HARD,4.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+STR,18,95.271,95.271,5.0,1.0,29.988,38.8,26.483,HARD,5.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+STR,18,148.857,148.857,6.0,1.0,49.667,64.511,34.679,HARD,6.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+STR,18,,,7.0,2.0,,42.548,29.525,HARD,7.0,False,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+STR,18,95.058,95.058,8.0,2.0,29.944,38.93,26.184,HARD,8.0,False,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+STR,18,123.508,123.508,9.0,2.0,42.015,48.861,32.632,HARD,9.0,False,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+STR,18,94.789,94.789,10.0,2.0,29.841,38.723,26.225,HARD,10.0,False,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+STR,18,128.841,128.841,11.0,2.0,42.726,56.474,29.641,HARD,11.0,False,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+STR,18,,,12.0,3.0,,45.649,39.797,SOFT,1.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+STR,18,93.389,93.389,13.0,3.0,29.432,37.994,25.963,SOFT,2.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+STR,18,,,14.0,3.0,42.169,64.424,43.76,SOFT,3.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+STR,18,136.441,136.441,15.0,3.0,47.863,57.735,30.843,SOFT,4.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+STR,18,93.842,93.842,16.0,3.0,29.593,38.316,25.933,SOFT,5.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+STR,18,113.856,113.856,17.0,3.0,34.548,48.494,30.814,SOFT,6.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+STR,18,,,18.0,4.0,,42.056,28.911,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+STR,18,93.13,93.13,19.0,4.0,29.377,38.048,25.705,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,British Grand Prix,Practice 1
+STR,18,147.819,147.819,20.0,4.0,45.644,59.655,42.52,MEDIUM,3.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+STR,18,93.225,93.225,21.0,4.0,29.341,37.844,26.04,MEDIUM,4.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+STR,18,143.037,143.037,22.0,4.0,52.734,58.865,31.438,MEDIUM,5.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+STR,18,119.523,119.523,23.0,4.0,37.655,48.045,33.823,MEDIUM,6.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+STR,18,,,24.0,4.0,41.965,62.133,74.543,MEDIUM,7.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+STR,18,123.432,123.432,25.0,4.0,36.4,44.867,42.165,MEDIUM,8.0,True,Aston Martin,False,,,True,2026,British Grand Prix,Practice 1
+STR,18,133.323,133.323,26.0,4.0,53.714,49.188,30.421,MEDIUM,9.0,True,Aston Martin,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,,,1.0,1.0,,41.898,39.739,HARD,1.0,True,Williams,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,95.37,95.37,2.0,1.0,30.429,38.464,26.477,HARD,2.0,True,Williams,True,,,True,2026,British Grand Prix,Practice 1
+ALB,23,132.231,132.231,3.0,1.0,44.648,48.972,38.611,HARD,3.0,True,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,94.545,94.545,4.0,1.0,30.076,38.18,26.289,HARD,4.0,True,Williams,True,,,True,2026,British Grand Prix,Practice 1
+ALB,23,120.751,120.751,5.0,1.0,37.858,49.637,33.256,HARD,5.0,True,Williams,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,,,6.0,2.0,80.287,44.848,30.486,HARD,6.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,120.404,120.404,7.0,2.0,41.214,49.169,30.021,HARD,7.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,93.729,93.729,8.0,2.0,29.477,38.145,26.107,HARD,8.0,False,Williams,True,,,True,2026,British Grand Prix,Practice 1
+ALB,23,122.764,122.764,9.0,2.0,43.854,50.109,28.801,HARD,9.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,93.627,93.627,10.0,2.0,29.56,37.809,26.258,HARD,10.0,False,Williams,True,,,True,2026,British Grand Prix,Practice 1
+ALB,23,119.359,119.359,11.0,2.0,39.541,49.266,30.552,HARD,11.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,142.674,142.674,12.0,3.0,63.335,48.096,31.243,HARD,12.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,93.163,93.163,13.0,3.0,29.269,37.875,26.019,HARD,13.0,False,Williams,True,,,True,2026,British Grand Prix,Practice 1
+ALB,23,127.476,127.476,14.0,3.0,43.516,55.037,28.923,HARD,14.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,93.07,93.07,15.0,3.0,29.317,37.703,26.05,HARD,15.0,False,Williams,True,,,True,2026,British Grand Prix,Practice 1
+ALB,23,,,16.0,3.0,42.38,68.952,39.644,HARD,16.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,94.166,94.166,17.0,3.0,29.735,38.147,26.284,HARD,17.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,94.797,94.797,18.0,3.0,30.1,38.302,26.395,HARD,18.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,95.089,95.089,19.0,3.0,29.885,38.386,26.818,HARD,19.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,94.932,94.932,20.0,3.0,30.084,38.488,26.36,HARD,20.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,99.841,99.841,21.0,3.0,32.98,40.139,26.722,HARD,21.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,,,22.0,4.0,,45.445,30.491,SOFT,1.0,True,Williams,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,91.697,91.697,23.0,4.0,28.887,37.073,25.737,SOFT,2.0,True,Williams,True,,,True,2026,British Grand Prix,Practice 1
+ALB,23,,,24.0,4.0,52.194,63.517,35.168,SOFT,3.0,True,Williams,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,137.159,137.159,25.0,5.0,64.778,44.629,27.752,SOFT,4.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+ALB,23,92.013,92.013,26.0,5.0,29.035,37.256,25.722,SOFT,5.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,131.928,131.928,27.0,5.0,43.139,53.797,34.992,SOFT,6.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,113.723,113.723,28.0,5.0,31.951,44.401,37.371,SOFT,7.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,142.493,142.493,29.0,5.0,56.216,48.666,37.611,SOFT,8.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+ALB,23,124.756,124.756,30.0,5.0,55.566,37.856,31.334,SOFT,9.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+HUL,27,,,1.0,1.0,,42.951,32.027,HARD,1.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+HUL,27,94.395,94.395,2.0,1.0,30.166,37.955,26.274,HARD,2.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+HUL,27,144.381,144.381,3.0,1.0,48.458,57.462,38.461,HARD,3.0,True,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,93.354,93.354,4.0,1.0,29.695,38.005,25.654,HARD,4.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+HUL,27,144.559,144.559,5.0,1.0,45.327,59.378,39.854,HARD,5.0,True,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,92.126,92.126,6.0,1.0,29.298,37.411,25.417,HARD,6.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+HUL,27,,,7.0,1.0,46.176,64.949,43.355,HARD,7.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+HUL,27,107.871,107.871,8.0,1.0,34.828,44.511,28.532,HARD,8.0,True,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,91.907,91.907,9.0,1.0,29.173,37.345,25.389,HARD,9.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+HUL,27,113.704,113.704,10.0,1.0,36.3,47.703,29.701,HARD,10.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+HUL,27,,,11.0,2.0,,47.835,35.815,HARD,11.0,False,Audi,False,,,False,2026,British Grand Prix,Practice 1
+HUL,27,92.414,92.414,12.0,2.0,29.303,37.58,25.531,HARD,12.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,134.996,134.996,13.0,2.0,40.981,59.978,34.037,HARD,13.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,91.943,91.943,14.0,2.0,29.163,37.417,25.363,HARD,14.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,101.44,101.44,15.0,2.0,35.161,40.251,26.028,HARD,15.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,94.558,94.558,16.0,2.0,30.026,38.619,25.913,HARD,16.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,94.044,94.044,17.0,2.0,29.844,38.396,25.804,HARD,17.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,94.045,94.045,18.0,2.0,29.9,38.314,25.831,HARD,18.0,False,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,93.348,93.348,19.0,2.0,29.817,38.194,25.337,HARD,19.0,False,Audi,False,,,False,2026,British Grand Prix,Practice 1
+HUL,27,115.726,115.726,20.0,3.0,50.699,39.013,26.014,HARD,20.0,False,Audi,False,,,False,2026,British Grand Prix,Practice 1
+HUL,27,,,21.0,4.0,,43.326,28.867,MEDIUM,1.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+HUL,27,90.763,90.763,22.0,4.0,28.732,36.867,25.164,MEDIUM,2.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+HUL,27,119.473,119.473,23.0,4.0,40.192,48.309,30.972,MEDIUM,3.0,True,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,120.361,120.361,24.0,4.0,39.257,49.265,31.839,MEDIUM,4.0,True,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,90.743,90.743,25.0,4.0,28.947,36.619,25.177,MEDIUM,5.0,True,Audi,True,,,True,2026,British Grand Prix,Practice 1
+HUL,27,118.636,118.636,26.0,4.0,40.888,48.795,28.953,MEDIUM,6.0,True,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,137.339,137.339,27.0,4.0,39.547,50.544,47.248,MEDIUM,7.0,True,Audi,False,,,True,2026,British Grand Prix,Practice 1
+HUL,27,,,28.0,4.0,88.824,40.058,38.011,MEDIUM,8.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+HUL,27,128.128,128.128,29.0,4.0,59.557,41.557,27.014,MEDIUM,9.0,True,Audi,False,,,False,2026,British Grand Prix,Practice 1
+LAW,30,,,1.0,1.0,,43.507,35.363,HARD,1.0,True,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LAW,30,93.785,93.785,2.0,1.0,29.699,38.104,25.982,HARD,2.0,True,Racing Bulls,True,,,True,2026,British Grand Prix,Practice 1
+LAW,30,,,3.0,1.0,46.121,63.469,48.72,HARD,3.0,True,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LAW,30,93.009,93.009,4.0,1.0,29.641,37.589,25.779,HARD,4.0,True,Racing Bulls,True,,,True,2026,British Grand Prix,Practice 1
+LAW,30,149.036,149.036,5.0,1.0,45.477,62.883,40.676,HARD,5.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,91.814,91.814,6.0,1.0,28.996,37.231,25.587,HARD,6.0,True,Racing Bulls,True,,,True,2026,British Grand Prix,Practice 1
+LAW,30,143.538,143.538,7.0,1.0,43.994,58.906,40.638,HARD,7.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,95.04,95.04,8.0,1.0,29.044,37.5,28.496,HARD,8.0,True,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LAW,30,,,9.0,2.0,,39.828,25.624,HARD,9.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LAW,30,94.947,94.947,10.0,2.0,30.243,38.772,25.932,HARD,10.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,94.149,94.149,11.0,2.0,29.746,38.531,25.872,HARD,11.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,94.205,94.205,12.0,2.0,29.899,38.407,25.899,HARD,12.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,94.132,94.132,13.0,2.0,29.811,38.504,25.817,HARD,13.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,94.843,94.843,14.0,2.0,30.111,38.801,25.931,HARD,14.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,94.771,94.771,15.0,2.0,29.931,38.734,26.106,HARD,15.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,94.829,94.829,16.0,2.0,29.857,38.491,26.481,HARD,16.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LAW,30,,,17.0,3.0,,42.767,27.764,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LAW,30,121.671,121.671,18.0,3.0,36.486,57.64,27.545,MEDIUM,2.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,90.85,90.85,19.0,3.0,28.863,36.793,25.194,MEDIUM,3.0,True,Racing Bulls,True,,,True,2026,British Grand Prix,Practice 1
+LAW,30,140.366,140.366,20.0,3.0,41.327,69.409,29.63,MEDIUM,4.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,90.973,90.973,21.0,3.0,28.642,37.05,25.281,MEDIUM,5.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,110.421,110.421,22.0,3.0,33.759,43.905,32.757,MEDIUM,6.0,True,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LAW,30,,,23.0,4.0,,47.084,31.468,MEDIUM,7.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LAW,30,91.221,91.221,24.0,4.0,28.884,37.005,25.332,MEDIUM,8.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,119.989,119.989,25.0,4.0,37.954,48.744,33.291,MEDIUM,9.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,121.163,121.163,26.0,4.0,35.639,45.636,39.888,MEDIUM,10.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LAW,30,,,27.0,4.0,63.355,42.499,44.624,MEDIUM,11.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LAW,30,146.077,146.077,28.0,4.0,70.783,45.482,29.812,MEDIUM,12.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,,,1.0,1.0,,46.224,33.346,HARD,1.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,95.872,95.872,2.0,1.0,30.634,38.893,26.345,HARD,2.0,True,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+OCO,31,146.618,146.618,3.0,1.0,45.329,59.994,41.295,HARD,3.0,True,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,94.572,94.572,4.0,1.0,30.181,38.312,26.079,HARD,4.0,True,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+OCO,31,,,5.0,1.0,48.554,63.035,39.116,HARD,5.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,93.03,93.03,6.0,1.0,29.441,37.611,25.978,HARD,6.0,True,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+OCO,31,124.087,124.087,7.0,1.0,39.329,52.703,32.055,HARD,7.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,,,8.0,2.0,80.309,50.211,32.772,HARD,8.0,False,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,93.206,93.206,9.0,2.0,29.591,37.764,25.851,HARD,9.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,114.903,114.903,10.0,2.0,39.676,48.157,27.07,HARD,10.0,False,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,,,11.0,3.0,,39.123,27.248,HARD,11.0,False,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,94.812,94.812,12.0,3.0,30.279,38.297,26.236,HARD,12.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,94.426,94.426,13.0,3.0,30.05,38.162,26.214,HARD,13.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,97.609,97.609,14.0,3.0,30.287,40.068,27.254,HARD,14.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,94.4,94.4,15.0,3.0,30.037,38.229,26.134,HARD,15.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,94.396,94.396,16.0,3.0,29.939,38.29,26.167,HARD,16.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,94.691,94.691,17.0,3.0,29.754,38.47,26.467,HARD,17.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,94.801,94.801,18.0,3.0,29.828,38.65,26.323,HARD,18.0,False,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,,,19.0,4.0,,45.902,32.881,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,91.821,91.821,20.0,4.0,29.053,37.332,25.436,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+OCO,31,148.479,148.479,21.0,4.0,45.873,62.668,39.938,SOFT,3.0,True,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,123.699,123.699,22.0,4.0,46.325,48.252,29.122,SOFT,4.0,True,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,91.684,91.684,23.0,4.0,29.173,37.058,25.453,SOFT,5.0,True,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+OCO,31,,,24.0,4.0,37.997,54.215,57.961,SOFT,6.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,126.366,126.366,25.0,4.0,42.449,47.293,36.624,SOFT,7.0,True,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+OCO,31,,,26.0,4.0,62.254,49.695,39.283,SOFT,8.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+OCO,31,133.557,133.557,27.0,4.0,57.28,45.686,30.591,SOFT,9.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,,,1.0,1.0,,43.859,31.154,HARD,1.0,True,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,94.712,94.712,2.0,1.0,29.775,38.69,26.247,HARD,2.0,True,Racing Bulls,True,,,True,2026,British Grand Prix,Practice 1
+LIN,41,128.938,128.938,3.0,1.0,42.868,52.653,33.417,HARD,3.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,93.075,93.075,4.0,1.0,29.419,37.732,25.924,HARD,4.0,True,Racing Bulls,True,,,True,2026,British Grand Prix,Practice 1
+LIN,41,145.877,145.877,5.0,1.0,43.49,64.115,38.272,HARD,5.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,92.373,92.373,6.0,1.0,29.136,37.394,25.843,HARD,6.0,True,Racing Bulls,True,,,True,2026,British Grand Prix,Practice 1
+LIN,41,142.883,142.883,7.0,1.0,45.174,66.034,31.675,HARD,7.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,92.506,92.506,8.0,1.0,29.236,37.43,25.84,HARD,8.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,,,9.0,1.0,47.656,79.446,31.477,HARD,9.0,True,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,92.163,92.163,10.0,1.0,29.029,37.372,25.762,HARD,10.0,True,Racing Bulls,True,,,True,2026,British Grand Prix,Practice 1
+LIN,41,99.795,99.795,11.0,1.0,35.371,39.109,25.315,HARD,11.0,True,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,,,12.0,2.0,,39.395,26.006,HARD,12.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,95.163,95.163,13.0,2.0,30.115,38.833,26.215,HARD,13.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,94.749,94.749,14.0,2.0,30.06,38.618,26.071,HARD,14.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,95.043,95.043,15.0,2.0,30.172,38.736,26.135,HARD,15.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,94.463,94.463,16.0,2.0,29.88,38.588,25.995,HARD,16.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,94.647,94.647,17.0,2.0,29.982,38.565,26.1,HARD,17.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,95.038,95.038,18.0,2.0,30.183,38.701,26.154,HARD,18.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,105.517,105.517,19.0,2.0,30.669,43.247,31.601,HARD,19.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,,,20.0,3.0,,41.557,29.517,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,91.877,91.877,21.0,3.0,28.987,37.203,25.687,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,British Grand Prix,Practice 1
+LIN,41,142.942,142.942,22.0,3.0,43.911,60.859,38.172,MEDIUM,3.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,120.748,120.748,23.0,3.0,40.635,50.411,29.702,MEDIUM,4.0,True,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,91.339,91.339,24.0,3.0,28.766,37.05,25.523,MEDIUM,5.0,True,Racing Bulls,True,,,True,2026,British Grand Prix,Practice 1
+LIN,41,97.484,97.484,25.0,3.0,31.307,39.977,26.2,MEDIUM,6.0,True,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,,,26.0,4.0,,44.242,28.898,MEDIUM,7.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,110.042,110.042,27.0,4.0,29.502,51.354,29.186,MEDIUM,8.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,92.104,92.104,28.0,4.0,29.202,37.335,25.567,MEDIUM,9.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,125.105,125.105,29.0,4.0,36.64,53.066,35.399,MEDIUM,10.0,False,Racing Bulls,False,,,True,2026,British Grand Prix,Practice 1
+LIN,41,,,30.0,4.0,40.599,51.586,71.304,MEDIUM,11.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,,,31.0,4.0,32.316,53.151,74.076,MEDIUM,12.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+LIN,41,103.345,103.345,32.0,4.0,32.244,41.398,29.703,MEDIUM,13.0,False,Racing Bulls,False,,,False,2026,British Grand Prix,Practice 1
+COL,43,,,1.0,1.0,,44.329,30.24,HARD,1.0,True,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+COL,43,95.306,95.306,2.0,1.0,30.076,38.659,26.571,HARD,2.0,True,Alpine,True,,,True,2026,British Grand Prix,Practice 1
+COL,43,,,3.0,1.0,46.89,60.924,47.626,HARD,3.0,True,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+COL,43,95.634,95.634,4.0,1.0,30.096,38.609,26.929,HARD,4.0,True,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,140.932,140.932,5.0,1.0,46.1,58.956,35.876,HARD,5.0,True,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,113.907,113.907,6.0,1.0,32.766,48.884,32.257,HARD,6.0,True,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,93.612,93.612,7.0,1.0,29.514,37.828,26.27,HARD,7.0,True,Alpine,True,,,True,2026,British Grand Prix,Practice 1
+COL,43,126.169,126.169,8.0,1.0,45.707,47.536,32.926,HARD,8.0,True,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+COL,43,,,9.0,2.0,71.254,48.505,32.434,HARD,9.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+COL,43,,,10.0,3.0,,40.293,27.247,HARD,10.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+COL,43,97.336,97.336,11.0,3.0,29.672,40.711,26.953,HARD,11.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,93.774,93.774,12.0,3.0,29.872,38.111,25.791,HARD,12.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,93.928,93.928,13.0,3.0,29.791,37.949,26.188,HARD,13.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,93.408,93.408,14.0,3.0,29.66,37.812,25.936,HARD,14.0,False,Alpine,True,,,True,2026,British Grand Prix,Practice 1
+COL,43,93.72,93.72,15.0,3.0,29.858,37.9,25.962,HARD,15.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,93.997,93.997,16.0,3.0,29.709,38.237,26.051,HARD,16.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,93.655,93.655,17.0,3.0,29.69,38.047,25.918,HARD,17.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,94.265,94.265,18.0,3.0,29.666,38.607,25.992,HARD,18.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+COL,43,,,19.0,4.0,,43.552,28.954,MEDIUM,1.0,True,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+COL,43,91.076,91.076,20.0,4.0,28.792,36.959,25.325,MEDIUM,2.0,True,Alpine,True,,,True,2026,British Grand Prix,Practice 1
+COL,43,127.421,127.421,21.0,4.0,42.791,50.596,34.034,MEDIUM,3.0,True,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,128.638,128.638,22.0,4.0,50.675,48.594,29.369,MEDIUM,4.0,True,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,90.966,90.966,23.0,4.0,28.726,36.964,25.276,MEDIUM,5.0,True,Alpine,True,,,True,2026,British Grand Prix,Practice 1
+COL,43,109.824,109.824,24.0,4.0,38.655,44.282,26.887,MEDIUM,6.0,True,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+COL,43,135.562,135.562,25.0,5.0,61.529,44.04,29.993,HARD,19.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+COL,43,114.523,114.523,26.0,5.0,33.094,41.305,40.124,HARD,20.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,145.207,145.207,27.0,5.0,57.191,42.296,45.72,HARD,21.0,False,Alpine,False,,,True,2026,British Grand Prix,Practice 1
+COL,43,125.254,125.254,28.0,5.0,57.489,41.218,26.547,HARD,22.0,False,Alpine,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,,,1.0,1.0,,44.507,29.632,HARD,1.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,94.696,94.696,2.0,1.0,30.386,38.14,26.17,HARD,2.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+HAM,44,136.201,136.201,3.0,1.0,40.703,58.878,36.62,HARD,3.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,91.877,91.877,4.0,1.0,29.515,37.183,25.179,HARD,4.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+HAM,44,147.522,147.522,5.0,1.0,48.348,65.188,33.986,HARD,5.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,91.434,91.434,6.0,1.0,29.275,37.093,25.066,HARD,6.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+HAM,44,,,7.0,1.0,58.802,79.384,36.75,HARD,7.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,116.889,116.889,8.0,1.0,32.858,50.693,33.338,HARD,8.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,115.042,115.042,9.0,1.0,29.244,41.709,44.089,HARD,9.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,101.963,101.963,10.0,1.0,29.238,37.076,35.649,HARD,10.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,,,11.0,1.0,48.137,69.701,33.857,HARD,11.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,91.201,91.201,12.0,1.0,29.153,36.981,25.067,HARD,12.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+HAM,44,117.982,117.982,13.0,1.0,33.596,55.223,29.163,HARD,13.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,,,14.0,2.0,,46.081,28.39,HARD,14.0,False,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,90.521,90.521,15.0,2.0,28.99,36.666,24.865,HARD,15.0,False,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+HAM,44,112.116,112.116,16.0,2.0,37.844,47.132,27.14,HARD,16.0,False,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,123.81,123.81,17.0,3.0,59.042,38.423,26.345,HARD,17.0,False,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,92.507,92.507,18.0,3.0,29.707,37.481,25.319,HARD,18.0,False,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,92.412,92.412,19.0,3.0,29.697,37.301,25.414,HARD,19.0,False,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,92.358,92.358,20.0,3.0,29.697,37.256,25.405,HARD,20.0,False,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,91.869,91.869,21.0,3.0,29.716,36.943,25.21,HARD,21.0,False,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,92.16,92.16,22.0,3.0,29.743,37.135,25.282,HARD,22.0,False,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,106.778,106.778,23.0,3.0,33.349,44.353,29.076,HARD,23.0,False,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,,,24.0,4.0,,47.725,29.146,SOFT,1.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,89.26,89.26,25.0,4.0,28.403,36.226,24.631,SOFT,2.0,True,Ferrari,True,,,True,2026,British Grand Prix,Practice 1
+HAM,44,,,26.0,4.0,48.868,75.112,35.794,SOFT,3.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,120.248,120.248,27.0,4.0,39.268,46.642,34.338,SOFT,4.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,89.761,89.761,28.0,4.0,28.747,36.177,24.837,SOFT,5.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,104.998,104.998,29.0,4.0,41.657,37.694,25.647,SOFT,6.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,136.634,136.634,30.0,4.0,36.324,52.351,47.959,SOFT,7.0,True,Ferrari,False,,,True,2026,British Grand Prix,Practice 1
+HAM,44,,,31.0,4.0,73.488,52.488,43.328,SOFT,8.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+HAM,44,122.63,122.63,32.0,4.0,58.913,38.28,25.437,SOFT,9.0,True,Ferrari,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,,,1.0,1.0,,44.396,41.417,HARD,1.0,True,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,96.998,96.998,2.0,1.0,31.722,38.868,26.408,HARD,2.0,True,Williams,True,,,True,2026,British Grand Prix,Practice 1
+SAI,55,129.795,129.795,3.0,1.0,39.978,50.517,39.3,HARD,3.0,True,Williams,True,,,True,2026,British Grand Prix,Practice 1
+SAI,55,95.003,95.003,4.0,1.0,30.337,38.324,26.342,HARD,4.0,True,Williams,True,,,True,2026,British Grand Prix,Practice 1
+SAI,55,126.657,126.657,5.0,1.0,40.239,49.752,36.666,HARD,5.0,True,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,,,6.0,2.0,85.959,41.616,30.795,HARD,6.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,93.72,93.72,7.0,2.0,29.708,37.988,26.024,HARD,7.0,False,Williams,True,,,True,2026,British Grand Prix,Practice 1
+SAI,55,123.341,123.341,8.0,2.0,39.926,50.079,33.336,HARD,8.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,93.202,93.202,9.0,2.0,29.484,37.792,25.926,HARD,9.0,False,Williams,True,,,True,2026,British Grand Prix,Practice 1
+SAI,55,117.007,117.007,10.0,2.0,40.499,48.544,27.964,HARD,10.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,107.098,107.098,11.0,2.0,30.29,48.336,28.472,HARD,11.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,92.977,92.977,12.0,2.0,29.272,37.903,25.802,HARD,12.0,False,Williams,True,,,True,2026,British Grand Prix,Practice 1
+SAI,55,106.993,106.993,13.0,2.0,36.241,43.929,26.823,HARD,13.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,129.01,129.01,14.0,3.0,59.18,41.477,28.353,HARD,14.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,93.133,93.133,15.0,3.0,29.371,37.772,25.99,HARD,15.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,115.66,115.66,16.0,3.0,40.179,47.735,27.746,HARD,16.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,93.101,93.101,17.0,3.0,29.498,37.842,25.761,HARD,17.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,119.473,119.473,18.0,3.0,44.15,47.034,28.289,HARD,18.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,94.363,94.363,19.0,3.0,29.757,38.387,26.219,HARD,19.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,94.31,94.31,20.0,3.0,29.935,38.159,26.216,HARD,20.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,94.353,94.353,21.0,3.0,29.905,38.258,26.19,HARD,21.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,94.056,94.056,22.0,3.0,29.767,38.224,26.065,HARD,22.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,98.243,98.243,23.0,3.0,29.856,41.713,26.674,HARD,23.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,,,24.0,4.0,,42.314,28.768,SOFT,1.0,True,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,91.684,91.684,25.0,4.0,28.961,37.285,25.438,SOFT,2.0,True,Williams,True,,,True,2026,British Grand Prix,Practice 1
+SAI,55,120.233,120.233,26.0,4.0,40.684,50.796,28.753,SOFT,3.0,True,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,133.72,133.72,27.0,5.0,60.656,44.704,28.36,SOFT,4.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,91.945,91.945,28.0,5.0,29.146,37.189,25.61,SOFT,5.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,117.203,117.203,29.0,5.0,39.918,47.509,29.776,SOFT,6.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,,,30.0,6.0,84.264,41.109,27.026,HARD,24.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+SAI,55,111.034,111.034,31.0,6.0,31.072,40.999,38.963,HARD,25.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,147.363,147.363,32.0,6.0,64.878,41.808,40.677,HARD,26.0,False,Williams,False,,,True,2026,British Grand Prix,Practice 1
+SAI,55,131.891,131.891,33.0,6.0,63.598,39.807,28.486,HARD,27.0,False,Williams,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,,,1.0,1.0,,42.647,32.774,HARD,1.0,True,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,106.188,106.188,2.0,1.0,30.09,46.273,29.825,HARD,2.0,True,Mercedes,True,,,True,2026,British Grand Prix,Practice 1
+RUS,63,92.539,92.539,3.0,1.0,29.371,37.238,25.93,HARD,3.0,True,Mercedes,True,,,True,2026,British Grand Prix,Practice 1
+RUS,63,142.354,142.354,4.0,1.0,48.938,64.577,28.839,HARD,4.0,True,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,91.822,91.822,5.0,1.0,29.131,36.906,25.785,HARD,5.0,True,Mercedes,True,,,True,2026,British Grand Prix,Practice 1
+RUS,63,145.629,145.629,6.0,1.0,50.97,66.047,28.612,HARD,6.0,True,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,100.52,100.52,7.0,1.0,29.139,42.644,28.737,HARD,7.0,True,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,130.043,130.043,8.0,2.0,59.552,43.256,27.235,HARD,8.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,90.986,90.986,9.0,2.0,28.834,36.748,25.404,HARD,9.0,False,Mercedes,True,,,True,2026,British Grand Prix,Practice 1
+RUS,63,112.232,112.232,10.0,2.0,34.023,45.318,32.891,HARD,10.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,,,11.0,3.0,,38.996,26.028,HARD,11.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,93.264,93.264,12.0,3.0,29.582,37.77,25.912,HARD,12.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,93.084,93.084,13.0,3.0,29.682,37.612,25.79,HARD,13.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,93.236,93.236,14.0,3.0,29.724,37.797,25.715,HARD,14.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,92.799,92.799,15.0,3.0,29.575,37.593,25.631,HARD,15.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,92.597,92.597,16.0,3.0,29.433,37.397,25.767,HARD,16.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,93.134,93.134,17.0,3.0,29.721,37.385,26.028,HARD,17.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,93.454,93.454,18.0,3.0,29.844,38.056,25.554,HARD,18.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,94.217,94.217,19.0,3.0,30.322,38.017,25.878,HARD,19.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,92.991,92.991,20.0,3.0,29.813,37.49,25.688,HARD,20.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,94.489,94.489,21.0,3.0,29.561,37.57,27.358,HARD,21.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,,,22.0,4.0,,40.988,30.755,SOFT,1.0,True,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,89.938,89.938,23.0,4.0,28.447,36.413,25.078,SOFT,2.0,True,Mercedes,True,,,True,2026,British Grand Prix,Practice 1
+RUS,63,,,24.0,4.0,51.145,71.074,40.594,SOFT,3.0,True,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,120.202,120.202,25.0,4.0,41.81,50.736,27.656,SOFT,4.0,True,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,90.239,90.239,26.0,4.0,28.615,36.443,25.181,SOFT,5.0,True,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,107.304,107.304,27.0,4.0,34.74,45.001,27.563,SOFT,6.0,True,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,,,28.0,5.0,98.542,41.559,28.856,HARD,22.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+RUS,63,113.484,113.484,29.0,5.0,32.341,42.851,38.292,HARD,23.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,145.241,145.241,30.0,5.0,61.703,44.375,39.163,HARD,24.0,False,Mercedes,False,,,True,2026,British Grand Prix,Practice 1
+RUS,63,,,31.0,5.0,72.218,48.818,32.063,HARD,25.0,False,Mercedes,False,,,False,2026,British Grand Prix,Practice 1
+BOT,77,,,1.0,1.0,,44.916,37.877,HARD,1.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+BOT,77,97.573,97.573,2.0,1.0,31.009,39.599,26.965,HARD,2.0,True,Cadillac,True,,,True,2026,British Grand Prix,Practice 1
+BOT,77,144.615,144.615,3.0,1.0,47.296,56.541,40.778,HARD,3.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+BOT,77,95.605,95.605,4.0,1.0,30.206,38.906,26.493,HARD,4.0,True,Cadillac,True,,,True,2026,British Grand Prix,Practice 1
+BOT,77,149.677,149.677,5.0,1.0,53.947,59.986,35.744,HARD,5.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+BOT,77,94.714,94.714,6.0,1.0,29.936,38.629,26.149,HARD,6.0,True,Cadillac,True,,,True,2026,British Grand Prix,Practice 1
+BOT,77,109.436,109.436,7.0,1.0,36.992,45.343,27.101,HARD,7.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+BOT,77,97.03,97.03,8.0,1.0,30.557,39.634,26.839,HARD,8.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+BOT,77,96.804,96.804,9.0,1.0,30.288,39.597,26.919,HARD,9.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+BOT,77,96.19,96.19,10.0,1.0,30.288,39.255,26.647,HARD,10.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+BOT,77,95.969,95.969,11.0,1.0,30.169,39.111,26.689,HARD,11.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+BOT,77,95.737,95.737,12.0,1.0,30.06,39.283,26.394,HARD,12.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+BOT,77,95.466,95.466,13.0,1.0,30.077,38.942,26.447,HARD,13.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+BOT,77,112.038,112.038,14.0,1.0,33.741,46.527,31.77,HARD,14.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+BOT,77,,,15.0,2.0,,44.083,29.454,SOFT,1.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+BOT,77,92.236,92.236,16.0,2.0,29.334,37.537,25.365,SOFT,2.0,True,Cadillac,True,,,True,2026,British Grand Prix,Practice 1
+BOT,77,110.511,110.511,17.0,2.0,34.634,43.912,31.965,SOFT,3.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+BOT,77,,,18.0,3.0,,44.648,29.746,MEDIUM,1.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+BOT,77,92.15,92.15,19.0,3.0,29.192,37.452,25.506,MEDIUM,2.0,True,Cadillac,True,,,True,2026,British Grand Prix,Practice 1
+BOT,77,134.331,134.331,20.0,3.0,44.491,48.898,40.942,MEDIUM,3.0,True,Cadillac,False,,,True,2026,British Grand Prix,Practice 1
+BOT,77,,,21.0,3.0,66.913,48.19,40.036,MEDIUM,4.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+BOT,77,,,22.0,3.0,55.624,59.761,39.248,MEDIUM,5.0,True,Cadillac,False,,,False,2026,British Grand Prix,Practice 1
+PIA,81,,,1.0,1.0,,43.474,36.408,HARD,1.0,True,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+PIA,81,92.873,92.873,2.0,1.0,29.376,37.604,25.893,HARD,2.0,True,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+PIA,81,147.158,147.158,3.0,1.0,43.693,55.486,47.979,HARD,3.0,True,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,91.819,91.819,4.0,1.0,29.164,37.197,25.458,HARD,4.0,True,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+PIA,81,137.535,137.535,5.0,1.0,44.358,58.438,34.739,HARD,5.0,True,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,91.314,91.314,6.0,1.0,28.909,36.913,25.492,HARD,6.0,True,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+PIA,81,143.399,143.399,7.0,1.0,41.982,54.144,47.273,HARD,7.0,True,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,98.947,98.947,8.0,1.0,29.106,39.785,30.056,HARD,8.0,True,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+PIA,81,,,9.0,2.0,,45.854,28.669,HARD,9.0,False,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+PIA,81,91.436,91.436,10.0,2.0,29.092,36.917,25.427,HARD,10.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,100.976,100.976,11.0,2.0,33.781,41.451,25.744,HARD,11.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,92.654,92.654,12.0,2.0,29.198,37.625,25.831,HARD,12.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,92.878,92.878,13.0,2.0,29.524,37.481,25.873,HARD,13.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,115.665,115.665,14.0,2.0,29.563,49.47,36.632,HARD,14.0,False,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+PIA,81,,,15.0,3.0,,43.655,28.433,SOFT,1.0,True,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+PIA,81,90.147,90.147,16.0,3.0,28.512,36.531,25.104,SOFT,2.0,True,McLaren,True,,,True,2026,British Grand Prix,Practice 1
+PIA,81,135.362,135.362,17.0,3.0,41.603,56.0,37.759,SOFT,3.0,True,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,110.77,110.77,18.0,3.0,36.627,45.175,28.968,SOFT,4.0,True,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,90.457,90.457,19.0,3.0,28.655,36.628,25.174,SOFT,5.0,True,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,125.674,125.674,20.0,3.0,36.416,56.24,33.018,SOFT,6.0,True,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+PIA,81,140.107,140.107,21.0,4.0,61.839,46.44,31.828,SOFT,7.0,False,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+PIA,81,90.329,90.329,22.0,4.0,28.762,36.448,25.119,SOFT,8.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,141.859,141.859,23.0,4.0,38.851,55.926,47.082,SOFT,9.0,False,McLaren,False,,,True,2026,British Grand Prix,Practice 1
+PIA,81,,,24.0,4.0,61.115,47.437,43.619,SOFT,10.0,False,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+PIA,81,130.229,130.229,25.0,4.0,63.0,39.164,28.065,SOFT,11.0,False,McLaren,False,,,False,2026,British Grand Prix,Practice 1
+BEA,87,,,1.0,1.0,,44.411,37.576,HARD,1.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+BEA,87,95.523,95.523,2.0,1.0,30.863,38.575,26.085,HARD,2.0,True,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+BEA,87,147.026,147.026,3.0,1.0,50.717,53.634,42.675,HARD,3.0,True,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,93.723,93.723,4.0,1.0,29.982,37.919,25.822,HARD,4.0,True,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+BEA,87,,,5.0,1.0,57.408,58.699,35.929,HARD,5.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+BEA,87,92.793,92.793,6.0,1.0,29.395,37.416,25.982,HARD,6.0,True,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+BEA,87,,,7.0,1.0,52.745,63.068,34.661,HARD,7.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+BEA,87,92.709,92.709,8.0,1.0,29.626,37.628,25.455,HARD,8.0,True,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+BEA,87,105.684,105.684,9.0,1.0,36.337,41.484,27.863,HARD,9.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+BEA,87,,,10.0,2.0,,39.466,26.629,HARD,10.0,False,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+BEA,87,94.833,94.833,11.0,2.0,30.244,38.318,26.271,HARD,11.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,94.716,94.716,12.0,2.0,30.06,38.344,26.312,HARD,12.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,94.314,94.314,13.0,2.0,30.02,38.09,26.204,HARD,13.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,94.497,94.497,14.0,2.0,29.929,38.212,26.356,HARD,14.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,94.198,94.198,15.0,2.0,29.825,38.226,26.147,HARD,15.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,95.375,95.375,16.0,2.0,30.75,38.387,26.238,HARD,16.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,94.288,94.288,17.0,2.0,30.078,38.088,26.122,HARD,17.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,95.307,95.307,18.0,2.0,30.694,38.52,26.093,HARD,18.0,False,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+BEA,87,,,19.0,3.0,,46.278,28.469,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+BEA,87,91.709,91.709,20.0,3.0,29.13,37.234,25.345,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+BEA,87,,,21.0,3.0,59.65,66.044,38.76,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+BEA,87,,,22.0,4.0,,45.235,32.98,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1
+BEA,87,91.373,91.373,23.0,4.0,29.179,36.822,25.372,SOFT,5.0,False,Haas F1 Team,True,,,True,2026,British Grand Prix,Practice 1
+BEA,87,122.218,122.218,24.0,4.0,46.734,46.37,29.114,SOFT,6.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,123.025,123.025,25.0,4.0,38.725,43.185,41.115,SOFT,7.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,145.204,145.204,26.0,4.0,59.745,41.595,43.864,SOFT,8.0,False,Haas F1 Team,False,,,True,2026,British Grand Prix,Practice 1
+BEA,87,130.662,130.662,27.0,4.0,57.2,38.269,35.193,SOFT,9.0,False,Haas F1 Team,False,,,False,2026,British Grand Prix,Practice 1

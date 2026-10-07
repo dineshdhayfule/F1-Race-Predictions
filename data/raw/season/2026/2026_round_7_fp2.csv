@@ -1,0 +1,587 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,,,1.0,1.0,,36.363,32.304,MEDIUM,1.0,True,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,76.867,76.867,2.0,1.0,22.302,31.269,23.296,MEDIUM,2.0,True,McLaren,True,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,122.52,122.52,3.0,1.0,35.79,48.639,38.091,MEDIUM,3.0,True,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,116.9,116.9,4.0,2.0,51.582,39.153,26.165,MEDIUM,4.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,76.574,76.574,5.0,2.0,22.24,31.131,23.203,MEDIUM,5.0,False,McLaren,True,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,122.26,122.26,6.0,2.0,37.694,49.351,35.215,MEDIUM,6.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,125.522,125.522,7.0,2.0,39.46,51.659,34.403,MEDIUM,7.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,81.928,81.928,8.0,2.0,22.436,31.022,28.47,MEDIUM,8.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,,,9.0,2.0,53.195,68.078,38.188,MEDIUM,9.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,99.941,99.941,10.0,2.0,30.447,42.87,26.624,MEDIUM,10.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,78.142,78.142,11.0,2.0,22.431,30.961,24.75,MEDIUM,11.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,98.293,98.293,12.0,2.0,28.168,38.356,31.769,MEDIUM,12.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,,,13.0,3.0,,41.266,26.849,SOFT,1.0,True,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,75.426,75.426,14.0,3.0,22.045,30.475,22.906,SOFT,2.0,True,McLaren,True,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,104.516,104.516,15.0,3.0,32.804,39.914,31.798,SOFT,3.0,True,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,,,16.0,4.0,,32.636,24.297,SOFT,4.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,81.107,81.107,17.0,4.0,23.645,32.654,24.808,SOFT,5.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,81.521,81.521,18.0,4.0,23.876,32.749,24.896,SOFT,6.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,81.549,81.549,19.0,4.0,23.922,32.939,24.688,SOFT,7.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,81.638,81.638,20.0,4.0,23.807,32.91,24.921,SOFT,8.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,81.739,81.739,21.0,4.0,23.825,32.95,24.964,SOFT,9.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,84.966,84.966,22.0,4.0,23.781,33.979,27.206,SOFT,10.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,82.981,82.981,23.0,4.0,24.181,33.596,25.204,SOFT,11.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,82.613,82.613,24.0,4.0,23.832,33.56,25.221,SOFT,12.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,83.083,83.083,25.0,4.0,23.97,33.959,25.154,SOFT,13.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,91.277,91.277,26.0,4.0,24.041,34.981,32.255,SOFT,14.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,128.216,128.216,27.0,5.0,52.821,45.143,30.252,MEDIUM,13.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+NOR,1,114.106,114.106,28.0,5.0,27.414,38.832,47.86,MEDIUM,14.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,136.94,136.94,29.0,5.0,60.946,38.06,37.934,MEDIUM,15.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+NOR,1,146.412,146.412,30.0,5.0,69.322,42.384,34.706,MEDIUM,16.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+VER,3,,,1.0,1.0,,36.582,26.115,HARD,1.0,True,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+VER,3,76.452,76.452,2.0,1.0,22.155,30.96,23.337,HARD,2.0,True,Red Bull Racing,True,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,108.327,108.327,3.0,1.0,29.757,44.647,33.923,HARD,3.0,True,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+VER,3,,,4.0,2.0,71.585,47.465,35.218,HARD,4.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+VER,3,77.907,77.907,5.0,2.0,22.564,31.654,23.689,HARD,5.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,93.876,93.876,6.0,2.0,28.003,35.221,30.652,HARD,6.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+VER,3,,,7.0,3.0,,50.755,26.148,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+VER,3,76.321,76.321,8.0,3.0,22.256,30.79,23.275,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,93.315,93.315,9.0,3.0,27.83,35.145,30.34,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+VER,3,,,10.0,4.0,,35.851,25.223,HARD,7.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.431,81.431,11.0,4.0,23.608,33.162,24.661,HARD,8.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.161,81.161,12.0,4.0,23.415,33.091,24.655,HARD,9.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.094,81.094,13.0,4.0,23.446,32.948,24.7,HARD,10.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.517,81.517,14.0,4.0,23.514,33.047,24.956,HARD,11.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.85,81.85,15.0,4.0,23.579,33.23,25.041,HARD,12.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.76,81.76,16.0,4.0,23.632,33.123,25.005,HARD,13.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,84.105,84.105,17.0,4.0,23.757,33.627,26.721,HARD,14.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,82.54,82.54,18.0,4.0,23.978,33.491,25.071,HARD,15.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,82.533,82.533,19.0,4.0,23.79,33.454,25.289,HARD,16.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,83.312,83.312,20.0,4.0,24.101,33.901,25.31,HARD,17.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,87.929,87.929,21.0,4.0,23.936,33.647,30.346,HARD,18.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+VER,3,103.915,103.915,22.0,5.0,46.115,33.026,24.774,SOFT,4.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+VER,3,82.454,82.454,23.0,5.0,23.75,33.702,25.002,SOFT,5.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.354,81.354,24.0,5.0,23.563,33.084,24.707,SOFT,6.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.388,81.388,25.0,5.0,23.697,33.088,24.603,SOFT,7.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.217,81.217,26.0,5.0,23.466,32.998,24.753,SOFT,8.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.656,81.656,27.0,5.0,23.529,33.215,24.912,SOFT,9.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,81.538,81.538,28.0,5.0,23.49,33.17,24.878,SOFT,10.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,82.059,82.059,29.0,5.0,23.506,33.285,25.268,SOFT,11.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,82.116,82.116,30.0,5.0,23.621,33.439,25.056,SOFT,12.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,82.584,82.584,31.0,5.0,23.627,33.467,25.49,SOFT,13.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,137.522,137.522,32.0,5.0,33.633,54.263,49.626,SOFT,14.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+VER,3,,,33.0,5.0,81.138,42.242,32.039,SOFT,15.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,,,1.0,1.0,,36.462,45.305,MEDIUM,1.0,True,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,77.889,77.889,2.0,1.0,22.962,31.412,23.515,MEDIUM,2.0,True,Audi,True,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,133.961,133.961,3.0,1.0,40.054,54.307,39.6,MEDIUM,3.0,True,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,129.419,129.419,4.0,2.0,61.953,36.472,30.994,MEDIUM,4.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,77.694,77.694,5.0,2.0,22.649,31.601,23.444,MEDIUM,5.0,False,Audi,True,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,122.186,122.186,6.0,2.0,36.157,48.24,37.789,MEDIUM,6.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,138.158,138.158,7.0,3.0,56.02,44.107,38.031,MEDIUM,7.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,77.912,77.912,8.0,3.0,22.742,31.649,23.521,MEDIUM,8.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,106.809,106.809,9.0,3.0,29.803,38.739,38.267,MEDIUM,9.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,,,10.0,4.0,,40.751,35.527,SOFT,1.0,True,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,76.611,76.611,11.0,4.0,22.399,31.028,23.184,SOFT,2.0,True,Audi,True,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,132.076,132.076,12.0,4.0,35.504,52.541,44.031,SOFT,3.0,True,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,,,13.0,5.0,,46.624,27.863,SOFT,4.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,82.746,82.746,14.0,5.0,22.637,31.587,28.522,SOFT,5.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,,,15.0,6.0,,33.427,24.728,MEDIUM,10.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,82.143,82.143,16.0,6.0,23.918,33.222,25.003,MEDIUM,11.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,82.483,82.483,17.0,6.0,23.872,33.512,25.099,MEDIUM,12.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,82.975,82.975,18.0,6.0,24.052,33.649,25.274,MEDIUM,13.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,85.348,85.348,19.0,6.0,24.355,34.733,26.26,MEDIUM,14.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,87.078,87.078,20.0,6.0,25.009,35.647,26.422,MEDIUM,15.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,83.615,83.615,21.0,6.0,24.052,33.967,25.596,MEDIUM,16.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,84.104,84.104,22.0,6.0,24.373,34.175,25.556,MEDIUM,17.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,85.664,85.664,23.0,6.0,24.348,34.997,26.319,MEDIUM,18.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,92.105,92.105,24.0,6.0,24.797,36.349,30.959,MEDIUM,19.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,139.51,139.51,25.0,7.0,80.404,34.312,24.794,SOFT,6.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOR,5,94.404,94.404,26.0,7.0,23.966,33.391,37.047,SOFT,7.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BOR,5,139.84,139.84,27.0,7.0,66.54,40.851,32.449,SOFT,8.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,,,1.0,1.0,,40.473,30.205,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,78.496,78.496,2.0,1.0,22.794,31.75,23.952,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,133.042,133.042,3.0,1.0,35.136,60.913,36.993,MEDIUM,3.0,True,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,133.605,133.605,4.0,1.0,36.598,55.978,41.029,MEDIUM,4.0,True,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,78.407,78.407,5.0,1.0,22.735,31.781,23.891,MEDIUM,5.0,True,Red Bull Racing,True,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,143.031,143.031,6.0,1.0,46.069,53.911,43.051,MEDIUM,6.0,True,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,,,7.0,2.0,62.094,51.291,41.59,MEDIUM,7.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,94.015,94.015,8.0,2.0,22.965,31.486,39.564,MEDIUM,8.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,,,9.0,3.0,,40.948,30.272,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,76.674,76.674,10.0,3.0,22.36,30.886,23.428,SOFT,2.0,True,Red Bull Racing,True,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,,,11.0,3.0,41.804,64.046,46.728,SOFT,3.0,True,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,124.402,124.402,12.0,3.0,42.252,45.833,36.317,SOFT,4.0,True,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,77.756,77.756,13.0,3.0,22.419,31.519,23.818,SOFT,5.0,True,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,87.108,87.108,14.0,3.0,24.259,33.113,29.736,SOFT,6.0,True,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,,,15.0,4.0,,34.471,25.831,MEDIUM,9.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,82.059,82.059,16.0,4.0,23.769,33.067,25.223,MEDIUM,10.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,82.781,82.781,17.0,4.0,24.261,33.232,25.288,MEDIUM,11.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,83.37,83.37,18.0,4.0,24.49,33.382,25.498,MEDIUM,12.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,83.043,83.043,19.0,4.0,24.5,33.311,25.232,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,83.75,83.75,20.0,4.0,24.528,33.634,25.588,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,85.759,85.759,21.0,4.0,24.256,35.021,26.482,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,83.404,83.404,22.0,4.0,24.098,33.656,25.65,MEDIUM,16.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,86.91,86.91,23.0,4.0,23.954,33.783,29.173,MEDIUM,17.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,102.956,102.956,24.0,5.0,44.418,33.178,25.36,SOFT,7.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAD,6,82.846,82.846,25.0,5.0,23.812,33.439,25.595,SOFT,8.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,84.428,84.428,26.0,5.0,23.92,34.544,25.964,SOFT,9.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,82.958,82.958,27.0,5.0,23.958,33.722,25.278,SOFT,10.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,82.983,82.983,28.0,5.0,24.176,33.669,25.138,SOFT,11.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,131.246,131.246,29.0,5.0,31.683,49.286,50.277,SOFT,12.0,False,Red Bull Racing,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAD,6,136.338,136.338,30.0,5.0,64.643,35.332,36.363,SOFT,13.0,False,Red Bull Racing,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,,,1.0,1.0,,41.615,32.234,MEDIUM,1.0,True,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,78.414,78.414,2.0,1.0,23.203,31.696,23.515,MEDIUM,2.0,True,Alpine,True,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,128.252,128.252,3.0,1.0,36.847,51.211,40.194,MEDIUM,3.0,True,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,122.499,122.499,4.0,2.0,48.043,45.035,29.421,MEDIUM,4.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,78.007,78.007,5.0,2.0,22.766,31.44,23.801,MEDIUM,5.0,False,Alpine,True,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,137.868,137.868,6.0,2.0,39.009,54.095,44.764,MEDIUM,6.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,140.463,140.463,7.0,3.0,64.129,48.314,28.02,MEDIUM,7.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,78.278,78.278,8.0,3.0,22.779,31.624,23.875,MEDIUM,8.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,106.074,106.074,9.0,3.0,28.019,40.945,37.11,MEDIUM,9.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,,,10.0,4.0,,39.416,28.385,SOFT,1.0,True,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,108.939,108.939,11.0,4.0,22.597,41.551,44.791,SOFT,2.0,True,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,130.875,130.875,12.0,5.0,49.601,48.109,33.165,SOFT,3.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,77.26,77.26,13.0,5.0,22.631,31.143,23.486,SOFT,4.0,False,Alpine,True,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,107.094,107.094,14.0,5.0,33.741,40.059,33.294,SOFT,5.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,,,15.0,6.0,,34.552,25.579,MEDIUM,10.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+GAS,10,82.046,82.046,16.0,6.0,23.86,33.21,24.976,MEDIUM,11.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,82.625,82.625,17.0,6.0,23.974,33.571,25.08,MEDIUM,12.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,83.027,83.027,18.0,6.0,23.91,33.781,25.336,MEDIUM,13.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,83.488,83.488,19.0,6.0,24.226,33.833,25.429,MEDIUM,14.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,83.87,83.87,20.0,6.0,24.126,34.055,25.689,MEDIUM,15.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,84.536,84.536,21.0,6.0,24.391,34.396,25.749,MEDIUM,16.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,85.456,85.456,22.0,6.0,24.587,34.894,25.975,MEDIUM,17.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,92.442,92.442,23.0,6.0,24.654,38.448,29.34,MEDIUM,18.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,85.024,85.024,24.0,6.0,24.554,34.591,25.879,MEDIUM,19.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,85.668,85.668,25.0,6.0,24.557,34.807,26.304,MEDIUM,20.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,86.501,86.501,26.0,6.0,24.734,35.199,26.568,MEDIUM,21.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,87.999,87.999,27.0,6.0,25.042,35.989,26.968,MEDIUM,22.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,133.172,133.172,28.0,6.0,33.091,46.58,53.501,MEDIUM,23.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+GAS,10,144.309,144.309,29.0,6.0,67.336,38.217,38.756,MEDIUM,24.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,,,1.0,1.0,,39.636,29.018,MEDIUM,1.0,True,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,80.518,80.518,2.0,1.0,24.008,32.217,24.293,MEDIUM,2.0,True,Cadillac,True,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,107.997,107.997,3.0,1.0,32.98,42.629,32.388,MEDIUM,3.0,True,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,108.378,108.378,4.0,1.0,31.285,44.824,32.269,MEDIUM,4.0,True,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,79.902,79.902,5.0,1.0,23.54,32.133,24.229,MEDIUM,5.0,True,Cadillac,True,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,105.672,105.672,6.0,1.0,29.605,40.802,35.265,MEDIUM,6.0,True,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,137.003,137.003,7.0,2.0,62.671,45.517,28.815,MEDIUM,7.0,False,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,79.978,79.978,8.0,2.0,23.291,32.172,24.515,MEDIUM,8.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,114.438,114.438,9.0,2.0,37.161,43.08,34.197,MEDIUM,9.0,False,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,,,10.0,3.0,79.456,45.521,35.748,MEDIUM,10.0,False,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,,,11.0,4.0,,42.887,26.628,SOFT,1.0,True,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,79.261,79.261,12.0,4.0,23.125,31.594,24.542,SOFT,2.0,True,Cadillac,True,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,115.178,115.178,13.0,4.0,34.371,44.538,36.269,SOFT,3.0,True,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,120.299,120.299,14.0,4.0,37.362,53.265,29.672,SOFT,4.0,True,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,79.683,79.683,15.0,4.0,23.331,32.132,24.22,SOFT,5.0,True,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,102.833,102.833,16.0,4.0,28.986,39.81,34.037,SOFT,6.0,True,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,,,17.0,5.0,,37.923,25.755,MEDIUM,11.0,False,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,83.343,83.343,18.0,5.0,24.191,33.866,25.286,MEDIUM,12.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,83.884,83.884,19.0,5.0,24.427,33.957,25.5,MEDIUM,13.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,84.1,84.1,20.0,5.0,24.487,34.052,25.561,MEDIUM,14.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,84.451,84.451,21.0,5.0,24.6,34.269,25.582,MEDIUM,15.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,84.682,84.682,22.0,5.0,24.724,34.263,25.695,MEDIUM,16.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,85.033,85.033,23.0,5.0,24.84,34.39,25.803,MEDIUM,17.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,85.329,85.329,24.0,5.0,24.806,34.366,26.157,MEDIUM,18.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,86.239,86.239,25.0,5.0,24.986,34.898,26.355,MEDIUM,19.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,87.006,87.006,26.0,5.0,25.501,35.365,26.14,MEDIUM,20.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,85.454,85.454,27.0,5.0,24.811,34.591,26.052,MEDIUM,21.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,93.688,93.688,28.0,5.0,24.837,34.545,34.306,MEDIUM,22.0,False,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,123.171,123.171,29.0,6.0,62.304,34.877,25.99,SOFT,7.0,False,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PER,11,84.538,84.538,30.0,6.0,24.683,34.468,25.387,SOFT,8.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,84.321,84.321,31.0,6.0,24.835,34.017,25.469,SOFT,9.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,83.702,83.702,32.0,6.0,24.427,33.692,25.583,SOFT,10.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,119.608,119.608,33.0,6.0,30.375,41.923,47.31,SOFT,11.0,False,Cadillac,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PER,11,123.668,123.668,34.0,6.0,51.509,36.679,35.48,SOFT,12.0,False,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,,,1.0,1.0,,43.295,27.774,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,77.022,77.022,2.0,1.0,22.535,31.171,23.316,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,128.911,128.911,3.0,1.0,40.049,48.971,39.891,MEDIUM,3.0,True,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,,,4.0,2.0,,41.082,27.045,MEDIUM,4.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,90.663,90.663,5.0,2.0,22.302,31.308,37.053,MEDIUM,5.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,,,6.0,3.0,,47.06,27.474,MEDIUM,6.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,113.818,113.818,7.0,3.0,34.815,42.58,36.423,MEDIUM,7.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,,,8.0,4.0,87.33,40.108,27.914,MEDIUM,8.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,76.946,76.946,9.0,4.0,22.485,31.239,23.222,MEDIUM,9.0,False,Mercedes,True,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,94.708,94.708,10.0,4.0,27.429,36.436,30.843,MEDIUM,10.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,,,11.0,5.0,,40.492,28.173,SOFT,1.0,True,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,76.015,76.015,12.0,5.0,22.086,30.806,23.123,SOFT,2.0,True,Mercedes,True,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,104.595,104.595,13.0,5.0,33.331,35.549,35.715,SOFT,3.0,True,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,,,14.0,6.0,,34.772,24.81,SOFT,4.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,81.117,81.117,15.0,6.0,23.553,32.984,24.58,SOFT,5.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,80.801,80.801,16.0,6.0,23.648,32.582,24.571,SOFT,6.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,81.247,81.247,17.0,6.0,23.569,32.856,24.822,SOFT,7.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,81.193,81.193,18.0,6.0,23.592,32.912,24.689,SOFT,8.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,81.431,81.431,19.0,6.0,23.684,32.961,24.786,SOFT,9.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,84.312,84.312,20.0,6.0,23.653,35.607,25.052,SOFT,10.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,82.061,82.061,21.0,6.0,23.606,33.358,25.097,SOFT,11.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,88.847,88.847,22.0,6.0,30.271,33.565,25.011,SOFT,12.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,82.122,82.122,23.0,6.0,23.841,33.262,25.019,SOFT,13.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,86.11,86.11,24.0,6.0,23.85,35.377,26.883,SOFT,14.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,89.614,89.614,25.0,6.0,23.914,33.325,32.375,SOFT,15.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,117.707,117.707,26.0,7.0,50.706,32.712,34.289,MEDIUM,11.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ANT,12,81.136,81.136,27.0,7.0,23.557,32.77,24.809,MEDIUM,12.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,81.034,81.034,28.0,7.0,23.571,32.733,24.73,MEDIUM,13.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,83.034,83.034,29.0,7.0,24.476,33.94,24.618,MEDIUM,14.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,119.192,119.192,30.0,7.0,30.947,44.955,43.29,MEDIUM,15.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ANT,12,144.499,144.499,31.0,7.0,61.285,42.717,40.497,MEDIUM,16.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALO,14,,,1.0,1.0,,42.059,27.53,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALO,14,79.793,79.793,2.0,1.0,23.257,32.313,24.223,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,122.833,122.833,3.0,1.0,45.236,44.597,33.0,MEDIUM,3.0,True,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,95.222,95.222,4.0,1.0,23.116,38.557,33.549,MEDIUM,4.0,True,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,114.397,114.397,5.0,1.0,39.357,41.975,33.065,MEDIUM,5.0,True,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,80.059,80.059,6.0,1.0,23.112,32.559,24.388,MEDIUM,6.0,True,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,102.272,102.272,7.0,1.0,26.484,39.726,36.062,MEDIUM,7.0,True,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALO,14,,,8.0,2.0,,40.913,30.833,SOFT,1.0,True,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALO,14,79.286,79.286,9.0,2.0,23.084,32.079,24.123,SOFT,2.0,True,Aston Martin,True,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,129.0,129.0,10.0,2.0,44.386,44.083,40.531,SOFT,3.0,True,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALO,14,147.657,147.657,11.0,3.0,72.151,44.908,30.598,SOFT,4.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALO,14,88.878,88.878,12.0,3.0,23.268,33.288,32.322,SOFT,5.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALO,14,,,13.0,4.0,,35.805,26.22,SOFT,6.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALO,14,85.82,85.82,14.0,4.0,24.727,34.916,26.177,SOFT,7.0,False,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,85.248,85.248,15.0,4.0,24.796,34.699,25.753,SOFT,8.0,False,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,86.134,86.134,16.0,4.0,24.657,35.415,26.062,SOFT,9.0,False,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,92.497,92.497,17.0,4.0,24.662,35.499,32.336,SOFT,10.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALO,14,,,18.0,5.0,,35.637,28.315,MEDIUM,8.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALO,14,102.884,102.884,19.0,5.0,27.022,37.441,38.421,MEDIUM,9.0,False,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,138.955,138.955,20.0,5.0,61.35,36.992,40.613,MEDIUM,10.0,False,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALO,14,,,21.0,5.0,64.707,59.188,53.937,MEDIUM,11.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,,,1.0,1.0,,40.005,32.174,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,76.626,76.626,2.0,1.0,22.516,30.746,23.364,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,129.178,129.178,3.0,1.0,41.284,50.442,37.452,MEDIUM,3.0,True,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,140.457,140.457,4.0,2.0,56.653,48.826,34.978,MEDIUM,4.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,76.995,76.995,5.0,2.0,22.56,30.887,23.548,MEDIUM,5.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,118.734,118.734,6.0,2.0,35.145,45.411,38.178,MEDIUM,6.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,149.779,149.779,7.0,3.0,77.701,45.508,26.57,MEDIUM,7.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,77.16,77.16,8.0,3.0,22.682,31.024,23.454,MEDIUM,8.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,118.153,118.153,9.0,3.0,34.113,45.34,38.7,MEDIUM,9.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,,,10.0,4.0,,43.008,26.666,SOFT,1.0,True,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,75.799,75.799,11.0,4.0,22.247,30.459,23.093,SOFT,2.0,True,Ferrari,True,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,122.211,122.211,12.0,4.0,36.782,47.656,37.773,SOFT,3.0,True,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,,,13.0,5.0,,,25.691,SOFT,4.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,82.426,82.426,14.0,5.0,22.337,30.775,29.314,SOFT,5.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,,,15.0,6.0,,39.53,29.889,MEDIUM,10.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,81.165,81.165,16.0,6.0,23.711,32.944,24.51,MEDIUM,11.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,80.994,80.994,17.0,6.0,23.767,32.75,24.477,MEDIUM,12.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,80.865,80.865,18.0,6.0,23.685,32.742,24.438,MEDIUM,13.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,81.68,81.68,19.0,6.0,23.639,33.165,24.876,MEDIUM,14.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,82.905,82.905,20.0,6.0,23.932,33.512,25.461,MEDIUM,15.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,82.122,82.122,21.0,6.0,23.773,33.433,24.916,MEDIUM,16.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,82.143,82.143,22.0,6.0,23.999,33.304,24.84,MEDIUM,17.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,89.251,89.251,23.0,6.0,24.105,33.599,31.547,MEDIUM,18.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,103.942,103.942,24.0,7.0,46.375,32.958,24.609,SOFT,6.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,87.269,87.269,25.0,7.0,23.723,32.82,30.726,SOFT,7.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,104.475,104.475,26.0,8.0,46.805,33.159,24.511,SOFT,8.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LEC,16,96.819,96.819,27.0,8.0,23.674,33.032,40.113,SOFT,9.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,136.657,136.657,28.0,8.0,59.658,41.591,35.408,SOFT,10.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LEC,16,115.822,115.822,29.0,8.0,53.007,32.993,29.822,SOFT,11.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+STR,18,,,1.0,1.0,,40.184,29.114,MEDIUM,1.0,True,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+STR,18,80.359,80.359,2.0,1.0,23.536,32.387,24.436,MEDIUM,2.0,True,Aston Martin,True,,,True,2026,Barcelona Grand Prix,Practice 2
+STR,18,128.498,128.498,3.0,1.0,37.286,53.337,37.875,MEDIUM,3.0,True,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+STR,18,124.823,124.823,4.0,1.0,42.775,48.484,33.564,MEDIUM,4.0,True,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+STR,18,80.607,80.607,5.0,1.0,23.411,32.621,24.575,MEDIUM,5.0,True,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+STR,18,136.481,136.481,6.0,1.0,36.168,59.967,40.346,MEDIUM,6.0,True,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+STR,18,,,7.0,2.0,,46.208,31.006,SOFT,1.0,True,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+STR,18,79.459,79.459,8.0,2.0,23.359,31.895,24.205,SOFT,2.0,True,Aston Martin,True,,,True,2026,Barcelona Grand Prix,Practice 2
+STR,18,131.061,131.061,9.0,2.0,38.047,50.577,42.437,SOFT,3.0,True,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+STR,18,,,10.0,3.0,71.506,52.216,29.154,SOFT,4.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+STR,18,98.727,98.727,11.0,3.0,23.305,39.916,35.506,SOFT,5.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+STR,18,,,12.0,4.0,,38.038,26.954,MEDIUM,7.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+STR,18,87.13,87.13,13.0,4.0,25.992,34.831,26.307,MEDIUM,8.0,False,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+STR,18,87.569,87.569,14.0,4.0,25.557,35.53,26.482,MEDIUM,9.0,False,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+STR,18,88.48,88.48,15.0,4.0,25.664,36.038,26.778,MEDIUM,10.0,False,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+STR,18,97.737,97.737,16.0,4.0,25.886,35.545,36.306,MEDIUM,11.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+STR,18,,,17.0,5.0,,43.445,31.568,MEDIUM,12.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+STR,18,117.684,117.684,18.0,5.0,28.646,42.406,46.632,MEDIUM,13.0,False,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+STR,18,144.186,144.186,19.0,5.0,63.466,39.017,41.703,MEDIUM,14.0,False,Aston Martin,False,,,True,2026,Barcelona Grand Prix,Practice 2
+STR,18,132.555,132.555,20.0,5.0,50.799,40.898,40.858,MEDIUM,15.0,False,Aston Martin,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALB,23,,,1.0,1.0,,42.156,32.049,MEDIUM,1.0,True,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALB,23,78.922,78.922,2.0,1.0,23.003,31.743,24.176,MEDIUM,2.0,True,Williams,True,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,131.312,131.312,3.0,1.0,47.819,47.782,35.711,MEDIUM,3.0,True,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,133.472,133.472,4.0,1.0,37.879,58.72,36.873,MEDIUM,4.0,True,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,110.069,110.069,5.0,1.0,23.118,49.095,37.856,MEDIUM,5.0,True,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,104.503,104.503,6.0,1.0,33.148,42.209,29.146,MEDIUM,6.0,True,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,79.849,79.849,7.0,1.0,23.019,32.385,24.445,MEDIUM,7.0,True,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,125.742,125.742,8.0,1.0,40.839,45.967,38.936,MEDIUM,8.0,True,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,121.724,121.724,9.0,1.0,38.311,49.237,34.176,MEDIUM,9.0,True,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALB,23,,,10.0,2.0,,47.115,26.741,SOFT,1.0,True,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALB,23,78.79,78.79,11.0,2.0,23.205,31.89,23.695,SOFT,2.0,True,Williams,True,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,,,12.0,2.0,58.017,58.692,37.41,SOFT,3.0,True,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALB,23,116.352,116.352,13.0,2.0,42.773,44.999,28.58,SOFT,4.0,True,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,96.088,96.088,14.0,2.0,22.833,34.865,38.39,SOFT,5.0,True,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALB,23,,,15.0,3.0,,35.016,25.732,MEDIUM,10.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALB,23,83.95,83.95,16.0,3.0,24.448,34.06,25.442,MEDIUM,11.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,84.055,84.055,17.0,3.0,24.159,34.224,25.672,MEDIUM,12.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,88.423,88.423,18.0,3.0,24.342,34.204,29.877,MEDIUM,13.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALB,23,121.228,121.228,19.0,4.0,57.881,33.774,29.573,SOFT,6.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+ALB,23,83.469,83.469,20.0,4.0,24.042,34.065,25.362,SOFT,7.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,84.092,84.092,21.0,4.0,24.087,34.183,25.822,SOFT,8.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,84.88,84.88,22.0,4.0,24.25,34.745,25.885,SOFT,9.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,84.784,84.784,23.0,4.0,24.352,34.571,25.861,SOFT,10.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,86.591,86.591,24.0,4.0,25.231,35.261,26.099,SOFT,11.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,84.965,84.965,25.0,4.0,24.483,34.65,25.832,SOFT,12.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,84.668,84.668,26.0,4.0,24.355,34.526,25.787,SOFT,13.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,85.003,85.003,27.0,4.0,24.541,34.717,25.745,SOFT,14.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,118.972,118.972,28.0,4.0,24.547,44.012,50.413,SOFT,15.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+ALB,23,134.767,134.767,29.0,4.0,58.387,41.953,34.427,SOFT,16.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,,,1.0,1.0,,37.462,32.949,MEDIUM,1.0,True,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,78.641,78.641,2.0,1.0,22.999,31.901,23.741,MEDIUM,2.0,True,Audi,True,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,112.834,112.834,3.0,1.0,34.658,47.905,30.271,MEDIUM,3.0,True,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,108.584,108.584,4.0,1.0,33.39,44.978,30.216,MEDIUM,4.0,True,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,78.092,78.092,5.0,1.0,22.75,31.611,23.731,MEDIUM,5.0,True,Audi,True,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,129.067,129.067,6.0,1.0,37.995,50.073,40.999,MEDIUM,6.0,True,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,131.213,131.213,7.0,2.0,51.501,49.774,29.938,MEDIUM,7.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,77.829,77.829,8.0,2.0,22.654,31.642,23.533,MEDIUM,8.0,False,Audi,True,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,122.503,122.503,9.0,2.0,35.037,47.622,39.844,MEDIUM,9.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,,,10.0,3.0,,42.839,27.385,SOFT,1.0,True,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,76.934,76.934,11.0,3.0,22.418,31.111,23.405,SOFT,2.0,True,Audi,True,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,123.713,123.713,12.0,3.0,37.958,47.306,38.449,SOFT,3.0,True,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,,,13.0,4.0,,44.85,28.823,SOFT,4.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,77.219,77.219,14.0,4.0,22.521,31.309,23.389,SOFT,5.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,88.105,88.105,15.0,4.0,24.396,33.736,29.973,SOFT,6.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,,,16.0,5.0,,33.917,24.839,MEDIUM,10.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,81.71,81.71,17.0,5.0,23.674,33.214,24.822,MEDIUM,11.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,82.102,82.102,18.0,5.0,23.825,33.331,24.946,MEDIUM,12.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,82.493,82.493,19.0,5.0,23.75,33.616,25.127,MEDIUM,13.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,87.382,87.382,20.0,5.0,24.017,34.475,28.89,MEDIUM,14.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,82.888,82.888,21.0,5.0,24.101,33.61,25.177,MEDIUM,15.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,83.178,83.178,22.0,5.0,24.05,33.61,25.518,MEDIUM,16.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,94.011,94.011,23.0,5.0,27.583,40.183,26.245,MEDIUM,17.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,83.292,83.292,24.0,5.0,24.127,33.843,25.322,MEDIUM,18.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,84.337,84.337,25.0,5.0,24.16,34.422,25.755,MEDIUM,19.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,88.06,88.06,26.0,5.0,24.104,33.896,30.06,MEDIUM,20.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,105.854,105.854,27.0,6.0,46.36,34.302,25.192,SOFT,7.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HUL,27,81.702,81.702,28.0,6.0,23.762,33.122,24.818,SOFT,8.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,82.148,82.148,29.0,6.0,23.825,33.323,25.0,SOFT,9.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,114.206,114.206,30.0,6.0,27.965,40.502,45.739,SOFT,10.0,False,Audi,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HUL,27,134.158,134.158,31.0,6.0,64.225,35.564,34.369,SOFT,11.0,False,Audi,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LAW,30,,,1.0,1.0,,41.006,29.443,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LAW,30,76.967,76.967,2.0,1.0,22.537,30.935,23.495,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Barcelona Grand Prix,Practice 2
+LAW,30,102.813,102.813,3.0,1.0,31.093,38.883,32.837,MEDIUM,3.0,True,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LAW,30,102.813,102.813,4.0,1.0,,,32.837,MEDIUM,4.0,True,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LAW,30,,,5.0,2.0,,38.393,25.951,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LAW,30,77.962,77.962,6.0,2.0,22.615,31.606,23.741,SOFT,2.0,True,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LAW,30,,,7.0,2.0,30.132,50.948,89.859,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LAW,30,127.162,127.162,8.0,2.0,30.882,38.073,58.207,SOFT,4.0,True,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+OCO,31,,,1.0,1.0,,41.516,28.178,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+OCO,31,78.245,78.245,2.0,1.0,22.858,31.573,23.814,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,128.624,128.624,3.0,1.0,35.459,51.053,42.112,MEDIUM,3.0,True,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+OCO,31,,,4.0,2.0,,48.722,42.098,MEDIUM,4.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+OCO,31,115.777,115.777,5.0,2.0,34.499,48.599,32.679,MEDIUM,5.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,79.947,79.947,6.0,2.0,22.823,32.138,24.986,MEDIUM,6.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,102.279,102.279,7.0,2.0,28.077,38.165,36.037,MEDIUM,7.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+OCO,31,,,8.0,3.0,,44.514,28.103,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+OCO,31,77.538,77.538,9.0,3.0,22.402,31.157,23.979,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,125.591,125.591,10.0,3.0,33.054,48.485,44.052,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+OCO,31,,,11.0,4.0,,47.149,31.388,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+OCO,31,92.808,92.808,12.0,4.0,22.701,31.82,38.287,SOFT,5.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+OCO,31,,,13.0,5.0,,34.765,26.253,MEDIUM,8.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+OCO,31,83.058,83.058,14.0,5.0,24.236,33.665,25.157,MEDIUM,9.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,87.735,87.735,15.0,5.0,24.527,34.399,28.809,MEDIUM,10.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,83.808,83.808,16.0,5.0,24.436,33.91,25.462,MEDIUM,11.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,84.214,84.214,17.0,5.0,24.348,34.091,25.775,MEDIUM,12.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,84.778,84.778,18.0,5.0,24.55,34.074,26.154,MEDIUM,13.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,84.441,84.441,19.0,5.0,24.357,34.176,25.908,MEDIUM,14.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,87.744,87.744,20.0,5.0,24.611,37.299,25.834,MEDIUM,15.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,84.899,84.899,21.0,5.0,24.611,34.377,25.911,MEDIUM,16.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,86.278,86.278,22.0,5.0,24.842,35.125,26.311,MEDIUM,17.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,94.053,94.053,23.0,5.0,24.729,42.913,26.411,MEDIUM,18.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,84.979,84.979,24.0,5.0,24.746,34.301,25.932,MEDIUM,19.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,84.893,84.893,25.0,5.0,24.527,34.467,25.899,MEDIUM,20.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,84.894,84.894,26.0,5.0,24.491,34.46,25.943,MEDIUM,21.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,117.357,117.357,27.0,5.0,31.086,44.66,41.611,MEDIUM,22.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,132.636,132.636,28.0,5.0,53.481,42.175,36.98,MEDIUM,23.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+OCO,31,123.334,123.334,29.0,5.0,51.567,40.495,31.272,MEDIUM,24.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LIN,41,,,1.0,1.0,,42.698,29.207,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LIN,41,77.058,77.058,2.0,1.0,22.313,31.322,23.423,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,107.349,107.349,3.0,1.0,31.2,42.64,33.509,MEDIUM,3.0,True,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LIN,41,,,4.0,2.0,,47.546,35.296,MEDIUM,4.0,False,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LIN,41,,,5.0,3.0,,39.141,26.621,MEDIUM,5.0,False,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LIN,41,77.466,77.466,6.0,3.0,22.478,31.341,23.647,MEDIUM,6.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,91.143,91.143,7.0,3.0,26.602,36.465,28.076,MEDIUM,7.0,False,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LIN,41,,,8.0,4.0,,44.275,31.039,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LIN,41,76.411,76.411,9.0,4.0,22.2,30.866,23.345,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,91.851,91.851,10.0,4.0,30.127,33.272,28.452,SOFT,3.0,True,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LIN,41,,,11.0,5.0,,34.683,25.113,MEDIUM,8.0,False,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+LIN,41,82.125,82.125,12.0,5.0,24.032,33.219,24.874,MEDIUM,9.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,82.368,82.368,13.0,5.0,23.932,33.36,25.076,MEDIUM,10.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,82.928,82.928,14.0,5.0,23.961,33.559,25.408,MEDIUM,11.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,82.93,82.93,15.0,5.0,24.115,33.606,25.209,MEDIUM,12.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,83.201,83.201,16.0,5.0,24.136,33.759,25.306,MEDIUM,13.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,83.554,83.554,17.0,5.0,24.243,33.844,25.467,MEDIUM,14.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,84.685,84.685,18.0,5.0,24.739,34.356,25.59,MEDIUM,15.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,83.889,83.889,19.0,5.0,24.275,34.083,25.531,MEDIUM,16.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,84.52,84.52,20.0,5.0,24.392,34.223,25.905,MEDIUM,17.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,86.003,86.003,21.0,5.0,25.087,34.915,26.001,MEDIUM,18.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,84.768,84.768,22.0,5.0,24.404,34.483,25.881,MEDIUM,19.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,84.949,84.949,23.0,5.0,24.456,34.544,25.949,MEDIUM,20.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,87.708,87.708,24.0,5.0,24.523,35.486,27.699,MEDIUM,21.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,88.433,88.433,25.0,5.0,25.115,36.801,26.517,MEDIUM,22.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,88.613,88.613,26.0,5.0,25.241,35.347,28.025,MEDIUM,23.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,89.149,89.149,27.0,5.0,24.825,37.208,27.116,MEDIUM,24.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,113.02,113.02,28.0,5.0,29.001,43.285,40.734,MEDIUM,25.0,False,Racing Bulls,False,,,True,2026,Barcelona Grand Prix,Practice 2
+LIN,41,123.505,123.505,29.0,5.0,51.146,38.237,34.122,MEDIUM,26.0,False,Racing Bulls,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,,,1.0,1.0,,43.187,33.578,MEDIUM,1.0,True,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,77.766,77.766,2.0,1.0,22.851,31.434,23.481,MEDIUM,2.0,True,Alpine,True,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,145.255,145.255,3.0,1.0,43.35,57.277,44.628,MEDIUM,3.0,True,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,,,4.0,2.0,63.22,54.548,34.307,MEDIUM,4.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,77.873,77.873,5.0,2.0,22.612,31.61,23.651,MEDIUM,5.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,,,6.0,2.0,42.886,66.675,46.735,MEDIUM,6.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,147.234,147.234,7.0,3.0,59.612,52.788,34.834,MEDIUM,7.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,85.232,85.232,8.0,3.0,22.729,31.698,30.805,MEDIUM,8.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,,,9.0,3.0,45.516,67.081,38.097,MEDIUM,9.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,,,10.0,4.0,,39.719,27.125,SOFT,1.0,True,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,77.051,77.051,11.0,4.0,22.306,31.191,23.554,SOFT,2.0,True,Alpine,True,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,137.472,137.472,12.0,4.0,38.699,56.99,41.783,SOFT,3.0,True,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,,,13.0,5.0,74.201,67.68,31.809,SOFT,4.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,78.016,78.016,14.0,5.0,22.741,31.6,23.675,SOFT,5.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,102.566,102.566,15.0,5.0,34.798,37.125,30.643,SOFT,6.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,,,16.0,6.0,,35.293,25.212,MEDIUM,10.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+COL,43,82.297,82.297,17.0,6.0,23.775,33.57,24.952,MEDIUM,11.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,82.368,82.368,18.0,6.0,23.826,33.614,24.928,MEDIUM,12.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,82.935,82.935,19.0,6.0,23.932,33.671,25.332,MEDIUM,13.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,83.858,83.858,20.0,6.0,24.146,34.109,25.603,MEDIUM,14.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,86.246,86.246,21.0,6.0,25.099,34.888,26.259,MEDIUM,15.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,84.863,84.863,22.0,6.0,24.29,34.477,26.096,MEDIUM,16.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,83.853,83.853,23.0,6.0,24.162,34.114,25.577,MEDIUM,17.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,84.004,84.004,24.0,6.0,24.108,34.187,25.709,MEDIUM,18.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,84.988,84.988,25.0,6.0,24.434,34.686,25.868,MEDIUM,19.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,85.39,85.39,26.0,6.0,24.471,34.933,25.986,MEDIUM,20.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,86.561,86.561,27.0,6.0,25.332,34.986,26.243,MEDIUM,21.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,85.784,85.784,28.0,6.0,24.65,35.032,26.102,MEDIUM,22.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,111.859,111.859,29.0,6.0,27.945,37.621,46.293,MEDIUM,23.0,False,Alpine,False,,,True,2026,Barcelona Grand Prix,Practice 2
+COL,43,125.365,125.365,30.0,6.0,58.135,36.36,30.87,MEDIUM,24.0,False,Alpine,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,,,1.0,1.0,,44.262,29.678,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,77.996,77.996,2.0,1.0,23.191,31.299,23.506,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,132.797,132.797,3.0,1.0,42.593,55.875,34.329,MEDIUM,3.0,True,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,113.205,113.205,4.0,1.0,35.048,52.294,25.863,MEDIUM,4.0,True,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,77.43,77.43,5.0,1.0,22.743,31.287,23.4,MEDIUM,5.0,True,Ferrari,True,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,,,6.0,1.0,42.01,62.33,50.624,MEDIUM,6.0,True,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,149.966,149.966,7.0,2.0,81.023,40.707,28.236,MEDIUM,7.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,110.749,110.749,8.0,2.0,22.934,55.657,32.158,MEDIUM,8.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,,,9.0,2.0,59.629,67.514,38.352,MEDIUM,9.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,77.542,77.542,10.0,2.0,23.125,30.906,23.511,MEDIUM,10.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,107.939,107.939,11.0,2.0,39.007,37.621,31.311,MEDIUM,11.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,,,12.0,3.0,,40.692,27.279,SOFT,1.0,True,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,76.631,76.631,13.0,3.0,22.293,31.049,23.289,SOFT,2.0,True,Ferrari,True,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,,,14.0,3.0,44.267,72.63,57.488,SOFT,3.0,True,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,133.338,133.338,15.0,4.0,63.345,43.671,26.322,SOFT,4.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,102.204,102.204,16.0,4.0,22.66,50.918,28.626,SOFT,5.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,76.916,76.916,17.0,4.0,22.67,30.94,23.306,SOFT,6.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,90.045,90.045,18.0,4.0,27.839,33.062,29.144,SOFT,7.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,,,19.0,5.0,,35.46,28.4,MEDIUM,12.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+HAM,44,82.025,82.025,20.0,5.0,23.963,33.186,24.876,MEDIUM,13.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,81.262,81.262,21.0,5.0,23.703,32.831,24.728,MEDIUM,14.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,83.778,83.778,22.0,5.0,23.955,33.447,26.376,MEDIUM,15.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,82.687,82.687,23.0,5.0,24.03,33.628,25.029,MEDIUM,16.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,83.191,83.191,24.0,5.0,23.998,33.832,25.361,MEDIUM,17.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,82.62,82.62,25.0,5.0,24.212,33.419,24.989,MEDIUM,18.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,123.339,123.339,26.0,5.0,32.684,38.951,51.704,MEDIUM,19.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,144.991,144.991,27.0,5.0,62.591,44.616,37.784,MEDIUM,20.0,False,Ferrari,False,,,True,2026,Barcelona Grand Prix,Practice 2
+HAM,44,115.585,115.585,28.0,5.0,51.017,34.127,30.441,MEDIUM,21.0,False,Ferrari,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,,,1.0,1.0,,42.642,33.454,MEDIUM,1.0,True,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,77.971,77.971,2.0,1.0,22.686,31.604,23.681,MEDIUM,2.0,True,Williams,True,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,134.464,134.464,3.0,1.0,43.007,47.161,44.296,MEDIUM,3.0,True,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,131.921,131.921,4.0,2.0,61.354,42.942,27.625,MEDIUM,4.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,78.681,78.681,5.0,2.0,22.749,31.945,23.987,MEDIUM,5.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,104.842,104.842,6.0,2.0,33.754,37.859,33.229,MEDIUM,6.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,,,7.0,3.0,,39.406,27.553,SOFT,1.0,True,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,77.02,77.02,8.0,3.0,22.332,31.252,23.436,SOFT,2.0,True,Williams,True,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,110.117,110.117,9.0,3.0,35.3,40.672,34.145,SOFT,3.0,True,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,,,10.0,4.0,,37.311,26.519,MEDIUM,7.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,83.152,83.152,11.0,4.0,24.222,33.835,25.095,MEDIUM,8.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,83.198,83.198,12.0,4.0,24.095,33.828,25.275,MEDIUM,9.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,83.839,83.839,13.0,4.0,24.286,34.111,25.442,MEDIUM,10.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,84.926,84.926,14.0,4.0,24.723,34.491,25.712,MEDIUM,11.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,88.202,88.202,15.0,4.0,24.491,34.333,29.378,MEDIUM,12.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,107.662,107.662,16.0,5.0,47.775,34.318,25.569,MEDIUM,13.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,84.358,84.358,17.0,5.0,24.409,34.154,25.795,MEDIUM,14.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,84.953,84.953,18.0,5.0,24.581,34.567,25.805,MEDIUM,15.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,84.793,84.793,19.0,5.0,24.612,34.523,25.658,MEDIUM,16.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,85.251,85.251,20.0,5.0,24.601,34.534,26.116,MEDIUM,17.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,86.325,86.325,21.0,5.0,24.87,35.103,26.352,MEDIUM,18.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,87.375,87.375,22.0,5.0,25.307,35.553,26.515,MEDIUM,19.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,86.584,86.584,23.0,5.0,25.135,35.224,26.225,MEDIUM,20.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,85.966,85.966,24.0,5.0,24.748,34.966,26.252,MEDIUM,21.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,89.008,89.008,25.0,5.0,24.473,34.891,29.644,MEDIUM,22.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,108.798,108.798,26.0,6.0,49.837,33.731,25.23,SOFT,4.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+SAI,55,82.784,82.784,27.0,6.0,23.958,33.68,25.146,SOFT,5.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,113.333,113.333,28.0,6.0,24.954,44.277,44.102,SOFT,6.0,False,Williams,False,,,True,2026,Barcelona Grand Prix,Practice 2
+SAI,55,132.082,132.082,29.0,6.0,61.321,36.693,34.068,SOFT,7.0,False,Williams,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,,,1.0,1.0,,43.955,27.99,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,122.24,122.24,2.0,1.0,27.186,65.056,29.998,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,75.945,75.945,3.0,1.0,22.141,30.791,23.013,MEDIUM,3.0,True,Mercedes,True,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,148.496,148.496,4.0,1.0,45.617,57.659,45.22,MEDIUM,4.0,True,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,,,5.0,2.0,,38.918,26.355,MEDIUM,5.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,75.939,75.939,6.0,2.0,22.185,30.792,22.962,MEDIUM,6.0,False,Mercedes,True,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,100.113,100.113,7.0,2.0,27.431,40.059,32.623,MEDIUM,7.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,,,8.0,3.0,,40.597,27.007,SOFT,1.0,True,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,75.435,75.435,9.0,3.0,21.917,30.574,22.944,SOFT,2.0,True,Mercedes,True,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,111.896,111.896,10.0,3.0,34.276,40.49,37.13,SOFT,3.0,True,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,,,11.0,4.0,,33.122,25.08,MEDIUM,8.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,81.114,81.114,12.0,4.0,23.744,32.902,24.468,MEDIUM,9.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,80.746,80.746,13.0,4.0,23.647,32.587,24.512,MEDIUM,10.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,80.915,80.915,14.0,4.0,23.711,32.771,24.433,MEDIUM,11.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,81.252,81.252,15.0,4.0,23.625,32.96,24.667,MEDIUM,12.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,81.509,81.509,16.0,4.0,23.613,33.116,24.78,MEDIUM,13.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,81.871,81.871,17.0,4.0,23.646,33.218,25.007,MEDIUM,14.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,82.177,82.177,18.0,4.0,23.816,33.367,24.994,MEDIUM,15.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,82.984,82.984,19.0,4.0,24.098,33.747,25.139,MEDIUM,16.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,83.523,83.523,20.0,4.0,24.123,33.957,25.443,MEDIUM,17.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,97.763,97.763,21.0,4.0,24.476,33.876,39.411,MEDIUM,18.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,127.157,127.157,22.0,5.0,69.63,32.973,24.554,SOFT,4.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,81.02,81.02,23.0,5.0,23.549,32.735,24.736,SOFT,5.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,80.943,80.943,24.0,5.0,23.44,32.836,24.667,SOFT,6.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,81.203,81.203,25.0,5.0,23.473,32.77,24.96,SOFT,7.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,81.614,81.614,26.0,5.0,23.771,33.1,24.743,SOFT,8.0,False,Mercedes,False,,,True,2026,Barcelona Grand Prix,Practice 2
+RUS,63,,,27.0,5.0,35.177,52.681,84.907,SOFT,9.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+RUS,63,113.682,113.682,28.0,5.0,28.792,47.858,37.032,SOFT,10.0,False,Mercedes,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOT,77,,,1.0,1.0,,42.927,32.616,MEDIUM,1.0,True,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOT,77,78.528,78.528,2.0,1.0,23.04,31.481,24.007,MEDIUM,2.0,True,Cadillac,True,,,True,2026,Barcelona Grand Prix,Practice 2
+BOT,77,103.276,103.276,3.0,1.0,29.332,38.023,35.921,MEDIUM,3.0,True,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOT,77,124.129,124.129,4.0,2.0,54.624,42.253,27.252,SOFT,1.0,True,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BOT,77,78.225,78.225,5.0,2.0,23.077,31.461,23.687,SOFT,2.0,True,Cadillac,True,,,True,2026,Barcelona Grand Prix,Practice 2
+BOT,77,92.707,92.707,6.0,2.0,25.165,33.628,33.914,SOFT,3.0,True,Cadillac,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,,,1.0,1.0,,40.408,27.389,MEDIUM,1.0,True,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,75.724,75.724,2.0,1.0,22.198,30.677,22.849,MEDIUM,2.0,True,McLaren,True,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,109.684,109.684,3.0,1.0,31.257,42.77,35.657,MEDIUM,3.0,True,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,,,4.0,2.0,,40.914,26.471,MEDIUM,4.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,76.803,76.803,5.0,2.0,22.478,31.07,23.255,MEDIUM,5.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,100.365,100.365,6.0,2.0,30.688,37.134,32.543,MEDIUM,6.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,,,7.0,3.0,,39.146,27.563,SOFT,1.0,True,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,75.483,75.483,8.0,3.0,22.055,30.532,22.896,SOFT,2.0,True,McLaren,True,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,104.322,104.322,9.0,3.0,28.599,43.75,31.973,SOFT,3.0,True,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,,,10.0,4.0,,33.784,24.859,MEDIUM,7.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,86.123,86.123,11.0,4.0,23.968,33.075,29.08,MEDIUM,8.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,111.694,111.694,12.0,5.0,53.862,32.965,24.867,MEDIUM,9.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,81.581,81.581,13.0,5.0,23.806,33.094,24.681,MEDIUM,10.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,82.368,82.368,14.0,5.0,23.958,33.596,24.814,MEDIUM,11.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,82.244,82.244,15.0,5.0,23.98,33.313,24.951,MEDIUM,12.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,82.692,82.692,16.0,5.0,24.056,33.397,25.239,MEDIUM,13.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,84.166,84.166,17.0,5.0,24.108,34.147,25.911,MEDIUM,14.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,82.782,82.782,18.0,5.0,24.011,33.499,25.272,MEDIUM,15.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,82.35,82.35,19.0,5.0,23.973,33.413,24.964,MEDIUM,16.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,86.849,86.849,20.0,5.0,23.992,33.897,28.96,MEDIUM,17.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,122.684,122.684,21.0,6.0,48.337,44.452,29.895,SOFT,4.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,,,22.0,6.0,32.812,43.127,77.257,SOFT,5.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+PIA,81,110.72,110.72,23.0,6.0,29.589,39.324,41.807,SOFT,6.0,False,McLaren,False,,,True,2026,Barcelona Grand Prix,Practice 2
+PIA,81,135.361,135.361,24.0,6.0,67.722,34.513,33.126,SOFT,7.0,False,McLaren,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,,,1.0,1.0,,43.163,27.661,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,78.384,78.384,2.0,1.0,22.802,31.656,23.926,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,137.824,137.824,3.0,1.0,42.544,54.089,41.191,MEDIUM,3.0,True,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,,,4.0,2.0,,43.862,37.733,MEDIUM,4.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,108.97,108.97,5.0,2.0,26.337,51.853,30.78,MEDIUM,5.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,94.978,94.978,6.0,2.0,22.776,31.93,40.272,MEDIUM,6.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,,,7.0,3.0,,54.205,37.956,MEDIUM,7.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,,,8.0,3.0,55.598,69.469,31.888,MEDIUM,8.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,78.46,78.46,9.0,3.0,22.992,31.629,23.839,MEDIUM,9.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,114.685,114.685,10.0,3.0,32.155,46.935,35.595,MEDIUM,10.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,,,11.0,4.0,,44.455,27.506,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,76.945,76.945,12.0,4.0,22.335,31.127,23.483,SOFT,2.0,True,Haas F1 Team,True,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,125.404,125.404,13.0,4.0,36.691,47.644,41.069,SOFT,3.0,True,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,,,14.0,5.0,,34.782,25.501,SOFT,4.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,83.385,83.385,15.0,5.0,24.388,33.749,25.248,SOFT,5.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,83.551,83.551,16.0,5.0,24.298,33.828,25.425,SOFT,6.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,83.487,83.487,17.0,5.0,24.313,33.668,25.506,SOFT,7.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,83.479,83.479,18.0,5.0,24.284,33.599,25.596,SOFT,8.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,83.538,83.538,19.0,5.0,24.312,33.727,25.499,SOFT,9.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,83.749,83.749,20.0,5.0,24.385,33.91,25.454,SOFT,10.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,83.909,83.909,21.0,5.0,24.3,33.981,25.628,SOFT,11.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,84.195,84.195,22.0,5.0,24.401,34.206,25.588,SOFT,12.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,83.917,83.917,23.0,5.0,24.26,33.999,25.658,SOFT,13.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,83.698,83.698,24.0,5.0,24.07,33.946,25.682,SOFT,14.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,94.051,94.051,25.0,5.0,24.35,37.344,32.357,SOFT,15.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,105.056,105.056,26.0,6.0,45.915,33.783,25.358,MEDIUM,11.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2
+BEA,87,83.039,83.039,27.0,6.0,24.141,33.66,25.238,MEDIUM,12.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,82.618,82.618,28.0,6.0,24.025,33.406,25.187,MEDIUM,13.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,107.252,107.252,29.0,6.0,28.04,44.737,34.475,MEDIUM,14.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,123.484,123.484,30.0,6.0,52.355,35.766,35.363,MEDIUM,15.0,False,Haas F1 Team,False,,,True,2026,Barcelona Grand Prix,Practice 2
+BEA,87,112.825,112.825,31.0,6.0,48.593,33.808,30.424,MEDIUM,16.0,False,Haas F1 Team,False,,,False,2026,Barcelona Grand Prix,Practice 2

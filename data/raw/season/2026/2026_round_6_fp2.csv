@@ -1,0 +1,712 @@
+Driver,DriverNumber,LapTime,LapTimeSeconds,LapNumber,Stint,Sector1Time,Sector2Time,Sector3Time,Compound,TyreLife,FreshTyre,Team,IsPersonalBest,Deleted,DeletedReason,IsAccurate,Year,Race,Session
+NOR,1,97.765,97.765,1.0,1.0,34.307,41.369,22.089,MEDIUM,1.0,True,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+NOR,1,77.011,77.011,2.0,1.0,20.596,36.264,20.151,MEDIUM,2.0,True,McLaren,True,,,True,2026,Monaco Grand Prix,Practice 2
+NOR,1,75.559,75.559,3.0,1.0,19.955,35.62,19.984,MEDIUM,3.0,True,McLaren,True,,,True,2026,Monaco Grand Prix,Practice 2
+NOR,1,106.824,106.824,4.0,1.0,25.477,50.073,31.274,MEDIUM,4.0,True,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+NOR,1,75.274,75.274,5.0,1.0,20.001,35.51,19.763,MEDIUM,5.0,True,McLaren,True,,,True,2026,Monaco Grand Prix,Practice 2
+NOR,1,116.865,116.865,6.0,1.0,21.397,41.37,54.098,MEDIUM,6.0,True,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+NOR,1,111.177,111.177,7.0,2.0,29.889,48.47,32.818,MEDIUM,7.0,False,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+NOR,1,,,8.0,2.0,20.327,,,MEDIUM,8.0,False,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+GAS,10,98.014,98.014,1.0,1.0,32.899,41.949,23.166,MEDIUM,1.0,True,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+GAS,10,90.871,90.871,2.0,1.0,22.378,38.317,30.176,MEDIUM,2.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,77.994,77.994,3.0,1.0,20.483,36.201,21.31,MEDIUM,3.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,91.657,91.657,4.0,1.0,26.714,43.214,21.729,MEDIUM,4.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,76.171,76.171,5.0,1.0,19.819,35.789,20.563,MEDIUM,5.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,97.987,97.987,6.0,1.0,26.953,43.054,27.98,MEDIUM,6.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,76.748,76.748,7.0,1.0,20.563,35.763,20.422,MEDIUM,7.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,106.556,106.556,8.0,1.0,32.07,42.688,31.798,MEDIUM,8.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,,,9.0,1.0,27.627,54.96,,MEDIUM,9.0,True,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+GAS,10,90.608,90.608,10.0,2.0,27.01,39.948,23.65,SOFT,1.0,True,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+GAS,10,80.248,80.248,11.0,2.0,21.51,37.685,21.053,SOFT,2.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,74.941,74.941,12.0,2.0,19.683,35.358,19.9,SOFT,3.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,94.206,94.206,13.0,2.0,28.013,43.673,22.52,SOFT,4.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,75.947,75.947,14.0,2.0,19.738,36.185,20.024,SOFT,5.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,91.186,91.186,15.0,2.0,27.525,41.716,21.945,SOFT,6.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,74.497,74.497,16.0,2.0,19.516,35.131,19.85,SOFT,7.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,102.502,102.502,17.0,2.0,25.419,48.051,29.032,SOFT,8.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,103.136,103.136,18.0,2.0,27.79,45.986,29.36,SOFT,9.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,80.375,80.375,19.0,2.0,20.241,38.888,21.246,SOFT,10.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,74.846,74.846,20.0,2.0,19.561,35.367,19.918,SOFT,11.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,93.419,93.419,21.0,2.0,22.966,46.952,23.501,SOFT,12.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,74.646,74.646,22.0,2.0,19.528,35.324,19.794,SOFT,13.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,88.818,88.818,23.0,2.0,25.05,40.547,23.221,SOFT,14.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,74.886,74.886,24.0,2.0,19.592,35.418,19.876,SOFT,15.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,,,25.0,2.0,28.449,41.801,,SOFT,16.0,True,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+GAS,10,93.082,93.082,26.0,3.0,26.923,42.616,23.543,MEDIUM,10.0,False,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+GAS,10,78.613,78.613,27.0,3.0,21.123,36.916,20.574,MEDIUM,11.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,77.684,77.684,28.0,3.0,20.907,36.185,20.592,MEDIUM,12.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,81.71,81.71,29.0,3.0,20.771,37.074,23.865,MEDIUM,13.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,77.926,77.926,30.0,3.0,21.002,36.491,20.433,MEDIUM,14.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,77.297,77.297,31.0,3.0,20.284,36.314,20.699,MEDIUM,15.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,,,32.0,3.0,20.291,,,MEDIUM,16.0,False,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+GAS,10,111.801,111.801,33.0,4.0,53.019,37.739,21.043,MEDIUM,17.0,False,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+GAS,10,76.764,76.764,34.0,4.0,20.3,36.049,20.415,MEDIUM,18.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,119.88,119.88,35.0,4.0,25.753,39.123,55.004,MEDIUM,19.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,131.091,131.091,36.0,4.0,25.843,43.37,61.878,MEDIUM,20.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+GAS,10,,,37.0,4.0,24.983,47.254,,MEDIUM,21.0,False,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,104.722,104.722,1.0,1.0,40.439,39.804,24.479,MEDIUM,1.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,78.38,78.38,2.0,1.0,20.92,36.865,20.595,MEDIUM,2.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,76.466,76.466,3.0,1.0,20.155,35.798,20.513,MEDIUM,3.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,76.433,76.433,4.0,1.0,20.12,35.937,20.376,MEDIUM,4.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,116.344,116.344,5.0,1.0,36.491,53.022,26.831,MEDIUM,5.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,92.446,92.446,6.0,1.0,20.388,47.294,24.764,MEDIUM,6.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,100.56,100.56,7.0,1.0,20.357,40.807,39.396,MEDIUM,7.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,96.0,96.0,8.0,1.0,21.486,42.649,31.865,MEDIUM,8.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,125.695,125.695,9.0,1.0,27.649,67.994,30.052,MEDIUM,9.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,103.538,103.538,10.0,1.0,23.908,50.61,29.02,MEDIUM,10.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,87.567,87.567,11.0,1.0,21.776,39.21,26.581,MEDIUM,11.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,78.13,78.13,12.0,1.0,20.563,35.792,21.775,MEDIUM,12.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,75.828,75.828,13.0,1.0,20.039,35.658,20.131,MEDIUM,13.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,,,14.0,1.0,23.34,40.296,,MEDIUM,14.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,94.247,94.247,15.0,2.0,26.939,39.889,27.419,SOFT,1.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,78.404,78.404,16.0,2.0,20.686,36.551,21.167,SOFT,2.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,75.116,75.116,17.0,2.0,19.831,35.26,20.025,SOFT,3.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,100.587,100.587,18.0,2.0,28.729,39.712,32.146,SOFT,4.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,80.067,80.067,19.0,2.0,21.545,36.949,21.573,SOFT,5.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,75.257,75.257,20.0,2.0,19.783,35.222,20.252,SOFT,6.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,94.571,94.571,21.0,2.0,25.516,42.039,27.016,SOFT,7.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,88.922,88.922,22.0,2.0,19.979,39.665,29.278,SOFT,8.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,,,23.0,2.0,20.094,37.075,,SOFT,9.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,108.301,108.301,24.0,3.0,27.86,39.556,40.885,MEDIUM,15.0,False,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,85.027,85.027,25.0,4.0,25.242,37.59,22.195,SOFT,10.0,False,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+PER,11,78.275,78.275,26.0,4.0,20.984,36.555,20.736,SOFT,11.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,78.043,78.043,27.0,4.0,20.76,36.438,20.845,SOFT,12.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,79.605,79.605,28.0,4.0,20.683,37.212,21.71,SOFT,13.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,78.212,78.212,29.0,4.0,21.062,36.425,20.725,SOFT,14.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,79.076,79.076,30.0,4.0,20.621,36.379,22.076,SOFT,15.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+PER,11,,,31.0,4.0,,,,SOFT,16.0,False,Cadillac,,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,105.331,105.331,1.0,1.0,36.283,45.338,23.71,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,83.316,83.316,2.0,1.0,21.733,38.094,23.489,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,75.673,75.673,3.0,1.0,19.966,35.59,20.117,MEDIUM,3.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,93.707,93.707,4.0,1.0,23.395,48.176,22.136,MEDIUM,4.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,74.208,74.208,5.0,1.0,19.605,35.031,19.572,MEDIUM,5.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,115.035,115.035,6.0,1.0,24.779,57.175,33.081,MEDIUM,6.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,113.236,113.236,7.0,1.0,28.197,46.216,38.823,MEDIUM,7.0,True,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,119.313,119.313,8.0,2.0,28.93,59.68,30.703,MEDIUM,8.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,104.005,104.005,9.0,2.0,26.795,50.498,26.712,MEDIUM,9.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,,,10.0,2.0,23.129,51.378,,MEDIUM,10.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,86.963,86.963,11.0,3.0,25.496,40.074,21.393,SOFT,1.0,True,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,82.912,82.912,12.0,3.0,20.941,37.613,24.358,SOFT,2.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,73.85,73.85,13.0,3.0,19.44,34.872,19.538,SOFT,3.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,91.618,91.618,14.0,3.0,27.815,41.257,22.546,SOFT,4.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,91.494,91.494,15.0,3.0,19.306,48.827,23.361,SOFT,5.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,87.334,87.334,16.0,3.0,22.367,43.227,21.74,SOFT,6.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,73.752,73.752,17.0,3.0,19.237,34.851,19.664,SOFT,7.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,104.576,104.576,18.0,3.0,26.173,57.187,21.216,SOFT,8.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,73.554,73.554,19.0,3.0,19.222,34.887,19.445,SOFT,9.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,99.765,99.765,20.0,3.0,28.343,49.764,21.658,SOFT,10.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,80.538,80.538,21.0,3.0,19.32,34.77,26.448,SOFT,11.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,100.025,100.025,22.0,3.0,33.214,45.769,21.042,SOFT,12.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,81.124,81.124,23.0,3.0,19.311,34.694,27.119,SOFT,13.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,99.844,99.844,24.0,3.0,25.564,51.345,22.935,SOFT,14.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,73.529,73.529,25.0,3.0,19.283,34.721,19.525,SOFT,15.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,,,26.0,3.0,22.824,40.31,,SOFT,16.0,True,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,85.098,85.098,27.0,4.0,26.451,37.123,21.524,SOFT,17.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,77.131,77.131,28.0,4.0,20.509,36.284,20.338,SOFT,18.0,False,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,81.028,81.028,29.0,4.0,20.177,35.871,24.98,SOFT,19.0,False,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,,,30.0,4.0,20.662,,,SOFT,20.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,87.389,87.389,31.0,5.0,26.386,38.125,22.878,SOFT,21.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,80.054,80.054,32.0,5.0,20.43,37.269,22.355,SOFT,22.0,False,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,142.189,142.189,33.0,5.0,26.856,48.647,66.686,SOFT,23.0,False,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+ANT,12,,,34.0,5.0,23.974,45.128,83.421,SOFT,24.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ANT,12,,,35.0,5.0,24.674,42.794,,SOFT,25.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALO,14,96.218,96.218,1.0,1.0,31.39,41.379,23.449,SOFT,1.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALO,14,91.847,91.847,2.0,1.0,22.481,45.021,24.345,SOFT,2.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,77.673,77.673,3.0,1.0,20.682,36.276,20.715,SOFT,3.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,76.928,76.928,4.0,1.0,20.437,36.096,20.395,SOFT,4.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,100.971,100.971,5.0,1.0,24.891,46.629,29.451,SOFT,5.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,76.741,76.741,6.0,1.0,20.433,35.925,20.383,SOFT,6.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,98.94,98.94,7.0,1.0,24.991,42.229,31.72,SOFT,7.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,,,8.0,1.0,24.81,50.774,,SOFT,8.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALO,14,94.367,94.367,9.0,2.0,28.851,43.185,22.331,SOFT,9.0,False,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALO,14,79.443,79.443,10.0,2.0,20.884,37.435,21.124,SOFT,10.0,False,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,76.346,76.346,11.0,2.0,20.15,35.911,20.285,SOFT,11.0,False,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,84.496,84.496,12.0,2.0,20.43,41.139,22.927,SOFT,12.0,False,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,75.986,75.986,13.0,2.0,20.086,35.725,20.175,SOFT,13.0,False,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,97.175,97.175,14.0,2.0,22.762,44.668,29.745,SOFT,14.0,False,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,,,15.0,2.0,21.498,44.128,,SOFT,15.0,False,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALO,14,90.765,90.765,16.0,3.0,26.394,41.301,23.07,SOFT,1.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALO,14,83.048,83.048,17.0,3.0,21.628,37.672,23.748,SOFT,2.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,84.419,84.419,18.0,3.0,20.038,37.231,27.15,SOFT,3.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,75.457,75.457,19.0,3.0,19.963,35.463,20.031,SOFT,4.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,75.294,75.294,20.0,3.0,19.922,35.434,19.938,SOFT,5.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,95.479,95.479,21.0,3.0,25.815,46.209,23.455,SOFT,6.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,81.073,81.073,22.0,3.0,20.002,38.985,22.086,SOFT,7.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,,,23.0,3.0,19.934,39.887,,SOFT,8.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALO,14,94.456,94.456,24.0,4.0,25.613,41.441,27.402,SOFT,9.0,False,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALO,14,80.309,80.309,25.0,4.0,21.499,37.542,21.268,SOFT,10.0,False,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,,,26.0,4.0,21.008,,,SOFT,11.0,False,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALO,14,93.408,93.408,27.0,5.0,27.954,41.597,23.857,SOFT,16.0,False,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALO,14,127.506,127.506,28.0,5.0,22.587,43.852,61.067,SOFT,17.0,False,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,118.198,118.198,29.0,5.0,26.303,43.572,48.323,SOFT,18.0,False,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALO,14,,,30.0,5.0,25.329,43.832,,SOFT,19.0,False,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,105.47,105.47,1.0,1.0,38.563,43.349,23.558,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,77.024,77.024,2.0,1.0,20.656,36.1,20.268,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,74.24,74.24,3.0,1.0,19.694,34.85,19.696,MEDIUM,3.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,99.705,99.705,4.0,1.0,22.755,50.229,26.721,MEDIUM,4.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,74.192,74.192,5.0,1.0,19.59,34.742,19.86,MEDIUM,5.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,74.175,74.175,6.0,1.0,19.632,34.898,19.645,MEDIUM,6.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,100.874,100.874,7.0,1.0,27.726,48.843,24.305,MEDIUM,7.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,80.829,80.829,8.0,1.0,19.564,39.519,21.746,MEDIUM,8.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,104.745,104.745,9.0,1.0,19.304,55.028,30.413,MEDIUM,9.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,104.078,104.078,10.0,1.0,27.194,51.06,25.824,MEDIUM,10.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,101.083,101.083,11.0,1.0,22.709,52.026,26.348,MEDIUM,11.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,91.106,91.106,12.0,1.0,24.823,41.782,24.501,MEDIUM,12.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,77.937,77.937,13.0,1.0,19.35,36.115,22.472,MEDIUM,13.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,73.613,73.613,14.0,1.0,19.159,34.779,19.675,MEDIUM,14.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,89.038,89.038,15.0,1.0,19.293,42.331,27.414,MEDIUM,15.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,,,16.0,1.0,19.376,34.839,,MEDIUM,16.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,106.482,106.482,17.0,2.0,35.158,44.513,26.811,SOFT,1.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,86.693,86.693,18.0,2.0,21.829,39.225,25.639,SOFT,2.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,77.955,77.955,19.0,2.0,19.555,37.324,21.076,SOFT,3.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,73.137,73.137,20.0,2.0,19.323,34.479,19.335,SOFT,4.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,99.904,99.904,21.0,2.0,23.782,48.507,27.615,SOFT,5.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,87.446,87.446,22.0,2.0,20.806,41.733,24.907,SOFT,6.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,115.635,115.635,23.0,2.0,36.441,46.071,33.123,SOFT,7.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,94.67,94.67,24.0,2.0,20.838,52.434,21.398,SOFT,8.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,79.443,79.443,25.0,2.0,19.385,37.067,22.991,SOFT,9.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,73.19,73.19,26.0,2.0,19.265,34.533,19.392,SOFT,10.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,73.166,73.166,27.0,2.0,19.278,34.39,19.498,SOFT,11.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,102.713,102.713,28.0,2.0,27.668,51.868,23.177,SOFT,12.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,73.212,73.212,29.0,2.0,19.352,34.437,19.423,SOFT,13.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,,,30.0,2.0,22.643,40.804,,SOFT,14.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,,,31.0,3.0,,,,MEDIUM,17.0,False,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,90.519,90.519,32.0,4.0,29.295,39.465,21.759,MEDIUM,18.0,False,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+LEC,16,78.015,78.015,33.0,4.0,20.864,36.431,20.72,MEDIUM,19.0,False,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,130.867,130.867,34.0,4.0,20.622,41.159,69.086,MEDIUM,20.0,False,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,123.002,123.002,35.0,4.0,27.186,41.309,54.507,MEDIUM,21.0,False,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+LEC,16,,,36.0,4.0,24.743,40.527,,MEDIUM,22.0,False,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+STR,18,104.691,104.691,1.0,1.0,38.804,41.859,24.028,SOFT,1.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+STR,18,82.444,82.444,2.0,1.0,22.315,37.641,22.488,SOFT,2.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,77.875,77.875,3.0,1.0,20.941,36.391,20.543,SOFT,3.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,91.473,91.473,4.0,1.0,23.577,39.518,28.378,SOFT,4.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,77.734,77.734,5.0,1.0,20.469,36.239,21.026,SOFT,5.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,81.865,81.865,6.0,1.0,20.357,38.331,23.177,SOFT,6.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,76.857,76.857,7.0,1.0,20.402,35.983,20.472,SOFT,7.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,103.088,103.088,8.0,1.0,28.206,48.671,26.211,SOFT,8.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+STR,18,149.838,149.838,9.0,1.0,36.643,81.772,31.423,SOFT,9.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+STR,18,99.037,99.037,10.0,1.0,25.618,49.048,24.371,SOFT,10.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+STR,18,84.888,84.888,11.0,1.0,23.194,39.86,21.834,SOFT,11.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+STR,18,78.666,78.666,12.0,1.0,21.076,36.7,20.89,SOFT,12.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,77.048,77.048,13.0,1.0,20.315,36.247,20.486,SOFT,13.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,77.178,77.178,14.0,1.0,20.413,36.211,20.554,SOFT,14.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,,,15.0,1.0,27.701,40.027,,SOFT,15.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+STR,18,94.202,94.202,16.0,2.0,28.395,41.185,24.622,SOFT,1.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+STR,18,83.089,83.089,17.0,2.0,22.328,38.085,22.676,SOFT,2.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,76.776,76.776,18.0,2.0,20.286,36.005,20.485,SOFT,3.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,76.244,76.244,19.0,2.0,20.117,35.725,20.402,SOFT,4.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,91.846,91.846,20.0,2.0,24.109,43.57,24.167,SOFT,5.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,76.174,76.174,21.0,2.0,20.207,35.653,20.314,SOFT,6.0,True,Aston Martin,True,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,84.599,84.599,22.0,2.0,23.199,39.003,22.397,SOFT,7.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,76.352,76.352,23.0,2.0,20.11,35.839,20.403,SOFT,8.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,76.283,76.283,24.0,2.0,20.244,35.759,20.28,SOFT,9.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,89.618,89.618,25.0,2.0,27.002,40.583,22.033,SOFT,10.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,77.424,77.424,26.0,2.0,20.146,36.209,21.069,SOFT,11.0,True,Aston Martin,False,,,True,2026,Monaco Grand Prix,Practice 2
+STR,18,,,27.0,2.0,20.02,39.552,,SOFT,12.0,True,Aston Martin,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,100.84,100.84,1.0,1.0,35.602,41.561,23.677,MEDIUM,1.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,85.26,85.26,2.0,1.0,21.758,40.551,22.951,MEDIUM,2.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,85.104,85.104,3.0,1.0,20.936,40.247,23.921,MEDIUM,3.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,78.165,78.165,4.0,1.0,21.055,36.49,20.62,MEDIUM,4.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,76.688,76.688,5.0,1.0,20.423,36.101,20.164,MEDIUM,5.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,91.003,91.003,6.0,1.0,23.749,41.859,25.395,MEDIUM,6.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,76.222,76.222,7.0,1.0,20.401,35.671,20.15,MEDIUM,7.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,90.739,90.739,8.0,1.0,23.088,45.211,22.44,MEDIUM,8.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,99.725,99.725,9.0,1.0,20.212,55.184,24.329,MEDIUM,9.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,104.059,104.059,10.0,1.0,26.133,53.086,24.84,MEDIUM,10.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,106.647,106.647,11.0,1.0,27.762,53.501,25.384,MEDIUM,11.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,81.077,81.077,12.0,1.0,21.518,37.637,21.922,MEDIUM,12.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,81.785,81.785,13.0,1.0,20.214,37.865,23.706,MEDIUM,13.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,75.483,75.483,14.0,1.0,19.877,35.678,19.928,MEDIUM,14.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,84.07,84.07,15.0,1.0,21.075,41.169,21.826,MEDIUM,15.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,75.345,75.345,16.0,1.0,19.812,35.631,19.902,MEDIUM,16.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,111.273,111.273,17.0,1.0,22.216,43.086,45.971,MEDIUM,17.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,88.557,88.557,18.0,2.0,25.886,39.668,23.003,SOFT,1.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,81.176,81.176,19.0,2.0,21.651,38.682,20.843,SOFT,2.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,88.325,88.325,20.0,2.0,19.894,40.856,27.575,SOFT,3.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,82.133,82.133,21.0,2.0,20.277,39.186,22.67,SOFT,4.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,75.219,75.219,22.0,2.0,19.927,35.562,19.73,SOFT,5.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,92.007,92.007,23.0,2.0,23.006,46.63,22.371,SOFT,6.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,74.6,74.6,24.0,2.0,19.807,35.083,19.71,SOFT,7.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,94.903,94.903,25.0,2.0,25.982,46.811,22.11,SOFT,8.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,85.454,85.454,26.0,2.0,19.598,40.799,25.057,SOFT,9.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,92.104,92.104,27.0,2.0,23.798,46.273,22.033,SOFT,10.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,86.367,86.367,28.0,2.0,23.775,41.014,21.578,SOFT,11.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,,,29.0,2.0,19.555,35.653,,SOFT,12.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,94.015,94.015,30.0,3.0,27.553,41.549,24.913,MEDIUM,18.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,79.901,79.901,31.0,3.0,21.061,37.676,21.164,MEDIUM,19.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,78.187,78.187,32.0,3.0,20.479,36.986,20.722,MEDIUM,20.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,78.255,78.255,33.0,3.0,20.519,37.106,20.63,MEDIUM,21.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,,,34.0,3.0,20.505,,,MEDIUM,22.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,90.583,90.583,35.0,4.0,25.623,38.16,26.8,SOFT,13.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+ALB,23,77.889,77.889,36.0,4.0,20.752,36.676,20.461,SOFT,14.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,135.714,135.714,37.0,4.0,25.301,47.367,63.046,SOFT,15.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,121.21,121.21,38.0,4.0,23.118,39.462,58.63,SOFT,16.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+ALB,23,,,39.0,4.0,22.852,38.196,,SOFT,17.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+HUL,27,95.27,95.27,1.0,1.0,29.969,42.07,23.231,MEDIUM,1.0,True,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+HUL,27,81.653,81.653,2.0,1.0,21.992,37.56,22.101,MEDIUM,2.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,86.666,86.666,3.0,1.0,21.854,39.189,25.623,MEDIUM,3.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,76.375,76.375,4.0,1.0,20.412,35.82,20.143,MEDIUM,4.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,87.869,87.869,5.0,1.0,25.934,38.374,23.561,MEDIUM,5.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,80.167,80.167,6.0,1.0,20.435,36.939,22.793,MEDIUM,6.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,79.684,79.684,7.0,1.0,19.816,35.603,24.265,MEDIUM,7.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,93.989,93.989,8.0,1.0,26.579,45.369,22.041,MEDIUM,8.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,75.188,75.188,9.0,1.0,19.909,35.466,19.813,MEDIUM,9.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,,,10.0,1.0,31.316,54.868,,MEDIUM,10.0,True,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+HUL,27,90.956,90.956,11.0,2.0,28.316,41.066,21.574,SOFT,1.0,True,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+HUL,27,77.576,77.576,12.0,2.0,20.732,36.398,20.446,SOFT,2.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,74.094,74.094,13.0,2.0,19.506,35.036,19.552,SOFT,3.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,96.376,96.376,14.0,2.0,27.155,45.624,23.597,SOFT,4.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,80.556,80.556,15.0,2.0,19.676,35.28,25.6,SOFT,5.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,98.114,98.114,16.0,2.0,25.543,43.018,29.553,SOFT,6.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,74.953,74.953,17.0,2.0,19.948,35.247,19.758,SOFT,7.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,94.815,94.815,18.0,2.0,25.879,46.314,22.622,SOFT,8.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,87.024,87.024,19.0,2.0,21.811,39.462,25.751,SOFT,9.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,,,20.0,2.0,19.728,35.323,,SOFT,10.0,True,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+HUL,27,88.133,88.133,21.0,3.0,24.793,41.532,21.808,MEDIUM,11.0,False,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+HUL,27,78.415,78.415,22.0,3.0,20.979,36.746,20.69,MEDIUM,12.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,79.504,79.504,23.0,3.0,20.834,36.734,21.936,MEDIUM,13.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,76.822,76.822,24.0,3.0,20.377,36.042,20.403,MEDIUM,14.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,78.36,78.36,25.0,3.0,20.32,37.631,20.409,MEDIUM,15.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,76.742,76.742,26.0,3.0,20.19,36.125,20.427,MEDIUM,16.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,76.639,76.639,27.0,3.0,20.221,36.155,20.263,MEDIUM,17.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,76.717,76.717,28.0,3.0,20.342,36.128,20.247,MEDIUM,18.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,76.505,76.505,29.0,3.0,20.097,36.101,20.307,MEDIUM,19.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,,,30.0,3.0,20.339,36.197,,MEDIUM,20.0,False,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+HUL,27,100.156,100.156,31.0,4.0,24.969,43.858,31.329,MEDIUM,21.0,False,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+HUL,27,121.396,121.396,32.0,4.0,23.63,39.228,58.538,MEDIUM,22.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,128.75,128.75,33.0,4.0,24.893,42.014,61.843,MEDIUM,23.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+HUL,27,,,34.0,4.0,26.732,38.981,,MEDIUM,24.0,False,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+VER,3,90.99,90.99,1.0,1.0,28.672,40.055,22.263,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+VER,3,84.039,84.039,2.0,1.0,21.285,37.901,24.853,MEDIUM,2.0,True,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,75.933,75.933,3.0,1.0,19.98,35.987,19.966,MEDIUM,3.0,True,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,74.96,74.96,4.0,1.0,19.648,35.476,19.836,MEDIUM,4.0,True,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,99.584,99.584,5.0,1.0,25.35,50.492,23.742,MEDIUM,5.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,82.612,82.612,6.0,1.0,20.8,41.669,20.143,MEDIUM,6.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,74.008,74.008,7.0,1.0,19.485,35.019,19.504,MEDIUM,7.0,True,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,91.545,91.545,8.0,1.0,25.116,44.711,21.718,MEDIUM,8.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,74.175,74.175,9.0,1.0,19.488,35.075,19.612,MEDIUM,9.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,,,10.0,1.0,23.211,56.601,,MEDIUM,10.0,True,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+VER,3,85.669,85.669,11.0,2.0,25.12,39.182,21.367,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+VER,3,77.529,77.529,12.0,2.0,20.769,36.585,20.175,SOFT,2.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,73.902,73.902,13.0,2.0,19.566,34.898,19.438,SOFT,3.0,True,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,73.467,73.467,14.0,2.0,19.332,34.6,19.535,SOFT,4.0,True,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,100.628,100.628,15.0,2.0,27.873,50.76,21.995,SOFT,5.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,85.399,85.399,16.0,2.0,20.832,38.391,26.176,SOFT,6.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,73.5,73.5,17.0,2.0,19.303,34.707,19.49,SOFT,7.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,80.66,80.66,18.0,2.0,21.633,37.09,21.937,SOFT,8.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,73.194,73.194,19.0,2.0,19.254,34.55,19.39,SOFT,9.0,True,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,,,20.0,2.0,19.195,44.063,,SOFT,10.0,True,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+VER,3,87.053,87.053,21.0,3.0,26.743,38.78,21.53,SOFT,11.0,False,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+VER,3,77.705,77.705,22.0,3.0,20.704,36.375,20.626,SOFT,12.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,76.701,76.701,23.0,3.0,20.215,36.196,20.29,SOFT,13.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,76.439,76.439,24.0,3.0,20.078,36.173,20.188,SOFT,14.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,76.466,76.466,25.0,3.0,20.162,36.11,20.194,SOFT,15.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,76.469,76.469,26.0,3.0,20.149,35.971,20.349,SOFT,16.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,76.347,76.347,27.0,3.0,20.109,36.007,20.231,SOFT,17.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,76.577,76.577,28.0,3.0,20.143,36.224,20.21,SOFT,18.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,76.91,76.91,29.0,3.0,20.068,36.011,20.831,SOFT,19.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,101.073,101.073,30.0,3.0,20.202,36.605,44.266,SOFT,20.0,False,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+VER,3,,,31.0,4.0,24.801,38.378,,MEDIUM,11.0,False,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+VER,3,87.232,87.232,32.0,5.0,26.282,39.151,21.799,MEDIUM,12.0,False,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+VER,3,132.641,132.641,33.0,5.0,21.927,39.9,70.814,MEDIUM,13.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,127.988,127.988,34.0,5.0,24.629,39.955,63.404,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+VER,3,,,35.0,5.0,23.683,42.02,,MEDIUM,15.0,False,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,99.15,99.15,1.0,1.0,31.81,42.314,25.026,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,88.35,88.35,2.0,1.0,21.514,39.625,27.211,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,76.992,76.992,3.0,1.0,20.428,36.303,20.261,MEDIUM,3.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,76.282,76.282,4.0,1.0,20.158,35.823,20.301,MEDIUM,4.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,91.591,91.591,5.0,1.0,23.63,43.399,24.562,MEDIUM,5.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,87.84,87.84,6.0,1.0,20.093,44.607,23.14,MEDIUM,6.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,76.0,76.0,7.0,1.0,19.937,35.913,20.15,MEDIUM,7.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,101.491,101.491,8.0,1.0,25.917,47.675,27.899,MEDIUM,8.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,89.513,89.513,9.0,1.0,20.192,39.773,29.548,MEDIUM,9.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,127.614,127.614,10.0,1.0,29.271,68.76,29.583,MEDIUM,10.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,98.455,98.455,11.0,1.0,24.232,50.313,23.91,MEDIUM,11.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,89.746,89.746,12.0,1.0,21.755,45.112,22.879,MEDIUM,12.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,78.791,78.791,13.0,1.0,20.158,36.758,21.875,MEDIUM,13.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,75.502,75.502,14.0,1.0,19.906,35.652,19.944,MEDIUM,14.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,,,15.0,1.0,21.788,40.121,,MEDIUM,15.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,94.279,94.279,16.0,2.0,27.383,39.822,27.074,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,85.923,85.923,17.0,2.0,21.612,39.78,24.531,SOFT,2.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,75.635,75.635,18.0,2.0,19.937,35.501,20.197,SOFT,3.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,97.156,97.156,19.0,2.0,26.375,44.866,25.915,SOFT,4.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,75.24,75.24,20.0,2.0,19.845,35.516,19.879,SOFT,5.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,75.137,75.137,21.0,2.0,19.783,35.454,19.9,SOFT,6.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,100.39,100.39,22.0,2.0,27.552,47.451,25.387,SOFT,7.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,100.942,100.942,23.0,2.0,24.531,48.964,27.447,SOFT,8.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,90.669,90.669,24.0,2.0,22.65,46.127,21.892,SOFT,9.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,75.201,75.201,25.0,2.0,19.856,35.477,19.868,SOFT,10.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,83.686,83.686,26.0,2.0,19.719,41.424,22.543,SOFT,11.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,74.785,74.785,27.0,2.0,19.698,35.266,19.821,SOFT,12.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,,,28.0,2.0,22.955,38.874,,SOFT,13.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,86.268,86.268,29.0,3.0,25.031,39.519,21.718,MEDIUM,16.0,False,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,80.101,80.101,30.0,3.0,21.35,37.8,20.951,MEDIUM,17.0,False,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,,,31.0,3.0,,,,MEDIUM,18.0,False,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,87.414,87.414,32.0,4.0,26.398,38.912,22.104,MEDIUM,19.0,False,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LAW,30,79.356,79.356,33.0,4.0,20.912,37.417,21.027,MEDIUM,20.0,False,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,139.806,139.806,34.0,4.0,26.342,45.643,67.821,MEDIUM,21.0,False,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,132.837,132.837,35.0,4.0,22.669,44.66,65.508,MEDIUM,22.0,False,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LAW,30,,,36.0,4.0,23.522,45.72,,MEDIUM,23.0,False,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,101.054,101.054,1.0,1.0,34.901,41.051,25.102,MEDIUM,1.0,True,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,83.508,83.508,2.0,1.0,21.635,38.227,23.646,MEDIUM,2.0,True,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,77.771,77.771,3.0,1.0,20.583,36.666,20.522,MEDIUM,3.0,True,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,76.55,76.55,4.0,1.0,20.062,36.133,20.355,MEDIUM,4.0,True,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,108.827,108.827,5.0,1.0,27.832,51.643,29.352,MEDIUM,5.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,76.434,76.434,6.0,1.0,20.224,35.928,20.282,MEDIUM,6.0,True,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,104.693,104.693,7.0,1.0,23.274,45.819,35.6,MEDIUM,7.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,86.169,86.169,8.0,1.0,20.699,38.464,27.006,MEDIUM,8.0,True,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,136.6,136.6,9.0,1.0,35.887,67.581,33.132,MEDIUM,9.0,True,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,98.434,98.434,10.0,1.0,24.626,49.429,24.379,MEDIUM,10.0,True,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,86.898,86.898,11.0,1.0,22.361,42.701,21.836,MEDIUM,11.0,True,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,79.014,79.014,12.0,1.0,20.286,37.07,21.658,MEDIUM,12.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,75.933,75.933,13.0,1.0,20.083,35.774,20.076,MEDIUM,13.0,True,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,75.516,75.516,14.0,1.0,19.751,35.552,20.213,MEDIUM,14.0,True,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,,,15.0,1.0,22.472,39.153,,MEDIUM,15.0,True,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,90.964,90.964,16.0,2.0,27.324,39.303,24.337,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,80.691,80.691,17.0,2.0,20.829,37.77,22.092,SOFT,2.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,79.879,79.879,18.0,2.0,19.898,36.304,23.677,SOFT,3.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,75.111,75.111,19.0,2.0,19.75,35.524,19.837,SOFT,4.0,True,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,91.708,91.708,20.0,2.0,24.296,38.886,28.526,SOFT,5.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,75.124,75.124,21.0,2.0,19.882,35.275,19.967,SOFT,6.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,85.774,85.774,22.0,2.0,22.685,41.264,21.825,SOFT,7.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,74.845,74.845,23.0,2.0,19.62,35.358,19.867,SOFT,8.0,True,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,90.801,90.801,24.0,2.0,26.364,39.131,25.306,SOFT,9.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,74.988,74.988,25.0,2.0,19.694,35.362,19.932,SOFT,10.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,,,26.0,2.0,25.364,41.004,,SOFT,11.0,True,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,86.436,86.436,27.0,3.0,26.424,38.463,21.549,MEDIUM,16.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,78.63,78.63,28.0,3.0,20.84,37.004,20.786,MEDIUM,17.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,78.051,78.051,29.0,3.0,20.767,36.591,20.693,MEDIUM,18.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,,,30.0,3.0,20.401,,,MEDIUM,19.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,91.074,91.074,31.0,4.0,27.702,38.87,24.502,MEDIUM,20.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+OCO,31,78.561,78.561,32.0,4.0,21.024,36.929,20.608,MEDIUM,21.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,140.287,140.287,33.0,4.0,24.861,43.283,72.143,MEDIUM,22.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,124.089,124.089,34.0,4.0,25.534,41.613,56.942,MEDIUM,23.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+OCO,31,,,35.0,4.0,23.657,39.635,,MEDIUM,24.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,96.992,96.992,1.0,1.0,31.339,42.655,22.998,MEDIUM,1.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,89.778,89.778,2.0,1.0,22.07,43.961,23.747,MEDIUM,2.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,77.346,77.346,3.0,1.0,20.558,36.615,20.173,MEDIUM,3.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,76.858,76.858,4.0,1.0,20.342,36.453,20.063,MEDIUM,4.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,104.45,104.45,5.0,1.0,26.26,51.341,26.849,MEDIUM,5.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,76.174,76.174,6.0,1.0,20.046,36.073,20.055,MEDIUM,6.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,103.218,103.218,7.0,1.0,26.192,53.698,23.328,MEDIUM,7.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,86.318,86.318,8.0,1.0,19.914,38.102,28.302,MEDIUM,8.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,95.156,95.156,9.0,1.0,20.155,41.796,33.205,MEDIUM,9.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,124.426,124.426,10.0,1.0,25.13,68.15,31.146,MEDIUM,10.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,99.412,99.412,11.0,1.0,23.165,53.449,22.798,MEDIUM,11.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,89.545,89.545,12.0,1.0,24.349,40.729,24.467,MEDIUM,12.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,78.654,78.654,13.0,1.0,20.283,38.119,20.252,MEDIUM,13.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,,,14.0,1.0,19.73,35.638,,MEDIUM,14.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,90.604,90.604,15.0,2.0,27.597,41.954,21.053,SOFT,1.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,75.714,75.714,16.0,2.0,19.944,35.903,19.867,SOFT,2.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,74.748,74.748,17.0,2.0,19.552,35.386,19.81,SOFT,3.0,True,Racing Bulls,True,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,101.586,101.586,18.0,2.0,24.754,52.627,24.205,SOFT,4.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,87.464,87.464,19.0,2.0,19.803,41.387,26.274,SOFT,5.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,78.3,78.3,20.0,2.0,19.785,35.627,22.888,SOFT,6.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,91.549,91.549,21.0,2.0,19.655,40.56,31.334,SOFT,7.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,107.261,107.261,22.0,2.0,30.971,52.155,24.135,SOFT,8.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,86.934,86.934,23.0,2.0,20.462,39.848,26.624,SOFT,9.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,79.975,79.975,24.0,2.0,19.808,38.117,22.05,SOFT,10.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,75.562,75.562,25.0,2.0,19.584,35.74,20.238,SOFT,11.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,105.958,105.958,26.0,2.0,35.933,45.255,24.77,SOFT,12.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,79.972,79.972,27.0,2.0,19.981,38.772,21.219,SOFT,13.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,75.124,75.124,28.0,2.0,19.684,35.388,20.052,SOFT,14.0,True,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,,,29.0,2.0,22.964,45.641,,SOFT,15.0,True,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,90.682,90.682,30.0,3.0,26.085,42.864,21.733,SOFT,16.0,False,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,79.701,79.701,31.0,3.0,20.781,37.955,20.965,SOFT,17.0,False,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,,,32.0,3.0,22.074,,,SOFT,18.0,False,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,95.601,95.601,33.0,4.0,25.87,39.628,30.103,SOFT,19.0,False,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+LIN,41,79.087,79.087,34.0,4.0,21.366,36.627,21.094,SOFT,20.0,False,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,131.811,131.811,35.0,4.0,22.231,43.97,65.61,SOFT,21.0,False,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,126.451,126.451,36.0,4.0,23.718,42.075,60.658,SOFT,22.0,False,Racing Bulls,False,,,True,2026,Monaco Grand Prix,Practice 2
+LIN,41,,,37.0,4.0,28.516,44.354,,SOFT,23.0,False,Racing Bulls,False,,,False,2026,Monaco Grand Prix,Practice 2
+COL,43,98.447,98.447,1.0,1.0,33.39,42.49,22.567,MEDIUM,1.0,True,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+COL,43,82.111,82.111,2.0,1.0,21.228,37.531,23.352,MEDIUM,2.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,76.701,76.701,3.0,1.0,20.18,36.114,20.407,MEDIUM,3.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,100.824,100.824,4.0,1.0,27.512,44.304,29.008,MEDIUM,4.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,76.14,76.14,5.0,1.0,20.144,35.919,20.077,MEDIUM,5.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,90.045,90.045,6.0,1.0,24.332,42.934,22.779,MEDIUM,6.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,75.864,75.864,7.0,1.0,19.72,35.913,20.231,MEDIUM,7.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,108.091,108.091,8.0,1.0,32.571,53.342,22.178,MEDIUM,8.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,100.946,100.946,9.0,1.0,20.213,54.096,26.637,MEDIUM,9.0,True,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+COL,43,,,10.0,1.0,26.72,50.619,,MEDIUM,10.0,True,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+COL,43,93.9,93.9,11.0,2.0,28.867,42.003,23.03,SOFT,1.0,True,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+COL,43,80.986,80.986,12.0,2.0,21.743,38.091,21.152,SOFT,2.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,75.037,75.037,13.0,2.0,19.704,35.426,19.907,SOFT,3.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,91.774,91.774,14.0,2.0,27.34,42.341,22.093,SOFT,4.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,74.758,74.758,15.0,2.0,19.494,35.459,19.805,SOFT,5.0,True,Alpine,True,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,113.577,113.577,16.0,2.0,32.25,54.752,26.575,SOFT,6.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,85.701,85.701,17.0,2.0,21.146,41.208,23.347,SOFT,7.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,74.856,74.856,18.0,2.0,19.714,35.338,19.804,SOFT,8.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,94.553,94.553,19.0,2.0,27.503,44.859,22.191,SOFT,9.0,True,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,,,20.0,2.0,32.065,53.148,,SOFT,10.0,True,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+COL,43,88.342,88.342,21.0,3.0,26.579,39.975,21.788,MEDIUM,11.0,False,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+COL,43,80.036,80.036,22.0,3.0,21.2,37.821,21.015,MEDIUM,12.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,78.031,78.031,23.0,3.0,20.536,36.83,20.665,MEDIUM,13.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,78.391,78.391,24.0,3.0,20.78,36.781,20.83,MEDIUM,14.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,77.919,77.919,25.0,3.0,20.513,36.693,20.713,MEDIUM,15.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,,,26.0,3.0,20.282,36.518,,MEDIUM,16.0,False,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+COL,43,86.05,86.05,27.0,4.0,25.227,39.023,21.8,MEDIUM,17.0,False,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+COL,43,81.558,81.558,28.0,4.0,21.392,37.016,23.15,MEDIUM,18.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,136.078,136.078,29.0,4.0,25.516,43.842,66.72,MEDIUM,19.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,132.119,132.119,30.0,4.0,25.984,44.422,61.713,MEDIUM,20.0,False,Alpine,False,,,True,2026,Monaco Grand Prix,Practice 2
+COL,43,,,31.0,4.0,28.816,44.886,,MEDIUM,21.0,False,Alpine,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,93.505,93.505,1.0,1.0,31.088,40.768,21.649,MEDIUM,1.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,88.478,88.478,2.0,1.0,20.501,46.552,21.425,MEDIUM,2.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,74.306,74.306,3.0,1.0,19.617,34.846,19.843,MEDIUM,3.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,103.227,103.227,4.0,1.0,33.336,45.531,24.36,MEDIUM,4.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,93.875,93.875,5.0,1.0,19.702,50.503,23.67,MEDIUM,5.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,88.535,88.535,6.0,1.0,22.535,41.576,24.424,MEDIUM,6.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,73.729,73.729,7.0,1.0,19.394,34.646,19.689,MEDIUM,7.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,108.299,108.299,8.0,1.0,32.179,49.345,26.775,MEDIUM,8.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,115.781,115.781,9.0,1.0,31.416,57.65,26.715,MEDIUM,9.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,107.517,107.517,10.0,1.0,25.281,55.4,26.836,MEDIUM,10.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,103.596,103.596,11.0,1.0,21.859,55.816,25.921,MEDIUM,11.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,79.407,79.407,12.0,1.0,20.827,37.721,20.859,MEDIUM,12.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,85.231,85.231,13.0,1.0,19.368,42.597,23.266,MEDIUM,13.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,73.671,73.671,14.0,1.0,19.467,34.667,19.537,MEDIUM,14.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,100.717,100.717,15.0,1.0,28.491,45.799,26.427,MEDIUM,15.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,95.107,95.107,16.0,1.0,24.75,42.808,27.549,MEDIUM,16.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,85.122,85.122,17.0,1.0,21.144,38.326,25.652,MEDIUM,17.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,73.549,73.549,18.0,1.0,19.403,34.521,19.625,MEDIUM,18.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,,,19.0,1.0,25.793,37.905,,MEDIUM,19.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,93.906,93.906,20.0,2.0,28.493,41.42,23.993,SOFT,1.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,80.149,80.149,21.0,2.0,20.902,38.472,20.775,SOFT,2.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,73.026,73.026,22.0,2.0,19.295,34.365,19.366,SOFT,3.0,True,Ferrari,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,110.719,110.719,23.0,2.0,30.533,51.593,28.593,SOFT,4.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,89.45,89.45,24.0,2.0,25.686,41.939,21.825,SOFT,5.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,81.38,81.38,25.0,2.0,19.37,40.625,21.385,SOFT,6.0,True,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,121.878,121.878,26.0,2.0,19.363,40.268,62.247,SOFT,7.0,True,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,95.222,95.222,27.0,3.0,29.624,41.893,23.705,SOFT,8.0,False,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,86.873,86.873,28.0,3.0,21.673,37.621,27.579,SOFT,9.0,False,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,73.36,73.36,29.0,3.0,19.357,34.57,19.433,SOFT,10.0,False,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,,,30.0,3.0,22.04,44.524,,SOFT,11.0,False,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,,,31.0,4.0,24.57,,,MEDIUM,20.0,False,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,93.683,93.683,32.0,5.0,25.146,38.693,29.844,MEDIUM,21.0,False,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAM,44,77.926,77.926,33.0,5.0,21.013,36.318,20.595,MEDIUM,22.0,False,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,120.362,120.362,34.0,5.0,21.707,43.593,55.062,MEDIUM,23.0,False,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,128.688,128.688,35.0,5.0,23.622,36.558,68.508,MEDIUM,24.0,False,Ferrari,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAM,44,,,36.0,5.0,52.213,38.333,,MEDIUM,25.0,False,Ferrari,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOR,5,98.2,98.2,1.0,1.0,30.028,41.977,26.195,MEDIUM,1.0,True,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOR,5,80.653,80.653,2.0,1.0,20.983,37.563,22.107,MEDIUM,2.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,77.865,77.865,3.0,1.0,20.204,35.915,21.746,MEDIUM,3.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,96.758,96.758,4.0,1.0,25.639,39.838,31.281,MEDIUM,4.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,95.173,95.173,5.0,1.0,21.755,42.017,31.401,MEDIUM,5.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,79.864,79.864,6.0,1.0,20.445,36.279,23.14,MEDIUM,6.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,75.967,75.967,7.0,1.0,19.81,35.871,20.286,MEDIUM,7.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,106.794,106.794,8.0,1.0,24.069,50.08,32.645,MEDIUM,8.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,122.809,122.809,9.0,1.0,20.442,47.352,55.015,MEDIUM,9.0,True,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOR,5,106.073,106.073,10.0,2.0,28.513,50.741,26.819,MEDIUM,10.0,False,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOR,5,,,11.0,2.0,25.013,48.665,,MEDIUM,11.0,False,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOR,5,107.469,107.469,12.0,3.0,32.062,40.078,35.329,SOFT,1.0,True,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOR,5,78.84,78.84,13.0,3.0,20.884,36.361,21.595,SOFT,2.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,74.823,74.823,14.0,3.0,19.82,35.052,19.951,SOFT,3.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,80.717,80.717,15.0,3.0,19.722,39.301,21.694,SOFT,4.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,74.827,74.827,16.0,3.0,19.442,35.309,20.076,SOFT,5.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,101.806,101.806,17.0,3.0,28.203,47.577,26.026,SOFT,6.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,74.705,74.705,18.0,3.0,19.628,35.269,19.808,SOFT,7.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,86.631,86.631,19.0,3.0,25.915,39.894,20.822,SOFT,8.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,74.836,74.836,20.0,3.0,19.427,35.49,19.919,SOFT,9.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,105.18,105.18,21.0,3.0,33.055,46.391,25.734,SOFT,10.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,88.753,88.753,22.0,3.0,19.676,42.084,26.993,SOFT,11.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,74.359,74.359,23.0,3.0,19.579,35.156,19.624,SOFT,12.0,True,Audi,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,104.665,104.665,24.0,3.0,25.508,50.436,28.721,SOFT,13.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,79.477,79.477,25.0,3.0,20.238,37.805,21.434,SOFT,14.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,79.026,79.026,26.0,3.0,19.484,35.525,24.017,SOFT,15.0,True,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,,,27.0,3.0,19.721,35.919,,SOFT,16.0,True,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOR,5,87.95,87.95,28.0,4.0,27.927,38.707,21.316,MEDIUM,12.0,False,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOR,5,78.123,78.123,29.0,4.0,21.12,36.489,20.514,MEDIUM,13.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,,,30.0,4.0,20.085,35.839,,MEDIUM,14.0,False,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOR,5,91.054,91.054,31.0,5.0,27.791,39.523,23.74,MEDIUM,15.0,False,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOR,5,78.794,78.794,32.0,5.0,21.238,36.879,20.677,MEDIUM,16.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,134.789,134.789,33.0,5.0,24.583,38.838,71.368,MEDIUM,17.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,124.35,124.35,34.0,5.0,25.353,42.088,56.909,MEDIUM,18.0,False,Audi,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOR,5,,,35.0,5.0,23.598,40.727,,MEDIUM,19.0,False,Audi,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,93.08,93.08,1.0,1.0,26.981,41.041,25.058,MEDIUM,1.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,89.718,89.718,2.0,1.0,21.524,43.48,24.714,MEDIUM,2.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,80.732,80.732,3.0,1.0,20.891,37.117,22.724,MEDIUM,3.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,76.575,76.575,4.0,1.0,20.345,35.957,20.273,MEDIUM,4.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,75.763,75.763,5.0,1.0,19.773,35.749,20.241,MEDIUM,5.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,100.376,100.376,6.0,1.0,30.007,48.132,22.237,MEDIUM,6.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,104.256,104.256,7.0,1.0,20.872,52.96,30.424,MEDIUM,7.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,104.803,104.803,8.0,1.0,21.01,48.38,35.413,MEDIUM,8.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,119.43,119.43,9.0,1.0,22.862,56.004,40.564,MEDIUM,9.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,103.76,103.76,10.0,2.0,30.741,47.638,25.381,MEDIUM,10.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,84.579,84.579,11.0,2.0,21.517,39.984,23.078,MEDIUM,11.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,79.299,79.299,12.0,2.0,20.475,37.44,21.384,MEDIUM,12.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,75.254,75.254,13.0,2.0,19.708,35.661,19.885,MEDIUM,13.0,False,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,,,14.0,2.0,19.879,42.94,,MEDIUM,14.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,106.856,106.856,15.0,3.0,32.064,48.759,26.033,SOFT,1.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,84.111,84.111,16.0,3.0,21.093,38.908,24.11,SOFT,2.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,77.61,77.61,17.0,3.0,19.898,36.425,21.287,SOFT,3.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,74.512,74.512,18.0,3.0,19.58,35.228,19.704,SOFT,4.0,True,Williams,True,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,97.845,97.845,19.0,3.0,27.63,44.347,25.868,SOFT,5.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,87.144,87.144,20.0,3.0,21.473,39.215,26.456,SOFT,6.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,84.086,84.086,21.0,3.0,20.099,39.634,24.353,SOFT,7.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,79.861,79.861,22.0,3.0,19.862,38.571,21.428,SOFT,8.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,82.204,82.204,23.0,3.0,19.611,39.389,23.204,SOFT,9.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,79.67,79.67,24.0,3.0,19.636,35.46,24.574,SOFT,10.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,87.438,87.438,25.0,3.0,25.341,40.862,21.235,SOFT,11.0,True,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,,,26.0,3.0,19.713,35.399,,SOFT,12.0,True,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,89.374,89.374,27.0,4.0,26.176,41.031,22.167,SOFT,13.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,92.331,92.331,28.0,4.0,23.57,45.009,23.752,SOFT,14.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,78.588,78.588,29.0,4.0,21.017,36.767,20.804,SOFT,15.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,,,30.0,4.0,,,,SOFT,16.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,92.837,92.837,31.0,5.0,27.16,40.153,25.524,SOFT,17.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+SAI,55,118.983,118.983,32.0,5.0,23.142,41.326,54.515,SOFT,18.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,124.428,124.428,33.0,5.0,25.048,40.377,59.003,SOFT,19.0,False,Williams,False,,,True,2026,Monaco Grand Prix,Practice 2
+SAI,55,,,34.0,5.0,24.294,40.0,,SOFT,20.0,False,Williams,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAD,6,107.893,107.893,1.0,1.0,31.977,46.334,29.582,MEDIUM,1.0,True,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAD,6,113.378,113.378,2.0,1.0,29.543,57.74,26.095,MEDIUM,2.0,True,Red Bull Racing,True,,,False,2026,Monaco Grand Prix,Practice 2
+HAD,6,,,3.0,1.0,25.842,55.311,,MEDIUM,3.0,True,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAD,6,89.767,89.767,4.0,2.0,27.467,39.954,22.346,MEDIUM,4.0,False,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAD,6,80.873,80.873,5.0,2.0,21.441,38.155,21.277,MEDIUM,5.0,False,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,76.825,76.825,6.0,2.0,20.186,36.18,20.459,MEDIUM,6.0,False,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,75.914,75.914,7.0,2.0,19.972,35.764,20.178,MEDIUM,7.0,False,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,97.136,97.136,8.0,2.0,23.156,45.372,28.608,MEDIUM,8.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,75.507,75.507,9.0,2.0,19.945,35.625,19.937,MEDIUM,9.0,False,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,101.409,101.409,10.0,2.0,22.751,49.62,29.038,MEDIUM,10.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,,,11.0,2.0,19.881,35.754,,MEDIUM,11.0,False,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAD,6,90.627,90.627,12.0,3.0,28.402,40.321,21.904,SOFT,1.0,True,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAD,6,79.022,79.022,13.0,3.0,20.711,37.237,21.074,SOFT,2.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,75.064,75.064,14.0,3.0,19.554,35.604,19.906,SOFT,3.0,True,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,93.266,93.266,15.0,3.0,25.71,44.347,23.209,SOFT,4.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,74.72,74.72,16.0,3.0,19.623,35.312,19.785,SOFT,5.0,True,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,74.087,74.087,17.0,3.0,19.402,34.997,19.688,SOFT,6.0,True,Red Bull Racing,True,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,85.13,85.13,18.0,3.0,22.887,39.487,22.756,SOFT,7.0,True,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,,,19.0,3.0,19.482,38.381,,SOFT,8.0,True,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAD,6,,,20.0,4.0,,,,MEDIUM,12.0,False,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAD,6,85.634,85.634,21.0,5.0,25.236,38.796,21.602,MEDIUM,13.0,False,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+HAD,6,117.313,117.313,22.0,5.0,21.082,37.06,59.171,MEDIUM,14.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,136.378,136.378,23.0,5.0,25.25,39.834,71.294,MEDIUM,15.0,False,Red Bull Racing,False,,,True,2026,Monaco Grand Prix,Practice 2
+HAD,6,,,24.0,5.0,22.212,38.555,,MEDIUM,16.0,False,Red Bull Racing,False,,,False,2026,Monaco Grand Prix,Practice 2
+RUS,63,,,1.0,1.0,,42.009,22.345,MEDIUM,1.0,True,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+RUS,63,82.176,82.176,2.0,1.0,21.828,38.1,22.248,MEDIUM,2.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,78.304,78.304,3.0,1.0,20.321,37.099,20.884,MEDIUM,3.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,75.281,75.281,4.0,1.0,19.678,35.334,20.269,MEDIUM,4.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,97.214,97.214,5.0,1.0,25.145,50.571,21.498,MEDIUM,5.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,74.578,74.578,6.0,1.0,19.665,35.101,19.812,MEDIUM,6.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,114.821,114.821,7.0,1.0,29.253,54.266,31.302,MEDIUM,7.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,96.614,96.614,8.0,1.0,22.047,45.322,29.245,MEDIUM,8.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,76.027,76.027,9.0,1.0,19.817,34.889,21.321,MEDIUM,9.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,,,10.0,1.0,37.542,81.66,31.104,MEDIUM,10.0,True,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+RUS,63,,,11.0,1.0,26.432,49.305,,MEDIUM,11.0,True,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+RUS,63,84.058,84.058,12.0,2.0,25.262,37.78,21.016,SOFT,1.0,True,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+RUS,63,79.492,79.492,13.0,2.0,21.62,37.47,20.402,SOFT,2.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,77.299,77.299,14.0,2.0,19.278,34.764,23.257,SOFT,3.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,101.066,101.066,15.0,2.0,29.643,50.074,21.349,SOFT,4.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,73.515,73.515,16.0,2.0,19.32,34.614,19.581,SOFT,5.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,109.067,109.067,17.0,2.0,32.93,55.075,21.062,SOFT,6.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,83.737,83.737,18.0,2.0,22.065,41.057,20.615,SOFT,7.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,80.464,80.464,19.0,2.0,19.343,36.344,24.777,SOFT,8.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,73.628,73.628,20.0,2.0,19.393,34.593,19.642,SOFT,9.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,106.096,106.096,21.0,2.0,28.301,56.528,21.267,SOFT,10.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,96.472,96.472,22.0,2.0,19.219,47.295,29.958,SOFT,11.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,87.395,87.395,23.0,2.0,25.82,40.212,21.363,SOFT,12.0,True,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,73.405,73.405,24.0,2.0,19.185,34.596,19.624,SOFT,13.0,True,Mercedes,True,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,,,25.0,2.0,23.032,41.106,,SOFT,14.0,True,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+RUS,63,95.99,95.99,26.0,3.0,26.935,47.296,21.759,SOFT,15.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+RUS,63,78.037,78.037,27.0,3.0,20.95,36.556,20.531,SOFT,16.0,False,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,76.274,76.274,28.0,3.0,20.216,35.737,20.321,SOFT,17.0,False,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,76.352,76.352,29.0,3.0,20.195,35.829,20.328,SOFT,18.0,False,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,85.654,85.654,30.0,3.0,20.308,43.559,21.787,SOFT,19.0,False,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,,,31.0,3.0,,,,SOFT,20.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+RUS,63,92.092,92.092,32.0,4.0,27.32,40.828,23.944,MEDIUM,21.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+RUS,63,129.324,129.324,33.0,4.0,23.671,42.243,63.41,MEDIUM,22.0,False,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,124.07,124.07,34.0,4.0,24.382,41.72,57.968,MEDIUM,23.0,False,Mercedes,False,,,True,2026,Monaco Grand Prix,Practice 2
+RUS,63,,,35.0,4.0,23.009,39.077,,MEDIUM,24.0,False,Mercedes,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOT,77,108.01,108.01,1.0,1.0,38.676,41.187,28.147,MEDIUM,1.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOT,77,79.834,79.834,2.0,1.0,21.528,37.391,20.915,MEDIUM,2.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,77.674,77.674,3.0,1.0,20.321,36.346,21.007,MEDIUM,3.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,92.802,92.802,4.0,1.0,22.821,42.668,27.313,MEDIUM,4.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,86.483,86.483,5.0,1.0,20.441,40.887,25.155,MEDIUM,5.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,77.404,77.404,6.0,1.0,20.559,36.217,20.628,MEDIUM,6.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,97.675,97.675,7.0,1.0,26.429,46.791,24.455,MEDIUM,7.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,77.111,77.111,8.0,1.0,20.281,36.12,20.71,MEDIUM,8.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,,,9.0,1.0,28.2,53.524,,MEDIUM,9.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOT,77,86.244,86.244,10.0,2.0,25.619,39.204,21.421,SOFT,1.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOT,77,75.887,75.887,11.0,2.0,20.138,35.605,20.144,SOFT,2.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,95.042,95.042,12.0,2.0,24.052,47.442,23.548,SOFT,3.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,76.043,76.043,13.0,2.0,20.131,35.703,20.209,SOFT,4.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,95.55,95.55,14.0,2.0,27.508,45.557,22.485,SOFT,5.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,75.759,75.759,15.0,2.0,19.945,35.706,20.108,SOFT,6.0,True,Cadillac,True,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,99.812,99.812,16.0,2.0,25.135,47.932,26.745,SOFT,7.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,91.466,91.466,17.0,2.0,22.829,45.679,22.958,SOFT,8.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,90.804,90.804,18.0,2.0,20.17,44.742,25.892,SOFT,9.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,76.047,76.047,19.0,2.0,20.098,35.69,20.259,SOFT,10.0,True,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,,,20.0,2.0,30.52,42.153,,SOFT,11.0,True,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOT,77,91.352,91.352,21.0,3.0,27.068,41.63,22.654,SOFT,12.0,False,Cadillac,False,,,False,2026,Monaco Grand Prix,Practice 2
+BOT,77,79.69,79.69,22.0,3.0,21.16,37.178,21.352,SOFT,13.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,93.342,93.342,23.0,3.0,21.456,46.545,25.341,SOFT,14.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,79.733,79.733,24.0,3.0,21.486,37.153,21.094,SOFT,15.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,78.956,78.956,25.0,3.0,20.91,36.842,21.204,SOFT,16.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,79.746,79.746,26.0,3.0,21.336,37.164,21.246,SOFT,17.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,79.559,79.559,27.0,3.0,21.3,37.145,21.114,SOFT,18.0,False,Cadillac,False,,,True,2026,Monaco Grand Prix,Practice 2
+BOT,77,,,28.0,3.0,,,,SOFT,19.0,False,Cadillac,,,,False,2026,Monaco Grand Prix,Practice 2
+PIA,81,101.635,101.635,1.0,1.0,32.825,45.232,23.578,MEDIUM,1.0,True,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+PIA,81,90.607,90.607,2.0,1.0,21.801,39.104,29.702,MEDIUM,2.0,True,McLaren,True,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,76.318,76.318,3.0,1.0,20.586,35.592,20.14,MEDIUM,3.0,True,McLaren,True,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,104.104,104.104,4.0,1.0,24.311,48.18,31.613,MEDIUM,4.0,True,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,75.108,75.108,5.0,1.0,19.928,35.225,19.955,MEDIUM,5.0,True,McLaren,True,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,99.381,99.381,6.0,1.0,25.548,48.709,25.124,MEDIUM,6.0,True,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,74.707,74.707,7.0,1.0,19.776,35.115,19.816,MEDIUM,7.0,True,McLaren,True,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,,,8.0,1.0,27.689,58.599,,MEDIUM,8.0,True,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+PIA,81,93.437,93.437,9.0,2.0,29.954,41.018,22.465,SOFT,1.0,True,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+PIA,81,83.682,83.682,10.0,2.0,20.974,41.469,21.239,SOFT,2.0,True,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,117.673,117.673,11.0,2.0,19.691,41.247,56.735,SOFT,3.0,True,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+PIA,81,90.641,90.641,12.0,3.0,25.835,39.606,25.2,SOFT,4.0,False,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+PIA,81,74.627,74.627,13.0,3.0,19.735,35.2,19.692,SOFT,5.0,False,McLaren,True,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,95.64,95.64,14.0,3.0,22.572,44.869,28.199,SOFT,6.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,74.088,74.088,15.0,3.0,19.632,34.908,19.548,SOFT,7.0,False,McLaren,True,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,100.298,100.298,16.0,3.0,27.199,45.997,27.102,SOFT,8.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,74.323,74.323,17.0,3.0,19.522,35.039,19.762,SOFT,9.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,96.515,96.515,18.0,3.0,25.428,44.999,26.088,SOFT,10.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,,,19.0,3.0,19.629,35.328,,SOFT,11.0,False,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+PIA,81,91.168,91.168,20.0,4.0,27.937,40.48,22.751,SOFT,12.0,False,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+PIA,81,78.852,78.852,21.0,4.0,20.612,37.299,20.941,SOFT,13.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,82.737,82.737,22.0,4.0,20.848,37.119,24.77,SOFT,14.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,77.952,77.952,23.0,4.0,20.902,36.437,20.613,SOFT,15.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,77.182,77.182,24.0,4.0,20.526,36.121,20.535,SOFT,16.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,79.806,79.806,25.0,4.0,20.723,38.429,20.654,SOFT,17.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,80.635,80.635,26.0,4.0,20.617,37.525,22.493,SOFT,18.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,,,27.0,4.0,21.735,,,SOFT,19.0,False,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+PIA,81,92.848,92.848,28.0,5.0,27.253,42.321,23.274,MEDIUM,9.0,False,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+PIA,81,133.347,133.347,29.0,5.0,22.751,42.956,67.64,MEDIUM,10.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,139.371,139.371,30.0,5.0,25.411,45.746,68.214,MEDIUM,11.0,False,McLaren,False,,,True,2026,Monaco Grand Prix,Practice 2
+PIA,81,,,31.0,5.0,25.183,44.682,,MEDIUM,12.0,False,McLaren,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,102.853,102.853,1.0,1.0,37.21,42.375,23.268,MEDIUM,2.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,87.191,87.191,2.0,1.0,22.15,43.239,21.802,MEDIUM,3.0,False,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,76.632,76.632,3.0,1.0,20.398,35.997,20.237,MEDIUM,4.0,False,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,75.716,75.716,4.0,1.0,20.039,35.61,20.067,MEDIUM,5.0,False,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,124.386,124.386,5.0,1.0,39.498,55.231,29.657,MEDIUM,6.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,85.575,85.575,6.0,1.0,20.123,38.373,27.079,MEDIUM,7.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,86.293,86.293,7.0,1.0,19.882,39.45,26.961,MEDIUM,8.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,75.599,75.599,8.0,1.0,19.762,35.763,20.074,MEDIUM,9.0,False,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,,,9.0,1.0,40.986,82.334,29.906,MEDIUM,10.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,97.697,97.697,10.0,1.0,26.297,47.063,24.337,MEDIUM,11.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,82.163,82.163,11.0,1.0,22.525,38.352,21.286,MEDIUM,12.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,80.043,80.043,12.0,1.0,20.745,37.552,21.746,MEDIUM,13.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,75.24,75.24,13.0,1.0,19.875,35.358,20.007,MEDIUM,14.0,False,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,,,14.0,1.0,25.017,38.381,,MEDIUM,15.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,90.519,90.519,15.0,2.0,28.254,39.793,22.472,SOFT,1.0,True,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,80.733,80.733,16.0,2.0,21.108,38.198,21.427,SOFT,2.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,83.324,83.324,17.0,2.0,19.821,40.093,23.41,SOFT,3.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,74.555,74.555,18.0,2.0,19.641,35.126,19.788,SOFT,4.0,True,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,115.257,115.257,19.0,2.0,38.401,55.319,21.537,SOFT,5.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,83.217,83.217,20.0,2.0,20.365,41.288,21.564,SOFT,6.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,74.844,74.844,21.0,2.0,19.616,35.35,19.878,SOFT,7.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,104.332,104.332,22.0,2.0,28.962,47.608,27.762,SOFT,8.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,80.807,80.807,23.0,2.0,20.85,38.533,21.424,SOFT,9.0,True,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,74.456,74.456,24.0,2.0,19.575,35.066,19.815,SOFT,10.0,True,Haas F1 Team,True,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,,,25.0,2.0,28.973,39.233,,SOFT,11.0,True,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,87.543,87.543,26.0,3.0,28.733,37.999,20.811,SOFT,12.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,77.356,77.356,27.0,3.0,20.393,36.391,20.572,SOFT,13.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,78.219,78.219,28.0,3.0,20.485,36.685,21.049,SOFT,14.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,82.356,82.356,29.0,3.0,20.625,36.722,25.009,SOFT,15.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,76.957,76.957,30.0,3.0,20.331,36.191,20.435,SOFT,16.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,77.324,77.324,31.0,3.0,20.611,36.259,20.454,SOFT,17.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,,,32.0,3.0,20.336,,,SOFT,18.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,90.126,90.126,33.0,4.0,25.508,38.243,26.375,MEDIUM,16.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
+BEA,87,77.338,77.338,34.0,4.0,20.424,36.235,20.679,MEDIUM,17.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,132.595,132.595,35.0,4.0,26.85,47.58,58.165,MEDIUM,18.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,129.433,129.433,36.0,4.0,25.755,41.237,62.441,MEDIUM,19.0,False,Haas F1 Team,False,,,True,2026,Monaco Grand Prix,Practice 2
+BEA,87,,,37.0,4.0,35.881,60.98,,MEDIUM,20.0,False,Haas F1 Team,False,,,False,2026,Monaco Grand Prix,Practice 2
