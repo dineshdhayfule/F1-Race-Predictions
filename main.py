@@ -47,8 +47,33 @@ def cmd_predict(args):
     df = results["predictions"]
     track_name = results["track_name"]
 
+    top_n = getattr(args, "top", 10)
+
+    # If qualifying was provisionally predicted, display Race Qualifying Top N
+    if results.get("is_provisional_quali") and results.get("qualifying_meta"):
+        q_meta = results["qualifying_meta"]
+        q_df = q_meta["predictions"].iloc[:top_n]
+        print("\n" + "=" * 80)
+        print(f"RACE QUALIFYING TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{args.stage.upper()}]")
+        print(f"Model: {q_meta.get('selected_model')} | Walk-Forward MAE: {q_meta.get('selected_mae'):.4f} | Pace Sigma: {q_meta.get('calibrated_sigma'):.4f}")
+        print("=" * 80)
+        print(f"{'Pos':<4} {'Driver':<5} {'Team':<22} {'ExpQuali':<10} {'Pole%':<7} {'Top3%':<9}")
+        print("-" * 80)
+        for _, r in q_df.iterrows():
+            print(
+                f"{int(r['PredictedPosition']):<4} "
+                f"{r['Abbreviation']:<5} "
+                f"{r['TeamName'][:21]:<22} "
+                f"{r['ExpectedQualifyingPosition']:<10.2f} "
+                f"{r['PoleProbability']:<7.1f} "
+                f"{r['Top3Probability']:<9.1f}"
+            )
+        print("=" * 80)
+
+    # Grand Prix Race Top N Prediction
+    top_race = df.iloc[:top_n]
     print("\n" + "=" * 80)
-    print(f"PREDICTION RESULTS: {track_name.upper()} {args.year} [{args.stage.upper()}]")
+    print(f"GRAND PRIX RACE TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{args.stage.upper()}]")
     print(f"Selected Model   : {results.get('selected_model', 'N/A')}")
     print(f"Selection Method : {results.get('selection_method', 'Chronological Walk-Forward Validation')}")
     print(f"Selected MAE     : {results.get('selected_mae', 'N/A')}")
@@ -56,7 +81,7 @@ def cmd_predict(args):
     print(f"{'Pos':<4} {'Driver':<5} {'Team':<22} {'Grid':<5} {'ExpFinish':<10} {'Win%':<7} {'Podium%':<9} {'Points%':<9}")
     print("-" * 80)
 
-    for _, r in df.iterrows():
+    for _, r in top_race.iterrows():
         print(
             f"{int(r['PredictedPosition']):<4} "
             f"{r['Abbreviation']:<5} "
@@ -68,7 +93,7 @@ def cmd_predict(args):
             f"{r['PointsProbability']:<9.1f}"
         )
     print("=" * 80)
-    print(f"Full results & markdown report written to: {results['output_dir']}\n")
+    print(f"Reports and full predictions written to: {results['output_dir']}\n")
 
 
 def cmd_evaluate(args):
@@ -127,7 +152,15 @@ def cmd_validate(args):
     races_df, qualis_df = pipeline.data_loader.load_season_rounds(args.year, train_rounds)
     sessions_by_round = pipeline.data_loader.load_all_practice_sessions(args.year, train_rounds)
     weekend_sessions = pipeline.data_loader.load_weekend_sessions(track_key, args.year, stage=args.stage)
-    quali_df = pipeline.data_loader.load_target_qualifying(track_key, args.year)
+    quali_df = None
+    if args.stage in ["after_qualifying", "post_race"]:
+        quali_df = pipeline.data_loader.load_target_qualifying(track_key, args.year)
+    if quali_df is None or quali_df.empty:
+        logger.info(f"Target qualifying not yet completed/observed for stage '{args.stage}'. Generating provisional qualifying...")
+        provisional_quali_meta = pipeline.predict_qualifying(track_key=track_key, year=args.year, stage=args.stage)
+        quali_df = provisional_quali_meta["predictions"][["Abbreviation", "TeamName", "PredictedPosition"]].copy()
+        quali_df.rename(columns={"PredictedPosition": "Position"}, inplace=True)
+        quali_df["QualifyingPosition"] = quali_df["Position"]
 
     train_feats = pipeline.feature_engineer.build_training_dataset(
         races_df=races_df,
@@ -180,6 +213,12 @@ def main():
         default="after_qualifying",
         choices=DataLoader.STAGES,
         help="Prediction timeline stage cutoff"
+    )
+    predict_parser.add_argument(
+        "--top",
+        type=int,
+        default=10,
+        help="Number of top finishing positions to display (default: 10)"
     )
 
     # Evaluate Command

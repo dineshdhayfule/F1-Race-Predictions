@@ -415,6 +415,8 @@
       "overtaking_ease": 0.28,
       "historical_data_available": true,
       "historical_years": [
+        2018,
+        2019,
         2022,
         2023,
         2024,

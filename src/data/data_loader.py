@@ -106,6 +106,7 @@ class DataLoader:
         "after_fp1",
         "after_sprint_qualifying",
         "after_sprint_race",
+        "after_sprint",
         "after_fp2",
         "after_fp3",
         "after_qualifying",
@@ -394,6 +395,8 @@ class DataLoader:
         Respects weekend format (normal vs sprint) and prevents future-session data leakage.
         """
         stage = stage.lower().strip()
+        if stage == "after_sprint":
+            stage = "after_sprint_race"
         if stage not in self.STAGES:
             raise ValueError(f"Invalid stage '{stage}'. Must be one of: {self.STAGES}")
 

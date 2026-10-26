@@ -11,9 +11,22 @@ import json
 import numpy as np
 import pandas as pd
 
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import mean_absolute_error, median_absolute_error, mean_squared_error
+from scipy.stats import spearmanr, median_abs_deviation
+import xgboost as xgb
+
 from src.data.data_loader import DataLoader
 from src.data.data_validator import DataValidator
 from src.features.build_features import FeatureEngineer
+from src.features.weekend_features import (
+    build_practice_features,
+    build_sprint_qualifying_features,
+    build_sprint_race_features,
+)
+from src.features.season_features import build_season_form
+from src.features.teammate_features import compute_rolling_teammate_h2h
 from src.models.train import ModelTrainer
 from src.models.evaluate import ModelEvaluator
 from src.models.predict import Predictor
@@ -104,10 +117,26 @@ class RacePredictionPipeline:
             historical_rounds=tracks
         )
 
+        # Stage alias normalization
+        if stage == "after_sprint":
+            stage = "after_sprint_race"
+
         # 3. Load Qualifying (if stage allows)
         quali_df = None
+        is_provisional_quali = False
+        provisional_quali_meta = None
         if stage in ["after_qualifying", "post_race"]:
             quali_df = self.data_loader.load_target_qualifying(track_key, year, historical_tracks=tracks)
+
+        if quali_df is None or quali_df.empty:
+            logger.info(
+                f"Target qualifying not yet completed/observed for stage '{stage}'. Running pre-race qualifying prediction model..."
+            )
+            provisional_quali_meta = self.predict_qualifying(track_key=track_key, year=year, stage=stage)
+            is_provisional_quali = True
+            quali_df = provisional_quali_meta["predictions"][["Abbreviation", "TeamName", "PredictedPosition"]].copy()
+            quali_df.rename(columns={"PredictedPosition": "Position"}, inplace=True)
+            quali_df["QualifyingPosition"] = quali_df["Position"]
 
         # 4. Build Training Features
         training_features = self.feature_engineer.build_training_dataset(
@@ -239,6 +268,34 @@ class RacePredictionPipeline:
         )
         logger.info(f"Saved markdown report to: {report_path}")
 
+        top3_race_report_path = track_output_dir / f"{track_key}_{year}_race_top3_report.md"
+        self._write_race_top3_report(
+            report_path=top3_race_report_path,
+            track_name=track_name,
+            year=year,
+            stage=stage,
+            target_round=target_round,
+            penalties=penalties,
+            sim_results=sim_results,
+            comp_df=comp_df,
+            sim_meta=sim_meta
+        )
+        logger.info(f"Saved Top 3 race report to: {top3_race_report_path}")
+
+        top10_race_report_path = track_output_dir / f"{track_key}_{year}_race_top10_report.md"
+        self._write_race_top10_report(
+            report_path=top10_race_report_path,
+            track_name=track_name,
+            year=year,
+            stage=stage,
+            target_round=target_round,
+            penalties=penalties,
+            sim_results=sim_results,
+            comp_df=comp_df,
+            sim_meta=sim_meta
+        )
+        logger.info(f"Saved Top 10 race report to: {top10_race_report_path}")
+
         return {
             "track_key": track_key,
             "track_name": track_name,
@@ -253,6 +310,223 @@ class RacePredictionPipeline:
             "model_comparison": comp_df,
             "simulation_meta": sim_meta,
             "leakage_clean": True,
+            "output_dir": str(track_output_dir),
+            "is_provisional_quali": is_provisional_quali,
+            "qualifying_meta": provisional_quali_meta,
+        }
+
+    def predict_qualifying(
+        self,
+        track_key: str,
+        year: int = 2026,
+        stage: str = "after_sprint_race"
+    ) -> Dict[str, Any]:
+        """
+        Predicts Race Qualifying outcome when qualifying has not yet occurred.
+        Trains on completed season rounds using practice, sprint, season form,
+        and teammate head-to-head features. Calibrates residual uncertainty
+        and runs 25,000 Monte Carlo simulations.
+        """
+        track_key_clean = track_key.lower().strip()
+        tracks = self.tracks_config.get("tracks", {})
+        if track_key_clean not in tracks:
+            raise KeyError(f"Track '{track_key_clean}' not configured in tracks.json.")
+
+        track_info = tracks[track_key_clean]
+        target_round = track_info.get("round_2026", 17)
+        track_name = track_info.get("display_name", track_key_clean.title())
+
+        train_rounds = [r for r in range(1, target_round)]
+        races_df, qualis_df = self.data_loader.load_season_rounds(year, train_rounds)
+        sessions_by_round = self.data_loader.load_all_practice_sessions(year, train_rounds)
+
+        train_features = self.feature_engineer.build_training_dataset(
+            races_df=races_df,
+            qualis_df=qualis_df,
+            practice_sessions_by_round=sessions_by_round,
+            train_rounds=train_rounds
+        )
+
+        quali_feature_cols = [
+            "practice_gap_pct", "practice_rank", "practice_laps_norm", "fp1_gap_pct",
+            "driver_quali_ewma", "driver_finish_ewma", "driver_dnf_rate", "recent_grid",
+            "avg_grid", "recent_finish", "avg_finish", "team_finish_ewma", "team_points_rate",
+            "team_avg_finish", "sprint_quali_pos", "sprint_finish_pos", "sprint_pos_delta",
+            "driver_teammate_h2h_ratio"
+        ]
+
+        weekend_sessions = self.data_loader.load_weekend_sessions(
+            track_key=track_key_clean,
+            year=year,
+            stage=stage,
+            historical_rounds=tracks
+        )
+
+        latest_round = max(train_rounds) if train_rounds else target_round - 1
+        latest_race = races_df[races_df["Round"] == latest_round]
+        drivers = latest_race["Abbreviation"].dropna().unique().tolist()
+        team_map = latest_race.set_index("Abbreviation")["TeamName"].to_dict()
+
+        p_feats = build_practice_features(weekend_sessions, drivers)
+        sq_feats = build_sprint_qualifying_features(weekend_sessions.get("sprint_qualifying"), drivers)
+        sr_feats = build_sprint_race_features(weekend_sessions.get("sprint_race"), drivers)
+        dform, tform = build_season_form(target_round, races_df, qualis_df, alpha=0.3)
+        tm_h2h = compute_rolling_teammate_h2h(
+            races_df[races_df["Round"] < target_round],
+            latest_race[["Abbreviation", "TeamName"]]
+        )
+
+        target_rows = []
+        for drv in drivers:
+            team = team_map.get(drv, "Unknown")
+            pf = p_feats[p_feats["Abbreviation"] == drv].iloc[0].to_dict() if not p_feats[p_feats["Abbreviation"] == drv].empty else {}
+            sqf = sq_feats[sq_feats["Abbreviation"] == drv].iloc[0].to_dict() if not sq_feats[sq_feats["Abbreviation"] == drv].empty else {}
+            srf = sr_feats[sr_feats["Abbreviation"] == drv].iloc[0].to_dict() if not sr_feats[sr_feats["Abbreviation"] == drv].empty else {}
+            dfv = dform.get(drv, {})
+            tfv = tform.get(team, {})
+
+            target_rows.append({
+                "Abbreviation": drv,
+                "TeamName": team,
+                "practice_gap_pct": pf.get("practice_gap_pct", np.nan),
+                "practice_rank": pf.get("practice_rank", 22.0),
+                "practice_laps_norm": pf.get("practice_laps_norm", 0.0),
+                "fp1_gap_pct": pf.get("fp1_gap_pct", np.nan),
+                "driver_quali_ewma": dfv.get("driver_quali_ewma", 12.0),
+                "driver_finish_ewma": dfv.get("driver_finish_ewma", 12.0),
+                "driver_dnf_rate": dfv.get("driver_dnf_rate", 0.0),
+                "recent_grid": dfv.get("recent_grid", 12.0),
+                "avg_grid": dfv.get("avg_grid", 12.0),
+                "recent_finish": dfv.get("recent_finish", 12.0),
+                "avg_finish": dfv.get("avg_finish", 12.0),
+                "team_finish_ewma": tfv.get("team_finish_ewma", 12.0),
+                "team_points_rate": tfv.get("team_points_rate", 0.0),
+                "team_avg_finish": tfv.get("team_avg_finish", 12.0),
+                "sprint_quali_pos": sqf.get("sprint_quali_pos", np.nan),
+                "sprint_finish_pos": srf.get("sprint_finish_pos", np.nan),
+                "sprint_pos_delta": srf.get("sprint_pos_delta", np.nan),
+                "driver_teammate_h2h_ratio": tm_h2h.get(drv, 0.50)
+            })
+
+        target_df = pd.DataFrame(target_rows)
+
+        # Walk-forward validation over prior rounds (Rounds 4 .. target_round - 1)
+        val_rounds = [r for r in train_rounds if r >= 4]
+        rf_res, xgb_res, actuals = [], [], []
+
+        for r in val_rounds:
+            tr = train_features[train_features["Round"] < r]
+            te = train_features[train_features["Round"] == r]
+            imp = SimpleImputer(strategy="median")
+            X_tr = imp.fit_transform(tr[quali_feature_cols])
+            X_te = imp.transform(te[quali_feature_cols])
+            y_tr = tr["QualifyingPosition"].fillna(tr["GridPosition"]).fillna(22.0).values
+            y_te = te["QualifyingPosition"].fillna(te["GridPosition"]).fillna(22.0).values
+
+            rf = RandomForestRegressor(n_estimators=500, max_depth=8, min_samples_leaf=2, random_state=42, n_jobs=-1)
+            rf.fit(X_tr, y_tr)
+            p_rf = rf.predict(X_te)
+
+            model_xgb = xgb.XGBRegressor(
+                n_estimators=300, max_depth=4, learning_rate=0.03, subsample=0.8,
+                colsample_bytree=0.8, random_state=42, objective="reg:squarederror"
+            )
+            model_xgb.fit(X_tr, y_tr)
+            p_xgb = model_xgb.predict(X_te)
+
+            rf_res.extend(p_rf)
+            xgb_res.extend(p_xgb)
+            actuals.extend(y_te)
+
+        actuals_arr = np.array(actuals)
+        ens_arr = 0.60 * np.array(rf_res) + 0.40 * np.array(xgb_res)
+        mae = float(mean_absolute_error(actuals_arr, ens_arr))
+        residuals = actuals_arr - ens_arr
+        sigma = float(median_abs_deviation(residuals) * 1.4826)
+        corr, _ = spearmanr(actuals_arr, ens_arr)
+
+        # Train final models on all prior season data
+        imp_full = SimpleImputer(strategy="median")
+        X_tr_full = imp_full.fit_transform(train_features[quali_feature_cols])
+        y_tr_full = train_features["QualifyingPosition"].fillna(train_features["GridPosition"]).fillna(22.0).values
+        X_tgt = imp_full.transform(target_df[quali_feature_cols])
+
+        rf_final = RandomForestRegressor(n_estimators=500, max_depth=8, min_samples_leaf=2, random_state=42, n_jobs=-1)
+        rf_final.fit(X_tr_full, y_tr_full)
+        p_rf_final = rf_final.predict(X_tgt)
+
+        xgb_final = xgb.XGBRegressor(
+            n_estimators=300, max_depth=4, learning_rate=0.03, subsample=0.8,
+            colsample_bytree=0.8, random_state=42, objective="reg:squarederror"
+        )
+        xgb_final.fit(X_tr_full, y_tr_full)
+        p_xgb_final = xgb_final.predict(X_tgt)
+
+        scores = 0.60 * p_rf_final + 0.40 * p_xgb_final
+
+        # Monte Carlo Simulation (25,000 iterations)
+        rng = np.random.default_rng(42)
+        n_sims = 25000
+        n_drivers = len(target_df)
+        sim_scores = np.empty((n_sims, n_drivers))
+        for i in range(n_sims):
+            noise = rng.normal(0, sigma, n_drivers)
+            sim_scores[i] = scores + noise
+
+        sim_ranks = np.argsort(np.argsort(sim_scores, axis=1), axis=1) + 1
+
+        res_rows = []
+        for idx, row in target_df.iterrows():
+            ranks = sim_ranks[:, idx]
+            res_rows.append({
+                "Abbreviation": row["Abbreviation"],
+                "TeamName": row["TeamName"],
+                "ExpectedQualifyingPosition": round(float(ranks.mean()), 2),
+                "MedianPosition": int(np.median(ranks)),
+                "PoleProbability": round(float(np.mean(ranks == 1) * 100), 1),
+                "Top3Probability": round(float(np.mean(ranks <= 3) * 100), 1),
+                "Top5Probability": round(float(np.mean(ranks <= 5) * 100), 1),
+                "P5": int(np.percentile(ranks, 5)),
+                "P95": int(np.percentile(ranks, 95)),
+                "DeterministicScore": round(float(scores[idx]), 2),
+            })
+
+        res_df = pd.DataFrame(res_rows).sort_values("ExpectedQualifyingPosition").reset_index(drop=True)
+        res_df["PredictedPosition"] = np.arange(1, len(res_df) + 1)
+
+        track_output_dir = self.output_dir / track_key_clean
+        track_output_dir.mkdir(parents=True, exist_ok=True)
+
+        pred_csv = track_output_dir / f"{track_key_clean}_{year}_qualifying_predictions.csv"
+        res_df.to_csv(pred_csv, index=False)
+        logger.info(f"Saved qualifying predictions to: {pred_csv}")
+
+        top3_report = track_output_dir / f"{track_key_clean}_{year}_qualifying_top3_report.md"
+        self._write_qualifying_top3_report(
+            report_path=top3_report,
+            track_name=track_name,
+            year=year,
+            stage=stage,
+            target_round=target_round,
+            res_df=res_df,
+            mae=mae,
+            sigma=sigma,
+            spearman=corr
+        )
+        logger.info(f"Saved Top 3 qualifying report to: {top3_report}")
+
+        return {
+            "track_key": track_key_clean,
+            "track_name": track_name,
+            "year": year,
+            "stage": stage,
+            "target_round": target_round,
+            "selected_model": "60% Random Forest / 40% XGBoost",
+            "selected_mae": mae,
+            "spearman": corr,
+            "calibrated_sigma": sigma,
+            "predictions": res_df,
+            "top3": res_df.iloc[:3].copy(),
             "output_dir": str(track_output_dir)
         }
 
@@ -271,9 +545,10 @@ class RacePredictionPipeline:
         """Generates a clean markdown report of the prediction outcomes."""
         top_driver = sim_results.iloc[0]["Abbreviation"]
         top_prob = sim_results.iloc[0]["WinProbability"]
+        title_name = track_name if track_name.endswith("Grand Prix") else f"{track_name} Grand Prix"
 
         lines = [
-            f"# F1 {year} {track_name} Grand Prix — Race Prediction Report",
+            f"# F1 {year} {title_name} — Race Prediction Report",
             f"**Round**: {target_round} | **Stage**: `{stage}` | **Simulations**: {sim_meta.get('n_simulations', 25000):,}",
             f"**Selected Model**: **{sim_meta.get('selected_model', 'N/A')}**",
             f"**Selection Method**: {sim_meta.get('selection_method', 'Chronological Walk-Forward Validation')}",
@@ -334,5 +609,148 @@ class RacePredictionPipeline:
             "*Report generated by unified F1 Race Prediction Engine with zero data leakage.*"
         ])
 
+        with open(report_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+
+    def _write_qualifying_top3_report(
+        self,
+        report_path: Path,
+        track_name: str,
+        year: int,
+        stage: str,
+        target_round: int,
+        res_df: pd.DataFrame,
+        mae: float,
+        sigma: float,
+        spearman: float,
+    ):
+        """Generates a dedicated markdown report displaying exclusively the Top 3 for Race Qualifying."""
+        top3_df = res_df.iloc[:3]
+        title_name = track_name if track_name.endswith("Grand Prix") else f"{track_name} Grand Prix"
+        lines = [
+            f"# F1 {year} {title_name} — Race Qualifying Top 3 Prediction",
+            f"**Round**: {target_round} | **Stage**: `{stage}` | **Simulations**: 25,000",
+            f"**Selected Model**: **60% Random Forest / 40% XGBoost**",
+            f"**Validation**: Chronological Walk-Forward (Rounds 4–{target_round-1}) | **MAE**: {mae:.4f} | **Spearman**: {spearman:.4f}",
+            f"**Residual Pace σ**: {sigma:.4f}",
+            "",
+            "## Race Qualifying — Predicted Top 3",
+            "",
+            "| Pos | Driver | Team | Expected Quali Pos | Pole % | Top 3 % | Top 5 % | Range (P5-P95) |",
+            "|:---:|:------:|:-----|:------------------:|:------:|:-------:|:-------:|:--------------:|",
+        ]
+        for _, row in top3_df.iterrows():
+            pos = int(row["PredictedPosition"])
+            drv = row["Abbreviation"]
+            team = row["TeamName"]
+            exp = f"{row['ExpectedQualifyingPosition']:.2f}"
+            pole = f"{row['PoleProbability']:.1f}%"
+            top3 = f"{row['Top3Probability']:.1f}%"
+            top5 = f"{row['Top5Probability']:.1f}%"
+            rng = f"P{int(row['P5'])}-P{int(row['P95'])}"
+            lines.append(f"| {pos} | **{drv}** | {team} | {exp} | {pole} | {top3} | {top5} | {rng} |")
+
+        lines.extend([
+            "",
+            "---",
+            "*Report generated by unified F1 Race Prediction Engine with zero data leakage.*"
+        ])
+        with open(report_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+
+    def _write_race_top3_report(
+        self,
+        report_path: Path,
+        track_name: str,
+        year: int,
+        stage: str,
+        target_round: int,
+        penalties: Dict[str, int],
+        sim_results: pd.DataFrame,
+        comp_df: pd.DataFrame,
+        sim_meta: Dict[str, Any]
+    ):
+        """Generates a dedicated markdown report displaying exclusively the Top 3 for Grand Prix Race."""
+        top3_df = sim_results.iloc[:3]
+        title_name = track_name if track_name.endswith("Grand Prix") else f"{track_name} Grand Prix"
+        lines = [
+            f"# F1 {year} {title_name} — Race Top 3 Prediction",
+            f"**Round**: {target_round} | **Stage**: `{stage}` | **Simulations**: {sim_meta.get('n_simulations', 25000):,}",
+            f"**Selected Model**: **{sim_meta.get('selected_model', 'N/A')}**",
+            f"**Selection Method**: {sim_meta.get('selection_method', 'Chronological Walk-Forward Validation')}",
+            f"**Selected MAE**: {sim_meta.get('selected_mae', 'N/A')}",
+            f"**Uncertainty Pace σ**: {sim_meta.get('calibrated_sigma', 'N/A')} | **DNF Hazard Rate**: {sim_meta.get('empirical_dnf_prob', 'N/A')}",
+            "",
+            "## Grand Prix Race — Predicted Top 3",
+            "",
+            "| Pos | Driver | Team | Grid | Exp. Finish | Win % | Podium % | Points % | Range (P5-P95) |",
+            "|:---:|:------:|:-----|:----:|:-----------:|:-----:|:--------:|:--------:|:--------------:|",
+        ]
+        for _, row in top3_df.iterrows():
+            pos = int(row["PredictedPosition"])
+            drv = row["Abbreviation"]
+            team = row["TeamName"]
+            grid = int(row["ActualStartingGrid"])
+            exp = f"{row['ExpectedFinish']:.2f}"
+            win = f"{row['WinProbability']:.1f}%"
+            pod = f"{row['Top3Probability']:.1f}%"
+            pts = f"{row['PointsProbability']:.1f}%"
+            rng = f"P{int(row['P5'])}-P{int(row['P95'])}"
+            lines.append(f"| {pos} | **{drv}** | {team} | {grid} | {exp} | {win} | {pod} | {pts} | {rng} |")
+
+        lines.extend([
+            "",
+            "---",
+            "*Report generated by unified F1 Race Prediction Engine with zero data leakage.*"
+        ])
+        with open(report_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+
+    def _write_race_top10_report(
+        self,
+        report_path: Path,
+        track_name: str,
+        year: int,
+        stage: str,
+        target_round: int,
+        penalties: Dict[str, int],
+        sim_results: pd.DataFrame,
+        comp_df: pd.DataFrame,
+        sim_meta: Dict[str, Any]
+    ):
+        """Generates a dedicated markdown report displaying exclusively the Top 10 for Grand Prix Race."""
+        top10_df = sim_results.iloc[:10]
+        title_name = track_name if track_name.endswith("Grand Prix") else f"{track_name} Grand Prix"
+        lines = [
+            f"# F1 {year} {title_name} — Race Top 10 Prediction",
+            f"**Round**: {target_round} | **Stage**: `{stage}` | **Simulations**: {sim_meta.get('n_simulations', 25000):,}",
+            f"**Selected Model**: **{sim_meta.get('selected_model', 'N/A')}**",
+            f"**Selection Method**: {sim_meta.get('selection_method', 'Chronological Walk-Forward Validation')}",
+            f"**Selected MAE**: {sim_meta.get('selected_mae', 'N/A')}",
+            f"**Uncertainty Pace σ**: {sim_meta.get('calibrated_sigma', 'N/A')} | **DNF Hazard Rate**: {sim_meta.get('empirical_dnf_prob', 'N/A')}",
+            "",
+            "## Grand Prix Race — Predicted Top 10 Points Finishers",
+            "",
+            "| Pos | Driver | Team | Grid | Exp. Finish | Win % | Podium % | Top 5 % | Points % | Range (P5-P95) |",
+            "|:---:|:------:|:-----|:----:|:-----------:|:-----:|:--------:|:-------:|:--------:|:--------------:|",
+        ]
+        for _, row in top10_df.iterrows():
+            pos = int(row["PredictedPosition"])
+            drv = row["Abbreviation"]
+            team = row["TeamName"]
+            grid = int(row["ActualStartingGrid"])
+            exp = f"{row['ExpectedFinish']:.2f}"
+            win = f"{row['WinProbability']:.1f}%"
+            pod = f"{row['Top3Probability']:.1f}%"
+            top5 = f"{row['Top5Probability']:.1f}%"
+            pts = f"{row['PointsProbability']:.1f}%"
+            rng = f"P{int(row['P5'])}-P{int(row['P95'])}"
+            lines.append(f"| {pos} | **{drv}** | {team} | {grid} | {exp} | {win} | {pod} | {top5} | {pts} | {rng} |")
+
+        lines.extend([
+            "",
+            "---",
+            "*Report generated by unified F1 Race Prediction Engine with zero data leakage.*"
+        ])
         with open(report_path, "w", encoding="utf-8") as f:
             f.write("\n".join(lines) + "\n")
