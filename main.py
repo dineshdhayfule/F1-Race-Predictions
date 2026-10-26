@@ -226,7 +226,10 @@ def main():
         description="F1 Unified Race Prediction Engine",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers = parser.add_subparsers(dest="command", required=False)
+
+    # Interactive Menu Command
+    subparsers.add_parser("menu", help="Launch interactive terminal menu")
 
     # Predict Command
     predict_parser = subparsers.add_parser("predict", help="Run race prediction pipeline")
@@ -263,7 +266,11 @@ def main():
 
     args = parser.parse_args()
 
-    if args.command == "predict":
+    if args.command is None or args.command == "menu":
+        from src.cli.menu import InteractiveMenu
+        menu = InteractiveMenu(root_dir=ROOT)
+        menu.run()
+    elif args.command == "predict":
         cmd_predict(args)
     elif args.command == "evaluate":
         cmd_evaluate(args)
