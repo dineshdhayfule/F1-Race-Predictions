@@ -326,9 +326,47 @@ class DataLoader:
 
         return sessions_by_round
 
+    def _resolve_round_number(self, track_id: Optional[str], year: int, **kwargs) -> Optional[int]:
+        """
+        Resolves the championship round number for a track and year from kwargs,
+        passed track metadata, or tracks.json configuration.
+        """
+        round_num = kwargs.get("round") or kwargs.get("round_num")
+        if round_num is not None:
+            try:
+                return int(round_num)
+            except (ValueError, TypeError):
+                pass
+
+        if not track_id:
+            return None
+
+        track_k = str(track_id).lower().strip()
+        hist = kwargs.get("historical_tracks") or kwargs.get("historical_rounds") or kwargs.get("tracks")
+        if isinstance(hist, dict) and track_k in hist:
+            info = hist[track_k]
+            r = info.get(f"round_{year}") or info.get("round_2026") or info.get("round")
+            if r is not None:
+                try:
+                    return int(r)
+                except (ValueError, TypeError):
+                    pass
+
+        if track_k in self.tracks_config:
+            info = self.tracks_config[track_k]
+            r = info.get(f"round_{year}") or info.get("round_2026") or info.get("round")
+            if r is not None:
+                try:
+                    return int(r)
+                except (ValueError, TypeError):
+                    pass
+
+        return None
+
     def load_target_qualifying(self, track_id: Optional[str] = None, year: int = 2026, track_key: Optional[str] = None, **kwargs) -> Optional[pd.DataFrame]:
         """
         Loads current target qualifying session results.
+        Searches track directory, processed directory, and season directory.
         """
         tid = track_id or track_key or kwargs.get("track") or ""
         track_k = str(tid).lower().strip()
@@ -337,6 +375,44 @@ class DataLoader:
             self.raw_data_dir / "tracks" / track_k / str(year) / "qualifying.csv",
             self.processed_data_dir / f"{year}_{track_k}_qualifying.csv",
         ]
+        round_num = self._resolve_round_number(track_k, year, **kwargs)
+        if round_num is not None:
+            candidates.extend([
+                self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_qualifying.csv",
+                self.processed_data_dir / "season" / str(year) / f"{year}_round_{round_num}_qualifying.csv",
+                self.processed_data_dir / f"{year}_round_{round_num}_qualifying.csv",
+            ])
+        for p in candidates:
+            if p.exists():
+                df = pd.read_csv(p)
+                return normalize_driver(df)
+        return None
+
+    def load_target_race(
+        self,
+        track_id: Optional[str] = None,
+        year: int = 2026,
+        track_key: Optional[str] = None,
+        **kwargs
+    ) -> Optional[pd.DataFrame]:
+        """
+        Loads current target race session results.
+        NOTE: Permitted ONLY for post-race verification and evaluation.
+        """
+        tid = track_id or track_key or kwargs.get("track") or ""
+        track_k = str(tid).lower().strip()
+        candidates = [
+            self.raw_data_dir / "tracks" / track_k / str(year) / f"{year}_{track_k}_race.csv",
+            self.raw_data_dir / "tracks" / track_k / str(year) / "race.csv",
+            self.processed_data_dir / f"{year}_{track_k}_race.csv",
+        ]
+        round_num = self._resolve_round_number(track_k, year, **kwargs)
+        if round_num is not None:
+            candidates.extend([
+                self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_race.csv",
+                self.processed_data_dir / "season" / str(year) / f"{year}_round_{round_num}_race.csv",
+                self.processed_data_dir / f"{year}_round_{round_num}_race.csv",
+            ])
         for p in candidates:
             if p.exists():
                 df = pd.read_csv(p)
@@ -356,6 +432,14 @@ class DataLoader:
             self.processed_data_dir / f"{year}_{track_k}_sprint_qualifying.csv",
             self.processed_data_dir / f"{year}_{track_k}_sprint_shootout.csv",
         ]
+        round_num = self._resolve_round_number(track_k, year, **kwargs)
+        if round_num is not None:
+            candidates.extend([
+                self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sprint_qualifying.csv",
+                self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sprint_shootout.csv",
+                self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sq.csv",
+                self.processed_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sprint_qualifying.csv",
+            ])
         for p in candidates:
             if p.exists():
                 df = pd.read_csv(p)
@@ -375,6 +459,14 @@ class DataLoader:
             self.processed_data_dir / f"{year}_{track_k}_sprint_race.csv",
             self.processed_data_dir / f"{year}_{track_k}_sprint.csv",
         ]
+        round_num = self._resolve_round_number(track_k, year, **kwargs)
+        if round_num is not None:
+            candidates.extend([
+                self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sprint_race.csv",
+                self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sprint.csv",
+                self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sr.csv",
+                self.processed_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sprint_race.csv",
+            ])
         for p in candidates:
             if p.exists():
                 df = pd.read_csv(p)
@@ -462,6 +554,8 @@ class DataLoader:
             else:
                 allowed_sessions = []
 
+        round_num = self._resolve_round_number(track_k, year, **kwargs)
+
         for s in allowed_sessions:
             candidates = [
                 track_dir / f"{s}.csv",
@@ -470,18 +564,33 @@ class DataLoader:
                 self.raw_data_dir / "tracks" / track_k / str(year) / f"{year}_{track_k}_{s}.csv",
                 self.raw_data_dir / "tracks" / track_k / str(year) / f"{s}.csv",
             ]
+            if round_num is not None:
+                candidates.extend([
+                    self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_{s}.csv",
+                    self.processed_data_dir / "season" / str(year) / f"{year}_round_{round_num}_{s}.csv",
+                ])
             if s == "sprint_qualifying":
                 candidates.extend([
                     track_dir / f"{year}_{track_k}_sprint_shootout.csv",
                     track_dir / "sprint_shootout.csv",
                     self.processed_data_dir / f"{year}_{track_k}_sprint_shootout.csv",
                 ])
+                if round_num is not None:
+                    candidates.extend([
+                        self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sprint_shootout.csv",
+                        self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sq.csv",
+                    ])
             elif s == "sprint_race":
                 candidates.extend([
                     track_dir / f"{year}_{track_k}_sprint.csv",
                     track_dir / "sprint.csv",
                     self.processed_data_dir / f"{year}_{track_k}_sprint.csv",
                 ])
+                if round_num is not None:
+                    candidates.extend([
+                        self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sprint.csv",
+                        self.raw_data_dir / "season" / str(year) / f"{year}_round_{round_num}_sr.csv",
+                    ])
 
             for p in candidates:
                 if p.exists():

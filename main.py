@@ -49,6 +49,13 @@ def cmd_predict(args):
 
     top_n = getattr(args, "top", 10)
 
+    # Missing session warning banner if provisional qualifying fallback was triggered for post-qualifying stages
+    if results.get("is_provisional_quali") and args.stage in ["after_qualifying", "post_race"]:
+        print("\n" + "!" * 80)
+        print(f"WARNING: Target qualifying data was not found for stage '{args.stage}'.")
+        print("Predictions are based on a fallback provisional qualifying model!")
+        print("!" * 80)
+
     # If qualifying was provisionally predicted, display Race Qualifying Top N
     if results.get("is_provisional_quali") and results.get("qualifying_meta"):
         q_meta = results["qualifying_meta"]
@@ -72,11 +79,13 @@ def cmd_predict(args):
 
     # Grand Prix Race Top N Prediction
     top_race = df.iloc[:top_n]
+    grid_source = "Provisional Qualifying Model" if results.get("is_provisional_quali") else "Actual Observed Qualifying Session"
     print("\n" + "=" * 80)
     print(f"GRAND PRIX RACE TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{args.stage.upper()}]")
     print(f"Selected Model   : {results.get('selected_model', 'N/A')}")
     print(f"Selection Method : {results.get('selection_method', 'Chronological Walk-Forward Validation')}")
     print(f"Selected MAE     : {results.get('selected_mae', 'N/A')}")
+    print(f"Starting Grid    : {grid_source}")
     print("=" * 80)
     print(f"{'Pos':<4} {'Driver':<5} {'Team':<22} {'Grid':<5} {'ExpFinish':<10} {'Win%':<7} {'Podium%':<9} {'Points%':<9}")
     print("-" * 80)
@@ -93,6 +102,21 @@ def cmd_predict(args):
             f"{r['PointsProbability']:<9.1f}"
         )
     print("=" * 80)
+
+    # Post-Race Out-of-Sample Scorecard (if post_race stage with actual race results)
+    if results.get("post_race_metrics"):
+        m = results["post_race_metrics"]
+        print("\n" + "=" * 80)
+        print(f"POST-RACE OUT-OF-SAMPLE EVALUATION: {track_name.upper()} {args.year}")
+        print("=" * 80)
+        print(f"MAE (Expected Finish) : {m['mae_expected']:.4f} (CV Benchmark: 3.5343)")
+        print(f"MAE (Predicted Pos)   : {m['mae_predicted']:.4f}")
+        print(f"Spearman Rank Corr    : {m['spearman_rank_corr']:.4f}")
+        print(f"Top 10 Points Overlap : {m['top10_overlap']} / 10 ({m['top10_overlap']*10:.1f}%)")
+        print(f"Top 3 Podium Overlap  : {m['top3_overlap']} / 3 ({m['top3_overlap']/3*100:.1f}%)")
+        print(f"Podium Brier Score    : {m['podium_brier_score']:.4f}")
+        print("=" * 80)
+
     print(f"Reports and full predictions written to: {results['output_dir']}\n")
 
 
