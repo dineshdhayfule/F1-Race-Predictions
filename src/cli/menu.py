@@ -270,16 +270,16 @@ class InteractiveMenu:
             if rf.exists():
                 completed_historical += 1
 
-        if completed_historical == len(train_rounds):
+        if round_num <= 1 or len(train_rounds) == 0:
+            details.append(("MISSING", f"Round 1 Season Opener: No prior {year} rounds exist to train predictive models. Minimum 1 completed round is required."))
+            is_ready = False
+        elif completed_historical == len(train_rounds):
             details.append(("OK", f"Historical Training Rounds: {completed_historical}/{len(train_rounds)} completed rounds available ({completed_historical*22} driver-race observations)."))
         elif completed_historical > 0:
             details.append(("WARN", f"Historical Training Rounds: {completed_historical}/{len(train_rounds)} completed rounds found in season directory."))
         else:
-            if round_num > 1:
-                details.append(("MISSING", f"No completed season rounds found in data/raw/season/{year}/ for Round {round_num}."))
-                is_ready = False
-            else:
-                details.append(("INFO", "Round 1 season opener: using cold-start priors (no preceding rounds)."))
+            details.append(("MISSING", f"No completed season rounds found in data/raw/season/{year}/ for Round {round_num}."))
+            is_ready = False
 
         # 2. Stage-specific weekend session readiness
         sessions = self.loader.load_weekend_sessions(track_key, year=year, stage=stage)

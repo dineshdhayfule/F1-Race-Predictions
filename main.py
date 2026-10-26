@@ -38,11 +38,16 @@ logger = get_logger("main_cli")
 def cmd_predict(args):
     """Executes prediction command."""
     pipeline = RacePredictionPipeline(root_dir=ROOT)
-    results = pipeline.run(
-        track_key=args.track,
-        year=args.year,
-        stage=args.stage
-    )
+    try:
+        results = pipeline.run(
+            track_key=args.track,
+            year=args.year,
+            stage=args.stage
+        )
+    except (ValueError, RuntimeError) as e:
+        logger.error(f"Prediction failed: {e}")
+        print(f"\n[ERROR] Prediction cannot proceed: {e}\n")
+        return
 
     df = results["predictions"]
     track_name = results["track_name"]

@@ -106,6 +106,12 @@ class RacePredictionPipeline:
 
         # 1. Load Season Data (completed rounds strictly < target_round)
         train_rounds = [r for r in range(1, target_round)]
+        if target_round <= 1 or not train_rounds:
+            raise ValueError(
+                f"Cannot generate race prediction for Round {target_round} ({track_name} {year}): "
+                f"No prior same-season historical rounds exist to train predictive models. "
+                f"The prediction pipeline requires at least 1 completed round."
+            )
         races_df, qualis_df = self.data_loader.load_season_rounds(year, train_rounds)
         sessions_by_round = self.data_loader.load_all_practice_sessions(year, train_rounds)
 
@@ -191,7 +197,7 @@ class RacePredictionPipeline:
             selected_xgb_weight = eval_results["best_w_xgb"]
             selected_model_name = eval_results["best_model_name"]
             selected_mae = eval_results["best_mae"]
-            selection_method = "Chronological Walk-Forward Validation"
+            selection_method = "Chronological Walk-Forward Validation" if eval_results.get("validation_rounds") else "Architectural Default (Early Season)"
             residuals = eval_results["selected_residuals"]
         elif mode == "fixed_rf":
             selected_rf_weight, selected_xgb_weight = 1.0, 0.0
@@ -374,6 +380,12 @@ class RacePredictionPipeline:
         track_name = track_info.get("display_name", track_key_clean.title())
 
         train_rounds = [r for r in range(1, target_round)]
+        if target_round <= 1 or not train_rounds:
+            raise ValueError(
+                f"Cannot generate qualifying prediction for Round {target_round} ({track_name} {year}): "
+                f"No prior same-season historical rounds exist to train qualifying models. "
+                f"The qualifying prediction pipeline requires at least 1 completed round."
+            )
         races_df, qualis_df = self.data_loader.load_season_rounds(year, train_rounds)
         sessions_by_round = self.data_loader.load_all_practice_sessions(year, train_rounds)
 
@@ -475,12 +487,43 @@ class RacePredictionPipeline:
             xgb_res.extend(p_xgb)
             actuals.extend(y_te)
 
-        actuals_arr = np.array(actuals)
-        ens_arr = 0.60 * np.array(rf_res) + 0.40 * np.array(xgb_res)
-        mae = float(mean_absolute_error(actuals_arr, ens_arr))
-        residuals = actuals_arr - ens_arr
-        sigma = float(median_abs_deviation(residuals) * 1.4826)
-        corr, _ = spearmanr(actuals_arr, ens_arr)
+        if val_rounds and len(actuals) > 0:
+            actuals_arr = np.array(actuals)
+            ens_arr = 0.60 * np.array(rf_res) + 0.40 * np.array(xgb_res)
+            mae = float(mean_absolute_error(actuals_arr, ens_arr))
+            residuals = actuals_arr - ens_arr
+            sigma = float(median_abs_deviation(residuals) * 1.4826)
+            corr, _ = spearmanr(actuals_arr, ens_arr)
+        else:
+            # Early season (Rounds 2-4): Fewer than 4 completed rounds, so walk-forward splits are unavailable.
+            # Fit and evaluate models on all available training rounds using architectural default weights (60% RF / 40% XGB).
+            imp_eval = SimpleImputer(strategy="median")
+            X_tr_eval = imp_eval.fit_transform(train_features[quali_feature_cols])
+            y_tr_eval = train_features["QualifyingPosition"].fillna(train_features["GridPosition"]).fillna(22.0).values
+
+            rf_eval = RandomForestRegressor(n_estimators=500, max_depth=8, min_samples_leaf=2, random_state=42, n_jobs=-1)
+            rf_eval.fit(X_tr_eval, y_tr_eval)
+            p_rf_eval = rf_eval.predict(X_tr_eval)
+
+            model_xgb_eval = xgb.XGBRegressor(
+                n_estimators=300, max_depth=4, learning_rate=0.03, subsample=0.8,
+                colsample_bytree=0.8, random_state=42, objective="reg:squarederror"
+            )
+            model_xgb_eval.fit(X_tr_eval, y_tr_eval)
+            p_xgb_eval = model_xgb_eval.predict(X_tr_eval)
+
+            ens_eval = 0.60 * p_rf_eval + 0.40 * p_xgb_eval
+            mae = float(mean_absolute_error(y_tr_eval, ens_eval))
+            residuals = y_tr_eval - ens_eval
+            mad_sigma = float(median_abs_deviation(residuals) * 1.4826)
+            fallback_sigma = float(self.model_config.get("monte_carlo", {}).get("fallback_sigma", 2.85))
+            sigma = max(mad_sigma, 1.5) if (not np.isnan(mad_sigma) and mad_sigma > 0) else fallback_sigma
+            corr_stat, _ = spearmanr(y_tr_eval, ens_eval)
+            corr = float(corr_stat) if not np.isnan(corr_stat) else 0.5
+            logger.info(
+                f"Early-season qualifying calibration (Round {target_round}): Walk-forward validation unavailable "
+                f"({len(train_rounds)} rounds < 4). Evaluated on available training rounds (MAE={mae:.4f}, sigma={sigma:.4f})."
+            )
 
         # Train final models on all prior season data
         imp_full = SimpleImputer(strategy="median")

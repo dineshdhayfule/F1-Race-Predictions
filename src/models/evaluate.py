@@ -51,8 +51,6 @@ class ModelEvaluator:
         rounds = sorted([int(r) for r in training_df["Round"].dropna().unique()])
         val_rounds = [r for r in rounds if r > self.min_train_rounds]
 
-        logger.info(f"Starting Walk-Forward Validation across rounds: {val_rounds}")
-
         tested_weights = [
             (1.0, 0.0, "100% RF"),
             (0.75, 0.25, "75% RF / 25% XGB"),
@@ -62,6 +60,101 @@ class ModelEvaluator:
             (0.25, 0.75, "25% RF / 75% XGB"),
             (0.0, 1.0, "100% XGB"),
         ]
+
+        if not val_rounds:
+            logger.info(
+                f"No walk-forward validation rounds available ({len(rounds)} completed rounds <= min_train_rounds={self.min_train_rounds}). "
+                f"Evaluating in-sample on available training data."
+            )
+            train_copy = training_df.copy()
+            for col in self.feature_cols:
+                if col not in train_copy.columns:
+                    train_copy[col] = np.nan
+
+            imputer = SimpleImputer(strategy="median")
+            X_all = imputer.fit_transform(train_copy[self.feature_cols])
+            y_all = train_copy["ActualFinish"].values
+
+            rf_cfg = self.model_cfg.get("random_forest", {})
+            rf = RandomForestRegressor(
+                n_estimators=rf_cfg.get("n_estimators", 500),
+                max_depth=rf_cfg.get("max_depth", 8),
+                min_samples_leaf=rf_cfg.get("min_samples_leaf", 2),
+                random_state=self.random_state,
+                n_jobs=-1,
+            )
+            rf.fit(X_all, y_all)
+            rf_pred = rf.predict(X_all)
+
+            xgb_cfg = self.model_cfg.get("xgboost", {})
+            model_xgb = xgb.XGBRegressor(
+                n_estimators=xgb_cfg.get("n_estimators", 300),
+                max_depth=xgb_cfg.get("max_depth", 4),
+                learning_rate=xgb_cfg.get("learning_rate", 0.03),
+                subsample=xgb_cfg.get("subsample", 0.8),
+                colsample_bytree=xgb_cfg.get("colsample_bytree", 0.8),
+                random_state=self.random_state,
+                objective="reg:squarederror",
+            )
+            model_xgb.fit(X_all, y_all)
+            xgb_pred = model_xgb.predict(X_all)
+
+            rf_residuals = list(y_all - rf_pred)
+            xgb_residuals = list(y_all - xgb_pred)
+
+            grid_col = "ActualStartingGrid" if "ActualStartingGrid" in train_copy.columns else "GridPosition"
+            round_grids = pd.to_numeric(train_copy.get(grid_col, train_copy.get("GridPosition")), errors="coerce").fillna(12.0).values
+
+            ensemble_results = []
+            round_predictions = {}
+            for w_rf, w_xgb, name in tested_weights:
+                blend_pred = w_rf * rf_pred + w_xgb * xgb_pred
+                round_predictions[name] = list(blend_pred)
+                mae = float(mean_absolute_error(y_all, blend_pred))
+                medae = float(median_absolute_error(y_all, blend_pred))
+                rmse = float(np.sqrt(mean_squared_error(y_all, blend_pred)))
+                spearman_corr = float(spearmanr(y_all, blend_pred).statistic)
+                ensemble_results.append({
+                    "model_name": name,
+                    "rf_weight": w_rf,
+                    "xgb_weight": w_xgb,
+                    "mae": round(mae, 4),
+                    "medae": round(medae, 4),
+                    "rmse": round(rmse, 4),
+                    "spearman": round(spearman_corr, 4),
+                })
+
+            sel_cfg = self.config.get("model_selection", {})
+            default_rf_w = float(sel_cfg.get("fixed_rf_weight", 0.6))
+            default_xgb_w = float(sel_cfg.get("fixed_xgb_weight", 0.4))
+            match = next((x for x in ensemble_results if abs(x["rf_weight"] - default_rf_w) < 1e-4), ensemble_results[2])
+            best_w_rf = match["rf_weight"]
+            best_w_xgb = match["xgb_weight"]
+            best_name = match["model_name"]
+            best_mae = match["mae"]
+            selected_residuals = np.array(rf_residuals if best_w_rf >= 0.5 else xgb_residuals)
+            empirical_dnf_rate = float(training_df["driver_dnf_rate"].mean()) if "driver_dnf_rate" in training_df.columns else 0.158
+
+            return {
+                "validation_rounds": [],
+                "sample_count": len(y_all),
+                "ensemble_comparisons": ensemble_results,
+                "best_w_rf": best_w_rf,
+                "best_w_xgb": best_w_xgb,
+                "best_model_name": best_name,
+                "best_mae": best_mae,
+                "selected_residuals": selected_residuals,
+                "rf_residuals": np.array(rf_residuals),
+                "xgb_residuals": np.array(xgb_residuals),
+                "rf_mae": ensemble_results[0]["mae"],
+                "xgb_mae": ensemble_results[-1]["mae"],
+                "empirical_dnf_rate": round(empirical_dnf_rate, 4),
+                "grid_positions": np.array(round_grids),
+                "round_predictions": round_predictions,
+                "actuals": y_all,
+            }
+
+        logger.info(f"Starting Walk-Forward Validation across rounds: {val_rounds}")
 
         rf_residuals = []
         xgb_residuals = []

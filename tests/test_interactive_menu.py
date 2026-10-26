@@ -160,3 +160,47 @@ def test_evaluate_handles_duplicate_forecast_drivers(tmp_path):
     with patch("src.cli.menu.prompt_str", return_value=""):
         # Should not raise exception and should evaluate cleanly
         menu._evaluate_saved_prediction_file(temp_csv)
+
+
+def test_round1_readiness_blocked_def02():
+    """Verifies Round 1 (Australia 2026) reports MISSING historical rounds and is_ready=False (DEF-02)."""
+    menu = InteractiveMenu(root_dir=ROOT)
+    ready, details = menu._audit_prediction_readiness("australia", 2026, 1, "pre_fp1", is_sprint=False)
+    assert ready is False
+    missing_msgs = [msg for status, msg in details if status == "MISSING"]
+    assert any("Round 1 Season Opener" in m for m in missing_msgs)
+
+
+def test_round1_pipeline_raises_informative_error_def01():
+    """Verifies pipeline.run() on Round 1 raises an informative ValueError rather than an unhandled crash (DEF-01)."""
+    from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
+    pipeline = RacePredictionPipeline(root_dir=ROOT)
+    with pytest.raises(ValueError) as excinfo:
+        pipeline.run("australia", 2026, "pre_fp1")
+    assert "No prior same-season historical rounds exist" in str(excinfo.value)
+    assert "Round 1" in str(excinfo.value)
+
+
+def test_early_season_walk_forward_fallback_def01():
+    """Verifies ModelEvaluator handles early rounds (<=3 rounds) via in-sample fallback without crashing (DEF-01)."""
+    from src.models.evaluate import ModelEvaluator
+    from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
+    pipeline = RacePredictionPipeline(root_dir=ROOT)
+    # Load Round 1 data
+    races_df, qualis_df = pipeline.data_loader.load_season_rounds(2026, [1])
+    sessions_by_round = pipeline.data_loader.load_all_practice_sessions(2026, [1])
+    train_features = pipeline.feature_engineer.build_training_dataset(
+        races_df=races_df,
+        qualis_df=qualis_df,
+        practice_sessions_by_round=sessions_by_round,
+        train_rounds=[1]
+    )
+    evaluator = ModelEvaluator(pipeline.model_config)
+    eval_res = evaluator.evaluate_walk_forward(train_features)
+    assert eval_res["validation_rounds"] == []
+    assert eval_res["sample_count"] == len(train_features)
+    assert eval_res["best_w_rf"] == 0.6
+    assert eval_res["best_w_xgb"] == 0.4
+    assert len(eval_res["selected_residuals"]) == len(train_features)
+    assert eval_res["best_mae"] > 0.0
+
