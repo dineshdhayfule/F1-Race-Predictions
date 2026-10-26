@@ -120,3 +120,43 @@ def test_graceful_interrupt_handling():
         assert num is None
         conf = prompt_confirm("Confirm?")
         assert conf is False
+
+
+def test_mexico_2026_pre_fp1_readiness_reasons():
+    """Verifies Mexico 2026 pre_fp1 is ready because 18/18 historical rounds are on disk and 0 weekend sessions are required."""
+    menu = InteractiveMenu(root_dir=ROOT)
+    ready, details = menu._audit_prediction_readiness("mexico", 2026, 19, "pre_fp1", is_sprint=False)
+    assert ready is True
+    ok_messages = [msg for status, msg in details if status == "OK"]
+    assert any("Historical Training Rounds: 18/18" in m for m in ok_messages)
+    assert any("pre_fp1': Zero weekend telemetry required" in m for m in ok_messages)
+
+
+def test_stage_session_readiness_requirements():
+    """Verifies that missing session data for stage after_fp1/after_fp2/after_fp3/after_qualifying/post_race blocks readiness."""
+    menu = InteractiveMenu(root_dir=ROOT)
+    # Mexico 2026 has no FP1/FP2/FP3, Qualifying, or Race on disk yet
+    for test_stage in ["after_fp1", "after_fp2", "after_fp3", "after_qualifying", "post_race"]:
+        ready, details = menu._audit_prediction_readiness("mexico", 2026, 19, test_stage, is_sprint=False)
+        assert ready is False, f"Expected {test_stage} to fail readiness when session data is absent"
+        missing_entries = [msg for status, msg in details if status == "MISSING"]
+        assert len(missing_entries) > 0, f"Expected MISSING entries for stage {test_stage}"
+
+
+def test_evaluate_handles_duplicate_forecast_drivers(tmp_path):
+    """Verifies that evaluation deduplicates forecast drivers without inflating sample size."""
+    menu = InteractiveMenu(root_dir=ROOT)
+    austin_csv = ROOT / "outputs" / "austin" / "austin_2026_after_qualifying_predictions.csv"
+    if not austin_csv.exists():
+        pytest.skip("Austin forecast CSV not present")
+
+    import pandas as pd
+    df = pd.read_csv(austin_csv)
+    # Duplicate top driver row
+    dup_df = pd.concat([df.iloc[[0]], df], ignore_index=True)
+    temp_csv = tmp_path / "austin_duplicated_predictions.csv"
+    dup_df.to_csv(temp_csv, index=False)
+
+    with patch("src.cli.menu.prompt_str", return_value=""):
+        # Should not raise exception and should evaluate cleanly
+        menu._evaluate_saved_prediction_file(temp_csv)

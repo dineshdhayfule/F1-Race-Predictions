@@ -15,6 +15,7 @@ htmlcov/
 # Virtual Environments
 # ==============================
 .venv/
+.venv*/
 venv/
 env/
 ENV/
@@ -33,6 +34,7 @@ ENV/
 .DS_Store
 Thumbs.db
 desktop.ini
+*.lnk
 
 # ==============================
 # Environment / Secrets
@@ -47,6 +49,7 @@ desktop.ini
 .cache/
 fastf1_cache/
 cache/
+data/cache/
 
 # ==============================
 # Generated / Temporary Files

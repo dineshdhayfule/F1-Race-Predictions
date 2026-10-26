@@ -275,30 +275,95 @@ class InteractiveMenu:
         elif completed_historical > 0:
             details.append(("WARN", f"Historical Training Rounds: {completed_historical}/{len(train_rounds)} completed rounds found in season directory."))
         else:
-            details.append(("WARN", f"No completed season rounds found in data/raw/season/{year}/. Using cold-start priors."))
-
-        # 2. Practice sessions
-        sessions = self.loader.load_weekend_sessions(track_key, year=year, stage=stage)
-        if stage in ["after_fp1", "after_fp2", "after_fp3", "after_sprint_qualifying", "after_sprint_race", "after_qualifying", "post_race"]:
-            if sessions.get("fp1") is not None:
-                details.append(("OK", f"FP1 Practice telemetry available ({len(sessions['fp1'])} drivers recorded)."))
+            if round_num > 1:
+                details.append(("MISSING", f"No completed season rounds found in data/raw/season/{year}/ for Round {round_num}."))
+                is_ready = False
             else:
-                details.append(("WARN", "FP1 Practice telemetry not found (falling back to historical team pace)."))
+                details.append(("INFO", "Round 1 season opener: using cold-start priors (no preceding rounds)."))
 
-        # 3. Target qualifying
+        # 2. Stage-specific weekend session readiness
+        sessions = self.loader.load_weekend_sessions(track_key, year=year, stage=stage)
+
+        if stage == "pre_fp1":
+            details.append(("OK", "Weekend Stage 'pre_fp1': Zero weekend telemetry required (pure pre-event rolling form)."))
+        elif stage == "after_fp1":
+            fp1 = sessions.get("fp1")
+            if fp1 is not None and not fp1.empty:
+                details.append(("OK", f"FP1 Practice telemetry available ({len(fp1)} drivers recorded)."))
+            else:
+                details.append(("MISSING", f"FP1 Practice telemetry NOT found for {track_key.title()} {year}."))
+                is_ready = False
+        elif stage == "after_fp2":
+            for s in ("fp1", "fp2"):
+                sess_df = sessions.get(s)
+                if sess_df is not None and not sess_df.empty:
+                    details.append(("OK", f"{s.upper()} Practice telemetry available ({len(sess_df)} drivers recorded)."))
+                else:
+                    details.append(("MISSING", f"{s.upper()} Practice telemetry NOT found for {track_key.title()} {year}."))
+                    is_ready = False
+        elif stage == "after_fp3":
+            for s in ("fp1", "fp2", "fp3"):
+                sess_df = sessions.get(s)
+                if sess_df is not None and not sess_df.empty:
+                    details.append(("OK", f"{s.upper()} Practice telemetry available ({len(sess_df)} drivers recorded)."))
+                else:
+                    details.append(("MISSING", f"{s.upper()} Practice telemetry NOT found for {track_key.title()} {year}."))
+                    is_ready = False
+        elif stage == "after_sprint_qualifying":
+            fp1 = sessions.get("fp1")
+            if fp1 is not None and not fp1.empty:
+                details.append(("OK", f"FP1 Practice telemetry available ({len(fp1)} drivers recorded)."))
+            else:
+                details.append(("MISSING", f"FP1 Practice telemetry NOT found for {track_key.title()} {year}."))
+                is_ready = False
+            sq = sessions.get("sprint_qualifying")
+            if sq is None:
+                sq = self.loader.load_target_sprint_qualifying(track_key, year)
+            if sq is not None and not sq.empty:
+                details.append(("OK", f"Sprint Qualifying session available ({len(sq)} drivers recorded)."))
+            else:
+                details.append(("MISSING", f"Sprint Qualifying NOT found for {track_key.title()} {year}."))
+                is_ready = False
+        elif stage == "after_sprint_race":
+            for s in ("fp1", "sprint_qualifying", "sprint_race"):
+                sess_df = sessions.get(s)
+                if s == "sprint_race" and sess_df is None:
+                    sess_df = self.loader.load_target_sprint_race(track_key, year)
+                if sess_df is not None and not sess_df.empty:
+                    details.append(("OK", f"{s.replace('_', ' ').title()} available ({len(sess_df)} drivers recorded)."))
+                else:
+                    details.append(("MISSING", f"{s.replace('_', ' ').title()} NOT found for {track_key.title()} {year}."))
+                    is_ready = False
+        elif stage in ["after_qualifying", "post_race"]:
+            fp1_df = sessions.get("fp1")
+            if fp1_df is not None and not fp1_df.empty:
+                details.append(("OK", f"Weekend practice telemetry available ({len(fp1_df)} drivers)."))
+            else:
+                details.append(("INFO", "Weekend practice telemetry absent (optional: pipeline uses historical team pace fallback)."))
+
+        # 3. Target qualifying (strictly required for after_qualifying and post_race)
         if stage in ["after_qualifying", "post_race"]:
             target_q = self.loader.load_target_qualifying(track_key, year)
             if target_q is not None and not target_q.empty:
-                details.append(("OK", f"Official Qualifying Results available ({len(target_q)} drivers; Starting Grid verified)."))
+                if "Position" in target_q.columns and target_q["Position"].notna().sum() > 0:
+                    details.append(("OK", f"Official Qualifying Results available ({len(target_q)} drivers; Starting Grid verified)."))
+                else:
+                    details.append(("INVALID", f"Official Qualifying file exists but contains invalid/missing position data."))
+                    is_ready = False
             else:
                 details.append(("MISSING", f"Official Qualifying Results NOT found for {track_key.title()} {year}."))
                 is_ready = False
 
-        # 4. Target race
+        # 4. Target race (strictly required for post_race)
         if stage == "post_race":
             target_r = self.loader.load_target_race(track_key, year)
             if target_r is not None and not target_r.empty:
-                details.append(("OK", f"Official Race Results available ({len(target_r)} drivers for post-race evaluation)."))
+                pos_col = "Position" if "Position" in target_r.columns else "ActualFinish"
+                if pos_col in target_r.columns and target_r[pos_col].notna().sum() > 0:
+                    details.append(("OK", f"Official Race Results available ({len(target_r)} drivers for post-race evaluation)."))
+                else:
+                    details.append(("INVALID", f"Official Race file exists but contains invalid/missing position data."))
+                    is_ready = False
             else:
                 details.append(("MISSING", f"Official Race Results NOT found for {track_key.title()} {year}."))
                 is_ready = False
@@ -321,7 +386,10 @@ class InteractiveMenu:
         print(Colors.BOLD + Colors.CYAN + f" GRAND PRIX RACE TOP {min(top_n, len(df))} PREDICTION: {track_name.upper()} {year} [{stage.upper()}]" + Colors.RESET)
         print(f" Model Selected  : {results.get('selected_model', 'N/A')}")
         print(f" Selection Method: {results.get('selection_method', 'N/A')} (MAE: {results.get('selected_mae', 0.0):.4f})")
-        grid_source = "Provisional Model (Fallback)" if results.get("is_provisional_quali") else "Actual Observed Qualifying Session"
+        if stage in ["after_qualifying", "post_race"]:
+            grid_source = "Provisional Model (Fallback - Actual Quali Missing)" if results.get("is_provisional_quali") else "Actual Observed Qualifying Session"
+        else:
+            grid_source = f"Provisional Predicted Grid (Pre-Qualifying Model: {stage})"
         print(f" Starting Grid   : {Colors.BOLD}{grid_source}{Colors.RESET}")
         print("=" * 76)
 
@@ -704,6 +772,11 @@ class InteractiveMenu:
             return
 
         track_folder = pred_csv_path.parent.name
+        if track_folder not in self.tracks_cfg:
+            prefix = pred_csv_path.stem.split("_")[0].lower()
+            if prefix in self.tracks_cfg:
+                track_folder = prefix
+
         year = 2026
 
         # Locate actual results via DataLoader
@@ -722,13 +795,35 @@ class InteractiveMenu:
             prompt_str("Press [Enter] to return", allow_empty=True)
             return
 
+        # Check driver validity and handle duplicate or missing drivers
+        pred_duplicates = pred_df[pred_df["Abbreviation"].duplicated()]
+        if not pred_duplicates.empty:
+            dups = list(pred_duplicates["Abbreviation"].unique())
+            print_warning(f"Detected duplicate drivers in forecast CSV: {dups}. Deduplicating to keep first entry.")
+            pred_df = pred_df.drop_duplicates(subset=["Abbreviation"], keep="first").reset_index(drop=True)
+
+        actual_duplicates = actual_df[actual_df["Abbreviation"].duplicated()]
+        if not actual_duplicates.empty:
+            dups = list(actual_duplicates["Abbreviation"].unique())
+            print_warning(f"Detected duplicate drivers in actual race results: {dups}. Deduplicating to keep first entry.")
+            actual_df = actual_df.drop_duplicates(subset=["Abbreviation"], keep="first").reset_index(drop=True)
+
+        pred_drivers = set(pred_df["Abbreviation"])
+        act_drivers = set(actual_df["Abbreviation"])
+        missing_in_act = pred_drivers - act_drivers
+        missing_in_pred = act_drivers - pred_drivers
+        if missing_in_act:
+            print_warning(f"Drivers present in forecast but missing from actual race: {sorted(missing_in_act)}")
+        if missing_in_pred:
+            print_warning(f"Drivers present in actual race but missing from forecast: {sorted(missing_in_pred)}")
+
         pipeline = self._get_pipeline()
         metrics = pipeline._evaluate_race_predictions(pred_df, actual_df)
 
         print("\n" + "=" * 76)
         print(Colors.BOLD + Colors.CYAN + f" OUT-OF-SAMPLE EVALUATION: {track_folder.upper()} {year}" + Colors.RESET)
         print(f" Source Forecast : {pred_csv_path.name}")
-        print(f" Actual Results  : {len(actual_df)} drivers verified")
+        print(f" Actual Results  : {len(actual_df)} drivers verified (Evaluated: {metrics['evaluated_drivers']} matched)")
         print("=" * 76)
         print(f"  Mean Absolute Error (Expected Finish) : {Colors.BOLD}{metrics['mae_expected']:.4f}{Colors.RESET} (Walk-Forward Benchmark: 3.5343)")
         print(f"  Mean Absolute Error (Predicted Pos)   : {metrics['mae_predicted']:.4f}")

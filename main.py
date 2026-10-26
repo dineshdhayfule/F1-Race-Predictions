@@ -269,7 +269,10 @@ def main():
     if args.command is None or args.command == "menu":
         from src.cli.menu import InteractiveMenu
         menu = InteractiveMenu(root_dir=ROOT)
-        menu.run()
+        try:
+            menu.run()
+        except SystemExit as se:
+            sys.exit(se.code if se.code is not None else 0)
     elif args.command == "predict":
         cmd_predict(args)
     elif args.command == "evaluate":
