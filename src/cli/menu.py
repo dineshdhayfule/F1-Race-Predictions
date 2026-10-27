@@ -497,7 +497,7 @@ class InteractiveMenu:
             elif c == "2":
                 self._run_track_collector()
             elif c == "3":
-                self._run_season_collector()
+                self._run_season_or_historical_collector()
             elif c == "4":
                 self._audit_data_integrity()
             elif c == "5":
@@ -572,6 +572,166 @@ class InteractiveMenu:
             print_success("Season data collection completed.")
         except Exception as e:
             print_error(f"Season collection failed: {e}")
+        prompt_str("Press [Enter] to continue", allow_empty=True)
+
+    def _run_season_or_historical_collector(self) -> None:
+        """Submenu for Option 3: choose between single season rounds or historical circuit collection."""
+        while True:
+            clear_screen()
+            print_banner(season=2026)
+            print_header("Collect Race & Qualifying Data (FastF1)")
+            print("  1. Collect data for season rounds (specify year and rounds)")
+            print("  2. Collect historical circuit data (configured tracks & year ranges)")
+            print("  0. Back to Data Collection Menu\n")
+
+            sub_choice = prompt_choice("Select collection mode", ["1", "2", "0"], default="1")
+            if sub_choice == "0":
+                break
+            elif sub_choice == "1":
+                self._run_season_collector()
+                break
+            elif sub_choice == "2":
+                self._run_historical_circuit_collector()
+                break
+
+    def _run_historical_circuit_collector(self) -> None:
+        from src.data.collect_track import format_year_range, collect_historical_track_data
+
+        clear_screen()
+        print_banner(season=2026)
+        print_header("HISTORICAL CIRCUIT DATA COLLECTION")
+
+        # Read circuits dynamically from config
+        circuits = []
+        for k, info in self.tracks_cfg.items():
+            d_name = info.get("display_name", k.title())
+            hist_years = info.get("historical_years", [])
+            hist_avail = info.get("historical_data_available", False)
+            circuits.append((k, d_name, hist_years, hist_avail))
+
+        # Sort alphabetically by display name for clear presentation
+        circuits.sort(key=lambda x: x[1])
+
+        print(f"{Colors.BOLD}Configured Circuits & Historical Coverage:{Colors.RESET}\n")
+        circuit_map = {}
+        for idx, (k, d_name, h_years, h_avail) in enumerate(circuits, start=1):
+            year_range_str = format_year_range(h_years)
+            if not h_avail and h_years:
+                coverage_str = f"{year_range_str} (unavailable / disabled)"
+            elif not h_years:
+                coverage_str = "None configured"
+            else:
+                coverage_str = year_range_str
+            print(f"  {idx:>2}. {d_name:<28} — configured years: {coverage_str}")
+            circuit_map[str(idx)] = (k, d_name)
+
+        print("\n  0. Return to menu\n")
+
+        selection_str = prompt_str(
+            "Select circuit numbers separated by space (e.g. '1 3 5', or 'all'), or enter 0 to return",
+            default="0"
+        )
+        if selection_str.strip() == "0":
+            return
+
+        # Parse selections
+        selected_circuits = []
+        if selection_str.strip().lower() == "all":
+            selected_circuits = [(k, d_name) for (k, d_name, _, _) in circuits]
+        else:
+            tokens = selection_str.replace(",", " ").split()
+            invalid_tokens = []
+            seen = set()
+            for t in tokens:
+                if t in circuit_map:
+                    k, d_name = circuit_map[t]
+                    if k not in seen:
+                        seen.add(k)
+                        selected_circuits.append((k, d_name))
+                elif t.lower() in self.tracks_cfg:
+                    k = t.lower()
+                    d_name = self.tracks_cfg[k].get("display_name", k.title())
+                    if k not in seen:
+                        seen.add(k)
+                        selected_circuits.append((k, d_name))
+                else:
+                    invalid_tokens.append(t)
+
+            if invalid_tokens:
+                print_warning(f"Ignored unrecognized selection(s): {', '.join(invalid_tokens)}")
+
+        if not selected_circuits:
+            print_error("No valid circuits selected.")
+            prompt_str("Press [Enter] to return", allow_empty=True)
+            return
+
+        print(f"\n{Colors.BOLD}Selected Circuits ({len(selected_circuits)}):{Colors.RESET}")
+        for k, d_name in selected_circuits:
+            print(f"  - {d_name} ({k})")
+
+        force = prompt_confirm("\nForce re-download existing files?", default=False)
+        print_info(f"\nStarting historical collection for {len(selected_circuits)} circuit(s)...")
+
+        all_results = []
+        for k, d_name in selected_circuits:
+            print(f"\n{Colors.CYAN}--- Processing {d_name} ({k}) ---{Colors.RESET}")
+            try:
+                res = collect_historical_track_data(
+                    track_id=k,
+                    force=force,
+                    tracks_config=self.tracks_cfg
+                )
+                all_results.append(res)
+            except Exception as e:
+                print_error(f"Failed processing {d_name}: {e}")
+                all_results.append({
+                    "track": k,
+                    "circuit_name": d_name,
+                    "successes": [],
+                    "skips": [],
+                    "failures": [str(e)],
+                })
+
+        # Summary report
+        print("\n" + "=" * 76)
+        print(Colors.BOLD + Colors.CYAN + " HISTORICAL DATA COLLECTION SUMMARY REPORT" + Colors.RESET)
+        print("=" * 76)
+
+        total_succ = 0
+        total_skip = 0
+        total_fail = 0
+
+        for r in all_results:
+            c_name = r["circuit_name"]
+            c_key = r["track"]
+            s_list = r["successes"]
+            k_list = r["skips"]
+            f_list = r["failures"]
+            total_succ += len(s_list)
+            total_skip += len(k_list)
+            total_fail += len(f_list)
+
+            status_color = Colors.GREEN if not f_list else Colors.YELLOW
+            print(f"\n{status_color}{Colors.BOLD}Circuit: {c_name} ({c_key}){Colors.RESET}")
+            if s_list:
+                print(f"  {Colors.GREEN}Successes ({len(s_list)}):{Colors.RESET}")
+                for s in s_list:
+                    print(f"    + {s}")
+            if k_list:
+                print(f"  {Colors.DIM}Skips ({len(k_list)}):{Colors.RESET}")
+                for sk in k_list:
+                    print(f"    - {sk}")
+            if f_list:
+                print(f"  {Colors.RED}Failures ({len(f_list)}):{Colors.RESET}")
+                for fl in f_list:
+                    print(f"    ! {fl}")
+
+        print("\n" + "=" * 76)
+        print(
+            f"Overall: {total_succ} sessions saved, {total_skip} skipped, {total_fail} failed "
+            f"across {len(all_results)} circuit(s)."
+        )
+        print("=" * 76 + "\n")
         prompt_str("Press [Enter] to continue", allow_empty=True)
 
     def _audit_data_integrity(self) -> None:
