@@ -94,9 +94,20 @@ class RacePredictionPipeline:
             raise KeyError(f"Track '{track_key}' not found in tracks.json. Available: {list(tracks.keys())}")
 
         track_info = tracks[track_key]
-        target_round = track_info.get("round_2026", 16)
+        target_round = track_info.get(f"round_{year}")
+        if target_round is None:
+            if year == 2026:
+                target_round = track_info.get("round_2026", 16)
+            else:
+                raise ValueError(
+                    f"Calendar round for track '{track_key}' is not configured for year {year} in tracks.json. "
+                    f"Configured calendar is for 2026."
+                )
         track_name = track_info.get("display_name", track_info.get("name", track_key.title()))
-        penalties = track_info.get("known_penalties_2026", track_info.get("penalties_2026", {}))
+        penalties = track_info.get(
+            f"known_penalties_{year}",
+            track_info.get("known_penalties_2026" if year == 2026 else None, {})
+        )
 
 
         logger.info("=" * 80)
@@ -376,7 +387,15 @@ class RacePredictionPipeline:
             raise KeyError(f"Track '{track_key_clean}' not configured in tracks.json.")
 
         track_info = tracks[track_key_clean]
-        target_round = track_info.get("round_2026", 17)
+        target_round = track_info.get(f"round_{year}")
+        if target_round is None:
+            if year == 2026:
+                target_round = track_info.get("round_2026", 17)
+            else:
+                raise ValueError(
+                    f"Calendar round for track '{track_key_clean}' is not configured for year {year} in tracks.json. "
+                    f"Configured calendar is for 2026."
+                )
         track_name = track_info.get("display_name", track_key_clean.title())
 
         train_rounds = [r for r in range(1, target_round)]

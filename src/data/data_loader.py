@@ -5,10 +5,13 @@ Enforces information cutoffs based on prediction stage.
 
 from pathlib import Path
 import json
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional, Tuple, Union
 import pandas as pd
 
 from src.utils.driver_mapping import normalize_driver
+from src.utils.logging_utils import get_logger
+
+logger = get_logger("data_loader")
 
 
 SESSION_NORMALIZATION_MAP = {
@@ -143,6 +146,47 @@ class DataLoader:
             raise KeyError(f"Track '{track_id}' not found in tracks.json. Available: {list(self.tracks_config.keys())}")
         return self.tracks_config[track_key]
 
+    @staticmethod
+    def safe_read_csv(
+        file_path: Union[str, Path],
+        normalize: bool = False
+    ) -> Optional[pd.DataFrame]:
+        """
+        Safely reads a CSV file handling 0-byte, empty, or malformed data gracefully.
+        Returns None for missing, empty, or malformed files with informative logging.
+        Preserves descriptive ValueError if driver columns are missing.
+        """
+        p = Path(file_path)
+        if not p.exists():
+            return None
+
+        if p.stat().st_size == 0:
+            logger.warning(f"Skipping empty CSV file (0 bytes): {p}")
+            return None
+
+        try:
+            df = pd.read_csv(p)
+        except pd.errors.EmptyDataError:
+            logger.warning(f"Skipping CSV file with no columns to parse: {p}")
+            return None
+        except pd.errors.ParserError as e:
+            logger.error(f"Failed to parse malformed CSV file {p}: {e}")
+            return None
+
+        if df.empty:
+            logger.warning(f"CSV file contains headers but zero data rows: {p}")
+            if normalize:
+                try:
+                    df = normalize_driver(df)
+                except ValueError as ve:
+                    logger.warning(f"Header-only CSV missing driver column: {p} ({ve})")
+            return df
+
+        if normalize:
+            df = normalize_driver(df)
+
+        return df
+
     def is_sprint_weekend(self, track_id: str, year: int = 2026) -> bool:
         """
         Determines whether a track is configured as a Sprint weekend for the given year.
@@ -211,16 +255,16 @@ class DataLoader:
 
             qf = season_dir / f"{year}_round_{r_num}_qualifying.csv"
 
-            df_r = pd.read_csv(rf)
-            df_r = normalize_driver(df_r)
-            df_r["Round"] = r_num
-            races.append(df_r)
+            df_r = self.safe_read_csv(rf, normalize=True)
+            if df_r is not None and not df_r.empty:
+                df_r["Round"] = r_num
+                races.append(df_r)
 
             if qf.exists():
-                df_q = pd.read_csv(qf)
-                df_q = normalize_driver(df_q)
-                df_q["Round"] = r_num
-                qualis.append(df_q)
+                df_q = self.safe_read_csv(qf, normalize=True)
+                if df_q is not None and not df_q.empty:
+                    df_q["Round"] = r_num
+                    qualis.append(df_q)
 
         race_df = pd.concat(races, ignore_index=True) if races else pd.DataFrame()
         quali_df = pd.concat(qualis, ignore_index=True) if qualis else pd.DataFrame()
@@ -241,16 +285,16 @@ class DataLoader:
             qf = season_dir / f"{year}_round_{r_num}_qualifying.csv"
 
             if rf.exists():
-                df_r = pd.read_csv(rf)
-                df_r = normalize_driver(df_r)
-                df_r["Round"] = r_num
-                races.append(df_r)
+                df_r = self.safe_read_csv(rf, normalize=True)
+                if df_r is not None and not df_r.empty:
+                    df_r["Round"] = r_num
+                    races.append(df_r)
 
             if qf.exists():
-                df_q = pd.read_csv(qf)
-                df_q = normalize_driver(df_q)
-                df_q["Round"] = r_num
-                qualis.append(df_q)
+                df_q = self.safe_read_csv(qf, normalize=True)
+                if df_q is not None and not df_q.empty:
+                    df_q["Round"] = r_num
+                    qualis.append(df_q)
 
         race_df = pd.concat(races, ignore_index=True) if races else pd.DataFrame()
         quali_df = pd.concat(qualis, ignore_index=True) if qualis else pd.DataFrame()
@@ -292,24 +336,27 @@ class DataLoader:
                 # Sprint weekend: load FP1, Sprint Qualifying, Sprint Race
                 fp1_file = season_dir / f"{year}_round_{r_num}_fp1.csv"
                 if fp1_file.exists():
-                    df = pd.read_csv(fp1_file)
-                    r_sessions["fp1"] = normalize_driver(df)
+                    df = self.safe_read_csv(fp1_file, normalize=True)
+                    if df is not None:
+                        r_sessions["fp1"] = df
 
                 # Sprint Qualifying / Shootout
                 for sq_name in ("sprint_qualifying", "sprint_shootout", "sprint_quali", "sq"):
                     sq_file = season_dir / f"{year}_round_{r_num}_{sq_name}.csv"
                     if sq_file.exists():
-                        df = pd.read_csv(sq_file)
-                        r_sessions["sprint_qualifying"] = normalize_driver(df)
-                        break
+                        df = self.safe_read_csv(sq_file, normalize=True)
+                        if df is not None:
+                            r_sessions["sprint_qualifying"] = df
+                            break
 
                 # Sprint Race
                 for sr_name in ("sprint_race", "sprint", "sr"):
                     sr_file = season_dir / f"{year}_round_{r_num}_{sr_name}.csv"
                     if sr_file.exists():
-                        df = pd.read_csv(sr_file)
-                        r_sessions["sprint_race"] = normalize_driver(df)
-                        break
+                        df = self.safe_read_csv(sr_file, normalize=True)
+                        if df is not None:
+                            r_sessions["sprint_race"] = df
+                            break
 
                 # FP2 and FP3 remain None for Sprint weekends
             else:
@@ -317,8 +364,9 @@ class DataLoader:
                 for s in ("fp1", "fp2", "fp3"):
                     sf = season_dir / f"{year}_round_{r_num}_{s}.csv"
                     if sf.exists():
-                        df = pd.read_csv(sf)
-                        r_sessions[s] = normalize_driver(df)
+                        df = self.safe_read_csv(sf, normalize=True)
+                        if df is not None:
+                            r_sessions[s] = df
 
                 # sprint_qualifying and sprint_race remain None for Normal weekends
 
@@ -345,7 +393,11 @@ class DataLoader:
         hist = kwargs.get("historical_tracks") or kwargs.get("historical_rounds") or kwargs.get("tracks")
         if isinstance(hist, dict) and track_k in hist:
             info = hist[track_k]
-            r = info.get(f"round_{year}") or info.get("round_2026") or info.get("round")
+            r = info.get(f"round_{year}")
+            if r is None and year == 2026:
+                r = info.get("round_2026")
+            if r is None:
+                r = info.get("round")
             if r is not None:
                 try:
                     return int(r)
@@ -354,7 +406,11 @@ class DataLoader:
 
         if track_k in self.tracks_config:
             info = self.tracks_config[track_k]
-            r = info.get(f"round_{year}") or info.get("round_2026") or info.get("round")
+            r = info.get(f"round_{year}")
+            if r is None and year == 2026:
+                r = info.get("round_2026")
+            if r is None:
+                r = info.get("round")
             if r is not None:
                 try:
                     return int(r)
@@ -384,8 +440,9 @@ class DataLoader:
             ])
         for p in candidates:
             if p.exists():
-                df = pd.read_csv(p)
-                return normalize_driver(df)
+                df = self.safe_read_csv(p, normalize=True)
+                if df is not None:
+                    return df
         return None
 
     def load_target_race(
@@ -415,8 +472,9 @@ class DataLoader:
             ])
         for p in candidates:
             if p.exists():
-                df = pd.read_csv(p)
-                return normalize_driver(df)
+                df = self.safe_read_csv(p, normalize=True)
+                if df is not None:
+                    return df
         return None
 
     def load_target_sprint_qualifying(self, track_id: Optional[str] = None, year: int = 2026, track_key: Optional[str] = None, **kwargs) -> Optional[pd.DataFrame]:
@@ -442,8 +500,9 @@ class DataLoader:
             ])
         for p in candidates:
             if p.exists():
-                df = pd.read_csv(p)
-                return normalize_driver(df)
+                df = self.safe_read_csv(p, normalize=True)
+                if df is not None:
+                    return df
         return None
 
     def load_target_sprint_race(self, track_id: Optional[str] = None, year: int = 2026, track_key: Optional[str] = None, **kwargs) -> Optional[pd.DataFrame]:
@@ -469,8 +528,9 @@ class DataLoader:
             ])
         for p in candidates:
             if p.exists():
-                df = pd.read_csv(p)
-                return normalize_driver(df)
+                df = self.safe_read_csv(p, normalize=True)
+                if df is not None:
+                    return df
         return None
 
     def load_weekend_sessions(
@@ -594,9 +654,10 @@ class DataLoader:
 
             for p in candidates:
                 if p.exists():
-                    df = pd.read_csv(p)
-                    sessions[s] = normalize_driver(df)
-                    break
+                    df = self.safe_read_csv(p, normalize=True)
+                    if df is not None:
+                        sessions[s] = df
+                        break
 
         return sessions
 
@@ -618,7 +679,7 @@ class DataLoader:
         r_path = hist_dir / f"{track_key}_historical_races.csv"
         q_path = hist_dir / f"{track_key}_historical_qualifying.csv"
 
-        df_r = pd.read_csv(r_path) if r_path.exists() else None
-        df_q = pd.read_csv(q_path) if q_path.exists() else None
+        df_r = self.safe_read_csv(r_path, normalize=False) if r_path.exists() else None
+        df_q = self.safe_read_csv(q_path, normalize=False) if q_path.exists() else None
         return df_r, df_q
 

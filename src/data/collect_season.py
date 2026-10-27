@@ -25,7 +25,13 @@ def collect_season_data(year: int, rounds: Optional[List[int]] = None, output_di
 
     schedule = fastf1.get_event_schedule(year)
     if rounds is None:
-        rounds = list(range(1, 16))
+        if not schedule.empty and "RoundNumber" in schedule.columns:
+            valid_rounds = pd.to_numeric(schedule["RoundNumber"], errors="coerce").dropna()
+            rounds = sorted([int(r) for r in valid_rounds.unique() if int(r) > 0])
+        else:
+            rounds = []
+        if not rounds:
+            logger.warning(f"Could not determine positive championship rounds from {year} schedule.")
 
     for r in rounds:
         match = schedule[schedule["RoundNumber"] == r]

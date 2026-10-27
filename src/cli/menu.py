@@ -126,14 +126,14 @@ class InteractiveMenu:
         print_header("Step 2: Select Circuit")
         track_keys = sorted(
             self.tracks_cfg.keys(),
-            key=lambda k: self.tracks_cfg[k].get(f"round_{year}", self.tracks_cfg[k].get("round_2026", 99))
+            key=lambda k: self.tracks_cfg[k].get(f"round_{year}", self.tracks_cfg[k].get("round_2026" if year == 2026 else None, 99))
         )
 
         rows = []
         key_map = {}
         for idx, k in enumerate(track_keys, start=1):
             info = self.tracks_cfg[k]
-            r_num = info.get(f"round_{year}", info.get("round_2026", "-"))
+            r_num = info.get(f"round_{year}", info.get("round_2026" if year == 2026 else None, "-"))
             d_name = info.get("display_name", k.title())
             country = info.get("country", "")
             is_sprint = info.get(f"sprint_weekend_{year}", info.get("sprint_weekend", False))
@@ -151,7 +151,11 @@ class InteractiveMenu:
         track_info = self.tracks_cfg[track_key]
         track_display = track_info.get("display_name", track_key.title())
         is_sprint = track_info.get(f"sprint_weekend_{year}", track_info.get("sprint_weekend", False))
-        round_num = track_info.get(f"round_{year}", track_info.get("round_2026", 18))
+        round_num = track_info.get(f"round_{year}", track_info.get("round_2026" if year == 2026 else None, None))
+        if round_num is None:
+            print_error(f"Calendar round for track '{track_key}' is not configured for year {year} in tracks.json.")
+            prompt_str("Press [Enter] to return", allow_empty=True)
+            return
 
         # Step 3: Select Prediction Stage
         print_header("Step 3: Select Prediction Timeline Stage", f"{track_display} (Round {round_num})")

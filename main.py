@@ -133,10 +133,20 @@ def cmd_evaluate(args):
     if track_key not in tracks:
         raise KeyError(f"Track '{track_key}' not found in tracks.json.")
 
-    target_round = tracks[track_key]["round_2026"]
+    track_info = tracks[track_key]
+    target_round = track_info.get(f"round_{args.year}")
+    if target_round is None:
+        if args.year == 2026:
+            target_round = track_info.get("round_2026")
+        else:
+            raise ValueError(
+                f"Calendar round for track '{track_key}' is not configured for year {args.year} in tracks.json. "
+                f"Configured calendar is for 2026."
+            )
+
     train_rounds = [r for r in range(1, target_round)]
 
-    logger.info(f"Evaluating models across completed 2026 rounds: {train_rounds}")
+    logger.info(f"Evaluating models across completed {args.year} rounds: {train_rounds}")
     races_df, qualis_df = pipeline.data_loader.load_season_rounds(args.year, train_rounds)
     sessions_by_round = pipeline.data_loader.load_all_practice_sessions(args.year, train_rounds)
 
@@ -175,7 +185,17 @@ def cmd_validate(args):
     if track_key not in tracks:
         raise KeyError(f"Track '{track_key}' not found in tracks.json.")
 
-    target_round = tracks[track_key]["round_2026"]
+    track_info = tracks[track_key]
+    target_round = track_info.get(f"round_{args.year}")
+    if target_round is None:
+        if args.year == 2026:
+            target_round = track_info.get("round_2026")
+        else:
+            raise ValueError(
+                f"Calendar round for track '{track_key}' is not configured for year {args.year} in tracks.json. "
+                f"Configured calendar is for 2026."
+            )
+
     train_rounds = [r for r in range(1, target_round)]
 
     races_df, qualis_df = pipeline.data_loader.load_season_rounds(args.year, train_rounds)
@@ -197,14 +217,18 @@ def cmd_validate(args):
         practice_sessions_by_round=sessions_by_round,
         train_rounds=train_rounds
     )
+    penalties = track_info.get(
+        f"known_penalties_{args.year}",
+        track_info.get("known_penalties_2026" if args.year == 2026 else None, {})
+    )
     target_feats = pipeline.feature_engineer.build_target_dataset(
         target_round=target_round,
-        track_name=tracks[track_key].get("display_name", track_key.title()),
+        track_name=track_info.get("display_name", track_key.title()),
         quali_df=quali_df,
         practice_sessions=weekend_sessions,
         season_races_df=races_df,
         season_qualis_df=qualis_df,
-        penalties=tracks[track_key].get("known_penalties_2026", {})
+        penalties=penalties
     )
 
     report = pipeline.data_validator.audit_leakage(train_feats, target_feats, target_round)
