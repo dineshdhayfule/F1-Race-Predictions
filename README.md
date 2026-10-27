@@ -193,5 +193,6 @@ pytest tests/test_circuit_integrity.py
 
 ---
 
-## License & Citations
-Developed as a unified, zero-leakage Formula 1 race prediction engine. Timing and telemetry data provided via FastF1 under official FIA timing feeds.
+## License
+
+This project is licensed under the [MIT License](LICENSE).
