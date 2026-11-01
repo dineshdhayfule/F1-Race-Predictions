@@ -5,7 +5,7 @@ Enforces information cutoffs based on prediction stage.
 
 from pathlib import Path
 import json
-from typing import Dict, Optional, Tuple, Union
+from typing import Any, Dict, Optional, Tuple, Union
 import pandas as pd
 
 from src.utils.driver_mapping import normalize_driver
@@ -145,6 +145,14 @@ class DataLoader:
         if track_key not in self.tracks_config:
             raise KeyError(f"Track '{track_id}' not found in tracks.json. Available: {list(self.tracks_config.keys())}")
         return self.tracks_config[track_key]
+
+    def get_supported_seasons(self, workflow: str = "prediction") -> list:
+        """
+        Discovers and validates supported championship seasons from actual project datasets.
+        """
+        from src.data.season_discovery import SeasonDiscovery
+        discovery = SeasonDiscovery(root_dir=self.root_dir)
+        return discovery.discover_seasons(workflow=workflow)
 
     @staticmethod
     def safe_read_csv(
@@ -682,4 +690,36 @@ class DataLoader:
         df_r = self.safe_read_csv(r_path, normalize=False) if r_path.exists() else None
         df_q = self.safe_read_csv(q_path, normalize=False) if q_path.exists() else None
         return df_r, df_q
+
+    def load_starting_grid(
+        self,
+        track_id: str,
+        year: int = 2026,
+        round_num: Optional[int] = None,
+        stage: str = "after_qualifying",
+        quali_df: Optional[pd.DataFrame] = None,
+        penalties: Optional[Dict[str, Any]] = None,
+        expected_grid_size: int = 22,
+    ) -> Tuple[Optional[pd.DataFrame], Dict[str, Any]]:
+        """
+        Loads the authoritative starting grid via StartingGridRetriever.
+        Supports official manifests and fallback to algorithmic FIA resolution.
+        """
+        from src.data.grid_retriever import StartingGridRetriever
+
+        if round_num is None:
+            round_num = self._resolve_round_number(track_id, year)
+
+        track_k = track_id.lower()
+        retriever = StartingGridRetriever(self.root_dir)
+        return retriever.get_starting_grid(
+            track_key=track_k,
+            year=year,
+            round_num=round_num,
+            stage=stage,
+            quali_df=quali_df,
+            penalties=penalties,
+            expected_grid_size=expected_grid_size,
+        )
+
 

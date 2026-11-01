@@ -19,6 +19,7 @@ Examples:
 import argparse
 import sys
 from pathlib import Path
+import pandas as pd
 
 # Add project root to sys.path
 ROOT = Path(__file__).resolve().parent
@@ -29,6 +30,7 @@ from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
 from src.data.data_loader import DataLoader
 from src.data.data_validator import DataValidator
 from src.features.build_features import FeatureEngineer
+from src.features.grid_features import format_grid_provenance_display
 from src.models.evaluate import ModelEvaluator
 from src.utils.logging_utils import get_logger
 
@@ -84,7 +86,14 @@ def cmd_predict(args):
 
     # Grand Prix Race Top N Prediction
     top_race = df.iloc[:top_n]
-    grid_source = "Provisional Qualifying Model" if results.get("is_provisional_quali") else "Actual Observed Qualifying Session"
+    grid_meta = results.get("grid_meta", {})
+    if results.get("is_provisional_quali"):
+        grid_source = "Provisional Qualifying Model"
+    elif grid_meta:
+        grid_source = format_grid_provenance_display(grid_meta)
+    else:
+        grid_source = "Actual Observed Qualifying Session"
+
     print("\n" + "=" * 80)
     print(f"GRAND PRIX RACE TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{args.stage.upper()}]")
     print(f"Selected Model   : {results.get('selected_model', 'N/A')}")
@@ -96,11 +105,14 @@ def cmd_predict(args):
     print("-" * 80)
 
     for _, r in top_race.iterrows():
+        grid_raw = r.get("ActualStartingGrid")
+        is_pit = bool(r.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
+        grid_str = "PL" if is_pit else str(int(round(float(grid_raw))))
         print(
             f"{int(r['PredictedPosition']):<4} "
             f"{r['Abbreviation']:<5} "
             f"{r['TeamName'][:21]:<22} "
-            f"{int(r['ActualStartingGrid']):<5} "
+            f"{grid_str:<5} "
             f"{r['ExpectedFinish']:<10.2f} "
             f"{r['WinProbability']:<7.1f} "
             f"{r['Top3Probability']:<9.1f} "

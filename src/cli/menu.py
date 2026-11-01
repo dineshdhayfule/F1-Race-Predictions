@@ -13,7 +13,7 @@ from pathlib import Path
 import sys
 import json
 import subprocess
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 import pandas as pd
 import numpy as np
 
@@ -33,8 +33,10 @@ from src.cli.terminal_ui import (
     paginate_text,
     Colors,
 )
+from src.features.grid_features import format_grid_provenance_display, GridProvenance
 from src.data.data_loader import DataLoader
 from src.data.data_validator import DataValidator
+from src.data.season_discovery import SeasonDiscovery
 from src.features.build_features import FeatureEngineer
 from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
 
@@ -114,26 +116,93 @@ class InteractiveMenu:
     # =========================================================================
     # OPTION 1: PREDICT A RACE (Guided Workflow)
     # =========================================================================
+    def _get_supported_seasons(self, workflow: str = "prediction") -> List[int]:
+        """Discovers verified and available championship seasons from disk."""
+        discovery = SeasonDiscovery(root_dir=self.root_dir)
+        return discovery.discover_seasons(workflow=workflow)
+
+    def _get_default_circuit_for_season(self, year: int) -> Tuple[Optional[str], Optional[int]]:
+        """
+        Calculates the dynamic default circuit for a season:
+        Finds the first uncompleted round in chronological order.
+        If all rounds are completed, returns the last completed round.
+        If no rounds completed, returns round 1.
+        Returns (track_key, round_num).
+        """
+        circuits = []
+        for k, info in self.tracks_cfg.items():
+            r = info.get(f"round_{year}" if year != 2026 else "round_2026")
+            if r is not None and isinstance(r, int):
+                circuits.append((r, k))
+
+        if not circuits:
+            return None, None
+
+        circuits.sort(key=lambda x: x[0])
+
+        season_raw = self.loader.raw_data_dir / "season" / str(year)
+        season_proc = self.loader.processed_data_dir / "season" / str(year)
+
+        completed_rounds = set()
+        for r_num, k in circuits:
+            has_race = (
+                (season_raw / f"{year}_round_{r_num}_race.csv").exists()
+                or (season_proc / f"{year}_round_{r_num}_race.csv").exists()
+                or (self.loader.raw_data_dir / "tracks" / k / str(year) / "race.csv").exists()
+            )
+            if has_race:
+                completed_rounds.add(r_num)
+
+        for r_num, k in circuits:
+            if r_num not in completed_rounds:
+                return k, r_num
+
+        return circuits[-1][1], circuits[-1][0]
+
     def menu_predict_race(self) -> None:
         clear_screen()
-        print_banner(season=2026)
+        supported_seasons = self._get_supported_seasons(workflow="prediction")
+        if not supported_seasons:
+            print_banner(season=None, status_text="No Data")
+            print_header("Step 1: Select Season & Championship Year")
+            print_error("No usable championship seasons found with required prediction datasets.")
+            print_info("Please run Option 2 (Load / Collect Data) first to download season telemetry.")
+            prompt_str("Press [Enter] to return to Main Menu", allow_empty=True)
+            return
+
+        default_yr = SeasonDiscovery.get_default_season(supported_seasons, preferred=2026)
+
+        print_banner(season=default_yr)
         print_header("Step 1: Select Season & Championship Year")
-        year = prompt_int("Enter Season Year", min_val=2018, max_val=2030, default=2026)
+        formatted = SeasonDiscovery.format_available_seasons(supported_seasons)
+        print_info(f"Available seasons: {formatted}")
+        year = prompt_int("Enter Season Year", allowed_values=supported_seasons, default=default_yr)
         if year is None:
             return
 
         # Step 2: Select Circuit
         print_header("Step 2: Select Circuit")
-        track_keys = sorted(
-            self.tracks_cfg.keys(),
-            key=lambda k: self.tracks_cfg[k].get(f"round_{year}", self.tracks_cfg[k].get("round_2026" if year == 2026 else None, 99))
+        track_keys = [
+            k for k in self.tracks_cfg.keys()
+            if self.tracks_cfg[k].get(f"round_{year}" if year != 2026 else "round_2026") is not None
+        ]
+        if not track_keys:
+            print_error(f"Season {year} has no configured calendar in tracks.json. Configured seasons: {supported_seasons}")
+            prompt_str("Press [Enter] to return", allow_empty=True)
+            return
+
+        track_keys.sort(
+            key=lambda k: self.tracks_cfg[k].get(f"round_{year}" if year != 2026 else "round_2026", 99)
         )
+
+        default_track_key, default_round = self._get_default_circuit_for_season(year)
 
         rows = []
         key_map = {}
+        default_choice = "1"
         for idx, k in enumerate(track_keys, start=1):
             info = self.tracks_cfg[k]
-            r_num = info.get(f"round_{year}", info.get("round_2026" if year == 2026 else None, "-"))
+            r_num = info.get(f"round_{year}" if year != 2026 else "round_2026", "-")
             d_name = info.get("display_name", k.title())
             country = info.get("country", "")
             is_sprint = info.get(f"sprint_weekend_{year}", info.get("sprint_weekend", False))
@@ -141,17 +210,19 @@ class InteractiveMenu:
             rows.append([idx, f"Round {r_num}", d_name, country, sprint_tag, k])
             key_map[str(idx)] = k
             key_map[k] = k
+            if k == default_track_key:
+                default_choice = str(idx)
 
         print_table(["#", "Round", "Grand Prix", "Country", "Format", "Key"], rows)
 
-        selected_input = prompt_choice("Select Circuit (# or key)", list(key_map.keys()) + ["0"], default="18")
+        selected_input = prompt_choice("Select Circuit (# or key)", list(key_map.keys()) + ["0"], default=default_choice)
         if selected_input == "0":
             return
         track_key = key_map[selected_input]
         track_info = self.tracks_cfg[track_key]
         track_display = track_info.get("display_name", track_key.title())
         is_sprint = track_info.get(f"sprint_weekend_{year}", track_info.get("sprint_weekend", False))
-        round_num = track_info.get(f"round_{year}", track_info.get("round_2026" if year == 2026 else None, None))
+        round_num = track_info.get(f"round_{year}" if year != 2026 else "round_2026", None)
         if round_num is None:
             print_error(f"Calendar round for track '{track_key}' is not configured for year {year} in tracks.json.")
             prompt_str("Press [Enter] to return", allow_empty=True)
@@ -345,12 +416,34 @@ class InteractiveMenu:
             else:
                 details.append(("INFO", "Weekend practice telemetry absent (optional: pipeline uses historical team pace fallback)."))
 
-        # 3. Target qualifying (strictly required for after_qualifying and post_race)
+        # 3. Target qualifying and starting grid verification (for after_qualifying and post_race)
         if stage in ["after_qualifying", "post_race"]:
             target_q = self.loader.load_target_qualifying(track_key, year)
             if target_q is not None and not target_q.empty:
                 if "Position" in target_q.columns and target_q["Position"].notna().sum() > 0:
-                    details.append(("OK", f"Official Qualifying Results available ({len(target_q)} drivers; Starting Grid verified)."))
+                    details.append(("OK", f"Qualifying Results available ({len(target_q)} drivers recorded)."))
+
+                    # Starting grid verification
+                    grid_df, grid_meta = self.loader.load_starting_grid(
+                        track_id=track_key,
+                        year=year,
+                        round_num=round_num,
+                        stage=stage,
+                        quali_df=target_q,
+                    )
+                    prov = grid_meta.get("provenance", "")
+                    if prov in ["official_manifest", "fia_official"]:
+                        doc_ref = grid_meta.get("document_reference", "FIA Document")
+                        details.append(("OK", f"Official FIA Starting Grid verified ({doc_ref})."))
+                    elif prov == "f1_website":
+                        details.append(("OK", "Official F1 Website Published Starting Grid verified."))
+                    elif prov == "openf1_api":
+                        doc_ref = grid_meta.get("document_reference", "OpenF1 API")
+                        details.append(("INFO", f"OpenF1 Published Starting Grid available ({doc_ref})."))
+                    elif prov in ["algorithmic_fallback", "algorithmic_provisional"]:
+                        details.append(("INFO", "No official manifest found; Algorithmic Provisional Grid (FIA Art 42.3) available."))
+                    else:
+                        details.append(("WARN", "Starting grid unverified (provisional resolution only)."))
                 else:
                     details.append(("INVALID", f"Official Qualifying file exists but contains invalid/missing position data."))
                     is_ready = False
@@ -390,10 +483,8 @@ class InteractiveMenu:
         print(Colors.BOLD + Colors.CYAN + f" GRAND PRIX RACE TOP {min(top_n, len(df))} PREDICTION: {track_name.upper()} {year} [{stage.upper()}]" + Colors.RESET)
         print(f" Model Selected  : {results.get('selected_model', 'N/A')}")
         print(f" Selection Method: {results.get('selection_method', 'N/A')} (MAE: {results.get('selected_mae', 0.0):.4f})")
-        if stage in ["after_qualifying", "post_race"]:
-            grid_source = "Provisional Model (Fallback - Actual Quali Missing)" if results.get("is_provisional_quali") else "Actual Observed Qualifying Session"
-        else:
-            grid_source = f"Provisional Predicted Grid (Pre-Qualifying Model: {stage})"
+        grid_meta = results.get("grid_meta", {})
+        grid_source = format_grid_provenance_display(grid_meta)
         print(f" Starting Grid   : {Colors.BOLD}{grid_source}{Colors.RESET}")
         print("=" * 76)
 
@@ -404,7 +495,9 @@ class InteractiveMenu:
             pos = int(r["PredictedPosition"])
             drv = r["Abbreviation"]
             team = r["TeamName"][:20]
-            grid = int(r["ActualStartingGrid"])
+            grid_raw = r.get("ActualStartingGrid")
+            is_pit = bool(r.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
+            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
             exp = f"{r['ExpectedFinish']:.2f}"
             win = f"{r['WinProbability']:.1f}%"
             pod = f"{r['Top3Probability']:.1f}%"
@@ -736,14 +829,16 @@ class InteractiveMenu:
 
     def _audit_data_integrity(self) -> None:
         print_header("Dataset Integrity & Anti-Leakage Audit")
-        t_key = prompt_str("Enter circuit key to audit against", default="austin")
+        def_k, def_r = self._get_default_circuit_for_season(2026)
+        def_k = def_k or "sepang"
+        t_key = prompt_str("Enter circuit key to audit against", default=def_k)
         if t_key not in self.tracks_cfg:
             print_error(f"Unknown circuit '{t_key}'.")
             prompt_str("Press [Enter] to return", allow_empty=True)
             return
 
         pipeline = self._get_pipeline()
-        r_num = self.tracks_cfg[t_key].get("round_2026", 18)
+        r_num = self.tracks_cfg[t_key].get("round_2026", def_r or 16)
         train_rounds = list(range(1, r_num))
 
         races_df, qualis_df = pipeline.data_loader.load_season_rounds(2026, train_rounds)
@@ -949,10 +1044,13 @@ class InteractiveMenu:
             print_warning(f"Official race results not found for {track_folder.title()} {year}.")
             if prompt_confirm("Attempt to collect official race results via FastF1?", default=True):
                 info = self.tracks_cfg.get(track_folder, {})
-                r_num = info.get("round_2026", 18)
-                from src.data.collect_season import collect_season_data
-                collect_season_data(year=year, rounds=[r_num])
-                actual_df = self.loader.load_target_race(track_folder, year=year)
+                r_num = info.get(f"round_{year}", info.get("round_2026"))
+                if r_num is not None:
+                    from src.data.collect_season import collect_season_data
+                    collect_season_data(year=year, rounds=[r_num])
+                    actual_df = self.loader.load_target_race(track_folder, year=year)
+                else:
+                    print_error(f"Round number not configured for {track_folder} in {year}.")
 
         if actual_df is None or actual_df.empty:
             print_error(f"Cannot evaluate: official race results unavailable for {track_folder.title()}.")
@@ -1007,7 +1105,9 @@ class InteractiveMenu:
         for _, r in merged.iterrows():
             act = int(r["ActualFinish"])
             drv = r["Abbreviation"]
-            grid = int(r.get("ActualStartingGrid", 0))
+            grid_raw = r.get("ActualStartingGrid")
+            is_pit = bool(r.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
+            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
             pred = int(r["PredictedPosition"])
             exp = f"{r['ExpectedFinish']:.2f}"
             delta = pred - act

@@ -81,8 +81,8 @@ def test_data_readiness_audit_cota():
 def test_missing_data_audit_detection():
     """Verifies data readiness marks non-existent session as MISSING and ready=False."""
     menu = InteractiveMenu(root_dir=ROOT)
-    # Circuit with no qualifying data (Round 19 Mexico not yet held)
-    ready, details = menu._audit_prediction_readiness("mexico", 2026, 19, "after_qualifying", is_sprint=False)
+    # Circuit with no qualifying data (Round 21 Las Vegas not yet held)
+    ready, details = menu._audit_prediction_readiness("las_vegas", 2026, 21, "after_qualifying", is_sprint=False)
     assert ready is False
     missing_messages = [msg for status, msg in details if status == "MISSING"]
     assert len(missing_messages) > 0
@@ -135,9 +135,9 @@ def test_mexico_2026_pre_fp1_readiness_reasons():
 def test_stage_session_readiness_requirements():
     """Verifies that missing session data for stage after_fp1/after_fp2/after_fp3/after_qualifying/post_race blocks readiness."""
     menu = InteractiveMenu(root_dir=ROOT)
-    # Mexico 2026 has no FP1/FP2/FP3, Qualifying, or Race on disk yet
+    # Las Vegas 2026 has no FP1/FP2/FP3, Qualifying, or Race on disk yet
     for test_stage in ["after_fp1", "after_fp2", "after_fp3", "after_qualifying", "post_race"]:
-        ready, details = menu._audit_prediction_readiness("mexico", 2026, 19, test_stage, is_sprint=False)
+        ready, details = menu._audit_prediction_readiness("las_vegas", 2026, 21, test_stage, is_sprint=False)
         assert ready is False, f"Expected {test_stage} to fail readiness when session data is absent"
         missing_entries = [msg for status, msg in details if status == "MISSING"]
         assert len(missing_entries) > 0, f"Expected MISSING entries for stage {test_stage}"

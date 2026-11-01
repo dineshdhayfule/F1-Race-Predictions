@@ -93,8 +93,10 @@ class Predictor:
         else:
             ml_pred = rf_pred
 
-        grid_positions = pd.to_numeric(target_df["GridPosition"], errors="coerce").fillna(12.0).values
         # Blended deterministic baseline: ml_weight * ML + grid_weight * GridPosition
+        # Use simulation_start_rank if present (handles pit-lane starters), else GridPosition
+        grid_col = "simulation_start_rank" if "simulation_start_rank" in target_df.columns else "GridPosition"
+        grid_positions = pd.to_numeric(target_df.get(grid_col, target_df.get("GridPosition")), errors="coerce").fillna(12.0).values
         blended = self.ml_weight * ml_pred + self.grid_weight * grid_positions
 
 

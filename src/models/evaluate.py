@@ -14,6 +14,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_absolute_error, mean_squared_error, median_absolute_error
 import xgboost as xgb
 
+from src.features.build_features import apply_stage_feature_mask
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("model_evaluate")
@@ -40,13 +41,16 @@ class ModelEvaluator:
 
     def evaluate_walk_forward(
         self,
-        training_df: pd.DataFrame
+        training_df: pd.DataFrame,
+        stage: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         Executes chronological walk-forward validation.
         For each round r (where r > min_train_rounds):
           - Train on rounds < r
           - Test on round r
+        If stage is an early pre-qualifying stage (e.g. pre_fp1..after_fp3),
+        Sunday starting-grid features are masked out in evaluation to prevent leakage.
         """
         rounds = sorted([int(r) for r in training_df["Round"].dropna().unique()])
         val_rounds = [r for r in rounds if r > self.min_train_rounds]
@@ -67,6 +71,8 @@ class ModelEvaluator:
                 f"Evaluating in-sample on available training data."
             )
             train_copy = training_df.copy()
+            if stage:
+                train_copy = apply_stage_feature_mask(train_copy, stage)
             for col in self.feature_cols:
                 if col not in train_copy.columns:
                     train_copy[col] = np.nan
@@ -175,6 +181,10 @@ class ModelEvaluator:
                     train[col] = np.nan
                 if col not in test.columns:
                     test[col] = np.nan
+
+            if stage:
+                train = apply_stage_feature_mask(train, stage)
+                test = apply_stage_feature_mask(test, stage)
 
             imputer = SimpleImputer(strategy="median")
             X_train = imputer.fit_transform(train[self.feature_cols])

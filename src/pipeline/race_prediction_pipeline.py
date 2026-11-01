@@ -142,11 +142,11 @@ class RacePredictionPipeline:
         quali_df = None
         is_provisional_quali = False
         provisional_quali_meta = None
-        if stage in ["after_qualifying", "post_race"]:
+        if stage in ["after_qualifying", "before_race", "post_race"]:
             quali_df = self.data_loader.load_target_qualifying(track_key, year, historical_tracks=tracks)
 
         if quali_df is None or quali_df.empty:
-            if stage in ["after_qualifying", "post_race"]:
+            if stage in ["after_qualifying", "before_race", "post_race"]:
                 logger.warning(
                     f"MISSING SESSION: Target qualifying data was not found for stage '{stage}'. "
                     f"Falling back to provisional pre-race qualifying prediction model. "
@@ -162,14 +162,55 @@ class RacePredictionPipeline:
             quali_df.rename(columns={"PredictedPosition": "Position"}, inplace=True)
             quali_df["QualifyingPosition"] = quali_df["Position"]
         else:
-            logger.info(f"Loaded actual qualifying session results for {track_name} ({len(quali_df)} drivers). Using verified actual starting grid.")
+            logger.info(f"Loaded actual qualifying session results for {track_name} ({len(quali_df)} drivers).")
+
+        # 3b. Load Authoritative Starting Grid (Multi-Source: FIA -> F1 -> OpenF1 -> Algorithmic Fallback)
+        starting_grid_df, grid_meta = self.data_loader.load_starting_grid(
+            track_id=track_key,
+            year=year,
+            round_num=target_round,
+            stage=stage,
+            quali_df=quali_df,
+            penalties=penalties,
+            expected_grid_size=self.model_config.get("expected_grid_size", 22),
+        )
+
+        # Log actual starting grid provenance accurately
+        prov = grid_meta.get("provenance", "unknown")
+        pub_status = grid_meta.get("publication_status", "UNKNOWN")
+        doc_ref = grid_meta.get("document_reference", "None")
+        if prov in ["official_manifest", "fia_official"]:
+            logger.info(
+                f"Starting Grid: Official FIA Starting Grid Manifest loaded (Ref: {doc_ref}, Status: {pub_status}). Verified official starting grid."
+            )
+        elif prov == "f1_website":
+            logger.info(
+                f"Starting Grid: Official Formula 1 Website published grid loaded (Status: {pub_status})."
+            )
+        elif prov == "openf1_api":
+            logger.info(
+                f"Starting Grid: OpenF1 Published Starting Grid loaded (Ref: {doc_ref}, Status: {pub_status}). Structured published grid."
+            )
+        elif prov in ["algorithmic_fallback", "algorithmic_provisional"]:
+            logger.info(
+                f"Starting Grid: Algorithmic Provisional Grid (Ref: {doc_ref}, Status: {pub_status}). Deterministic resolution under FIA Art 42.3."
+            )
+        elif prov == "unpublished":
+            logger.info(
+                f"Starting Grid: Unpublished at stage '{stage}'. Provisional pre-race starting grid applied."
+            )
+        else:
+            logger.warning(
+                f"Starting Grid: Unverified or unknown provenance '{prov}' (Status: {pub_status})."
+            )
 
         # 4. Build Training Features
         training_features = self.feature_engineer.build_training_dataset(
             races_df=races_df,
             qualis_df=qualis_df,
             practice_sessions_by_round=sessions_by_round,
-            train_rounds=train_rounds
+            train_rounds=train_rounds,
+            stage=stage,
         )
 
         # 5. Build Target Features (STRICT PRE-RACE: No race result)
@@ -180,7 +221,9 @@ class RacePredictionPipeline:
             practice_sessions=weekend_sessions,
             season_races_df=races_df,
             season_qualis_df=qualis_df,
-            penalties=penalties
+            penalties=penalties,
+            starting_grid_df=starting_grid_df,
+            stage=stage,
         )
 
         # 6. Audit for Data Leakage
@@ -193,12 +236,13 @@ class RacePredictionPipeline:
             raise AssertionError(f"Leakage check failed: {leakage_report['violations']}")
 
         # 6b. Fix driver order before deterministic prediction and Monte Carlo:
-        # Drivers must be sorted P1 -> P22 by ActualStartingGrid to match sequential NumPy RNG draws
-        grid_col = "ActualStartingGrid" if "ActualStartingGrid" in target_features.columns else "GridPosition"
-        target_features = target_features.sort_values(grid_col).reset_index(drop=True)
+        # Drivers must be sorted P1 -> P22 by simulation_start_rank (or GridPosition) to match sequential NumPy RNG draws
+        # Note: ActualStartingGrid has np.nan for pit-lane starters, so simulation_start_rank provides the safe total ordering
+        sort_col = "simulation_start_rank" if "simulation_start_rank" in target_features.columns else ("ActualStartingGrid" if "ActualStartingGrid" in target_features.columns else "GridPosition")
+        target_features = target_features.sort_values(sort_col).reset_index(drop=True)
 
         # 7. Model Walk-Forward Validation & Dynamic Model Selection
-        eval_results = self.model_evaluator.evaluate_walk_forward(training_features)
+        eval_results = self.model_evaluator.evaluate_walk_forward(training_features, stage=stage)
 
         sel_cfg = self.model_config.get("model_selection", {})
         mode = sel_cfg.get("mode", "walk_forward_auto")
@@ -272,7 +316,16 @@ class RacePredictionPipeline:
         track_output_dir.mkdir(parents=True, exist_ok=True)
 
         pred_csv_path = track_output_dir / f"{track_key}_{year}_{stage}_predictions.csv"
-        sim_results.to_csv(pred_csv_path, index=False)
+        # Export standard prediction columns for downstream persistence and regression parity
+        std_pred_cols = [
+            "Abbreviation", "TeamName", "QualifyingPosition", "GridPenalty",
+            "ActualStartingGrid", "ExpectedFinish", "MedianFinish",
+            "WinProbability", "Top3Probability", "Top5Probability",
+            "PointsProbability", "P5", "P25", "P50", "P75", "P95",
+            "MLExpectedFinish", "PredictedPosition"
+        ]
+        export_df = sim_results[[c for c in std_pred_cols if c in sim_results.columns]].copy()
+        export_df.to_csv(pred_csv_path, index=False)
         logger.info(f"Saved prediction table to: {pred_csv_path}")
 
         comp_csv_path = track_output_dir / f"{track_key}_{year}_model_comparison.csv"
@@ -365,6 +418,8 @@ class RacePredictionPipeline:
             "output_dir": str(track_output_dir),
             "is_provisional_quali": is_provisional_quali,
             "qualifying_meta": provisional_quali_meta,
+            "starting_grid_df": starting_grid_df,
+            "grid_meta": grid_meta,
             "actual_race_df": actual_race_df,
             "post_race_metrics": post_race_metrics,
         }
@@ -675,7 +730,9 @@ class RacePredictionPipeline:
             pos = int(row["PredictedPosition"])
             drv = row["Abbreviation"]
             team = row["TeamName"]
-            grid = int(row["ActualStartingGrid"])
+            grid_raw = row.get("ActualStartingGrid")
+            is_pit = bool(row.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
+            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
             exp = f"{row['ExpectedFinish']:.2f}"
             med = int(row["MedianFinish"])
             win = f"{row['WinProbability']:.1f}%"
@@ -789,7 +846,9 @@ class RacePredictionPipeline:
             pos = int(row["PredictedPosition"])
             drv = row["Abbreviation"]
             team = row["TeamName"]
-            grid = int(row["ActualStartingGrid"])
+            grid_raw = row.get("ActualStartingGrid")
+            is_pit = bool(row.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
+            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
             exp = f"{row['ExpectedFinish']:.2f}"
             win = f"{row['WinProbability']:.1f}%"
             pod = f"{row['Top3Probability']:.1f}%"
@@ -837,7 +896,9 @@ class RacePredictionPipeline:
             pos = int(row["PredictedPosition"])
             drv = row["Abbreviation"]
             team = row["TeamName"]
-            grid = int(row["ActualStartingGrid"])
+            grid_raw = row.get("ActualStartingGrid")
+            is_pit = bool(row.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
+            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
             exp = f"{row['ExpectedFinish']:.2f}"
             win = f"{row['WinProbability']:.1f}%"
             pod = f"{row['Top3Probability']:.1f}%"
@@ -946,7 +1007,9 @@ class RacePredictionPipeline:
             act_p = int(r["ActualFinish"])
             drv = r["Abbreviation"]
             team = r["TeamName"]
-            grid = int(r["ActualStartingGrid"])
+            grid_raw = r.get("ActualStartingGrid")
+            is_pit = bool(r.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
+            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
             pred_p = int(r["PredictedPosition"])
             exp_f = f"{r['ExpectedFinish']:.2f}"
             win_p = f"{r['WinProbability']:.1f}%"

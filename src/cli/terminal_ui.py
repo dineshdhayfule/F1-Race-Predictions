@@ -113,12 +113,24 @@ def prompt_int(
     prompt_text: str,
     min_val: Optional[int] = None,
     max_val: Optional[int] = None,
-    default: Optional[int] = None
+    default: Optional[int] = None,
+    allowed_values: Optional[List[int]] = None,
 ) -> Optional[int]:
-    """Prompts the user for an integer within an optional range."""
+    """Prompts the user for an integer within an optional range or explicit allowed values."""
     range_hint = ""
-    if min_val is not None and max_val is not None:
-        range_hint = f" ({min_val}-{max_val})"
+    if allowed_values is not None:
+        sorted_vals = sorted(allowed_values)
+        if len(sorted_vals) <= 1:
+            range_hint = ""
+        elif sorted_vals == list(range(sorted_vals[0], sorted_vals[-1] + 1)):
+            range_hint = f" ({sorted_vals[0]}-{sorted_vals[-1]})"
+        else:
+            range_hint = f" ({', '.join(str(v) for v in sorted_vals)})"
+    elif min_val is not None and max_val is not None:
+        if min_val == max_val:
+            range_hint = ""
+        else:
+            range_hint = f" ({min_val}-{max_val})"
     elif min_val is not None:
         range_hint = f" (>= {min_val})"
     default_str = f" [{default}]" if default is not None else ""
@@ -135,6 +147,9 @@ def prompt_int(
 
         try:
             val = int(raw)
+            if allowed_values is not None and val not in allowed_values:
+                print_warning(f"Value must be one of: {sorted(allowed_values)}.")
+                continue
             if min_val is not None and val < min_val:
                 print_warning(f"Value must be at least {min_val}.")
                 continue
