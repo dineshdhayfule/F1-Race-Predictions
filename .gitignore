@@ -106,3 +106,5 @@ dist/
 *.egg
 *.egg-info/
 .eggs/
+
+reports/

@@ -126,50 +126,18 @@ def save_practice_laps(session, target_path: Path, force: bool = False):
         return None
 
 
-def collect_track_data(track_id: str, year: int, force: bool = False):
-    root = Path(__file__).resolve().parents[2]
-    config_file = root / "config" / "tracks.json"
-    with open(config_file, "r", encoding="utf-8") as f:
-        tracks_config = json.load(f)["tracks"]
-
-    event = get_event_by_track_id(year, track_id, tracks_config)
-    round_num = int(event["RoundNumber"])
-    event_name = event["EventName"]
-
-    track_dir = root / "data" / "raw" / "tracks" / track_id.lower() / str(year)
-    cache_dir = root / "data" / "cache"
-    track_dir.mkdir(parents=True, exist_ok=True)
-    cache_dir.mkdir(parents=True, exist_ok=True)
-
-    fastf1.Cache.enable_cache(str(cache_dir))
-    logger.info(f"Processing {year} Round {round_num}: {event_name} ({track_id.upper()})")
-
-    # 1. FP1, FP2, FP3
-    for s_name in ["FP1", "FP2", "FP3"]:
-        s_file = track_dir / f"{s_name.lower()}.csv"
-        try:
-            sess = fastf1.get_session(year, round_num, s_name)
-            save_practice_laps(sess, s_file, force=force)
-        except Exception as e:
-            logger.info(f"  [INFO] {s_name} not available: {e}")
-
-    # 2. Qualifying
-    q_file = track_dir / "qualifying.csv"
-    if not q_file.exists() or force:
-        try:
-            q_sess = fastf1.get_session(year, round_num, "Q")
-            q_sess.load(telemetry=False, weather=False, messages=False)
-            res = q_sess.results.copy()
-            if not res.empty and "Position" in res.columns and res["Position"].dropna().shape[0] > 0:
-                res["Year"] = year
-                res["Race"] = event_name
-                res["Session"] = "Qualifying"
-                res.to_csv(q_file, index=False)
-                logger.info(f"  [OK] Saved Qualifying: {len(res)} drivers.")
-            else:
-                logger.info("  [INFO] Qualifying results not yet populated.")
-        except Exception as e:
-            logger.info(f"  [INFO] Qualifying not available: {e}")
+def collect_track_data(track_id: str, year: int = 2026, force: bool = False) -> dict:
+    """
+    Collects race and qualifying session data for a specific Grand Prix track.
+    Follows strict prediction engine rules:
+      - Qualifying
+      - Race
+      - Sprint Qualifying / Shootout (if sprint weekend)
+      - Sprint Race (if sprint weekend)
+    Practice sessions (FP1, FP2, FP3) are strictly excluded.
+    """
+    from src.data.collect_season import collect_grand_prix
+    return collect_grand_prix(track_id=track_id, year=year, force=force)
 
 
 

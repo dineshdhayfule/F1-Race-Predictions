@@ -691,24 +691,30 @@ class InteractiveMenu:
             print_banner(season=2026)
             print_header("Load & Collect Session Data")
             print("  1. Inspect existing dataset inventory")
-            print("  2. Collect data for a specific circuit (Practice + Qualifying)")
-            print("  3. Collect data for season rounds (Race + Qualifying via FastF1)")
-            print("  4. Audit data integrity & validate schemas")
-            print("  5. View missing sessions across 2026 calendar")
+            print("  2. Collect data for an ENTIRE season (All rounds: Qualifying, Race & Sprint)")
+            print("  3. Collect data for specific season rounds (Race + Qualifying via FastF1)")
+            print("  4. Collect data for a specific circuit (Qualifying + Race)")
+            print("  5. Collect historical circuit data (configured tracks & year ranges)")
+            print("  6. Audit data integrity & validate schemas")
+            print("  7. View missing sessions across 2026 calendar")
             print("  0. Back to Main Menu\n")
 
-            c = prompt_choice("Select option", ["1", "2", "3", "4", "5", "0"], default="1")
+            c = prompt_choice("Select option", ["1", "2", "3", "4", "5", "6", "7", "0"], default="1")
             if c == "0":
                 break
             elif c == "1":
                 self._inspect_data_inventory()
             elif c == "2":
-                self._run_track_collector()
+                self._run_full_season_collector()
             elif c == "3":
-                self._run_season_or_historical_collector()
+                self._run_season_collector()
             elif c == "4":
-                self._audit_data_integrity()
+                self._run_track_collector()
             elif c == "5":
+                self._run_historical_circuit_collector()
+            elif c == "6":
+                self._audit_data_integrity()
+            elif c == "7":
                 self._view_calendar_missing_sessions()
 
     def _inspect_data_inventory(self) -> None:
@@ -741,8 +747,21 @@ class InteractiveMenu:
         print()
         prompt_str("Press [Enter] to continue", allow_empty=True)
 
+    def _run_full_season_collector(self) -> None:
+        print_header("Collect Entire Season (All Rounds via FastF1)")
+        year = prompt_int("Enter Season Year", default=2026)
+        force = prompt_confirm("Force redownload of existing session files?", default=False)
+        print_info(f"Initiating full season collection for {year} (all discovered championship rounds)...")
+        try:
+            from src.data.collect_season import collect_season_data
+            collect_season_data(year=year, rounds=None, force=force)
+            print_success(f"Full season data collection for {year} completed.")
+        except Exception as e:
+            print_error(f"Full season collection failed: {e}")
+        prompt_str("Press [Enter] to continue", allow_empty=True)
+
     def _run_track_collector(self) -> None:
-        print_header("Collect Track Weekend Telemetry (FastF1)")
+        print_header("Collect Circuit Weekend Sessions (Qualifying + Race)")
         t_key = prompt_str("Enter circuit key (e.g. austin, sepang, baku)", default="austin")
         if t_key not in self.tracks_cfg:
             print_error(f"Track '{t_key}' not in configuration.")
@@ -764,16 +783,20 @@ class InteractiveMenu:
     def _run_season_collector(self) -> None:
         print_header("Collect Season Rounds (Race & Qualifying)")
         year = prompt_int("Enter Year", default=2026)
-        rounds_str = prompt_str("Enter round numbers separated by space (e.g. '18' or '1 2 3')", default="18")
-        try:
-            r_list = [int(x) for x in rounds_str.split()]
-        except ValueError:
-            print_error("Invalid round numbers.")
-            prompt_str("Press [Enter] to return", allow_empty=True)
-            return
+        rounds_str = prompt_str("Enter round numbers separated by space (or 'all' for entire season)", default="all")
+        if rounds_str.strip().lower() in ("all", "*", ""):
+            r_list = None
+        else:
+            try:
+                r_list = [int(x) for x in rounds_str.split()]
+            except ValueError:
+                print_error("Invalid round numbers.")
+                prompt_str("Press [Enter] to return", allow_empty=True)
+                return
 
         force = prompt_confirm("Force redownload?", default=False)
-        print_info(f"Collecting rounds {r_list} for season {year}...")
+        target_desc = f"rounds {r_list}" if r_list else f"entire season {year}"
+        print_info(f"Collecting {target_desc} for season {year}...")
         try:
             from src.data.collect_season import collect_season_data
             collect_season_data(year=year, rounds=r_list, force=force)
@@ -783,22 +806,26 @@ class InteractiveMenu:
         prompt_str("Press [Enter] to continue", allow_empty=True)
 
     def _run_season_or_historical_collector(self) -> None:
-        """Submenu for Option 3: choose between single season rounds or historical circuit collection."""
+        """Submenu for choosing between full season, single rounds, or historical circuit collection."""
         while True:
             clear_screen()
             print_banner(season=2026)
             print_header("Collect Race & Qualifying Data (FastF1)")
-            print("  1. Collect data for season rounds (specify year and rounds)")
-            print("  2. Collect historical circuit data (configured tracks & year ranges)")
+            print("  1. Collect data for an ENTIRE season (all championship rounds)")
+            print("  2. Collect data for specific season rounds (specify round numbers)")
+            print("  3. Collect historical circuit data (configured tracks & year ranges)")
             print("  0. Back to Data Collection Menu\n")
 
-            sub_choice = prompt_choice("Select collection mode", ["1", "2", "0"], default="1")
+            sub_choice = prompt_choice("Select collection mode", ["1", "2", "3", "0"], default="1")
             if sub_choice == "0":
                 break
             elif sub_choice == "1":
-                self._run_season_collector()
+                self._run_full_season_collector()
                 break
             elif sub_choice == "2":
+                self._run_season_collector()
+                break
+            elif sub_choice == "3":
                 self._run_historical_circuit_collector()
                 break
 

@@ -4,16 +4,19 @@ F1 Race Prediction Engine — Master CLI Entrypoint
 Unified command-line interface for multi-track Formula 1 race predictions.
 
 Commands:
-    predict     Run end-to-end prediction pipeline for a circuit
-    evaluate    Run chronological walk-forward cross-validation
-    validate    Audit datasets for data integrity and future leakage
-    collect     Fetch session telemetry via FastF1 (if needed)
+    predict         Run end-to-end prediction pipeline for a circuit
+    evaluate        Run chronological walk-forward cross-validation
+    validate        Audit datasets for data integrity and future leakage
+    collect-season  Collect full season race and qualifying data via FastF1
+    collect         Collect race and qualifying data for a specific Grand Prix
 
 Examples:
     python main.py predict --track sepang --year 2026 --stage after_qualifying
     python main.py predict --track baku --year 2026 --stage after_qualifying
     python main.py evaluate --track sepang --year 2026
     python main.py validate --track sepang --year 2026
+    python main.py collect-season --year 2026
+    python main.py collect --track mexico --year 2026
 """
 
 import argparse
@@ -322,6 +325,37 @@ def cmd_validate(args):
     print("=" * 80 + "\n")
 
 
+def cmd_collect_season(args):
+    """Executes full season race and qualifying data collection."""
+    from src.data.collect_season import collect_season_data
+    collect_season_data(
+        year=args.year,
+        rounds=args.rounds,
+        force=args.force,
+        verbose=True
+    )
+
+
+def cmd_collect(args):
+    """Executes race and qualifying collection for a Grand Prix or season."""
+    if args.track:
+        from src.data.collect_season import collect_grand_prix
+        collect_grand_prix(
+            track_id=args.track,
+            year=args.year,
+            force=args.force,
+            verbose=True
+        )
+    else:
+        from src.data.collect_season import collect_season_data
+        collect_season_data(
+            year=args.year,
+            rounds=getattr(args, "rounds", None),
+            force=args.force,
+            verbose=True
+        )
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="F1 Unified Race Prediction Engine",
@@ -385,6 +419,49 @@ def main():
         help="Prediction stage"
     )
 
+    # Collect Season Command (Qualifying + Race only, zero practice)
+    collect_season_parser = subparsers.add_parser(
+        "collect-season",
+        help="Collect full season race and qualifying sessions via FastF1 (excluding practice)"
+    )
+    collect_season_parser.add_argument("--year", type=int, default=2026, help="Season championship year")
+    collect_season_parser.add_argument(
+        "--rounds",
+        type=int,
+        nargs="+",
+        default=None,
+        help="Explicit round numbers to collect (default: all discovered rounds)"
+    )
+    collect_season_parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Force re-collection of existing session files"
+    )
+
+    # Collect Grand Prix / Track Command (Qualifying + Race only, zero practice)
+    collect_parser = subparsers.add_parser(
+        "collect",
+        help="Collect race and qualifying data for a Grand Prix circuit or season via FastF1"
+    )
+    collect_parser.add_argument(
+        "--track",
+        default=None,
+        help="Target circuit identifier (e.g. mexico, austin, sepang)"
+    )
+    collect_parser.add_argument("--year", type=int, default=2026, help="Season championship year")
+    collect_parser.add_argument(
+        "--rounds",
+        type=int,
+        nargs="+",
+        default=None,
+        help="Explicit round numbers to collect (if track not specified)"
+    )
+    collect_parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Force re-collection of existing session files"
+    )
+
     args = parser.parse_args()
 
     if args.command is None or args.command == "menu":
@@ -400,6 +477,10 @@ def main():
         cmd_evaluate(args)
     elif args.command == "validate":
         cmd_validate(args)
+    elif args.command == "collect-season":
+        cmd_collect_season(args)
+    elif args.command == "collect":
+        cmd_collect(args)
 
 
 if __name__ == "__main__":
