@@ -37,14 +37,70 @@ from src.utils.logging_utils import get_logger
 logger = get_logger("main_cli")
 
 
-def cmd_predict(args):
+def cmd_predict(args, parser=None):
     """Executes prediction command."""
+    model_raw = getattr(args, "model", "hybrid") or "hybrid"
+    if model_raw not in ("rf", "xgb", "hybrid", "__interactive__"):
+        err_msg = f"argument --model: invalid choice: '{model_raw}' (choose from 'rf', 'xgb', 'hybrid')"
+        if parser:
+            parser.error(err_msg)
+        else:
+            print(f"Error: {err_msg}")
+            sys.exit(2)
+
+    rf_w_arg = getattr(args, "rf_weight", None)
+    xgb_w_arg = getattr(args, "xgb_weight", None)
+
+    # Check that both custom weights are supplied together
+    if (rf_w_arg is None) != (xgb_w_arg is None):
+        err_msg = "Both --rf-weight and --xgb-weight must be supplied together for custom weights."
+        if parser:
+            parser.error(err_msg)
+        else:
+            print(f"Error: {err_msg}")
+            sys.exit(2)
+
+    if rf_w_arg is not None and xgb_w_arg is not None:
+        if not (0.0 <= rf_w_arg <= 100.0 and 0.0 <= xgb_w_arg <= 100.0):
+            err_msg = "Weights must each be between 0 and 100."
+            if parser:
+                parser.error(err_msg)
+            else:
+                print(f"Error: {err_msg}")
+                sys.exit(2)
+        if abs((rf_w_arg + xgb_w_arg) - 100.0) > 1e-4:
+            err_msg = f"Weight sum must equal exactly 100% (got {rf_w_arg} + {xgb_w_arg} = {rf_w_arg + xgb_w_arg}%)."
+            if parser:
+                parser.error(err_msg)
+            else:
+                print(f"Error: {err_msg}")
+                sys.exit(2)
+        if model_raw in ("rf", "xgb"):
+            err_msg = f"Custom weights (--rf-weight / --xgb-weight) cannot be used with '{model_raw}' model."
+            if parser:
+                parser.error(err_msg)
+            else:
+                print(f"Error: {err_msg}")
+                sys.exit(2)
+
+    custom_rf = rf_w_arg
+    custom_xgb = xgb_w_arg
+
+    if model_raw == "__interactive__":
+        from src.cli.menu import prompt_model_selection
+        model_choice, custom_rf, custom_xgb = prompt_model_selection()
+    else:
+        model_choice = model_raw
+
     pipeline = RacePredictionPipeline(root_dir=ROOT)
     try:
         results = pipeline.run(
             track_key=args.track,
             year=args.year,
-            stage=args.stage
+            stage=args.stage,
+            model=model_choice,
+            rf_weight=custom_rf,
+            xgb_weight=custom_xgb
         )
     except (ValueError, RuntimeError) as e:
         logger.error(f"Prediction failed: {e}")
@@ -96,9 +152,11 @@ def cmd_predict(args):
 
     print("\n" + "=" * 80)
     print(f"GRAND PRIX RACE TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{args.stage.upper()}]")
-    print(f"Selected Model   : {results.get('selected_model', 'N/A')}")
+    print(f"Model Selected   : {results.get('selected_model', 'N/A')}")
     print(f"Selection Method : {results.get('selection_method', 'Chronological Walk-Forward Validation')}")
-    print(f"Selected MAE     : {results.get('selected_mae', 'N/A')}")
+    mae_val = results.get('selected_mae')
+    mae_str = f"{mae_val:.4f}" if isinstance(mae_val, (int, float)) else str(mae_val)
+    print(f"Selected MAE     : {mae_str}")
     print(f"Starting Grid    : {grid_source}")
     print("=" * 80)
     print(f"{'Pos':<4} {'Driver':<5} {'Team':<22} {'Grid':<5} {'ExpFinish':<10} {'Win%':<7} {'Podium%':<9} {'Points%':<9}")
@@ -134,7 +192,9 @@ def cmd_predict(args):
         print(f"Podium Brier Score    : {m['podium_brier_score']:.4f}")
         print("=" * 80)
 
-    print(f"Reports and full predictions written to: {results['output_dir']}\n")
+    out_dir = results.get("output_dir", "")
+    if out_dir:
+        print(f"Reports and full predictions written to: {out_dir}\n")
 
 
 def cmd_evaluate(args):
@@ -283,6 +343,26 @@ def main():
         help="Prediction timeline stage cutoff"
     )
     predict_parser.add_argument(
+        "--model",
+        nargs="?",
+        const="__interactive__",
+        default="hybrid",
+        type=str.lower,
+        help="Prediction model: 'rf' (Random Forest only), 'xgb' (XGBoost only), 'hybrid' (60%% RF / 40%% XGB ensemble, default). Bare --model opens interactive model selection."
+    )
+    predict_parser.add_argument(
+        "--rf-weight",
+        type=float,
+        default=None,
+        help="Custom Random Forest weight percentage (0-100). Must be supplied together with --xgb-weight."
+    )
+    predict_parser.add_argument(
+        "--xgb-weight",
+        type=float,
+        default=None,
+        help="Custom XGBoost weight percentage (0-100). Must be supplied together with --rf-weight."
+    )
+    predict_parser.add_argument(
         "--top",
         type=int,
         default=10,
@@ -315,7 +395,7 @@ def main():
         except SystemExit as se:
             sys.exit(se.code if se.code is not None else 0)
     elif args.command == "predict":
-        cmd_predict(args)
+        cmd_predict(args, predict_parser)
     elif args.command == "evaluate":
         cmd_evaluate(args)
     elif args.command == "validate":

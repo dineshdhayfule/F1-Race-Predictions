@@ -43,6 +43,87 @@ from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def prompt_custom_weights_only() -> Tuple[Optional[str], Optional[float], Optional[float]]:
+    """Prompt for custom RF and XGBoost weights with validation and confirmation."""
+    while True:
+        try:
+            rf_input = input("Enter Random Forest weight (%): ").strip()
+            xgb_input = input("Enter XGBoost weight (%): ").strip()
+        except (KeyboardInterrupt, EOFError):
+            return None, None, None
+
+        try:
+            rf_w = float(rf_input)
+            xgb_w = float(xgb_input)
+        except ValueError:
+            print("Error: Both values must be numeric. Please try again.\n")
+            continue
+
+        if not (0.0 <= rf_w <= 100.0 and 0.0 <= xgb_w <= 100.0):
+            print("Error: Each weight must be between 0 and 100. Please try again.\n")
+            continue
+
+        if abs((rf_w + xgb_w) - 100.0) > 1e-4:
+            print(f"Error: Weight sum must equal exactly 100 (got {rf_w} + {xgb_w} = {rf_w + xgb_w}%). Please try again.\n")
+            continue
+
+        rf_disp = int(rf_w) if rf_w.is_integer() else rf_w
+        xgb_disp = int(xgb_w) if xgb_w.is_integer() else xgb_w
+        print()
+        print(f"Random Forest : {rf_disp}%")
+        print(f"XGBoost       : {xgb_disp}%")
+        print()
+        try:
+            confirm = input("Confirm configuration? (Y/N): ").strip().upper()
+        except (KeyboardInterrupt, EOFError):
+            return None, None, None
+
+        if confirm in ("Y", "YES", ""):
+            return ("hybrid", rf_w, xgb_w)
+        elif confirm in ("N", "NO"):
+            return None, None, None
+        else:
+            print("Invalid response. Please enter Y or N.\n")
+            continue
+
+
+def prompt_model_selection() -> Tuple[str, Optional[float], Optional[float]]:
+    """
+    Interactive prompt for model selection when bare --model is supplied:
+
+    ========== MODEL SELECTION ==========
+
+    1. Random Forest (100%)
+    2. XGBoost (100%)
+    3. Hybrid Ensemble (Custom Weights)
+
+    Select model:
+    """
+    while True:
+        print("\n========== MODEL SELECTION ==========\n")
+        print("1. Random Forest (100%)")
+        print("2. XGBoost (100%)")
+        print("3. Hybrid Ensemble (Custom Weights)\n")
+        try:
+            choice = input("Select model: ").strip()
+        except (KeyboardInterrupt, EOFError):
+            print("\nModel selection cancelled.")
+            sys.exit(0)
+
+        if choice == "1":
+            return ("rf", None, None)
+        elif choice == "2":
+            return ("xgb", None, None)
+        elif choice == "3":
+            model, rf_w, xgb_w = prompt_custom_weights_only()
+            if model is None:
+                # N returns to model selection
+                continue
+            return (model, rf_w, xgb_w)
+        else:
+            print("Invalid choice. Please select 1, 2, or 3.\n")
+
+
 class InteractiveMenu:
     """Master controller for the interactive CLI prediction engine menu."""
 
@@ -302,8 +383,33 @@ class InteractiveMenu:
             else:
                 return
 
-        # Step 6: Prediction Options
-        print_header("Step 5: Output Display Options")
+        # Step 5: Select Prediction Model
+        print_header("Step 5: Select Prediction Model", f"Circuit: {track_display} | Stage: {stage}")
+        print("  1. Random Forest (100%)")
+        print("  2. XGBoost (100%)")
+        print("  3. Hybrid Ensemble (60% RF / 40% XGB) — Default")
+        print("  4. Hybrid Ensemble (Custom Weights)")
+        print("  0. Cancel / Back\n")
+        model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "0"], default="3")
+        if model_choice_input == "0":
+            return
+        selected_custom_rf = None
+        selected_custom_xgb = None
+        if model_choice_input == "1":
+            selected_model_opt = "rf"
+        elif model_choice_input == "2":
+            selected_model_opt = "xgb"
+        elif model_choice_input == "3":
+            selected_model_opt = "hybrid"
+        elif model_choice_input == "4":
+            selected_model_opt, selected_custom_rf, selected_custom_xgb = prompt_custom_weights_only()
+            if selected_model_opt is None:
+                return self.menu_predict_race()
+        else:
+            selected_model_opt = "hybrid"
+
+        # Step 6: Output Display Options
+        print_header("Step 6: Output Display Options")
         print("  1. Top 3 (Podium prediction)")
         print("  2. Top 10 (Points scoring positions)")
         print("  3. Full Grid (All 22 classified positions)")
@@ -317,7 +423,14 @@ class InteractiveMenu:
         print_header("Executing Prediction Pipeline", f"Running 25,000 Monte Carlo Simulations...")
         pipeline = self._get_pipeline()
         try:
-            results = pipeline.run(track_key=track_key, year=year, stage=stage)
+            results = pipeline.run(
+                track_key=track_key,
+                year=year,
+                stage=stage,
+                model=selected_model_opt,
+                rf_weight=selected_custom_rf,
+                xgb_weight=selected_custom_xgb,
+            )
         except Exception as e:
             print_error(f"Pipeline execution error: {e}")
             prompt_str("Press [Enter] to return", allow_empty=True)
@@ -481,8 +594,10 @@ class InteractiveMenu:
 
         print("\n" + "=" * 76)
         print(Colors.BOLD + Colors.CYAN + f" GRAND PRIX RACE TOP {min(top_n, len(df))} PREDICTION: {track_name.upper()} {year} [{stage.upper()}]" + Colors.RESET)
+        mae_val = results.get('selected_mae')
+        mae_str = f"{mae_val:.4f}" if isinstance(mae_val, (int, float)) else str(mae_val)
         print(f" Model Selected  : {results.get('selected_model', 'N/A')}")
-        print(f" Selection Method: {results.get('selection_method', 'N/A')} (MAE: {results.get('selected_mae', 0.0):.4f})")
+        print(f" Selection Method: {results.get('selection_method', 'N/A')} (MAE: {mae_str})")
         grid_meta = results.get("grid_meta", {})
         grid_source = format_grid_provenance_display(grid_meta)
         print(f" Starting Grid   : {Colors.BOLD}{grid_source}{Colors.RESET}")

@@ -43,6 +43,7 @@ class ModelEvaluator:
         self,
         training_df: pd.DataFrame,
         stage: Optional[str] = None,
+        custom_weights: Optional[Tuple[float, float]] = None,
     ) -> Dict[str, Any]:
         """
         Executes chronological walk-forward validation.
@@ -64,6 +65,21 @@ class ModelEvaluator:
             (0.25, 0.75, "25% RF / 75% XGB"),
             (0.0, 1.0, "100% XGB"),
         ]
+
+        custom_name = None
+        if custom_weights is not None:
+            c_w_rf, c_w_xgb = custom_weights
+            match_custom = next(
+                (tw[2] for tw in tested_weights if abs(tw[0] - c_w_rf) < 1e-4 and abs(tw[1] - c_w_xgb) < 1e-4),
+                None
+            )
+            if match_custom:
+                custom_name = match_custom
+            else:
+                rf_pct = int(round(c_w_rf * 100))
+                xgb_pct = int(round(c_w_xgb * 100))
+                custom_name = f"{rf_pct}% RF / {xgb_pct}% XGB"
+                tested_weights = list(tested_weights) + [(c_w_rf, c_w_xgb, custom_name)]
 
         if not val_rounds:
             logger.info(
@@ -141,6 +157,16 @@ class ModelEvaluator:
             selected_residuals = np.array(rf_residuals if best_w_rf >= 0.5 else xgb_residuals)
             empirical_dnf_rate = float(training_df["driver_dnf_rate"].mean()) if "driver_dnf_rate" in training_df.columns else 0.158
 
+            custom_mae = None
+            custom_residuals = None
+            if custom_name is not None:
+                custom_match = next((x for x in ensemble_results if x["model_name"] == custom_name), None)
+                if custom_match is not None:
+                    custom_mae = custom_match["mae"]
+                if custom_name in round_predictions:
+                    custom_preds = np.array(round_predictions[custom_name])
+                    custom_residuals = np.array(y_all) - custom_preds
+
             return {
                 "validation_rounds": [],
                 "sample_count": len(y_all),
@@ -154,6 +180,8 @@ class ModelEvaluator:
                 "xgb_residuals": np.array(xgb_residuals),
                 "rf_mae": ensemble_results[0]["mae"],
                 "xgb_mae": ensemble_results[-1]["mae"],
+                "custom_mae": custom_mae,
+                "custom_residuals": custom_residuals,
                 "empirical_dnf_rate": round(empirical_dnf_rate, 4),
                 "grid_positions": np.array(round_grids),
                 "round_predictions": round_predictions,
@@ -264,6 +292,16 @@ class ModelEvaluator:
         empirical_dnf_rate = float(training_df["driver_dnf_rate"].mean()) if "driver_dnf_rate" in training_df.columns else 0.158
         logger.info(f"Dynamic walk-forward selection winner: {best_name} (MAE={best_mae:.4f})")
 
+        custom_mae = None
+        custom_residuals = None
+        if custom_name is not None:
+            custom_match = next((x for x in ensemble_results if x["model_name"] == custom_name), None)
+            if custom_match is not None:
+                custom_mae = custom_match["mae"]
+            if custom_name in round_predictions:
+                custom_preds = np.array(round_predictions[custom_name])
+                custom_residuals = np.array(actuals) - custom_preds
+
         return {
             "validation_rounds": val_rounds,
             "sample_count": len(actuals),
@@ -277,6 +315,8 @@ class ModelEvaluator:
             "xgb_residuals": np.array(xgb_residuals),
             "rf_mae": ensemble_results[0]["mae"],
             "xgb_mae": ensemble_results[-1]["mae"],
+            "custom_mae": custom_mae,
+            "custom_residuals": custom_residuals,
             "empirical_dnf_rate": round(empirical_dnf_rate, 4),
             "grid_positions": np.array(round_grids),
             "round_predictions": round_predictions,

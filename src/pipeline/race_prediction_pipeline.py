@@ -70,7 +70,10 @@ class RacePredictionPipeline:
         self,
         track_key: str,
         year: int = 2026,
-        stage: str = "after_qualifying"
+        stage: str = "after_qualifying",
+        model: Optional[str] = "hybrid",
+        rf_weight: Optional[float] = None,
+        xgb_weight: Optional[float] = None,
     ) -> Dict[str, Any]:
         """
         Executes end-to-end race prediction for the specified track.
@@ -83,12 +86,46 @@ class RacePredictionPipeline:
             Championship season year.
         stage : str
             Prediction stage cutoff ('pre_fp1', 'after_fp1', 'after_fp2', 'after_fp3', 'after_qualifying').
+        model : str, optional
+            Prediction model ('rf', 'xgb', 'hybrid'). Default is 'hybrid'.
+        rf_weight : float, optional
+            Custom Random Forest weight (0-1.0 or 0-100%). Must be supplied with xgb_weight.
+        xgb_weight : float, optional
+            Custom XGBoost weight (0-1.0 or 0-100%). Must be supplied with rf_weight.
 
         Returns
         -------
         dict containing prediction results, evaluation metrics, and simulation stats.
         """
         track_key = track_key.lower().strip()
+        valid_models = {"rf", "xgb", "hybrid"}
+        model_choice = (model or "hybrid").lower().strip()
+        if model_choice not in valid_models:
+            raise ValueError(
+                f"Invalid model '{model}'. Supported models are: 'rf' (Random Forest only), "
+                f"'xgb' (XGBoost only), 'hybrid' (60% RF / 40% XGBoost ensemble)."
+            )
+
+        custom_weights = None
+        if rf_weight is not None or xgb_weight is not None:
+            if rf_weight is None or xgb_weight is None:
+                raise ValueError("Both rf_weight and xgb_weight must be supplied together for custom weights.")
+            try:
+                rf_w = float(rf_weight)
+                xgb_w = float(xgb_weight)
+            except (ValueError, TypeError):
+                raise ValueError(f"Invalid weight values: rf_weight={rf_weight}, xgb_weight={xgb_weight}. Both must be numeric.")
+            if rf_w > 1.0 or xgb_w > 1.0:
+                rf_w = rf_w / 100.0
+                xgb_w = xgb_w / 100.0
+            if not (0.0 <= rf_w <= 1.0 and 0.0 <= xgb_w <= 1.0):
+                raise ValueError(f"Weights must each be between 0 and 1.0 (or 0 and 100%). Got rf_weight={rf_weight}, xgb_weight={xgb_weight}.")
+            if abs((rf_w + xgb_w) - 1.0) > 1e-4:
+                raise ValueError(f"Weight sum must equal 1.0 (or 100%). Got {rf_w + xgb_w:.4f}.")
+            if model_choice in {"rf", "xgb"}:
+                raise ValueError(f"Custom weights cannot be used with '{model_choice}' model. Custom weights require hybrid model.")
+            model_choice = "hybrid"
+            custom_weights = (rf_w, xgb_w)
         tracks = self.tracks_config.get("tracks", {})
         if track_key not in tracks:
             raise KeyError(f"Track '{track_key}' not found in tracks.json. Available: {list(tracks.keys())}")
@@ -242,45 +279,77 @@ class RacePredictionPipeline:
         target_features = target_features.sort_values(sort_col).reset_index(drop=True)
 
         # 7. Model Walk-Forward Validation & Dynamic Model Selection
-        eval_results = self.model_evaluator.evaluate_walk_forward(training_features, stage=stage)
+        eval_results = self.model_evaluator.evaluate_walk_forward(
+            training_features,
+            stage=stage,
+            custom_weights=custom_weights
+        )
 
         sel_cfg = self.model_config.get("model_selection", {})
-        mode = sel_cfg.get("mode", "walk_forward_auto")
 
-        if mode == "walk_forward_auto":
-            selected_rf_weight = eval_results["best_w_rf"]
-            selected_xgb_weight = eval_results["best_w_xgb"]
-            selected_model_name = eval_results["best_model_name"]
-            selected_mae = eval_results["best_mae"]
-            selection_method = "Chronological Walk-Forward Validation" if eval_results.get("validation_rounds") else "Architectural Default (Early Season)"
-            residuals = eval_results["selected_residuals"]
-        elif mode == "fixed_rf":
+        if model_choice == "rf":
             selected_rf_weight, selected_xgb_weight = 1.0, 0.0
-            selected_model_name = "100% Random Forest / 0% XGBoost"
+            selected_model_name = "Random Forest (100%)"
             selected_mae = eval_results["rf_mae"]
-            selection_method = "Fixed Configuration (Random Forest)"
+            selection_method = "User Selected (Random Forest)"
             residuals = eval_results["rf_residuals"]
-        elif mode == "fixed_xgb":
+        elif model_choice == "xgb":
             selected_rf_weight, selected_xgb_weight = 0.0, 1.0
-            selected_model_name = "0% Random Forest / 100% XGBoost"
+            selected_model_name = "XGBoost (100%)"
             selected_mae = eval_results["xgb_mae"]
-            selection_method = "Fixed Configuration (XGBoost)"
+            selection_method = "User Selected (XGBoost)"
             residuals = eval_results["xgb_residuals"]
-        elif mode == "fixed_ensemble":
-            selected_rf_weight = float(sel_cfg.get("fixed_rf_weight", 0.6))
-            selected_xgb_weight = float(sel_cfg.get("fixed_xgb_weight", 0.4))
-            selected_model_name = f"{int(selected_rf_weight*100)}% RF / {int(selected_xgb_weight*100)}% XGB"
-            selection_method = "Fixed Configuration (Manual Ensemble)"
-            match = next((x for x in eval_results["ensemble_comparisons"] if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
-            selected_mae = match["mae"] if match else eval_results["best_mae"]
-            residuals = eval_results["selected_residuals"]
+        elif model_choice == "hybrid":
+            if custom_weights is not None:
+                selected_rf_weight, selected_xgb_weight = custom_weights
+                rf_pct = int(round(selected_rf_weight * 100))
+                xgb_pct = int(round(selected_xgb_weight * 100))
+                selected_model_name = f"Hybrid Ensemble ({rf_pct}% RF / {xgb_pct}% XGB)"
+                selection_method = f"User Selected Hybrid ({rf_pct}% RF / {xgb_pct}% XGB)"
+                selected_mae = eval_results.get("custom_mae")
+                if selected_mae is None:
+                    match = next((x for x in eval_results["ensemble_comparisons"] if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
+                    selected_mae = match["mae"] if match else eval_results["best_mae"]
+                residuals = eval_results.get("custom_residuals")
+                if residuals is None:
+                    residuals = eval_results["selected_residuals"]
+            else:
+                selected_rf_weight = float(sel_cfg.get("fixed_rf_weight", 0.6))
+                selected_xgb_weight = float(sel_cfg.get("fixed_xgb_weight", 0.4))
+                selected_model_name = "Hybrid Ensemble (60% RF / 40% XGB)"
+                selection_method = "Fixed Configuration (Manual Ensemble)"
+                match = next((x for x in eval_results["ensemble_comparisons"] if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
+                selected_mae = match["mae"] if match else eval_results["best_mae"]
+                residuals = eval_results["selected_residuals"]
         else:
-            selected_rf_weight = eval_results["best_w_rf"]
-            selected_xgb_weight = eval_results["best_w_xgb"]
-            selected_model_name = eval_results["best_model_name"]
-            selected_mae = eval_results["best_mae"]
-            selection_method = "Chronological Walk-Forward Validation"
-            residuals = eval_results["selected_residuals"]
+            mode = sel_cfg.get("mode", "fixed_ensemble")
+            if mode == "walk_forward_auto":
+                selected_rf_weight = eval_results["best_w_rf"]
+                selected_xgb_weight = eval_results["best_w_xgb"]
+                selected_model_name = eval_results["best_model_name"]
+                selected_mae = eval_results["best_mae"]
+                selection_method = "Chronological Walk-Forward Validation" if eval_results.get("validation_rounds") else "Architectural Default (Early Season)"
+                residuals = eval_results["selected_residuals"]
+            elif mode == "fixed_rf":
+                selected_rf_weight, selected_xgb_weight = 1.0, 0.0
+                selected_model_name = "Random Forest (100%)"
+                selected_mae = eval_results["rf_mae"]
+                selection_method = "Fixed Configuration (Random Forest)"
+                residuals = eval_results["rf_residuals"]
+            elif mode == "fixed_xgb":
+                selected_rf_weight, selected_xgb_weight = 0.0, 1.0
+                selected_model_name = "XGBoost (100%)"
+                selected_mae = eval_results["xgb_mae"]
+                selection_method = "Fixed Configuration (XGBoost)"
+                residuals = eval_results["xgb_residuals"]
+            else:
+                selected_rf_weight = float(sel_cfg.get("fixed_rf_weight", 0.6))
+                selected_xgb_weight = float(sel_cfg.get("fixed_xgb_weight", 0.4))
+                selected_model_name = "Hybrid Ensemble (60% RF / 40% XGB)"
+                selection_method = "Fixed Configuration (Manual Ensemble)"
+                match = next((x for x in eval_results["ensemble_comparisons"] if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
+                selected_mae = match["mae"] if match else eval_results["best_mae"]
+                residuals = eval_results["selected_residuals"]
 
         empirical_dnf = eval_results.get("empirical_dnf_rate", 0.158)
         logger.info(f"Selected model: {selected_model_name} via {selection_method} (MAE={selected_mae:.4f})")
@@ -305,6 +374,7 @@ class RacePredictionPipeline:
             residuals=residuals,
             empirical_dnf_rate=empirical_dnf
         )
+        sim_meta["model"] = model_choice
         sim_meta["selected_model"] = selected_model_name
         sim_meta["selection_method"] = selection_method
         sim_meta["selected_mae"] = selected_mae
@@ -406,6 +476,7 @@ class RacePredictionPipeline:
             "track_name": track_name,
             "year": year,
             "stage": stage,
+            "model": model_choice,
             "selected_model": selected_model_name,
             "selection_method": selection_method,
             "selected_mae": selected_mae,
