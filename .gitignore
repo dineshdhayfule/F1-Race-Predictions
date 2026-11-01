@@ -10,6 +10,9 @@ __pycache__/
 .ruff_cache/
 .coverage
 htmlcov/
+coverage.xml
+*.cover
+nosetests.xml
 
 # ==============================
 # Virtual Environments
@@ -27,12 +30,16 @@ ENV/
 .idea/
 *.swp
 *.swo
+*.sublime-workspace
+*.sublime-project
 
 # ==============================
 # OS
 # ==============================
 .DS_Store
 Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
 desktop.ini
 *.lnk
 
@@ -92,8 +99,10 @@ data/raw/tracks/
 .ipynb_checkpoints/
 
 # ==============================
-# Python Build
+# Python Build & Distribution
 # ==============================
 build/
 dist/
+*.egg
 *.egg-info/
+.eggs/
