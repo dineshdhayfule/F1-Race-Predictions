@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 
 from src.utils.logging_utils import get_logger
+from src.utils.circuit_mapping import resolve_circuit_key
 
 logger = get_logger("weather_features")
 
@@ -66,7 +67,6 @@ class WeatherModel:
 
     def get_circuit_climate_default(self, circuit_key: Optional[str] = None) -> Dict[str, float]:
         """Provides default seasonal climate metrics for a circuit if live weather is unobserved."""
-        ck = str(circuit_key).lower().strip() if circuit_key else "default"
         # Empirically typical temperatures (Air / Track) and rain probabilities by venue
         climate_map = {
             "bahrain": {"air_temp": 28.0, "track_temp": 34.0, "humidity": 45.0, "wind_speed": 3.5, "rain_prob": 0.01},
@@ -74,14 +74,21 @@ class WeatherModel:
             "melbourne": {"air_temp": 20.0, "track_temp": 31.0, "humidity": 60.0, "wind_speed": 4.5, "rain_prob": 0.20},
             "australia": {"air_temp": 20.0, "track_temp": 31.0, "humidity": 60.0, "wind_speed": 4.5, "rain_prob": 0.20},
             "suzuka": {"air_temp": 19.0, "track_temp": 27.0, "humidity": 65.0, "wind_speed": 3.0, "rain_prob": 0.35},
+            "japan": {"air_temp": 19.0, "track_temp": 27.0, "humidity": 65.0, "wind_speed": 3.0, "rain_prob": 0.35},
             "shanghai": {"air_temp": 21.0, "track_temp": 30.0, "humidity": 65.0, "wind_speed": 3.2, "rain_prob": 0.30},
+            "china": {"air_temp": 21.0, "track_temp": 30.0, "humidity": 65.0, "wind_speed": 3.2, "rain_prob": 0.30},
             "miami": {"air_temp": 29.0, "track_temp": 46.0, "humidity": 62.0, "wind_speed": 3.8, "rain_prob": 0.25},
             "monaco": {"air_temp": 22.0, "track_temp": 38.0, "humidity": 58.0, "wind_speed": 2.5, "rain_prob": 0.20},
             "montreal": {"air_temp": 22.0, "track_temp": 36.0, "humidity": 55.0, "wind_speed": 3.5, "rain_prob": 0.35},
+            "canada": {"air_temp": 22.0, "track_temp": 36.0, "humidity": 55.0, "wind_speed": 3.5, "rain_prob": 0.35},
             "barcelona": {"air_temp": 26.0, "track_temp": 42.0, "humidity": 50.0, "wind_speed": 2.8, "rain_prob": 0.10},
+            "austria": {"air_temp": 22.0, "track_temp": 34.0, "humidity": 55.0, "wind_speed": 3.0, "rain_prob": 0.30},
             "silverstone": {"air_temp": 20.0, "track_temp": 32.0, "humidity": 70.0, "wind_speed": 5.0, "rain_prob": 0.40},
+            "hungary": {"air_temp": 30.0, "track_temp": 48.0, "humidity": 45.0, "wind_speed": 2.5, "rain_prob": 0.15},
             "spa": {"air_temp": 18.0, "track_temp": 26.0, "humidity": 75.0, "wind_speed": 3.0, "rain_prob": 0.50},
+            "zandvoort": {"air_temp": 19.0, "track_temp": 28.0, "humidity": 75.0, "wind_speed": 6.0, "rain_prob": 0.35},
             "monza": {"air_temp": 28.0, "track_temp": 44.0, "humidity": 48.0, "wind_speed": 2.2, "rain_prob": 0.15},
+            "madrid": {"air_temp": 27.0, "track_temp": 41.0, "humidity": 45.0, "wind_speed": 2.8, "rain_prob": 0.10},
             "baku": {"air_temp": 24.0, "track_temp": 36.0, "humidity": 55.0, "wind_speed": 6.5, "rain_prob": 0.05},
             "singapore": {"air_temp": 30.0, "track_temp": 36.0, "humidity": 80.0, "wind_speed": 2.0, "rain_prob": 0.40},
             "austin": {"air_temp": 26.0, "track_temp": 40.0, "humidity": 52.0, "wind_speed": 3.0, "rain_prob": 0.15},
@@ -89,10 +96,17 @@ class WeatherModel:
             "interlagos": {"air_temp": 23.0, "track_temp": 38.0, "humidity": 70.0, "wind_speed": 3.8, "rain_prob": 0.45},
             "sao_paulo": {"air_temp": 23.0, "track_temp": 38.0, "humidity": 70.0, "wind_speed": 3.8, "rain_prob": 0.45},
             "las_vegas": {"air_temp": 14.0, "track_temp": 17.0, "humidity": 35.0, "wind_speed": 3.0, "rain_prob": 0.05},
+            "qatar": {"air_temp": 32.0, "track_temp": 38.0, "humidity": 60.0, "wind_speed": 4.5, "rain_prob": 0.01},
+            "abu_dhabi": {"air_temp": 28.0, "track_temp": 33.0, "humidity": 60.0, "wind_speed": 3.0, "rain_prob": 0.01},
             "sepang": {"air_temp": 31.0, "track_temp": 45.0, "humidity": 82.0, "wind_speed": 2.5, "rain_prob": 0.55},
             "default": {"air_temp": 23.0, "track_temp": 35.0, "humidity": 60.0, "wind_speed": 3.5, "rain_prob": 0.20},
         }
-        return climate_map.get(ck, climate_map["default"])
+        raw_key = str(circuit_key).lower().strip() if circuit_key else "default"
+        canon_key = resolve_circuit_key(raw_key)
+        for k in [canon_key, raw_key]:
+            if k and k in climate_map:
+                return climate_map[k]
+        return climate_map["default"]
 
     def build_weather_features_for_stage(
         self,

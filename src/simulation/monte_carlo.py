@@ -199,6 +199,7 @@ class MonteCarloSimulator:
                 "ActualStartingGrid": grid_pos_out,
                 "simulation_start_rank": sim_rank_out,
                 "is_pit_lane_start": is_pit,
+                "StartingGridStatus": str(row.get("StartingGridStatus", "CLASSIFIED")),
 
                 "ExpectedFinish": round(float(finishes.mean()), 2),
                 "MedianFinish": int(np.median(finishes)),
@@ -227,18 +228,79 @@ class MonteCarloSimulator:
 
             rows.append(rec_dict)
 
-        result = (
+        active_result = (
             pd.DataFrame(rows)
             .sort_values("ExpectedFinish")
             .reset_index(drop=True)
         )
-        result["PredictedPosition"] = np.arange(1, len(result) + 1)
+        active_result["PredictedPosition"] = np.arange(1, len(active_result) + 1)
+
+        excluded_rows = []
+        if not active_mask.all():
+            excluded_df = target_df[~active_mask].reset_index(drop=True)
+            for _, ex_row in excluded_df.iterrows():
+                q_pos_raw = ex_row.get("QualifyingPosition")
+                q_pos_out = int(round(float(q_pos_raw))) if pd.notna(q_pos_raw) else np.nan
+
+                sim_rank_raw = ex_row.get("simulation_start_rank")
+                sim_rank_out = int(round(float(sim_rank_raw))) if pd.notna(sim_rank_raw) else np.nan
+
+                actual_grid = ex_row.get("ActualStartingGrid")
+                raw_pit = ex_row.get("is_pit_lane_start")
+                is_pit = int(round(float(raw_pit))) if pd.notna(raw_pit) else 0
+
+                raw_pen = ex_row.get("grid_penalty_places")
+                if pd.isna(raw_pen):
+                    raw_pen = ex_row.get("GridPenalty")
+                assessed_penalty = int(round(float(raw_pen))) if pd.notna(raw_pen) else 0
+
+                grid_pos_out = np.nan if (is_pit == 1 or pd.isna(actual_grid)) else int(round(float(actual_grid)))
+                ref_pos = grid_pos_out if pd.notna(grid_pos_out) else sim_rank_out
+                delta = int(ref_pos - q_pos_out) if (pd.notna(ref_pos) and pd.notna(q_pos_out)) else 0
+                status_val = str(ex_row.get("StartingGridStatus", "NON_STARTER"))
+
+                ex_dict = {
+                    "Abbreviation": str(ex_row["Abbreviation"]),
+                    "TeamName": str(ex_row.get("TeamName", "Unknown")),
+                    "QualifyingPosition": q_pos_out,
+                    "GridPenalty": assessed_penalty,
+                    "grid_penalty_places": assessed_penalty,
+                    "grid_vs_quali_delta": delta,
+                    "ActualStartingGrid": grid_pos_out,
+                    "simulation_start_rank": sim_rank_out,
+                    "is_pit_lane_start": is_pit,
+                    "StartingGridStatus": status_val,
+
+                    "ExpectedFinish": np.nan,
+                    "MedianFinish": np.nan,
+                    "WinProbability": 0.0,
+                    "Top3Probability": 0.0,
+                    "Top5Probability": 0.0,
+                    "PointsProbability": 0.0,
+
+                    "P5": np.nan,
+                    "P25": np.nan,
+                    "P50": np.nan,
+                    "P75": np.nan,
+                    "P95": np.nan,
+
+                    "MLExpectedFinish": np.nan,
+                    "PredictedPosition": np.nan,
+                }
+                excluded_rows.append(ex_dict)
+
+        if excluded_rows:
+            excluded_result = pd.DataFrame(excluded_rows)
+            result = pd.concat([active_result, excluded_result], ignore_index=True)
+        else:
+            result = active_result
 
         summary = {
             "n_simulations": self.n_simulations,
             "calibrated_sigma": round(calibrated_sigma, 4),
             "empirical_dnf_prob": round(dnf_prob, 4),
-            "driver_count": n,
+            "driver_count": len(result),
+            "active_driver_count": n,
             "p_safety_car": round(p_sc, 3),
             "rain_probability": round(rain_prob, 3),
         }

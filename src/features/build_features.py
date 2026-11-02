@@ -29,6 +29,7 @@ from src.simulation.strategy_simulator import build_pit_strategy_features
 from src.simulation.race_control_model import build_race_control_features
 from src.features.weather_features import build_weather_features
 from src.utils.driver_mapping import normalize_driver_series, filter_competing_drivers
+from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("build_features")
@@ -68,6 +69,40 @@ STAGE_UNAVAILABLE_FEATURES: Dict[str, List[str]] = {
         "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
         "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
         # Grid
+        "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
+        "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
+        "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+    ],
+    "after_sprint_qualifying": [
+        # FP2, FP3 (if not run)
+        "fp2_best_lap", "fp3_best_lap", "fp2_gap_pct", "fp3_gap_pct",
+        # Sprint Race (not yet run at after_sprint_qualifying)
+        "sprint_finish_pos", "sprint_pos_delta",
+        # Sunday Qualifying (not yet run)
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
+        # Sunday Grid (not yet published)
+        "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
+        "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
+        "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+    ],
+    "after_sprint_race": [
+        # FP2, FP3
+        "fp2_best_lap", "fp3_best_lap", "fp2_gap_pct", "fp3_gap_pct",
+        # Note: sprint_quali_pos, sprint_finish_pos, and sprint_pos_delta ARE LEGITIMATELY AVAILABLE!
+        # Sunday Qualifying (not yet run)
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
+        # Sunday Grid (not yet published)
+        "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
+        "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
+        "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+    ],
+    "after_sprint": [
+        # Alias for after_sprint_race
+        "fp2_best_lap", "fp3_best_lap", "fp2_gap_pct", "fp3_gap_pct",
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
         "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
         "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
         "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
@@ -202,25 +237,25 @@ class FeatureEngineer:
 
             # Capability 2: Tire Degradation Modeling
             circuit_raw = str(race.iloc[0].get("Race", race.iloc[0].get("EventName", f"round_{r}")))
-            circuit_slug = circuit_raw.lower().replace(" ", "_")
+            circuit_key = resolve_circuit_key(circuit_raw) or circuit_raw.lower().replace(" ", "_")
             team_map = race.set_index("Abbreviation")["TeamName"].to_dict() if "TeamName" in race.columns else {}
             td_feats = build_tire_degradation_features(
                 weekend_sessions,
                 drivers,
-                circuit_key=circuit_slug,
+                circuit_key=circuit_key,
                 team_map=team_map,
             )
 
             # Capability 4: Race Control Probabilities
             rc_feats = build_race_control_features(
-                circuit_key=circuit_slug,
+                circuit_key=circuit_key,
                 drivers=drivers,
             )
 
             # Capability 5: Weather Features
             w_feats = build_weather_features(
                 drivers=drivers,
-                circuit_key=circuit_slug,
+                circuit_key=circuit_key,
                 stage=stage or "after_qualifying",
             )
 
@@ -405,6 +440,7 @@ class FeatureEngineer:
         historical_track_df: Optional[pd.DataFrame] = None,
         starting_grid_df: Optional[pd.DataFrame] = None,
         stage: str = "after_qualifying",
+        track_key: Optional[str] = None,
     ) -> pd.DataFrame:
         """
         Builds the target feature dataset for the upcoming race.
@@ -520,26 +556,26 @@ class FeatureEngineer:
             expected_grid_size=self.expected_grid_size
         )
 
-        circuit_slug = str(track_name).lower().replace(" ", "_")
+        canonical_key = resolve_circuit_key(track_key) or resolve_circuit_key(track_name) or str(track_name).lower().replace(" ", "_")
 
         # Capability 2: Tire Degradation Modeling
         td_feats = build_tire_degradation_features(
             practice_sessions,
             drivers,
-            circuit_key=circuit_slug,
+            circuit_key=canonical_key,
             team_map=team_map,
         )
 
         # Capability 4: Race Control Probabilities
         rc_feats = build_race_control_features(
-            circuit_key=circuit_slug,
+            circuit_key=canonical_key,
             drivers=drivers,
         )
 
         # Capability 5: Weather Features
         w_feats = build_weather_features(
             drivers=drivers,
-            circuit_key=circuit_slug,
+            circuit_key=canonical_key,
             stage=stage,
         )
 
@@ -703,7 +739,7 @@ class FeatureEngineer:
         try:
             strat_df = build_pit_strategy_features(
                 target_df=target_df,
-                circuit_key=circuit_slug,
+                circuit_key=canonical_key,
             )
             if not strat_df.empty:
                 for col in ["optimal_strategy_stops", "strategy_time_loss_sec", "recommended_strategy", "alternative_strategy", "strategy_delta_seconds", "strategy_confidence"]:

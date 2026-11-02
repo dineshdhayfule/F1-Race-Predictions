@@ -1,7 +1,8 @@
 """
-F1 Race Prediction Engine — Master CLI Entrypoint
-=================================================
-Unified command-line interface for multi-track Formula 1 race predictions.
+APEXGRID — Master CLI Entrypoint
+================================
+Predicting the Race Beyond the Grid.
+Unified command-line interface for APEXGRID motorsport intelligence and race predictions.
 
 Commands:
     predict         Run end-to-end prediction pipeline for a circuit
@@ -197,15 +198,20 @@ def cmd_predict(args, parser=None):
             grid_str = str(int(round(float(grid_raw))))
         else:
             grid_str = "-"
+        pos_str = str(int(r["PredictedPosition"])) if pd.notna(r.get("PredictedPosition")) else str(r.get("StartingGridStatus", "-"))
+        exp_str = f"{r['ExpectedFinish']:<10.2f}" if pd.notna(r.get("ExpectedFinish")) else f"{'-':<10}"
+        win_str = f"{r['WinProbability']:<7.1f}" if pd.notna(r.get("WinProbability")) else f"{'-':<7}"
+        top3_str = f"{r['Top3Probability']:<9.1f}" if pd.notna(r.get("Top3Probability")) else f"{'-':<9}"
+        pts_str = f"{r['PointsProbability']:<9.1f}" if pd.notna(r.get("PointsProbability")) else f"{'-':<9}"
         print(
-            f"{int(r['PredictedPosition']):<4} "
+            f"{pos_str:<4} "
             f"{r['Abbreviation']:<5} "
             f"{r['TeamName'][:21]:<22} "
             f"{grid_str:<5} "
-            f"{r['ExpectedFinish']:<10.2f} "
-            f"{r['WinProbability']:<7.1f} "
-            f"{r['Top3Probability']:<9.1f} "
-            f"{r['PointsProbability']:<9.1f}"
+            f"{exp_str} "
+            f"{win_str} "
+            f"{top3_str} "
+            f"{pts_str}"
         )
     print("=" * 80)
 
@@ -343,7 +349,9 @@ def cmd_validate(args):
         practice_sessions=weekend_sessions,
         season_races_df=races_df,
         season_qualis_df=qualis_df,
-        penalties=penalties
+        penalties=penalties,
+        stage=args.stage,
+        track_key=track_key,
     )
 
     report = pipeline.data_validator.audit_leakage(train_feats, target_feats, target_round)
@@ -589,7 +597,7 @@ def cmd_clean(args, parser=None):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="F1 Unified Race Prediction Engine",
+        description="APEXGRID - Predicting the Race Beyond the Grid (Motorsport Intelligence & Race Prediction Platform)",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     subparsers = parser.add_subparsers(dest="command", required=False)

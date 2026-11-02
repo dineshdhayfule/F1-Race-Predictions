@@ -43,12 +43,20 @@ class RaceControlModel:
         Retrieves smoothed empirical probabilities for SC, VSC, and Red Flag.
         Applies wet-weather hazard multipliers when track is wet.
         """
-        ck = str(circuit_key).lower().strip() if circuit_key else "default"
-        info = self.circuit_priors.get(ck, self.circuit_priors.get("default", {
-            "sc_probability": 0.50,
-            "vsc_probability": 0.40,
-            "red_flag_probability": 0.15,
-        }))
+        from src.utils.circuit_mapping import resolve_circuit_key
+        canonical = resolve_circuit_key(circuit_key)
+        ck = canonical or (str(circuit_key).lower().strip() if circuit_key else "default")
+        info = self.circuit_priors.get(ck)
+        if not info and ck == "japan":
+            info = self.circuit_priors.get("suzuka")
+        if not info and ck == "sao_paulo":
+            info = self.circuit_priors.get("interlagos")
+        if not info:
+            info = self.circuit_priors.get("default", {
+                "sc_probability": 0.50,
+                "vsc_probability": 0.40,
+                "red_flag_probability": 0.15,
+            })
 
         p_sc = float(info.get("sc_probability", 0.50))
         p_vsc = float(info.get("vsc_probability", 0.40))

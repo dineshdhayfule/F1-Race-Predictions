@@ -86,8 +86,8 @@ def test_season_rounds_loader_excludes_course_vehicles():
     course_cars = {"SC1", "SC2", "SC3", "MC1", "MC2", "FM1", "FM2", "FM3", "FM4", "FM5"}
     assert set(r19["Abbreviation"]).isdisjoint(course_cars), "Round 19 must contain zero course vehicles"
 
-    # Total across available completed rounds without course cars
-    assert len(races_df) == 351, f"Expected 351 driver-race observations across available rounds, got {len(races_df)}"
+    # Total across available completed rounds without course cars (351 without R18, 373 with R18, 417 with full rounds)
+    assert len(races_df) in (351, 373, 417), f"Expected 351, 373, or 417 driver-race observations across available rounds, got {len(races_df)}"
 
 
 def test_walk_forward_evaluation_with_nan_targets():

@@ -15,6 +15,7 @@ import pandas as pd
 
 from src.utils.driver_mapping import normalize_driver, normalize_driver_series
 from src.utils.timing import timedelta_to_seconds
+from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("tire_degradation")
@@ -94,11 +95,24 @@ class TireDegradationModel:
 
     def get_circuit_prior(self, circuit_key: Optional[str]) -> Dict[str, Any]:
         """Retrieves circuit-specific baseline tyre degradation multiplier."""
-        ck = str(circuit_key).lower().strip() if circuit_key else "default"
-        return self.circuit_priors.get(ck, self.circuit_priors.get("default", {
+        raw = str(circuit_key).lower().strip() if circuit_key else "default"
+        canon = resolve_circuit_key(raw)
+        candidates = [c for c in [canon, raw] if c]
+        if "japan" in candidates and "suzuka" not in candidates:
+            candidates.append("suzuka")
+        if "suzuka" in candidates and "japan" not in candidates:
+            candidates.append("japan")
+        if "sao_paulo" in candidates and "interlagos" not in candidates:
+            candidates.append("interlagos")
+        if "interlagos" in candidates and "sao_paulo" not in candidates:
+            candidates.append("sao_paulo")
+        for k in candidates:
+            if k in self.circuit_priors:
+                return self.circuit_priors[k]
+        return self.circuit_priors.get("default", {
             "deg_multiplier": 1.0,
             "pit_loss_seconds": 22.0
-        }))
+        })
 
     def extract_driver_compound_degradation(
         self,

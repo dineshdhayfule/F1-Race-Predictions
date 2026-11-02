@@ -1,3 +1,4 @@
 """
-CLI Package for F1 Unified Race Prediction Engine.
+CLI Package for APEXGRID — Motorsport Intelligence & Race Prediction Platform.
+Predicting the Race Beyond the Grid.
 """

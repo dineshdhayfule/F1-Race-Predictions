@@ -42,15 +42,15 @@ def clear_screen() -> None:
     os.system("cls" if os.name == "nt" else "clear")
 
 
-def print_banner(season: int = 2026, status_text: str = "Unified Engine Ready") -> None:
+def print_banner(season: int = 2026, status_text: str = "Motorsport Intelligence Ready") -> None:
     """Displays the main ASCII header banner."""
     width = 68
     border = "=" * width
     print(Colors.CYAN + border + Colors.RESET)
-    print(Colors.BOLD + Colors.WHITE + "             FORMULA 1 RACE PREDICTION ENGINE".center(width) + Colors.RESET)
-    print(Colors.CYAN + "                  Unified Machine Learning System".center(width) + Colors.RESET)
+    print(Colors.BOLD + Colors.WHITE + "             APEXGRID".center(width) + Colors.RESET)
+    print(Colors.CYAN + "       Predicting the Race Beyond the Grid".center(width) + Colors.RESET)
     print(Colors.CYAN + border + Colors.RESET)
-    print(f" Season: {Colors.BOLD}{season}{Colors.RESET} | Engine Status: {Colors.GREEN}{status_text}{Colors.RESET}")
+    print(f" Season: {Colors.BOLD}{season}{Colors.RESET} | Status: {Colors.GREEN}{status_text}{Colors.RESET}")
     print(border + "\n")
 
 

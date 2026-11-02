@@ -1,13 +1,23 @@
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 *.pyd
+*.so
+.Python
+
+# Testing & Coverage
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .coverage*
 htmlcov/
 coverage.xml
+ctrf/
+ctrf-report.json
+
+# Agent & System Generated
+.system_generated/
 
 # Virtual environments
 .venv/
@@ -16,13 +26,15 @@ venv/
 env/
 ENV/
 
-# IDE
+# IDE & Editors
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
+*.bak
 
-# OS
+# OS artifacts
 .DS_Store
 Thumbs.db
 desktop.ini
@@ -38,7 +50,7 @@ desktop.ini
 fastf1_cache/
 cache/
 
-# Temporary files
+# Temporary files & Scratch
 *.tmp
 *.temp
 scratch/

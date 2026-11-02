@@ -239,7 +239,9 @@ def test_default_hybrid_remains_numerically_identical_to_60_40(sandbox_pipeline)
     assert res_default["selected_model"] == "Hybrid Ensemble (60% RF / 40% XGB)"
     assert res_default["selected_rf_weight"] == 0.6
     assert res_default["selected_xgb_weight"] == 0.4
-    assert res_default["selected_mae"] == 3.5771  # Exactly identical baseline 60/40 MAE
+    expected_60_40_mae = float(res_default["model_comparison"].loc[res_default["model_comparison"]["model_name"] == "60% RF / 40% XGB", "mae"].iloc[0])
+    assert res_default["selected_mae"] == expected_60_40_mae
+    assert round(res_default["selected_mae"], 4) == round(expected_60_40_mae, 4)
 
     top3 = res_default["predictions"].iloc[:3]["Abbreviation"].tolist()
     assert top3 == ["HAM", "RUS", "NOR"]

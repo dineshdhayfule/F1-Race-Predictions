@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 
 from src.utils.logging_utils import get_logger
+from src.utils.circuit_mapping import resolve_circuit_key
 
 logger = get_logger("strategy_simulator")
 
@@ -42,9 +43,21 @@ class PitStrategySimulator:
 
     def get_circuit_pit_loss(self, circuit_key: Optional[str]) -> float:
         """Returns total pit-lane time loss for a given circuit."""
-        ck = str(circuit_key).lower().strip() if circuit_key else "default"
-        info = self.circuit_priors.get(ck, self.circuit_priors.get("default", {}))
-        return float(info.get("pit_loss_seconds", self.default_pit_loss))
+        raw = str(circuit_key).lower().strip() if circuit_key else "default"
+        canon = resolve_circuit_key(raw)
+        candidates = [c for c in [canon, raw] if c]
+        if "japan" in candidates and "suzuka" not in candidates:
+            candidates.append("suzuka")
+        if "suzuka" in candidates and "japan" not in candidates:
+            candidates.append("japan")
+        if "sao_paulo" in candidates and "interlagos" not in candidates:
+            candidates.append("interlagos")
+        if "interlagos" in candidates and "sao_paulo" not in candidates:
+            candidates.append("sao_paulo")
+        for k in candidates:
+            if k in self.circuit_priors:
+                return float(self.circuit_priors[k].get("pit_loss_seconds", self.default_pit_loss))
+        return float(self.circuit_priors.get("default", {}).get("pit_loss_seconds", self.default_pit_loss))
 
     def calculate_stint_time(
         self,

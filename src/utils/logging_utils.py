@@ -1,5 +1,5 @@
 """
-Standardized logging utilities for F1 Race Prediction Engine.
+Standardized logging utilities for APEXGRID Motorsport Intelligence Platform.
 """
 
 import logging

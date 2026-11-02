@@ -1,5 +1,6 @@
 """
-Interactive Terminal Menu for F1 Unified Race Prediction Engine.
+Interactive Terminal Menu for APEXGRID — Motorsport Intelligence & Race Prediction Platform.
+Predicting the Race Beyond the Grid.
 Provides complete guided workflows for:
 1. Predict a Race
 2. Load / Collect Data
@@ -177,7 +178,7 @@ class InteractiveMenu:
                 choice = prompt_choice("Enter your choice", ["1", "2", "3", "4", "5", "6", "7", "0"], default="1")
 
                 if choice == "0":
-                    print("\nExiting F1 Race Prediction Engine. Goodbye!\n")
+                    print("\nExiting APEXGRID. Goodbye!\n")
                     sys.exit(0)
                 elif choice == "1":
                     self.menu_predict_race()
@@ -1082,7 +1083,8 @@ class InteractiveMenu:
             practice_sessions=weekend_sessions,
             season_races_df=races_df,
             season_qualis_df=qualis_df,
-            penalties=self.tracks_cfg[t_key].get("known_penalties_2026", {})
+            penalties=self.tracks_cfg[t_key].get("known_penalties_2026", {}),
+            track_key=t_key,
         )
 
         audit = pipeline.data_validator.audit_leakage(train_feats, target_feats, target_round=r_num)
