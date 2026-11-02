@@ -396,6 +396,188 @@ def cmd_collect(args):
         )
 
 
+def cmd_clean(args, parser=None):
+    """Safely manages and selectively deletes project-generated data."""
+    from src.data.data_manager import DataManager
+
+    dm = DataManager(root_dir=ROOT)
+
+    if getattr(args, "audit_log", False):
+        records = dm.audit_logger.get_audit_history(limit=25)
+        print("\n" + "=" * 80)
+        print("DELETION AUDIT TRAIL (logs/deletion_audit.jsonl)")
+        print("=" * 80)
+        if not records:
+            print("No deletion operations recorded yet.")
+        else:
+            for r in reversed(records):
+                ts = r.get("timestamp", "-")[:19].replace("T", " ")
+                op = r.get("operation_type", "-")
+                status = r.get("status", "-")
+                del_c = r.get("files_deleted_count", len(r.get("files_deleted", [])))
+                sz = dm._format_size(r.get("storage_reclaimed_bytes", 0))
+                print(f"[{ts}] {status:<15} {op:<35} | {del_c} files ({sz})")
+        print("=" * 80 + "\n")
+        return
+
+    # Check which deletion mode was requested
+    clean_all = getattr(args, "clean_all", False)
+    clean_cache = getattr(args, "cache", False)
+    clean_outputs = getattr(args, "outputs", False)
+    clean_collected = getattr(args, "collected", False)
+    track = getattr(args, "track", None)
+    year = getattr(args, "year", None)
+    round_num = getattr(args, "round", None)
+    categories = getattr(args, "categories", None)
+    include_historical = getattr(args, "include_historical", False)
+    preview_only = getattr(args, "preview", False)
+    force = getattr(args, "force", False)
+
+    if not any([clean_all, clean_cache, clean_outputs, clean_collected, track, round_num]):
+        if parser:
+            parser.error("Must specify a target to clean: --cache, --outputs, --collected, --all, or --track")
+        else:
+            print("Error: Must specify a target to clean: --cache, --outputs, --collected, --all, or --track")
+            return
+
+    # Discover target files based on arguments
+    if clean_all:
+        all_dict = dm.discover_all_project_generated_data(include_historical=include_historical)
+        target_files = [f for flist in all_dict.values() for f in flist]
+        op_name = "Delete all project-generated data"
+    elif clean_cache:
+        target_files = dm.discover_cache_data(year=year, track=track)
+        op_name = f"Delete Cached Data ({year if year else 'All Seasons'})"
+    elif clean_outputs:
+        target_files = dm.discover_prediction_outputs(track_key=track, year=year)
+        op_name = f"Delete Prediction Outputs ({track.title() if track else 'All Circuits'})"
+    elif clean_collected:
+        cat_dict = dm.discover_collected_datasets(
+            categories=categories,
+            include_historical=include_historical,
+            year=year,
+        )
+        target_files = [f for flist in cat_dict.values() for f in flist]
+        op_name = f"Delete Collected Datasets ({', '.join(categories) if categories else 'All'})"
+    elif track or round_num:
+        eff_year = year or 2026
+        gp_dict = dm.discover_grand_prix_data(
+            track_key=track or "",
+            year=eff_year,
+            round_num=round_num,
+            include_historical=include_historical,
+        )
+        target_files = [f for flist in gp_dict.values() for f in flist]
+        op_name = f"Delete Grand Prix Data ({track or f'Round {round_num}'} {eff_year})"
+    else:
+        target_files = []
+        op_name = "Data Deletion"
+
+    # Build plan preview
+    plan = dm.build_deletion_preview(
+        target_files,
+        operation_name=op_name,
+        include_historical=include_historical
+    )
+
+    print("\n" + "=" * 80)
+    print(f"DELETION PLAN PREVIEW: {plan['operation']}")
+    print("=" * 80)
+    print(f"Total files targeted : {plan['file_count']}")
+    print(f"Estimated space      : {plan['storage_formatted']}")
+    if plan.get("categories"):
+        print("Breakdown by category:")
+        for cat, cnt in plan["categories"].items():
+            print(f"  - {cat:<24}: {cnt} files")
+    if plan.get("excluded_count", 0) > 0:
+        print(f"Protected/excluded   : {plan['excluded_count']} files safely preserved")
+
+    target_paths = plan.get("target_paths", [])
+    if target_paths:
+        print("\nTarget paths (first 10):")
+        for p in target_paths[:10]:
+            print(f"  * {p}")
+        if len(target_paths) > 10:
+            print(f"  ... and {len(target_paths) - 10} more files.")
+
+    print(f"\n[PROTECTION] Source code, configs, tests, docs, .git, and audit logs are protected.")
+    if not include_historical:
+        print("[HISTORICAL SAFETY] Historical training data (prior to 2026) is preserved.")
+    print("=" * 80 + "\n")
+
+    if plan["file_count"] == 0:
+        print("No eligible files found to delete.\n")
+        return
+
+    if preview_only:
+        print("[PREVIEW MODE] Dry run complete. No files were deleted.\n")
+        return
+
+    # Confirmation
+    req_phrase = plan.get("required_confirmation_phrase")
+    confirmation_phrase = None
+
+    if clean_all and not force:
+        print(f"To confirm deletion of ALL generated data, type '{req_phrase}':")
+        try:
+            typed = input("Confirmation: ").strip()
+        except (KeyboardInterrupt, EOFError):
+            print("\nOperation cancelled.")
+            dm.execute_deletion_plan(plan, confirmed=False)
+            return
+        confirmation_phrase = typed
+        if typed != req_phrase:
+            print(f"Error: Confirmation phrase did not match '{req_phrase}'. Deletion aborted.\n")
+            dm.execute_deletion_plan(plan, confirmed=False)
+            return
+    elif req_phrase and not force:
+        print(f"To confirm deletion of historical data, type '{req_phrase}':")
+        try:
+            typed = input("Confirmation: ").strip()
+        except (KeyboardInterrupt, EOFError):
+            print("\nOperation cancelled.")
+            dm.execute_deletion_plan(plan, confirmed=False)
+            return
+        confirmation_phrase = typed
+        if typed != req_phrase:
+            print(f"Error: Confirmation phrase did not match '{req_phrase}'. Deletion aborted.\n")
+            dm.execute_deletion_plan(plan, confirmed=False)
+            return
+    elif not force:
+        try:
+            confirm = input(f"Are you sure you want to delete these {plan['file_count']} files? (y/N): ").strip().lower()
+        except (KeyboardInterrupt, EOFError):
+            print("\nOperation cancelled.")
+            dm.execute_deletion_plan(plan, confirmed=False)
+            return
+        if confirm not in ("y", "yes"):
+            print("Operation cancelled. No files were deleted.\n")
+            dm.execute_deletion_plan(plan, confirmed=False)
+            return
+
+    # Execute deletion
+    if force and req_phrase and not confirmation_phrase:
+        confirmation_phrase = req_phrase
+
+    result = dm.execute_deletion_plan(
+        plan,
+        confirmed=True,
+        confirmation_phrase=confirmation_phrase
+    )
+
+    print("\n" + "=" * 80)
+    print(f"DELETION RESULT: {result['status']}")
+    print("=" * 80)
+    print(f"Files deleted        : {result.get('files_deleted_count', 0)}")
+    print(f"Storage reclaimed    : {result.get('storage_reclaimed_formatted', '0 B')}")
+    if result.get("failed_count", 0) > 0:
+        print(f"Failed deletions     : {result.get('failed_count')}")
+        for err in result.get("failed_deletions", [])[:5]:
+            print(f"  - {err.get('path')}: {err.get('error')}")
+    print(f"Audit log            : {result.get('audit_log_path')}")
+    print("=" * 80 + "\n")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="F1 Unified Race Prediction Engine",
@@ -512,6 +694,30 @@ def main():
         help="Force re-collection of existing session files"
     )
 
+    # Clean / Data Management Command
+    clean_parser = subparsers.add_parser(
+        "clean",
+        help="Safely delete cached data, prediction outputs, or collected datasets"
+    )
+    clean_parser.add_argument("--cache", action="store_true", help="Delete FastF1 cache and temporary download files")
+    clean_parser.add_argument("--outputs", action="store_true", help="Delete prediction outputs and generated reports")
+    clean_parser.add_argument("--collected", action="store_true", help="Delete collected session datasets")
+    clean_parser.add_argument("--track", default=None, help="Target circuit identifier (e.g. mexico, melbourne)")
+    clean_parser.add_argument("--year", type=int, default=None, help="Season championship year (e.g. 2026)")
+    clean_parser.add_argument("--round", type=int, default=None, help="Championship round number")
+    clean_parser.add_argument(
+        "--categories",
+        nargs="+",
+        choices=["practice", "qualifying", "race", "grids"],
+        default=None,
+        help="Session categories to target"
+    )
+    clean_parser.add_argument("--all", dest="clean_all", action="store_true", help="Delete all project-generated data (cache, outputs, collected 2026 data)")
+    clean_parser.add_argument("--include-historical", action="store_true", help="Opt-in to include historical training data (prior to 2026)")
+    clean_parser.add_argument("--preview", action="store_true", help="Dry run: preview files to be deleted without removing them")
+    clean_parser.add_argument("--force", action="store_true", help="Bypass confirmation prompt")
+    clean_parser.add_argument("--audit-log", action="store_true", help="Display recent deletion audit log records")
+
     args = parser.parse_args()
 
     if args.command is None or args.command == "menu":
@@ -531,6 +737,8 @@ def main():
         cmd_collect_season(args)
     elif args.command == "collect":
         cmd_collect(args)
+    elif args.command == "clean":
+        cmd_clean(args, clean_parser)
 
 
 if __name__ == "__main__":

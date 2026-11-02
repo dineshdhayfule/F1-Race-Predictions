@@ -39,6 +39,7 @@ from src.data.data_validator import DataValidator
 from src.data.season_discovery import SeasonDiscovery
 from src.features.build_features import FeatureEngineer
 from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
+from src.data.data_manager import DataManager
 from src.utils.logging_utils import get_logger
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -136,6 +137,7 @@ class InteractiveMenu:
         self.tracks_cfg = self._load_tracks_config()
         self.model_cfg = self._load_model_config()
         self.pipeline: Optional[RacePredictionPipeline] = None
+        self.data_manager = DataManager(root_dir=self.root_dir)
 
     def _get_pipeline(self) -> RacePredictionPipeline:
         if self.pipeline is None:
@@ -169,9 +171,10 @@ class InteractiveMenu:
                 print("  4. Evaluate a Prediction")
                 print("  5. System Health & Data Readiness")
                 print("  6. Configuration & Supported Circuits")
+                print("  7. Data Management & Deletion")
                 print("\n  0. Exit\n")
 
-                choice = prompt_choice("Enter your choice", ["1", "2", "3", "4", "5", "6", "0"], default="1")
+                choice = prompt_choice("Enter your choice", ["1", "2", "3", "4", "5", "6", "7", "0"], default="1")
 
                 if choice == "0":
                     print("\nExiting F1 Race Prediction Engine. Goodbye!\n")
@@ -188,6 +191,8 @@ class InteractiveMenu:
                     self.menu_system_health()
                 elif choice == "6":
                     self.menu_configuration()
+                elif choice == "7":
+                    self.menu_data_management()
 
             except (KeyboardInterrupt, EOFError):
                 print("\n\nOperation interrupted by user. Exiting.\n")
@@ -1434,3 +1439,385 @@ class InteractiveMenu:
         print_table(["Round", "Grand Prix", "Type", "Length", "Sprint", "Grid Penalties", "Key"], rows)
         print(f"{Colors.DIM}Note: Configuration is read-only. Settings live in config/tracks.json and config/model_config.json.{Colors.RESET}\n")
         prompt_str("Press [Enter] to return to Main Menu", allow_empty=True)
+
+    # =========================================================================
+    # OPTION 7: DATA MANAGEMENT & DELETION
+    # =========================================================================
+    def menu_data_management(self) -> None:
+        """Interactive controller for safe data management and selective deletion."""
+        while True:
+            clear_screen()
+            print_banner(season=2026, status_text="Data Management")
+            print(f"{Colors.BOLD}DATA MANAGEMENT & DELETION{Colors.RESET}")
+            print(f"{Colors.DIM}Safely manage and selectively delete project-generated data.{Colors.RESET}")
+            print(f"{Colors.DIM}Source code, configurations, tests, docs, and audit logs are permanently protected.{Colors.RESET}\n")
+
+            print("  1. Delete Cached Data (FastF1 cache, temporary downloads, scratch files)")
+            print("  2. Delete Collected Datasets (Categorized: practice, qualifying, race, grids)")
+            print("  3. Delete Prediction Outputs (Generated reports, Monte Carlo CSVs, charts)")
+            print("  4. Delete Grand Prix Data (Isolate by season and circuit / round)")
+            print("  5. Delete All Project-Generated Data (Comprehensive cleanup with safety guards)")
+            print("  6. View Deletion Audit Log (Review past deletion operations)")
+            print("\n  0. Back to Main Menu\n")
+
+            choice = prompt_choice("Select an operation", ["1", "2", "3", "4", "5", "6", "0"], default="0")
+
+            if choice == "0":
+                break
+            elif choice == "1":
+                self._handle_delete_cached_data()
+            elif choice == "2":
+                self._handle_delete_collected_datasets()
+            elif choice == "3":
+                self._handle_delete_prediction_outputs()
+            elif choice == "4":
+                self._handle_delete_grand_prix_data()
+            elif choice == "5":
+                self._handle_delete_all_generated_data()
+            elif choice == "6":
+                self._view_deletion_audit_log()
+
+    def _render_deletion_preview(self, plan: Dict[str, Any]) -> None:
+        """Renders formatted preview table and summary of files targeted for deletion."""
+        print_header(f"Deletion Plan Preview: {plan.get('operation', 'Operation')}")
+        file_count = plan.get("file_count", 0)
+        storage_str = plan.get("storage_formatted", "0 B")
+        categories = plan.get("categories", {})
+
+        print(f"{Colors.BOLD}Summary of Targeted Artifacts:{Colors.RESET}")
+        print(f"  * Total files to delete  : {Colors.CYAN}{file_count}{Colors.RESET}")
+        print(f"  * Estimated space reclaim: {Colors.CYAN}{storage_str}{Colors.RESET}")
+        if categories:
+            print(f"\n{Colors.BOLD}Breakdown by Category:{Colors.RESET}")
+            for cat, count in categories.items():
+                print(f"  - {cat:<26}: {count} files")
+
+        if plan.get("excluded_count", 0) > 0:
+            print(f"\n{Colors.DIM}Protected / Excluded files: {plan.get('excluded_count')} items safely preserved.{Colors.RESET}")
+
+        target_paths = plan.get("target_paths", [])
+        if target_paths:
+            print(f"\n{Colors.BOLD}Target Files (showing up to 15):{Colors.RESET}")
+            for p in target_paths[:15]:
+                print(f"  {Colors.DIM}* {p}{Colors.RESET}")
+            if len(target_paths) > 15:
+                print(f"  {Colors.DIM}... and {len(target_paths) - 15} more files.{Colors.RESET}")
+        else:
+            print(f"\n{Colors.YELLOW}No eligible files found for this operation.{Colors.RESET}")
+
+        print(f"\n{Colors.GREEN}[PROTECTION GUARANTEE]{Colors.RESET} Source code, configs, tests, docs, .git, and audit logs are protected.")
+        if not plan.get("historical_included", False):
+            print(f"{Colors.GREEN}[HISTORICAL SAFETY]{Colors.RESET} Historical training data (seasons prior to 2026) is preserved.\n")
+
+    def _render_deletion_summary(self, result: Dict[str, Any]) -> None:
+        """Renders deletion result summary."""
+        status = result.get("status", "UNKNOWN")
+        if status == "COMPLETED":
+            print_success("Operation completed successfully!")
+            print(f"  * Files deleted    : {result.get('files_deleted_count', 0)}")
+            print(f"  * Storage reclaimed: {result.get('storage_reclaimed_formatted', '0 B')}")
+        elif status == "PARTIAL_FAILURE":
+            print_warning("Operation completed with partial failures.")
+            print(f"  * Files deleted    : {result.get('files_deleted_count', 0)}")
+            print(f"  * Failed files     : {result.get('failed_count', 0)}")
+            print(f"  * Storage reclaimed: {result.get('storage_reclaimed_formatted', '0 B')}")
+            for err in result.get("failed_deletions", [])[:5]:
+                print_error(f"  Failed: {err.get('path')} - {err.get('error')}")
+        elif status == "CANCELLED":
+            print_warning("Operation cancelled by user. No files were deleted.")
+        elif status == "REJECTED":
+            print_error(f"Operation rejected: {result.get('message')}")
+        else:
+            print_error(f"Deletion failed: {result.get('message', 'Unknown error')}")
+
+        print(f"\n{Colors.DIM}Persistent audit record appended to: logs/deletion_audit.jsonl{Colors.RESET}\n")
+        prompt_str("Press [Enter] to continue", allow_empty=True)
+
+    def _handle_delete_cached_data(self) -> None:
+        """Handles deletion of cached telemetry, session data, and temporary files."""
+        clear_screen()
+        print_banner(season=2026, status_text="Cache Management")
+        print(f"{Colors.BOLD}Delete Cached Data{Colors.RESET}\n")
+        print("  1. Delete all cached data across all seasons")
+        print("  2. Delete cached data for a specific season")
+        print("\n  0. Cancel / Back\n")
+
+        scope = prompt_choice("Select scope", ["1", "2", "0"], default="1")
+        if scope == "0":
+            return
+
+        year_filter = None
+        if scope == "2":
+            year_filter = prompt_int("Enter season year to clean cache for", min_val=2015, max_val=2030, default=2026)
+
+        cache_files = self.data_manager.discover_cache_data(year=year_filter)
+        op_label = f"Delete Cached Data ({year_filter if year_filter else 'All Seasons'})"
+        plan = self.data_manager.build_deletion_preview(cache_files, operation_name=op_label)
+
+        self._render_deletion_preview(plan)
+        if plan.get("file_count", 0) == 0:
+            prompt_str("Press [Enter] to return", allow_empty=True)
+            return
+
+        if prompt_confirm("Are you sure you want to delete these cached files?", default=False):
+            result = self.data_manager.execute_deletion_plan(plan, confirmed=True)
+            self._render_deletion_summary(result)
+        else:
+            result = self.data_manager.execute_deletion_plan(plan, confirmed=False)
+            self._render_deletion_summary(result)
+
+    def _handle_delete_collected_datasets(self) -> None:
+        """Handles deletion of collected session CSVs with category filtering and historical safety."""
+        clear_screen()
+        print_banner(season=2026, status_text="Dataset Management")
+        print(f"{Colors.BOLD}Delete Collected Datasets{Colors.RESET}\n")
+        print("  1. All Collected Datasets")
+        print("  2. Practice Sessions Only (FP1, FP2, FP3)")
+        print("  3. Qualifying Sessions Only (Qualifying, Sprint Shootout)")
+        print("  4. Race Sessions Only (Grand Prix, Sprint Race)")
+        print("  5. Starting Grids Only (Cached OpenF1 Grids)")
+        print("\n  0. Cancel / Back\n")
+
+        cat_choice = prompt_choice("Select dataset category", ["1", "2", "3", "4", "5", "0"], default="1")
+        if cat_choice == "0":
+            return
+
+        categories_map = {
+            "1": ["practice", "qualifying", "race", "grids"],
+            "2": ["practice"],
+            "3": ["qualifying"],
+            "4": ["race"],
+            "5": ["grids"],
+        }
+        selected_cats = categories_map.get(cat_choice, ["practice", "qualifying", "race", "grids"])
+        cat_names_map = {
+            "1": "All Categories",
+            "2": "Practice Sessions",
+            "3": "Qualifying Sessions",
+            "4": "Race Sessions",
+            "5": "Starting Grids",
+        }
+
+        # Year filter
+        year_str = prompt_str("Enter championship year to target [default: 2026, or 'all']: ", default="2026").strip()
+        year_filter = None if year_str.lower() in ("all", "*", "") else int(year_str)
+
+        # Historical protection opt-in
+        include_historical = False
+        print(f"\n{Colors.DIM}Notice: Historical training datasets (prior to 2026) are protected by default.{Colors.RESET}")
+        include_historical = prompt_confirm("Include historical training data in deletion?", default=False)
+
+        cat_dict = self.data_manager.discover_collected_datasets(
+            categories=selected_cats,
+            include_historical=include_historical,
+            year=year_filter,
+        )
+        flat_files = [f for flist in cat_dict.values() for f in flist]
+        op_label = f"Delete Collected Datasets ({cat_names_map.get(cat_choice, 'Selected')})"
+        plan = self.data_manager.build_deletion_preview(flat_files, operation_name=op_label, include_historical=include_historical)
+
+        self._render_deletion_preview(plan)
+        if plan.get("file_count", 0) == 0:
+            prompt_str("Press [Enter] to return", allow_empty=True)
+            return
+
+        confirmation_phrase = None
+        if include_historical:
+            print(f"{Colors.YELLOW}[SECURITY REQUIREMENT]{Colors.RESET} You have opted to include historical training data.")
+            typed = prompt_str("Type 'DELETE HISTORICAL DATA' to proceed (or press Enter to cancel): ", allow_empty=True)
+            confirmation_phrase = typed.strip()
+            confirmed = (confirmation_phrase == "DELETE HISTORICAL DATA")
+        else:
+            confirmed = prompt_confirm("Are you sure you want to delete these datasets?", default=False)
+
+        result = self.data_manager.execute_deletion_plan(
+            plan,
+            confirmed=confirmed,
+            confirmation_phrase=confirmation_phrase
+        )
+        self._render_deletion_summary(result)
+
+    def _handle_delete_prediction_outputs(self) -> None:
+        """Handles deletion of generated prediction outputs and simulation artifacts."""
+        clear_screen()
+        print_banner(season=2026, status_text="Prediction Management")
+        print(f"{Colors.BOLD}Delete Prediction Outputs{Colors.RESET}\n")
+        print("  1. Delete all circuit prediction outputs")
+        print("  2. Delete prediction outputs for a specific circuit")
+        print("\n  0. Cancel / Back\n")
+
+        scope = prompt_choice("Select scope", ["1", "2", "0"], default="1")
+        if scope == "0":
+            return
+
+        target_track = None
+        if scope == "2":
+            # List available track folders in outputs
+            out_root = self.root_dir / "outputs"
+            available = [d.name for d in out_root.iterdir() if d.is_dir()] if out_root.exists() else []
+            if not available:
+                print_info("No track output directories found in outputs/.")
+                prompt_str("Press [Enter] to return", allow_empty=True)
+                return
+
+            print(f"\n{Colors.BOLD}Available Output Circuits:{Colors.RESET}")
+            for idx, tr in enumerate(sorted(available), 1):
+                name = self.tracks_cfg.get(tr, {}).get("display_name", tr.title())
+                print(f"  {idx:>2}. {name} ({tr})")
+            print("\n   0. Cancel\n")
+
+            track_c = prompt_choice("Select circuit", [str(i) for i in range(1, len(available) + 1)] + ["0"], default="1")
+            if track_c == "0":
+                return
+            target_track = sorted(available)[int(track_c) - 1]
+
+        out_files = self.data_manager.discover_prediction_outputs(track_key=target_track)
+        op_label = f"Delete Prediction Outputs ({target_track.title() if target_track else 'All Circuits'})"
+        plan = self.data_manager.build_deletion_preview(out_files, operation_name=op_label)
+
+        self._render_deletion_preview(plan)
+        if plan.get("file_count", 0) == 0:
+            prompt_str("Press [Enter] to return", allow_empty=True)
+            return
+
+        if prompt_confirm("Are you sure you want to delete these prediction outputs?", default=False):
+            result = self.data_manager.execute_deletion_plan(plan, confirmed=True)
+            self._render_deletion_summary(result)
+        else:
+            result = self.data_manager.execute_deletion_plan(plan, confirmed=False)
+            self._render_deletion_summary(result)
+
+    def _handle_delete_grand_prix_data(self) -> None:
+        """Handles targeted deletion of all data associated with a single Grand Prix event."""
+        clear_screen()
+        print_banner(season=2026, status_text="Grand Prix Cleanup")
+        print(f"{Colors.BOLD}Delete Grand Prix Event Data{Colors.RESET}")
+        print(f"{Colors.DIM}Isolates and removes cache, raw sessions, and outputs for a single Grand Prix.{Colors.RESET}\n")
+
+        year = prompt_int("Enter championship season year", min_val=2015, max_val=2030, default=2026)
+
+        # List circuits
+        circuits = []
+        for k, info in sorted(self.tracks_cfg.items(), key=lambda x: x[1].get(f"round_{year}" if year != 2026 else "round_2026", 99)):
+            r = info.get(f"round_{year}" if year != 2026 else "round_2026")
+            name = info.get("display_name", k.title())
+            circuits.append((k, name, r))
+
+        print(f"\n{Colors.BOLD}Configured Circuits for {year}:{Colors.RESET}")
+        for idx, (k, name, r) in enumerate(circuits, 1):
+            r_str = f"Round {r}" if r is not None else "No round"
+            print(f"  {idx:>2}. {name:<32} ({r_str}, key: {k})")
+        print("\n   0. Cancel\n")
+
+        c = prompt_choice("Select Grand Prix", [str(i) for i in range(1, len(circuits) + 1)] + ["0"], default="1")
+        if c == "0":
+            return
+
+        sel_k, sel_name, sel_r = circuits[int(c) - 1]
+
+        include_historical = False
+        if year < 2026:
+            print(f"\n{Colors.YELLOW}[HISTORICAL NOTICE]{Colors.RESET} Year {year} is prior to current season (2026).")
+            include_historical = prompt_confirm(f"Include historical event data for {sel_name} {year}?", default=False)
+            if not include_historical:
+                print_info("Operation cancelled. Historical data was not opted-in.")
+                prompt_str("Press [Enter] to return", allow_empty=True)
+                return
+
+        gp_dict = self.data_manager.discover_grand_prix_data(
+            track=sel_k,
+            year=year,
+            round_num=sel_r,
+            include_historical=include_historical,
+        )
+        flat_files = [f for flist in gp_dict.values() for f in flist]
+        op_label = f"Delete Grand Prix Data ({sel_name} {year})"
+        plan = self.data_manager.build_deletion_preview(
+            flat_files,
+            operation_name=op_label,
+            include_historical=include_historical,
+            extra_metadata={"track": sel_k, "year": year, "round": sel_r}
+        )
+
+        self._render_deletion_preview(plan)
+        if plan.get("file_count", 0) == 0:
+            prompt_str("Press [Enter] to return", allow_empty=True)
+            return
+
+        if prompt_confirm(f"Delete all {sel_name} {year} generated data?", default=False):
+            result = self.data_manager.execute_deletion_plan(plan, confirmed=True)
+            self._render_deletion_summary(result)
+        else:
+            result = self.data_manager.execute_deletion_plan(plan, confirmed=False)
+            self._render_deletion_summary(result)
+
+    def _handle_delete_all_generated_data(self) -> None:
+        """Handles comprehensive deletion of all project-generated data with typed phrase confirmation."""
+        clear_screen()
+        print_banner(season=2026, status_text="DANGER ZONE")
+        print(f"{Colors.RED}{Colors.BOLD}WARNING: DELETE ALL PROJECT-GENERATED DATA{Colors.RESET}")
+        print(f"{Colors.DIM}This operation identifies all generated caches, collected datasets, and prediction outputs.{Colors.RESET}")
+        print(f"{Colors.DIM}Source code, configurations, tests, docs, .git, and audit logs are PERMANENTLY PROTECTED.{Colors.RESET}\n")
+
+        include_historical = prompt_confirm(
+            "Include historical training datasets (prior to 2026)?",
+            default=False
+        )
+
+        all_dict = self.data_manager.discover_all_project_generated_data(include_historical=include_historical)
+        flat_files = [f for flist in all_dict.values() for f in flist]
+        plan = self.data_manager.build_deletion_preview(
+            flat_files,
+            operation_name="Delete all project-generated data",
+            include_historical=include_historical
+        )
+
+        self._render_deletion_preview(plan)
+        if plan.get("file_count", 0) == 0:
+            prompt_str("Press [Enter] to return", allow_empty=True)
+            return
+
+        print(f"\n{Colors.RED}{Colors.BOLD}MANDATORY CONFIRMATION:{Colors.RESET}")
+        print("To proceed with this irreversible operation, you must type exactly:")
+        print(f"  {Colors.BOLD}DELETE ALL GENERATED DATA{Colors.RESET}\n")
+
+        phrase = prompt_str("Confirmation phrase (or press Enter to cancel): ", allow_empty=True).strip()
+        if phrase == "DELETE ALL GENERATED DATA":
+            result = self.data_manager.execute_deletion_plan(
+                plan,
+                confirmed=True,
+                confirmation_phrase=phrase
+            )
+            self._render_deletion_summary(result)
+        else:
+            print_warning("Confirmation phrase did not match. Operation cancelled.")
+            result = self.data_manager.execute_deletion_plan(plan, confirmed=False)
+            self._render_deletion_summary(result)
+
+    def _view_deletion_audit_log(self) -> None:
+        """Displays persistent deletion audit records from logs/deletion_audit.jsonl."""
+        clear_screen()
+        print_banner(season=2026, status_text="Audit Trail")
+        print(f"{Colors.BOLD}Deletion Audit Trail{Colors.RESET}")
+        print(f"{Colors.DIM}Immutable record of data management operations (logs/deletion_audit.jsonl){Colors.RESET}\n")
+
+        records = self.data_manager.audit_logger.get_audit_history(limit=25)
+        if not records:
+            print_info("No deletion operations logged yet.")
+            prompt_str("\nPress [Enter] to return to Data Management Menu", allow_empty=True)
+            return
+
+        rows = []
+        for r in reversed(records):
+            ts = r.get("timestamp", "-")[:19].replace("T", " ")
+            op = r.get("operation_type", "-")
+            status = r.get("status", "-")
+            color_status = Colors.GREEN if status == "COMPLETED" else (Colors.YELLOW if status == "CANCELLED" else Colors.RED)
+            del_count = str(r.get("files_deleted_count", len(r.get("files_deleted", []))))
+            bytes_val = r.get("storage_reclaimed_bytes", 0)
+            reclaimed = DataManager._format_size(bytes_val)
+            hist = "Yes" if r.get("historical_data_included") else "No"
+            rows.append([ts, op[:32], f"{color_status}{status}{Colors.RESET}", del_count, reclaimed, hist])
+
+        print_table(["Timestamp (UTC)", "Operation", "Status", "Deleted", "Reclaimed", "Historical"], rows)
+        prompt_str("\nPress [Enter] to return to Data Management Menu", allow_empty=True)
