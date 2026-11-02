@@ -17,6 +17,18 @@ from src.utils.logging_utils import get_logger
 logger = get_logger("model_train")
 
 
+def create_feature_imputer(strategy: str = "median") -> SimpleImputer:
+    """
+    Creates a SimpleImputer configured to retain empty (all-NaN) feature columns,
+    preventing dimension mismatches and scikit-learn all-NaN UserWarnings across
+    early prediction stages and walk-forward training folds.
+    """
+    try:
+        return SimpleImputer(strategy=strategy, keep_empty_features=True)
+    except TypeError:
+        return SimpleImputer(strategy=strategy)
+
+
 class ModelTrainer:
     """Trains and manages predictive models for F1 race finishing positions."""
 
@@ -58,7 +70,7 @@ class ModelTrainer:
         X = X[valid_idx]
         y = y[valid_idx]
 
-        imputer = SimpleImputer(strategy="median")
+        imputer = create_feature_imputer(strategy="median")
         X_imputed = imputer.fit_transform(X)
 
         rf_cfg = self.model_cfg.get("random_forest", {})

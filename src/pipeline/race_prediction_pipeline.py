@@ -27,10 +27,11 @@ from src.features.weekend_features import (
 )
 from src.features.season_features import build_season_form
 from src.features.teammate_features import compute_rolling_teammate_h2h
-from src.models.train import ModelTrainer
+from src.models.train import ModelTrainer, create_feature_imputer
 from src.models.evaluate import ModelEvaluator
 from src.models.predict import Predictor
 from src.simulation.monte_carlo import MonteCarloSimulator
+from src.utils.driver_mapping import filter_competing_drivers
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("pipeline")
@@ -74,6 +75,7 @@ class RacePredictionPipeline:
         model: Optional[str] = "hybrid",
         rf_weight: Optional[float] = None,
         xgb_weight: Optional[float] = None,
+        capabilities: Optional[Dict[str, bool]] = None,
     ) -> Dict[str, Any]:
         """
         Executes end-to-end race prediction for the specified track.
@@ -126,6 +128,16 @@ class RacePredictionPipeline:
                 raise ValueError(f"Custom weights cannot be used with '{model_choice}' model. Custom weights require hybrid model.")
             model_choice = "hybrid"
             custom_weights = (rf_w, xgb_w)
+
+        # Configure enhanced capabilities if specified or configured
+        active_caps = dict(self.model_config.get("capabilities", {}))
+        if capabilities:
+            active_caps.update(capabilities)
+
+        self.simulator.enable_race_control = active_caps.get("race_control_model", False)
+        self.simulator.enable_weather = active_caps.get("weather_aware_prediction", False)
+        self.simulator.enable_pit_strategy = active_caps.get("pit_strategy_simulator", False)
+
         tracks = self.tracks_config.get("tracks", {})
         if track_key not in tracks:
             raise KeyError(f"Track '{track_key}' not found in tracks.json. Available: {list(tracks.keys())}")
@@ -372,7 +384,8 @@ class RacePredictionPipeline:
             target_df=target_features,
             deterministic_scores=blended_scores,
             residuals=residuals,
-            empirical_dnf_rate=empirical_dnf
+            empirical_dnf_rate=empirical_dnf,
+            circuit_key=track_key,
         )
         sim_meta["model"] = model_choice
         sim_meta["selected_model"] = selected_model_name
@@ -380,6 +393,14 @@ class RacePredictionPipeline:
         sim_meta["selected_mae"] = selected_mae
         sim_meta["selected_rf_weight"] = selected_rf_weight
         sim_meta["selected_xgb_weight"] = selected_xgb_weight
+
+        # Prediction integrity check
+        self._audit_prediction_integrity(
+            sim_results=sim_results,
+            track_key=track_key,
+            year=year,
+            stage=stage
+        )
 
         # 11. Save Outputs and Reports
         track_output_dir = self.output_dir / track_key
@@ -558,6 +579,7 @@ class RacePredictionPipeline:
 
         latest_round = max(train_rounds) if train_rounds else target_round - 1
         latest_race = races_df[races_df["Round"] == latest_round]
+        latest_race = filter_competing_drivers(latest_race)
         drivers = latest_race["Abbreviation"].dropna().unique().tolist()
         team_map = latest_race.set_index("Abbreviation")["TeamName"].to_dict()
 
@@ -611,7 +633,7 @@ class RacePredictionPipeline:
         for r in val_rounds:
             tr = train_features[train_features["Round"] < r]
             te = train_features[train_features["Round"] == r]
-            imp = SimpleImputer(strategy="median")
+            imp = create_feature_imputer(strategy="median")
             X_tr = imp.fit_transform(tr[quali_feature_cols])
             X_te = imp.transform(te[quali_feature_cols])
             y_tr = tr["QualifyingPosition"].fillna(tr["GridPosition"]).fillna(22.0).values
@@ -642,7 +664,7 @@ class RacePredictionPipeline:
         else:
             # Early season (Rounds 2-4): Fewer than 4 completed rounds, so walk-forward splits are unavailable.
             # Fit and evaluate models on all available training rounds using architectural default weights (60% RF / 40% XGB).
-            imp_eval = SimpleImputer(strategy="median")
+            imp_eval = create_feature_imputer(strategy="median")
             X_tr_eval = imp_eval.fit_transform(train_features[quali_feature_cols])
             y_tr_eval = train_features["QualifyingPosition"].fillna(train_features["GridPosition"]).fillna(22.0).values
 
@@ -671,7 +693,7 @@ class RacePredictionPipeline:
             )
 
         # Train final models on all prior season data
-        imp_full = SimpleImputer(strategy="median")
+        imp_full = create_feature_imputer(strategy="median")
         X_tr_full = imp_full.fit_transform(train_features[quali_feature_cols])
         y_tr_full = train_features["QualifyingPosition"].fillna(train_features["GridPosition"]).fillna(22.0).values
         X_tgt = imp_full.transform(target_df[quali_feature_cols])
@@ -755,6 +777,77 @@ class RacePredictionPipeline:
             "output_dir": str(track_output_dir)
         }
 
+    def _audit_prediction_integrity(
+        self,
+        sim_results: pd.DataFrame,
+        track_key: str,
+        year: int,
+        stage: str
+    ) -> None:
+        """
+        Validates the output of Monte Carlo race simulation against core integrity rules:
+        1. Non-empty DataFrame with all target drivers represented.
+        2. Unique driver abbreviations.
+        3. Zero NaNs in critical prediction metrics.
+        4. Probabilities bounded between 0% and 100%.
+        5. Contiguous predicted finishing ranks (1..N).
+        """
+        if sim_results is None or sim_results.empty:
+            raise ValueError(f"Prediction integrity violation: Simulation output is empty for {track_key} {year} [{stage}].")
+
+        n_drivers = len(sim_results)
+        if n_drivers < 10:
+            raise ValueError(
+                f"Prediction integrity violation: Simulation produced only {n_drivers} driver rows "
+                f"for {track_key} {year} [{stage}], expected standard grid size."
+            )
+
+        # Unique drivers
+        if "Abbreviation" not in sim_results.columns:
+            raise ValueError("Prediction integrity violation: 'Abbreviation' column missing from simulation results.")
+        if sim_results["Abbreviation"].nunique() != n_drivers:
+            duplicates = sim_results["Abbreviation"][sim_results["Abbreviation"].duplicated()].tolist()
+            raise ValueError(f"Prediction integrity violation: Duplicate drivers found in simulation output: {duplicates}")
+
+        # Mandatory prediction columns that MUST NOT contain NaN
+        mandatory_prediction_cols = [
+            "ExpectedFinish", "MedianFinish", "WinProbability", "Top3Probability",
+            "Top5Probability", "PointsProbability", "PredictedPosition",
+            "P5", "P25", "P50", "P75", "P95"
+        ]
+        for col in mandatory_prediction_cols:
+            if col in sim_results.columns:
+                nan_count = int(sim_results[col].isna().sum())
+                if nan_count > 0:
+                    raise ValueError(
+                        f"Prediction integrity violation: Column '{col}' contains {nan_count} NaN values "
+                        f"for {track_key} {year} [{stage}]."
+                    )
+
+        # Probabilities within [0.0, 100.0]
+        prob_cols = ["WinProbability", "Top3Probability", "Top5Probability", "PointsProbability"]
+        for p_col in prob_cols:
+            if p_col in sim_results.columns:
+                vals = sim_results[p_col].dropna()
+                if (vals < -1e-5).any() or (vals > 100.0 + 1e-5).any():
+                    invalid = vals[(vals < 0) | (vals > 100)].tolist()
+                    raise ValueError(f"Prediction integrity violation: Probability column '{p_col}' has values outside [0, 100]: {invalid}")
+
+        # Contiguous predicted positions 1..N
+        if "PredictedPosition" in sim_results.columns:
+            sorted_ranks = sorted(sim_results["PredictedPosition"].astype(int).tolist())
+            expected_ranks = list(range(1, n_drivers + 1))
+            if sorted_ranks != expected_ranks:
+                raise ValueError(
+                    f"Prediction integrity violation: PredictedPosition is non-contiguous. "
+                    f"Expected 1..{n_drivers}, got {sorted_ranks}"
+                )
+
+        logger.info(
+            f"Prediction integrity verified: {n_drivers} drivers, ranks 1..{n_drivers}, "
+            f"bounded probabilities, zero NaNs in prediction metrics for {track_key} {year} [{stage}]."
+        )
+
     def _write_markdown_report(
         self,
         report_path: Path,
@@ -802,8 +895,14 @@ class RacePredictionPipeline:
             drv = row["Abbreviation"]
             team = row["TeamName"]
             grid_raw = row.get("ActualStartingGrid")
-            is_pit = bool(row.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
-            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
+            raw_pit = row.get("is_pit_lane_start", 0)
+            is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
+            if is_pit:
+                grid = "PL"
+            elif pd.notna(grid_raw):
+                grid = str(int(round(float(grid_raw))))
+            else:
+                grid = "-"
             exp = f"{row['ExpectedFinish']:.2f}"
             med = int(row["MedianFinish"])
             win = f"{row['WinProbability']:.1f}%"
@@ -831,6 +930,22 @@ class RacePredictionPipeline:
             f"- **Uncertainty Calibration (Pace σ)**: {sim_meta.get('calibrated_sigma', 'N/A')}",
             f"- **Empirical DNF Risk**: {sim_meta.get('empirical_dnf_prob', 'N/A')}",
             f"- **Random Seed**: {self.model_config.get('random_seed', 42)}",
+        ])
+
+        if "RecommendedStrategy" in sim_results.columns:
+            lines.extend([
+                "",
+                "## Strategic & Environmental Intelligence",
+                f"- **Circuit Safety Car Probability**: {sim_meta.get('p_safety_car', 'N/A')}",
+                f"- **Forecast Rain Probability**: {sim_meta.get('rain_probability', 'N/A')}",
+                "",
+                "| Driver | Recommended Strategy | Stops | Delta to Alt (s) |",
+                "|:------:|:--------------------:|:-----:|:----------------:|",
+            ])
+            for _, r in sim_results.head(10).iterrows():
+                lines.append(f"| **{r['Abbreviation']}** | {r.get('RecommendedStrategy', '1-Stop')} | {r.get('OptimalStops', 1)} | {r.get('StrategyDeltaSec', 0.0):.1f}s |")
+
+        lines.extend([
             "",
             "---",
             "*Report generated by unified F1 Race Prediction Engine with zero data leakage.*"
@@ -918,8 +1033,14 @@ class RacePredictionPipeline:
             drv = row["Abbreviation"]
             team = row["TeamName"]
             grid_raw = row.get("ActualStartingGrid")
-            is_pit = bool(row.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
-            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
+            raw_pit = row.get("is_pit_lane_start", 0)
+            is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
+            if is_pit:
+                grid = "PL"
+            elif pd.notna(grid_raw):
+                grid = str(int(round(float(grid_raw))))
+            else:
+                grid = "-"
             exp = f"{row['ExpectedFinish']:.2f}"
             win = f"{row['WinProbability']:.1f}%"
             pod = f"{row['Top3Probability']:.1f}%"
@@ -968,8 +1089,14 @@ class RacePredictionPipeline:
             drv = row["Abbreviation"]
             team = row["TeamName"]
             grid_raw = row.get("ActualStartingGrid")
-            is_pit = bool(row.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
-            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
+            raw_pit = row.get("is_pit_lane_start", 0)
+            is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
+            if is_pit:
+                grid = "PL"
+            elif pd.notna(grid_raw):
+                grid = str(int(round(float(grid_raw))))
+            else:
+                grid = "-"
             exp = f"{row['ExpectedFinish']:.2f}"
             win = f"{row['WinProbability']:.1f}%"
             pod = f"{row['Top3Probability']:.1f}%"
@@ -1079,8 +1206,14 @@ class RacePredictionPipeline:
             drv = r["Abbreviation"]
             team = r["TeamName"]
             grid_raw = r.get("ActualStartingGrid")
-            is_pit = bool(r.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
-            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
+            raw_pit = r.get("is_pit_lane_start", 0)
+            is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
+            if is_pit:
+                grid = "PL"
+            elif pd.notna(grid_raw):
+                grid = str(int(round(float(grid_raw))))
+            else:
+                grid = "-"
             pred_p = int(r["PredictedPosition"])
             exp_f = f"{r['ExpectedFinish']:.2f}"
             win_p = f"{r['WinProbability']:.1f}%"

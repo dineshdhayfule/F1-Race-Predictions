@@ -15,6 +15,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, median_abso
 import xgboost as xgb
 
 from src.features.build_features import apply_stage_feature_mask
+from src.models.train import create_feature_imputer
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("model_evaluate")
@@ -93,7 +94,7 @@ class ModelEvaluator:
                 if col not in train_copy.columns:
                     train_copy[col] = np.nan
 
-            imputer = SimpleImputer(strategy="median")
+            imputer = create_feature_imputer(strategy="median")
             X_all = imputer.fit_transform(train_copy[self.feature_cols])
             y_all = train_copy["ActualFinish"].values
 
@@ -201,6 +202,11 @@ class ModelEvaluator:
             train = training_df[training_df["Round"] < r].copy()
             test = training_df[training_df["Round"] == r].copy()
 
+            if "ActualFinish" in train.columns:
+                train = train.dropna(subset=["ActualFinish"])
+            if "ActualFinish" in test.columns:
+                test = test.dropna(subset=["ActualFinish"])
+
             if train.empty or test.empty:
                 continue
 
@@ -214,7 +220,7 @@ class ModelEvaluator:
                 train = apply_stage_feature_mask(train, stage)
                 test = apply_stage_feature_mask(test, stage)
 
-            imputer = SimpleImputer(strategy="median")
+            imputer = create_feature_imputer(strategy="median")
             X_train = imputer.fit_transform(train[self.feature_cols])
             X_test = imputer.transform(test[self.feature_cols])
 

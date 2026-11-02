@@ -119,6 +119,10 @@ def test_invalid_model_argument(sandbox_pipeline):
 def test_distinct_mae_and_no_hybrid_mae_for_individual_models(sandbox_pipeline):
     """Test 6: Distinct MAEs for RF, XGB, and Hybrid; individual models never report hybrid MAE."""
     res_rf = sandbox_pipeline.run("mexico", 2026, stage="after_qualifying", model="rf")
+    rf_report_path = Path(res_rf["output_dir"]) / "mexico_2026_after_qualifying_report.md"
+    assert rf_report_path.exists()
+    rf_report_content = rf_report_path.read_text(encoding="utf-8")
+
     res_xgb = sandbox_pipeline.run("mexico", 2026, stage="after_qualifying", model="xgb")
     res_hyb = sandbox_pipeline.run("mexico", 2026, stage="after_qualifying", model="hybrid")
 
@@ -131,9 +135,6 @@ def test_distinct_mae_and_no_hybrid_mae_for_individual_models(sandbox_pipeline):
     assert mae_xgb != mae_hyb, "XGB MAE must not be equal to Hybrid MAE"
 
     # Verify report generated in sandbox contains correct model metadata
-    rf_report_path = Path(res_rf["output_dir"]) / "mexico_2026_after_qualifying_report.md"
-    assert rf_report_path.exists()
-    rf_report_content = rf_report_path.read_text(encoding="utf-8")
     assert "**Selected Model**: **Random Forest (100%)**" in rf_report_content
     assert f"**Selected MAE**: {mae_rf}" in rf_report_content
     assert f"**Selected MAE**: {mae_hyb}" not in rf_report_content

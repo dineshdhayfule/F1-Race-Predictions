@@ -26,6 +26,7 @@ import fastf1
 import pandas as pd
 from typing import Optional, List, Dict, Any, Tuple, Union
 
+from src.utils.driver_mapping import filter_competing_drivers
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("collect_season")
@@ -182,6 +183,9 @@ def validate_and_format_session_results(
                     return False, f"Round identity mismatch: session event is round {sess_r}, expected {expected_round}.", None
             except (ValueError, TypeError):
                 pass
+
+    # Exclude non-driver FIA course/service vehicles
+    res = filter_competing_drivers(res)
 
     # Deduplicate drivers if duplicate records exist
     if "Abbreviation" in res.columns:

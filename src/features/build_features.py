@@ -23,7 +23,12 @@ from src.features.teammate_features import (
     compute_teammate_grid_delta,
     compute_rolling_teammate_h2h,
 )
-from src.utils.driver_mapping import normalize_driver_series
+from src.features.race_pace import build_race_pace_features
+from src.features.tire_degradation import build_tire_degradation_features
+from src.simulation.strategy_simulator import build_pit_strategy_features
+from src.simulation.race_control_model import build_race_control_features
+from src.features.weather_features import build_weather_features
+from src.utils.driver_mapping import normalize_driver_series, filter_competing_drivers
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("build_features")
@@ -43,6 +48,16 @@ STAGE_UNAVAILABLE_FEATURES: Dict[str, List[str]] = {
         "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
         "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
         "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace Intelligence
+        "long_run_pace_gap_pct", "long_run_pace_rank", "race_pace_consistency",
+        "race_pace_sample_count", "long_run_stint_length", "race_pace_vs_quali_delta", "race_pace_confidence",
+        # Tire Degradation
+        "soft_tyre_deg_rate", "medium_tyre_deg_rate", "hard_tyre_deg_rate",
+        "estimated_tyre_deg_rate", "compound_pace_delta", "tyre_deg_confidence",
+        # Strategy
+        "optimal_strategy_stops", "strategy_time_loss_sec",
+        # Weather
+        "wet_conditions_indicator", "weather_confidence",
     ],
     "after_fp1": [
         # FP2, FP3
@@ -151,6 +166,7 @@ class FeatureEngineer:
                 continue
 
             race["Abbreviation"] = normalize_driver_series(race["Abbreviation"])
+            race = filter_competing_drivers(race)
             drivers = race["Abbreviation"].dropna().unique().tolist()
 
             weekend_sessions = practice_sessions_by_round.get(r, {})
@@ -175,6 +191,39 @@ class FeatureEngineer:
             tm_grid_feats = compute_teammate_grid_delta(race, drivers, grid_col="GridPosition")
             tm_h2h_map = compute_rolling_teammate_h2h(prior_races, race[["Abbreviation", "TeamName"]])
 
+            # Capability 1: Race Pace Intelligence
+            q_pos_map = {d: float(quali[quali["Abbreviation"] == d]["QualifyingPosition"].iloc[0]) for d in drivers if not quali.empty and not quali[quali["Abbreviation"] == d].empty}
+            rp_feats = build_race_pace_features(
+                weekend_sessions,
+                drivers,
+                quali_positions=q_pos_map,
+                expected_grid_size=self.expected_grid_size
+            )
+
+            # Capability 2: Tire Degradation Modeling
+            circuit_raw = str(race.iloc[0].get("Race", race.iloc[0].get("EventName", f"round_{r}")))
+            circuit_slug = circuit_raw.lower().replace(" ", "_")
+            team_map = race.set_index("Abbreviation")["TeamName"].to_dict() if "TeamName" in race.columns else {}
+            td_feats = build_tire_degradation_features(
+                weekend_sessions,
+                drivers,
+                circuit_key=circuit_slug,
+                team_map=team_map,
+            )
+
+            # Capability 4: Race Control Probabilities
+            rc_feats = build_race_control_features(
+                circuit_key=circuit_slug,
+                drivers=drivers,
+            )
+
+            # Capability 5: Weather Features
+            w_feats = build_weather_features(
+                drivers=drivers,
+                circuit_key=circuit_slug,
+                stage=stage or "after_qualifying",
+            )
+
             for _, rr in race.iterrows():
                 drv = rr["Abbreviation"]
                 team = str(rr.get("TeamName", rr.get("Team", "Unknown")))
@@ -194,6 +243,18 @@ class FeatureEngineer:
                 tm_q_gap = tm_q_row["teammate_quali_gap_pct"].iloc[0] if not tm_q_row.empty else np.nan
                 tm_g_delta = tm_g_row["teammate_grid_delta"].iloc[0] if not tm_g_row.empty else np.nan
                 tm_h2h = tm_h2h_map.get(drv, 0.50)
+
+                rp_row = rp_feats[rp_feats["Abbreviation"] == drv]
+                rp_dict = rp_row.iloc[0].to_dict() if not rp_row.empty else {}
+
+                td_row = td_feats[td_feats["Abbreviation"] == drv]
+                td_dict = td_row.iloc[0].to_dict() if not td_row.empty else {}
+
+                rc_row = rc_feats[rc_feats["Abbreviation"] == drv]
+                rc_dict = rc_row.iloc[0].to_dict() if not rc_row.empty else {}
+
+                w_row = w_feats[w_feats["Abbreviation"] == drv]
+                w_dict = w_row.iloc[0].to_dict() if not w_row.empty else {}
 
                 raw_grid = pd.to_numeric(rr.get("GridPosition"), errors="coerce")
                 is_pit = 1.0 if (pd.notna(raw_grid) and raw_grid <= 0) or bool(rr.get("is_pit_lane", False)) or bool(rr.get("is_pit_lane_start", False)) else 0.0
@@ -285,6 +346,41 @@ class FeatureEngineer:
                     "team_points": tfv.get("team_points", 0.0),
                     "team_finish_ewma": tfv.get("team_finish_ewma", 12.0),
                     "team_points_rate": tfv.get("team_points_rate", 0.0),
+
+                    # Capability 1: Race Pace Intelligence
+                    "long_run_pace_gap_pct": rp_dict.get("long_run_pace_gap_pct", np.nan),
+                    "long_run_pace_rank": rp_dict.get("long_run_pace_rank", float(self.expected_grid_size)),
+                    "race_pace_consistency": rp_dict.get("race_pace_consistency", np.nan),
+                    "race_pace_sample_count": rp_dict.get("race_pace_sample_count", 0),
+                    "long_run_stint_length": rp_dict.get("long_run_stint_length", 0),
+                    "race_pace_vs_quali_delta": rp_dict.get("race_pace_vs_quali_delta", 0.0),
+                    "race_pace_confidence": rp_dict.get("race_pace_confidence", 0.0),
+
+                    # Capability 2: Tire Degradation Modeling
+                    "soft_tyre_deg_rate": td_dict.get("soft_tyre_deg_rate", 0.110),
+                    "medium_tyre_deg_rate": td_dict.get("medium_tyre_deg_rate", 0.065),
+                    "hard_tyre_deg_rate": td_dict.get("hard_tyre_deg_rate", 0.038),
+                    "estimated_tyre_deg_rate": td_dict.get("estimated_tyre_deg_rate", 0.065),
+                    "compound_pace_delta": td_dict.get("compound_pace_delta", 0.65),
+                    "tyre_deg_confidence": td_dict.get("tyre_deg_confidence", 0.20),
+
+                    # Capability 3: Pit Stop Strategy Features
+                    "optimal_strategy_stops": 1.0,
+                    "strategy_time_loss_sec": 3.5,
+
+                    # Capability 4: Race Control Probabilities
+                    "p_safety_car": rc_dict.get("p_safety_car", 0.50),
+                    "p_vsc": rc_dict.get("p_vsc", 0.40),
+                    "p_red_flag": rc_dict.get("p_red_flag", 0.15),
+
+                    # Capability 5: Weather Features
+                    "air_temperature": w_dict.get("air_temperature", 23.0),
+                    "track_temperature": w_dict.get("track_temperature", 35.0),
+                    "humidity": w_dict.get("humidity", 60.0),
+                    "wind_speed": w_dict.get("wind_speed", 3.5),
+                    "rain_probability": w_dict.get("rain_probability", 0.15),
+                    "wet_conditions_indicator": w_dict.get("wet_conditions_indicator", 0.0),
+                    "weather_confidence": w_dict.get("weather_confidence", 0.30),
                 })
 
         df = pd.DataFrame(rows)
@@ -361,6 +457,7 @@ class FeatureEngineer:
             raise ValueError(f"Target qualifying or starting grid data is required for {track_name}.")
 
         q = q_sess.copy()
+        q = filter_competing_drivers(q)
         pos_col = "Position" if "Position" in q.columns else "QualifyingPosition"
         q["Position"] = pd.to_numeric(q[pos_col], errors="coerce")
         q = q.dropna(subset=["Abbreviation", "Position"]).drop_duplicates("Abbreviation")
@@ -370,9 +467,11 @@ class FeatureEngineer:
             if "Abbreviation" not in q_grid.columns and "Driver" in q_grid.columns:
                 q_grid["Abbreviation"] = q_grid["Driver"]
             q_grid["Abbreviation"] = normalize_driver_series(q_grid["Abbreviation"])
+            q_grid = filter_competing_drivers(q_grid)
         else:
             penalties = penalties or {}
             q_grid = resolve_fia_starting_grid(q, penalties=penalties, expected_grid_size=len(q))
+            q_grid = filter_competing_drivers(q_grid)
 
         if len(q_grid) != self.expected_grid_size:
             logger.warning(
@@ -412,6 +511,38 @@ class FeatureEngineer:
         tm_grid_feats = compute_teammate_grid_delta(q_grid, drivers, grid_col=grid_col_for_tm)
         tm_h2h_map = compute_rolling_teammate_h2h(prior_target_races, q)
 
+        # Capability 1: Race Pace Intelligence
+        q_pos_map = {d: float(q[q["Abbreviation"] == d]["Position"].iloc[0]) for d in drivers if not q.empty and not q[q["Abbreviation"] == d].empty}
+        rp_feats = build_race_pace_features(
+            practice_sessions,
+            drivers,
+            quali_positions=q_pos_map,
+            expected_grid_size=self.expected_grid_size
+        )
+
+        circuit_slug = str(track_name).lower().replace(" ", "_")
+
+        # Capability 2: Tire Degradation Modeling
+        td_feats = build_tire_degradation_features(
+            practice_sessions,
+            drivers,
+            circuit_key=circuit_slug,
+            team_map=team_map,
+        )
+
+        # Capability 4: Race Control Probabilities
+        rc_feats = build_race_control_features(
+            circuit_key=circuit_slug,
+            drivers=drivers,
+        )
+
+        # Capability 5: Weather Features
+        w_feats = build_weather_features(
+            drivers=drivers,
+            circuit_key=circuit_slug,
+            stage=stage,
+        )
+
         rows = []
         for drv in drivers:
             p = practice[practice["Abbreviation"] == drv]
@@ -423,6 +554,16 @@ class FeatureEngineer:
             q_dict = qq.iloc[0].to_dict() if not qq.empty else {}
             sq_dict = sq_row.iloc[0].to_dict() if not sq_row.empty else {}
             sr_dict = sr_row.iloc[0].to_dict() if not sr_row.empty else {}
+
+            rp_row = rp_feats[rp_feats["Abbreviation"] == drv] if not rp_feats.empty else pd.DataFrame()
+            td_row = td_feats[td_feats["Abbreviation"] == drv] if not td_feats.empty else pd.DataFrame()
+            rc_row = rc_feats[rc_feats["Abbreviation"] == drv] if not rc_feats.empty else pd.DataFrame()
+            w_row = w_feats[w_feats["Abbreviation"] == drv] if not w_feats.empty else pd.DataFrame()
+
+            rp_dict = rp_row.iloc[0].to_dict() if not rp_row.empty else {}
+            td_dict = td_row.iloc[0].to_dict() if not td_row.empty else {}
+            rc_dict = rc_row.iloc[0].to_dict() if not rc_row.empty else {}
+            w_dict = w_row.iloc[0].to_dict() if not w_row.empty else {}
 
             tm_q_row = tm_quali_feats[tm_quali_feats["Abbreviation"] == drv]
             tm_g_row = tm_grid_feats[tm_grid_feats["Abbreviation"] == drv]
@@ -519,9 +660,58 @@ class FeatureEngineer:
                 "team_points": tfv.get("team_points", 0.0),
                 "team_finish_ewma": tfv.get("team_finish_ewma", 12.0),
                 "team_points_rate": tfv.get("team_points_rate", 0.0),
+
+                # Capability 1: Race Pace Intelligence
+                "long_run_pace_gap_pct": rp_dict.get("long_run_pace_gap_pct", np.nan),
+                "long_run_pace_rank": rp_dict.get("long_run_pace_rank", float(self.expected_grid_size)),
+                "race_pace_consistency": rp_dict.get("race_pace_consistency", np.nan),
+                "race_pace_sample_count": rp_dict.get("race_pace_sample_count", 0),
+                "long_run_stint_length": rp_dict.get("long_run_stint_length", 0),
+                "race_pace_vs_quali_delta": rp_dict.get("race_pace_vs_quali_delta", 0.0),
+                "race_pace_confidence": rp_dict.get("race_pace_confidence", 0.0),
+
+                # Capability 2: Tire Degradation Modeling
+                "soft_tyre_deg_rate": td_dict.get("soft_tyre_deg_rate", 0.110),
+                "medium_tyre_deg_rate": td_dict.get("medium_tyre_deg_rate", 0.065),
+                "hard_tyre_deg_rate": td_dict.get("hard_tyre_deg_rate", 0.038),
+                "estimated_tyre_deg_rate": td_dict.get("estimated_tyre_deg_rate", 0.065),
+                "compound_pace_delta": td_dict.get("compound_pace_delta", 0.65),
+                "tyre_deg_confidence": td_dict.get("tyre_deg_confidence", 0.20),
+
+                # Capability 3: Pit Stop Strategy Features (defaults, will be refined below)
+                "optimal_strategy_stops": 1.0,
+                "strategy_time_loss_sec": 3.5,
+
+                # Capability 4: Race Control Probabilities
+                "p_safety_car": rc_dict.get("p_safety_car", 0.50),
+                "p_vsc": rc_dict.get("p_vsc", 0.40),
+                "p_red_flag": rc_dict.get("p_red_flag", 0.15),
+
+                # Capability 5: Weather Features
+                "air_temperature": w_dict.get("air_temperature", 23.0),
+                "track_temperature": w_dict.get("track_temperature", 35.0),
+                "humidity": w_dict.get("humidity", 60.0),
+                "wind_speed": w_dict.get("wind_speed", 3.5),
+                "rain_probability": w_dict.get("rain_probability", 0.15),
+                "wet_conditions_indicator": w_dict.get("wet_conditions_indicator", 0.0),
+                "weather_confidence": w_dict.get("weather_confidence", 0.30),
             })
 
         target_df = pd.DataFrame(rows)
+
+        # Capability 3: Grid Strategy Simulation
+        try:
+            strat_df = build_pit_strategy_features(
+                target_df=target_df,
+                circuit_key=circuit_slug,
+            )
+            if not strat_df.empty:
+                for col in ["optimal_strategy_stops", "strategy_time_loss_sec", "recommended_strategy", "alternative_strategy", "strategy_delta_seconds", "strategy_confidence"]:
+                    if col in strat_df.columns:
+                        col_map = dict(zip(strat_df["Abbreviation"], strat_df[col]))
+                        target_df[col] = target_df["Abbreviation"].map(col_map)
+        except Exception as e:
+            logger.warning(f"Error simulating pit stop strategy features: {e}")
 
         if "ActualFinish" in target_df.columns:
             raise AssertionError("LEAKAGE DETECTED: ActualFinish found in target dataset!")

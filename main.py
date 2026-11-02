@@ -95,6 +95,16 @@ def cmd_predict(args, parser=None):
     else:
         model_choice = model_raw
 
+    caps = None
+    if getattr(args, "enhanced", False):
+        caps = {
+            "race_pace_intelligence": True,
+            "tire_degradation_modeling": True,
+            "pit_strategy_simulator": True,
+            "race_control_model": True,
+            "weather_aware_prediction": True,
+        }
+
     pipeline = RacePredictionPipeline(root_dir=ROOT)
     try:
         results = pipeline.run(
@@ -103,11 +113,23 @@ def cmd_predict(args, parser=None):
             stage=args.stage,
             model=model_choice,
             rf_weight=custom_rf,
-            xgb_weight=custom_xgb
+            xgb_weight=custom_xgb,
+            capabilities=caps,
         )
-    except (ValueError, RuntimeError) as e:
-        logger.error(f"Prediction failed: {e}")
-        print(f"\n[ERROR] Prediction cannot proceed: {e}\n")
+    except Exception as e:
+        logger.error(f"Prediction failed: {e}", exc_info=True)
+        print(f"\n[ERROR] Prediction Pipeline Execution Error:")
+        print(f"  Grand Prix : {getattr(args, 'track', 'Unknown')}")
+        print(f"  Year       : {getattr(args, 'year', 2026)}")
+        print(f"  Stage      : {getattr(args, 'stage', 'Unknown')}")
+        print(f"  Error Type : {type(e).__name__}")
+        print(f"  Message    : {e}")
+        if getattr(args, "debug", False):
+            import traceback
+            print("\nTraceback:")
+            traceback.print_exc()
+        else:
+            print("  Note       : Run with --debug for complete stack traceback.\n")
         return
 
     df = results["predictions"]
@@ -167,8 +189,14 @@ def cmd_predict(args, parser=None):
 
     for _, r in top_race.iterrows():
         grid_raw = r.get("ActualStartingGrid")
-        is_pit = bool(r.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
-        grid_str = "PL" if is_pit else str(int(round(float(grid_raw))))
+        raw_pit = r.get("is_pit_lane_start", 0)
+        is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
+        if is_pit:
+            grid_str = "PL"
+        elif pd.notna(grid_raw):
+            grid_str = str(int(round(float(grid_raw))))
+        else:
+            grid_str = "-"
         print(
             f"{int(r['PredictedPosition']):<4} "
             f"{r['Abbreviation']:<5} "
@@ -180,6 +208,18 @@ def cmd_predict(args, parser=None):
             f"{r['PointsProbability']:<9.1f}"
         )
     print("=" * 80)
+
+    if "RecommendedStrategy" in top_race.columns:
+        print("\n" + "=" * 80)
+        print("STRATEGIC & ENVIRONMENTAL RACE INTELLIGENCE")
+        print("=" * 80)
+        sim_meta = results.get("simulation_meta", {})
+        print(f"Safety Car Probability : {sim_meta.get('p_safety_car', 'N/A')} | Rain Probability: {sim_meta.get('rain_probability', 'N/A')}")
+        print(f"{'Driver':<6} {'Recommended Strategy':<25} {'Stops':<7} {'Delta to Alt':<14}")
+        print("-" * 80)
+        for _, r in top_race.iterrows():
+            print(f"{r['Abbreviation']:<6} {str(r.get('RecommendedStrategy', '1-Stop')):<25} {int(r.get('OptimalStops', 1)):<7} {float(r.get('StrategyDeltaSec', 0.0)):.1f}s")
+        print("=" * 80)
 
     # Post-Race Out-of-Sample Scorecard (if post_race stage with actual race results)
     if results.get("post_race_metrics"):
@@ -397,10 +437,20 @@ def main():
         help="Custom XGBoost weight percentage (0-100). Must be supplied together with --rf-weight."
     )
     predict_parser.add_argument(
+        "--enhanced",
+        action="store_true",
+        help="Enable Five Major ML Enhancements (Race Pace, Tire Degradation, Pit Strategy, Race Control, Weather)."
+    )
+    predict_parser.add_argument(
         "--top",
         type=int,
         default=10,
         help="Number of top finishing positions to display (default: 10)"
+    )
+    predict_parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Display full traceback and diagnostic information on execution error"
     )
 
     # Evaluate Command

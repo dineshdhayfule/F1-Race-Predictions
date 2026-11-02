@@ -42,7 +42,93 @@ DRIVER_CATALOG = {
     "LAT": {"full_name": "Nicholas Latifi", "number": 6, "default_team": "Williams"},
     "MSC": {"full_name": "Mick Schumacher", "number": 47, "default_team": "Haas F1 Team"},
     "DEV": {"full_name": "Nyck de Vries", "number": 21, "default_team": "AlphaTauri"},
+    "MAS": {"full_name": "Felipe Massa", "number": 19, "default_team": "Williams"},
+    "ROS": {"full_name": "Nico Rosberg", "number": 6, "default_team": "Mercedes"},
+    "BUT": {"full_name": "Jenson Button", "number": 22, "default_team": "McLaren"},
+    "GRO": {"full_name": "Romain Grosjean", "number": 8, "default_team": "Haas F1 Team"},
+    "KUB": {"full_name": "Robert Kubica", "number": 88, "default_team": "Alfa Romeo"},
+    "KVY": {"full_name": "Daniil Kvyat", "number": 26, "default_team": "AlphaTauri"},
+    "NAS": {"full_name": "Felipe Nasr", "number": 12, "default_team": "Sauber"},
+    "PAL": {"full_name": "Jolyon Palmer", "number": 30, "default_team": "Renault"},
+    "ERI": {"full_name": "Marcus Ericsson", "number": 9, "default_team": "Sauber"},
+    "WEH": {"full_name": "Pascal Wehrlein", "number": 94, "default_team": "Sauber"},
+    "GUT": {"full_name": "Esteban Gutierrez", "number": 21, "default_team": "Haas F1 Team"},
+    "HAR": {"full_name": "Brendon Hartley", "number": 28, "default_team": "Toro Rosso"},
+    "VAN": {"full_name": "Stoffel Vandoorne", "number": 2, "default_team": "McLaren"},
+    "SIR": {"full_name": "Sergey Sirotkin", "number": 35, "default_team": "Williams"},
+    "HIR": {"full_name": "Ryo Hirakawa", "number": 98, "default_team": "Haas F1 Team"},
 }
+
+FIA_COURSE_VEHICLES = {
+    "SC1", "SC2", "SC3", "SC4", "SC5", "SC",
+    "MC1", "MC2", "MC3", "MC4", "MC5", "MC",
+    "FM1", "FM2", "FM3", "FM4", "FM5", "FM",
+    "TC1", "TC2", "TC3", "TC4", "TC5", "TC",
+}
+
+
+def is_course_vehicle(item) -> bool:
+    """
+    Identifies whether an entry represents an FIA course/service vehicle
+    (Safety Car, Medical Car, Fast Master / Test Car) rather than an entered F1 driver.
+    """
+    if isinstance(item, (str, bytes)):
+        code = str(item).strip().upper()
+        if code in FIA_COURSE_VEHICLES:
+            return True
+        if (code.startswith("SC") or code.startswith("MC") or code.startswith("FM") or code.startswith("TC")) and len(code) <= 4:
+            if any(ch.isdigit() for ch in code):
+                return True
+        return False
+    elif isinstance(item, (pd.Series, dict)):
+        abbr = str(item.get("Abbreviation", "")).strip().upper()
+        bcast = str(item.get("BroadcastName", "")).strip().upper()
+        full = str(item.get("FullName", "")).strip().upper()
+        team = item.get("TeamName")
+        num = item.get("DriverNumber")
+
+        if is_course_vehicle(abbr):
+            return True
+        if any(kw in bcast for kw in ["SAFETY CAR", "MEDICAL CAR", "TEST CAR", "COURSE CAR"]):
+            return True
+        if any(kw in full for kw in ["SAFETY CAR", "MEDICAL CAR", "TEST CAR"]):
+            return True
+        if full == "NONE NONE" and (pd.isna(team) or str(team).strip().lower() in ["nan", "none", "", "null"]):
+            return True
+        if pd.isna(team) or str(team).strip().lower() in ["nan", "none", "", "null"]:
+            if pd.notna(num):
+                try:
+                    if int(num) > 100:
+                        return True
+                except (ValueError, TypeError):
+                    pass
+            if is_course_vehicle(abbr):
+                return True
+        return False
+    return False
+
+
+def filter_competing_drivers(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Filters DataFrame to retain only genuine competing Formula 1 drivers,
+    filtering out FIA safety cars, medical cars, test cars, and non-driver course vehicles.
+    If course vehicles were intercalated into official classification, re-aligns finishing Position
+    to preserve contiguous finishing order for all valid competing drivers.
+    """
+    if df is None or df.empty:
+        return df
+
+    mask = ~df.apply(is_course_vehicle, axis=1)
+    cleaned = df[mask].copy()
+
+    # If non-driver rows were dropped and Position exists, re-index non-NaN positions
+    if len(cleaned) < len(df) and "Position" in cleaned.columns:
+        pos_num = pd.to_numeric(cleaned["Position"], errors="coerce")
+        has_pos = pos_num.notna()
+        if has_pos.any():
+            cleaned.loc[has_pos, "Position"] = range(1, int(has_pos.sum()) + 1)
+
+    return cleaned
 
 # Alias resolution mapping
 NAME_TO_CODE = {}
@@ -72,6 +158,7 @@ def normalize_driver(df):
     out["Abbreviation"] = out[col_found].astype(str).str.upper().str.strip()
     # Map if it was a full name or surname
     out["Abbreviation"] = out["Abbreviation"].map(lambda x: NAME_TO_CODE.get(x, x))
+    out = filter_competing_drivers(out)
     return out
 
 

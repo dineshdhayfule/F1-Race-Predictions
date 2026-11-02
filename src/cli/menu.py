@@ -39,8 +39,10 @@ from src.data.data_validator import DataValidator
 from src.data.season_discovery import SeasonDiscovery
 from src.features.build_features import FeatureEngineer
 from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
+from src.utils.logging_utils import get_logger
 
 ROOT = Path(__file__).resolve().parents[2]
+logger = get_logger("menu")
 
 
 def prompt_custom_weights_only() -> Tuple[Optional[str], Optional[float], Optional[float]]:
@@ -408,8 +410,24 @@ class InteractiveMenu:
         else:
             selected_model_opt = "hybrid"
 
-        # Step 6: Output Display Options
-        print_header("Step 6: Output Display Options")
+        # Step 6: Enhanced Simulation Capabilities
+        print_header("Step 6: Enhanced Simulation Capabilities")
+        print("  • Race Pace Intelligence (Long-run multi-lap stint extraction & fuel correction)")
+        print("  • Tire Degradation Modelling (Compound wear slopes & thermal scaling)")
+        print("  • Pit Stop Strategy Simulator (1/2-stop optimization & FIA 2-dry-compound rule)")
+        print("  • Race Control Probability Model (Safety Car / VSC pack bunching & cheap pit stops)")
+        print("  • Weather-Aware Race Predictions (Session telemetry, rain variance & wet driver skill)\n")
+        enable_enhanced = prompt_confirm("Enable Five Major ML Capabilities?", default=True)
+        caps = {
+            "race_pace_intelligence": True,
+            "tire_degradation_modeling": True,
+            "pit_strategy_simulator": True,
+            "race_control_model": True,
+            "weather_aware_prediction": True,
+        } if enable_enhanced else None
+
+        # Step 7: Output Display Options
+        print_header("Step 7: Output Display Options")
         print("  1. Top 3 (Podium prediction)")
         print("  2. Top 10 (Points scoring positions)")
         print("  3. Full Grid (All 22 classified positions)")
@@ -419,7 +437,7 @@ class InteractiveMenu:
             return
         top_n = 3 if disp_choice == "1" else (10 if disp_choice == "2" else 22)
 
-        # Step 7: Execute Prediction
+        # Step 8: Execute Prediction
         print_header("Executing Prediction Pipeline", f"Running 25,000 Monte Carlo Simulations...")
         pipeline = self._get_pipeline()
         try:
@@ -430,9 +448,11 @@ class InteractiveMenu:
                 model=selected_model_opt,
                 rf_weight=selected_custom_rf,
                 xgb_weight=selected_custom_xgb,
+                capabilities=caps,
             )
         except Exception as e:
-            print_error(f"Pipeline execution error: {e}")
+            logger.error(f"Pipeline execution error: {e}", exc_info=True)
+            print_error(f"Pipeline execution error [{type(e).__name__}]: {e}")
             prompt_str("Press [Enter] to return", allow_empty=True)
             return
 
@@ -611,8 +631,14 @@ class InteractiveMenu:
             drv = r["Abbreviation"]
             team = r["TeamName"][:20]
             grid_raw = r.get("ActualStartingGrid")
-            is_pit = bool(r.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
-            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
+            raw_pit = r.get("is_pit_lane_start", 0)
+            is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
+            if is_pit:
+                grid = "PL"
+            elif pd.notna(grid_raw):
+                grid = str(int(round(float(grid_raw))))
+            else:
+                grid = "-"
             exp = f"{r['ExpectedFinish']:.2f}"
             win = f"{r['WinProbability']:.1f}%"
             pod = f"{r['Top3Probability']:.1f}%"
@@ -622,6 +648,23 @@ class InteractiveMenu:
 
         align_right = [True, False, False, True, True, True, True, True, False]
         print_table(headers, rows, align_right=align_right)
+
+        if "RecommendedStrategy" in df.columns:
+            print("\n" + "=" * 76)
+            print(Colors.BOLD + Colors.GREEN + " STRATEGIC & ENVIRONMENTAL RACE INTELLIGENCE" + Colors.RESET)
+            sim_meta = results.get("simulation_meta", {})
+            sc_p = sim_meta.get("p_safety_car", "N/A")
+            rain_p = sim_meta.get("rain_probability", "N/A")
+            print(f" Safety Car Probability: {Colors.BOLD}{sc_p}{Colors.RESET} | Rain Probability: {Colors.BOLD}{rain_p}{Colors.RESET}")
+            print(Colors.GREEN + "-" * 76 + Colors.RESET)
+            strat_headers = ["Driver", "Recommended Strategy", "Stops", "Delta to Alt"]
+            strat_rows = []
+            for _, r in sub_df.iterrows():
+                rec_strat = str(r.get("RecommendedStrategy", "1-Stop"))
+                stops = str(int(r.get("OptimalStops", 1)))
+                delta_sec = f"{float(r.get('StrategyDeltaSec', 0.0)):.1f}s"
+                strat_rows.append([r["Abbreviation"], rec_strat, stops, delta_sec])
+            print_table(strat_headers, strat_rows, align_right=[False, False, True, True])
 
         if results.get("post_race_metrics"):
             m = results["post_race_metrics"]
@@ -1248,8 +1291,14 @@ class InteractiveMenu:
             act = int(r["ActualFinish"])
             drv = r["Abbreviation"]
             grid_raw = r.get("ActualStartingGrid")
-            is_pit = bool(r.get("is_pit_lane_start", 0)) or pd.isna(grid_raw)
-            grid = "PL" if is_pit else str(int(round(float(grid_raw))))
+            raw_pit = r.get("is_pit_lane_start", 0)
+            is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
+            if is_pit:
+                grid = "PL"
+            elif pd.notna(grid_raw):
+                grid = str(int(round(float(grid_raw))))
+            else:
+                grid = "-"
             pred = int(r["PredictedPosition"])
             exp = f"{r['ExpectedFinish']:.2f}"
             delta = pred - act
@@ -1362,6 +1411,13 @@ class InteractiveMenu:
         print(f"  Monte Carlo Sims      : {mc.get('default_simulations', 25000):,} draws per driver")
         print(f"  EWMA Form Half-Life   : alpha = {self.model_cfg.get('ewma_alpha', 0.3)}")
         print(f"  Expected Grid Size    : {self.model_cfg.get('expected_grid_size', 22)} drivers")
+
+        print(f"\n{Colors.BOLD}Five Major ML Capabilities (Modularly Supported):{Colors.RESET}")
+        print(f"  • Race Pace Intelligence       : {Colors.GREEN}Available{Colors.RESET} (FP1/FP2/FP3 stint extraction, fuel burn adj)")
+        print(f"  • Tire Degradation Modelling   : {Colors.GREEN}Available{Colors.RESET} (Compound slopes, teammate pooling, thermal scale)")
+        print(f"  • Pit Stop Strategy Simulator  : {Colors.GREEN}Available{Colors.RESET} (1/2-stop optimization & FIA 2-dry-compound rule)")
+        print(f"  • Race Control Incident Model  : {Colors.GREEN}Available{Colors.RESET} (SC/VSC field compression & cheap pit stops)")
+        print(f"  • Weather-Aware Predictions    : {Colors.GREEN}Available{Colors.RESET} (Session telemetry, rain variance & wet driver skill)")
 
         print(f"\n{Colors.BOLD}2026 Championship Calendar (23 Configured Circuits):{Colors.RESET}")
         rows = []
