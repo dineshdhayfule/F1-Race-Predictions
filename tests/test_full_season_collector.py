@@ -213,6 +213,55 @@ def test_practice_sessions_never_collected(tmp_path, mock_sprint_schedule):
         pytest.fail(f"Practice file was written: {fp_file.name}")
 
 
+def test_full_weekend_collection_includes_practice(tmp_path, mock_standard_schedule):
+    """Verifies that with session_mode='full', all 5 weekend sessions are collected (FP1, FP2, FP3, Quali, Race)."""
+    requested_session_types = []
+
+    def mock_get_session(year, round_num, session_type):
+        requested_session_types.append(str(session_type).lower())
+        return _make_mock_session(year, round_num, session_type)
+
+    with patch("fastf1.get_event_schedule", return_value=mock_standard_schedule), \
+         patch("fastf1.get_session", side_effect=mock_get_session):
+        summary = collect_season_data(
+            year=2026,
+            rounds=[1],
+            output_dir=tmp_path,
+            verbose=False,
+            session_mode="full"
+        )
+
+    assert len(summary["successes"]) == 5
+    assert (tmp_path / "2026_round_1_fp1.csv").exists()
+    assert (tmp_path / "2026_round_1_fp2.csv").exists()
+    assert (tmp_path / "2026_round_1_fp3.csv").exists()
+    assert (tmp_path / "2026_round_1_qualifying.csv").exists()
+    assert (tmp_path / "2026_round_1_race.csv").exists()
+
+
+def test_practice_only_collection_mode(tmp_path, mock_standard_schedule):
+    """Verifies that session_mode='practice_only' collects strictly FP1, FP2, and FP3."""
+    def mock_get_session(year, round_num, session_type):
+        return _make_mock_session(year, round_num, session_type)
+
+    with patch("fastf1.get_event_schedule", return_value=mock_standard_schedule), \
+         patch("fastf1.get_session", side_effect=mock_get_session):
+        summary = collect_season_data(
+            year=2026,
+            rounds=[1],
+            output_dir=tmp_path,
+            verbose=False,
+            session_mode="practice_only"
+        )
+
+    assert len(summary["successes"]) == 3
+    assert (tmp_path / "2026_round_1_fp1.csv").exists()
+    assert (tmp_path / "2026_round_1_fp2.csv").exists()
+    assert (tmp_path / "2026_round_1_fp3.csv").exists()
+    assert not (tmp_path / "2026_round_1_qualifying.csv").exists()
+    assert not (tmp_path / "2026_round_1_race.csv").exists()
+
+
 # -----------------------------------------------------------------------------
 # 4. Sprint detection across supported naming conventions
 # -----------------------------------------------------------------------------

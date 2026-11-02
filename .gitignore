@@ -1,91 +1,62 @@
-# ==============================
 # Python
-# ==============================
 __pycache__/
 *.py[cod]
-*.pyo
 *.pyd
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-.coverage
+.coverage*
 htmlcov/
 coverage.xml
-*.cover
-nosetests.xml
 
-# ==============================
-# Virtual Environments
-# ==============================
+# Virtual environments
 .venv/
 .venv*/
 venv/
 env/
 ENV/
 
-# ==============================
-# IDE / Editors
-# ==============================
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-*.sublime-workspace
-*.sublime-project
 
-# ==============================
 # OS
-# ==============================
 .DS_Store
 Thumbs.db
-ehthumbs.db
-ehthumbs_vista.db
 desktop.ini
-*.lnk
 
-# ==============================
-# Environment / Secrets
-# ==============================
+# Environment and secrets
 .env
 .env.*
 !.env.example
 
-# ==============================
-# FastF1 Cache
-# ==============================
+# FastF1 and application cache
 .cache/
+**/.cache/
 fastf1_cache/
 cache/
-data/cache/
 
-# ==============================
-# Generated / Temporary Files
-# ==============================
-*.log
+# Temporary files
 *.tmp
 *.temp
 scratch/
-scratch_*
+scratch_*/
 
-# ==============================
-# F1 Generated Data
-# ==============================
-data/processed/
+# Generated data
+/data/raw/
+/data/processed/
+/data/cache/
 
-# ==============================
-# Prediction Outputs
-# ==============================
-outputs/
+# Prediction outputs
+/outputs/
 
-# ==============================
-# Large Raw F1 Datasets
-# ==============================
-data/raw/season/
-data/raw/tracks/
+# Runtime logs
+/logs/
+*.log
 
-# ==============================
-# Generated Model Files
-# ==============================
+# Generated model artifacts
 *.pkl
 *.pickle
 *.joblib
@@ -93,18 +64,16 @@ data/raw/tracks/
 *.hdf5
 *.onnx
 
-# ==============================
+# Generated reports
+# Uncomment only if all reports are disposable:
+# /reports/
+
 # Jupyter
-# ==============================
 .ipynb_checkpoints/
 
-# ==============================
-# Python Build & Distribution
-# ==============================
+# Build artifacts
 build/
 dist/
 *.egg
 *.egg-info/
 .eggs/
-
-reports/

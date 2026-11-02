@@ -739,9 +739,9 @@ class InteractiveMenu:
             print_banner(season=2026)
             print_header("Load & Collect Session Data")
             print("  1. Inspect existing dataset inventory")
-            print("  2. Collect data for an ENTIRE season (All rounds: Qualifying, Race & Sprint)")
-            print("  3. Collect data for specific season rounds (Race + Qualifying via FastF1)")
-            print("  4. Collect data for a specific circuit (Qualifying + Race)")
+            print("  2. Collect data for an ENTIRE season (Interactive: Full Weekend, Quali+Race, Practice)")
+            print("  3. Collect data for specific season rounds (Interactive: Full Weekend, Quali+Race, Practice)")
+            print("  4. Collect data for a specific circuit (Interactive: Full Weekend, Quali+Race, Practice)")
             print("  5. Collect historical circuit data (configured tracks & year ranges)")
             print("  6. Audit data integrity & validate schemas")
             print("  7. View missing sessions across 2026 calendar")
@@ -764,6 +764,21 @@ class InteractiveMenu:
                 self._audit_data_integrity()
             elif c == "7":
                 self._view_calendar_missing_sessions()
+
+    def _prompt_session_collection_mode(self) -> str:
+        """Prompts user to select which sessions to collect."""
+        print(f"\n{Colors.BOLD}Select Sessions to Collect:{Colors.RESET}")
+        print("  1. Full Weekend (FP1, FP2, FP3, Qualifying, Race / Sprint)")
+        print("  2. Race Prediction Sessions Only (Qualifying + Race / Sprint — faster)")
+        print("  3. Practice Sessions Only (FP1, FP2, FP3)")
+        c = prompt_choice("Select session mode", ["1", "2", "3"], default="1")
+        if c == "1":
+            return "full"
+        elif c == "2":
+            return "prediction_only"
+        elif c == "3":
+            return "practice_only"
+        return "full"
 
     def _inspect_data_inventory(self) -> None:
         clear_screen()
@@ -796,20 +811,24 @@ class InteractiveMenu:
         prompt_str("Press [Enter] to continue", allow_empty=True)
 
     def _run_full_season_collector(self) -> None:
-        print_header("Collect Entire Season (All Rounds via FastF1)")
+        print_header("Collect Entire Season (FastF1)")
         year = prompt_int("Enter Season Year", default=2026)
+        session_mode = self._prompt_session_collection_mode()
         force = prompt_confirm("Force redownload of existing session files?", default=False)
-        print_info(f"Initiating full season collection for {year} (all discovered championship rounds)...")
+        mode_label = "Full Weekend (Practice, Quali & Race)" if session_mode == "full" else (
+            "Race Prediction (Quali & Race)" if session_mode == "prediction_only" else "Practice Sessions Only"
+        )
+        print_info(f"Initiating full season collection for {year} [{mode_label}]...")
         try:
             from src.data.collect_season import collect_season_data
-            collect_season_data(year=year, rounds=None, force=force)
+            collect_season_data(year=year, rounds=None, force=force, session_mode=session_mode)
             print_success(f"Full season data collection for {year} completed.")
         except Exception as e:
             print_error(f"Full season collection failed: {e}")
         prompt_str("Press [Enter] to continue", allow_empty=True)
 
     def _run_track_collector(self) -> None:
-        print_header("Collect Circuit Weekend Sessions (Qualifying + Race)")
+        print_header("Collect Circuit Weekend Sessions (FastF1)")
         t_key = prompt_str("Enter circuit key (e.g. austin, sepang, baku)", default="austin")
         if t_key not in self.tracks_cfg:
             print_error(f"Track '{t_key}' not in configuration.")
@@ -817,19 +836,23 @@ class InteractiveMenu:
             return
 
         year = prompt_int("Enter Year", default=2026)
+        session_mode = self._prompt_session_collection_mode()
         force = prompt_confirm("Force refresh cache?", default=False)
+        mode_label = "Full Weekend (Practice, Quali & Race)" if session_mode == "full" else (
+            "Race Prediction (Quali & Race)" if session_mode == "prediction_only" else "Practice Sessions Only"
+        )
 
-        print_info(f"Running collect_track for {t_key.title()} {year}...")
+        print_info(f"Running collection for {t_key.title()} {year} [{mode_label}]...")
         try:
-            from src.data.collect_track import collect_track_data
-            collect_track_data(t_key, year=year, force=force)
+            from src.data.collect_season import collect_grand_prix
+            collect_grand_prix(t_key, year=year, force=force, session_mode=session_mode)
             print_success(f"Track collection completed for {t_key.title()}.")
         except Exception as e:
             print_error(f"Collection failed: {e}")
         prompt_str("Press [Enter] to continue", allow_empty=True)
 
     def _run_season_collector(self) -> None:
-        print_header("Collect Season Rounds (Race & Qualifying)")
+        print_header("Collect Season Rounds (FastF1)")
         year = prompt_int("Enter Year", default=2026)
         rounds_str = prompt_str("Enter round numbers separated by space (or 'all' for entire season)", default="all")
         if rounds_str.strip().lower() in ("all", "*", ""):
@@ -842,12 +865,16 @@ class InteractiveMenu:
                 prompt_str("Press [Enter] to return", allow_empty=True)
                 return
 
+        session_mode = self._prompt_session_collection_mode()
         force = prompt_confirm("Force redownload?", default=False)
         target_desc = f"rounds {r_list}" if r_list else f"entire season {year}"
-        print_info(f"Collecting {target_desc} for season {year}...")
+        mode_label = "Full Weekend (Practice, Quali & Race)" if session_mode == "full" else (
+            "Race Prediction (Quali & Race)" if session_mode == "prediction_only" else "Practice Sessions Only"
+        )
+        print_info(f"Collecting {target_desc} for season {year} [{mode_label}]...")
         try:
             from src.data.collect_season import collect_season_data
-            collect_season_data(year=year, rounds=r_list, force=force)
+            collect_season_data(year=year, rounds=r_list, force=force, session_mode=session_mode)
             print_success("Season data collection completed.")
         except Exception as e:
             print_error(f"Season collection failed: {e}")

@@ -2,20 +2,22 @@
 Authoritative FastF1 Full Season Data Collector.
 ================================================
 Discovers all championship rounds in a season, automatically detects Sprint vs.
-Standard Grand Prix formats, and collects only the required sessions for race prediction:
+Standard Grand Prix formats, and collects session datasets:
 
 Standard Weekend:
+- Practice 1, Practice 2, Practice 3 (Full mode / Practice mode)
 - Qualifying
 - Race
 
 Sprint Weekend:
-- Qualifying
-- Race
+- Practice 1 (Full mode / Practice mode)
 - Sprint Qualifying / Sprint Shootout
 - Sprint Race
+- Qualifying
+- Race
 
-Practice sessions (FP1, FP2, FP3) are strictly excluded.
-Supports idempotency, resumption, incremental updates, and fault-tolerant collection.
+Supports interactive mode selection, idempotency, resumption, incremental updates,
+and fault-tolerant collection.
 """
 
 from datetime import datetime, timezone
@@ -32,20 +34,34 @@ from src.utils.logging_utils import get_logger
 logger = get_logger("collect_season")
 
 
-def detect_event_format_and_sessions(event_row: pd.Series) -> Dict[str, Any]:
+def detect_event_format_and_sessions(
+    event_row: pd.Series,
+    session_mode: str = "prediction_only",
+    include_practice: Optional[bool] = None,
+) -> Dict[str, Any]:
     """
     Analyzes event schedule metadata to determine if the event is a Sprint or Standard weekend,
     and dynamically resolves the session candidate names without hardcoding rounds.
 
-    Supports historical and evolving sprint naming conventions:
-      - 'sprint_qualifying' / 'Sprint Qualifying'
-      - 'sprint_shootout' / 'Sprint Shootout'
-      - 'sprint' / 'Sprint Race'
-
-    Explicitly excludes FP1, FP2, and FP3.
+    Parameters
+    ----------
+    event_row : pd.Series
+        Event row from FastF1 event schedule.
+    session_mode : str, default 'prediction_only'
+        Session collection mode:
+          - 'full': Collect all available weekend sessions (FP1, FP2, FP3, Quali, Race / Sprint)
+          - 'prediction_only': Collect sessions strictly required for race prediction (Quali + Race, Sprint Quali + Sprint Race)
+          - 'practice_only': Collect practice sessions only (FP1, FP2, FP3)
+    include_practice : bool, optional
+        Compatibility toggle. If True and session_mode=='prediction_only', upgraded to 'full'.
     """
+    if include_practice is True and session_mode == "prediction_only":
+        session_mode = "full"
+    elif include_practice is False and session_mode == "full":
+        session_mode = "prediction_only"
+
     fmt_raw = str(event_row.get("EventFormat", "")).strip().lower()
-    
+
     # Collect all declared session names from schedule columns (Session1 .. Session5)
     session_names = []
     for i in range(1, 6):
@@ -78,56 +94,110 @@ def detect_event_format_and_sessions(event_row: pd.Series) -> Dict[str, Any]:
     r_declared = next((s for s in session_names if s.lower() == "race" or ("race" in s.lower() and "sprint" not in s.lower())), "Race")
 
     session_plan = []
+
     if is_sprint:
-        # 1. Sprint Qualifying / Shootout
-        sq_candidates = [sq_declared] if sq_declared else []
-        for default_candidate in ("Sprint Qualifying", "Sprint Shootout", "SQ", "Sprint Quali"):
-            if default_candidate not in sq_candidates:
-                sq_candidates.append(default_candidate)
-        session_plan.append({
-            "canonical": "Sprint Qualifying",
-            "slug": "sprint_qualifying",
-            "candidates": sq_candidates,
-        })
+        # 1. Practice 1 (Sprint format has only FP1)
+        if session_mode in ("full", "practice_only"):
+            session_plan.append({
+                "canonical": "Practice 1",
+                "slug": "fp1",
+                "candidates": ["Practice 1", "FP1", "Practice"],
+            })
 
-        # 2. Sprint Race
-        sr_candidates = [sr_declared] if sr_declared else []
-        for default_candidate in ("Sprint", "Sprint Race", "SR"):
-            if default_candidate not in sr_candidates:
-                sr_candidates.append(default_candidate)
-        session_plan.append({
-            "canonical": "Sprint Race",
-            "slug": "sprint_race",
-            "candidates": sr_candidates,
-        })
+        if session_mode in ("full", "prediction_only"):
+            # 2. Sprint Qualifying / Shootout
+            sq_candidates = [sq_declared] if sq_declared else []
+            for default_candidate in ("Sprint Qualifying", "Sprint Shootout", "SQ", "Sprint Quali"):
+                if default_candidate not in sq_candidates:
+                    sq_candidates.append(default_candidate)
+            session_plan.append({
+                "canonical": "Sprint Qualifying",
+                "slug": "sprint_qualifying",
+                "candidates": sq_candidates,
+            })
 
-    # Standard / GP sessions for all weekends:
-    # 3. GP Qualifying
-    q_candidates = [q_declared] if q_declared else []
-    for default_candidate in ("Qualifying", "Q", "Quali"):
-        if default_candidate not in q_candidates:
-            q_candidates.append(default_candidate)
-    session_plan.append({
-        "canonical": "Qualifying",
-        "slug": "qualifying",
-        "candidates": q_candidates,
-    })
+            # 3. Sprint Race
+            sr_candidates = [sr_declared] if sr_declared else []
+            for default_candidate in ("Sprint", "Sprint Race", "SR"):
+                if default_candidate not in sr_candidates:
+                    sr_candidates.append(default_candidate)
+            session_plan.append({
+                "canonical": "Sprint Race",
+                "slug": "sprint_race",
+                "candidates": sr_candidates,
+            })
 
-    # 4. GP Race
-    r_candidates = [r_declared] if r_declared else []
-    for default_candidate in ("Race", "R"):
-        if default_candidate not in r_candidates:
-            r_candidates.append(default_candidate)
-    session_plan.append({
-        "canonical": "Race",
-        "slug": "race",
-        "candidates": r_candidates,
-    })
+            # 4. GP Qualifying
+            q_candidates = [q_declared] if q_declared else []
+            for default_candidate in ("Qualifying", "Q", "Quali"):
+                if default_candidate not in q_candidates:
+                    q_candidates.append(default_candidate)
+            session_plan.append({
+                "canonical": "Qualifying",
+                "slug": "qualifying",
+                "candidates": q_candidates,
+            })
+
+            # 5. GP Race
+            r_candidates = [r_declared] if r_declared else []
+            for default_candidate in ("Race", "R"):
+                if default_candidate not in r_candidates:
+                    r_candidates.append(default_candidate)
+            session_plan.append({
+                "canonical": "Race",
+                "slug": "race",
+                "candidates": r_candidates,
+            })
+    else:
+        # Standard Weekend
+        if session_mode in ("full", "practice_only"):
+            # Practice 1
+            session_plan.append({
+                "canonical": "Practice 1",
+                "slug": "fp1",
+                "candidates": ["Practice 1", "FP1", "Practice"],
+            })
+            # Practice 2
+            session_plan.append({
+                "canonical": "Practice 2",
+                "slug": "fp2",
+                "candidates": ["Practice 2", "FP2"],
+            })
+            # Practice 3
+            session_plan.append({
+                "canonical": "Practice 3",
+                "slug": "fp3",
+                "candidates": ["Practice 3", "FP3"],
+            })
+
+        if session_mode in ("full", "prediction_only"):
+            # GP Qualifying
+            q_candidates = [q_declared] if q_declared else []
+            for default_candidate in ("Qualifying", "Q", "Quali"):
+                if default_candidate not in q_candidates:
+                    q_candidates.append(default_candidate)
+            session_plan.append({
+                "canonical": "Qualifying",
+                "slug": "qualifying",
+                "candidates": q_candidates,
+            })
+
+            # GP Race
+            r_candidates = [r_declared] if r_declared else []
+            for default_candidate in ("Race", "R"):
+                if default_candidate not in r_candidates:
+                    r_candidates.append(default_candidate)
+            session_plan.append({
+                "canonical": "Race",
+                "slug": "race",
+                "candidates": r_candidates,
+            })
 
     return {
         "is_sprint": is_sprint,
         "format": "sprint" if is_sprint else "standard",
         "format_name": fmt_raw or ("sprint" if is_sprint else "conventional"),
+        "session_mode": session_mode,
         "session_plan": session_plan,
         "sq_declared": sq_declared,
         "sr_declared": sr_declared,
@@ -216,6 +286,94 @@ def validate_and_format_session_results(
     return True, "VALID", res
 
 
+def validate_and_format_practice_laps(
+    session,
+    expected_year: int,
+    expected_round: int,
+    event_name: str,
+    circuit_name: str,
+    country: str,
+    canonical_type: str,
+    original_session_name: str = "",
+) -> Tuple[bool, str, Optional[pd.DataFrame]]:
+    """
+    Validates and formats practice lap telemetry from FastF1 for FP1, FP2, and FP3.
+    Extracts lap times, stint, tire compound, and driver identifiers needed for
+    race pace and tire degradation feature engineering.
+    Falls back gracefully to session.results if lap-level telemetry is not present.
+    """
+    laps = getattr(session, "laps", None)
+    if laps is None or not isinstance(laps, pd.DataFrame) or laps.empty:
+        return validate_and_format_session_results(
+            session=session,
+            expected_year=expected_year,
+            expected_round=expected_round,
+            event_name=event_name,
+            circuit_name=circuit_name,
+            country=country,
+            canonical_type=canonical_type,
+            original_session_name=original_session_name,
+        )
+
+    laps = laps.copy().reset_index(drop=True)
+    if "LapTime" in laps.columns:
+        try:
+            if hasattr(laps["LapTime"], "dt"):
+                laps["LapTimeSeconds"] = laps["LapTime"].dt.total_seconds()
+            else:
+                from src.utils.timing import timedelta_to_seconds
+                laps["LapTimeSeconds"] = laps["LapTime"].apply(timedelta_to_seconds)
+        except Exception:
+            pass
+
+    if "LapTimeSeconds" not in laps.columns or laps["LapTimeSeconds"].dropna().empty:
+        return validate_and_format_session_results(
+            session=session,
+            expected_year=expected_year,
+            expected_round=expected_round,
+            event_name=event_name,
+            circuit_name=circuit_name,
+            country=country,
+            canonical_type=canonical_type,
+            original_session_name=original_session_name,
+        )
+
+    # Filter competing drivers
+    if "Driver" in laps.columns:
+        laps = filter_competing_drivers(laps, driver_col="Driver")
+    elif "Abbreviation" in laps.columns:
+        laps = filter_competing_drivers(laps, driver_col="Abbreviation")
+
+    keep_cols = [
+        "Driver", "DriverNumber", "LapTime", "LapTimeSeconds", "LapNumber",
+        "Stint", "Compound", "TyreLife", "Team", "Deleted"
+    ]
+    available = [c for c in keep_cols if c in laps.columns]
+    practice_df = laps[available].copy()
+    if "Driver" in practice_df.columns and "Abbreviation" not in practice_df.columns:
+        practice_df["Abbreviation"] = practice_df["Driver"]
+
+    # Session date resolution
+    session_date = None
+    if hasattr(session, "date") and session.date is not None:
+        session_date = str(session.date)
+    elif hasattr(session, "event") and session.event is not None and hasattr(session.event, "EventDate"):
+        session_date = str(session.event.EventDate)
+
+    practice_df["Year"] = expected_year
+    practice_df["Round"] = expected_round
+    practice_df["Race"] = event_name
+    practice_df["Circuit"] = circuit_name
+    practice_df["Country"] = country
+    practice_df["Session"] = canonical_type
+    practice_df["OriginalSessionName"] = original_session_name or canonical_type
+    practice_df["SessionDate"] = session_date or ""
+    practice_df["DataSource"] = "FastF1"
+    practice_df["CollectedAt"] = datetime.now(timezone.utc).isoformat()
+
+    return True, "VALID", practice_df
+
+
 def collect_round_data(
     year: int,
     round_num: int,
@@ -223,16 +381,21 @@ def collect_round_data(
     output_dir: Path,
     track_dir: Optional[Path] = None,
     force: bool = False,
+    session_mode: str = "prediction_only",
+    include_practice: Optional[bool] = None,
 ) -> Dict[str, Any]:
     """
-    Collects required session data for a single Grand Prix round.
-    Strictly excludes FP1, FP2, and FP3.
+    Collects required session data for a single Grand Prix round based on session_mode.
     """
     event_name = str(event_row.get("EventName", f"Round {round_num}"))
     circuit_name = str(event_row.get("Location", event_row.get("Circuit", "")))
     country = str(event_row.get("Country", ""))
 
-    format_info = detect_event_format_and_sessions(event_row)
+    format_info = detect_event_format_and_sessions(
+        event_row,
+        session_mode=session_mode,
+        include_practice=include_practice
+    )
     is_sprint = format_info["is_sprint"]
     session_plan = format_info["session_plan"]
 
@@ -255,7 +418,7 @@ def collect_round_data(
                 if target_file.stat().st_size > 0:
                     existing_df = pd.read_csv(target_file)
                     if not existing_df.empty:
-                        skip_msg = f"{c_type} (file exists: {target_file.name}, {len(existing_df)} drivers)"
+                        skip_msg = f"{c_type} (file exists: {target_file.name}, {len(existing_df)} records)"
                         round_skips.append(skip_msg)
                         logger.info(f"    [SKIP] {skip_msg}")
                         # Also sync track dir if requested
@@ -274,16 +437,30 @@ def collect_round_data(
             try:
                 sess = fastf1.get_session(year, round_num, cand)
                 sess.load(telemetry=False, weather=False, messages=False)
-                valid, msg, df = validate_and_format_session_results(
-                    session=sess,
-                    expected_year=year,
-                    expected_round=round_num,
-                    event_name=event_name,
-                    circuit_name=circuit_name,
-                    country=country,
-                    canonical_type=c_type,
-                    original_session_name=cand,
-                )
+
+                if slug in ("fp1", "fp2", "fp3"):
+                    valid, msg, df = validate_and_format_practice_laps(
+                        session=sess,
+                        expected_year=year,
+                        expected_round=round_num,
+                        event_name=event_name,
+                        circuit_name=circuit_name,
+                        country=country,
+                        canonical_type=c_type,
+                        original_session_name=cand,
+                    )
+                else:
+                    valid, msg, df = validate_and_format_session_results(
+                        session=sess,
+                        expected_year=year,
+                        expected_round=round_num,
+                        event_name=event_name,
+                        circuit_name=circuit_name,
+                        country=country,
+                        canonical_type=c_type,
+                        original_session_name=cand,
+                    )
+
                 if valid and df is not None and not df.empty:
                     target_file.parent.mkdir(parents=True, exist_ok=True)
                     df.to_csv(target_file, index=False)
@@ -292,7 +469,7 @@ def collect_round_data(
                         track_target_file.parent.mkdir(parents=True, exist_ok=True)
                         df.to_csv(track_target_file, index=False)
 
-                    success_msg = f"{c_type} ({len(df)} drivers via '{cand}')"
+                    success_msg = f"{c_type} ({len(df)} records via '{cand}')"
                     round_successes.append(success_msg)
                     logger.info(f"    [OK] Saved {success_msg}")
                     collected = True
@@ -303,7 +480,7 @@ def collect_round_data(
                 last_error = str(e)
 
         if not collected:
-            err_summary = f"{c_type}: {last_error or 'Session results not available'}"
+            err_summary = f"{c_type}: {last_error or 'Session data not available'}"
             if "not available" in err_summary.lower() or "empty" in err_summary.lower():
                 round_unavailable.append(err_summary)
                 logger.info(f"    [INFO] {err_summary}")
@@ -330,14 +507,16 @@ def collect_season_data(
     output_dir: Optional[Path] = None,
     force: bool = False,
     verbose: bool = True,
+    session_mode: str = "prediction_only",
+    include_practice: Optional[bool] = None,
 ) -> Dict[str, Any]:
     """
-    Collects full season race and qualifying sessions for any championship year.
-    Discovers all rounds, detects Sprint vs. Standard format, and collects:
-      - Standard Grand Prix: Qualifying + Race
-      - Sprint Grand Prix:   Qualifying + Race + Sprint Qualifying + Sprint Race
-
-    Practice sessions (FP1, FP2, FP3) are strictly excluded.
+    Collects season sessions for any championship year.
+    Discovers all rounds, detects Sprint vs. Standard format, and collects sessions
+    according to the chosen session_mode:
+      - 'full': FP1, FP2, FP3, Qualifying, Race / Sprint
+      - 'prediction_only': Qualifying, Race / Sprint (fast default)
+      - 'practice_only': FP1, FP2, FP3
 
     Parameters
     ----------
@@ -351,6 +530,10 @@ def collect_season_data(
         If True, re-downloads and overwrites existing valid CSV files.
     verbose : bool, default True
         If True, prints formatted terminal output.
+    session_mode : str, default 'prediction_only'
+        Session collection scope ('full', 'prediction_only', 'practice_only').
+    include_practice : bool, optional
+        If True, upgrades session_mode to 'full'.
 
     Returns
     -------
@@ -358,6 +541,11 @@ def collect_season_data(
       - 'year', 'rounds_discovered', 'standard_count', 'sprint_count',
       - 'successes', 'skips', 'failures', 'unavailable', 'round_summaries'
     """
+    if include_practice is True and session_mode == "prediction_only":
+        session_mode = "full"
+    elif include_practice is False and session_mode == "full":
+        session_mode = "prediction_only"
+
     root = Path(__file__).resolve().parents[2]
     out_dir = output_dir or (root / "data" / "raw" / "season" / str(year))
     cache_dir = root / "data" / "cache"
@@ -370,10 +558,10 @@ def collect_season_data(
         print("\n" + "=" * 80)
         print(f"FASTF1 FULL SEASON DATA COLLECTION: {year}")
         print("=" * 80)
-        print("Required sessions:")
-        print("  - Standard GP: Qualifying + Race")
-        print("  - Sprint GP:   Qualifying + Race + Sprint Qualifying + Sprint Race")
-        print("Practice sessions (FP1, FP2, FP3) are strictly excluded.")
+        mode_str = "Full Weekend (Practice, Quali & Race)" if session_mode == "full" else (
+            "Race Prediction (Quali & Race)" if session_mode == "prediction_only" else "Practice Sessions Only"
+        )
+        print(f"Collection Mode: {mode_str}")
         print("=" * 80 + "\n")
 
     logger.info(f"Discovering schedule for championship season {year}...")
@@ -444,7 +632,11 @@ def collect_season_data(
         event_name = str(event_row.get("EventName", f"Round {r}"))
         circuit_loc = str(event_row.get("Location", event_row.get("Country", "")))
 
-        format_info = detect_event_format_and_sessions(event_row)
+        format_info = detect_event_format_and_sessions(
+            event_row,
+            session_mode=session_mode,
+            include_practice=include_practice
+        )
         is_sprint = format_info["is_sprint"]
 
         if is_sprint:
@@ -464,6 +656,8 @@ def collect_season_data(
             event_row=event_row,
             output_dir=out_dir,
             force=force,
+            session_mode=session_mode,
+            include_practice=include_practice,
         )
 
         round_summaries.append(r_summary)
@@ -521,12 +715,17 @@ def collect_grand_prix(
     output_dir: Optional[Path] = None,
     season_output_dir: Optional[Path] = None,
     verbose: bool = True,
+    session_mode: str = "prediction_only",
+    include_practice: Optional[bool] = None,
 ) -> Dict[str, Any]:
     """
-    Collects required session data for an individual Grand Prix circuit.
-    Strictly collects Qualifying + Race (plus Sprint Qualifying + Sprint Race if Sprint).
-    Explicitly excludes FP1, FP2, and FP3.
+    Collects required session data for an individual Grand Prix circuit based on session_mode.
     """
+    if include_practice is True and session_mode == "prediction_only":
+        session_mode = "full"
+    elif include_practice is False and session_mode == "full":
+        session_mode = "prediction_only"
+
     root = Path(__file__).resolve().parents[2]
     config_file = root / "config" / "tracks.json"
     with open(config_file, "r", encoding="utf-8") as f:
@@ -549,7 +748,11 @@ def collect_grand_prix(
 
     fastf1.Cache.enable_cache(str(cache_dir))
 
-    format_info = detect_event_format_and_sessions(event_row)
+    format_info = detect_event_format_and_sessions(
+        event_row,
+        session_mode=session_mode,
+        include_practice=include_practice
+    )
     is_sprint = format_info["is_sprint"]
 
     if verbose:
@@ -559,8 +762,10 @@ def collect_grand_prix(
         print(f"Championship Round: Round {round_num}")
         print(f"Circuit Location  : {circuit_loc}")
         print(f"Weekend Format    : {'SPRINT WEEKEND' if is_sprint else 'STANDARD GRAND PRIX'}")
-        print("Required Sessions : Qualifying, Race" + (", Sprint Qualifying, Sprint Race" if is_sprint else ""))
-        print("Practice Sessions : FP1, FP2, FP3 are strictly excluded.")
+        mode_str = "Full Weekend (Practice, Quali & Race)" if session_mode == "full" else (
+            "Race Prediction (Quali & Race)" if session_mode == "prediction_only" else "Practice Sessions Only"
+        )
+        print(f"Collection Scope  : {mode_str}")
         print("=" * 80 + "\n")
 
     r_summary = collect_round_data(
@@ -570,6 +775,8 @@ def collect_grand_prix(
         output_dir=s_dir,
         track_dir=t_dir,
         force=force,
+        session_mode=session_mode,
+        include_practice=include_practice,
     )
 
     if verbose:
@@ -600,6 +807,23 @@ if __name__ == "__main__":
     parser.add_argument("--year", type=int, default=2026, help="Season championship year")
     parser.add_argument("--rounds", type=int, nargs="+", default=None, help="Explicit round numbers to collect")
     parser.add_argument("--force", action="store_true", help="Force re-collection of existing session files")
+    parser.add_argument(
+        "--session-mode",
+        choices=["full", "prediction_only", "practice_only"],
+        default="prediction_only",
+        help="Session mode: 'full' (all sessions), 'prediction_only' (Quali + Race), 'practice_only' (FP only)"
+    )
+    parser.add_argument(
+        "--include-practice",
+        action="store_true",
+        help="Include practice sessions (FP1, FP2, FP3)"
+    )
     args = parser.parse_args()
 
-    collect_season_data(args.year, args.rounds, force=args.force)
+    collect_season_data(
+        year=args.year,
+        rounds=args.rounds,
+        force=args.force,
+        session_mode=args.session_mode,
+        include_practice=args.include_practice
+    )

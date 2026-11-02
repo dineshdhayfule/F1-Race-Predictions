@@ -366,25 +366,33 @@ def cmd_validate(args):
 
 
 def cmd_collect_season(args):
-    """Executes full season race and qualifying data collection."""
+    """Executes full season session data collection."""
     from src.data.collect_season import collect_season_data
+    session_mode = getattr(args, "session_mode", None)
+    if not session_mode:
+        session_mode = "full" if getattr(args, "include_practice", False) else "prediction_only"
     collect_season_data(
         year=args.year,
         rounds=args.rounds,
         force=args.force,
-        verbose=True
+        verbose=True,
+        session_mode=session_mode,
     )
 
 
 def cmd_collect(args):
-    """Executes race and qualifying collection for a Grand Prix or season."""
+    """Executes session collection for a Grand Prix or season."""
+    session_mode = getattr(args, "session_mode", None)
+    if not session_mode:
+        session_mode = "full" if getattr(args, "include_practice", False) else "prediction_only"
     if args.track:
         from src.data.collect_season import collect_grand_prix
         collect_grand_prix(
             track_id=args.track,
             year=args.year,
             force=args.force,
-            verbose=True
+            verbose=True,
+            session_mode=session_mode,
         )
     else:
         from src.data.collect_season import collect_season_data
@@ -392,7 +400,8 @@ def cmd_collect(args):
             year=args.year,
             rounds=getattr(args, "rounds", None),
             force=args.force,
-            verbose=True
+            verbose=True,
+            session_mode=session_mode,
         )
 
 
@@ -651,10 +660,10 @@ def main():
         help="Prediction stage"
     )
 
-    # Collect Season Command (Qualifying + Race only, zero practice)
+    # Collect Season Command
     collect_season_parser = subparsers.add_parser(
         "collect-season",
-        help="Collect full season race and qualifying sessions via FastF1 (excluding practice)"
+        help="Collect season sessions via FastF1 (Full weekend, Quali+Race, or Practice only)"
     )
     collect_season_parser.add_argument("--year", type=int, default=2026, help="Season championship year")
     collect_season_parser.add_argument(
@@ -665,15 +674,26 @@ def main():
         help="Explicit round numbers to collect (default: all discovered rounds)"
     )
     collect_season_parser.add_argument(
+        "--session-mode",
+        choices=["full", "prediction_only", "practice_only"],
+        default=None,
+        help="Session mode: 'full' (FP1-3 + Quali + Race), 'prediction_only' (Quali + Race, default), 'practice_only' (FP only)"
+    )
+    collect_season_parser.add_argument(
+        "--include-practice",
+        action="store_true",
+        help="Include practice sessions (FP1, FP2, FP3) in collection"
+    )
+    collect_season_parser.add_argument(
         "--force",
         action="store_true",
         help="Force re-collection of existing session files"
     )
 
-    # Collect Grand Prix / Track Command (Qualifying + Race only, zero practice)
+    # Collect Grand Prix / Track Command
     collect_parser = subparsers.add_parser(
         "collect",
-        help="Collect race and qualifying data for a Grand Prix circuit or season via FastF1"
+        help="Collect session data for a Grand Prix circuit or season via FastF1"
     )
     collect_parser.add_argument(
         "--track",
@@ -687,6 +707,17 @@ def main():
         nargs="+",
         default=None,
         help="Explicit round numbers to collect (if track not specified)"
+    )
+    collect_parser.add_argument(
+        "--session-mode",
+        choices=["full", "prediction_only", "practice_only"],
+        default=None,
+        help="Session mode: 'full' (FP1-3 + Quali + Race), 'prediction_only' (Quali + Race, default), 'practice_only' (FP only)"
+    )
+    collect_parser.add_argument(
+        "--include-practice",
+        action="store_true",
+        help="Include practice sessions (FP1, FP2, FP3) in collection"
     )
     collect_parser.add_argument(
         "--force",
