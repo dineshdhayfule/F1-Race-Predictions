@@ -108,16 +108,20 @@ def test_sepang_output_parity_in_sandbox(tmp_path):
     assert int(gen_df.loc[gen_df["Abbreviation"] == "HAD", "ActualStartingGrid"].iloc[0]) == 8
     assert int(gen_df.loc[gen_df["Abbreviation"] == "COL", "ActualStartingGrid"].iloc[0]) == 21
     assert int(gen_df.loc[gen_df["Abbreviation"] == "LIN", "ActualStartingGrid"].iloc[0]) == 22
-    assert gen_df["ActualStartingGrid"].tolist() == base_df["ActualStartingGrid"].tolist()
 
-    # 5. Numerical tolerance checks (tolerance: ExpectedFinish <= 0.35, Probabilities <= 2.5%)
+    # Align by driver abbreviation for driver-specific metric comparison
+    gen_aligned = gen_df.sort_values("Abbreviation").reset_index(drop=True)
+    base_aligned = base_df.sort_values("Abbreviation").reset_index(drop=True)
+    assert gen_aligned["ActualStartingGrid"].tolist() == base_aligned["ActualStartingGrid"].tolist()
+
+    # 5. Numerical tolerance checks (tolerance: ExpectedFinish <= 0.35, Probabilities <= 5.0%)
     for col in ["ExpectedFinish", "MLExpectedFinish"]:
-        diff = np.abs(gen_df[col] - base_df[col])
+        diff = np.abs(gen_aligned[col] - base_aligned[col])
         max_diff = diff.max()
         assert max_diff <= 0.35, f"Column {col} exceeded tolerance 0.35: max diff = {max_diff}"
 
     for col in ["WinProbability", "Top3Probability", "Top5Probability", "PointsProbability"]:
-        diff = np.abs(gen_df[col] - base_df[col])
+        diff = np.abs(gen_aligned[col] - base_aligned[col])
         max_diff = diff.max()
         assert max_diff <= 5.0, f"Column {col} exceeded Monte Carlo tolerance 5.0%: max diff = {max_diff}"
 
@@ -159,14 +163,18 @@ def test_baku_output_parity_in_sandbox(tmp_path):
     assert gen_df.iloc[1]["Abbreviation"] == "LEC"
     assert gen_df.iloc[2]["Abbreviation"] == "PIA"
 
-    # 4. Numerical tolerance checks (tolerance: ExpectedFinish <= 0.35, Probabilities <= 2.5%)
+    # Align by driver abbreviation for driver-specific metric comparison
+    gen_aligned = gen_df.sort_values("Abbreviation").reset_index(drop=True)
+    base_aligned = base_df.sort_values("Abbreviation").reset_index(drop=True)
+
+    # 4. Numerical tolerance checks (tolerance: ExpectedFinish <= 0.35, Probabilities <= 5.0%)
     for col in ["ExpectedFinish", "MLExpectedFinish"]:
-        diff = np.abs(gen_df[col] - base_df[col])
+        diff = np.abs(gen_aligned[col] - base_aligned[col])
         max_diff = diff.max()
         assert max_diff <= 0.35, f"Column {col} exceeded tolerance 0.35: max diff = {max_diff}"
 
     for col in ["WinProbability", "Top3Probability", "Top5Probability", "PointsProbability"]:
-        diff = np.abs(gen_df[col] - base_df[col])
+        diff = np.abs(gen_aligned[col] - base_aligned[col])
         max_diff = diff.max()
         assert max_diff <= 5.0, f"Column {col} exceeded Monte Carlo tolerance 5.0%: max diff = {max_diff}"
 
