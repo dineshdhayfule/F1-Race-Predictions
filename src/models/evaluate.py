@@ -11,7 +11,10 @@ import pandas as pd
 from scipy.stats import spearmanr
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.impute import SimpleImputer
+from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, median_absolute_error
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 import xgboost as xgb
 
 from src.features.build_features import apply_stage_feature_mask
@@ -122,8 +125,22 @@ class ModelEvaluator:
             model_xgb.fit(X_all, y_all)
             xgb_pred = model_xgb.predict(X_all)
 
+            # Ridge Regression
+            ridge_cfg = self.model_cfg.get("ridge", {})
+            alpha = float(ridge_cfg.get("alpha", 40.0))
+            ridge = Pipeline([
+                ("scaler", StandardScaler()),
+                ("ridge", Ridge(alpha=alpha, random_state=self.random_state))
+            ])
+            ridge.fit(X_all, y_all)
+            ridge_pred = ridge.predict(X_all)
+
+            multi_pred = 0.40 * rf_pred + 0.30 * xgb_pred + 0.30 * ridge_pred
+
             rf_residuals = list(y_all - rf_pred)
             xgb_residuals = list(y_all - xgb_pred)
+            ridge_residuals = list(y_all - ridge_pred)
+            multi_residuals = list(y_all - multi_pred)
 
             grid_col = "ActualStartingGrid" if "ActualStartingGrid" in train_copy.columns else "GridPosition"
             round_grids = pd.to_numeric(train_copy.get(grid_col, train_copy.get("GridPosition")), errors="coerce").fillna(12.0).values
@@ -147,12 +164,44 @@ class ModelEvaluator:
                     "spearman": round(spearman_corr, 4),
                 })
 
+            # Add Ridge and Multi-Model evaluations to in-sample ensemble_results
+            ridge_mae = float(mean_absolute_error(y_all, ridge_pred))
+            ridge_medae = float(median_absolute_error(y_all, ridge_pred))
+            ridge_rmse = float(np.sqrt(mean_squared_error(y_all, ridge_pred)))
+            ridge_spearman = float(spearmanr(y_all, ridge_pred).statistic)
+            ensemble_results.append({
+                "model_name": "100% Ridge",
+                "rf_weight": 0.0,
+                "xgb_weight": 0.0,
+                "ridge_weight": 1.0,
+                "mae": round(ridge_mae, 4),
+                "medae": round(ridge_medae, 4),
+                "rmse": round(ridge_rmse, 4),
+                "spearman": round(ridge_spearman, 4),
+            })
+
+            multi_mae = float(mean_absolute_error(y_all, multi_pred))
+            multi_medae = float(median_absolute_error(y_all, multi_pred))
+            multi_rmse = float(np.sqrt(mean_squared_error(y_all, multi_pred)))
+            multi_spearman = float(spearmanr(y_all, multi_pred).statistic)
+            ensemble_results.append({
+                "model_name": "Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)",
+                "rf_weight": 0.40,
+                "xgb_weight": 0.30,
+                "ridge_weight": 0.30,
+                "mae": round(multi_mae, 4),
+                "medae": round(multi_medae, 4),
+                "rmse": round(multi_rmse, 4),
+                "spearman": round(multi_spearman, 4),
+            })
+
             sel_cfg = self.config.get("model_selection", {})
             default_rf_w = float(sel_cfg.get("fixed_rf_weight", 0.6))
             default_xgb_w = float(sel_cfg.get("fixed_xgb_weight", 0.4))
-            match = next((x for x in ensemble_results if abs(x["rf_weight"] - default_rf_w) < 1e-4), ensemble_results[2])
+            match = next((x for x in ensemble_results if abs(x.get("rf_weight", 0.0) - default_rf_w) < 1e-4 and abs(x.get("xgb_weight", 0.0) - default_xgb_w) < 1e-4), ensemble_results[2])
             best_w_rf = match["rf_weight"]
             best_w_xgb = match["xgb_weight"]
+            best_w_ridge = match.get("ridge_weight", 0.0)
             best_name = match["model_name"]
             best_mae = match["mae"]
             selected_residuals = np.array(rf_residuals if best_w_rf >= 0.5 else xgb_residuals)
@@ -168,19 +217,26 @@ class ModelEvaluator:
                     custom_preds = np.array(round_predictions[custom_name])
                     custom_residuals = np.array(y_all) - custom_preds
 
+            xgb_match = next((x for x in ensemble_results if x["model_name"] == "100% XGB"), ensemble_results[1])
+
             return {
                 "validation_rounds": [],
                 "sample_count": len(y_all),
                 "ensemble_comparisons": ensemble_results,
                 "best_w_rf": best_w_rf,
                 "best_w_xgb": best_w_xgb,
+                "best_w_ridge": best_w_ridge,
                 "best_model_name": best_name,
                 "best_mae": best_mae,
                 "selected_residuals": selected_residuals,
                 "rf_residuals": np.array(rf_residuals),
                 "xgb_residuals": np.array(xgb_residuals),
+                "ridge_residuals": np.array(ridge_residuals),
+                "multi_residuals": np.array(multi_residuals),
                 "rf_mae": ensemble_results[0]["mae"],
-                "xgb_mae": ensemble_results[-1]["mae"],
+                "xgb_mae": xgb_match["mae"],
+                "ridge_mae": round(ridge_mae, 4),
+                "multi_mae": round(multi_mae, 4),
                 "custom_mae": custom_mae,
                 "custom_residuals": custom_residuals,
                 "empirical_dnf_rate": round(empirical_dnf_rate, 4),
@@ -193,8 +249,12 @@ class ModelEvaluator:
 
         rf_residuals = []
         xgb_residuals = []
+        ridge_residuals = []
+        multi_residuals = []
 
         round_predictions = {name: [] for _, _, name in tested_weights}
+        round_predictions["100% Ridge"] = []
+        round_predictions["Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"] = []
         round_actuals = []
         round_grids = []
 
@@ -253,8 +313,22 @@ class ModelEvaluator:
             model_xgb.fit(X_train, y_train)
             xgb_pred = model_xgb.predict(X_test)
 
+            # Ridge Regression
+            ridge_cfg = self.model_cfg.get("ridge", {})
+            alpha = ridge_cfg.get("alpha", 40.0)
+            ridge_pipe = Pipeline([
+                ("scaler", StandardScaler()),
+                ("ridge", Ridge(alpha=alpha, random_state=self.random_state)),
+            ])
+            ridge_pipe.fit(X_train, y_train)
+            ridge_pred = ridge_pipe.predict(X_test)
+
+            multi_pred = 0.40 * rf_pred + 0.30 * xgb_pred + 0.30 * ridge_pred
+
             rf_residuals.extend(y_test - rf_pred)
             xgb_residuals.extend(y_test - xgb_pred)
+            ridge_residuals.extend(y_test - ridge_pred)
+            multi_residuals.extend(y_test - multi_pred)
             round_actuals.extend(y_test)
 
             grid_col = "ActualStartingGrid" if "ActualStartingGrid" in test.columns else "GridPosition"
@@ -264,6 +338,9 @@ class ModelEvaluator:
             for w_rf, w_xgb, name in tested_weights:
                 blend_pred = w_rf * rf_pred + w_xgb * xgb_pred
                 round_predictions[name].extend(blend_pred)
+
+            round_predictions["100% Ridge"].extend(ridge_pred)
+            round_predictions["Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"].extend(multi_pred)
 
         # Compute summary metrics across all validation rounds
         actuals = np.array(round_actuals)
@@ -286,11 +363,47 @@ class ModelEvaluator:
                 "spearman": round(spearman_corr, 4),
             })
 
+        # Add Ridge and Multi-Model evaluations
+        ridge_preds = np.array(round_predictions["100% Ridge"])
+        ridge_mae = float(mean_absolute_error(actuals, ridge_preds))
+        ridge_medae = float(median_absolute_error(actuals, ridge_preds))
+        ridge_rmse = float(np.sqrt(mean_squared_error(actuals, ridge_preds)))
+        ridge_spearman = float(spearmanr(actuals, ridge_preds).statistic)
+
+        ensemble_results.append({
+            "model_name": "100% Ridge",
+            "rf_weight": 0.0,
+            "xgb_weight": 0.0,
+            "ridge_weight": 1.0,
+            "mae": round(ridge_mae, 4),
+            "medae": round(ridge_medae, 4),
+            "rmse": round(ridge_rmse, 4),
+            "spearman": round(ridge_spearman, 4),
+        })
+
+        multi_preds = np.array(round_predictions["Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"])
+        multi_mae = float(mean_absolute_error(actuals, multi_preds))
+        multi_medae = float(median_absolute_error(actuals, multi_preds))
+        multi_rmse = float(np.sqrt(mean_squared_error(actuals, multi_preds)))
+        multi_spearman = float(spearmanr(actuals, multi_preds).statistic)
+
+        ensemble_results.append({
+            "model_name": "Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)",
+            "rf_weight": 0.40,
+            "xgb_weight": 0.30,
+            "ridge_weight": 0.30,
+            "mae": round(multi_mae, 4),
+            "medae": round(multi_medae, 4),
+            "rmse": round(multi_rmse, 4),
+            "spearman": round(multi_spearman, 4),
+        })
+
         # Rank configurations strictly by walk-forward MAE (Option 1: dynamic auto-selection)
         sorted_ensembles = sorted(ensemble_results, key=lambda x: x["mae"])
         best_cfg = sorted_ensembles[0]
         best_w_rf = best_cfg["rf_weight"]
         best_w_xgb = best_cfg["xgb_weight"]
+        best_w_ridge = best_cfg.get("ridge_weight", 0.0)
         best_name = best_cfg["model_name"]
         best_mae = best_cfg["mae"]
 
@@ -308,19 +421,26 @@ class ModelEvaluator:
                 custom_preds = np.array(round_predictions[custom_name])
                 custom_residuals = np.array(actuals) - custom_preds
 
+        xgb_match = next((x for x in ensemble_results if x["model_name"] == "100% XGB"), ensemble_results[6])
+
         return {
             "validation_rounds": val_rounds,
             "sample_count": len(actuals),
             "ensemble_comparisons": ensemble_results,
             "best_w_rf": best_w_rf,
             "best_w_xgb": best_w_xgb,
+            "best_w_ridge": best_w_ridge,
             "best_model_name": best_name,
             "best_mae": best_mae,
             "selected_residuals": selected_residuals,
             "rf_residuals": np.array(rf_residuals),
             "xgb_residuals": np.array(xgb_residuals),
+            "ridge_residuals": np.array(ridge_residuals),
+            "multi_residuals": np.array(multi_residuals),
             "rf_mae": ensemble_results[0]["mae"],
-            "xgb_mae": ensemble_results[-1]["mae"],
+            "xgb_mae": xgb_match["mae"],
+            "ridge_mae": round(ridge_mae, 4),
+            "multi_mae": round(multi_mae, 4),
             "custom_mae": custom_mae,
             "custom_residuals": custom_residuals,
             "empirical_dnf_rate": round(empirical_dnf_rate, 4),

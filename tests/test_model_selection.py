@@ -25,7 +25,7 @@ def sample_config():
 
 
 def test_dynamic_ensemble_selection(sample_config):
-    """Verifies that evaluate_walk_forward tests all 7 configurations and selects the lowest MAE."""
+    """Verifies that evaluate_walk_forward tests all 9 configurations and selects the lowest MAE."""
     evaluator = ModelEvaluator(sample_config)
 
     # Synthetic multi-round dataset
@@ -45,7 +45,7 @@ def test_dynamic_ensemble_selection(sample_config):
 
     assert "ensemble_comparisons" in results
     comparisons = results["ensemble_comparisons"]
-    assert len(comparisons) == 7
+    assert len(comparisons) == 9
 
     tested_names = [c["model_name"] for c in comparisons]
     expected_names = [
@@ -55,7 +55,9 @@ def test_dynamic_ensemble_selection(sample_config):
         "50% RF / 50% XGB",
         "40% RF / 60% XGB",
         "25% RF / 75% XGB",
-        "100% XGB"
+        "100% XGB",
+        "100% Ridge",
+        "Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"
     ]
     assert tested_names == expected_names
 
@@ -64,11 +66,12 @@ def test_dynamic_ensemble_selection(sample_config):
     assert results["best_model_name"] == min_mae_cfg["model_name"]
     assert results["best_w_rf"] == min_mae_cfg["rf_weight"]
     assert results["best_w_xgb"] == min_mae_cfg["xgb_weight"]
+    assert results.get("best_w_ridge", 0.0) == min_mae_cfg.get("ridge_weight", 0.0)
     assert results["best_mae"] == min_mae_cfg["mae"]
 
 
 def test_selected_weights_reporting(sample_config):
-    """Verifies selected weights and metadata are propagated correctly."""
+    """Verifies selected weights and metadata are propagated correctly across all participating models."""
     evaluator = ModelEvaluator(sample_config)
 
     rows = []
@@ -82,8 +85,82 @@ def test_selected_weights_reporting(sample_config):
     results = evaluator.evaluate_walk_forward(pd.DataFrame(rows))
     assert 0.0 <= results["best_w_rf"] <= 1.0
     assert 0.0 <= results["best_w_xgb"] <= 1.0
-    assert round(results["best_w_rf"] + results["best_w_xgb"], 4) == 1.0
+    assert 0.0 <= results.get("best_w_ridge", 0.0) <= 1.0
+    total_weight = round(results["best_w_rf"] + results["best_w_xgb"] + results.get("best_w_ridge", 0.0), 4)
+    assert total_weight == 1.0
     assert len(results["selected_residuals"]) > 0
+
+
+def test_rf_only_selection_weight_reporting(sample_config):
+    """Verifies 100% RF configuration reports correct weights summing to 1.0."""
+    evaluator = ModelEvaluator(sample_config)
+    ret = evaluator.evaluate_walk_forward(
+        pd.DataFrame([{"Round": r, "ActualFinish": d, "driver_dnf_rate": 0.15, **{f: np.random.randn() for f in sample_config["features"]}}
+                      for r in range(1, 6) for d in range(1, 10)]),
+        custom_weights=(1.0, 0.0)
+    )
+    assert ret["rf_mae"] > 0.0
+    rf_cfg = next(c for c in ret["ensemble_comparisons"] if c["model_name"] == "100% RF")
+    assert rf_cfg["rf_weight"] == 1.0
+    assert rf_cfg["xgb_weight"] == 0.0
+    assert rf_cfg.get("ridge_weight", 0.0) == 0.0
+
+
+def test_xgb_only_selection_weight_reporting(sample_config):
+    """Verifies 100% XGB configuration reports correct weights summing to 1.0."""
+    evaluator = ModelEvaluator(sample_config)
+    ret = evaluator.evaluate_walk_forward(
+        pd.DataFrame([{"Round": r, "ActualFinish": d, "driver_dnf_rate": 0.15, **{f: np.random.randn() for f in sample_config["features"]}}
+                      for r in range(1, 6) for d in range(1, 10)]),
+        custom_weights=(0.0, 1.0)
+    )
+    assert ret["xgb_mae"] > 0.0
+    xgb_cfg = next(c for c in ret["ensemble_comparisons"] if c["model_name"] == "100% XGB")
+    assert xgb_cfg["rf_weight"] == 0.0
+    assert xgb_cfg["xgb_weight"] == 1.0
+    assert xgb_cfg.get("ridge_weight", 0.0) == 0.0
+
+
+def test_ridge_only_selection_weight_reporting(sample_config):
+    """Verifies 100% Ridge configuration reports correct weights summing to 1.0."""
+    evaluator = ModelEvaluator(sample_config)
+    ret = evaluator.evaluate_walk_forward(
+        pd.DataFrame([{"Round": r, "ActualFinish": d, "driver_dnf_rate": 0.15, **{f: np.random.randn() for f in sample_config["features"]}}
+                      for r in range(1, 6) for d in range(1, 10)])
+    )
+    ridge_cfg = next(c for c in ret["ensemble_comparisons"] if c["model_name"] == "100% Ridge")
+    assert ridge_cfg["rf_weight"] == 0.0
+    assert ridge_cfg["xgb_weight"] == 0.0
+    assert ridge_cfg["ridge_weight"] == 1.0
+    assert round(ridge_cfg["rf_weight"] + ridge_cfg["xgb_weight"] + ridge_cfg["ridge_weight"], 4) == 1.0
+
+
+def test_rf_xgb_blend_weight_reporting(sample_config):
+    """Verifies classical RF/XGB blend configurations report weights summing to 1.0."""
+    evaluator = ModelEvaluator(sample_config)
+    ret = evaluator.evaluate_walk_forward(
+        pd.DataFrame([{"Round": r, "ActualFinish": d, "driver_dnf_rate": 0.15, **{f: np.random.randn() for f in sample_config["features"]}}
+                      for r in range(1, 6) for d in range(1, 10)]),
+        custom_weights=(0.60, 0.40)
+    )
+    blend_cfg = next(c for c in ret["ensemble_comparisons"] if c["model_name"] == "60% RF / 40% XGB")
+    assert blend_cfg["rf_weight"] == 0.60
+    assert blend_cfg["xgb_weight"] == 0.40
+    assert round(blend_cfg["rf_weight"] + blend_cfg["xgb_weight"], 4) == 1.0
+
+
+def test_multi_model_selection_weight_reporting(sample_config):
+    """Verifies Validated Multi-Model configuration reports weights summing to 1.0 across RF, XGB, and Ridge."""
+    evaluator = ModelEvaluator(sample_config)
+    ret = evaluator.evaluate_walk_forward(
+        pd.DataFrame([{"Round": r, "ActualFinish": d, "driver_dnf_rate": 0.15, **{f: np.random.randn() for f in sample_config["features"]}}
+                      for r in range(1, 6) for d in range(1, 10)])
+    )
+    multi_cfg = next(c for c in ret["ensemble_comparisons"] if "Validated Multi-Model" in c["model_name"])
+    assert multi_cfg["rf_weight"] == 0.40
+    assert multi_cfg["xgb_weight"] == 0.30
+    assert multi_cfg["ridge_weight"] == 0.30
+    assert round(multi_cfg["rf_weight"] + multi_cfg["xgb_weight"] + multi_cfg["ridge_weight"], 4) == 1.0
 
 
 def test_grid_order_sorting_before_monte_carlo(sample_config):

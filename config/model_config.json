@@ -15,7 +15,32 @@
   },
   "blending": {
     "ml_weight": 0.65,
-    "grid_weight": 0.35
+    "grid_weight": 0.35,
+    "circuit_aware": true,
+    "circuit_weights": {
+      "street": {
+        "grid_weight": 0.50,
+        "ml_weight": 0.50
+      },
+      "permanent": {
+        "grid_weight": 0.35,
+        "ml_weight": 0.65
+      },
+      "temporary": {
+        "grid_weight": 0.45,
+        "ml_weight": 0.55
+      },
+      "default": {
+        "grid_weight": 0.35,
+        "ml_weight": 0.65
+      }
+    }
+  },
+  "feature_pruning": {
+    "enabled": false,
+    "validated_pruned_features": [
+      "sprint_quali_pos"
+    ]
   },
   "capabilities": {
     "race_pace_intelligence": false,
@@ -105,6 +130,10 @@
       "subsample": 0.8,
       "colsample_bytree": 0.8,
       "objective": "reg:squarederror"
+    },
+    "ridge": {
+      "alpha": 40.0,
+      "random_state": 42
     }
   }
 }

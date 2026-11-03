@@ -44,8 +44,8 @@ logger = get_logger("main_cli")
 def cmd_predict(args, parser=None):
     """Executes prediction command."""
     model_raw = getattr(args, "model", "hybrid") or "hybrid"
-    if model_raw not in ("rf", "xgb", "hybrid", "__interactive__"):
-        err_msg = f"argument --model: invalid choice: '{model_raw}' (choose from 'rf', 'xgb', 'hybrid')"
+    if model_raw not in ("rf", "xgb", "ridge", "hybrid", "ensemble", "multi", "__interactive__"):
+        err_msg = f"argument --model: invalid choice: '{model_raw}' (choose from 'rf', 'xgb', 'ridge', 'hybrid', 'ensemble', 'multi')"
         if parser:
             parser.error(err_msg)
         else:
@@ -79,7 +79,7 @@ def cmd_predict(args, parser=None):
             else:
                 print(f"Error: {err_msg}")
                 sys.exit(2)
-        if model_raw in ("rf", "xgb"):
+        if model_raw in ("rf", "xgb", "ridge", "ensemble", "multi"):
             err_msg = f"Custom weights (--rf-weight / --xgb-weight) cannot be used with '{model_raw}' model."
             if parser:
                 parser.error(err_msg)
@@ -621,7 +621,7 @@ def main():
         const="__interactive__",
         default="hybrid",
         type=str.lower,
-        help="Prediction model: 'rf' (Random Forest only), 'xgb' (XGBoost only), 'hybrid' (60%% RF / 40%% XGB ensemble, default). Bare --model opens interactive model selection."
+        help="Prediction model: 'rf' (Random Forest only), 'xgb' (XGBoost only), 'ridge' (Ridge Regression only), 'hybrid' (60%% RF / 40%% XGB ensemble, default), 'ensemble'/'multi' (Validated Multi-Model: 40%% RF / 30%% XGB / 30%% Ridge). Bare --model opens interactive model selection."
     )
     predict_parser.add_argument(
         "--rf-weight",

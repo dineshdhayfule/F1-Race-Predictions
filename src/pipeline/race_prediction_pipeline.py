@@ -101,12 +101,12 @@ class RacePredictionPipeline:
         dict containing prediction results, evaluation metrics, and simulation stats.
         """
         track_key = track_key.lower().strip()
-        valid_models = {"rf", "xgb", "hybrid"}
+        valid_models = {"rf", "xgb", "ridge", "hybrid", "ensemble", "multi"}
         model_choice = (model or "hybrid").lower().strip()
         if model_choice not in valid_models:
             raise ValueError(
                 f"Invalid model '{model}'. Supported models are: 'rf' (Random Forest only), "
-                f"'xgb' (XGBoost only), 'hybrid' (60% RF / 40% XGBoost ensemble)."
+                f"'xgb' (XGBoost only), 'ridge' (Ridge Regression only), 'hybrid' (60% RF / 40% XGBoost ensemble), 'ensemble' or 'multi' (Validated Multi-Model)."
             )
 
         custom_weights = None
@@ -125,7 +125,7 @@ class RacePredictionPipeline:
                 raise ValueError(f"Weights must each be between 0 and 1.0 (or 0 and 100%). Got rf_weight={rf_weight}, xgb_weight={xgb_weight}.")
             if abs((rf_w + xgb_w) - 1.0) > 1e-4:
                 raise ValueError(f"Weight sum must equal 1.0 (or 100%). Got {rf_w + xgb_w:.4f}.")
-            if model_choice in {"rf", "xgb"}:
+            if model_choice in {"rf", "xgb", "ridge", "ensemble", "multi"}:
                 raise ValueError(f"Custom weights cannot be used with '{model_choice}' model. Custom weights require hybrid model.")
             model_choice = "hybrid"
             custom_weights = (rf_w, xgb_w)
@@ -305,18 +305,31 @@ class RacePredictionPipeline:
 
         sel_cfg = self.model_config.get("model_selection", {})
 
+        selected_ridge_weight = 0.0
         if model_choice == "rf":
-            selected_rf_weight, selected_xgb_weight = 1.0, 0.0
+            selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 1.0, 0.0, 0.0
             selected_model_name = "Random Forest (100%)"
             selected_mae = eval_results["rf_mae"]
             selection_method = "User Selected (Random Forest)"
             residuals = eval_results["rf_residuals"]
         elif model_choice == "xgb":
-            selected_rf_weight, selected_xgb_weight = 0.0, 1.0
+            selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 1.0, 0.0
             selected_model_name = "XGBoost (100%)"
             selected_mae = eval_results["xgb_mae"]
             selection_method = "User Selected (XGBoost)"
             residuals = eval_results["xgb_residuals"]
+        elif model_choice == "ridge":
+            selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 0.0, 1.0
+            selected_model_name = "Ridge Regression (100%)"
+            selected_mae = eval_results.get("ridge_mae", eval_results["best_mae"])
+            selection_method = "User Selected (Ridge Regression)"
+            residuals = eval_results.get("ridge_residuals", eval_results["selected_residuals"])
+        elif model_choice in {"ensemble", "multi"}:
+            selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.40, 0.30, 0.30
+            selected_model_name = "Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)"
+            selected_mae = eval_results.get("multi_mae", eval_results["best_mae"])
+            selection_method = "Validated Multi-Model Ensemble (Phase 4)"
+            residuals = eval_results.get("multi_residuals", eval_results["selected_residuals"])
         elif model_choice == "hybrid":
             if custom_weights is not None:
                 selected_rf_weight, selected_xgb_weight = custom_weights
@@ -360,6 +373,18 @@ class RacePredictionPipeline:
                 selected_mae = eval_results["xgb_mae"]
                 selection_method = "Fixed Configuration (XGBoost)"
                 residuals = eval_results["xgb_residuals"]
+            elif mode == "fixed_ridge":
+                selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 0.0, 1.0
+                selected_model_name = "Ridge Regression (100%)"
+                selected_mae = eval_results.get("ridge_mae", eval_results["best_mae"])
+                selection_method = "Fixed Configuration (Ridge Regression)"
+                residuals = eval_results.get("ridge_residuals", eval_results["selected_residuals"])
+            elif mode in {"multi_model", "ensemble"}:
+                selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.40, 0.30, 0.30
+                selected_model_name = "Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)"
+                selected_mae = eval_results.get("multi_mae", eval_results["best_mae"])
+                selection_method = "Fixed Configuration (Multi-Model Ensemble)"
+                residuals = eval_results.get("multi_residuals", eval_results["selected_residuals"])
             else:
                 selected_rf_weight = float(sel_cfg.get("fixed_rf_weight", 0.6))
                 selected_xgb_weight = float(sel_cfg.get("fixed_xgb_weight", 0.4))
@@ -374,6 +399,10 @@ class RacePredictionPipeline:
 
         # 8. Train Final Estimators on all training rounds
         imputer, rf_model, xgb_model, feature_names = self.model_trainer.fit(training_features)
+        ridge_model = getattr(self.model_trainer, "ridge_model", None)
+
+        circuit_type = track_info.get("circuit_type", "permanent")
+        w_ml, w_grid = self.predictor.resolve_blending_weights(circuit_type=circuit_type)
 
         # 9. Deterministic Inference & Grid Blending
         det_results, blended_scores = self.predictor.predict_deterministic(
@@ -382,7 +411,11 @@ class RacePredictionPipeline:
             rf_model=rf_model,
             xgb_model=xgb_model,
             rf_weight=selected_rf_weight,
-            xgb_weight=selected_xgb_weight
+            xgb_weight=selected_xgb_weight,
+            ridge_model=ridge_model,
+            ridge_weight=selected_ridge_weight,
+            circuit_type=circuit_type,
+            model_mode=model_choice,
         )
 
         # 10. Monte Carlo Simulation (25,000 iterations)
@@ -399,6 +432,10 @@ class RacePredictionPipeline:
         sim_meta["selected_mae"] = selected_mae
         sim_meta["selected_rf_weight"] = selected_rf_weight
         sim_meta["selected_xgb_weight"] = selected_xgb_weight
+        sim_meta["selected_ridge_weight"] = selected_ridge_weight
+        sim_meta["circuit_type"] = circuit_type
+        sim_meta["grid_weight"] = w_grid
+        sim_meta["ml_weight"] = w_ml
 
         # Prediction integrity check
         self._audit_prediction_integrity(
@@ -509,6 +546,10 @@ class RacePredictionPipeline:
             "selected_mae": selected_mae,
             "selected_rf_weight": selected_rf_weight,
             "selected_xgb_weight": selected_xgb_weight,
+            "selected_ridge_weight": selected_ridge_weight,
+            "circuit_type": circuit_type,
+            "grid_weight": w_grid,
+            "ml_weight": w_ml,
             "predictions": sim_results,
             "model_comparison": comp_df,
             "simulation_meta": sim_meta,

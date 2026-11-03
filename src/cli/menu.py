@@ -107,7 +107,9 @@ def prompt_model_selection() -> Tuple[str, Optional[float], Optional[float]]:
         print("\n========== MODEL SELECTION ==========\n")
         print("1. Random Forest (100%)")
         print("2. XGBoost (100%)")
-        print("3. Hybrid Ensemble (Custom Weights)\n")
+        print("3. Hybrid Ensemble (Custom Weights)")
+        print("4. Ridge Regression (100%)")
+        print("5. Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)\n")
         try:
             choice = input("Select model: ").strip()
         except (KeyboardInterrupt, EOFError):
@@ -124,8 +126,12 @@ def prompt_model_selection() -> Tuple[str, Optional[float], Optional[float]]:
                 # N returns to model selection
                 continue
             return (model, rf_w, xgb_w)
+        elif choice == "4":
+            return ("ridge", None, None)
+        elif choice == "5":
+            return ("ensemble", None, None)
         else:
-            print("Invalid choice. Please select 1, 2, or 3.\n")
+            print("Invalid choice. Please select 1, 2, 3, 4, or 5.\n")
 
 
 class InteractiveMenu:
@@ -395,10 +401,12 @@ class InteractiveMenu:
         print_header("Step 5: Select Prediction Model", f"Circuit: {track_display} | Stage: {stage}")
         print("  1. Random Forest (100%)")
         print("  2. XGBoost (100%)")
-        print("  3. Hybrid Ensemble (60% RF / 40% XGB) — Default")
-        print("  4. Hybrid Ensemble (Custom Weights)")
+        print("  3. Ridge Regression (100%)")
+        print("  4. Hybrid Ensemble (60% RF / 40% XGB) — Default")
+        print("  5. Hybrid Ensemble (Custom Weights)")
+        print("  6. Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)")
         print("  0. Cancel / Back\n")
-        model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "0"], default="3")
+        model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "5", "6", "0"], default="4")
         if model_choice_input == "0":
             return
         selected_custom_rf = None
@@ -408,11 +416,15 @@ class InteractiveMenu:
         elif model_choice_input == "2":
             selected_model_opt = "xgb"
         elif model_choice_input == "3":
-            selected_model_opt = "hybrid"
+            selected_model_opt = "ridge"
         elif model_choice_input == "4":
+            selected_model_opt = "hybrid"
+        elif model_choice_input == "5":
             selected_model_opt, selected_custom_rf, selected_custom_xgb = prompt_custom_weights_only()
             if selected_model_opt is None:
                 return self.menu_predict_race()
+        elif model_choice_input == "6":
+            selected_model_opt = "ensemble"
         else:
             selected_model_opt = "hybrid"
 

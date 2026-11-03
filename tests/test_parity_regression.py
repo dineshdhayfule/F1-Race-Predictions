@@ -133,13 +133,16 @@ def test_sepang_output_parity_in_sandbox(tmp_path):
 def test_baku_output_parity_in_sandbox(tmp_path):
     """
     TC-06: Verifies that running Baku 2026 after_qualifying in sandbox matches
-    the verified production baseline outputs/baku/baku_2026_after_qualifying_predictions.csv.
+    the verified production baseline outputs/baku/baku_2026_after_qualifying_predictions.csv
+    when operating in legacy mode (circuit_aware=False, 0.35 static grid weight).
     """
     pre_hashes = get_all_protected_file_hashes()
 
     sandbox_dir = tmp_path / "sandbox_tc06"
     pipeline = RacePredictionPipeline(root_dir=ROOT)
     pipeline.output_dir = sandbox_dir
+    pipeline.model_config["blending"]["circuit_aware"] = False
+    pipeline.predictor.circuit_aware = False
 
     results = pipeline.run("baku", year=2026, stage="after_qualifying")
     sandbox_csv = sandbox_dir / "baku" / "baku_2026_after_qualifying_predictions.csv"
@@ -181,3 +184,57 @@ def test_baku_output_parity_in_sandbox(tmp_path):
     # 5. Verify zero writes occurred in outputs/
     post_hashes = get_all_protected_file_hashes()
     assert pre_hashes == post_hashes, "Protected files in outputs/ were modified during Baku run!"
+
+
+def test_baku_circuit_aware_production_parity(tmp_path):
+    """
+    TC-07: Verifies that running Baku 2026 after_qualifying in sandbox under
+    the Phase 4 circuit-aware production configuration (circuit_aware=True, 0.50 street weight)
+    reproduces exact parity with the documented fixture tests/fixtures/baku_2026_after_qualifying_circuit_aware_expected.csv.
+    """
+    pre_hashes = get_all_protected_file_hashes()
+
+    sandbox_dir = tmp_path / "sandbox_tc07"
+    pipeline = RacePredictionPipeline(root_dir=ROOT)
+    pipeline.output_dir = sandbox_dir
+
+    results = pipeline.run("baku", year=2026, stage="after_qualifying")
+    sandbox_csv = sandbox_dir / "baku" / "baku_2026_after_qualifying_predictions.csv"
+    assert sandbox_csv.exists()
+
+    gen_df = pd.read_csv(sandbox_csv)
+    fixture_csv = ROOT / "tests" / "fixtures" / "baku_2026_after_qualifying_circuit_aware_expected.csv"
+    assert fixture_csv.exists(), f"Fixture file not found at {fixture_csv}"
+    fixture_df = pd.read_csv(fixture_csv)
+
+    # 1. Structural assertions
+    assert len(gen_df) == 22
+    assert list(gen_df.columns) == list(fixture_df.columns)
+
+    # 2. Driver row set and top identities assertion
+    assert set(gen_df["Abbreviation"]) == set(fixture_df["Abbreviation"])
+    assert set(gen_df.iloc[:10]["Abbreviation"]) == set(fixture_df.iloc[:10]["Abbreviation"])
+
+    # 3. Top 3 exact identities
+    assert gen_df.iloc[0]["Abbreviation"] == "RUS"
+    assert gen_df.iloc[1]["Abbreviation"] == "LEC"
+    assert gen_df.iloc[2]["Abbreviation"] == "PIA"
+
+    # Align by driver abbreviation for driver-specific metric comparison
+    gen_aligned = gen_df.sort_values("Abbreviation").reset_index(drop=True)
+    fix_aligned = fixture_df.sort_values("Abbreviation").reset_index(drop=True)
+
+    # 4. Numerical tolerance checks (tolerance: ExpectedFinish <= 0.35, Probabilities <= 5.0%)
+    for col in ["ExpectedFinish", "MLExpectedFinish"]:
+        diff = np.abs(gen_aligned[col] - fix_aligned[col])
+        max_diff = diff.max()
+        assert max_diff <= 0.35, f"Column {col} exceeded tolerance 0.35: max diff = {max_diff}"
+
+    for col in ["WinProbability", "Top3Probability", "Top5Probability", "PointsProbability"]:
+        diff = np.abs(gen_aligned[col] - fix_aligned[col])
+        max_diff = diff.max()
+        assert max_diff <= 5.0, f"Column {col} exceeded Monte Carlo tolerance 5.0%: max diff = {max_diff}"
+
+    # 5. Verify zero writes occurred in outputs/
+    post_hashes = get_all_protected_file_hashes()
+    assert pre_hashes == post_hashes, "Protected files in outputs/ were modified during Baku circuit-aware run!"
