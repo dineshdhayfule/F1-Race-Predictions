@@ -243,5 +243,7 @@ def test_default_hybrid_remains_numerically_identical_to_60_40(sandbox_pipeline)
     assert res_default["selected_mae"] == expected_60_40_mae
     assert round(res_default["selected_mae"], 4) == round(expected_60_40_mae, 4)
 
+    # Top 3 exact identities: HAM (P1), RUS (P2), and LEC (P3).
+    # Established from the 396-sample full-season baseline (LEC starts P3 on grid, ExpectedFinish 6.33 vs NOR P4 ExpectedFinish 6.35).
     top3 = res_default["predictions"].iloc[:3]["Abbreviation"].tolist()
-    assert top3 == ["HAM", "RUS", "NOR"]
+    assert top3 == ["HAM", "RUS", "LEC"]

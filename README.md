@@ -335,7 +335,7 @@ python main.py clean --target cache --force
 
 ## Testing & Quality Assurance
 
-ApexGrid maintains a comprehensive suite of **256 automated tests** across 29 test files:
+ApexGrid maintains a comprehensive suite of **265 automated tests** across 30 test files:
 
 ```bash
 # Run the entire test suite

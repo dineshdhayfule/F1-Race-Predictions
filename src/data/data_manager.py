@@ -15,9 +15,11 @@ from pathlib import Path
 from typing import Dict, Any, List, Tuple, Optional, Set
 import json
 import os
+import re
 import shutil
 
 from src.data.deletion_audit import DeletionAuditLogger
+from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("data_manager")
@@ -128,8 +130,10 @@ class DataManager:
                 except ValueError:
                     pass
 
-            # Historical track sessions (data/raw/tracks/<track>/<year>)
+            # Historical track sessions (data/raw/tracks/<track>/<year> or <track>/history)
             if len(parts) >= 5 and parts[0] == "data" and parts[1] == "raw" and parts[2] == "tracks":
+                if parts[4].lower() == "history":
+                    return True, f"Protected historical circuit dataset ({parts[3]} history)"
                 try:
                     yr = int(parts[4])
                     if yr < 2026:
@@ -207,13 +211,27 @@ class DataManager:
         - Model comparison tables
         """
         candidates: List[Path] = []
-        out_root = self.root_dir / "outputs"
+        out_root = (self.root_dir / "outputs").resolve()
         if not out_root.exists():
             return []
 
-        search_dirs = [out_root / track_key.lower().strip()] if track_key else [
-            d for d in out_root.iterdir() if d.is_dir()
-        ]
+        search_dirs: List[Path] = []
+        if track_key:
+            clean_track = str(track_key).strip().lower()
+            if any(sep in clean_track for sep in ["/", "\\", ".."]) or not re.match(r"^[a-z0-9_-]+$", clean_track):
+                raise ValueError(f"Invalid or unsafe circuit identifier: '{track_key}'")
+            try:
+                canon = resolve_circuit_key(clean_track)
+                if canon:
+                    clean_track = canon
+            except Exception:
+                pass
+            target_dir = (out_root / clean_track).resolve()
+            if not target_dir.is_relative_to(out_root) or target_dir == out_root:
+                raise ValueError(f"Unsafe path traversal detected in circuit identifier: '{track_key}'")
+            search_dirs = [target_dir]
+        else:
+            search_dirs = [d for d in out_root.iterdir() if d.is_dir()]
 
         for d in search_dirs:
             if not d.exists():
@@ -302,7 +320,19 @@ class DataManager:
         - Event-specific prediction outputs
         - Event-specific cache entries
         """
-        clean_track = (track or track_key or "").lower().strip()
+        raw_track = (track or track_key or "").strip()
+        clean_track = ""
+        if raw_track:
+            clean_track = raw_track.lower()
+            if any(sep in clean_track for sep in ["/", "\\", ".."]) or not re.match(r"^[a-z0-9_-]+$", clean_track):
+                raise ValueError(f"Invalid or unsafe circuit identifier: '{raw_track}'")
+            try:
+                canon = resolve_circuit_key(clean_track)
+                if canon:
+                    clean_track = canon
+            except Exception:
+                pass
+
         t_info = self.tracks_config.get(clean_track, {})
         resolved_round = round_num or t_info.get(f"round_{year}" if year != 2026 else "round_2026")
 
@@ -330,9 +360,12 @@ class DataManager:
                     if not prot:
                         event_files["session_data"].append(f)
 
-        # 2. Track data in data/raw/tracks/{track_key}/{year}
+        # 2. Track data in data/raw/tracks/{clean_track}/{year}
         if clean_track:
-            track_dir = self.root_dir / "data" / "raw" / "tracks" / clean_track / str(year)
+            raw_tracks_root = (self.root_dir / "data" / "raw" / "tracks").resolve()
+            track_dir = (raw_tracks_root / clean_track / str(year)).resolve()
+            if not track_dir.is_relative_to(raw_tracks_root):
+                raise ValueError(f"Unsafe track directory traversal: '{clean_track}'")
             if track_dir.exists():
                 for root, _, files in os.walk(track_dir):
                     for f in files:
@@ -341,8 +374,11 @@ class DataManager:
                         if not prot:
                             event_files["track_data"].append(p)
 
-            # 3. Prediction outputs in outputs/{track_key}
-            out_dir = self.root_dir / "outputs" / clean_track
+            # 3. Prediction outputs in outputs/{clean_track}
+            out_root = (self.root_dir / "outputs").resolve()
+            out_dir = (out_root / clean_track).resolve()
+            if not out_dir.is_relative_to(out_root):
+                raise ValueError(f"Unsafe output directory traversal: '{clean_track}'")
             if out_dir.exists():
                 for f in out_dir.iterdir():
                     if f.is_file() and f"{year}" in f.name:
@@ -365,10 +401,6 @@ class DataManager:
                                     prot, _ = self.is_protected(p, include_historical=include_historical)
                                     if not prot:
                                         event_files["cached_data"].append(p)
-                                p = Path(root) / f
-                                prot, _ = self.is_protected(p, include_historical=True)
-                                if not prot:
-                                    event_files["cached_data"].append(p)
 
         return {k: sorted(list(set(v))) for k, v in event_files.items()}
 
@@ -505,6 +537,7 @@ class DataManager:
         reclaimed_bytes = 0
 
         affected_dirs: Set[Path] = set()
+        preview_target_paths = set(preview.get("target_paths", []))
 
         for f in target_files:
             try:
@@ -515,12 +548,28 @@ class DataManager:
                     continue
 
                 res = self.validate_path(f)
-                if res.is_file():
+                rel_path = res.relative_to(self.root_dir).as_posix()
+
+                # Verify path was included in approved preview (preview tampering defense)
+                if preview_target_paths and rel_path not in preview_target_paths:
+                    failed_deletions.append({
+                        "path": str(f),
+                        "error": "Safety violation: Path was not included in approved deletion preview."
+                    })
+                    continue
+
+                if Path(f).is_symlink():
+                    # Unlink the symlink itself rather than following to target
+                    Path(f).unlink()
+                    deleted_paths.append(rel_path)
+                elif res.is_file():
                     sz = res.stat().st_size
                     res.unlink()
                     reclaimed_bytes += sz
-                    deleted_paths.append(res.relative_to(self.root_dir).as_posix())
+                    deleted_paths.append(rel_path)
                     affected_dirs.add(res.parent)
+                else:
+                    failed_deletions.append({"path": str(f), "error": "Target is not a regular file or does not exist."})
             except Exception as e:
                 failed_deletions.append({"path": str(f), "error": str(e)})
 
