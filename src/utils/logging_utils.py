@@ -1,5 +1,5 @@
 """
-Standardized logging utilities for APEXGRID Motorsport Intelligence Platform.
+Standardized logging utilities for ApexGrid Motorsport Intelligence Platform.
 """
 
 import logging

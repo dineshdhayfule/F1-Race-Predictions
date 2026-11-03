@@ -2,7 +2,7 @@
 Persistent Deletion Audit Logger
 ================================
 Maintains an append-only, immutable audit trail of all data deletion operations
-performed within APEXGRID Motorsport Intelligence Platform.
+performed within ApexGrid Motorsport Intelligence Platform.
 
 Audit log is stored at: logs/deletion_audit.jsonl
 Audit records are permanently protected from deletion.

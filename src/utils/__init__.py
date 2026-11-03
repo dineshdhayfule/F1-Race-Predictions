@@ -1,1 +1,1 @@
-"""Utility modules for APEXGRID Motorsport Intelligence Platform."""
+"""Utility modules for ApexGrid Motorsport Intelligence Platform."""

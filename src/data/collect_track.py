@@ -129,7 +129,7 @@ def save_practice_laps(session, target_path: Path, force: bool = False):
 def collect_track_data(track_id: str, year: int = 2026, force: bool = False) -> dict:
     """
     Collects race and qualifying session data for a specific Grand Prix track.
-    Follows strict APEXGRID platform rules:
+    Follows strict ApexGrid platform rules:
       - Qualifying
       - Race
       - Sprint Qualifying / Shootout (if sprint weekend)

@@ -1,5 +1,5 @@
 # ==============================================================================
-# APEXGRID - Motorsport Intelligence & Race Prediction Dependencies
+# ApexGrid - Motorsport Intelligence & Race Prediction Dependencies
 # Tagline: Predicting the Race Beyond the Grid
 # Python >= 3.10
 # ==============================================================================

@@ -47,7 +47,7 @@ def print_banner(season: int = 2026, status_text: str = "Motorsport Intelligence
     width = 68
     border = "=" * width
     print(Colors.CYAN + border + Colors.RESET)
-    print(Colors.BOLD + Colors.WHITE + "             APEXGRID".center(width) + Colors.RESET)
+    print(Colors.BOLD + Colors.WHITE + "             ApexGrid".center(width) + Colors.RESET)
     print(Colors.CYAN + "       Predicting the Race Beyond the Grid".center(width) + Colors.RESET)
     print(Colors.CYAN + border + Colors.RESET)
     print(f" Season: {Colors.BOLD}{season}{Colors.RESET} | Status: {Colors.GREEN}{status_text}{Colors.RESET}")

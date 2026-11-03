@@ -1,5 +1,5 @@
 """
-Interactive Terminal Menu for APEXGRID — Motorsport Intelligence & Race Prediction Platform.
+Interactive Terminal Menu for ApexGrid — Motorsport Intelligence & Race Prediction Platform.
 Predicting the Race Beyond the Grid.
 Provides complete guided workflows for:
 1. Predict a Race
@@ -178,7 +178,7 @@ class InteractiveMenu:
                 choice = prompt_choice("Enter your choice", ["1", "2", "3", "4", "5", "6", "7", "0"], default="1")
 
                 if choice == "0":
-                    print("\nExiting APEXGRID. Goodbye!\n")
+                    print("\nExiting ApexGrid. Goodbye!\n")
                     sys.exit(0)
                 elif choice == "1":
                     self.menu_predict_race()

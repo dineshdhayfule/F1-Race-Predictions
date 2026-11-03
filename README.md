@@ -1,4 +1,4 @@
-# APEXGRID
+# ApexGrid
 
 > **Predicting the Race Beyond the Grid.**  
 > *An ML-powered motorsport intelligence and race prediction platform.*
@@ -7,9 +7,9 @@
 
 ## Overview
 
-**APEXGRID** is a modern, configuration-driven machine learning and Monte Carlo simulation platform engineered for Formula 1 performance analytics and Grand Prix outcome forecasting. Designed from first principles to eliminate hardcoded circuit rules, APEXGRID unifies multi-stage telemetry ingestion, non-linear tire degradation modeling, pit-stop strategy simulation, weather intelligence, safety-car hazard modeling, and stochastic race simulations into an integrated motorsport prediction pipeline.
+**ApexGrid** is a modern, configuration-driven machine learning and Monte Carlo simulation platform engineered for Formula 1 performance analytics and Grand Prix outcome forecasting. Designed from first principles to eliminate hardcoded circuit rules, ApexGrid unifies multi-stage telemetry ingestion, non-linear tire degradation modeling, pit-stop strategy simulation, weather intelligence, safety-car hazard modeling, and stochastic race simulations into an integrated motorsport prediction pipeline.
 
-APEXGRID bridges the gap between raw track telemetry and probabilistic race forecasts, predicting finishing distributions, win probabilities, podium chances, and points finishes across the entire 23-circuit championship calendar.
+ApexGrid bridges the gap between raw track telemetry and probabilistic race forecasts, predicting finishing distributions, win probabilities, podium chances, and points finishes across the entire 23-circuit championship calendar.
 
 ---
 
@@ -17,7 +17,7 @@ APEXGRID bridges the gap between raw track telemetry and probabilistic race fore
 
 ```
                                   +-------------------------------------------------------+
-                                  |                       APEXGRID                        |
+                                  |                       ApexGrid                        |
                                   |         Predicting the Race Beyond the Grid           |
                                   +-------------------------------------------------------+
                                                               |
@@ -72,7 +72,7 @@ Chronological information boundaries enforce realistic data availability across 
 - `post_race`: Post-race evaluation and validation against official classification.
 
 ### 3. Integrated Physics & Strategic Simulation Subsystems
-APEXGRID incorporates five specialized analytical models:
+ApexGrid incorporates five specialized analytical models:
 1. **Race Pace Intelligence (`src/features/race_pace.py`):** Filters in/out laps and short runs, corrects for fuel-load lap time decay ($0.035\text{s}/\text{lap}$), and derives clean-air long-run pace differentials.
 2. **Tire Degradation Modeling (`src/features/tire_degradation.py`):** Models non-linear exponential tire wear ($\Delta t = \alpha \cdot L^\beta$) across Soft, Medium, Hard, Intermediate, and Wet compounds, calculating thermal degradation slopes and cliff laps.
 3. **Pit Stop Strategy Simulator (`src/simulation/strategy_simulator.py`):** Evaluates 1-stop, 2-stop, and 3-stop strategies using track-specific pit-loss seconds from [`config/strategy_config.json`](config/strategy_config.json) and strictly enforces FIA Article 30.5 (two distinct dry-weather compounds mandatory in dry races).
@@ -191,7 +191,7 @@ f1-race-prediction/
 │   ├── baku/                      # Baku Grand Prix baseline reference fixtures
 │   └── sepang/                    # Sepang Grand Prix baseline reference fixtures
 ├── reports/                       # Formal engineering audits and verification documentation
-│   ├── APEXGRID_REBRANDING_REPORT.md
+│   ├── ApexGrid_REBRANDING_REPORT.md
 │   ├── FINAL_INDEPENDENT_VERIFICATION.md
 │   └── PRIORITY_REMEDIATION_REPORT.md
 ├── src/
@@ -225,7 +225,7 @@ f1-race-prediction/
 │       ├── driver_mapping.py      # Driver normalization and course vehicle filter
 │       └── logging_utils.py       # Standardized logging
 ├── tests/                         # 256 automated unit, integration, and regression tests
-├── main.py                        # APEXGRID master CLI entrypoint
+├── main.py                        # ApexGrid master CLI entrypoint
 ├── pytest.ini                     # Pytest configuration
 ├── requirements.txt               # Production dependencies
 └── README.md                      # Project documentation
@@ -335,7 +335,7 @@ python main.py clean --target cache --force
 
 ## Testing & Quality Assurance
 
-APEXGRID maintains a comprehensive suite of **256 automated tests** across 29 test files:
+ApexGrid maintains a comprehensive suite of **256 automated tests** across 29 test files:
 
 ```bash
 # Run the entire test suite
@@ -349,7 +349,7 @@ pytest tests/test_five_capabilities.py
 ```
 
 Audit documentation and verification reports:
-- [`reports/APEXGRID_REBRANDING_REPORT.md`](reports/APEXGRID_REBRANDING_REPORT.md): Rebranding execution and repository audit report.
+- [`reports/ApexGrid_REBRANDING_REPORT.md`](reports/ApexGrid_REBRANDING_REPORT.md): Rebranding execution and repository audit report.
 - [`reports/PRIORITY_REMEDIATION_REPORT.md`](reports/PRIORITY_REMEDIATION_REPORT.md): Core remediation report (sprint anti-leakage, canonical resolution, entrant integrity, COTA ingestion).
 - [`reports/FINAL_INDEPENDENT_VERIFICATION.md`](reports/FINAL_INDEPENDENT_VERIFICATION.md): Independent verification and regression audit.
 

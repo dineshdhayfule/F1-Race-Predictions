@@ -1,8 +1,8 @@
 """
-APEXGRID — Master CLI Entrypoint
+ApexGrid — Master CLI Entrypoint
 ================================
 Predicting the Race Beyond the Grid.
-Unified command-line interface for APEXGRID motorsport intelligence and race predictions.
+Unified command-line interface for ApexGrid motorsport intelligence and race predictions.
 
 Commands:
     predict         Run end-to-end prediction pipeline for a circuit
@@ -597,7 +597,7 @@ def cmd_clean(args, parser=None):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="APEXGRID - Predicting the Race Beyond the Grid (Motorsport Intelligence & Race Prediction Platform)",
+        description="ApexGrid - Predicting the Race Beyond the Grid (Motorsport Intelligence & Race Prediction Platform)",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     subparsers = parser.add_subparsers(dest="command", required=False)
