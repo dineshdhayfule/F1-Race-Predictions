@@ -204,7 +204,14 @@ class ModelEvaluator:
             best_w_ridge = match.get("ridge_weight", 0.0)
             best_name = match["model_name"]
             best_mae = match["mae"]
-            selected_residuals = np.array(rf_residuals if best_w_rf >= 0.5 else xgb_residuals)
+            if best_w_ridge >= 0.5:
+                selected_residuals = np.array(ridge_residuals)
+            elif match.get("ridge_weight", 0.0) > 0.2:
+                selected_residuals = np.array(multi_residuals)
+            elif best_w_rf >= 0.5:
+                selected_residuals = np.array(rf_residuals)
+            else:
+                selected_residuals = np.array(xgb_residuals)
             empirical_dnf_rate = float(training_df["driver_dnf_rate"].mean()) if "driver_dnf_rate" in training_df.columns else 0.158
 
             custom_mae = None
@@ -407,7 +414,14 @@ class ModelEvaluator:
         best_name = best_cfg["model_name"]
         best_mae = best_cfg["mae"]
 
-        selected_residuals = np.array(rf_residuals if best_w_rf >= 0.5 else xgb_residuals)
+        if best_w_ridge >= 0.5:
+            selected_residuals = np.array(ridge_residuals)
+        elif best_cfg.get("ridge_weight", 0.0) > 0.2:
+            selected_residuals = np.array(multi_residuals)
+        elif best_w_rf >= 0.5:
+            selected_residuals = np.array(rf_residuals)
+        else:
+            selected_residuals = np.array(xgb_residuals)
         empirical_dnf_rate = float(training_df["driver_dnf_rate"].mean()) if "driver_dnf_rate" in training_df.columns else 0.158
         logger.info(f"Dynamic walk-forward selection winner: {best_name} (MAE={best_mae:.4f})")
 

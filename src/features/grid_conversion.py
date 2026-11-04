@@ -6,8 +6,9 @@ using grid buckets and empirical Bayes shrinkage.
 
 Enforces:
 1. Strict chronological cutoff: Round r only sees rounds < r.
-2. DNF coordination: Computes classified/running conversion to prevent
-   double-counting stochastic incident attrition in Monte Carlo.
+2. Classified finish isolation: Computes classified/running conversion to prevent
+   double-counting stochastic incident attrition in Monte Carlo. Only FINISHED
+   records enter running finishes; RETIRED, DNS, DSQ, NC, and UNKNOWN are excluded.
 3. Bucket grouping: P1-2 (Front Row), P3-5 (Top 5), P6-10 (Points),
    P11-16 (Midfield), P17-22 (Backmarkers) to eliminate small-sample noise.
 """
@@ -16,7 +17,7 @@ from typing import Dict, Any, Optional
 import numpy as np
 import pandas as pd
 
-from src.features.season_features import is_dnf
+from src.features.season_features import is_dnf, is_classified_finish
 
 
 GRID_BUCKETS = {
@@ -83,11 +84,24 @@ def compute_grid_conversion_map(
         return conversion_map
 
     df = historical_races_df.copy()
+
+    # Explicit classified finish filter (strictly includes only FINISHED records)
+    if "is_classified" not in df.columns:
+        if "Status" in df.columns:
+            df["is_classified"] = df["Status"].apply(is_classified_finish)
+        elif "is_dnf" in df.columns:
+            # Legacy fallback: when only precomputed is_dnf is present without Status column
+            df["is_classified"] = ~df["is_dnf"].astype(bool)
+        else:
+            # Fallback when neither Status nor is_dnf is present
+            df["is_classified"] = True
+
+    # Maintain backward compatibility if callers inspect is_dnf column
     if "is_dnf" not in df.columns:
         if "Status" in df.columns:
             df["is_dnf"] = df["Status"].apply(is_dnf)
         else:
-            df["is_dnf"] = False
+            df["is_dnf"] = ~df["is_classified"]
 
     df["GridPosition"] = pd.to_numeric(df["GridPosition"], errors="coerce")
     df["Position"] = pd.to_numeric(df["Position"], errors="coerce")
@@ -104,10 +118,11 @@ def compute_grid_conversion_map(
                 "count": 0.0,
             }
         else:
-            # Running/classified finish (coordinating with Monte Carlo DNF modeling)
-            running_finishes = b_df.loc[~b_df["is_dnf"], "Position"]
+            # Running/classified finish (strictly excluding RETIRED, DNS, DSQ, NC, UNKNOWN)
+            running_finishes = b_df.loc[b_df["is_classified"], "Position"]
             if running_finishes.empty:
-                running_mean = float(b_df["Position"].mean())
+                valid_pos = b_df["Position"].dropna()
+                running_mean = float(valid_pos.mean()) if not valid_pos.empty else (g_min + g_max) / 2.0
             else:
                 running_mean = float(running_finishes.mean())
 

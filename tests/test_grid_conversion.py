@@ -103,6 +103,84 @@ def test_dnf_coordination_excludes_terminal_retirements():
     )
 
 
+def test_grid_conversion_mandatory_regression_scenario():
+    """
+    MANDATORY REGRESSION TEST:
+    Historical grid position 1:
+      - Round 1: Finished P1
+      - Round 2: Disqualified P20 (DSQ)
+      - Round 3: Did Not Start P22 (DNS)
+    Expected classified running mean: 1.0.
+    The previous incorrect implementation returned 14.333 because ~is_dnf permitted DNS and DSQ.
+    """
+    df = pd.DataFrame([
+        {"Round": 1, "GridPosition": 1, "Position": 1, "Status": "Finished"},
+        {"Round": 2, "GridPosition": 1, "Position": 20, "Status": "Disqualified"},
+        {"Round": 3, "GridPosition": 1, "Position": 22, "Status": "Did not start"},
+    ])
+    cmap = compute_grid_conversion_map(df, expected_grid_size=22, shrinkage_m=0.0)
+    assert cmap[1]["expected_grid_finish"] == 1.0, (
+        f"Expected classified running finish 1.0, got {cmap[1]['expected_grid_finish']}"
+    )
+
+
+def test_grid_conversion_excludes_all_non_finish_categories():
+    """
+    Verifies that running finishes strictly include only FINISHED records and exclude
+    RETIRED, DNS, DSQ, NC, and UNKNOWN statuses even when numeric Position values are present.
+    """
+    df = pd.DataFrame([
+        {"Round": 1, "GridPosition": 1, "Position": 1, "Status": "Finished"},       # FINISHED -> include (P1)
+        {"Round": 2, "GridPosition": 1, "Position": 3, "Status": "+1 Lap"},          # FINISHED -> include (P3)
+        {"Round": 3, "GridPosition": 1, "Position": 20, "Status": "Engine"},         # RETIRED -> exclude
+        {"Round": 4, "GridPosition": 1, "Position": 21, "Status": "Accident"},       # RETIRED -> exclude
+        {"Round": 5, "GridPosition": 1, "Position": 18, "Status": "Did not start"},  # DNS -> exclude
+        {"Round": 6, "GridPosition": 1, "Position": 19, "Status": "DNS"},            # DNS -> exclude
+        {"Round": 7, "GridPosition": 1, "Position": 22, "Status": "Disqualified"},   # DSQ -> exclude
+        {"Round": 8, "GridPosition": 1, "Position": 21, "Status": "DSQ"},            # DSQ -> exclude
+        {"Round": 9, "GridPosition": 1, "Position": 17, "Status": "Not classified"}, # NC -> exclude
+        {"Round": 10, "GridPosition": 1, "Position": 16, "Status": "NC"},            # NC -> exclude
+        {"Round": 11, "GridPosition": 1, "Position": 15, "Status": "UnknownXYZ"},    # UNKNOWN -> exclude
+        {"Round": 12, "GridPosition": 1, "Position": 14, "Status": None},            # UNKNOWN -> exclude
+    ])
+
+    cmap = compute_grid_conversion_map(df, expected_grid_size=22, shrinkage_m=0.0)
+    # Only P1 and P3 are valid classified running finishes -> mean = (1 + 3) / 2 = 2.0
+    assert cmap[1]["expected_grid_finish"] == 2.0, (
+        f"Expected classified running mean 2.0, got {cmap[1]['expected_grid_finish']}"
+    )
+
+
+def test_grid_conversion_missing_status_column_safe_fallback():
+    """When historical DataFrame lacks 'Status' column, falls back safely without error."""
+    df = pd.DataFrame([
+        {"Round": 1, "GridPosition": 1, "Position": 2},
+        {"Round": 2, "GridPosition": 1, "Position": 4},
+    ])
+    cmap = compute_grid_conversion_map(df, expected_grid_size=22, shrinkage_m=0.0)
+    assert cmap[1]["expected_grid_finish"] == 3.0
+
+
+def test_grid_conversion_legacy_precomputed_is_dnf():
+    """When historical DataFrame has only precomputed 'is_dnf', respects ~is_dnf."""
+    df = pd.DataFrame([
+        {"Round": 1, "GridPosition": 1, "Position": 2, "is_dnf": False},
+        {"Round": 2, "GridPosition": 1, "Position": 20, "is_dnf": True},
+    ])
+    cmap = compute_grid_conversion_map(df, expected_grid_size=22, shrinkage_m=0.0)
+    assert cmap[1]["expected_grid_finish"] == 2.0
+
+
+def test_grid_conversion_bucket_all_non_finishes_safe_fallback():
+    """When a grid bucket contains only non-finishes, falls back safely to Position mean or midpoint."""
+    df = pd.DataFrame([
+        {"Round": 1, "GridPosition": 1, "Position": 20, "Status": "Accident"},
+        {"Round": 2, "GridPosition": 1, "Position": 22, "Status": "Engine"},
+    ])
+    cmap = compute_grid_conversion_map(df, expected_grid_size=22, shrinkage_m=0.0)
+    assert 1.0 <= cmap[1]["expected_grid_finish"] <= 22.0
+
+
 def test_get_conversion_features_helper():
     cmap = {
         1: {"expected_grid_finish": 1.5, "grid_retention_prob": 0.65},

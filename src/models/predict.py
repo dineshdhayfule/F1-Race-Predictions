@@ -137,12 +137,26 @@ class Predictor:
         elif mode == "fixed_xgb" or mode == "xgb":
             ml_pred = xgb_pred
         elif rf_weight is not None and xgb_weight is not None:
-            w_rf = float(rf_weight)
-            w_xgb = float(xgb_weight)
-            w_ridge = float(ridge_weight) if ridge_weight is not None else 0.0
+            try:
+                w_rf = float(rf_weight)
+                w_xgb = float(xgb_weight)
+                w_ridge = float(ridge_weight) if ridge_weight is not None else 0.0
+                if np.isnan(w_rf) or w_rf < 0:
+                    w_rf = 0.0
+                if np.isnan(w_xgb) or w_xgb < 0:
+                    w_xgb = 0.0
+                if np.isnan(w_ridge) or w_ridge < 0:
+                    w_ridge = 0.0
+            except (ValueError, TypeError):
+                w_rf, w_xgb, w_ridge = 0.60, 0.40, 0.0
+
             total_w = w_rf + w_xgb + w_ridge
-            if total_w > 0:
-                w_rf, w_xgb, w_ridge = w_rf / total_w, w_xgb / total_w, w_ridge / total_w
+            if total_w <= 1e-6:
+                logger.warning("Deterministic weights sum to 0; falling back to 0.60 RF / 0.40 XGB")
+                w_rf, w_xgb, w_ridge = 0.60, 0.40, 0.0
+                total_w = 1.0
+
+            w_rf, w_xgb, w_ridge = w_rf / total_w, w_xgb / total_w, w_ridge / total_w
             ml_pred = w_rf * rf_pred + w_xgb * xgb_pred + w_ridge * ridge_pred
         elif mode == "fixed_ensemble":
             w_rf = float(sel_cfg.get("fixed_rf_weight", 0.6))

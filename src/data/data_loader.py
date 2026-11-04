@@ -250,11 +250,18 @@ class DataLoader:
         if not season_dir.exists():
             return pd.DataFrame(), pd.DataFrame()
 
-        # Find all round race/qualifying files
+        # Find all round race/qualifying files (strictly excluding sprint races)
         race_files = sorted(season_dir.glob(f"{year}_round_*_race.csv"))
         for rf in race_files:
+            name = rf.stem
+            # Strict DEF-02 protection: exclude sprint race files from grand prix race loading
+            if "_sprint_" in name or name.endswith("_sprint_race") or name.endswith("_sr") or "sprint" in name.lower():
+                continue
+            parts = name.split("_")
+            if len(parts) != 4 or parts[1] != "round" or parts[3] != "race":
+                continue
             try:
-                r_num = int(rf.stem.split("_")[2])
+                r_num = int(parts[2])
             except (IndexError, ValueError):
                 continue
 

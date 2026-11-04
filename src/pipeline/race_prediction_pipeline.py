@@ -355,12 +355,49 @@ class RacePredictionPipeline:
         else:
             mode = sel_cfg.get("mode", "fixed_ensemble")
             if mode == "walk_forward_auto":
-                selected_rf_weight = eval_results["best_w_rf"]
-                selected_xgb_weight = eval_results["best_w_xgb"]
-                selected_model_name = eval_results["best_model_name"]
-                selected_mae = eval_results["best_mae"]
+                raw_rf = eval_results.get("best_w_rf")
+                raw_xgb = eval_results.get("best_w_xgb")
+                raw_ridge = eval_results.get("best_w_ridge", 0.0)
+
+                # Robust extraction and validation of weights
+                try:
+                    w_rf = float(raw_rf) if raw_rf is not None else 0.0
+                    w_xgb = float(raw_xgb) if raw_xgb is not None else 0.0
+                    w_ridge = float(raw_ridge) if raw_ridge is not None else 0.0
+                    if np.isnan(w_rf) or w_rf < 0:
+                        w_rf = 0.0
+                    if np.isnan(w_xgb) or w_xgb < 0:
+                        w_xgb = 0.0
+                    if np.isnan(w_ridge) or w_ridge < 0:
+                        w_ridge = 0.0
+                except (ValueError, TypeError):
+                    w_rf, w_xgb, w_ridge = 0.60, 0.40, 0.0
+
+                total_w = w_rf + w_xgb + w_ridge
+                if total_w < 1e-6:
+                    logger.warning("Auto-selected weights sum to zero or invalid. Falling back to default ensemble (60% RF / 40% XGB).")
+                    w_rf, w_xgb, w_ridge = 0.60, 0.40, 0.0
+                else:
+                    w_rf, w_xgb, w_ridge = w_rf / total_w, w_xgb / total_w, w_ridge / total_w
+
+                selected_rf_weight = w_rf
+                selected_xgb_weight = w_xgb
+                selected_ridge_weight = w_ridge
+                selected_model_name = eval_results.get("best_model_name", "Auto-Selected Model")
+                selected_mae = eval_results.get("best_mae", 0.0)
                 selection_method = "Chronological Walk-Forward Validation" if eval_results.get("validation_rounds") else "Architectural Default (Early Season)"
-                residuals = eval_results["selected_residuals"]
+
+                # Select matching residuals based on winning model
+                if selected_ridge_weight >= 0.5:
+                    residuals = eval_results.get("ridge_residuals", eval_results.get("selected_residuals"))
+                elif selected_ridge_weight > 0.2:
+                    residuals = eval_results.get("multi_residuals", eval_results.get("selected_residuals"))
+                elif selected_rf_weight >= 0.5:
+                    residuals = eval_results.get("rf_residuals", eval_results.get("selected_residuals"))
+                else:
+                    residuals = eval_results.get("xgb_residuals", eval_results.get("selected_residuals"))
+                if residuals is None:
+                    residuals = eval_results["selected_residuals"]
             elif mode == "fixed_rf":
                 selected_rf_weight, selected_xgb_weight = 1.0, 0.0
                 selected_model_name = "Random Forest (100%)"
