@@ -85,16 +85,21 @@ def compute_grid_conversion_map(
 
     df = historical_races_df.copy()
 
-    # Explicit classified finish filter (strictly includes only FINISHED records)
-    if "is_classified" not in df.columns:
-        if "Status" in df.columns:
-            df["is_classified"] = df["Status"].apply(is_classified_finish)
-        elif "is_dnf" in df.columns:
-            # Legacy fallback: when only precomputed is_dnf is present without Status column
-            df["is_classified"] = ~df["is_dnf"].astype(bool)
-        else:
-            # Fallback when neither Status nor is_dnf is present
-            df["is_classified"] = True
+    # Classification determination:
+    # Rule 1: Prefer canonical Status classification whenever available
+    if "Status" in df.columns:
+        df["is_classified"] = df["Status"].apply(is_classified_finish)
+    elif "is_classified" in df.columns:
+        # Explicit is_classified boolean column provided by caller
+        df["is_classified"] = df["is_classified"].astype(bool)
+    else:
+        # Conservative fallback: when neither Status nor is_classified is available,
+        # classification information is insufficient.
+        # We must NEVER silently classify unknown records as finished.
+        # Furthermore, if only legacy 'is_dnf' is present, ~is_dnf cannot be assumed
+        # to mean classified finish because DNS, DSQ, NC, or UNKNOWN records may have is_dnf == False.
+        # Therefore, treat all unverified records conservatively as unclassified (is_classified = False).
+        df["is_classified"] = False
 
     # Maintain backward compatibility if callers inspect is_dnf column
     if "is_dnf" not in df.columns:
@@ -121,8 +126,9 @@ def compute_grid_conversion_map(
             # Running/classified finish (strictly excluding RETIRED, DNS, DSQ, NC, UNKNOWN)
             running_finishes = b_df.loc[b_df["is_classified"], "Position"]
             if running_finishes.empty:
-                valid_pos = b_df["Position"].dropna()
-                running_mean = float(valid_pos.mean()) if not valid_pos.empty else (g_min + g_max) / 2.0
+                # Conservative fallback: no confirmed classified finishes exist in this bucket.
+                # Revert to the neutral bucket midpoint (never average placeholder or unclassified positions).
+                running_mean = (g_min + g_max) / 2.0
             else:
                 running_mean = float(running_finishes.mean())
 

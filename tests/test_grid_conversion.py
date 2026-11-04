@@ -152,33 +152,81 @@ def test_grid_conversion_excludes_all_non_finish_categories():
 
 
 def test_grid_conversion_missing_status_column_safe_fallback():
-    """When historical DataFrame lacks 'Status' column, falls back safely without error."""
+    """
+    When historical DataFrame lacks 'Status' and 'is_classified', classification information
+    is insufficient. Does not silently assume unverified records are finished.
+    Safely falls back to neutral bucket midpoint prior (1.5 for front row) without error.
+    """
     df = pd.DataFrame([
         {"Round": 1, "GridPosition": 1, "Position": 2},
         {"Round": 2, "GridPosition": 1, "Position": 4},
     ])
     cmap = compute_grid_conversion_map(df, expected_grid_size=22, shrinkage_m=0.0)
-    assert cmap[1]["expected_grid_finish"] == 3.0
+    # Conservative fallback: defaults safely to front-row bucket midpoint (1+2)/2 = 1.5
+    assert cmap[1]["expected_grid_finish"] == 1.5
+    assert 0.0 <= cmap[1]["grid_retention_prob"] <= 1.0
 
 
-def test_grid_conversion_legacy_precomputed_is_dnf():
-    """When historical DataFrame has only precomputed 'is_dnf', respects ~is_dnf."""
+def test_grid_conversion_only_legacy_is_dnf_does_not_assume_classified():
+    """
+    When historical DataFrame has only legacy 'is_dnf' (without Status or is_classified),
+    does NOT assume ~is_dnf means classified finish, because ~is_dnf could be DNS, DSQ, NC, or UNKNOWN.
+    Conservative fallback defaults safely to front-row bucket midpoint (1.5).
+    """
     df = pd.DataFrame([
         {"Round": 1, "GridPosition": 1, "Position": 2, "is_dnf": False},
         {"Round": 2, "GridPosition": 1, "Position": 20, "is_dnf": True},
+    ])
+    cmap = compute_grid_conversion_map(df, expected_grid_size=22, shrinkage_m=0.0)
+    assert cmap[1]["expected_grid_finish"] == 1.5
+
+
+def test_grid_conversion_only_is_classified_present():
+    """
+    When 'Status' is absent but 'is_classified' is explicitly provided, respects the boolean flag.
+    """
+    df = pd.DataFrame([
+        {"Round": 1, "GridPosition": 1, "Position": 2, "is_classified": True},
+        {"Round": 2, "GridPosition": 1, "Position": 20, "is_classified": False},
     ])
     cmap = compute_grid_conversion_map(df, expected_grid_size=22, shrinkage_m=0.0)
     assert cmap[1]["expected_grid_finish"] == 2.0
 
 
 def test_grid_conversion_bucket_all_non_finishes_safe_fallback():
-    """When a grid bucket contains only non-finishes, falls back safely to Position mean or midpoint."""
+    """
+    When a grid bucket contains only non-finishes, falls back safely to neutral bucket midpoint (1.5),
+    never averaging non-finish placeholder positions (e.g. 20, 22).
+    """
     df = pd.DataFrame([
         {"Round": 1, "GridPosition": 1, "Position": 20, "Status": "Accident"},
         {"Round": 2, "GridPosition": 1, "Position": 22, "Status": "Engine"},
     ])
     cmap = compute_grid_conversion_map(df, expected_grid_size=22, shrinkage_m=0.0)
-    assert 1.0 <= cmap[1]["expected_grid_finish"] <= 22.0
+    assert cmap[1]["expected_grid_finish"] == 1.5
+
+
+def test_grid_conversion_all_six_status_categories_isolation():
+    """
+    Comprehensive test across all six status categories:
+    FINISHED (P1) -> INCLUDED
+    RETIRED (P20) -> EXCLUDED
+    DNS (P22) -> EXCLUDED
+    DSQ (P21) -> EXCLUDED
+    NC (P19) -> EXCLUDED
+    UNKNOWN (P18) -> EXCLUDED
+    Only P1 is a valid classified finish. Mean must be exactly 1.0.
+    """
+    df = pd.DataFrame([
+        {"Round": 1, "GridPosition": 1, "Position": 1, "Status": "Finished"},
+        {"Round": 2, "GridPosition": 1, "Position": 20, "Status": "Retired"},
+        {"Round": 3, "GridPosition": 1, "Position": 22, "Status": "Did not start"},
+        {"Round": 4, "GridPosition": 1, "Position": 21, "Status": "Disqualified"},
+        {"Round": 5, "GridPosition": 1, "Position": 19, "Status": "Not classified"},
+        {"Round": 6, "GridPosition": 1, "Position": 18, "Status": "UnknownXYZ"},
+    ])
+    cmap = compute_grid_conversion_map(df, expected_grid_size=22, shrinkage_m=0.0)
+    assert cmap[1]["expected_grid_finish"] == 1.0
 
 
 def test_get_conversion_features_helper():
