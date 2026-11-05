@@ -117,6 +117,9 @@ class ModelTrainer:
             learning_rate=xgb_cfg.get("learning_rate", 0.03),
             subsample=xgb_cfg.get("subsample", 0.8),
             colsample_bytree=xgb_cfg.get("colsample_bytree", 0.8),
+            min_child_weight=xgb_cfg.get("min_child_weight", 1),
+            reg_alpha=xgb_cfg.get("reg_alpha", 0.0),
+            reg_lambda=xgb_cfg.get("reg_lambda", 1.0),
             random_state=self.random_state,
             objective="reg:squarederror",
         )
@@ -125,7 +128,7 @@ class ModelTrainer:
 
         # Fit Ridge Regression
         self.ridge_model = self.fit_ridge(X_imputed, y)
-        logger.info(f"Fitting Ridge Regression (alpha={self.model_cfg.get('ridge', {}).get('alpha', 40.0)}) on {len(X_imputed)} samples...")
+        logger.info(f"Fitting Ridge Regression (alpha={self.model_cfg.get('ridge', {}).get('alpha', 100.0)}) on {len(X_imputed)} samples...")
 
         if return_ridge:
             return imputer, rf, xgb_model, self.ridge_model, np.array(self.feature_cols)

@@ -77,6 +77,7 @@ class RacePredictionPipeline:
         rf_weight: Optional[float] = None,
         xgb_weight: Optional[float] = None,
         capabilities: Optional[Dict[str, bool]] = None,
+        n_simulations: Optional[int] = None,
     ) -> Dict[str, Any]:
         """
         Executes end-to-end race prediction for the specified track.
@@ -345,8 +346,8 @@ class RacePredictionPipeline:
                 if residuals is None:
                     residuals = eval_results["selected_residuals"]
             else:
-                selected_rf_weight = float(sel_cfg.get("fixed_rf_weight", 0.6))
-                selected_xgb_weight = float(sel_cfg.get("fixed_xgb_weight", 0.4))
+                selected_rf_weight = 0.60
+                selected_xgb_weight = 0.40
                 selected_model_name = "Hybrid Ensemble (60% RF / 40% XGB)"
                 selection_method = "Fixed Configuration (Manual Ensemble)"
                 match = next((x for x in eval_results["ensemble_comparisons"] if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
@@ -423,8 +424,8 @@ class RacePredictionPipeline:
                 selection_method = "Fixed Configuration (Multi-Model Ensemble)"
                 residuals = eval_results.get("multi_residuals", eval_results["selected_residuals"])
             else:
-                selected_rf_weight = float(sel_cfg.get("fixed_rf_weight", 0.6))
-                selected_xgb_weight = float(sel_cfg.get("fixed_xgb_weight", 0.4))
+                selected_rf_weight = 0.60
+                selected_xgb_weight = 0.40
                 selected_model_name = "Hybrid Ensemble (60% RF / 40% XGB)"
                 selection_method = "Fixed Configuration (Manual Ensemble)"
                 match = next((x for x in eval_results["ensemble_comparisons"] if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
@@ -455,13 +456,14 @@ class RacePredictionPipeline:
             model_mode=model_choice,
         )
 
-        # 10. Monte Carlo Simulation (25,000 iterations)
+        # 10. Monte Carlo Simulation
         sim_results, sim_meta = self.simulator.simulate(
             target_df=target_features,
             deterministic_scores=blended_scores,
             residuals=residuals,
             empirical_dnf_rate=empirical_dnf,
             circuit_key=track_key,
+            n_simulations=n_simulations,
         )
         sim_meta["model"] = model_choice
         sim_meta["selected_model"] = selected_model_name

@@ -119,6 +119,9 @@ class ModelEvaluator:
                 learning_rate=xgb_cfg.get("learning_rate", 0.03),
                 subsample=xgb_cfg.get("subsample", 0.8),
                 colsample_bytree=xgb_cfg.get("colsample_bytree", 0.8),
+                min_child_weight=xgb_cfg.get("min_child_weight", 1),
+                reg_alpha=xgb_cfg.get("reg_alpha", 0.0),
+                reg_lambda=xgb_cfg.get("reg_lambda", 1.0),
                 random_state=self.random_state,
                 objective="reg:squarederror",
             )
@@ -127,7 +130,7 @@ class ModelEvaluator:
 
             # Ridge Regression
             ridge_cfg = self.model_cfg.get("ridge", {})
-            alpha = float(ridge_cfg.get("alpha", 40.0))
+            alpha = float(ridge_cfg.get("alpha", 100.0))
             ridge = Pipeline([
                 ("scaler", StandardScaler()),
                 ("ridge", Ridge(alpha=alpha, random_state=self.random_state))
@@ -314,6 +317,9 @@ class ModelEvaluator:
                 learning_rate=xgb_cfg.get("learning_rate", 0.03),
                 subsample=xgb_cfg.get("subsample", 0.8),
                 colsample_bytree=xgb_cfg.get("colsample_bytree", 0.8),
+                min_child_weight=xgb_cfg.get("min_child_weight", 1),
+                reg_alpha=xgb_cfg.get("reg_alpha", 0.0),
+                reg_lambda=xgb_cfg.get("reg_lambda", 1.0),
                 random_state=self.random_state,
                 objective="reg:squarederror",
             )
@@ -322,7 +328,7 @@ class ModelEvaluator:
 
             # Ridge Regression
             ridge_cfg = self.model_cfg.get("ridge", {})
-            alpha = ridge_cfg.get("alpha", 40.0)
+            alpha = float(ridge_cfg.get("alpha", 100.0))
             ridge_pipe = Pipeline([
                 ("scaler", StandardScaler()),
                 ("ridge", Ridge(alpha=alpha, random_state=self.random_state)),

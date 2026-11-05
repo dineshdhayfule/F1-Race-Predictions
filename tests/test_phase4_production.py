@@ -65,7 +65,7 @@ def test_model_trainer_fit_ridge(sample_feature_data, model_config):
     assert isinstance(ridge_pipe, Pipeline)
     assert "scaler" in ridge_pipe.named_steps
     assert isinstance(ridge_pipe.named_steps["ridge"], Ridge)
-    assert ridge_pipe.named_steps["ridge"].alpha == 40.0
+    assert ridge_pipe.named_steps["ridge"].alpha == 100.0
 
 
 def test_model_trainer_fit_backward_compatibility(sample_feature_data, model_config):
@@ -193,8 +193,13 @@ def test_feature_pruning_config_and_baseline_count():
     with open(cfg_path, "r", encoding="utf-8") as f:
         cfg = json.load(f)
     
-    # Baseline features must retain 37 features for full backward compatibility
-    assert len(cfg["features"]) == 37
+    # Promoted production features retain 40 validated features (Config 8)
+    assert len(cfg["features"]) == 40
+    assert "sprint_quali_pos" not in cfg["features"]
+    assert "is_pit_lane_start" in cfg["features"]
+    assert "long_run_pace_gap_pct" in cfg["features"]
+    assert "long_run_pace_rank" in cfg["features"]
+    assert "race_pace_consistency" in cfg["features"]
     assert "feature_pruning" in cfg
     assert "validated_pruned_features" in cfg["feature_pruning"]
     assert "sprint_quali_pos" in cfg["feature_pruning"]["validated_pruned_features"]

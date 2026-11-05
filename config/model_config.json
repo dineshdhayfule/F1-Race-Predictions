@@ -3,15 +3,21 @@
   "ewma_alpha": 0.3,
   "expected_grid_size": 22,
   "monte_carlo": {
-    "default_simulations": 25000,
+    "default_simulations": 10000,
+    "precision_simulations": 25000,
     "fallback_sigma": 2.85,
     "fallback_dnf_prob": 0.158,
     "incident_shock_scale": 12.0
   },
   "model_selection": {
-    "mode": "fixed_ensemble",
+    "mode": "multi_model",
     "fixed_rf_weight": 0.6,
-    "fixed_xgb_weight": 0.4
+    "fixed_xgb_weight": 0.4,
+    "promoted_ensemble": {
+      "rf_weight": 0.40,
+      "xgb_weight": 0.30,
+      "ridge_weight": 0.30
+    }
   },
   "blending": {
     "ml_weight": 0.65,
@@ -37,16 +43,16 @@
     }
   },
   "feature_pruning": {
-    "enabled": false,
+    "enabled": true,
     "validated_pruned_features": [
       "sprint_quali_pos"
     ]
   },
   "capabilities": {
-    "race_pace_intelligence": false,
+    "race_pace_intelligence": true,
     "tire_degradation_modeling": false,
     "pit_strategy_simulator": false,
-    "race_control_model": false,
+    "race_control_model": true,
     "weather_aware_prediction": false
   },
   "enhanced_features": [
@@ -108,12 +114,15 @@
     "team_points_rate",
     "team_avg_finish",
     "team_points",
-    "sprint_quali_pos",
     "sprint_finish_pos",
     "sprint_pos_delta",
     "teammate_quali_gap_pct",
     "teammate_grid_delta",
-    "driver_teammate_h2h_ratio"
+    "driver_teammate_h2h_ratio",
+    "is_pit_lane_start",
+    "long_run_pace_gap_pct",
+    "long_run_pace_rank",
+    "race_pace_consistency"
   ],
   "models": {
     "random_forest": {
@@ -123,16 +132,19 @@
       "n_jobs": -1
     },
     "xgboost": {
-      "n_estimators": 300,
-      "final_n_estimators": 400,
-      "max_depth": 4,
-      "learning_rate": 0.03,
+      "n_estimators": 250,
+      "final_n_estimators": 250,
+      "max_depth": 3,
+      "learning_rate": 0.015,
       "subsample": 0.8,
       "colsample_bytree": 0.8,
+      "min_child_weight": 2,
+      "reg_alpha": 1.0,
+      "reg_lambda": 2.0,
       "objective": "reg:squarederror"
     },
     "ridge": {
-      "alpha": 40.0,
+      "alpha": 100.0,
       "random_state": 42
     }
   }

@@ -116,6 +116,7 @@ def cmd_predict(args, parser=None):
             rf_weight=custom_rf,
             xgb_weight=custom_xgb,
             capabilities=caps,
+            n_simulations=getattr(args, "simulations", None),
         )
     except Exception as e:
         logger.error(f"Prediction failed: {e}", exc_info=True)
@@ -645,6 +646,12 @@ def main():
         type=int,
         default=10,
         help="Number of top finishing positions to display (default: 10)"
+    )
+    predict_parser.add_argument(
+        "--simulations",
+        type=int,
+        default=None,
+        help="Number of Monte Carlo simulations to run (e.g. 10000 default, 25000 publication mode; defaults to config setting)"
     )
     predict_parser.add_argument(
         "--debug",

@@ -46,6 +46,7 @@ class MonteCarloSimulator:
         residuals: Optional[np.ndarray] = None,
         empirical_dnf_rate: Optional[float] = None,
         circuit_key: Optional[str] = None,
+        n_simulations: Optional[int] = None,
     ) -> Tuple[pd.DataFrame, Dict[str, Any]]:
         """
         Executes Monte Carlo simulations incorporating strategic, race control, and weather factors.
@@ -62,12 +63,15 @@ class MonteCarloSimulator:
             Empirical season DNF rate.
         circuit_key : str, optional
             Target circuit identifier.
+        n_simulations : int, optional
+            Override draw count (e.g. 10000 default vs 25000 publication mode).
 
         Returns
         -------
         tuple of (simulation_results_df, simulation_metadata_dict)
         """
         rng = np.random.default_rng(self.random_state)
+        num_sims = int(n_simulations) if n_simulations is not None else self.n_simulations
 
         # Calibrate sigma using MAD (robust standard deviation) if residuals available
         if residuals is not None and len(residuals) > 0:
@@ -96,7 +100,7 @@ class MonteCarloSimulator:
             active_scores = deterministic_scores
 
         n = len(active_df)
-        sim_scores = np.empty((self.n_simulations, n))
+        sim_scores = np.empty((num_sims, n))
 
         # Extract circuit event probabilities for race control
         p_sc = float(active_df["p_safety_car"].iloc[0]) if "p_safety_car" in active_df.columns and pd.notna(active_df["p_safety_car"].iloc[0]) else 0.50
@@ -117,7 +121,7 @@ class MonteCarloSimulator:
             strat_time_loss = active_df["strategy_time_loss_sec"].fillna(0.0).values * 0.15
 
         # Vectorized batch simulation
-        for i in range(self.n_simulations):
+        for i in range(num_sims):
             iter_sigma = calibrated_sigma
             iter_dnf_prob = dnf_prob
             iter_scores = active_scores.copy()
@@ -296,7 +300,7 @@ class MonteCarloSimulator:
             result = active_result
 
         summary = {
-            "n_simulations": self.n_simulations,
+            "n_simulations": num_sims,
             "calibrated_sigma": round(calibrated_sigma, 4),
             "empirical_dnf_prob": round(dnf_prob, 4),
             "driver_count": len(result),
