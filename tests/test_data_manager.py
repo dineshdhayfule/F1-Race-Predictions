@@ -412,3 +412,214 @@ def test_interactive_menu_has_data_manager(synthetic_workspace):
     assert hasattr(menu, "data_manager")
     assert menu.data_manager.root_dir == ws
 
+
+# =============================================================================
+# 5. REGRESSION TESTS: CACHE CONFIRMATION & ISOLATION
+# =============================================================================
+
+def test_regression_test_a_all_season_cache_deletion(synthetic_workspace):
+    """Test A: All-season cache deletion requires no typed phrase and deletes with confirmed=True."""
+    ws, manager, _ = synthetic_workspace
+
+    caches = manager.discover_cache_data()
+    assert len(caches) >= 2
+
+    # In menu, op_label was "Delete Cached Data (All Seasons)"
+    preview = manager.build_deletion_preview(
+        caches,
+        operation_name="Delete Cached Data (All Seasons)",
+        operation_type="cache"
+    )
+
+    # Must NOT require typing "DELETE ALL GENERATED DATA"
+    assert preview["required_confirmation_phrase"] is None
+    assert preview["categories"] == {"Cache data": len(caches)}
+    assert preview["file_count"] == len(caches)
+
+    # Simple confirmation (Yes/No) executes successfully
+    res = manager.execute_deletion_plan(preview, confirmed=True)
+    assert res["status"] == "COMPLETED"
+    assert res["files_deleted_count"] == len(caches)
+
+    # All cache files are gone
+    for f in caches:
+        assert not f.exists()
+
+    # Core source and config remain
+    assert (ws / "src" / "main_code.py").exists()
+    assert (ws / "config" / "tracks.json").exists()
+
+
+def test_regression_test_b_single_season_cache_deletion(synthetic_workspace):
+    """Test B: Single-season cache deletion only targets selected season; preserves other seasons."""
+    ws, manager, _ = synthetic_workspace
+
+    # Add 2024 cache file alongside 2026
+    c2024 = ws / "data" / "cache" / "2024" / "session_2024.ff1"
+    c2024.parent.mkdir(parents=True, exist_ok=True)
+    c2024.write_text("cache 2024", encoding="utf-8")
+
+    caches_2026 = manager.discover_cache_data(year=2026)
+    assert len(caches_2026) == 2
+    assert all("2026" in p.as_posix() for p in caches_2026)
+
+    preview = manager.build_deletion_preview(
+        caches_2026,
+        operation_name="Delete Cached Data (2026)",
+        operation_type="cache"
+    )
+
+    assert preview["required_confirmation_phrase"] is None
+    assert preview["file_count"] == 2
+
+    res = manager.execute_deletion_plan(preview, confirmed=True)
+    assert res["status"] == "COMPLETED"
+    assert res["files_deleted_count"] == 2
+
+    # 2026 cache files removed
+    for f in caches_2026:
+        assert not f.exists()
+
+    # 2024 cache file preserved
+    assert c2024.exists()
+
+
+def test_regression_test_c_full_project_generated_data_deletion(synthetic_workspace):
+    """Test C: Full project deletion requires 'DELETE ALL GENERATED DATA' and rejects missing/wrong phrase."""
+    ws, manager, _ = synthetic_workspace
+
+    all_data = manager.discover_all_project_generated_data()
+    flat_targets = [f for flist in all_data.values() for f in flist]
+    assert len(flat_targets) > 0
+
+    preview = manager.build_deletion_preview(
+        flat_targets,
+        operation_name="Delete all project-generated data",
+        operation_type="all_generated_data"
+    )
+
+    # Must require exact confirmation phrase
+    assert preview["required_confirmation_phrase"] == "DELETE ALL GENERATED DATA"
+
+    # 1. Rejection without confirmation phrase
+    res_none = manager.execute_deletion_plan(preview, confirmed=True, confirmation_phrase=None)
+    assert res_none["status"] == "REJECTED"
+    assert res_none["files_deleted_count"] == 0
+
+    # 2. Rejection with incorrect confirmation phrase
+    res_wrong = manager.execute_deletion_plan(preview, confirmed=True, confirmation_phrase="yes")
+    assert res_wrong["status"] == "REJECTED"
+    assert res_wrong["files_deleted_count"] == 0
+
+    # Files must still exist
+    for f in flat_targets:
+        assert f.exists()
+
+    # 3. Successful execution with correct phrase
+    res_ok = manager.execute_deletion_plan(preview, confirmed=True, confirmation_phrase="DELETE ALL GENERATED DATA")
+    assert res_ok["status"] == "COMPLETED"
+    assert res_ok["files_deleted_count"] == len(flat_targets)
+
+
+def test_regression_test_d_historical_data_protection(synthetic_workspace):
+    """Test D: Historical training data is protected unless opted-in, which requires 'DELETE HISTORICAL DATA'."""
+    ws, manager, _ = synthetic_workspace
+
+    # Default discovery excludes historical seasons (2024)
+    default_datasets = manager.discover_collected_datasets(include_historical=False)
+    flat_default = [f for flist in default_datasets.values() for f in flist]
+    assert all("2024" not in f.as_posix() for f in flat_default)
+
+    # Opted-in discovery includes historical
+    hist_datasets = manager.discover_collected_datasets(include_historical=True)
+    flat_hist = [f for flist in hist_datasets.values() for f in flist]
+    assert any("2024" in f.as_posix() for f in flat_hist)
+
+    preview = manager.build_deletion_preview(
+        flat_hist,
+        operation_name="Delete Collected Datasets (All Categories)",
+        include_historical=True,
+        operation_type="collected"
+    )
+
+    assert preview["required_confirmation_phrase"] == "DELETE HISTORICAL DATA"
+
+    # Rejection without phrase
+    res_fail = manager.execute_deletion_plan(preview, confirmed=True)
+    assert res_fail["status"] == "REJECTED"
+
+    # Execution with exact phrase
+    res_ok = manager.execute_deletion_plan(preview, confirmed=True, confirmation_phrase="DELETE HISTORICAL DATA")
+    assert res_ok["status"] == "COMPLETED"
+
+
+def test_regression_test_e_cache_cleanup_isolation(synthetic_workspace):
+    """Test E: Scratch CSVs, raw datasets, prediction outputs, and audit logs are untouched by cache deletion."""
+    ws, manager, audit_file = synthetic_workspace
+
+    # Populate scratch directory with CSVs and temporary files
+    scratch_dir = ws / "scratch"
+    scratch_dir.mkdir(parents=True, exist_ok=True)
+    scratch_csv1 = scratch_dir / "similarity_drivers.csv"
+    scratch_csv2 = scratch_dir / "similarity_pairwise.csv"
+    scratch_tmp = scratch_dir / "temp_cache.tmp"
+    scratch_csv1.write_text("driver_id,score\n1,0.95", encoding="utf-8")
+    scratch_csv2.write_text("pair_id,sim\n1_2,0.88", encoding="utf-8")
+    scratch_tmp.write_text("temp data", encoding="utf-8")
+
+    # Discover cache data
+    cache_files = manager.discover_cache_data()
+
+    # Scratch CSVs must NOT be in discovered cache files
+    assert scratch_csv1 not in cache_files
+    assert scratch_csv2 not in cache_files
+
+    # Preview cache deletion
+    preview = manager.build_deletion_preview(
+        cache_files,
+        operation_name="Delete Cached Data (All Seasons)",
+        operation_type="cache"
+    )
+
+    # All files in preview must be categorized as 'Cache data'
+    assert list(preview["categories"].keys()) == ["Cache data"]
+    assert preview["required_confirmation_phrase"] is None
+
+    # Execute deletion
+    res = manager.execute_deletion_plan(preview, confirmed=True)
+    assert res["status"] == "COMPLETED"
+
+    # Verify scratch CSVs still exist completely untouched
+    assert scratch_csv1.exists()
+    assert scratch_csv2.exists()
+    assert scratch_csv1.read_text(encoding="utf-8") == "driver_id,score\n1,0.95"
+
+    # Verify raw datasets, outputs, source code, and audit logs are untouched
+    assert (ws / "data" / "raw" / "season" / "2026" / "2026_round_19_race.csv").exists()
+    assert (ws / "data" / "raw" / "season" / "2024" / "2024_round_1_race.csv").exists()
+    assert (ws / "outputs" / "mexico" / "mexico_2026_pre_fp1_predictions.csv").exists()
+    assert (ws / "src" / "main_code.py").exists()
+    assert audit_file.exists()
+
+
+def test_regression_test_f_cancellation_preserves_everything(synthetic_workspace):
+    """Test F: Choosing confirmed=False cancels the operation with status CANCELLED and 0 deletions."""
+    ws, manager, _ = synthetic_workspace
+
+    cache_files = manager.discover_cache_data()
+    assert len(cache_files) > 0
+
+    preview = manager.build_deletion_preview(
+        cache_files,
+        operation_name="Delete Cached Data (All Seasons)",
+        operation_type="cache"
+    )
+
+    res = manager.execute_deletion_plan(preview, confirmed=False)
+    assert res["status"] == "CANCELLED"
+    assert res["files_deleted_count"] == 0
+
+    for f in cache_files:
+        assert f.exists()
+
+

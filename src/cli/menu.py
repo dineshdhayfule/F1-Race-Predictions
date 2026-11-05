@@ -1493,7 +1493,7 @@ class InteractiveMenu:
             print(f"{Colors.DIM}Safely manage and selectively delete project-generated data.{Colors.RESET}")
             print(f"{Colors.DIM}Source code, configurations, tests, docs, and audit logs are permanently protected.{Colors.RESET}\n")
 
-            print("  1. Delete Cached Data (FastF1 cache, temporary downloads, scratch files)")
+            print("  1. Delete Cached Data (FastF1 cache, session cache, temporary files)")
             print("  2. Delete Collected Datasets (Categorized: practice, qualifying, race, grids)")
             print("  3. Delete Prediction Outputs (Generated reports, Monte Carlo CSVs, charts)")
             print("  4. Delete Grand Prix Data (Isolate by season and circuit / round)")
@@ -1593,7 +1593,7 @@ class InteractiveMenu:
 
         cache_files = self.data_manager.discover_cache_data(year=year_filter)
         op_label = f"Delete Cached Data ({year_filter if year_filter else 'All Seasons'})"
-        plan = self.data_manager.build_deletion_preview(cache_files, operation_name=op_label)
+        plan = self.data_manager.build_deletion_preview(cache_files, operation_name=op_label, operation_type="cache")
 
         self._render_deletion_preview(plan)
         if plan.get("file_count", 0) == 0:
@@ -1655,7 +1655,12 @@ class InteractiveMenu:
         )
         flat_files = [f for flist in cat_dict.values() for f in flist]
         op_label = f"Delete Collected Datasets ({cat_names_map.get(cat_choice, 'Selected')})"
-        plan = self.data_manager.build_deletion_preview(flat_files, operation_name=op_label, include_historical=include_historical)
+        plan = self.data_manager.build_deletion_preview(
+            flat_files,
+            operation_name=op_label,
+            include_historical=include_historical,
+            operation_type="collected"
+        )
 
         self._render_deletion_preview(plan)
         if plan.get("file_count", 0) == 0:
@@ -1714,7 +1719,7 @@ class InteractiveMenu:
 
         out_files = self.data_manager.discover_prediction_outputs(track_key=target_track)
         op_label = f"Delete Prediction Outputs ({target_track.title() if target_track else 'All Circuits'})"
-        plan = self.data_manager.build_deletion_preview(out_files, operation_name=op_label)
+        plan = self.data_manager.build_deletion_preview(out_files, operation_name=op_label, operation_type="outputs")
 
         self._render_deletion_preview(plan)
         if plan.get("file_count", 0) == 0:
@@ -1777,7 +1782,8 @@ class InteractiveMenu:
             flat_files,
             operation_name=op_label,
             include_historical=include_historical,
-            extra_metadata={"track": sel_k, "year": year, "round": sel_r}
+            extra_metadata={"track": sel_k, "year": year, "round": sel_r},
+            operation_type="grand_prix"
         )
 
         self._render_deletion_preview(plan)
@@ -1810,7 +1816,8 @@ class InteractiveMenu:
         plan = self.data_manager.build_deletion_preview(
             flat_files,
             operation_name="Delete all project-generated data",
-            include_historical=include_historical
+            include_historical=include_historical,
+            operation_type="all_generated_data"
         )
 
         self._render_deletion_preview(plan)

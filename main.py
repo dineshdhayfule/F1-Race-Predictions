@@ -491,11 +491,20 @@ def cmd_clean(args, parser=None):
         target_files = []
         op_name = "Data Deletion"
 
+    clean_op_type = "all_generated_data" if clean_all else (
+        "cache" if clean_cache else (
+            "outputs" if clean_outputs else (
+                "collected" if clean_collected else "grand_prix"
+            )
+        )
+    )
+
     # Build plan preview
     plan = dm.build_deletion_preview(
         target_files,
         operation_name=op_name,
-        include_historical=include_historical
+        include_historical=include_historical,
+        operation_type=clean_op_type
     )
 
     print("\n" + "=" * 80)

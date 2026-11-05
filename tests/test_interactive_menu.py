@@ -10,6 +10,7 @@ Validates:
 6. Graceful handling of KeyboardInterrupt and EOFError.
 """
 
+import json
 import sys
 from pathlib import Path
 from unittest.mock import patch, MagicMock
@@ -204,4 +205,70 @@ def test_early_season_walk_forward_fallback_def01():
     assert eval_res["best_w_xgb"] == 0.4
     assert len(eval_res["selected_residuals"]) == len(train_features)
     assert eval_res["best_mae"] > 0.0
+
+
+def test_interactive_menu_cache_deletion_all_seasons_workflow(tmp_path: Path, capsys):
+    """
+    Simulates Interactive Menu workflow:
+    Data Management -> Delete Cached Data -> All seasons -> Confirm 'y'.
+    Verifies:
+    1. Execution completes successfully with status COMPLETED.
+    2. Cache files are deleted.
+    3. Scratch CSV files remain intact (no unintended deletions).
+    4. Audit trail is written to deletion_audit.jsonl.
+    """
+    ws = tmp_path / "f1_menu_sandbox"
+    ws.mkdir(parents=True, exist_ok=True)
+
+    # Minimal tracks config
+    (ws / "config").mkdir(parents=True, exist_ok=True)
+    (ws / "config" / "tracks.json").write_text(json.dumps({
+        "tracks": {
+            "mexico": {"round_2026": 19, "display_name": "Mexico City Grand Prix"}
+        }
+    }), encoding="utf-8")
+
+    # Cache files
+    cache_dir = ws / "data" / "cache" / "2026" / "2026-11-01_Mexico"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    cache_file = cache_dir / "session.ff1"
+    cache_file.write_text("telemetry cache", encoding="utf-8")
+
+    # Scratch non-cache CSV
+    scratch_dir = ws / "scratch"
+    scratch_dir.mkdir(parents=True, exist_ok=True)
+    scratch_csv = scratch_dir / "similarity_drivers.csv"
+    scratch_csv.write_text("driver,sim\n1,0.99", encoding="utf-8")
+
+    # Logs dir
+    (ws / "logs").mkdir(parents=True, exist_ok=True)
+
+    menu = InteractiveMenu(root_dir=ws)
+
+    # Input sequence:
+    # 1. "1" -> Select scope: "Delete all cached data across all seasons"
+    # 2. "y" -> Confirm deletion: "Are you sure you want to delete these cached files?"
+    # 3. ""  -> Press [Enter] to continue
+    inputs = iter(["1", "y", ""])
+    with patch("builtins.input", lambda *args, **kwargs: next(inputs)):
+        menu._handle_delete_cached_data()
+
+    captured = capsys.readouterr().out
+    assert "Operation completed successfully!" in captured
+    assert "Files deleted    : 1" in captured
+
+    # Cache file deleted
+    assert not cache_file.exists()
+
+    # Scratch CSV file preserved untouched
+    assert scratch_csv.exists()
+    assert scratch_csv.read_text(encoding="utf-8") == "driver,sim\n1,0.99"
+
+    # Audit log contains entry
+    audit_log = ws / "logs" / "deletion_audit.jsonl"
+    assert audit_log.exists()
+    log_content = audit_log.read_text(encoding="utf-8")
+    assert "Delete Cached Data (All Seasons)" in log_content
+    assert "COMPLETED" in log_content
+
 

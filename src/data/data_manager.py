@@ -156,7 +156,7 @@ class DataManager:
         Discovers temporary and reproducible cache files:
         - data/cache/**
         - fastf1_cache/**, .cache/**, cache/**
-        - scratch/**, temporary files
+        - temporary files (*.tmp, *.temp)
         Optionally filters by year and/or circuit identifier.
         """
         candidates: List[Path] = []
@@ -165,7 +165,6 @@ class DataManager:
             self.root_dir / "fastf1_cache",
             self.root_dir / ".cache",
             self.root_dir / "cache",
-            self.root_dir / "scratch",
         ]
 
         for c_root in cache_roots:
@@ -427,6 +426,7 @@ class DataManager:
         operation_name: str,
         include_historical: bool = False,
         extra_metadata: Optional[Dict[str, Any]] = None,
+        operation_type: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         Constructs a structured deletion preview with file counts, estimated storage,
@@ -454,7 +454,7 @@ class DataManager:
         categories: Dict[str, int] = {}
         for vf in valid_files:
             rel = vf.relative_to(self.root_dir).as_posix()
-            if "cache" in rel:
+            if "cache" in rel or vf.suffix.lower() in [".tmp", ".temp"]:
                 cat = "Cache data"
             elif "outputs" in rel:
                 cat = "Prediction outputs"
@@ -468,14 +468,32 @@ class DataManager:
                 cat = "Other generated data"
             categories[cat] = categories.get(cat, 0) + 1
 
+        # Explicit, operation-aware confirmation requirements:
+        # 1. Comprehensive project-generated data deletion: "DELETE ALL GENERATED DATA"
+        # 2. Historical training dataset deletion (opt-in): "DELETE HISTORICAL DATA"
+        # 3. All other scoped operations (cache, outputs, datasets, grand prix): Yes/No (req_phrase = None)
+        # Never infer destructive confirmation requirements merely from the word "all" in display labels.
+        op_name_lower = (operation_name or "").lower().strip()
+        is_comprehensive_all = (
+            operation_type in ("all_project_generated_data", "clean_all", "all_generated_data")
+            or op_name_lower in (
+                "delete all project-generated data",
+                "delete all project generated data",
+                "delete all generated data",
+            )
+            or ("project-generated data" in op_name_lower and "delete all" in op_name_lower)
+            or ("project generated data" in op_name_lower and "delete all" in op_name_lower)
+        )
+
         req_phrase = None
-        if "all" in operation_name.lower():
+        if is_comprehensive_all:
             req_phrase = "DELETE ALL GENERATED DATA"
         elif include_historical:
             req_phrase = "DELETE HISTORICAL DATA"
 
         return {
             "operation": operation_name,
+            "operation_type": operation_type,
             "target_files": valid_files,
             "target_paths": [p.relative_to(self.root_dir).as_posix() for p in valid_files],
             "file_count": len(valid_files),
@@ -577,9 +595,9 @@ class DataManager:
         for d in sorted(list(affected_dirs), key=lambda x: len(x.parts), reverse=True):
             try:
                 if d.exists() and d != self.root_dir and not any(d.iterdir()):
-                    # Only remove if inside data/cache, outputs, or scratch
+                    # Only remove if inside data/cache, fastf1_cache, cache, .cache, or outputs
                     rel = d.relative_to(self.root_dir).parts
-                    if rel[0] in ["outputs", "scratch"] or (len(rel) >= 2 and rel[0] == "data" and rel[1] == "cache"):
+                    if rel[0] in ["outputs", "fastf1_cache", "cache", ".cache"] or (len(rel) >= 2 and rel[0] == "data" and rel[1] == "cache"):
                         d.rmdir()
             except Exception:
                 pass
