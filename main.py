@@ -111,6 +111,7 @@ def cmd_predict(args, parser=None):
         results = pipeline.run(
             track_key=args.track,
             year=args.year,
+            round_num=getattr(args, "round", None),
             stage=args.stage,
             model=model_choice,
             rf_weight=custom_rf,
@@ -256,7 +257,9 @@ def cmd_evaluate(args):
         raise KeyError(f"Track '{track_key}' not found in tracks.json.")
 
     track_info = tracks[track_key]
-    target_round = track_info.get(f"round_{args.year}")
+    target_round = getattr(args, "round", None)
+    if target_round is None:
+        target_round = track_info.get(f"round_{args.year}")
     if target_round is None:
         if args.year == 2026:
             target_round = track_info.get("round_2026")
@@ -308,7 +311,9 @@ def cmd_validate(args):
         raise KeyError(f"Track '{track_key}' not found in tracks.json.")
 
     track_info = tracks[track_key]
-    target_round = track_info.get(f"round_{args.year}")
+    target_round = getattr(args, "round", None)
+    if target_round is None:
+        target_round = track_info.get(f"round_{args.year}")
     if target_round is None:
         if args.year == 2026:
             target_round = track_info.get("round_2026")

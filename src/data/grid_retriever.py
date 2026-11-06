@@ -212,7 +212,7 @@ class StartingGridRetriever:
         stage: str = "after_qualifying",
         quali_df: Optional[pd.DataFrame] = None,
         penalties: Optional[Dict[str, Any]] = None,
-        expected_grid_size: int = 22,
+        expected_grid_size: Optional[int] = None,
     ) -> Tuple[Optional[pd.DataFrame], Dict[str, Any]]:
         """
         Retrieves starting grid using strict multi-source priority:
@@ -221,6 +221,9 @@ class StartingGridRetriever:
         3. OpenF1 Starting Grid API (with persistent local caching)
         4. Generic Deterministic FIA Grid Resolver (resolve_fia_starting_grid)
         """
+        if expected_grid_size is None or expected_grid_size <= 0:
+            from src.data.roster_resolver import RosterResolver
+            expected_grid_size = RosterResolver.get_expected_grid_size(year, round_num)
         # Strict stage cutoff: before qualifying, official starting grid cannot be published
         if stage in ["pre_fp1", "after_fp1", "after_fp2", "after_fp3", "after_sprint_qualifying", "after_sprint_race", "after_sprint"]:
             logger.info(

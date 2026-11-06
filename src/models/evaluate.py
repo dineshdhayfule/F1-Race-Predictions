@@ -58,7 +58,8 @@ class ModelEvaluator:
         Sunday starting-grid features are masked out in evaluation to prevent leakage.
         """
         rounds = sorted([int(r) for r in training_df["Round"].dropna().unique()])
-        val_rounds = [r for r in rounds if r > self.min_train_rounds]
+        min_priors = self.min_train_rounds if len(rounds) > self.min_train_rounds else 1
+        val_rounds = [r for r in rounds if len([pr for pr in rounds if pr < r]) >= min_priors]
 
         tested_weights = [
             (1.0, 0.0, "100% RF"),
@@ -231,6 +232,9 @@ class ModelEvaluator:
 
             return {
                 "validation_rounds": [],
+                "is_out_of_sample": False,
+                "validation_status": "UNAVAILABLE",
+                "validation_method": "in_sample_training_baseline",
                 "sample_count": len(y_all),
                 "ensemble_comparisons": ensemble_results,
                 "best_w_rf": best_w_rf,
@@ -445,6 +449,9 @@ class ModelEvaluator:
 
         return {
             "validation_rounds": val_rounds,
+            "is_out_of_sample": True,
+            "validation_status": "CHRONOLOGICAL_WALK_FORWARD",
+            "validation_method": "chronological_walk_forward",
             "sample_count": len(actuals),
             "ensemble_comparisons": ensemble_results,
             "best_w_rf": best_w_rf,

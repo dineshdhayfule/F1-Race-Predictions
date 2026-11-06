@@ -299,6 +299,34 @@ class DataLoader:
             rf = season_dir / f"{year}_round_{r_num}_race.csv"
             qf = season_dir / f"{year}_round_{r_num}_qualifying.csv"
 
+            if not rf.exists():
+                for tk, tinfo in self.tracks_config.items():
+                    r_match = tinfo.get(f"round_{year}") or (tinfo.get("round_2026") if year == 2026 else None)
+                    if r_match == r_num:
+                        for cand in [
+                            self.raw_data_dir / "tracks" / tk / str(year) / f"{year}_{tk}_race.csv",
+                            self.raw_data_dir / "tracks" / tk / str(year) / "race.csv",
+                            self.raw_data_dir / "tracks" / tk / "history" / f"{tk}_{year}_race.csv",
+                        ]:
+                            if cand.exists():
+                                rf = cand
+                                break
+                        break
+
+            if not qf.exists():
+                for tk, tinfo in self.tracks_config.items():
+                    r_match = tinfo.get(f"round_{year}") or (tinfo.get("round_2026") if year == 2026 else None)
+                    if r_match == r_num:
+                        for cand in [
+                            self.raw_data_dir / "tracks" / tk / str(year) / f"{year}_{tk}_qualifying.csv",
+                            self.raw_data_dir / "tracks" / tk / str(year) / "qualifying.csv",
+                            self.raw_data_dir / "tracks" / tk / "history" / f"{tk}_{year}_qualifying.csv",
+                        ]:
+                            if cand.exists():
+                                qf = cand
+                                break
+                        break
+
             if rf.exists():
                 df_r = self.safe_read_csv(rf, normalize=True)
                 if df_r is not None and not df_r.empty:
@@ -706,16 +734,20 @@ class DataLoader:
         stage: str = "after_qualifying",
         quali_df: Optional[pd.DataFrame] = None,
         penalties: Optional[Dict[str, Any]] = None,
-        expected_grid_size: int = 22,
+        expected_grid_size: Optional[int] = None,
     ) -> Tuple[Optional[pd.DataFrame], Dict[str, Any]]:
         """
         Loads the authoritative starting grid via StartingGridRetriever.
         Supports official manifests and fallback to algorithmic FIA resolution.
         """
         from src.data.grid_retriever import StartingGridRetriever
+        from src.data.roster_resolver import RosterResolver
 
         if round_num is None:
             round_num = self._resolve_round_number(track_id, year)
+
+        if expected_grid_size is None or expected_grid_size <= 0:
+            expected_grid_size = RosterResolver.get_expected_grid_size(year, round_num)
 
         track_k = track_id.lower()
         retriever = StartingGridRetriever(self.root_dir)
