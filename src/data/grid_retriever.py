@@ -986,7 +986,6 @@ class StartingGridRetriever:
 
         # Store driver participation records in DataFrame attrs for downstream consumers
         grid_df.attrs["driver_participations"] = driver_participations
-        grid_df.attrs["driver_participation_df"] = pd.DataFrame(driver_participations)
 
         metadata = {
             "provenance": GridProvenance.HISTORICAL_RACE_RESULTS.value,
@@ -1000,7 +999,6 @@ class StartingGridRetriever:
             "total_physical_cars": len(grid_df),
             "total_driver_participations": len(driver_participations),
             "driver_participations": driver_participations,
-            "driver_participation_df": pd.DataFrame(driver_participations),
             "shared_drive_cars_count": sum(1 for c in physical_entries if c["is_shared_drive"]),
         }
         logger.info(

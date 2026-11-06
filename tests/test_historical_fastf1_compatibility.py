@@ -470,6 +470,7 @@ def test_historical_qualifying_absence_retains_all_entrants(tmp_path):
 
     # All 21 drivers must be retained
     assert len(target_df) == 21
+
     # Check indicators
     assert "QualifyingDataAvailable" in target_df.columns
     assert (target_df["QualifyingDataAvailable"] == 0).all()
@@ -514,3 +515,83 @@ def test_readiness_classification_blocked_experimental_validated(tmp_path):
     assert audit_r4.classification == "VALIDATED"
     assert audit_r4.can_walk_forward is True
     assert audit_r4.completed_rounds == 3
+
+
+def test_dataframe_attrs_conflict_resolution(tmp_path):
+    """
+    Task 1 Regression Test:
+    Proves that grid DataFrame does NOT store a DataFrame in .attrs,
+    preserving plain list[dict] in .attrs['driver_participations'] and metadata,
+    and ensuring copy, filtering, concatenation, string representation/formatting,
+    and feature engineering never raise ValueError ('The truth value of a DataFrame is ambiguous').
+    """
+    from src.features.build_features import FeatureEngineer
+
+    race_df = _make_historical_results_df(21)
+    c9_row = race_df[race_df["DriverNumber"] == "9"].iloc[0].to_dict()
+    c9_row["FullName"] = "Tony Rolt"
+    c9_row["DriverId"] = "rolt"
+    c9_row["Abbreviation"] = ""
+
+    c10_row = race_df[race_df["DriverNumber"] == "10"].iloc[0].to_dict()
+    c10_row["FullName"] = "Brian Shawe Taylor"
+    c10_row["DriverId"] = "shawe_taylor"
+    c10_row["Abbreviation"] = ""
+
+    race_23 = pd.concat([race_df, pd.DataFrame([c9_row, c10_row])], ignore_index=True)
+    season_dir = tmp_path / "data" / "raw" / "season" / "1950"
+    season_dir.mkdir(parents=True, exist_ok=True)
+    race_23.to_csv(season_dir / "1950_round_1_race.csv", index=False)
+
+    retriever = StartingGridRetriever(root_dir=tmp_path)
+    grid_df, meta = retriever.get_starting_grid("silverstone", year=1950, round_num=1, stage="after_qualifying")
+
+    assert grid_df is not None
+    # 1. 21 physical cars, 23 driver participations in plain list[dict]
+    assert len(grid_df) == 21
+    assert len(meta["driver_participations"]) == 23
+    assert isinstance(meta["driver_participations"], list)
+    assert len(grid_df.attrs["driver_participations"]) == 23
+    assert isinstance(grid_df.attrs["driver_participations"], list)
+
+    # 2. DataFrame is NOT stored in .attrs or metadata (eliminates pandas truth-value ambiguity)
+    assert "driver_participation_df" not in grid_df.attrs
+    assert "driver_participation_df" not in meta
+
+    # 3. Copy survives without error
+    copied = grid_df.copy()
+    assert len(copied) == 21
+    assert len(copied.attrs["driver_participations"]) == 23
+
+    # 4. Row filtering survives without error
+    filtered = grid_df[grid_df["ActualStartingGrid"] <= 10]
+    assert len(filtered) == 10
+
+    # 5. Vertical concatenation does not raise ambiguous truth value exception
+    v_concat = pd.concat([grid_df, grid_df], axis=0, ignore_index=True)
+    assert len(v_concat) == 42
+
+    # 6. Horizontal concatenation does not raise ambiguous truth value exception
+    h_concat = pd.concat([grid_df.iloc[:, :5], grid_df.iloc[:, 5:]], axis=1)
+    assert len(h_concat) == 21
+
+    # 7. Formatting / terminal representation does not raise ambiguous truth value exception
+    repr_str = repr(grid_df)
+    assert "CarNumber" in repr_str
+    to_str = grid_df.to_string()
+    assert len(to_str) > 0
+
+    # 8. Feature engineering execution succeeds cleanly
+    fe = FeatureEngineer()
+    target_df = fe.build_target_dataset(
+        target_round=1,
+        track_name="silverstone",
+        track_key="silverstone",
+        starting_grid_df=grid_df,
+        stage="after_qualifying",
+        quali_df=None,
+        practice_sessions={},
+        season_races_df=pd.DataFrame(columns=["Round", "Driver", "Position", "Team"]),
+        expected_grid_size=21,
+    )
+    assert len(target_df) == 21
