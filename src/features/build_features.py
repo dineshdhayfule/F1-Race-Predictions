@@ -334,6 +334,8 @@ class FeatureEngineer:
                     "grid_norm": grid_norm,
                     "expected_grid_finish": conv_feat["expected_grid_finish"],
                     "grid_retention_prob": conv_feat["grid_retention_prob"],
+                    "QualifyingDataAvailable": 1 if (round_quali is not None and not round_quali.empty) else 0,
+                    "GridBasedComparisonAvailable": 1 if ("GridPosition" in race.columns or "grid" in race.columns) else 0,
 
                     "teammate_quali_gap_pct": float(tm_q_gap) if pd.notna(tm_q_gap) else np.nan,
                     "teammate_grid_delta": float(tm_g_delta) if pd.notna(tm_g_delta) else np.nan,
@@ -481,7 +483,8 @@ class FeatureEngineer:
         effective_expected_size = expected_grid_size if (expected_grid_size is not None and expected_grid_size > 0) else self.expected_grid_size
         logger.info(f"Building target features for {track_name} (Round {target_round}, Stage: {stage})...")
 
-        if quali_df is not None and not quali_df.empty:
+        has_actual_qualifying = (quali_df is not None and not quali_df.empty)
+        if has_actual_qualifying:
             q_sess = quali_df.copy()
             if "Abbreviation" not in q_sess.columns and "Driver" in q_sess.columns:
                 q_sess["Abbreviation"] = q_sess["Driver"]
@@ -497,8 +500,17 @@ class FeatureEngineer:
         q = q_sess.copy()
         q = filter_competing_drivers(q)
         pos_col = "Position" if "Position" in q.columns else "QualifyingPosition"
-        q["Position"] = pd.to_numeric(q[pos_col], errors="coerce")
-        q = q.dropna(subset=["Abbreviation", "Position"]).drop_duplicates("Abbreviation")
+        if pos_col in q.columns:
+            q["Position"] = pd.to_numeric(q[pos_col], errors="coerce")
+        else:
+            q["Position"] = np.nan
+
+        if has_actual_qualifying:
+            q = q.dropna(subset=["Abbreviation", "Position"]).drop_duplicates("Abbreviation")
+        else:
+            # When qualifying session was not held, retain all physical starting grid entrants
+            # Do not drop rows because qualifying Position is NaN
+            q = q.dropna(subset=["Abbreviation"]).drop_duplicates("Abbreviation")
 
         if starting_grid_df is not None and not starting_grid_df.empty:
             q_grid = starting_grid_df.copy()
@@ -528,7 +540,8 @@ class FeatureEngineer:
         )
 
         practice = build_practice_features(practice_sessions, drivers)
-        quali_feats = build_qualifying_features(q_sess, drivers)
+        # If qualifying occurred, compute actual qualifying features; otherwise return neutral features
+        quali_feats = build_qualifying_features(q_sess if has_actual_qualifying else None, drivers)
 
         # Sprint features (if sprint sessions were held and available prior to stage cutoff)
         sq_df = practice_sessions.get("sprint_qualifying") if practice_sessions else None
@@ -540,14 +553,16 @@ class FeatureEngineer:
         dform, tform = build_season_form(
             target_round, season_races_df, season_qualis_df, alpha=self.ewma_alpha
         )
-        prior_target_races = season_races_df[season_races_df["Round"] < target_round]
+        prior_target_races = season_races_df[season_races_df["Round"] < target_round] if not season_races_df.empty else pd.DataFrame()
         target_conv_map = compute_grid_conversion_map(prior_target_races, expected_grid_size=effective_expected_size)
 
         # Teammate features
-        tm_quali_feats = compute_teammate_quali_gap(q, drivers)
+        # If qualifying occurred, compute teammate qualifying gap; otherwise leave neutral/NaN
+        tm_quali_feats = compute_teammate_quali_gap(q if has_actual_qualifying else None, drivers)
         grid_col_for_tm = "ActualStartingGrid" if "ActualStartingGrid" in q_grid.columns else "GridPosition"
         tm_grid_feats = compute_teammate_grid_delta(q_grid, drivers, grid_col=grid_col_for_tm)
-        tm_h2h_map = compute_rolling_teammate_h2h(prior_target_races, q)
+        q_for_tm = q if (has_actual_qualifying and not q.empty) else q_grid[["Abbreviation", team_col]].rename(columns={team_col: "TeamName"})
+        tm_h2h_map = compute_rolling_teammate_h2h(prior_target_races, q_for_tm)
 
         # Capability 1: Race Pace Intelligence
         q_pos_map = {d: float(q[q["Abbreviation"] == d]["Position"].iloc[0]) for d in drivers if not q.empty and not q[q["Abbreviation"] == d].empty}
@@ -651,6 +666,8 @@ class FeatureEngineer:
                 "grid_norm": grid_norm_val,
                 "expected_grid_finish": conv_feat["expected_grid_finish"],
                 "grid_retention_prob": conv_feat["grid_retention_prob"],
+                "QualifyingDataAvailable": 1 if has_actual_qualifying else 0,
+                "GridBasedComparisonAvailable": 1 if (starting_grid_df is not None and not starting_grid_df.empty) else 0,
 
                 "teammate_quali_gap_pct": float(tm_q_gap) if pd.notna(tm_q_gap) else np.nan,
                 "teammate_grid_delta": float(tm_g_delta) if pd.notna(tm_g_delta) else np.nan,

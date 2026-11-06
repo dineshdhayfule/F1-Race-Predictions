@@ -108,6 +108,7 @@ class GridProvenance(str, Enum):
     F1_WEBSITE = "f1_website"
     OPENF1_API = "openf1_api"
     ALGORITHMIC_FALLBACK = "algorithmic_fallback"
+    HISTORICAL_RACE_RESULTS = "historical_race_results"
     UNPUBLISHED = "unpublished"
     UNVERIFIED = "unverified"
     MISSING_DATA = "missing_data"
@@ -136,6 +137,9 @@ def format_grid_provenance_display(grid_meta: Optional[Dict[str, Any]]) -> str:
         return f"OpenF1 Published Starting Grid{ref_str}"
     elif prov in ["algorithmic_fallback", "algorithmic_provisional"]:
         return "Algorithmic Provisional Grid (FIA Art 42.3)"
+    elif prov in ["historical_race_results", "race_results_derived"]:
+        ref_str = f" ({doc_ref})" if doc_ref else ""
+        return f"Historical Race Results Starting Grid{ref_str}"
     elif prov == "unpublished":
         stage = grid_meta.get("stage", "pre-qualifying")
         return f"Provisional Predicted Grid (Pre-Qualifying Stage: {stage})"

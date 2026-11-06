@@ -301,6 +301,19 @@ class StartingGridRetriever:
             }
             return df_alg, metadata
 
+        # ---------------------------------------------------------------------
+        # SOURCE 5: Historical Race Results Grid Fallback (Ergast Archive)
+        # ---------------------------------------------------------------------
+        df_hist, meta_hist = self._retrieve_historical_race_grid(
+            track_key=track_key,
+            year=year,
+            round_num=round_num,
+            stage=stage,
+            expected_grid_size=expected_grid_size,
+        )
+        if df_hist is not None:
+            return df_hist, meta_hist
+
         logger.warning(
             f"Cannot resolve starting grid for {track_key} Round {round_num}: "
             "Neither published grid nor qualifying data was provided."
@@ -813,6 +826,188 @@ class StartingGridRetriever:
         df = pd.DataFrame(rows)
         df = df.sort_values("simulation_start_rank").reset_index(drop=True)
         return df
+
+    def _retrieve_historical_race_grid(
+        self,
+        track_key: str,
+        year: int,
+        round_num: int,
+        stage: str = "after_qualifying",
+        expected_grid_size: Optional[int] = None,
+    ) -> Tuple[Optional[pd.DataFrame], Dict[str, Any]]:
+        """
+        Extracts pre-race starting grid from historical race results (e.g. Ergast GridPosition)
+        when separate qualifying or grid manifests are unavailable.
+
+        Strictly enforces ZERO data leakage:
+        Only extracts pre-race grid positions and driver identifiers.
+        Excludes finishing Position, ClassifiedPosition, Points, Status, Time, and post-race outcome fields.
+        """
+        tk = track_key.lower().strip()
+        race_candidates = [
+            self.root_dir / "data" / "raw" / "season" / str(year) / f"{year}_round_{round_num}_race.csv",
+            self.root_dir / "data" / "raw" / "tracks" / tk / str(year) / f"{year}_{tk}_race.csv",
+            self.root_dir / "data" / "raw" / "tracks" / tk / str(year) / "race.csv",
+            self.root_dir / "data" / "raw" / "tracks" / tk / "history" / f"{tk}_{year}_race.csv",
+        ]
+
+        race_df = None
+        for p in race_candidates:
+            if p.exists() and p.stat().st_size > 0:
+                try:
+                    df = pd.read_csv(p)
+                    if not df.empty and ("GridPosition" in df.columns or "grid" in df.columns):
+                        race_df = df
+                        break
+                except Exception:
+                    pass
+
+        # If not found on disk, attempt reading from FastF1 historical session if applicable
+        if race_df is None and year < 2018:
+            try:
+                import fastf1
+                sess = fastf1.get_session(year, round_num, "R")
+                sess.load(laps=False, telemetry=False, weather=False, messages=False)
+                if hasattr(sess, "results") and sess.results is not None and not sess.results.empty:
+                    if "GridPosition" in sess.results.columns:
+                        race_df = sess.results.copy()
+            except Exception:
+                pass
+
+        if race_df is None or race_df.empty:
+            return None, {}
+
+        grid_col = "GridPosition" if "GridPosition" in race_df.columns else "grid"
+        if grid_col not in race_df.columns:
+            return None, {}
+
+        numeric_grid = pd.to_numeric(race_df[grid_col], errors="coerce")
+        if numeric_grid.dropna().empty:
+            return None, {}
+
+        # STRICT DATA LEAKAGE PREVENTION:
+        # Extract ONLY pre-race fields: DriverId, DriverNumber, FullName, Abbreviation, TeamName, GridPosition
+        # Exclude: Position, ClassifiedPosition, Points, Status, Time, Laps, etc.
+        from src.utils.driver_mapping import normalize_driver
+        norm_df = normalize_driver(race_df)
+
+        # SEPARATE PHYSICAL CARS FROM DRIVER PARTICIPATION
+        # Group driver records by physical car (identified by CarNumber and GridPosition)
+        car_col = "DriverNumber" if "DriverNumber" in norm_df.columns else "CarNumber"
+        grouped_cars = {}
+        for idx, r in norm_df.iterrows():
+            c_num = r.get(car_col)
+            raw_g = pd.to_numeric(r.get(grid_col), errors="coerce")
+            c_key = (c_num, raw_g) if pd.notna(c_num) else (f"grid_{raw_g}", raw_g)
+            if c_key not in grouped_cars:
+                grouped_cars[c_key] = []
+            grouped_cars[c_key].append(r)
+
+        total_physical_cars = len(grouped_cars)
+        physical_entries = []
+        driver_participations = []
+
+        for c_key, driver_rows in grouped_cars.items():
+            c_num, raw_g = c_key
+            first_r = driver_rows[0]
+            team = first_r.get("TeamName") or first_r.get("Team") or "Unknown"
+            is_shared = len(driver_rows) > 1
+
+            is_pit = 1 if (pd.isna(raw_g) or raw_g <= 0) else 0
+            grid_pos = float(raw_g) if (pd.notna(raw_g) and raw_g > 0) else np.nan
+            sim_rank = grid_pos if pd.notna(grid_pos) else float(total_physical_cars)
+
+            # Grid normalization computed strictly against the physical car count
+            if pd.notna(sim_rank):
+                grid_norm = (sim_rank - 1.0) / float(max(total_physical_cars - 1, 1))
+            else:
+                grid_norm = np.nan
+
+            # Primary starting-driver identification:
+            # Rules: Never infer starter from finish position, points, status, or row order.
+            # If source data does not reliably establish starting driver, leave unresolved.
+            has_source_starter = any("StartingDriver" in r and pd.notna(r["StartingDriver"]) for r in driver_rows)
+            if not is_shared:
+                starting_driver = first_r.get("Abbreviation")
+                is_starter_resolved = True
+                car_abbr = str(starting_driver).strip().upper()
+                shared_drvs = [car_abbr]
+            elif has_source_starter:
+                starter_row = next(r for r in driver_rows if pd.notna(r.get("StartingDriver")))
+                starting_driver = str(starter_row.get("Abbreviation")).strip().upper()
+                is_starter_resolved = True
+                car_abbr = starting_driver
+                shared_drvs = [str(r.get("Abbreviation")).strip().upper() for r in driver_rows]
+            else:
+                starting_driver = None
+                is_starter_resolved = False
+                shared_drvs = sorted([str(r.get("Abbreviation")).strip().upper() for r in driver_rows])
+                car_abbr = " / ".join(shared_drvs)
+
+            physical_entries.append({
+                "CarNumber": str(c_num) if pd.notna(c_num) else "",
+                "Abbreviation": car_abbr,
+                "TeamName": str(team).strip(),
+                "QualifyingPosition": np.nan,
+                "ActualStartingGrid": grid_pos,
+                "simulation_start_rank": sim_rank,
+                "is_pit_lane_start": is_pit,
+                "StartingGridStatus": StartingGridStatus.PIT_LANE.value if is_pit else StartingGridStatus.CLASSIFIED.value,
+                "GridPenalty": 0,
+                "grid_penalty_places": 0,
+                "grid_vs_quali_delta": 0,
+                "grid_norm": grid_norm,
+                "is_shared_drive": is_shared,
+                "is_starting_driver_resolved": is_starter_resolved,
+                "StartingDriver": starting_driver,
+                "shared_drivers": shared_drvs,
+            })
+
+            # Preserve all individual driver participation records
+            for r in driver_rows:
+                drv = r.get("Abbreviation")
+                full_name = r.get("FullName") or r.get("BroadcastName") or drv
+                driver_id = r.get("DriverId") or drv
+                driver_participations.append({
+                    "DriverId": str(driver_id).strip(),
+                    "DriverName": str(full_name).strip(),
+                    "Abbreviation": str(drv).strip().upper(),
+                    "CarNumber": str(c_num) if pd.notna(c_num) else "",
+                    "TeamName": str(team).strip(),
+                    "ParticipationRole": "shared_unresolved" if is_shared else "solo_starter",
+                    "GridPosition": grid_pos,
+                    "RaceResultReference": f"{year}_round_{round_num}_race",
+                    "is_shared_drive": is_shared,
+                    "is_starting_driver": None if is_shared else True,
+                })
+
+        grid_df = pd.DataFrame(physical_entries)
+        grid_df = grid_df.sort_values("simulation_start_rank").reset_index(drop=True)
+
+        # Store driver participation records in DataFrame attrs for downstream consumers
+        grid_df.attrs["driver_participations"] = driver_participations
+        grid_df.attrs["driver_participation_df"] = pd.DataFrame(driver_participations)
+
+        metadata = {
+            "provenance": GridProvenance.HISTORICAL_RACE_RESULTS.value,
+            "publication_status": GridPublicationStatus.FINAL.value,
+            "document_reference": "Historical Race Results Official Starting Grid (Ergast Archive)",
+            "season": year,
+            "round": round_num,
+            "circuit_key": track_key,
+            "stage": stage,
+            "total_entrants": len(grid_df),
+            "total_physical_cars": len(grid_df),
+            "total_driver_participations": len(driver_participations),
+            "driver_participations": driver_participations,
+            "driver_participation_df": pd.DataFrame(driver_participations),
+            "shared_drive_cars_count": sum(1 for c in physical_entries if c["is_shared_drive"]),
+        }
+        logger.info(
+            f"Successfully resolved historical starting grid from race results for {track_key} {year} "
+            f"Round {round_num} ({len(grid_df)} physical cars, {len(driver_participations)} driver participations, Ref: {metadata['document_reference']})"
+        )
+        return grid_df, metadata
 
     def save_manifest(
         self,

@@ -254,15 +254,33 @@ def validate_and_format_session_results(
             except (ValueError, TypeError):
                 pass
 
+    # Normalize driver identifiers first to ensure valid Abbreviation values
+    from src.utils.driver_mapping import normalize_driver
+    res = normalize_driver(res)
+
     # Exclude non-driver FIA course/service vehicles
     res = filter_competing_drivers(res)
 
-    # Deduplicate drivers if duplicate records exist
-    if "Abbreviation" in res.columns:
-        if res["Abbreviation"].dropna().duplicated().any():
-            dups = res[res["Abbreviation"].duplicated()]["Abbreviation"].tolist()
-            logger.warning(f"Deduplicating multiple rows for drivers in {canonical_type}: {dups}")
-            res = res.drop_duplicates(subset=["Abbreviation"]).copy()
+    # Deduplicate drivers if duplicate records exist.
+    # Never use empty or whitespace-only abbreviations as unique driver identifiers.
+    # Reliable fallback order: DriverId -> FullName -> BroadcastName -> DriverNumber -> valid Abbreviation
+    dedup_col = None
+    for cand in ["DriverId", "FullName", "BroadcastName", "DriverNumber"]:
+        if cand in res.columns:
+            vals = res[cand].fillna("").astype(str).str.strip()
+            if vals.ne("").all():
+                dedup_col = cand
+                break
+
+    if dedup_col is None and "Abbreviation" in res.columns:
+        vals = res["Abbreviation"].fillna("").astype(str).str.strip()
+        if vals.ne("").all():
+            dedup_col = "Abbreviation"
+
+    if dedup_col and res[dedup_col].duplicated().any():
+        dups = res[res[dedup_col].duplicated()][dedup_col].tolist()
+        logger.warning(f"Deduplicating multiple rows for {dedup_col} in {canonical_type}: {dups}")
+        res = res.drop_duplicates(subset=[dedup_col]).copy()
 
     # Session date resolution
     session_date = None
@@ -301,8 +319,21 @@ def validate_and_format_practice_laps(
     Extracts lap times, stint, tire compound, and driver identifiers needed for
     race pace and tire degradation feature engineering.
     Falls back gracefully to session.results if lap-level telemetry is not present.
+    Safely handles FastF1 DataNotLoadedError on historical sessions without lap data.
     """
-    laps = getattr(session, "laps", None)
+    laps = None
+    try:
+        has_f1_support = getattr(session, "f1_api_support", True)
+        if hasattr(session, "event") and session.event is not None and hasattr(session.event, "F1ApiSupport"):
+            if session.event.F1ApiSupport is False:
+                has_f1_support = False
+
+        if has_f1_support:
+            laps = getattr(session, "laps", None)
+    except Exception as e:
+        logger.info(f"Lap telemetry not loaded or unavailable for {session}: {e}")
+        laps = None
+
     if laps is None or not isinstance(laps, pd.DataFrame) or laps.empty:
         return validate_and_format_session_results(
             session=session,
@@ -432,11 +463,32 @@ def collect_round_data(
         # Attempt download across candidates
         collected = False
         last_error = None
+        source_unavailable = False
 
         for cand in candidates:
+            if source_unavailable:
+                break
             try:
                 sess = fastf1.get_session(year, round_num, cand)
-                sess.load(telemetry=False, weather=False, messages=False)
+
+                # Detect historical session capabilities (pre-2018 or F1ApiSupport=False)
+                has_f1_support = getattr(sess, "f1_api_support", True)
+                if hasattr(sess, "event") and sess.event is not None and hasattr(sess.event, "F1ApiSupport"):
+                    if sess.event.F1ApiSupport is False:
+                        has_f1_support = False
+                if year < 2018:
+                    has_f1_support = False
+
+                if has_f1_support:
+                    sess.load(telemetry=False, weather=False, messages=False)
+                else:
+                    sess.load(laps=False, telemetry=False, weather=False, messages=False)
+
+                # Avoid redundant candidate queries if historical archive has no data for this session
+                if not has_f1_support and hasattr(sess, "results") and (sess.results is None or sess.results.empty):
+                    last_error = f"{c_type} data is not available in Ergast archive for season {year}."
+                    source_unavailable = True
+                    break
 
                 if slug in ("fp1", "fp2", "fp3"):
                     valid, msg, df = validate_and_format_practice_laps(

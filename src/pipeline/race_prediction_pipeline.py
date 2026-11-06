@@ -20,6 +20,7 @@ import xgboost as xgb
 from src.data.data_loader import DataLoader
 from src.data.data_validator import DataValidator
 from src.features.build_features import FeatureEngineer
+from src.features.grid_features import GridProvenance
 from src.features.weekend_features import (
     build_practice_features,
     build_sprint_qualifying_features,
@@ -213,26 +214,7 @@ class RacePredictionPipeline:
         if stage in ["after_qualifying", "before_race", "post_race"]:
             quali_df = self.data_loader.load_target_qualifying(track_key, year, round_num=target_round, historical_tracks=tracks)
 
-        if quali_df is None or quali_df.empty:
-            if stage in ["after_qualifying", "before_race", "post_race"]:
-                logger.warning(
-                    f"MISSING SESSION: Target qualifying data was not found for stage '{stage}'. "
-                    f"Falling back to provisional pre-race qualifying prediction model. "
-                    f"Predictions are PROVISIONAL and do not reflect actual qualifying results."
-                )
-            else:
-                logger.info(
-                    f"Target qualifying not yet completed/observed for stage '{stage}'. Running pre-race qualifying prediction model..."
-                )
-            provisional_quali_meta = self.predict_qualifying(track_key=track_key, year=year, stage=stage, round_num=target_round)
-            is_provisional_quali = True
-            quali_df = provisional_quali_meta["predictions"][["Abbreviation", "TeamName", "PredictedPosition"]].copy()
-            quali_df.rename(columns={"PredictedPosition": "Position"}, inplace=True)
-            quali_df["QualifyingPosition"] = quali_df["Position"]
-        else:
-            logger.info(f"Loaded actual qualifying session results for {track_name} ({len(quali_df)} drivers).")
-
-        # 3b. Load Authoritative Starting Grid (Multi-Source: FIA -> F1 -> OpenF1 -> Algorithmic Fallback)
+        # 3b. Load Authoritative Starting Grid (Multi-Source: FIA -> F1 -> OpenF1 -> Algorithmic Fallback -> Historical Race Grid)
         from src.data.roster_resolver import RosterResolver
         expected_grid_size = RosterResolver.get_expected_grid_size(year, target_round)
         if self.model_config.get("expected_grid_size") and year == 2026:
@@ -247,6 +229,33 @@ class RacePredictionPipeline:
             penalties=penalties,
             expected_grid_size=expected_grid_size,
         )
+
+        if quali_df is None or quali_df.empty:
+            prov = grid_meta.get("provenance", "")
+            if starting_grid_df is not None and not starting_grid_df.empty and prov in [GridProvenance.HISTORICAL_RACE_RESULTS.value, "historical_race_results"]:
+                logger.info(
+                    f"Using historical race-derived starting grid directly for {track_name} {year} "
+                    f"({len(starting_grid_df)} drivers; separate qualifying session unavailable for season {year})."
+                )
+                quali_df = None
+            else:
+                if stage in ["after_qualifying", "before_race", "post_race"]:
+                    logger.warning(
+                        f"MISSING SESSION: Target qualifying data was not found for stage '{stage}'. "
+                        f"Falling back to provisional pre-race qualifying prediction model. "
+                        f"Predictions are PROVISIONAL and do not reflect actual qualifying results."
+                    )
+                else:
+                    logger.info(
+                        f"Target qualifying not yet completed/observed for stage '{stage}'. Running pre-race qualifying prediction model..."
+                    )
+                provisional_quali_meta = self.predict_qualifying(track_key=track_key, year=year, stage=stage, round_num=target_round)
+                is_provisional_quali = True
+                quali_df = provisional_quali_meta["predictions"][["Abbreviation", "TeamName", "PredictedPosition"]].copy()
+                quali_df.rename(columns={"PredictedPosition": "Position"}, inplace=True)
+                quali_df["QualifyingPosition"] = quali_df["Position"]
+        else:
+            logger.info(f"Loaded actual qualifying session results for {track_name} ({len(quali_df)} drivers).")
 
         # Log actual starting grid provenance accurately
         prov = grid_meta.get("provenance", "unknown")
@@ -267,6 +276,11 @@ class RacePredictionPipeline:
         elif prov in ["algorithmic_fallback", "algorithmic_provisional"]:
             logger.info(
                 f"Starting Grid: Algorithmic Provisional Grid (Ref: {doc_ref}, Status: {pub_status}). Deterministic resolution under FIA Art 42.3."
+            )
+        elif prov in ["historical_race_results", GridProvenance.HISTORICAL_RACE_RESULTS.value]:
+            logger.info(
+                f"Starting Grid: Official Historical Grid (Ref: {doc_ref}, Status: {pub_status}). "
+                "Retrospectively reconstructed from Ergast / FastF1 historical race results."
             )
         elif prov == "unpublished":
             logger.info(
@@ -487,12 +501,14 @@ class RacePredictionPipeline:
         )
         is_oos = eval_results.get("is_out_of_sample", bool(eval_results.get("validation_rounds")))
         val_status = eval_results.get("validation_status", "CHRONOLOGICAL_WALK_FORWARD" if is_oos else "UNAVAILABLE")
+        readiness_cls = "VALIDATED" if is_oos else ("EXPERIMENTAL" if len(train_rounds) > 0 else "BLOCKED")
         sim_meta["model"] = model_choice
         sim_meta["selected_model"] = selected_model_name
         sim_meta["selection_method"] = selection_method
         sim_meta["selected_mae"] = selected_mae
         sim_meta["is_out_of_sample"] = is_oos
         sim_meta["validation_status"] = val_status
+        sim_meta["readiness_classification"] = readiness_cls
         sim_meta["validation_method"] = eval_results.get("validation_method", "chronological_walk_forward" if is_oos else "in_sample_training_baseline")
         sim_meta["selected_rf_weight"] = selected_rf_weight
         sim_meta["selected_xgb_weight"] = selected_xgb_weight
@@ -620,6 +636,7 @@ class RacePredictionPipeline:
             "predictions": sim_results,
             "model_comparison": comp_df,
             "simulation_meta": sim_meta,
+            "readiness_classification": sim_meta.get("readiness_classification", "VALIDATED"),
             "leakage_clean": True,
             "output_dir": str(track_output_dir),
             "is_provisional_quali": is_provisional_quali,

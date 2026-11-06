@@ -136,6 +136,36 @@ def prompt_model_selection() -> Tuple[str, Optional[float], Optional[float]]:
             print("Invalid choice. Please select 1, 2, 3, 4, or 5.\n")
 
 
+class ReadinessAuditResult(tuple):
+    """
+    Two-element tuple (is_ready, details) for backward-compatible tuple unpacking,
+    enriched with explicit readiness classification ('BLOCKED', 'EXPERIMENTAL', 'VALIDATED')
+    and audit metadata.
+    """
+    def __new__(
+        cls,
+        is_ready: bool,
+        details: List[tuple],
+        classification: str = "VALIDATED",
+        completed_rounds: int = 0,
+        total_training_rounds: int = 0,
+        driver_observations: int = 0,
+        can_walk_forward: bool = False,
+        **kwargs,
+    ):
+        inst = super().__new__(cls, (is_ready, details))
+        inst.is_ready = is_ready
+        inst.details = details
+        inst.classification = classification
+        inst.completed_rounds = completed_rounds
+        inst.total_training_rounds = total_training_rounds
+        inst.driver_observations = driver_observations
+        inst.can_walk_forward = can_walk_forward
+        for k, v in kwargs.items():
+            setattr(inst, k, v)
+        return inst
+
+
 class InteractiveMenu:
     """Master controller for the interactive CLI prediction engine menu."""
 
@@ -375,19 +405,26 @@ class InteractiveMenu:
         print_banner(season=year)
         print_header("Step 4: Data Readiness Audit", f"Circuit: {track_display} | Stage: {stage}")
 
-        ready, details = self._audit_prediction_readiness(track_key, year, round_num, stage, is_sprint)
+        audit_res = self._audit_prediction_readiness(track_key, year, round_num, stage, is_sprint)
+        ready, details = audit_res
+        classification = getattr(audit_res, "classification", "VALIDATED" if ready else "BLOCKED")
 
         for status, msg in details:
-            if status == "OK":
+            if status in ["OK", "VALIDATED"]:
                 print_success(msg)
-            elif status == "WARN":
+            elif status in ["WARN", "EXPERIMENTAL"]:
                 print_warning(msg)
-            elif status == "MISSING":
+            elif status in ["MISSING", "BLOCKED", "INVALID"]:
                 print_error(msg)
             else:
                 print_info(msg)
 
-        print(f"\n{Colors.BOLD}Prediction Readiness:{Colors.RESET} " + (f"{Colors.GREEN}YES{Colors.RESET}" if ready else f"{Colors.RED}NO (Action Needed){Colors.RESET}"))
+        if classification == "VALIDATED":
+            print(f"\n{Colors.BOLD}Prediction Readiness:{Colors.RESET} {Colors.GREEN}VALIDATED (Full Historical Dataset & Walk-Forward Validation Verified){Colors.RESET}")
+        elif classification == "EXPERIMENTAL":
+            print(f"\n{Colors.BOLD}Prediction Readiness:{Colors.RESET} {Colors.YELLOW}EXPERIMENTAL (Technical Execution Possible, Statistical Validation Limited){Colors.RESET}")
+        else:
+            print(f"\n{Colors.BOLD}Prediction Readiness:{Colors.RESET} {Colors.RED}BLOCKED (Required Training or Target Data Unavailable){Colors.RESET}")
 
         # Step 5: Missing-data Handling
         if not ready:
@@ -400,11 +437,20 @@ class InteractiveMenu:
             if action == "1":
                 self._run_data_collection_wizard(track_key, year, round_num)
                 # Re-audit
-                ready, _ = self._audit_prediction_readiness(track_key, year, round_num, stage, is_sprint)
+                ready, new_details = self._audit_prediction_readiness(track_key, year, round_num, stage, is_sprint)
                 if not ready:
-                    print_error("Required data remains unverified after collection.")
-                    if not prompt_confirm("Proceed with fallback model?", default=False):
+                    new_missing = [msg for status, msg in new_details if status in ["MISSING", "INVALID"]]
+                    only_r1 = len(new_missing) == 1 and any("Round 1" in m for m in new_missing)
+                    if only_r1:
+                        print_info("Target session and starting grid data verified successfully.")
+                        print_warning(
+                            f"Predictive model training remains unavailable because Round 1 ({year}) has no prior completed championship rounds."
+                        )
                         return
+                    else:
+                        print_error("Required data remains unverified after collection.")
+                        if not prompt_confirm("Proceed with fallback model?", default=False):
+                            return
             elif action == "2":
                 print_warning("Proceeding with provisional fallback model. Actual starting grid will NOT be used.")
             elif action == "3":
@@ -602,20 +648,21 @@ class InteractiveMenu:
         # 3. Target qualifying and starting grid verification (for after_qualifying and post_race)
         if stage in ["after_qualifying", "post_race"]:
             target_q = self.loader.load_target_qualifying(track_key, year, round_num=round_num)
+            grid_df, grid_meta = self.loader.load_starting_grid(
+                track_id=track_key,
+                year=year,
+                round_num=round_num,
+                stage=stage,
+                quali_df=target_q,
+                expected_grid_size=expected_grid_size,
+            )
+            prov = grid_meta.get("provenance", "")
+
             if target_q is not None and not target_q.empty:
                 if "Position" in target_q.columns and target_q["Position"].notna().sum() > 0:
                     details.append(("OK", f"Qualifying Results available ({len(target_q)} drivers recorded)."))
 
                     # Starting grid verification
-                    grid_df, grid_meta = self.loader.load_starting_grid(
-                        track_id=track_key,
-                        year=year,
-                        round_num=round_num,
-                        stage=stage,
-                        quali_df=target_q,
-                        expected_grid_size=expected_grid_size,
-                    )
-                    prov = grid_meta.get("provenance", "")
                     if prov in ["official_manifest", "fia_official"]:
                         doc_ref = grid_meta.get("document_reference", "FIA Document")
                         details.append(("OK", f"Official FIA Starting Grid verified ({doc_ref})."))
@@ -626,13 +673,23 @@ class InteractiveMenu:
                         details.append(("INFO", f"OpenF1 Published Starting Grid available ({doc_ref})."))
                     elif prov in ["algorithmic_fallback", "algorithmic_provisional"]:
                         details.append(("INFO", "No official manifest found; Algorithmic Provisional Grid (FIA Art 42.3) available."))
+                    elif prov in ["historical_race_results", "race_results_derived"]:
+                        doc_ref = grid_meta.get("document_reference", "Historical Race Results Grid")
+                        details.append(("OK", f"Historical Starting Grid verified ({len(grid_df)} drivers; {doc_ref})."))
                     else:
                         details.append(("WARN", "Starting grid unverified (provisional resolution only)."))
                 else:
                     details.append(("INVALID", f"Official Qualifying file exists but contains invalid/missing position data."))
                     is_ready = False
+            elif grid_df is not None and not grid_df.empty and prov in ["historical_race_results", "race_results_derived"]:
+                doc_ref = grid_meta.get("document_reference", "Historical Race Results Grid")
+                details.append(("OK", f"Historical Starting Grid verified ({len(grid_df)} drivers; {doc_ref})."))
+                details.append(("INFO", f"Separate qualifying session was not recorded in Ergast archive for season {year}; starting grid will be used directly."))
             else:
-                details.append(("MISSING", f"Official Qualifying Results NOT found for {track_key.title()} {year}."))
+                if year < 2003:
+                    details.append(("MISSING", f"Starting Grid NOT found for {track_key.title()} {year}."))
+                else:
+                    details.append(("MISSING", f"Official Qualifying Results NOT found for {track_key.title()} {year}."))
                 is_ready = False
 
         # 4. Target race (strictly required for post_race)
@@ -649,7 +706,36 @@ class InteractiveMenu:
                 details.append(("MISSING", f"Official Race Results NOT found for {track_key.title()} {year}."))
                 is_ready = False
 
-        return is_ready, details
+        if not is_ready:
+            classification = "BLOCKED"
+            can_wf = False
+        elif completed_historical < 3:
+            classification = "EXPERIMENTAL"
+            can_wf = False
+            details.append((
+                "EXPERIMENTAL",
+                f"Readiness Status: EXPERIMENTAL — {completed_historical} completed prior round(s) ({completed_historical*expected_grid_size} observations). "
+                "Minimum 3 completed rounds required for out-of-sample walk-forward cross-validation. "
+                "Prediction will execute using in-sample training baseline without walk-forward verification."
+            ))
+        else:
+            classification = "VALIDATED"
+            can_wf = True
+            details.append((
+                "VALIDATED",
+                f"Readiness Status: VALIDATED — {completed_historical} completed prior rounds ({completed_historical*expected_grid_size} observations). "
+                "Chronological walk-forward cross-validation verified."
+            ))
+
+        return ReadinessAuditResult(
+            is_ready=is_ready,
+            details=details,
+            classification=classification,
+            completed_rounds=completed_historical,
+            total_training_rounds=len(train_rounds),
+            driver_observations=completed_historical * expected_grid_size,
+            can_walk_forward=can_wf,
+        )
 
     def _display_prediction_results(self, results: Dict[str, Any], top_n: int = 10) -> None:
         """Formats and displays prediction tables to terminal."""
