@@ -238,8 +238,20 @@ class RacePredictionPipeline:
                     f"({len(starting_grid_df)} drivers; separate qualifying session unavailable for season {year})."
                 )
                 quali_df = None
+            elif stage == "after_qualifying":
+                # STRICT AFTER_QUALIFYING SAFETY:
+                # Stage 'after_qualifying' strictly mandates official, observed qualifying results.
+                # Silently manufacturing an artificial starting grid via predict_qualifying()
+                # from practice lap times is strictly prohibited.
+                raise ValueError(
+                    f"Cannot execute prediction for stage 'after_qualifying': Official qualifying results "
+                    f"are unavailable for {track_name} {year} (Round {target_round}). "
+                    f"Stage 'after_qualifying' strictly mandates verified official qualifying results. "
+                    f"To generate provisional predictions prior to official qualifying, "
+                    f"use an appropriate pre-qualifying stage ('pre_fp1', 'after_fp1', 'after_fp2', 'after_fp3')."
+                )
             else:
-                if stage in ["after_qualifying", "before_race", "post_race"]:
+                if stage in ["before_race", "post_race"]:
                     logger.warning(
                         f"MISSING SESSION: Target qualifying data was not found for stage '{stage}'. "
                         f"Falling back to provisional pre-race qualifying prediction model. "
@@ -683,6 +695,12 @@ class RacePredictionPipeline:
                     f"Configured calendar is for 2026."
                 )
         track_name = track_info.get("display_name", track_key_clean.title())
+
+        if stage == "after_qualifying":
+            raise ValueError(
+                f"Provisional qualifying prediction model cannot be executed for stage 'after_qualifying'. "
+                f"Stage 'after_qualifying' strictly requires actual observed qualifying results."
+            )
 
         train_rounds = [r for r in range(1, target_round)]
         if target_round <= 1 or not train_rounds:

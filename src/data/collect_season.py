@@ -88,8 +88,15 @@ def detect_event_format_and_sessions(
         elif "sprint" in s_lower and "shootout" not in s_lower and "qualifying" not in s_lower and "quali" not in s_lower:
             sr_declared = s
 
-    # Qualifying declared name
+    # Sanitize declared sprint qualifying if colloquial
+    if sq_declared and sq_declared.lower() in ("sprint quali", "sq"):
+        sq_declared = "Sprint Qualifying"
+
+    # Qualifying declared name (sanitize colloquial 'quali')
     q_declared = next((s for s in session_names if "qualifying" in s.lower() and "sprint" not in s.lower()), "Qualifying")
+    if q_declared and q_declared.lower() == "quali":
+        q_declared = "Qualifying"
+
     # Race declared name
     r_declared = next((s for s in session_names if s.lower() == "race" or ("race" in s.lower() and "sprint" not in s.lower())), "Race")
 
@@ -106,10 +113,13 @@ def detect_event_format_and_sessions(
 
         if session_mode in ("full", "prediction_only"):
             # 2. Sprint Qualifying / Shootout
+            # FastF1 accepts: "Sprint Qualifying", "Sprint Shootout", "SQ"
             sq_candidates = [sq_declared] if sq_declared else []
-            for default_candidate in ("Sprint Qualifying", "Sprint Shootout", "SQ", "Sprint Quali"):
+            for default_candidate in ("Sprint Qualifying", "Sprint Shootout", "SQ"):
                 if default_candidate not in sq_candidates:
                     sq_candidates.append(default_candidate)
+            # Remove any invalid colloquial identifiers
+            sq_candidates = [c for c in sq_candidates if c.lower() not in ("sprint quali", "quali")]
             session_plan.append({
                 "canonical": "Sprint Qualifying",
                 "slug": "sprint_qualifying",
@@ -128,10 +138,12 @@ def detect_event_format_and_sessions(
             })
 
             # 4. GP Qualifying
+            # FastF1 accepts: "Qualifying", "Q". FastF1 rejects colloquial "Quali".
             q_candidates = [q_declared] if q_declared else []
-            for default_candidate in ("Qualifying", "Q", "Quali"):
+            for default_candidate in ("Qualifying", "Q"):
                 if default_candidate not in q_candidates:
                     q_candidates.append(default_candidate)
+            q_candidates = [c for c in q_candidates if c.lower() not in ("quali", "qualifying session")]
             session_plan.append({
                 "canonical": "Qualifying",
                 "slug": "qualifying",
@@ -172,10 +184,12 @@ def detect_event_format_and_sessions(
 
         if session_mode in ("full", "prediction_only"):
             # GP Qualifying
+            # FastF1 accepts: "Qualifying", "Q". FastF1 rejects colloquial "Quali".
             q_candidates = [q_declared] if q_declared else []
-            for default_candidate in ("Qualifying", "Q", "Quali"):
+            for default_candidate in ("Qualifying", "Q"):
                 if default_candidate not in q_candidates:
                     q_candidates.append(default_candidate)
+            q_candidates = [c for c in q_candidates if c.lower() not in ("quali", "qualifying session")]
             session_plan.append({
                 "canonical": "Qualifying",
                 "slug": "qualifying",
@@ -202,6 +216,59 @@ def detect_event_format_and_sessions(
         "sq_declared": sq_declared,
         "sr_declared": sr_declared,
     }
+
+
+def resolve_session_scheduled_time(
+    event_row: pd.Series,
+    canonical_type: str,
+    slug: str,
+    candidates: List[str]
+) -> Optional[datetime]:
+    """
+    Extracts timezone-aware UTC scheduled datetime for a given session from the FastF1 event schedule row.
+    """
+    if event_row is None or not isinstance(event_row, (pd.Series, dict)):
+        return None
+
+    tokens = {canonical_type.lower(), slug.lower()} | {c.lower() for c in candidates}
+
+    # 1. Search declared session slots Session1..5
+    for i in range(1, 6):
+        s_name = str(event_row.get(f"Session{i}", "")).strip().lower()
+        if not s_name:
+            continue
+        is_match = (
+            s_name in tokens
+            or (slug in ("fp1", "fp2", "fp3") and slug in s_name.replace(" ", ""))
+            or ("qualifying" in slug and "qualifying" in s_name and ("sprint" in slug) == ("sprint" in s_name))
+            or (slug == "sprint_race" and "sprint" in s_name and "shootout" not in s_name and "qualifying" not in s_name)
+            or (slug == "race" and ("race" in s_name or s_name == "r") and "sprint" not in s_name)
+        )
+        if is_match:
+            for col in [f"Session{i}DateUtc", f"Session{i}Date"]:
+                val = event_row.get(col)
+                if pd.notna(val):
+                    try:
+                        ts = pd.to_datetime(val)
+                        if ts.tzinfo is None:
+                            return ts.tz_localize(timezone.utc).to_pydatetime()
+                        return ts.tz_convert(timezone.utc).to_pydatetime()
+                    except Exception:
+                        pass
+
+    # 2. Fallback to EventDate for race or main event
+    if slug == "race" or "race" in canonical_type.lower():
+        event_date = event_row.get("EventDate")
+        if pd.notna(event_date):
+            try:
+                ts = pd.to_datetime(event_date)
+                if ts.tzinfo is None:
+                    return ts.tz_localize(timezone.utc).to_pydatetime()
+                return ts.tz_convert(timezone.utc).to_pydatetime()
+            except Exception:
+                pass
+
+    return None
 
 
 def validate_and_format_session_results(
@@ -434,6 +501,7 @@ def collect_round_data(
     round_skips = []
     round_failures = []
     round_unavailable = []
+    session_statuses = {}
 
     for item in session_plan:
         c_type = item["canonical"]
@@ -452,6 +520,12 @@ def collect_round_data(
                         skip_msg = f"{c_type} (file exists: {target_file.name}, {len(existing_df)} records)"
                         round_skips.append(skip_msg)
                         logger.info(f"    [SKIP] {skip_msg}")
+                        session_statuses[slug] = {
+                            "canonical": c_type,
+                            "status": "SUCCESS",
+                            "detail": skip_msg,
+                            "scheduled_date": None,
+                        }
                         # Also sync track dir if requested
                         if track_target_file and not track_target_file.exists():
                             track_target_file.parent.mkdir(parents=True, exist_ok=True)
@@ -480,7 +554,11 @@ def collect_round_data(
                     has_f1_support = False
 
                 if has_f1_support:
-                    sess.load(telemetry=False, weather=False, messages=False)
+                    # Qualifying sessions require race-control messages so FastF1 can determine
+                    # deleted laps (track limits) when Ergast results are absent.
+                    # Telemetry and weather remain disabled for performance and cache efficiency.
+                    load_messages = slug in ("qualifying", "sprint_qualifying")
+                    sess.load(telemetry=False, weather=False, messages=load_messages)
                 else:
                     sess.load(laps=False, telemetry=False, weather=False, messages=False)
 
@@ -528,17 +606,62 @@ def collect_round_data(
                     break
                 else:
                     last_error = msg
+            except ValueError as ve:
+                last_error = f"Invalid session identifier '{cand}': {ve}"
+                logger.warning(f"FastF1 rejected candidate identifier '{cand}' for {c_type}: {ve}", exc_info=True)
             except Exception as e:
-                last_error = str(e)
+                last_error = f"{type(e).__name__}: {e}"
+                logger.debug(f"Candidate '{cand}' for {c_type} failed: {e}", exc_info=True)
 
-        if not collected:
-            err_summary = f"{c_type}: {last_error or 'Session data not available'}"
-            if "not available" in err_summary.lower() or "empty" in err_summary.lower():
-                round_unavailable.append(err_summary)
-                logger.info(f"    [INFO] {err_summary}")
+        sched_dt = resolve_session_scheduled_time(event_row, c_type, slug, candidates)
+        now_utc = datetime.now(timezone.utc)
+
+        if collected:
+            session_statuses[slug] = {
+                "canonical": c_type,
+                "status": "SUCCESS",
+                "detail": f"Saved {len(df)} records via '{cand}'",
+                "scheduled_date": sched_dt.isoformat() if sched_dt else None,
+            }
+        else:
+            if sched_dt is not None and sched_dt > now_utc:
+                status = "FUTURE_SESSION"
+                err_summary = f"{c_type}: Scheduled for {sched_dt.strftime('%Y-%m-%d %H:%M UTC')}. Session has not yet taken place."
+                round_unavailable.append(f"[FUTURE_SESSION] {err_summary}")
+                logger.info(f"    [FUTURE] {err_summary}")
+            elif sched_dt is not None and (now_utc - sched_dt).total_seconds() < 86400 * 2:
+                status = "NOT_YET_AVAILABLE"
+                err_summary = f"{c_type}: Scheduled for {sched_dt.strftime('%Y-%m-%d %H:%M UTC')}; official results not yet available upstream ({last_error or 'no data published'})."
+                round_unavailable.append(f"[NOT_YET_AVAILABLE] {err_summary}")
+                logger.info(f"    [PENDING] {err_summary}")
             else:
-                round_failures.append(err_summary)
-                logger.warning(f"    [FAIL] {err_summary}")
+                is_archive_gap = (
+                    source_unavailable
+                    or not last_error
+                    or "not available" in last_error.lower()
+                    or "empty" in last_error.lower()
+                    or "archive" in last_error.lower()
+                    or "not found" in last_error.lower()
+                    or "zero drivers" in last_error.lower()
+                    or "missing information" in last_error.lower()
+                )
+                if is_archive_gap:
+                    status = "DATA_MISSING"
+                    err_summary = f"{c_type}: {last_error or 'Session data not available in upstream archive.'}"
+                    round_unavailable.append(f"[DATA_MISSING] {err_summary}")
+                    logger.info(f"    [INFO] {err_summary}")
+                else:
+                    status = "COLLECTION_FAILED"
+                    err_summary = f"{c_type}: Collection failed ({last_error})"
+                    round_failures.append(err_summary)
+                    logger.warning(f"    [FAIL] {err_summary}")
+
+            session_statuses[slug] = {
+                "canonical": c_type,
+                "status": status,
+                "detail": err_summary,
+                "scheduled_date": sched_dt.isoformat() if sched_dt else None,
+            }
 
     return {
         "round": round_num,
@@ -550,6 +673,7 @@ def collect_round_data(
         "skips": round_skips,
         "failures": round_failures,
         "unavailable": round_unavailable,
+        "session_statuses": session_statuses,
     }
 
 

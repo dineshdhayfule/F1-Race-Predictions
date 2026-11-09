@@ -430,7 +430,10 @@ class InteractiveMenu:
         if not ready:
             print("\nRequired session data is missing for the selected stage.")
             print("  1. Collect missing session data via FastF1")
-            print("  2. Proceed anyway using fallback provisional models (if permissible)")
+            if stage == "after_qualifying":
+                print(f"  2. {Colors.YELLOW}Change stage to an earlier practice stage for provisional prediction{Colors.RESET}")
+            else:
+                print("  2. Proceed anyway using fallback provisional models (if permissible)")
             print("  3. Change stage")
             print("  0. Cancel prediction\n")
             action = prompt_choice("Select action", ["1", "2", "3", "0"], default="1")
@@ -449,10 +452,17 @@ class InteractiveMenu:
                         return
                     else:
                         print_error("Required data remains unverified after collection.")
+                        if stage == "after_qualifying":
+                            print_error("Cannot proceed: Stage 'after_qualifying' strictly requires verified official qualifying results.")
+                            return
                         if not prompt_confirm("Proceed with fallback model?", default=False):
                             return
             elif action == "2":
-                print_warning("Proceeding with provisional fallback model. Actual starting grid will NOT be used.")
+                if stage == "after_qualifying":
+                    print_warning("Provisional fallback models cannot be used for 'after_qualifying'. Switching to stage selection...")
+                    return self.menu_predict_race()
+                else:
+                    print_warning("Proceeding with provisional fallback model. Actual starting grid will NOT be used.")
             elif action == "3":
                 return self.menu_predict_race()
             else:
@@ -681,10 +691,18 @@ class InteractiveMenu:
                 else:
                     details.append(("INVALID", f"Official Qualifying file exists but contains invalid/missing position data."))
                     is_ready = False
-            elif grid_df is not None and not grid_df.empty and prov in ["historical_race_results", "race_results_derived"]:
-                doc_ref = grid_meta.get("document_reference", "Historical Race Results Grid")
-                details.append(("OK", f"Historical Starting Grid verified ({len(grid_df)} drivers; {doc_ref})."))
-                details.append(("INFO", f"Separate qualifying session was not recorded in Ergast archive for season {year}; starting grid will be used directly."))
+            elif grid_df is not None and not grid_df.empty and prov in [
+                "historical_race_results", "race_results_derived", "f1_website", "official_manifest", "fia_official"
+            ]:
+                if prov == "f1_website":
+                    details.append(("OK", "Official F1 Website Published Starting Grid verified."))
+                elif prov in ["official_manifest", "fia_official"]:
+                    doc_ref = grid_meta.get("document_reference", "FIA Document")
+                    details.append(("OK", f"Official FIA Starting Grid verified ({doc_ref})."))
+                else:
+                    doc_ref = grid_meta.get("document_reference", "Historical Race Results Grid")
+                    details.append(("OK", f"Historical Starting Grid verified ({len(grid_df)} drivers; {doc_ref})."))
+                details.append(("INFO", f"Separate qualifying session was not recorded for season {year}; starting grid will be used directly."))
             else:
                 if year < 2003:
                     details.append(("MISSING", f"Starting Grid NOT found for {track_key.title()} {year}."))
