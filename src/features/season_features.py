@@ -198,7 +198,11 @@ def compute_season_driver_stats(
 
         finishes = pd.to_numeric(grp["Position"], errors="coerce").dropna().tolist()
         grids = pd.to_numeric(grp["GridPosition"], errors="coerce").dropna().tolist()
-        points = pd.to_numeric(grp.get("Points", 0), errors="coerce").fillna(0).tolist()
+        points = (
+            pd.to_numeric(grp["Points"], errors="coerce").fillna(0).tolist()
+            if "Points" in grp.columns
+            else [0.0] * len(grp)
+        )
         qvals = (
             pd.to_numeric(qgrp["Position"], errors="coerce").dropna().tolist()
             if not qgrp.empty and "Position" in qgrp.columns
@@ -315,7 +319,11 @@ def build_season_form(
             for team, grp in prior.groupby(team_col):
                 grp = grp.sort_values("Round")
                 finishes = pd.to_numeric(grp["Position"], errors="coerce").dropna().tolist()
-                points = pd.to_numeric(grp.get("Points", 0), errors="coerce").fillna(0).tolist()
+                points = (
+            pd.to_numeric(grp["Points"], errors="coerce").fillna(0).tolist()
+            if "Points" in grp.columns
+            else [0.0] * len(grp)
+        )
                 rounds = grp["Round"].nunique()
 
                 team_stats[str(team)] = {

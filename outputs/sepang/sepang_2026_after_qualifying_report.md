@@ -1,9 +1,9 @@
-# F1 2026 Bahrain Grand Prix Grand Prix — Race Prediction Report
-**Round**: 16 | **Stage**: `after_qualifying` | **Simulations**: 25,000
-**Selected Model**: **60% RF / 40% XGB**
+# F1 2026 Bahrain Grand Prix — Race Prediction Report
+**Round**: 16 | **Stage**: `after_qualifying` | **Simulations**: 10,000
+**Selected Model**: **Hybrid Ensemble (60% RF / 40% XGB)**
 **Selection Method**: Fixed Configuration (Manual Ensemble)
-**Selected MAE**: 3.5574
-**Predicted Winner**: **VER** (22.58% win probability)
+**Walk-Forward Out-of-Sample MAE**: 3.5504
+**Predicted Winner**: **HAM** (23.63% win probability)
 
 ## Grid Penalties Applied
 - **HAD**: +5 grid places
@@ -14,45 +14,47 @@
 
 | Pos | Driver | Team | Grid | Exp. Finish | Median | Win % | Podium % | Top 5 % | Points % | P5-P95 Range |
 |:---:|:------:|:-----|:----:|:-----------:|:------:|:-----:|:--------:|:-------:|:--------:|:------------:|
-| 1 | **VER** | Red Bull Racing | 1 | 4.84 | 3 | 22.6% | 53.8% | 72.1% | 89.7% | P1-P18 |
-| 2 | **HAM** | Ferrari | 2 | 4.90 | 3 | 22.2% | 53.3% | 71.7% | 89.4% | P1-P18 |
-| 3 | **ANT** | Mercedes | 3 | 4.90 | 3 | 21.9% | 53.3% | 71.5% | 89.3% | P1-P18 |
-| 4 | **RUS** | Mercedes | 7 | 6.61 | 5 | 9.1% | 31.3% | 52.4% | 83.1% | P1-P19 |
-| 5 | **PIA** | McLaren | 6 | 6.68 | 5 | 8.7% | 30.8% | 52.1% | 82.3% | P1-P19 |
-| 6 | **LEC** | Ferrari | 4 | 7.34 | 6 | 6.1% | 24.3% | 44.7% | 79.3% | P1-P20 |
-| 7 | **NOR** | McLaren | 5 | 8.70 | 8 | 3.0% | 14.7% | 31.7% | 70.1% | P2-P20 |
-| 8 | **HAD** | Red Bull Racing | 8 | 9.02 | 8 | 2.6% | 12.9% | 28.2% | 67.7% | P2-P20 |
-| 9 | **GAS** | Alpine | 9 | 10.45 | 10 | 1.2% | 6.7% | 17.5% | 55.4% | P3-P21 |
-| 10 | **LAW** | Racing Bulls | 11 | 11.04 | 11 | 0.8% | 5.5% | 14.5% | 49.8% | P3-P21 |
-| 11 | **BOR** | Audi | 10 | 11.32 | 11 | 0.8% | 4.7% | 12.7% | 47.3% | P4-P21 |
-| 12 | **ALO** | Aston Martin | 12 | 12.22 | 12 | 0.4% | 2.9% | 8.7% | 39.8% | P4-P21 |
-| 13 | **SAI** | Williams | 13 | 13.38 | 13 | 0.2% | 1.6% | 5.3% | 29.2% | P5-P21 |
-| 14 | **HUL** | Audi | 15 | 13.65 | 14 | 0.1% | 1.4% | 4.7% | 27.3% | P6-P21 |
-| 15 | **STR** | Aston Martin | 14 | 14.54 | 15 | 0.1% | 0.8% | 2.9% | 20.3% | P7-P22 |
-| 16 | **OCO** | Haas F1 Team | 17 | 14.84 | 15 | 0.0% | 0.6% | 2.5% | 18.3% | P7-P22 |
-| 17 | **BEA** | Haas F1 Team | 16 | 14.85 | 15 | 0.1% | 0.7% | 2.5% | 18.3% | P7-P22 |
-| 18 | **COL** | Alpine | 21 | 15.36 | 16 | 0.1% | 0.4% | 1.9% | 15.3% | P7-P22 |
-| 19 | **LIN** | Racing Bulls | 22 | 15.89 | 16 | 0.0% | 0.3% | 1.3% | 11.8% | P8-P22 |
-| 20 | **ALB** | Williams | 18 | 16.82 | 18 | 0.0% | 0.1% | 0.6% | 7.7% | P9-P22 |
-| 21 | **BOT** | Cadillac | 19 | 17.29 | 18 | 0.0% | 0.1% | 0.4% | 5.9% | P10-P22 |
-| 22 | **PER** | Cadillac | 20 | 18.36 | 19 | 0.0% | 0.0% | 0.1% | 2.6% | P12-P22 |
+| 1 | **HAM** | Ferrari | 2 | 4.92 | 3 | 23.6% | 53.3% | 70.9% | 89.3% | P1-P18 |
+| 2 | **VER** | Red Bull Racing | 1 | 5.17 | 3 | 20.1% | 50.2% | 68.7% | 88.1% | P1-P18 |
+| 3 | **ANT** | Mercedes | 3 | 5.44 | 4 | 17.8% | 46.5% | 66.2% | 87.3% | P1-P19 |
+| 4 | **LEC** | Ferrari | 4 | 6.49 | 5 | 9.9% | 33.0% | 54.3% | 83.5% | P1-P19 |
+| 5 | **PIA** | McLaren | 6 | 6.88 | 6 | 8.5% | 29.3% | 49.1% | 81.7% | P1-P20 |
+| 6 | **RUS** | Mercedes | 7 | 7.00 | 6 | 8.2% | 28.5% | 47.9% | 80.7% | P1-P20 |
+| 7 | **NOR** | McLaren | 5 | 8.00 | 7 | 4.5% | 19.0% | 37.8% | 75.1% | P2-P20 |
+| 8 | **HAD** | Red Bull Racing | 8 | 8.97 | 8 | 3.2% | 13.6% | 28.7% | 67.5% | P2-P20 |
+| 9 | **GAS** | Alpine | 9 | 10.53 | 10 | 1.4% | 6.9% | 17.1% | 55.0% | P3-P21 |
+| 10 | **BOR** | Audi | 10 | 10.98 | 10 | 0.9% | 5.7% | 14.8% | 50.4% | P3-P21 |
+| 11 | **LAW** | Racing Bulls | 11 | 11.20 | 11 | 0.8% | 5.2% | 13.5% | 48.0% | P3-P21 |
+| 12 | **ALO** | Aston Martin | 12 | 12.59 | 12 | 0.4% | 2.4% | 7.9% | 36.0% | P5-P21 |
+| 13 | **SAI** | Williams | 13 | 12.99 | 13 | 0.2% | 2.1% | 6.3% | 32.3% | P5-P21 |
+| 14 | **HUL** | Audi | 15 | 13.87 | 14 | 0.1% | 1.1% | 4.2% | 25.4% | P6-P21 |
+| 15 | **STR** | Aston Martin | 14 | 13.98 | 14 | 0.1% | 1.1% | 4.0% | 24.7% | P6-P21 |
+| 16 | **OCO** | Haas F1 Team | 17 | 15.11 | 15 | 0.1% | 0.5% | 2.0% | 16.3% | P7-P22 |
+| 17 | **COL** | Alpine | 21 | 15.24 | 16 | 0.1% | 0.6% | 2.2% | 15.8% | P7-P22 |
+| 18 | **BEA** | Haas F1 Team | 16 | 15.25 | 16 | 0.0% | 0.6% | 2.1% | 15.3% | P7-P22 |
+| 19 | **LIN** | Racing Bulls | 22 | 15.74 | 16 | 0.1% | 0.3% | 1.4% | 12.2% | P8-P22 |
+| 20 | **ALB** | Williams | 18 | 16.90 | 18 | 0.0% | 0.1% | 0.5% | 7.1% | P10-P22 |
+| 21 | **BOT** | Cadillac | 19 | 17.49 | 18 | 0.0% | 0.1% | 0.3% | 5.1% | P10-P22 |
+| 22 | **PER** | Cadillac | 20 | 18.27 | 19 | 0.0% | 0.0% | 0.1% | 3.1% | P12-P22 |
 
-## Walk-Forward Model Comparison
+## Chronological Walk-Forward Model Comparison (Out-of-Sample)
 
 | Model Configuration | MAE | MedAE | RMSE | Spearman |
 |:--------------------|:---:|:-----:|:----:|:--------:|
-| 100% RF | 3.574 | 2.744 | 4.761 | 0.662 |
-| 75% RF / 25% XGB | 3.561 | 2.768 | 4.749 | 0.665 |
-| 60% RF / 40% XGB | 3.557 | 2.717 | 4.750 | 0.667 |
-| 50% RF / 50% XGB | 3.557 | 2.635 | 4.753 | 0.666 |
-| 40% RF / 60% XGB | 3.559 | 2.622 | 4.759 | 0.665 |
-| 25% RF / 75% XGB | 3.562 | 2.640 | 4.773 | 0.666 |
-| 100% XGB | 3.576 | 2.583 | 4.809 | 0.664 |
+| 100% RF | 3.594 | 2.811 | 4.763 | 0.661 |
+| 75% RF / 25% XGB | 3.564 | 2.712 | 4.732 | 0.667 |
+| 60% RF / 40% XGB | 3.550 | 2.706 | 4.718 | 0.670 |
+| 50% RF / 50% XGB | 3.542 | 2.702 | 4.710 | 0.673 |
+| 40% RF / 60% XGB | 3.536 | 2.697 | 4.703 | 0.674 |
+| 25% RF / 75% XGB | 3.528 | 2.674 | 4.695 | 0.676 |
+| 100% XGB | 3.518 | 2.679 | 4.689 | 0.678 |
+| 100% Ridge | 3.610 | 2.909 | 4.778 | 0.664 |
+| Validated Multi-Model (40% RF / 30% XGB / 30% Ridge) | 3.525 | 2.737 | 4.685 | 0.673 |
 
 ## Simulation Parameters
-- **Uncertainty Calibration (Pace σ)**: 3.9566
-- **Empirical DNF Risk**: 0.1577
+- **Uncertainty Calibration (Pace σ)**: 3.8113
+- **Empirical DNF Risk**: 0.1608
 - **Random Seed**: 42
 
 ---
-*Report generated by unified F1 Race Prediction Engine with zero data leakage.*
+*Report generated by ApexGrid — Predicting the Race Beyond the Grid (Zero Data Leakage).*

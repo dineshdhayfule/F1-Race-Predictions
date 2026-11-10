@@ -143,21 +143,42 @@ for code, data in DRIVER_CATALOG.items():
 def normalize_driver(df):
     """
     Ensures a DataFrame has a standard uppercase 'Abbreviation' column.
-    Resolves from 'Abbreviation', 'Driver', 'FullName', or 'BroadcastName'.
+    Resolves from non-empty 'Abbreviation', 'Driver', 'FullName', 'BroadcastName', 'DriverId', 'driver', or 'code'.
+    Treats empty strings, whitespace-only, and NaN abbreviations as missing values,
+    falling back row-by-row to reliable available identifiers (FullName, DriverId, etc.).
+    Preserves modern driver catalog codes and provides stable, collision-free identifiers
+    for historical drivers without inventing arbitrary or conflicting 3-letter codes.
     """
-    out = df.copy()
-    col_found = None
-    for cand in ["Abbreviation", "Driver", "FullName", "BroadcastName", "driver", "code"]:
-        if cand in out.columns:
-            col_found = cand
-            break
+    if df is None or df.empty:
+        return df
 
-    if col_found is None:
+    out = df.copy()
+    candidates = ["Abbreviation", "Driver", "FullName", "BroadcastName", "DriverId", "driver", "code"]
+    available_candidates = [c for c in candidates if c in out.columns]
+
+    if not available_candidates:
         raise ValueError(f"No driver identifier column found in DataFrame. Available: {list(out.columns)}")
 
-    out["Abbreviation"] = out[col_found].astype(str).str.upper().str.strip()
-    # Map if it was a full name or surname
-    out["Abbreviation"] = out["Abbreviation"].map(lambda x: NAME_TO_CODE.get(x, x))
+    resolved_abbr = pd.Series("", index=out.index, dtype=str)
+    for cand in available_candidates:
+        cand_vals = out[cand].fillna("").astype(str).str.strip()
+        mask_empty = resolved_abbr.eq("") | resolved_abbr.str.upper().isin(["NAN", "NONE"])
+        if mask_empty.any():
+            valid_cand = cand_vals.ne("") & ~cand_vals.str.upper().isin(["NAN", "NONE"])
+            fill_mask = mask_empty & valid_cand
+            resolved_abbr.loc[fill_mask] = cand_vals.loc[fill_mask]
+
+    def _map_identifier(val: str) -> str:
+        if not val or val.upper() in ["NAN", "NONE"]:
+            return ""
+        text = str(val).strip().upper()
+        # If in modern alias catalog, map to canonical abbreviation (e.g. LEWIS HAMILTON -> HAM)
+        if text in NAME_TO_CODE:
+            return NAME_TO_CODE[text]
+        # Otherwise keep the stable uppercase identifier without inventing conflicting codes
+        return text
+
+    out["Abbreviation"] = resolved_abbr.map(_map_identifier)
     out = filter_competing_drivers(out)
     return out
 

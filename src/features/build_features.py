@@ -334,6 +334,8 @@ class FeatureEngineer:
                     "grid_norm": grid_norm,
                     "expected_grid_finish": conv_feat["expected_grid_finish"],
                     "grid_retention_prob": conv_feat["grid_retention_prob"],
+                    "QualifyingDataAvailable": 1 if (round_quali is not None and not round_quali.empty) else 0,
+                    "GridBasedComparisonAvailable": 1 if ("GridPosition" in race.columns or "grid" in race.columns) else 0,
 
                     "teammate_quali_gap_pct": float(tm_q_gap) if pd.notna(tm_q_gap) else np.nan,
                     "teammate_grid_delta": float(tm_g_delta) if pd.notna(tm_g_delta) else np.nan,
@@ -441,6 +443,7 @@ class FeatureEngineer:
         starting_grid_df: Optional[pd.DataFrame] = None,
         stage: str = "after_qualifying",
         track_key: Optional[str] = None,
+        expected_grid_size: Optional[int] = None,
     ) -> pd.DataFrame:
         """
         Builds the target feature dataset for the upcoming race.
@@ -477,9 +480,11 @@ class FeatureEngineer:
         pd.DataFrame
             Target features with exactly expected_grid_size rows and no ActualFinish column.
         """
+        effective_expected_size = expected_grid_size if (expected_grid_size is not None and expected_grid_size > 0) else self.expected_grid_size
         logger.info(f"Building target features for {track_name} (Round {target_round}, Stage: {stage})...")
 
-        if quali_df is not None and not quali_df.empty:
+        has_actual_qualifying = (quali_df is not None and not quali_df.empty)
+        if has_actual_qualifying:
             q_sess = quali_df.copy()
             if "Abbreviation" not in q_sess.columns and "Driver" in q_sess.columns:
                 q_sess["Abbreviation"] = q_sess["Driver"]
@@ -495,8 +500,17 @@ class FeatureEngineer:
         q = q_sess.copy()
         q = filter_competing_drivers(q)
         pos_col = "Position" if "Position" in q.columns else "QualifyingPosition"
-        q["Position"] = pd.to_numeric(q[pos_col], errors="coerce")
-        q = q.dropna(subset=["Abbreviation", "Position"]).drop_duplicates("Abbreviation")
+        if pos_col in q.columns:
+            q["Position"] = pd.to_numeric(q[pos_col], errors="coerce")
+        else:
+            q["Position"] = np.nan
+
+        if has_actual_qualifying:
+            q = q.dropna(subset=["Abbreviation", "Position"]).drop_duplicates("Abbreviation")
+        else:
+            # When qualifying session was not held, retain all physical starting grid entrants
+            # Do not drop rows because qualifying Position is NaN
+            q = q.dropna(subset=["Abbreviation"]).drop_duplicates("Abbreviation")
 
         if starting_grid_df is not None and not starting_grid_df.empty:
             q_grid = starting_grid_df.copy()
@@ -509,9 +523,9 @@ class FeatureEngineer:
             q_grid = resolve_fia_starting_grid(q, penalties=penalties, expected_grid_size=len(q))
             q_grid = filter_competing_drivers(q_grid)
 
-        if len(q_grid) != self.expected_grid_size:
+        if len(q_grid) != effective_expected_size:
             logger.warning(
-                f"Starting grid lineup has {len(q_grid)} drivers (expected {self.expected_grid_size})."
+                f"Starting grid lineup has {len(q_grid)} drivers (expected {effective_expected_size})."
             )
 
         grid_lookup = {}
@@ -526,7 +540,8 @@ class FeatureEngineer:
         )
 
         practice = build_practice_features(practice_sessions, drivers)
-        quali_feats = build_qualifying_features(q_sess, drivers)
+        # If qualifying occurred, compute actual qualifying features; otherwise return neutral features
+        quali_feats = build_qualifying_features(q_sess if has_actual_qualifying else None, drivers)
 
         # Sprint features (if sprint sessions were held and available prior to stage cutoff)
         sq_df = practice_sessions.get("sprint_qualifying") if practice_sessions else None
@@ -538,14 +553,16 @@ class FeatureEngineer:
         dform, tform = build_season_form(
             target_round, season_races_df, season_qualis_df, alpha=self.ewma_alpha
         )
-        prior_target_races = season_races_df[season_races_df["Round"] < target_round]
-        target_conv_map = compute_grid_conversion_map(prior_target_races, expected_grid_size=self.expected_grid_size)
+        prior_target_races = season_races_df[season_races_df["Round"] < target_round] if not season_races_df.empty else pd.DataFrame()
+        target_conv_map = compute_grid_conversion_map(prior_target_races, expected_grid_size=effective_expected_size)
 
         # Teammate features
-        tm_quali_feats = compute_teammate_quali_gap(q, drivers)
+        # If qualifying occurred, compute teammate qualifying gap; otherwise leave neutral/NaN
+        tm_quali_feats = compute_teammate_quali_gap(q if has_actual_qualifying else None, drivers)
         grid_col_for_tm = "ActualStartingGrid" if "ActualStartingGrid" in q_grid.columns else "GridPosition"
         tm_grid_feats = compute_teammate_grid_delta(q_grid, drivers, grid_col=grid_col_for_tm)
-        tm_h2h_map = compute_rolling_teammate_h2h(prior_target_races, q)
+        q_for_tm = q if (has_actual_qualifying and not q.empty) else q_grid[["Abbreviation", team_col]].rename(columns={team_col: "TeamName"})
+        tm_h2h_map = compute_rolling_teammate_h2h(prior_target_races, q_for_tm)
 
         # Capability 1: Race Pace Intelligence
         q_pos_map = {d: float(q[q["Abbreviation"] == d]["Position"].iloc[0]) for d in drivers if not q.empty and not q[q["Abbreviation"] == d].empty}
@@ -553,7 +570,7 @@ class FeatureEngineer:
             practice_sessions,
             drivers,
             quali_positions=q_pos_map,
-            expected_grid_size=self.expected_grid_size
+            expected_grid_size=effective_expected_size
         )
 
         canonical_key = resolve_circuit_key(track_key) or resolve_circuit_key(track_name) or str(track_name).lower().replace(" ", "_")
@@ -620,15 +637,15 @@ class FeatureEngineer:
             delta = float(g_info.get("grid_vs_quali_delta", 0))
 
             if is_pit == 1.0 or pd.isna(actual_grid):
-                effective_grid = float(sim_rank) if pd.notna(sim_rank) else float(self.expected_grid_size)
+                effective_grid = float(sim_rank) if pd.notna(sim_rank) else float(effective_expected_size)
                 actual_grid_val = np.nan
             else:
                 effective_grid = float(actual_grid)
                 actual_grid_val = float(actual_grid)
 
             quali_pos = float(q_dict.get("QualifyingPosition", effective_grid))
-            conv_feat = get_conversion_features_for_grid(effective_grid, target_conv_map, expected_grid_size=self.expected_grid_size)
-            grid_norm_val = (effective_grid - 1.0) / float(self.expected_grid_size - 1)
+            conv_feat = get_conversion_features_for_grid(effective_grid, target_conv_map, expected_grid_size=effective_expected_size)
+            grid_norm_val = (effective_grid - 1.0) / float(max(effective_expected_size - 1, 1))
 
             rows.append({
                 "Round": target_round,
@@ -649,6 +666,8 @@ class FeatureEngineer:
                 "grid_norm": grid_norm_val,
                 "expected_grid_finish": conv_feat["expected_grid_finish"],
                 "grid_retention_prob": conv_feat["grid_retention_prob"],
+                "QualifyingDataAvailable": 1 if has_actual_qualifying else 0,
+                "GridBasedComparisonAvailable": 1 if (starting_grid_df is not None and not starting_grid_df.empty) else 0,
 
                 "teammate_quali_gap_pct": float(tm_q_gap) if pd.notna(tm_q_gap) else np.nan,
                 "teammate_grid_delta": float(tm_g_delta) if pd.notna(tm_g_delta) else np.nan,
@@ -665,7 +684,7 @@ class FeatureEngineer:
                 "best_practice_lap": p_dict.get("best_practice_lap", np.nan),
                 "avg_practice_lap": p_dict.get("avg_practice_lap", np.nan),
                 "practice_gap_pct": p_dict.get("practice_gap_pct", np.nan),
-                "practice_rank": p_dict.get("practice_rank", float(self.expected_grid_size)),
+                "practice_rank": p_dict.get("practice_rank", float(effective_expected_size)),
                 "practice_laps": p_dict.get("practice_laps", 0),
                 "practice_laps_norm": p_dict.get("practice_laps_norm", 0.0),
                 "practice_sessions": p_dict.get("practice_sessions", 0),
@@ -674,7 +693,7 @@ class FeatureEngineer:
                 "fp3_gap_pct": p_dict.get("fp3_gap_pct", np.nan),
 
                 "QualifyingPosition": quali_pos,
-                "quali_pos_norm": (quali_pos - 1.0) / float(self.expected_grid_size - 1),
+                "quali_pos_norm": (quali_pos - 1.0) / float(max(effective_expected_size - 1, 1)),
                 "quali_gap_pct": q_dict.get("quali_gap_pct", np.nan),
                 "quali_no_time": q_dict.get("quali_no_time", 1),
                 "q1_gap_pct": q_dict.get("q1_gap_pct", np.nan),
@@ -699,7 +718,7 @@ class FeatureEngineer:
 
                 # Capability 1: Race Pace Intelligence
                 "long_run_pace_gap_pct": rp_dict.get("long_run_pace_gap_pct", np.nan),
-                "long_run_pace_rank": rp_dict.get("long_run_pace_rank", float(self.expected_grid_size)),
+                "long_run_pace_rank": rp_dict.get("long_run_pace_rank", float(effective_expected_size)),
                 "race_pace_consistency": rp_dict.get("race_pace_consistency", np.nan),
                 "race_pace_sample_count": rp_dict.get("race_pace_sample_count", 0),
                 "long_run_stint_length": rp_dict.get("long_run_stint_length", 0),
@@ -755,9 +774,9 @@ class FeatureEngineer:
         if stage is not None:
             target_df = apply_stage_feature_mask(target_df, stage)
 
-        if len(target_df) != self.expected_grid_size:
+        if len(target_df) != effective_expected_size:
             logger.warning(
-                f"Target feature count is {len(target_df)} (expected {self.expected_grid_size})."
+                f"Target feature count is {len(target_df)} (expected {effective_expected_size})."
             )
 
         logger.info(f"Target dataset built successfully for {track_name}: {len(target_df)} drivers.")

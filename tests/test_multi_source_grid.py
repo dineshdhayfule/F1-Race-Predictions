@@ -196,21 +196,23 @@ def test_source_priority_fia_manifest_takes_priority_over_openf1():
 def test_source_priority_openf1_takes_priority_over_algorithmic_fallback():
     """
     Mexico (Round 19) has no FIA manifest, but has OpenF1 starting grid data.
-    Source 3 (OpenF1 API) must be selected over Source 4 (Algorithmic Fallback).
+    When Source 1 and Source 2 are unavailable, Source 3 (OpenF1 API) must be selected
+    over Source 4 (Algorithmic Fallback).
     """
-    loader = DataLoader(root_dir=ROOT)
-    q_df = loader.load_target_qualifying("mexico", 2026)
-    grid_df, meta = loader.load_starting_grid(
-        track_id="mexico",
-        year=2026,
-        round_num=19,
-        stage="after_qualifying",
-        quali_df=q_df,
-    )
-    assert grid_df is not None
-    assert meta["provenance"] == GridProvenance.OPENF1_API.value
-    assert "OpenF1" in meta["document_reference"]
-    assert len(grid_df) == 22
+    with patch.object(StartingGridRetriever, "_retrieve_f1_website", return_value=(None, {})):
+        loader = DataLoader(root_dir=ROOT)
+        q_df = loader.load_target_qualifying("mexico", 2026)
+        grid_df, meta = loader.load_starting_grid(
+            track_id="mexico",
+            year=2026,
+            round_num=19,
+            stage="after_qualifying",
+            quali_df=q_df,
+        )
+        assert grid_df is not None
+        assert meta["provenance"] == GridProvenance.OPENF1_API.value
+        assert "OpenF1" in meta["document_reference"]
+        assert len(grid_df) == 22
 
 
 def test_source_priority_algorithmic_fallback_when_external_sources_missing():
@@ -278,61 +280,63 @@ def test_format_grid_provenance_display():
 # 9. Readiness Audit Distinguishes Qualifying Availability from Official Grid
 # =============================================================================
 def test_readiness_audit_distinguishes_qualifying_from_official_manifest():
-    menu = InteractiveMenu(root_dir=ROOT)
-    ready, details = menu._audit_prediction_readiness("mexico", 2026, 19, "after_qualifying", is_sprint=False)
-    assert ready is True
+    with patch.object(StartingGridRetriever, "_retrieve_f1_website", return_value=(None, {})):
+        menu = InteractiveMenu(root_dir=ROOT)
+        ready, details = menu._audit_prediction_readiness("mexico", 2026, 19, "after_qualifying", is_sprint=False)
+        assert ready is True
 
-    # Qualifying results must be marked OK
-    assert any("Qualifying Results available" in msg for status, msg in details if status == "OK")
+        # Qualifying results must be marked OK
+        assert any("Qualifying Results available" in msg for status, msg in details if status == "OK")
 
-    # Starting Grid must NOT be claimed as "Starting Grid verified" without official manifest
-    assert not any("Starting Grid verified" in msg for _, msg in details)
+        # Starting Grid must NOT be claimed as "Starting Grid verified" without official manifest
+        assert not any("Starting Grid verified" in msg for _, msg in details)
 
-    # OpenF1 published grid must be acknowledged
-    assert any("OpenF1 Published Starting Grid available" in msg for status, msg in details if status == "INFO")
+        # OpenF1 published grid must be acknowledged
+        assert any("OpenF1 Published Starting Grid available" in msg for status, msg in details if status == "INFO")
 
 
 # =============================================================================
 # 10. Mexico 2026 OpenF1 Starting Grid Invariants
 # =============================================================================
 def test_mexico_2026_openf1_grid_inspection():
-    loader = DataLoader(root_dir=ROOT)
-    q_df = loader.load_target_qualifying("mexico", 2026)
-    grid_df, meta = loader.load_starting_grid(
-        track_id="mexico",
-        year=2026,
-        round_num=19,
-        stage="after_qualifying",
-        quali_df=q_df,
-    )
-    assert grid_df is not None
-    assert len(grid_df) == 22
+    with patch.object(StartingGridRetriever, "_retrieve_f1_website", return_value=(None, {})):
+        loader = DataLoader(root_dir=ROOT)
+        q_df = loader.load_target_qualifying("mexico", 2026)
+        grid_df, meta = loader.load_starting_grid(
+            track_id="mexico",
+            year=2026,
+            round_num=19,
+            stage="after_qualifying",
+            quali_df=q_df,
+        )
+        assert grid_df is not None
+        assert len(grid_df) == 22
 
-    # Verify positions on OpenF1 published grid
-    # HAM P1, RUS P2, LEC P3
-    assert grid_df.iloc[0]["Abbreviation"] == "HAM" and int(grid_df.iloc[0]["ActualStartingGrid"]) == 1
-    assert grid_df.iloc[1]["Abbreviation"] == "RUS" and int(grid_df.iloc[1]["ActualStartingGrid"]) == 2
-    assert grid_df.iloc[2]["Abbreviation"] == "LEC" and int(grid_df.iloc[2]["ActualStartingGrid"]) == 3
+        # Verify positions on OpenF1 published grid
+        # HAM P1, RUS P2, LEC P3
+        assert grid_df.iloc[0]["Abbreviation"] == "HAM" and int(grid_df.iloc[0]["ActualStartingGrid"]) == 1
+        assert grid_df.iloc[1]["Abbreviation"] == "RUS" and int(grid_df.iloc[1]["ActualStartingGrid"]) == 2
+        assert grid_df.iloc[2]["Abbreviation"] == "LEC" and int(grid_df.iloc[2]["ActualStartingGrid"]) == 3
 
-    # ANT starts P4 (Quali P5, net delta -1)
-    ant_row = grid_df[grid_df["Abbreviation"] == "ANT"].iloc[0]
-    assert int(ant_row["ActualStartingGrid"]) == 4
-    assert int(ant_row["QualifyingPosition"]) == 5
+        # ANT starts P4 (Quali P5, net delta -1)
+        ant_row = grid_df[grid_df["Abbreviation"] == "ANT"].iloc[0]
+        assert int(ant_row["ActualStartingGrid"]) == 4
+        assert int(ant_row["QualifyingPosition"]) == 5
 
-    # VER starts P5 (Quali P4, net delta +1)
-    ver_row = grid_df[grid_df["Abbreviation"] == "VER"].iloc[0]
-    assert int(ver_row["ActualStartingGrid"]) == 5
-    assert int(ver_row["QualifyingPosition"]) == 4
+        # VER starts P5 (Quali P4, net delta +1)
+        ver_row = grid_df[grid_df["Abbreviation"] == "VER"].iloc[0]
+        assert int(ver_row["ActualStartingGrid"]) == 5
+        assert int(ver_row["QualifyingPosition"]) == 4
 
-    # LIN starts P8 (Quali P8)
-    lin_row = grid_df[grid_df["Abbreviation"] == "LIN"].iloc[0]
-    assert int(lin_row["ActualStartingGrid"]) == 8
-    assert int(lin_row["QualifyingPosition"]) == 8
+        # LIN starts P8 (Quali P8)
+        lin_row = grid_df[grid_df["Abbreviation"] == "LIN"].iloc[0]
+        assert int(lin_row["ActualStartingGrid"]) == 8
+        assert int(lin_row["QualifyingPosition"]) == 8
 
-    # LAW starts P22 (Quali P8, net delta +14, penalized to back)
-    law_row = grid_df[grid_df["Abbreviation"] == "LAW"].iloc[0]
-    assert int(law_row["ActualStartingGrid"]) == 22
-    assert int(law_row["QualifyingPosition"]) == 8
-    assert int(law_row["grid_penalty_places"]) == 14
-    assert law_row["StartingGridStatus"] == StartingGridStatus.PENALIZED.value
+        # LAW starts P22 (Quali P8, net delta +14, penalized to back)
+        law_row = grid_df[grid_df["Abbreviation"] == "LAW"].iloc[0]
+        assert int(law_row["ActualStartingGrid"]) == 22
+        assert int(law_row["QualifyingPosition"]) == 8
+        assert int(law_row["grid_penalty_places"]) == 14
+        assert law_row["StartingGridStatus"] == StartingGridStatus.PENALIZED.value
 

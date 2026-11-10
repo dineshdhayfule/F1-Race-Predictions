@@ -15,6 +15,7 @@ Supports:
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import re
 from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 import pandas as pd
@@ -47,6 +48,10 @@ class StartingGridRetriever:
     def get_openf1_cache_path(self, year: int, round_num: int) -> Path:
         """Returns the canonical path for cached OpenF1 starting grid data."""
         return self.raw_grids_dir / str(year) / f"{year}_round_{round_num}_openf1_grid.json"
+
+    def get_f1_website_cache_path(self, year: int, round_num: int) -> Path:
+        """Returns the canonical path for cached official F1 website starting grid data."""
+        return self.raw_grids_dir / str(year) / f"{year}_round_{round_num}_f1_website_grid.json"
 
     def validate_manifest_json(self, data: Dict[str, Any]) -> Tuple[bool, List[str]]:
         """
@@ -212,7 +217,7 @@ class StartingGridRetriever:
         stage: str = "after_qualifying",
         quali_df: Optional[pd.DataFrame] = None,
         penalties: Optional[Dict[str, Any]] = None,
-        expected_grid_size: int = 22,
+        expected_grid_size: Optional[int] = None,
     ) -> Tuple[Optional[pd.DataFrame], Dict[str, Any]]:
         """
         Retrieves starting grid using strict multi-source priority:
@@ -221,6 +226,9 @@ class StartingGridRetriever:
         3. OpenF1 Starting Grid API (with persistent local caching)
         4. Generic Deterministic FIA Grid Resolver (resolve_fia_starting_grid)
         """
+        if expected_grid_size is None or expected_grid_size <= 0:
+            from src.data.roster_resolver import RosterResolver
+            expected_grid_size = RosterResolver.get_expected_grid_size(year, round_num)
         # Strict stage cutoff: before qualifying, official starting grid cannot be published
         if stage in ["pre_fp1", "after_fp1", "after_fp2", "after_fp3", "after_sprint_qualifying", "after_sprint_race", "after_sprint"]:
             logger.info(
@@ -255,6 +263,8 @@ class StartingGridRetriever:
             track_key=track_key,
             year=year,
             round_num=round_num,
+            stage=stage,
+            quali_df=quali_df,
             expected_grid_size=expected_grid_size,
         )
         if df_f1 is not None:
@@ -297,6 +307,19 @@ class StartingGridRetriever:
                 "stage": stage,
             }
             return df_alg, metadata
+
+        # ---------------------------------------------------------------------
+        # SOURCE 5: Historical Race Results Grid Fallback (Ergast Archive)
+        # ---------------------------------------------------------------------
+        df_hist, meta_hist = self._retrieve_historical_race_grid(
+            track_key=track_key,
+            year=year,
+            round_num=round_num,
+            stage=stage,
+            expected_grid_size=expected_grid_size,
+        )
+        if df_hist is not None:
+            return df_hist, meta_hist
 
         logger.warning(
             f"Cannot resolve starting grid for {track_key} Round {round_num}: "
@@ -377,23 +400,60 @@ class StartingGridRetriever:
         track_key: str,
         year: int,
         round_num: int,
+        stage: str = "after_qualifying",
+        quali_df: Optional[pd.DataFrame] = None,
         expected_grid_size: int = 22,
+        timeout: float = 10.0,
     ) -> Tuple[Optional[pd.DataFrame], Dict[str, Any]]:
-        f1_path = self.raw_grids_dir / str(year) / f"{year}_round_{round_num}_f1_website_grid.json"
-        if not f1_path.exists():
+        f1_path = self.get_f1_website_cache_path(year, round_num)
+        data = None
+
+        # 1. Check local persistent cache first
+        if f1_path.exists():
+            try:
+                with open(f1_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                valid, errs = self.validate_manifest_json(data)
+                if not valid:
+                    logger.warning(f"Cached F1 website grid at {f1_path} failed manifest validation: {errs}")
+                    data = None
+                else:
+                    logger.info(f"Loaded cached official F1 website starting grid from {f1_path}")
+            except Exception as e:
+                logger.warning(f"Error loading cached F1 website grid from {f1_path}: {e}")
+                data = None
+
+        # 2. If not cached, attempt live query from formula1.com
+        if not data:
+            data = self._fetch_f1_website_live(
+                track_key=track_key,
+                year=year,
+                round_num=round_num,
+                quali_df=quali_df,
+                timeout=timeout,
+            )
+            if data:
+                valid, errs = self.validate_manifest_json(data)
+                if valid:
+                    try:
+                        f1_path.parent.mkdir(parents=True, exist_ok=True)
+                        with open(f1_path, "w", encoding="utf-8") as f:
+                            json.dump(data, f, indent=2)
+                        logger.info(f"Cached validated official F1 website grid to {f1_path}")
+                    except Exception as e:
+                        logger.warning(f"Could not write F1 website cache {f1_path}: {e}")
+                else:
+                    logger.warning(f"Live F1 website grid failed manifest validation: {errs}")
+                    data = None
+
+        if not data:
             return None, {}
 
         try:
-            with open(f1_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-
-            valid, errs = self.validate_manifest_json(data)
-            if not valid:
-                return None, {}
-
             df = self._manifest_to_dataframe(data, expected_grid_size=expected_grid_size)
             valid_df, df_errs = self.validate_grid_dataframe(df, expected_grid_size=expected_grid_size)
             if not valid_df:
+                logger.warning(f"Official F1 website DataFrame validation failed: {df_errs}")
                 return None, {}
 
             metadata = {
@@ -403,11 +463,284 @@ class StartingGridRetriever:
                 "season": year,
                 "round": round_num,
                 "circuit_key": track_key,
+                "source_url": data.get("source_url", ""),
+                "retrieval_timestamp": data.get("retrieval_timestamp", ""),
+                "stewards_notes": data.get("stewards_notes", []),
+                "stage": stage,
             }
+            logger.info(
+                f"Successfully loaded official F1 website starting grid for {track_key} Round {round_num} "
+                f"({len(df)} drivers, Ref: {metadata['document_reference']})"
+            )
             return df, metadata
         except Exception as e:
-            logger.error(f"Error loading F1 website grid from {f1_path}: {e}")
+            logger.error(f"Error parsing official F1 website grid: {e}")
             return None, {}
+
+    def _fetch_f1_website_live(
+        self,
+        track_key: str,
+        year: int,
+        round_num: int,
+        quali_df: Optional[pd.DataFrame] = None,
+        timeout: float = 10.0,
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Fetches and parses the official published starting grid from formula1.com.
+        """
+        import urllib.request
+        from urllib.error import HTTPError, URLError
+
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ApexGrid/2.0"}
+
+        # 1. Fetch season races index
+        index_url = f"https://www.formula1.com/en/results/{year}/races"
+        try:
+            req = urllib.request.Request(index_url, headers=headers)
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                html = resp.read().decode("utf-8", errors="ignore")
+        except Exception as e:
+            logger.warning(f"Error fetching season race index from {index_url}: {e}")
+            return None
+
+        # Discover race URLs
+        matches = re.findall(rf'/en/results/{year}/races/(\d+)/([^"/]+)', html)
+        seen = set()
+        unique_races = []
+        for r_id, slug in matches:
+            if (r_id, slug) not in seen:
+                seen.add((r_id, slug))
+                unique_races.append((r_id, slug))
+
+        if not unique_races:
+            logger.warning(f"No race links discovered on {index_url}")
+            return None
+
+        synonyms = {
+            "cota": ["united-states", "austin"],
+            "austin": ["united-states", "austin"],
+            "mexico": ["mexico", "hermanos-rodriguez"],
+            "silverstone": ["great-britain", "british"],
+            "monza": ["italy", "italian"],
+            "spa": ["belgium", "belgian"],
+            "red_bull_ring": ["austria", "austrian"],
+            "interlagos": ["brazil", "sao-paulo", "sao paulo"],
+            "sao_paulo": ["brazil", "sao-paulo", "sao paulo"],
+            "sao paulo": ["brazil", "sao-paulo", "sao paulo"],
+            "suzuka": ["japan", "japanese"],
+            "marina_bay": ["singapore"],
+            "yas_marina": ["abu-dhabi", "abu dhabi"],
+            "losail": ["qatar"],
+            "albert_park": ["australia", "australian", "melbourne"],
+            "jeddah": ["saudi-arabia", "saudi"],
+            "bahrain": ["bahrain", "sakhir"],
+            "sepang": ["malaysia", "malaysian"],
+            "baku": ["azerbaijan", "baku"],
+            "monaco": ["monaco", "monte-carlo"],
+            "villeneuve": ["canada", "canadian", "montreal"],
+            "barcelona": ["barcelona-catalunya", "spain", "spanish", "barcelona"],
+            "hungaroring": ["hungary", "hungarian", "budapest"],
+            "zandvoort": ["netherlands", "dutch"],
+            "shanghai": ["china", "chinese"],
+            "las_vegas": ["las-vegas"],
+            "miami": ["miami"],
+        }
+        tk_clean = track_key.lower().replace("_", "-")
+        patterns = synonyms.get(track_key.lower(), [tk_clean, track_key.lower()])
+
+        target_race_id = None
+        target_slug = None
+
+        if 1 <= round_num <= len(unique_races):
+            cand_id, cand_slug = unique_races[round_num - 1]
+            if any(p in cand_slug.lower() for p in patterns):
+                target_race_id, target_slug = cand_id, cand_slug
+
+        if not target_race_id:
+            for cand_id, cand_slug in unique_races:
+                if any(p in cand_slug.lower() for p in patterns):
+                    target_race_id, target_slug = cand_id, cand_slug
+                    break
+
+        if not target_race_id:
+            logger.warning(
+                f"Could not match track '{track_key}' (Round {round_num}) in F1 season {year} calendar"
+            )
+            return None
+
+        # 2. Fetch starting grid page
+        grid_url = f"https://www.formula1.com/en/results/{year}/races/{target_race_id}/{target_slug}/starting-grid"
+        try:
+            req = urllib.request.Request(grid_url, headers=headers)
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                grid_html = resp.read().decode("utf-8", errors="ignore")
+        except Exception as e:
+            logger.warning(f"Error fetching starting grid from {grid_url}: {e}")
+            return None
+
+        # 3. Extract table
+        tables = re.findall(r'<table[^>]*>(.*?)</table>', grid_html, re.DOTALL)
+        if not tables:
+            logger.warning(f"No table element found on {grid_url}")
+            return None
+
+        rows = re.findall(r'<tr[^>]*>(.*?)</tr>', tables[0], re.DOTALL)
+        if len(rows) < 2:
+            logger.warning(f"Starting grid table has insufficient rows ({len(rows)}) on {grid_url}")
+            return None
+
+        first_data_row_text = re.sub(r'<[^>]+>', ' ', rows[1]).strip().lower()
+        if "no results available" in first_data_row_text or "error" in first_data_row_text:
+            logger.info(f"Starting grid is not yet published on {grid_url} ({first_data_row_text})")
+            return None
+
+        # 4. Extract steward notes
+        stewards_notes = []
+        table_end = grid_html.find("</table>")
+        if table_end != -1:
+            snippet = grid_html[table_end:table_end+3000]
+            clean_snippet = re.sub(r'<[^>]+>', ' ', snippet)
+            note_match = re.search(r'Note\s*-\s*([^\n\r<]+)', clean_snippet, re.IGNORECASE)
+            if note_match:
+                note_text = note_match.group(1).strip()
+                if "OUR PARTNERS" in note_text:
+                    note_text = note_text.split("OUR PARTNERS")[0].strip()
+                if note_text:
+                    stewards_notes.append(note_text)
+
+        # 5. Parse driver entries
+        quali_lookup = {}
+        if quali_df is not None and not quali_df.empty:
+            pos_col = "Position" if "Position" in quali_df.columns else "QualifyingPosition"
+            drv_col = "Abbreviation" if "Abbreviation" in quali_df.columns else "Driver"
+            for _, qr in quali_df.iterrows():
+                d_code = str(qr.get(drv_col, "")).upper().strip()
+                q_p = qr.get(pos_col)
+                if d_code and pd.notna(q_p):
+                    try:
+                        quali_lookup[d_code] = int(q_p)
+                    except (ValueError, TypeError):
+                        pass
+
+        raw_parsed = []
+        for r in rows[1:]:
+            cells = [re.sub(r'<[^>]+>', '', c).strip() for c in re.findall(r'<t[hd][^>]*>(.*?)</t[hd]>', r, re.DOTALL)]
+            if len(cells) < 4:
+                continue
+            pos_str = cells[0].strip()
+            num_str = cells[1].strip()
+            driver_cell = cells[2].strip()
+            team_str = cells[3].strip()
+            time_str = cells[4].strip() if len(cells) > 4 else ""
+
+            clean_driver = driver_cell.replace("\xa0", " ").strip()
+            match = re.search(r'([A-Z]{3})$', clean_driver)
+            if match:
+                abbr = match.group(1)
+                full_name = clean_driver[:-3].strip()
+            else:
+                abbr = clean_driver[:3].upper()
+                full_name = clean_driver
+
+            from src.utils.driver_mapping import NAME_TO_CODE
+            abbr_canonical = NAME_TO_CODE.get(abbr.upper(), abbr.upper())
+
+            is_pit = 1 if pos_str.upper() in ["PL", "PIT", "PIT LANE", "PITLANE"] else 0
+            if not is_pit and stewards_notes:
+                for note in stewards_notes:
+                    if full_name.lower() in note.lower() and "pit lane" in note.lower():
+                        is_pit = 1
+                        break
+
+            grid_pos = None
+            if not is_pit:
+                try:
+                    grid_pos = int(pos_str)
+                except (ValueError, TypeError):
+                    grid_pos = None
+                    is_pit = 1
+
+            raw_parsed.append({
+                "abbr": abbr_canonical,
+                "full_name": full_name,
+                "team": team_str,
+                "car_number": num_str,
+                "grid_pos": grid_pos,
+                "is_pit": is_pit,
+                "time_str": time_str,
+            })
+
+        if not raw_parsed:
+            return None
+
+        # Separate physical starters and pit lane starters
+        physical = [e for e in raw_parsed if e["is_pit"] == 0]
+        pit = [e for e in raw_parsed if e["is_pit"] == 1]
+
+        # Sort physical starters by grid_pos
+        physical.sort(key=lambda x: x["grid_pos"])
+
+        # Build contiguous simulation start ranks
+        total_entrants = len(raw_parsed)
+        grid_entries = []
+
+        for rank, e in enumerate(physical, start=1):
+            abbr = e["abbr"]
+            q_pos = quali_lookup.get(abbr)
+            grid_p = e["grid_pos"]
+            delta = (grid_p - q_pos) if (q_pos is not None and grid_p is not None) else 0
+            pen_places = max(0, delta)
+
+            grid_entries.append({
+                "driver": abbr,
+                "full_name": e["full_name"],
+                "team": e["team"],
+                "car_number": e["car_number"],
+                "grid_pos": grid_p,
+                "qualifying_pos": q_pos,
+                "simulation_start_rank": rank,
+                "is_pit_lane_start": 0,
+                "status": StartingGridStatus.CLASSIFIED.value,
+                "grid_penalty_places": pen_places,
+                "grid_vs_quali_delta": delta,
+                "grid_norm": (rank - 1.0) / float(max(total_entrants - 1, 1)),
+            })
+
+        pit_start_rank = len(physical) + 1
+        for i, e in enumerate(pit):
+            rank = pit_start_rank + i
+            abbr = e["abbr"]
+            q_pos = quali_lookup.get(abbr)
+            delta = (rank - q_pos) if q_pos is not None else 0
+            pen_places = max(0, delta)
+
+            grid_entries.append({
+                "driver": abbr,
+                "full_name": e["full_name"],
+                "team": e["team"],
+                "car_number": e["car_number"],
+                "grid_pos": None,
+                "qualifying_pos": q_pos,
+                "simulation_start_rank": rank,
+                "is_pit_lane_start": 1,
+                "status": StartingGridStatus.PIT_LANE.value,
+                "grid_penalty_places": pen_places,
+                "grid_vs_quali_delta": delta,
+                "grid_norm": (rank - 1.0) / float(max(total_entrants - 1, 1)),
+            })
+
+        manifest = {
+            "season": year,
+            "round": round_num,
+            "circuit_key": track_key,
+            "document_reference": f"Official Formula 1 Website Published Starting Grid ({target_slug.title()} {year})",
+            "publication_status": GridPublicationStatus.FINAL.value,
+            "source_url": grid_url,
+            "retrieval_timestamp": datetime.now(timezone.utc).isoformat(),
+            "stewards_notes": stewards_notes,
+            "grid": grid_entries,
+        }
+        return manifest
 
     # =========================================================================
     # SOURCE 3 IMPLEMENTATION: OPENF1 STARTING GRID API
@@ -810,6 +1143,186 @@ class StartingGridRetriever:
         df = pd.DataFrame(rows)
         df = df.sort_values("simulation_start_rank").reset_index(drop=True)
         return df
+
+    def _retrieve_historical_race_grid(
+        self,
+        track_key: str,
+        year: int,
+        round_num: int,
+        stage: str = "after_qualifying",
+        expected_grid_size: Optional[int] = None,
+    ) -> Tuple[Optional[pd.DataFrame], Dict[str, Any]]:
+        """
+        Extracts pre-race starting grid from historical race results (e.g. Ergast GridPosition)
+        when separate qualifying or grid manifests are unavailable.
+
+        Strictly enforces ZERO data leakage:
+        Only extracts pre-race grid positions and driver identifiers.
+        Excludes finishing Position, ClassifiedPosition, Points, Status, Time, and post-race outcome fields.
+        """
+        tk = track_key.lower().strip()
+        race_candidates = [
+            self.root_dir / "data" / "raw" / "season" / str(year) / f"{year}_round_{round_num}_race.csv",
+            self.root_dir / "data" / "raw" / "tracks" / tk / str(year) / f"{year}_{tk}_race.csv",
+            self.root_dir / "data" / "raw" / "tracks" / tk / str(year) / "race.csv",
+            self.root_dir / "data" / "raw" / "tracks" / tk / "history" / f"{tk}_{year}_race.csv",
+        ]
+
+        race_df = None
+        for p in race_candidates:
+            if p.exists() and p.stat().st_size > 0:
+                try:
+                    df = pd.read_csv(p)
+                    if not df.empty and ("GridPosition" in df.columns or "grid" in df.columns):
+                        race_df = df
+                        break
+                except Exception:
+                    pass
+
+        # If not found on disk, attempt reading from FastF1 historical session if applicable
+        if race_df is None and year < 2018:
+            try:
+                import fastf1
+                sess = fastf1.get_session(year, round_num, "R")
+                sess.load(laps=False, telemetry=False, weather=False, messages=False)
+                if hasattr(sess, "results") and sess.results is not None and not sess.results.empty:
+                    if "GridPosition" in sess.results.columns:
+                        race_df = sess.results.copy()
+            except Exception:
+                pass
+
+        if race_df is None or race_df.empty:
+            return None, {}
+
+        grid_col = "GridPosition" if "GridPosition" in race_df.columns else "grid"
+        if grid_col not in race_df.columns:
+            return None, {}
+
+        numeric_grid = pd.to_numeric(race_df[grid_col], errors="coerce")
+        if numeric_grid.dropna().empty:
+            return None, {}
+
+        # STRICT DATA LEAKAGE PREVENTION:
+        # Extract ONLY pre-race fields: DriverId, DriverNumber, FullName, Abbreviation, TeamName, GridPosition
+        # Exclude: Position, ClassifiedPosition, Points, Status, Time, Laps, etc.
+        from src.utils.driver_mapping import normalize_driver
+        norm_df = normalize_driver(race_df)
+
+        # SEPARATE PHYSICAL CARS FROM DRIVER PARTICIPATION
+        # Group driver records by physical car (identified by CarNumber and GridPosition)
+        car_col = "DriverNumber" if "DriverNumber" in norm_df.columns else "CarNumber"
+        grouped_cars = {}
+        for idx, r in norm_df.iterrows():
+            c_num = r.get(car_col)
+            raw_g = pd.to_numeric(r.get(grid_col), errors="coerce")
+            c_key = (c_num, raw_g) if pd.notna(c_num) else (f"grid_{raw_g}", raw_g)
+            if c_key not in grouped_cars:
+                grouped_cars[c_key] = []
+            grouped_cars[c_key].append(r)
+
+        total_physical_cars = len(grouped_cars)
+        physical_entries = []
+        driver_participations = []
+
+        for c_key, driver_rows in grouped_cars.items():
+            c_num, raw_g = c_key
+            first_r = driver_rows[0]
+            team = first_r.get("TeamName") or first_r.get("Team") or "Unknown"
+            is_shared = len(driver_rows) > 1
+
+            is_pit = 1 if (pd.isna(raw_g) or raw_g <= 0) else 0
+            grid_pos = float(raw_g) if (pd.notna(raw_g) and raw_g > 0) else np.nan
+            sim_rank = grid_pos if pd.notna(grid_pos) else float(total_physical_cars)
+
+            # Grid normalization computed strictly against the physical car count
+            if pd.notna(sim_rank):
+                grid_norm = (sim_rank - 1.0) / float(max(total_physical_cars - 1, 1))
+            else:
+                grid_norm = np.nan
+
+            # Primary starting-driver identification:
+            # Rules: Never infer starter from finish position, points, status, or row order.
+            # If source data does not reliably establish starting driver, leave unresolved.
+            has_source_starter = any("StartingDriver" in r and pd.notna(r["StartingDriver"]) for r in driver_rows)
+            if not is_shared:
+                starting_driver = first_r.get("Abbreviation")
+                is_starter_resolved = True
+                car_abbr = str(starting_driver).strip().upper()
+                shared_drvs = [car_abbr]
+            elif has_source_starter:
+                starter_row = next(r for r in driver_rows if pd.notna(r.get("StartingDriver")))
+                starting_driver = str(starter_row.get("Abbreviation")).strip().upper()
+                is_starter_resolved = True
+                car_abbr = starting_driver
+                shared_drvs = [str(r.get("Abbreviation")).strip().upper() for r in driver_rows]
+            else:
+                starting_driver = None
+                is_starter_resolved = False
+                shared_drvs = sorted([str(r.get("Abbreviation")).strip().upper() for r in driver_rows])
+                car_abbr = " / ".join(shared_drvs)
+
+            physical_entries.append({
+                "CarNumber": str(c_num) if pd.notna(c_num) else "",
+                "Abbreviation": car_abbr,
+                "TeamName": str(team).strip(),
+                "QualifyingPosition": np.nan,
+                "ActualStartingGrid": grid_pos,
+                "simulation_start_rank": sim_rank,
+                "is_pit_lane_start": is_pit,
+                "StartingGridStatus": StartingGridStatus.PIT_LANE.value if is_pit else StartingGridStatus.CLASSIFIED.value,
+                "GridPenalty": 0,
+                "grid_penalty_places": 0,
+                "grid_vs_quali_delta": 0,
+                "grid_norm": grid_norm,
+                "is_shared_drive": is_shared,
+                "is_starting_driver_resolved": is_starter_resolved,
+                "StartingDriver": starting_driver,
+                "shared_drivers": shared_drvs,
+            })
+
+            # Preserve all individual driver participation records
+            for r in driver_rows:
+                drv = r.get("Abbreviation")
+                full_name = r.get("FullName") or r.get("BroadcastName") or drv
+                driver_id = r.get("DriverId") or drv
+                driver_participations.append({
+                    "DriverId": str(driver_id).strip(),
+                    "DriverName": str(full_name).strip(),
+                    "Abbreviation": str(drv).strip().upper(),
+                    "CarNumber": str(c_num) if pd.notna(c_num) else "",
+                    "TeamName": str(team).strip(),
+                    "ParticipationRole": "shared_unresolved" if is_shared else "solo_starter",
+                    "GridPosition": grid_pos,
+                    "RaceResultReference": f"{year}_round_{round_num}_race",
+                    "is_shared_drive": is_shared,
+                    "is_starting_driver": None if is_shared else True,
+                })
+
+        grid_df = pd.DataFrame(physical_entries)
+        grid_df = grid_df.sort_values("simulation_start_rank").reset_index(drop=True)
+
+        # Store driver participation records in DataFrame attrs for downstream consumers
+        grid_df.attrs["driver_participations"] = driver_participations
+
+        metadata = {
+            "provenance": GridProvenance.HISTORICAL_RACE_RESULTS.value,
+            "publication_status": GridPublicationStatus.FINAL.value,
+            "document_reference": "Historical Race Results Official Starting Grid (Ergast Archive)",
+            "season": year,
+            "round": round_num,
+            "circuit_key": track_key,
+            "stage": stage,
+            "total_entrants": len(grid_df),
+            "total_physical_cars": len(grid_df),
+            "total_driver_participations": len(driver_participations),
+            "driver_participations": driver_participations,
+            "shared_drive_cars_count": sum(1 for c in physical_entries if c["is_shared_drive"]),
+        }
+        logger.info(
+            f"Successfully resolved historical starting grid from race results for {track_key} {year} "
+            f"Round {round_num} ({len(grid_df)} physical cars, {len(driver_participations)} driver participations, Ref: {metadata['document_reference']})"
+        )
+        return grid_df, metadata
 
     def save_manifest(
         self,

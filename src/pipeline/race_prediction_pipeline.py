@@ -20,6 +20,7 @@ import xgboost as xgb
 from src.data.data_loader import DataLoader
 from src.data.data_validator import DataValidator
 from src.features.build_features import FeatureEngineer
+from src.features.grid_features import GridProvenance
 from src.features.weekend_features import (
     build_practice_features,
     build_sprint_qualifying_features,
@@ -70,7 +71,7 @@ class RacePredictionPipeline:
 
     def run(
         self,
-        track_key: str,
+        track_key: Optional[str] = None,
         year: int = 2026,
         stage: str = "after_qualifying",
         model: Optional[str] = "hybrid",
@@ -78,13 +79,15 @@ class RacePredictionPipeline:
         xgb_weight: Optional[float] = None,
         capabilities: Optional[Dict[str, bool]] = None,
         n_simulations: Optional[int] = None,
+        round_num: Optional[int] = None,
+        track_id: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         Executes end-to-end race prediction for the specified track.
 
         Parameters
         ----------
-        track_key : str
+        track_key : str, optional
             Identifier in tracks.json (e.g. 'sepang', 'baku', 'monza').
         year : int
             Championship season year.
@@ -101,7 +104,10 @@ class RacePredictionPipeline:
         -------
         dict containing prediction results, evaluation metrics, and simulation stats.
         """
-        track_key = track_key.lower().strip()
+        t_key = track_key or track_id
+        if not t_key:
+            raise ValueError("A track identifier ('track_key' or 'track_id') must be provided.")
+        track_key = str(t_key).lower().strip()
         valid_models = {"rf", "xgb", "ridge", "hybrid", "ensemble", "multi"}
         model_choice = (model or "hybrid").lower().strip()
         if model_choice not in valid_models:
@@ -149,7 +155,14 @@ class RacePredictionPipeline:
             raise KeyError(f"Track '{track_key}' not found in tracks.json. Available: {list(tracks.keys())}")
 
         track_info = tracks[track_key]
-        target_round = track_info.get(f"round_{year}")
+        if round_num is not None:
+            try:
+                target_round = int(round_num)
+            except (ValueError, TypeError):
+                target_round = None
+        else:
+            target_round = track_info.get(f"round_{year}")
+
         if target_round is None:
             if year == 2026:
                 target_round = track_info.get("round_2026", 16)
@@ -186,6 +199,7 @@ class RacePredictionPipeline:
             track_key=track_key,
             year=year,
             stage=stage,
+            round_num=target_round,
             historical_rounds=tracks
         )
 
@@ -198,28 +212,14 @@ class RacePredictionPipeline:
         is_provisional_quali = False
         provisional_quali_meta = None
         if stage in ["after_qualifying", "before_race", "post_race"]:
-            quali_df = self.data_loader.load_target_qualifying(track_key, year, historical_tracks=tracks)
+            quali_df = self.data_loader.load_target_qualifying(track_key, year, round_num=target_round, historical_tracks=tracks)
 
-        if quali_df is None or quali_df.empty:
-            if stage in ["after_qualifying", "before_race", "post_race"]:
-                logger.warning(
-                    f"MISSING SESSION: Target qualifying data was not found for stage '{stage}'. "
-                    f"Falling back to provisional pre-race qualifying prediction model. "
-                    f"Predictions are PROVISIONAL and do not reflect actual qualifying results."
-                )
-            else:
-                logger.info(
-                    f"Target qualifying not yet completed/observed for stage '{stage}'. Running pre-race qualifying prediction model..."
-                )
-            provisional_quali_meta = self.predict_qualifying(track_key=track_key, year=year, stage=stage)
-            is_provisional_quali = True
-            quali_df = provisional_quali_meta["predictions"][["Abbreviation", "TeamName", "PredictedPosition"]].copy()
-            quali_df.rename(columns={"PredictedPosition": "Position"}, inplace=True)
-            quali_df["QualifyingPosition"] = quali_df["Position"]
-        else:
-            logger.info(f"Loaded actual qualifying session results for {track_name} ({len(quali_df)} drivers).")
+        # 3b. Load Authoritative Starting Grid (Multi-Source: FIA -> F1 -> OpenF1 -> Algorithmic Fallback -> Historical Race Grid)
+        from src.data.roster_resolver import RosterResolver
+        expected_grid_size = RosterResolver.get_expected_grid_size(year, target_round)
+        if self.model_config.get("expected_grid_size") and year == 2026:
+            expected_grid_size = self.model_config.get("expected_grid_size", 22)
 
-        # 3b. Load Authoritative Starting Grid (Multi-Source: FIA -> F1 -> OpenF1 -> Algorithmic Fallback)
         starting_grid_df, grid_meta = self.data_loader.load_starting_grid(
             track_id=track_key,
             year=year,
@@ -227,8 +227,47 @@ class RacePredictionPipeline:
             stage=stage,
             quali_df=quali_df,
             penalties=penalties,
-            expected_grid_size=self.model_config.get("expected_grid_size", 22),
+            expected_grid_size=expected_grid_size,
         )
+
+        if quali_df is None or quali_df.empty:
+            prov = grid_meta.get("provenance", "")
+            if starting_grid_df is not None and not starting_grid_df.empty and prov in [GridProvenance.HISTORICAL_RACE_RESULTS.value, "historical_race_results"]:
+                logger.info(
+                    f"Using historical race-derived starting grid directly for {track_name} {year} "
+                    f"({len(starting_grid_df)} drivers; separate qualifying session unavailable for season {year})."
+                )
+                quali_df = None
+            elif stage == "after_qualifying":
+                # STRICT AFTER_QUALIFYING SAFETY:
+                # Stage 'after_qualifying' strictly mandates official, observed qualifying results.
+                # Silently manufacturing an artificial starting grid via predict_qualifying()
+                # from practice lap times is strictly prohibited.
+                raise ValueError(
+                    f"Cannot execute prediction for stage 'after_qualifying': Official qualifying results "
+                    f"are unavailable for {track_name} {year} (Round {target_round}). "
+                    f"Stage 'after_qualifying' strictly mandates verified official qualifying results. "
+                    f"To generate provisional predictions prior to official qualifying, "
+                    f"use an appropriate pre-qualifying stage ('pre_fp1', 'after_fp1', 'after_fp2', 'after_fp3')."
+                )
+            else:
+                if stage in ["before_race", "post_race"]:
+                    logger.warning(
+                        f"MISSING SESSION: Target qualifying data was not found for stage '{stage}'. "
+                        f"Falling back to provisional pre-race qualifying prediction model. "
+                        f"Predictions are PROVISIONAL and do not reflect actual qualifying results."
+                    )
+                else:
+                    logger.info(
+                        f"Target qualifying not yet completed/observed for stage '{stage}'. Running pre-race qualifying prediction model..."
+                    )
+                provisional_quali_meta = self.predict_qualifying(track_key=track_key, year=year, stage=stage, round_num=target_round)
+                is_provisional_quali = True
+                quali_df = provisional_quali_meta["predictions"][["Abbreviation", "TeamName", "PredictedPosition"]].copy()
+                quali_df.rename(columns={"PredictedPosition": "Position"}, inplace=True)
+                quali_df["QualifyingPosition"] = quali_df["Position"]
+        else:
+            logger.info(f"Loaded actual qualifying session results for {track_name} ({len(quali_df)} drivers).")
 
         # Log actual starting grid provenance accurately
         prov = grid_meta.get("provenance", "unknown")
@@ -250,6 +289,11 @@ class RacePredictionPipeline:
             logger.info(
                 f"Starting Grid: Algorithmic Provisional Grid (Ref: {doc_ref}, Status: {pub_status}). Deterministic resolution under FIA Art 42.3."
             )
+        elif prov in ["historical_race_results", GridProvenance.HISTORICAL_RACE_RESULTS.value]:
+            logger.info(
+                f"Starting Grid: Official Historical Grid (Ref: {doc_ref}, Status: {pub_status}). "
+                "Retrospectively reconstructed from Ergast / FastF1 historical race results."
+            )
         elif prov == "unpublished":
             logger.info(
                 f"Starting Grid: Unpublished at stage '{stage}'. Provisional pre-race starting grid applied."
@@ -260,6 +304,7 @@ class RacePredictionPipeline:
             )
 
         # 4. Build Training Features
+        self.feature_engineer.expected_grid_size = expected_grid_size
         training_features = self.feature_engineer.build_training_dataset(
             races_df=races_df,
             qualis_df=qualis_df,
@@ -280,6 +325,7 @@ class RacePredictionPipeline:
             starting_grid_df=starting_grid_df,
             stage=stage,
             track_key=track_key,
+            expected_grid_size=expected_grid_size,
         )
 
         # 6. Audit for Data Leakage
@@ -465,10 +511,17 @@ class RacePredictionPipeline:
             circuit_key=track_key,
             n_simulations=n_simulations,
         )
+        is_oos = eval_results.get("is_out_of_sample", bool(eval_results.get("validation_rounds")))
+        val_status = eval_results.get("validation_status", "CHRONOLOGICAL_WALK_FORWARD" if is_oos else "UNAVAILABLE")
+        readiness_cls = "VALIDATED" if is_oos else ("EXPERIMENTAL" if len(train_rounds) > 0 else "BLOCKED")
         sim_meta["model"] = model_choice
         sim_meta["selected_model"] = selected_model_name
         sim_meta["selection_method"] = selection_method
         sim_meta["selected_mae"] = selected_mae
+        sim_meta["is_out_of_sample"] = is_oos
+        sim_meta["validation_status"] = val_status
+        sim_meta["readiness_classification"] = readiness_cls
+        sim_meta["validation_method"] = eval_results.get("validation_method", "chronological_walk_forward" if is_oos else "in_sample_training_baseline")
         sim_meta["selected_rf_weight"] = selected_rf_weight
         sim_meta["selected_xgb_weight"] = selected_xgb_weight
         sim_meta["selected_ridge_weight"] = selected_ridge_weight
@@ -583,6 +636,9 @@ class RacePredictionPipeline:
             "selected_model": selected_model_name,
             "selection_method": selection_method,
             "selected_mae": selected_mae,
+            "is_out_of_sample": is_oos,
+            "validation_status": val_status,
+            "validation_rounds": eval_results.get("validation_rounds", []),
             "selected_rf_weight": selected_rf_weight,
             "selected_xgb_weight": selected_xgb_weight,
             "selected_ridge_weight": selected_ridge_weight,
@@ -592,6 +648,7 @@ class RacePredictionPipeline:
             "predictions": sim_results,
             "model_comparison": comp_df,
             "simulation_meta": sim_meta,
+            "readiness_classification": sim_meta.get("readiness_classification", "VALIDATED"),
             "leakage_clean": True,
             "output_dir": str(track_output_dir),
             "is_provisional_quali": is_provisional_quali,
@@ -606,7 +663,8 @@ class RacePredictionPipeline:
         self,
         track_key: str,
         year: int = 2026,
-        stage: str = "after_sprint_race"
+        stage: str = "after_sprint_race",
+        round_num: Optional[int] = None,
     ) -> Dict[str, Any]:
         """
         Predicts Race Qualifying outcome when qualifying has not yet occurred.
@@ -620,7 +678,14 @@ class RacePredictionPipeline:
             raise KeyError(f"Track '{track_key_clean}' not configured in tracks.json.")
 
         track_info = tracks[track_key_clean]
-        target_round = track_info.get(f"round_{year}")
+        if round_num is not None:
+            try:
+                target_round = int(round_num)
+            except (ValueError, TypeError):
+                target_round = None
+        else:
+            target_round = track_info.get(f"round_{year}")
+
         if target_round is None:
             if year == 2026:
                 target_round = track_info.get("round_2026", 17)
@@ -630,6 +695,12 @@ class RacePredictionPipeline:
                     f"Configured calendar is for 2026."
                 )
         track_name = track_info.get("display_name", track_key_clean.title())
+
+        if stage == "after_qualifying":
+            raise ValueError(
+                f"Provisional qualifying prediction model cannot be executed for stage 'after_qualifying'. "
+                f"Stage 'after_qualifying' strictly requires actual observed qualifying results."
+            )
 
         train_rounds = [r for r in range(1, target_round)]
         if target_round <= 1 or not train_rounds:
@@ -663,11 +734,22 @@ class RacePredictionPipeline:
             historical_rounds=tracks
         )
 
-        latest_round = max(train_rounds) if train_rounds else target_round - 1
-        latest_race = races_df[races_df["Round"] == latest_round]
-        latest_race = filter_competing_drivers(latest_race)
-        drivers = latest_race["Abbreviation"].dropna().unique().tolist()
-        team_map = latest_race.set_index("Abbreviation")["TeamName"].to_dict()
+        from src.data.roster_resolver import RosterResolver
+        expected_grid_size = RosterResolver.get_expected_grid_size(year, target_round)
+        roster_resolver = RosterResolver(self.root_dir)
+        roster_df = roster_resolver.resolve_roster(
+            year=year,
+            round_num=target_round,
+            track_id=track_key_clean,
+            stage=stage,
+            weekend_sessions=weekend_sessions,
+            season_races_df=races_df,
+            season_qualis_df=qualis_df,
+            expected_grid_size=expected_grid_size,
+        )
+        drivers = roster_df["Abbreviation"].tolist()
+        team_map = roster_df.set_index("Abbreviation")["TeamName"].to_dict()
+        driver_teams_df = roster_df[["Abbreviation", "TeamName"]].copy()
 
         p_feats = build_practice_features(weekend_sessions, drivers)
         sq_feats = build_sprint_qualifying_features(weekend_sessions.get("sprint_qualifying"), drivers)
@@ -675,7 +757,7 @@ class RacePredictionPipeline:
         dform, tform = build_season_form(target_round, races_df, qualis_df, alpha=0.3)
         tm_h2h = compute_rolling_teammate_h2h(
             races_df[races_df["Round"] < target_round],
-            latest_race[["Abbreviation", "TeamName"]]
+            driver_teams_df
         )
 
         target_rows = []
@@ -691,7 +773,7 @@ class RacePredictionPipeline:
                 "Abbreviation": drv,
                 "TeamName": team,
                 "practice_gap_pct": pf.get("practice_gap_pct", np.nan),
-                "practice_rank": pf.get("practice_rank", 22.0),
+                "practice_rank": pf.get("practice_rank", float(expected_grid_size)),
                 "practice_laps_norm": pf.get("practice_laps_norm", 0.0),
                 "fp1_gap_pct": pf.get("fp1_gap_pct", np.nan),
                 "driver_quali_ewma": dfv.get("driver_quali_ewma", 12.0),
@@ -955,17 +1037,25 @@ class RacePredictionPipeline:
         top_driver = sim_results.iloc[0]["Abbreviation"]
         top_prob = sim_results.iloc[0]["WinProbability"]
         title_name = track_name if track_name.endswith("Grand Prix") else f"{track_name} Grand Prix"
+        is_oos = sim_meta.get("is_out_of_sample", True)
 
         lines = [
             f"# F1 {year} {title_name} — Race Prediction Report",
             f"**Round**: {target_round} | **Stage**: `{stage}` | **Simulations**: {sim_meta.get('n_simulations', 25000):,}",
             f"**Selected Model**: **{sim_meta.get('selected_model', 'N/A')}**",
             f"**Selection Method**: {sim_meta.get('selection_method', 'Chronological Walk-Forward Validation')}",
-            f"**Selected MAE**: {sim_meta.get('selected_mae', 'N/A')}",
+        ]
+        if is_oos:
+            lines.append(f"**Walk-Forward Out-of-Sample MAE**: {sim_meta.get('selected_mae', 'N/A')}")
+        else:
+            lines.append(f"**Walk-Forward Out-of-Sample MAE**: *UNAVAILABLE* (Insufficient rounds for walk-forward evaluation)")
+            lines.append(f"**In-Sample Training Fit Baseline (Non-Validation)**: {sim_meta.get('selected_mae', 'N/A')}")
+
+        lines.extend([
             f"**Predicted Winner**: **{top_driver}** ({top_prob}% win probability)",
             "",
             "## Grid Penalties Applied",
-        ]
+        ])
 
         if penalties:
             for drv, pen in penalties.items():
@@ -1004,13 +1094,25 @@ class RacePredictionPipeline:
 
             lines.append(f"| {pos} | **{drv}** | {team} | {grid} | {exp} | {med} | {win} | {pod} | {top5} | {pts} | {rng} |")
 
-        lines.extend([
-            "",
-            "## Walk-Forward Model Comparison",
-            "",
-            "| Model Configuration | MAE | MedAE | RMSE | Spearman |",
-            "|:--------------------|:---:|:-----:|:----:|:--------:|",
-        ])
+        if is_oos:
+            lines.extend([
+                "",
+                "## Chronological Walk-Forward Model Comparison (Out-of-Sample)",
+                "",
+                "| Model Configuration | MAE | MedAE | RMSE | Spearman |",
+                "|:--------------------|:---:|:-----:|:----:|:--------:|",
+            ])
+        else:
+            lines.extend([
+                "",
+                "## Model Comparison — In-Sample Training Fit Baseline (Validation Unavailable)",
+                "",
+                "> [!NOTE]",
+                "> Insufficient historical rounds exist prior to this event to construct genuine chronological out-of-sample walk-forward validation splits. The metrics below represent in-sample training fit baselines, not out-of-sample validation.",
+                "",
+                "| Model Configuration | In-Sample MAE | MedAE | RMSE | Spearman |",
+                "|:--------------------|:-------------:|:-----:|:----:|:--------:|",
+            ])
 
         for _, row in comp_df.iterrows():
             lines.append(f"| {row['model_name']} | {row['mae']:.3f} | {row['medae']:.3f} | {row['rmse']:.3f} | {row['spearman']:.3f} |")

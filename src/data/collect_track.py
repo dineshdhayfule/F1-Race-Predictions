@@ -94,8 +94,13 @@ def save_practice_laps(session, target_path: Path, force: bool = False):
         return pd.read_csv(target_path)
 
     try:
-        session.load(telemetry=False, weather=False, messages=False)
-        laps = session.laps
+        if getattr(session, "f1_api_support", True):
+            session.load(telemetry=False, weather=False, messages=False)
+            laps = getattr(session, "laps", None)
+        else:
+            session.load(laps=False, telemetry=False, weather=False, messages=False)
+            laps = None
+
         if laps is None or len(laps) == 0:
             logger.info(f"  [INFO] No lap data found for {session.name}.")
             return None
@@ -238,7 +243,10 @@ def collect_historical_track_data(
         else:
             try:
                 r_sess = fastf1.get_session(y, round_num, "R")
-                r_sess.load(telemetry=False, weather=False, messages=False)
+                if y < 2018 or not getattr(r_sess, "f1_api_support", True):
+                    r_sess.load(laps=False, telemetry=False, weather=False, messages=False)
+                else:
+                    r_sess.load(telemetry=False, weather=False, messages=False)
                 res = r_sess.results.copy()
                 if not res.empty and "Position" in res.columns and res["Position"].dropna().shape[0] > 0:
                     res["Year"] = y
@@ -265,7 +273,10 @@ def collect_historical_track_data(
         else:
             try:
                 q_sess = fastf1.get_session(y, round_num, "Q")
-                q_sess.load(telemetry=False, weather=False, messages=False)
+                if y < 2018 or not getattr(q_sess, "f1_api_support", True):
+                    q_sess.load(laps=False, telemetry=False, weather=False, messages=False)
+                else:
+                    q_sess.load(telemetry=False, weather=False, messages=False)
                 res = q_sess.results.copy()
                 if not res.empty and "Position" in res.columns and res["Position"].dropna().shape[0] > 0:
                     res["Year"] = y
