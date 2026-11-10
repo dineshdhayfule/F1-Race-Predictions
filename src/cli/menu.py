@@ -10,6 +10,8 @@ Provides complete guided workflows for:
 6. Configuration & Supported Circuits
 """
 
+from datetime import datetime
+import os
 from pathlib import Path
 import sys
 import json
@@ -17,6 +19,16 @@ import subprocess
 from typing import Dict, Any, List, Optional, Tuple
 import pandas as pd
 import numpy as np
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+    if "F1_USERNAME" not in os.environ and "email" in os.environ:
+        os.environ["F1_USERNAME"] = os.environ["email"]
+    if "F1_PASSWORD" not in os.environ and "pass" in os.environ:
+        os.environ["F1_PASSWORD"] = os.environ["pass"]
+except Exception:
+    pass
 
 from src.cli.terminal_ui import (
     clear_screen,
@@ -311,12 +323,13 @@ class InteractiveMenu:
         return circuits[-1][1], circuits[-1][0]
 
     def menu_predict_race(self) -> None:
+        default = datetime.now().year
         clear_screen()
-        print_banner(season=2026, status_text="Prediction Wizard")
+        print_banner(season=default, status_text="Prediction Wizard")
         print_header("Step 1: Select Season & Championship Year")
 
         # Step 1: Select Season Year (default 2026, calendar-driven)
-        year = prompt_int("Enter Season Year", min_val=1950, max_val=2050, default=2026)
+        year = prompt_int("Enter Season Year", min_val=1950, max_val=default, default=default)
         if year is None:
             return
 
@@ -962,7 +975,8 @@ class InteractiveMenu:
 
     def _run_full_season_collector(self) -> None:
         print_header("Collect Entire Season (FastF1)")
-        year = prompt_int("Enter Season Year", default=2026)
+        default = datetime.now().year
+        year = prompt_int("Enter Season Year", min_val=1950, max_val=default, default=default)
         session_mode = self._prompt_session_collection_mode()
         force = prompt_confirm("Force redownload of existing session files?", default=False)
         mode_label = "Full Weekend (Practice, Quali & Race)" if session_mode == "full" else (
@@ -985,7 +999,8 @@ class InteractiveMenu:
             prompt_str("Press [Enter] to return", allow_empty=True)
             return
 
-        year = prompt_int("Enter Year", default=2026)
+        default = datetime.now().year
+        year = prompt_int("Enter Year", min_val=1950, max_val=default, default=default)
         session_mode = self._prompt_session_collection_mode()
         force = prompt_confirm("Force refresh cache?", default=False)
         mode_label = "Full Weekend (Practice, Quali & Race)" if session_mode == "full" else (
@@ -1003,7 +1018,8 @@ class InteractiveMenu:
 
     def _run_season_collector(self) -> None:
         print_header("Collect Season Rounds (FastF1)")
-        year = prompt_int("Enter Year", default=2026)
+        default = datetime.now().year
+        year = prompt_int("Enter Year", min_val=1950, max_val=default, default=default)
         rounds_str = prompt_str("Enter round numbers separated by space (or 'all' for entire season)", default="all")
         if rounds_str.strip().lower() in ("all", "*", ""):
             r_list = None
@@ -1735,7 +1751,8 @@ class InteractiveMenu:
 
         year_filter = None
         if scope == "2":
-            year_filter = prompt_int("Enter season year to clean cache for", min_val=2015, max_val=2030, default=2026)
+            default = datetime.now().year
+            year_filter = prompt_int("Enter season year to clean cache for", min_val=2015, max_val=default, default=default)
 
         cache_files = self.data_manager.discover_cache_data(year=year_filter)
         op_label = f"Delete Cached Data ({year_filter if year_filter else 'All Seasons'})"
@@ -1886,7 +1903,8 @@ class InteractiveMenu:
         print(f"{Colors.BOLD}Delete Grand Prix Event Data{Colors.RESET}")
         print(f"{Colors.DIM}Isolates and removes cache, raw sessions, and outputs for a single Grand Prix.{Colors.RESET}\n")
 
-        year = prompt_int("Enter championship season year", min_val=2015, max_val=2030, default=2026)
+        default = datetime.now().year
+        year = prompt_int("Enter championship season year", min_val=2015, max_val=default, default=default)
 
         # List circuits
         circuits = []

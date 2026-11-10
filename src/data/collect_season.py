@@ -21,12 +21,23 @@ and fault-tolerant collection.
 """
 
 from datetime import datetime, timezone
+import os
 from pathlib import Path
 import argparse
 import json
 import fastf1
 import pandas as pd
 from typing import Optional, List, Dict, Any, Tuple, Union
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+    if "F1_USERNAME" not in os.environ and "email" in os.environ:
+        os.environ["F1_USERNAME"] = os.environ["email"]
+    if "F1_PASSWORD" not in os.environ and "pass" in os.environ:
+        os.environ["F1_PASSWORD"] = os.environ["pass"]
+except Exception:
+    pass
 
 from src.utils.driver_mapping import filter_competing_drivers
 from src.utils.logging_utils import get_logger

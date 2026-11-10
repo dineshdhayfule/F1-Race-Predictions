@@ -21,6 +21,7 @@ Examples:
 """
 
 import argparse
+import os
 import sys
 from pathlib import Path
 import pandas as pd
@@ -29,6 +30,16 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+    if "F1_USERNAME" not in os.environ and "email" in os.environ:
+        os.environ["F1_USERNAME"] = os.environ["email"]
+    if "F1_PASSWORD" not in os.environ and "pass" in os.environ:
+        os.environ["F1_PASSWORD"] = os.environ["pass"]
+except Exception:
+    pass
 
 from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
 from src.data.data_loader import DataLoader
