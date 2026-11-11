@@ -104,9 +104,7 @@ def build_practice_features(
     else:
         output["practice_gap_pct"] = np.nan
 
-    output["practice_rank"] = (
-        output["best_practice_lap"].rank(method="min", ascending=True)
-    ).fillna(float(len(drivers)))
+    output["practice_rank"] = output["best_practice_lap"].rank(method="min", ascending=True)
 
     output["practice_laps"] = output["fp1_laps"] + output["fp2_laps"] + output["fp3_laps"]
     output["practice_laps_norm"] = output["practice_laps"] / 70.0

@@ -269,13 +269,13 @@ def build_race_pace_features(
             all_laps_list.append(s_df)
 
     if not all_laps_list:
-        # Graceful neutral defaults when practice data is not available
+        # Leave unmeasured ranks/deltas as NaN so downstream SimpleImputer handles missingness
         master["long_run_pace_gap_pct"] = np.nan
-        master["long_run_pace_rank"] = float(expected_grid_size) / 2.0
+        master["long_run_pace_rank"] = np.nan
         master["race_pace_consistency"] = np.nan
         master["race_pace_sample_count"] = 0
         master["long_run_stint_length"] = 0
-        master["race_pace_vs_quali_delta"] = 0.0
+        master["race_pace_vs_quali_delta"] = np.nan
         master["race_pace_confidence"] = 0.0
         return master
 
@@ -292,13 +292,11 @@ def build_race_pace_features(
         merged["long_run_pace_gap_pct"] = (
             (merged["fuel_adj_pace"] - pole_race_pace) / pole_race_pace * 100.0
         ).round(3)
-        # Compute ordinal rank of long-run pace (1 = fastest)
+        # Compute ordinal rank of long-run pace (1 = fastest); unmeasured drivers stay NaN
         merged["long_run_pace_rank"] = merged["fuel_adj_pace"].rank(method="min", ascending=True)
-        # Fill missing drivers with default midfield/tail rank
-        merged["long_run_pace_rank"] = merged["long_run_pace_rank"].fillna(float(expected_grid_size))
     else:
         merged["long_run_pace_gap_pct"] = np.nan
-        merged["long_run_pace_rank"] = float(expected_grid_size) / 2.0
+        merged["long_run_pace_rank"] = np.nan
 
     # Confidence based on valid sample count: 12+ laps = high confidence (1.0)
     merged["race_pace_confidence"] = (merged["race_pace_sample_count"] / 12.0).clip(0.0, 1.0).round(2)
@@ -306,10 +304,10 @@ def build_race_pace_features(
     # Race pace vs qualifying position delta
     # Positive delta means driver has stronger race pace than single-lap qualifying (a "Sunday car")
     if quali_positions:
-        q_series = merged["Abbreviation"].map(quali_positions).fillna(float(expected_grid_size))
+        q_series = pd.to_numeric(merged["Abbreviation"].map(quali_positions), errors="coerce")
         merged["race_pace_vs_quali_delta"] = (q_series - merged["long_run_pace_rank"]).round(1)
     else:
-        merged["race_pace_vs_quali_delta"] = 0.0
+        merged["race_pace_vs_quali_delta"] = np.nan
 
     output_cols = [
         "Abbreviation",

@@ -250,14 +250,26 @@ class WalkForwardEngine:
 
             target_info = historical_races[t_idx - 1]
 
-            # Compute rolling driver finish EWMA strictly on prior races
-            driver_ewma = {}
-            for drv, grp in train_df.groupby("Abbreviation"):
-                finishes = pd.to_numeric(grp["ActualFinish"], errors="coerce").dropna().tolist()
-                driver_ewma[drv] = float(np.mean(finishes[-3:])) if finishes else 12.0
+            # Compute rolling driver finish EWMA strictly causally for every training row
+            # (using only that driver's ActualFinish from rows with EventIndex < E)
+            driver_history: Dict[str, List[float]] = {}
+            train_ewma = pd.Series(12.0, index=train_df.index, dtype=float)
+            for _, evt_grp in train_df.groupby("EventIndex", sort=True):
+                for row_idx, drv in zip(evt_grp.index, evt_grp["Abbreviation"]):
+                    hist = driver_history.get(drv)
+                    train_ewma.loc[row_idx] = float(np.mean(hist[-3:])) if hist else 12.0
+                for drv, fin in zip(evt_grp["Abbreviation"], pd.to_numeric(evt_grp["ActualFinish"], errors="coerce")):
+                    if pd.notna(fin):
+                        driver_history.setdefault(drv, []).append(float(fin))
+
+            train_df["driver_finish_ewma"] = train_ewma
+            driver_ewma = {
+                drv: (float(np.mean(hist[-3:])) if hist else 12.0)
+                for drv, hist in driver_history.items()
+            }
+            test_df["driver_finish_ewma"] = test_df["Abbreviation"].map(driver_ewma).fillna(12.0)
 
             for df in (train_df, test_df):
-                df["driver_finish_ewma"] = df["Abbreviation"].map(driver_ewma).fillna(12.0)
                 df["driver_quali_ewma"] = df["GridPosition"]
                 df["driver_dnf_rate"] = 0.158
                 df["recent_finish"] = df["driver_finish_ewma"]

@@ -117,13 +117,17 @@ def cmd_predict(args, parser=None):
             "weather_aware_prediction": True,
         }
 
+    stage_clean = str(getattr(args, "stage", "after_qualifying") or "after_qualifying").lower().strip()
+    if stage_clean == "after_sprint":
+        stage_clean = "after_sprint_race"
+
     pipeline = RacePredictionPipeline(root_dir=ROOT)
     try:
         results = pipeline.run(
             track_key=args.track,
             year=args.year,
             round_num=getattr(args, "round", None),
-            stage=args.stage,
+            stage=stage_clean,
             model=model_choice,
             rf_weight=custom_rf,
             xgb_weight=custom_xgb,
@@ -135,7 +139,7 @@ def cmd_predict(args, parser=None):
         print(f"\n[ERROR] Prediction Pipeline Execution Error:")
         print(f"  Grand Prix : {getattr(args, 'track', 'Unknown')}")
         print(f"  Year       : {getattr(args, 'year', 2026)}")
-        print(f"  Stage      : {getattr(args, 'stage', 'Unknown')}")
+        print(f"  Stage      : {stage_clean}")
         print(f"  Error Type : {type(e).__name__}")
         print(f"  Message    : {e}")
         if getattr(args, "debug", False):
@@ -152,9 +156,9 @@ def cmd_predict(args, parser=None):
     top_n = getattr(args, "top", 10)
 
     # Missing session warning banner if provisional qualifying fallback was triggered for post-qualifying stages
-    if results.get("is_provisional_quali") and args.stage in ["after_qualifying", "post_race"]:
+    if results.get("is_provisional_quali") and stage_clean in ["after_qualifying", "before_race", "post_race"]:
         print("\n" + "!" * 80)
-        print(f"WARNING: Target qualifying data was not found for stage '{args.stage}'.")
+        print(f"WARNING: Target qualifying data was not found for stage '{stage_clean}'.")
         print("Predictions are based on a fallback provisional qualifying model!")
         print("!" * 80)
 
@@ -163,7 +167,7 @@ def cmd_predict(args, parser=None):
         q_meta = results["qualifying_meta"]
         q_df = q_meta["predictions"].iloc[:top_n]
         print("\n" + "=" * 80)
-        print(f"RACE QUALIFYING TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{args.stage.upper()}]")
+        print(f"RACE QUALIFYING TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{stage_clean.upper()}]")
         print(f"Model: {q_meta.get('selected_model')} | Walk-Forward MAE: {q_meta.get('selected_mae'):.4f} | Pace Sigma: {q_meta.get('calibrated_sigma'):.4f}")
         print("=" * 80)
         print(f"{'Pos':<4} {'Driver':<5} {'Team':<22} {'ExpQuali':<10} {'Pole%':<7} {'Top3%':<9}")
@@ -190,7 +194,7 @@ def cmd_predict(args, parser=None):
         grid_source = "Actual Observed Qualifying Session"
 
     print("\n" + "=" * 80)
-    print(f"GRAND PRIX RACE TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{args.stage.upper()}]")
+    print(f"GRAND PRIX RACE TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{stage_clean.upper()}]")
     print(f"Model Selected   : {results.get('selected_model', 'N/A')}")
     print(f"Selection Method : {results.get('selection_method', 'Chronological Walk-Forward Validation')}")
     mae_val = results.get('selected_mae')
@@ -334,17 +338,31 @@ def cmd_validate(args):
                 f"Configured calendar is for 2026."
             )
 
+    stage_clean = str(getattr(args, "stage", "after_qualifying") or "after_qualifying").lower().strip()
+    if stage_clean == "after_sprint":
+        stage_clean = "after_sprint_race"
+
     train_rounds = [r for r in range(1, target_round)]
 
     races_df, qualis_df = pipeline.data_loader.load_season_rounds(args.year, train_rounds)
     sessions_by_round = pipeline.data_loader.load_all_practice_sessions(args.year, train_rounds)
-    weekend_sessions = pipeline.data_loader.load_weekend_sessions(track_key, args.year, stage=args.stage)
+    weekend_sessions = pipeline.data_loader.load_weekend_sessions(
+        track_key,
+        args.year,
+        stage=stage_clean,
+        round_num=target_round,
+    )
     quali_df = None
-    if args.stage in ["after_qualifying", "post_race"]:
-        quali_df = pipeline.data_loader.load_target_qualifying(track_key, args.year)
+    if stage_clean in ["after_qualifying", "before_race", "post_race"]:
+        quali_df = pipeline.data_loader.load_target_qualifying(track_key, args.year, round_num=target_round)
     if quali_df is None or quali_df.empty:
-        logger.info(f"Target qualifying not yet completed/observed for stage '{args.stage}'. Generating provisional qualifying...")
-        provisional_quali_meta = pipeline.predict_qualifying(track_key=track_key, year=args.year, stage=args.stage)
+        logger.info(f"Target qualifying not yet completed/observed for stage '{stage_clean}'. Generating provisional qualifying...")
+        provisional_quali_meta = pipeline.predict_qualifying(
+            track_key=track_key,
+            year=args.year,
+            stage=stage_clean,
+            round_num=target_round,
+        )
         quali_df = provisional_quali_meta["predictions"][["Abbreviation", "TeamName", "PredictedPosition"]].copy()
         quali_df.rename(columns={"PredictedPosition": "Position"}, inplace=True)
         quali_df["QualifyingPosition"] = quali_df["Position"]
@@ -353,7 +371,8 @@ def cmd_validate(args):
         races_df=races_df,
         qualis_df=qualis_df,
         practice_sessions_by_round=sessions_by_round,
-        train_rounds=train_rounds
+        train_rounds=train_rounds,
+        stage=stage_clean,
     )
     penalties = track_info.get(
         f"known_penalties_{args.year}",
@@ -367,7 +386,7 @@ def cmd_validate(args):
         season_races_df=races_df,
         season_qualis_df=qualis_df,
         penalties=penalties,
-        stage=args.stage,
+        stage=stage_clean,
         track_key=track_key,
     )
 

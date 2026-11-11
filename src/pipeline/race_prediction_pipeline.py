@@ -19,7 +19,7 @@ import xgboost as xgb
 
 from src.data.data_loader import DataLoader
 from src.data.data_validator import DataValidator
-from src.features.build_features import FeatureEngineer
+from src.features.build_features import FeatureEngineer, apply_stage_feature_mask
 from src.features.grid_features import GridProvenance
 from src.features.weekend_features import (
     build_practice_features,
@@ -33,7 +33,7 @@ from src.models.evaluate import ModelEvaluator
 from src.models.predict import Predictor
 from src.simulation.monte_carlo import MonteCarloSimulator
 from src.utils.circuit_mapping import resolve_circuit_key
-from src.utils.driver_mapping import filter_competing_drivers
+from src.utils.driver_mapping import filter_competing_drivers, normalize_driver_series
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("pipeline")
@@ -178,6 +178,10 @@ class RacePredictionPipeline:
         )
 
 
+        stage = str(stage or "after_qualifying").lower().strip()
+        if stage == "after_sprint":
+            stage = "after_sprint_race"
+
         logger.info("=" * 80)
         logger.info(f"STARTING PREDICTION PIPELINE: {track_name.upper()} {year} (ROUND {target_round})")
         logger.info(f"STAGE: {stage}")
@@ -202,10 +206,6 @@ class RacePredictionPipeline:
             round_num=target_round,
             historical_rounds=tracks
         )
-
-        # Stage alias normalization
-        if stage == "after_sprint":
-            stage = "after_sprint_race"
 
         # 3. Load Qualifying (if stage allows)
         quali_df = None
@@ -696,6 +696,10 @@ class RacePredictionPipeline:
                 )
         track_name = track_info.get("display_name", track_key_clean.title())
 
+        stage = str(stage or "after_sprint_race").lower().strip()
+        if stage == "after_sprint":
+            stage = "after_sprint_race"
+
         if stage == "after_qualifying":
             raise ValueError(
                 f"Provisional qualifying prediction model cannot be executed for stage 'after_qualifying'. "
@@ -716,8 +720,35 @@ class RacePredictionPipeline:
             races_df=races_df,
             qualis_df=qualis_df,
             practice_sessions_by_round=sessions_by_round,
-            train_rounds=train_rounds
+            train_rounds=train_rounds,
+            stage=stage,
         )
+
+        # Preserve historical QualifyingPosition/GridPosition as supervised target y
+        # since stage-masked training features hide QualifyingPosition/GridPosition at pre-qualifying stages.
+        fallback_grid_pos = float(self.feature_engineer.expected_grid_size)
+        quali_target_map = {}
+        if races_df is not None and not races_df.empty and "Round" in races_df.columns and "Abbreviation" in races_df.columns:
+            r_norm = races_df.copy()
+            r_norm["Abbreviation"] = normalize_driver_series(r_norm["Abbreviation"])
+            for _, row in r_norm.iterrows():
+                gp = pd.to_numeric(row.get("GridPosition"), errors="coerce")
+                if pd.notna(gp):
+                    quali_target_map[(int(row["Round"]), row["Abbreviation"])] = float(gp) if gp > 0 else fallback_grid_pos
+        if qualis_df is not None and not qualis_df.empty and "Round" in qualis_df.columns and "Abbreviation" in qualis_df.columns:
+            q_norm = qualis_df.copy()
+            q_norm["Abbreviation"] = normalize_driver_series(q_norm["Abbreviation"])
+            pos_col = "Position" if "Position" in q_norm.columns else "QualifyingPosition"
+            if pos_col in q_norm.columns:
+                for _, row in q_norm.iterrows():
+                    qp = pd.to_numeric(row.get(pos_col), errors="coerce")
+                    if pd.notna(qp):
+                        quali_target_map[(int(row["Round"]), row["Abbreviation"])] = float(qp)
+
+        train_features["TargetQualifyingPosition"] = [
+            quali_target_map.get((int(r_val), drv), fallback_grid_pos)
+            for r_val, drv in zip(train_features["Round"], train_features["Abbreviation"])
+        ]
 
         quali_feature_cols = [
             "practice_gap_pct", "practice_rank", "practice_laps_norm", "fp1_gap_pct",
@@ -731,6 +762,7 @@ class RacePredictionPipeline:
             track_key=track_key_clean,
             year=year,
             stage=stage,
+            round_num=target_round,
             historical_rounds=tracks
         )
 
@@ -773,7 +805,7 @@ class RacePredictionPipeline:
                 "Abbreviation": drv,
                 "TeamName": team,
                 "practice_gap_pct": pf.get("practice_gap_pct", np.nan),
-                "practice_rank": pf.get("practice_rank", float(expected_grid_size)),
+                "practice_rank": pf.get("practice_rank", np.nan),
                 "practice_laps_norm": pf.get("practice_laps_norm", 0.0),
                 "fp1_gap_pct": pf.get("fp1_gap_pct", np.nan),
                 "driver_quali_ewma": dfv.get("driver_quali_ewma", 12.0),
@@ -792,7 +824,7 @@ class RacePredictionPipeline:
                 "driver_teammate_h2h_ratio": tm_h2h.get(drv, 0.50)
             })
 
-        target_df = pd.DataFrame(target_rows)
+        target_df = apply_stage_feature_mask(pd.DataFrame(target_rows), stage)
 
         # Walk-forward validation over prior rounds (Rounds 4 .. target_round - 1)
         val_rounds = [r for r in train_rounds if r >= 4]
@@ -804,8 +836,8 @@ class RacePredictionPipeline:
             imp = create_feature_imputer(strategy="median")
             X_tr = imp.fit_transform(tr[quali_feature_cols])
             X_te = imp.transform(te[quali_feature_cols])
-            y_tr = tr["QualifyingPosition"].fillna(tr["GridPosition"]).fillna(22.0).values
-            y_te = te["QualifyingPosition"].fillna(te["GridPosition"]).fillna(22.0).values
+            y_tr = tr["TargetQualifyingPosition"].values
+            y_te = te["TargetQualifyingPosition"].values
 
             rf = RandomForestRegressor(n_estimators=500, max_depth=8, min_samples_leaf=2, random_state=42, n_jobs=-1)
             rf.fit(X_tr, y_tr)
@@ -834,7 +866,7 @@ class RacePredictionPipeline:
             # Fit and evaluate models on all available training rounds using architectural default weights (60% RF / 40% XGB).
             imp_eval = create_feature_imputer(strategy="median")
             X_tr_eval = imp_eval.fit_transform(train_features[quali_feature_cols])
-            y_tr_eval = train_features["QualifyingPosition"].fillna(train_features["GridPosition"]).fillna(22.0).values
+            y_tr_eval = train_features["TargetQualifyingPosition"].values
 
             rf_eval = RandomForestRegressor(n_estimators=500, max_depth=8, min_samples_leaf=2, random_state=42, n_jobs=-1)
             rf_eval.fit(X_tr_eval, y_tr_eval)
@@ -863,7 +895,7 @@ class RacePredictionPipeline:
         # Train final models on all prior season data
         imp_full = create_feature_imputer(strategy="median")
         X_tr_full = imp_full.fit_transform(train_features[quali_feature_cols])
-        y_tr_full = train_features["QualifyingPosition"].fillna(train_features["GridPosition"]).fillna(22.0).values
+        y_tr_full = train_features["TargetQualifyingPosition"].values
         X_tgt = imp_full.transform(target_df[quali_feature_cols])
 
         rf_final = RandomForestRegressor(n_estimators=500, max_depth=8, min_samples_leaf=2, random_state=42, n_jobs=-1)

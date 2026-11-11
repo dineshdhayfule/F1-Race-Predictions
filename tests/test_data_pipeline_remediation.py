@@ -369,3 +369,22 @@ def test_openf1_timeout_handling(tmp_path):
         )
         assert grid_df is None
         assert meta == {}
+
+
+def test_grid_retriever_and_predict_qualifying_normalize_stage(tmp_path):
+    """Verify StartingGridRetriever and predict_qualifying normalize stage casing and whitespace."""
+    retriever = StartingGridRetriever(root_dir=tmp_path)
+    grid_df, meta = retriever.get_starting_grid(
+        track_key="sao_paulo",
+        year=2026,
+        round_num=20,
+        stage=" AFTER_FP1 ",
+    )
+    assert grid_df is None
+    assert meta["provenance"] == "unpublished"
+    assert meta["stage"] == "after_fp1"
+
+    pipeline = RacePredictionPipeline()
+    with pytest.raises(ValueError) as exc_info:
+        pipeline.predict_qualifying(track_key="sao_paulo", year=2026, stage=" AFTER_QUALIFYING ")
+    assert "after_qualifying" in str(exc_info.value)

@@ -137,26 +137,33 @@ class MonteCarloSimulator:
             # Baseline pace noise
             noise = rng.normal(0, iter_sigma, n)
 
-            # Strategy execution noise (pit stop execution variation: +-0.75s)
+            # Strategy execution noise (pit stop execution variation: +-0.75s);
+            # strategy_time_loss_sec >= 0 represents optimal strategy time saved vs alternative,
+            # so subtracting it reduces (improves) the simulated score/time.
             if self.enable_pit_strategy:
-                strat_noise = rng.normal(0, 0.75, n) + strat_time_loss
+                strat_noise = rng.normal(0, 0.75, n) - strat_time_loss
             else:
                 strat_noise = 0.0
 
-            # Stochastic DNF shock
-            incident = rng.binomial(1, iter_dnf_prob, n) * rng.exponential(self.incident_scale, n)
+            # Stochastic DNF indicator
+            is_dnf = rng.binomial(1, iter_dnf_prob, n).astype(bool)
 
-            iter_scores = iter_scores + noise + strat_noise + incident
+            iter_scores = iter_scores + noise + strat_noise
 
-            # Race control disruption sampling (Safety Car / VSC / Red Flag)
-            if self.enable_race_control:
-                iter_scores, _ = self.race_control_model.simulate_race_control_disruptions(
-                    base_scores=iter_scores,
+            # Race control disruption sampling (Safety Car / VSC / Red Flag) for running cars only
+            # so retired (DNF) cars cannot receive Safety Car pit-stop gains.
+            if self.enable_race_control and (~is_dnf).any():
+                rc_scores, _ = self.race_control_model.simulate_race_control_disruptions(
+                    base_scores=iter_scores[~is_dnf],
                     p_sc=p_sc,
                     p_vsc=p_vsc,
                     p_red_flag=p_rf,
                     rng=rng,
                 )
+                iter_scores[~is_dnf] = rc_scores
+
+            # Apply deterministic massive DNF penalty so retired cars never rank ahead of finishers
+            iter_scores[is_dnf] += 1000.0
 
             sim_scores[i] = iter_scores
 

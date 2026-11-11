@@ -229,14 +229,15 @@ class StartingGridRetriever:
         if expected_grid_size is None or expected_grid_size <= 0:
             from src.data.roster_resolver import RosterResolver
             expected_grid_size = RosterResolver.get_expected_grid_size(year, round_num)
+        stage_clean = str(stage or "after_qualifying").lower().strip()
         # Strict stage cutoff: before qualifying, official starting grid cannot be published
-        if stage in ["pre_fp1", "after_fp1", "after_fp2", "after_fp3", "after_sprint_qualifying", "after_sprint_race", "after_sprint"]:
+        if stage_clean in ["pre_fp1", "after_fp1", "after_fp2", "after_fp3", "after_sprint_qualifying", "after_sprint_race", "after_sprint"]:
             logger.info(
-                f"Stage '{stage}' is prior to qualifying cutoff. Starting grid is unpublished."
+                f"Stage '{stage_clean}' is prior to qualifying cutoff. Starting grid is unpublished."
             )
             return None, {
                 "provenance": GridProvenance.UNPUBLISHED.value,
-                "stage": stage,
+                "stage": stage_clean,
                 "publication_status": GridPublicationStatus.UNOFFICIAL.value,
                 "circuit_key": track_key,
                 "season": year,
@@ -263,7 +264,7 @@ class StartingGridRetriever:
             track_key=track_key,
             year=year,
             round_num=round_num,
-            stage=stage,
+            stage=stage_clean,
             quali_df=quali_df,
             expected_grid_size=expected_grid_size,
         )
@@ -277,7 +278,7 @@ class StartingGridRetriever:
             track_key=track_key,
             year=year,
             round_num=round_num,
-            stage=stage,
+            stage=stage_clean,
             quali_df=quali_df,
             expected_grid_size=expected_grid_size,
         )
@@ -304,7 +305,7 @@ class StartingGridRetriever:
                 "season": year,
                 "round": round_num,
                 "circuit_key": track_key,
-                "stage": stage,
+                "stage": stage_clean,
             }
             return df_alg, metadata
 
@@ -315,7 +316,7 @@ class StartingGridRetriever:
             track_key=track_key,
             year=year,
             round_num=round_num,
-            stage=stage,
+            stage=stage_clean,
             expected_grid_size=expected_grid_size,
         )
         if df_hist is not None:
@@ -327,7 +328,7 @@ class StartingGridRetriever:
         )
         return None, {
             "provenance": GridProvenance.MISSING_DATA.value,
-            "stage": stage,
+            "stage": stage_clean,
             "season": year,
             "round": round_num,
             "circuit_key": track_key,

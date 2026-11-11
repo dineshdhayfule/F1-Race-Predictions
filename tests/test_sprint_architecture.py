@@ -346,3 +346,134 @@ def test_historical_sprint_session_loading_and_feature_population(tmp_path):
     nor_r2 = r2_df[r2_df["Abbreviation"] == "NOR"].iloc[0]
     assert nor_r2["sprint_pos_delta"] == 1.0
 
+
+def test_before_race_stage_supported_without_race_leakage(tmp_path):
+    """Verify 'before_race' loads qualifying without race results on Sprint and Normal weekends."""
+    cfg_dir = tmp_path / "config"
+    cfg_dir.mkdir(parents=True)
+    tracks = {
+        "tracks": {
+            "sepang": {"round_2026": 17, "sprint_weekend_2026": False},
+            "china": {"round_2026": 2, "sprint_weekend_2026": True},
+        }
+    }
+    (cfg_dir / "tracks.json").write_text(json.dumps(tracks), encoding="utf-8")
+
+    drivers_df = pd.DataFrame({"Abbreviation": ["VER", "NOR"], "Position": [1, 2]})
+    for tk, sessions in [
+        ("sepang", ["fp1", "fp2", "fp3", "qualifying", "race"]),
+        ("china", ["fp1", "sprint_qualifying", "sprint_race", "qualifying", "race"]),
+    ]:
+        tdir = tmp_path / "data" / "raw" / "tracks" / tk / "2026"
+        tdir.mkdir(parents=True)
+        for s in sessions:
+            drivers_df.to_csv(tdir / f"2026_{tk}_{s}.csv", index=False)
+
+    loader = DataLoader(root_dir=tmp_path)
+    assert "before_race" in loader.STAGES
+
+    normal_sessions = loader.load_weekend_sessions("sepang", 2026, stage=" Before_Race ")
+    assert normal_sessions["qualifying"] is not None
+    assert normal_sessions["race"] is None
+
+    sprint_sessions = loader.load_weekend_sessions("china", 2026, stage="BEFORE_RACE")
+    assert sprint_sessions["sprint_race"] is not None
+    assert sprint_sessions["qualifying"] is not None
+    assert sprint_sessions["race"] is None
+
+
+def test_cmd_predict_and_validate_stage_normalization(capsys):
+    """Verify cmd_predict warns on before_race fallback and cmd_validate propagates normalized stage/round."""
+    from types import SimpleNamespace
+    from unittest.mock import patch
+    import main
+
+    run_calls = {}
+
+    class DummyPredictPipeline:
+        def run(self, **kwargs):
+            run_calls.update(kwargs)
+            return {
+                "track_name": "Sepang",
+                "is_provisional_quali": True,
+                "selected_model": "Hybrid",
+                "selected_mae": 2.0,
+                "predictions": pd.DataFrame([
+                    {"Abbreviation": "VER", "TeamName": "RBR", "ActualStartingGrid": 1, "is_pit_lane_start": 0, "PredictedPosition": 1, "ExpectedFinish": 1.2, "WinProbability": 50.0, "Top3Probability": 80.0, "PointsProbability": 99.0}
+                ]),
+            }
+
+    predict_args = SimpleNamespace(
+        track="sepang",
+        year=2026,
+        round=17,
+        stage=" Before_Race ",
+        model="hybrid",
+        rf_weight=None,
+        xgb_weight=None,
+        enhanced=False,
+        top=1,
+        simulations=None,
+        debug=False,
+    )
+    with patch.object(main, "RacePredictionPipeline", return_value=DummyPredictPipeline()):
+        main.cmd_predict(predict_args)
+
+    captured_out = capsys.readouterr().out
+    assert run_calls["stage"] == "before_race"
+    assert "WARNING: Target qualifying data was not found for stage 'before_race'." in captured_out
+
+    val_calls = {}
+
+    class DummyFE:
+        def build_training_dataset(self, **kwargs):
+            val_calls["train_stage"] = kwargs.get("stage")
+            return pd.DataFrame()
+
+        def build_target_dataset(self, **kwargs):
+            val_calls["target_stage"] = kwargs.get("stage")
+            return pd.DataFrame()
+
+    class DummyDL:
+        def load_season_rounds(self, year, rounds):
+            return pd.DataFrame(), pd.DataFrame()
+
+        def load_all_practice_sessions(self, year, rounds):
+            return {}
+
+        def load_weekend_sessions(self, track_key, year, **kwargs):
+            val_calls["ws_stage"] = kwargs.get("stage")
+            val_calls["ws_round"] = kwargs.get("round_num")
+            return {}
+
+    class DummyDV:
+        def audit_leakage(self, train_df, target_df, target_round):
+            return {"is_clean": True, "training_samples": 0, "target_drivers": 0, "violations": []}
+
+    class DummyValidatePipeline:
+        tracks_config = {"tracks": {"sepang": {"round_2026": 17, "display_name": "Sepang"}}}
+        data_loader = DummyDL()
+        feature_engineer = DummyFE()
+        data_validator = DummyDV()
+
+        def predict_qualifying(self, **kwargs):
+            val_calls["pq_stage"] = kwargs.get("stage")
+            val_calls["pq_round"] = kwargs.get("round_num")
+            return {
+                "predictions": pd.DataFrame([
+                    {"Abbreviation": "VER", "TeamName": "RBR", "PredictedPosition": 1.0}
+                ])
+            }
+
+    with patch.object(main, "RacePredictionPipeline", return_value=DummyValidatePipeline()):
+        main.cmd_validate(SimpleNamespace(track="sepang", year=2026, stage=" After_Sprint "))
+
+    assert val_calls == {
+        "ws_stage": "after_sprint_race",
+        "ws_round": 17,
+        "pq_stage": "after_sprint_race",
+        "pq_round": 17,
+        "train_stage": "after_sprint_race",
+        "target_stage": "after_sprint_race",
+    }
+

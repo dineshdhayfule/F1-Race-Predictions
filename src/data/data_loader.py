@@ -113,6 +113,7 @@ class DataLoader:
         "after_fp2",
         "after_fp3",
         "after_qualifying",
+        "before_race",
         "post_race",
     ]
 
@@ -589,7 +590,7 @@ class DataLoader:
         Loads weekend sessions up to the declared stage cutoff.
         Respects weekend format (normal vs sprint) and prevents future-session data leakage.
         """
-        stage = stage.lower().strip()
+        stage = str(stage or "after_qualifying").lower().strip()
         if stage == "after_sprint":
             stage = "after_sprint_race"
         if stage not in self.STAGES:
@@ -620,7 +621,7 @@ class DataLoader:
             if stage in ["after_fp2", "after_fp3"]:
                 raise ValueError(
                     f"Stage '{stage}' is invalid for Sprint weekend format. "
-                    f"Valid Sprint stages are: ['pre_fp1', 'after_fp1', 'after_sprint_qualifying', 'after_sprint_race', 'after_qualifying', 'post_race']."
+                    f"Valid Sprint stages are: ['pre_fp1', 'after_fp1', 'after_sprint_qualifying', 'after_sprint_race', 'after_qualifying', 'before_race', 'post_race']."
                 )
             if stage == "pre_fp1":
                 allowed_sessions = []
@@ -630,7 +631,7 @@ class DataLoader:
                 allowed_sessions = ["fp1", "sprint_qualifying"]
             elif stage == "after_sprint_race":
                 allowed_sessions = ["fp1", "sprint_qualifying", "sprint_race"]
-            elif stage == "after_qualifying":
+            elif stage in ("after_qualifying", "before_race"):
                 allowed_sessions = ["fp1", "sprint_qualifying", "sprint_race", "qualifying"]
             elif stage == "post_race":
                 allowed_sessions = ["fp1", "sprint_qualifying", "sprint_race", "qualifying", "race"]
@@ -640,7 +641,7 @@ class DataLoader:
             if stage in ["after_sprint_qualifying", "after_sprint_race"]:
                 raise ValueError(
                     f"Stage '{stage}' is invalid for Normal weekend format. "
-                    f"Valid Normal stages are: ['pre_fp1', 'after_fp1', 'after_fp2', 'after_fp3', 'after_qualifying', 'post_race']."
+                    f"Valid Normal stages are: ['pre_fp1', 'after_fp1', 'after_fp2', 'after_fp3', 'after_qualifying', 'before_race', 'post_race']."
                 )
             if stage == "pre_fp1":
                 allowed_sessions = []
@@ -650,7 +651,7 @@ class DataLoader:
                 allowed_sessions = ["fp1", "fp2"]
             elif stage == "after_fp3":
                 allowed_sessions = ["fp1", "fp2", "fp3"]
-            elif stage == "after_qualifying":
+            elif stage in ("after_qualifying", "before_race"):
                 allowed_sessions = ["fp1", "fp2", "fp3", "qualifying"]
             elif stage == "post_race":
                 allowed_sessions = ["fp1", "fp2", "fp3", "qualifying", "race"]

@@ -72,6 +72,8 @@ STAGE_UNAVAILABLE_FEATURES: Dict[str, List[str]] = {
         "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
         "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
         "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
     ],
     "after_sprint_qualifying": [
         # FP2, FP3 (if not run)
@@ -85,6 +87,8 @@ STAGE_UNAVAILABLE_FEATURES: Dict[str, List[str]] = {
         "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
         "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
         "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
     ],
     "after_sprint_race": [
         # FP2, FP3
@@ -97,6 +101,8 @@ STAGE_UNAVAILABLE_FEATURES: Dict[str, List[str]] = {
         "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
         "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
         "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
     ],
     "after_sprint": [
         # Alias for after_sprint_race
@@ -106,6 +112,8 @@ STAGE_UNAVAILABLE_FEATURES: Dict[str, List[str]] = {
         "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
         "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
         "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
     ],
     "after_fp2": [
         # FP3
@@ -119,6 +127,8 @@ STAGE_UNAVAILABLE_FEATURES: Dict[str, List[str]] = {
         "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
         "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
         "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
     ],
     "after_fp3": [
         # Sprint
@@ -130,11 +140,24 @@ STAGE_UNAVAILABLE_FEATURES: Dict[str, List[str]] = {
         "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
         "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
         "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
     ],
     "after_qualifying": [],
     "before_race": [],
     "post_race": [],
 }
+
+_STAGE_ALLOWED_WEEKEND_SESSIONS: Dict[str, set] = {
+    "pre_fp1": set(),
+    "after_fp1": {"fp1"},
+    "after_fp2": {"fp1", "fp2"},
+    "after_fp3": {"fp1", "fp2", "fp3"},
+    "after_sprint_qualifying": {"fp1", "sprint_qualifying"},
+    "after_sprint_race": {"fp1", "sprint_qualifying", "sprint_race"},
+    "after_sprint": {"fp1", "sprint_qualifying", "sprint_race"},
+}
+_PRE_QUALIFYING_STAGES = set(_STAGE_ALLOWED_WEEKEND_SESSIONS.keys())
 
 
 def apply_stage_feature_mask(df: pd.DataFrame, stage: Optional[str]) -> pd.DataFrame:
@@ -194,6 +217,10 @@ class FeatureEngineer:
         rows = []
         logger.info(f"Building training features across {len(train_rounds)} rounds: {train_rounds}")
 
+        stage_clean = str(stage).lower().strip() if stage else None
+        allowed_sessions = _STAGE_ALLOWED_WEEKEND_SESSIONS.get(stage_clean) if stage_clean else None
+        is_pre_qualifying = stage_clean in _PRE_QUALIFYING_STAGES if stage_clean else False
+
         for r in train_rounds:
             race = races_df[races_df["Round"] == r].copy()
             if race.empty:
@@ -204,7 +231,13 @@ class FeatureEngineer:
             race = filter_competing_drivers(race)
             drivers = race["Abbreviation"].dropna().unique().tolist()
 
-            weekend_sessions = practice_sessions_by_round.get(r, {})
+            raw_weekend_sessions = practice_sessions_by_round.get(r, {})
+            if allowed_sessions is not None and raw_weekend_sessions:
+                weekend_sessions = {
+                    k: v for k, v in raw_weekend_sessions.items() if k in allowed_sessions
+                }
+            else:
+                weekend_sessions = raw_weekend_sessions
             practice = build_practice_features(weekend_sessions, drivers)
 
             round_quali = qualis_df[qualis_df["Round"] == r].copy() if not qualis_df.empty else None
@@ -227,7 +260,14 @@ class FeatureEngineer:
             tm_h2h_map = compute_rolling_teammate_h2h(prior_races, race[["Abbreviation", "TeamName"]])
 
             # Capability 1: Race Pace Intelligence
-            q_pos_map = {d: float(quali[quali["Abbreviation"] == d]["QualifyingPosition"].iloc[0]) for d in drivers if not quali.empty and not quali[quali["Abbreviation"] == d].empty}
+            if is_pre_qualifying:
+                q_pos_map = None
+            else:
+                q_pos_map = {
+                    d: float(quali[quali["Abbreviation"] == d]["QualifyingPosition"].iloc[0])
+                    for d in drivers
+                    if not quali.empty and not quali[quali["Abbreviation"] == d].empty
+                }
             rp_feats = build_race_pace_features(
                 weekend_sessions,
                 drivers,
@@ -352,7 +392,7 @@ class FeatureEngineer:
                     "best_practice_lap": p_dict.get("best_practice_lap", np.nan),
                     "avg_practice_lap": p_dict.get("avg_practice_lap", np.nan),
                     "practice_gap_pct": p_dict.get("practice_gap_pct", np.nan),
-                    "practice_rank": p_dict.get("practice_rank", float(self.expected_grid_size)),
+                    "practice_rank": p_dict.get("practice_rank", np.nan),
                     "practice_laps": p_dict.get("practice_laps", 0),
                     "practice_laps_norm": p_dict.get("practice_laps_norm", 0.0),
                     "practice_sessions": p_dict.get("practice_sessions", 0),
@@ -386,11 +426,11 @@ class FeatureEngineer:
 
                     # Capability 1: Race Pace Intelligence
                     "long_run_pace_gap_pct": rp_dict.get("long_run_pace_gap_pct", np.nan),
-                    "long_run_pace_rank": rp_dict.get("long_run_pace_rank", float(self.expected_grid_size)),
+                    "long_run_pace_rank": rp_dict.get("long_run_pace_rank", np.nan),
                     "race_pace_consistency": rp_dict.get("race_pace_consistency", np.nan),
                     "race_pace_sample_count": rp_dict.get("race_pace_sample_count", 0),
                     "long_run_stint_length": rp_dict.get("long_run_stint_length", 0),
-                    "race_pace_vs_quali_delta": rp_dict.get("race_pace_vs_quali_delta", 0.0),
+                    "race_pace_vs_quali_delta": rp_dict.get("race_pace_vs_quali_delta", np.nan),
                     "race_pace_confidence": rp_dict.get("race_pace_confidence", 0.0),
 
                     # Capability 2: Tire Degradation Modeling
@@ -539,13 +579,22 @@ class FeatureEngineer:
             q_sess.set_index("Abbreviation")[team_col].to_dict() if team_col in q_sess.columns else {}
         )
 
-        practice = build_practice_features(practice_sessions, drivers)
+        stage_clean = str(stage).lower().strip() if stage else None
+        allowed_sessions = _STAGE_ALLOWED_WEEKEND_SESSIONS.get(stage_clean) if stage_clean else None
+        is_pre_qualifying = stage_clean in _PRE_QUALIFYING_STAGES if stage_clean else False
+        filtered_sessions = (
+            {k: v for k, v in practice_sessions.items() if k in allowed_sessions}
+            if (allowed_sessions is not None and practice_sessions)
+            else practice_sessions
+        )
+
+        practice = build_practice_features(filtered_sessions, drivers)
         # If qualifying occurred, compute actual qualifying features; otherwise return neutral features
         quali_feats = build_qualifying_features(q_sess if has_actual_qualifying else None, drivers)
 
         # Sprint features (if sprint sessions were held and available prior to stage cutoff)
-        sq_df = practice_sessions.get("sprint_qualifying") if practice_sessions else None
-        sr_df = practice_sessions.get("sprint_race") if practice_sessions else None
+        sq_df = filtered_sessions.get("sprint_qualifying") if filtered_sessions else None
+        sr_df = filtered_sessions.get("sprint_race") if filtered_sessions else None
         sq_feats = build_sprint_qualifying_features(sq_df, drivers)
         sr_feats = build_sprint_race_features(sr_df, drivers)
 
@@ -565,9 +614,16 @@ class FeatureEngineer:
         tm_h2h_map = compute_rolling_teammate_h2h(prior_target_races, q_for_tm)
 
         # Capability 1: Race Pace Intelligence
-        q_pos_map = {d: float(q[q["Abbreviation"] == d]["Position"].iloc[0]) for d in drivers if not q.empty and not q[q["Abbreviation"] == d].empty}
+        if has_actual_qualifying and not is_pre_qualifying and not q.empty:
+            q_pos_map = {
+                d: float(q[q["Abbreviation"] == d]["Position"].iloc[0])
+                for d in drivers
+                if not q[q["Abbreviation"] == d].empty and pd.notna(q[q["Abbreviation"] == d]["Position"].iloc[0])
+            }
+        else:
+            q_pos_map = None
         rp_feats = build_race_pace_features(
-            practice_sessions,
+            filtered_sessions,
             drivers,
             quali_positions=q_pos_map,
             expected_grid_size=effective_expected_size
@@ -577,7 +633,7 @@ class FeatureEngineer:
 
         # Capability 2: Tire Degradation Modeling
         td_feats = build_tire_degradation_features(
-            practice_sessions,
+            filtered_sessions,
             drivers,
             circuit_key=canonical_key,
             team_map=team_map,
@@ -684,7 +740,7 @@ class FeatureEngineer:
                 "best_practice_lap": p_dict.get("best_practice_lap", np.nan),
                 "avg_practice_lap": p_dict.get("avg_practice_lap", np.nan),
                 "practice_gap_pct": p_dict.get("practice_gap_pct", np.nan),
-                "practice_rank": p_dict.get("practice_rank", float(effective_expected_size)),
+                "practice_rank": p_dict.get("practice_rank", np.nan),
                 "practice_laps": p_dict.get("practice_laps", 0),
                 "practice_laps_norm": p_dict.get("practice_laps_norm", 0.0),
                 "practice_sessions": p_dict.get("practice_sessions", 0),
@@ -718,11 +774,11 @@ class FeatureEngineer:
 
                 # Capability 1: Race Pace Intelligence
                 "long_run_pace_gap_pct": rp_dict.get("long_run_pace_gap_pct", np.nan),
-                "long_run_pace_rank": rp_dict.get("long_run_pace_rank", float(effective_expected_size)),
+                "long_run_pace_rank": rp_dict.get("long_run_pace_rank", np.nan),
                 "race_pace_consistency": rp_dict.get("race_pace_consistency", np.nan),
                 "race_pace_sample_count": rp_dict.get("race_pace_sample_count", 0),
                 "long_run_stint_length": rp_dict.get("long_run_stint_length", 0),
-                "race_pace_vs_quali_delta": rp_dict.get("race_pace_vs_quali_delta", 0.0),
+                "race_pace_vs_quali_delta": rp_dict.get("race_pace_vs_quali_delta", np.nan),
                 "race_pace_confidence": rp_dict.get("race_pace_confidence", 0.0),
 
                 # Capability 2: Tire Degradation Modeling
