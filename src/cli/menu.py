@@ -44,7 +44,12 @@ from src.cli.terminal_ui import (
     prompt_confirm,
     print_table,
     paginate_text,
+    render_probability_bar,
+    print_podium,
+    get_console,
     Colors,
+    HAS_RICH,
+    _supports_color,
 )
 from src.features.grid_features import format_grid_provenance_display, GridProvenance
 from src.data.data_loader import DataLoader
@@ -216,19 +221,35 @@ class InteractiveMenu:
             try:
                 clear_screen()
                 print_banner(season=2026, status_text="Ready")
-                print(f"{Colors.BOLD}MAIN MENU{Colors.RESET}\n")
-                print("  ── Core Pipeline ───────────────────────────────────────────────")
-                print("  1. Predict a Race")
-                print("  2. Load / Collect Data")
-                print("  3. Evaluate a Prediction")
-                print("\n  ── Analytics & History ─────────────────────────────────────────")
-                print("  4. View Previous Predictions & Reports")
-                print("  5. Historical Statistics & Analytics (1950–2026)")
-                print("\n  ── System & Admin ──────────────────────────────────────────────")
-                print("  6. System Health & Data Readiness")
-                print("  7. Configuration & Supported Circuits")
-                print("  8. Data Management & Deletion")
-                print("\n  0. Exit\n")
+                console = get_console()
+                if HAS_RICH and console and _supports_color():
+                    console.print("[bold #F5F5F7]MAIN MENU[/]\n")
+                    console.print("  [bold #00B4D8]── Core Pipeline ───────────────────────────────────────────────[/]")
+                    console.print("  [bold white]1.[/] Predict a Race")
+                    console.print("  [bold white]2.[/] Load / Collect Data")
+                    console.print("  [bold white]3.[/] Evaluate a Prediction")
+                    console.print("\n  [bold #B138DD]── Analytics & History ─────────────────────────────────────────[/]")
+                    console.print("  [bold white]4.[/] View Previous Predictions & Reports")
+                    console.print("  [bold white]5.[/] Historical Statistics & Analytics (1950–2026)")
+                    console.print("\n  [bold #8E8E93]── System & Admin ──────────────────────────────────────────────[/]")
+                    console.print("  [bold white]6.[/] System Health & Data Readiness")
+                    console.print("  [bold white]7.[/] Configuration & Supported Circuits")
+                    console.print("  [bold white]8.[/] Data Management & Deletion")
+                    console.print("\n  [bold red]0.[/] Exit\n")
+                else:
+                    print(f"{Colors.BOLD}MAIN MENU{Colors.RESET}\n")
+                    print("  ── Core Pipeline ───────────────────────────────────────────────")
+                    print("  1. Predict a Race")
+                    print("  2. Load / Collect Data")
+                    print("  3. Evaluate a Prediction")
+                    print("\n  ── Analytics & History ─────────────────────────────────────────")
+                    print("  4. View Previous Predictions & Reports")
+                    print("  5. Historical Statistics & Analytics (1950–2026)")
+                    print("\n  ── System & Admin ──────────────────────────────────────────────")
+                    print("  6. System Health & Data Readiness")
+                    print("  7. Configuration & Supported Circuits")
+                    print("  8. Data Management & Deletion")
+                    print("\n  0. Exit\n")
 
                 choice = prompt_choice("Enter your choice", ["1", "2", "3", "4", "5", "6", "7", "8", "0"], default="1")
 
@@ -489,12 +510,16 @@ class InteractiveMenu:
 
         # Step 5: Select Prediction Model
         print_header("Step 5: Select Prediction Model", f"Circuit: {track_display} | Stage: {stage}")
-        print("  1. Random Forest (100%)")
-        print("  2. XGBoost (100%)")
-        print("  3. Ridge Regression (100%)")
-        print("  4. Hybrid Ensemble (60% RF / 40% XGB) — Default")
-        print("  5. Hybrid Ensemble (Custom Weights)")
-        print("  6. Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)")
+        model_table_rows = [
+            ["1", "Random Forest (100%)", "Non-linear feature interactions, robust to outliers", "3.612"],
+            ["2", "XGBoost (100%)", "Gradient-boosted decision trees, fast convergence", "3.684"],
+            ["3", "Ridge Regression (100%)", "L2 regularized linear model, baseline stability", "3.750"],
+            ["4", "Hybrid Ensemble (60% RF / 40% XGB)", "Default balanced dual-model ensemble", "3.585"],
+            ["5", "Hybrid Ensemble (Custom Weights)", "User-configured percentage weights", "Custom"],
+            ["6", "Validated Multi-Model Ensemble", "Production benchmark: 40% RF / 30% XGB / 30% Ridge", "3.534"],
+        ]
+        print_table(["#", "Model Architecture", "Description", "Overall Historical CV MAE"], model_table_rows, align_right=[True, False, False, True])
+        print(f"{Colors.DIM}Note: The figures above represent overall historical cross-validation benchmarks and are not dynamically calculated track-specific MAEs.{Colors.RESET}\n")
         print("  0. Cancel / Back\n")
         model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "5", "6", "0"], default="4")
         if model_choice_input == "0":
@@ -520,11 +545,14 @@ class InteractiveMenu:
 
         # Step 6: Enhanced Simulation Capabilities
         print_header("Step 6: Enhanced Simulation Capabilities")
-        print("  • Race Pace Intelligence (Long-run multi-lap stint extraction & fuel correction)")
-        print("  • Tire Degradation Modelling (Compound wear slopes & thermal scaling)")
-        print("  • Pit Stop Strategy Simulator (1/2-stop optimization & FIA 2-dry-compound rule)")
-        print("  • Race Control Probability Model (Safety Car / VSC pack bunching & cheap pit stops)")
-        print("  • Weather-Aware Race Predictions (Session telemetry, rain variance & wet driver skill)\n")
+        cap_rows = [
+            ["[X]", "Race Pace Intelligence", "FP1/FP2/FP3 long-run stint pace & fuel correction"],
+            ["[X]", "Tire Degradation Modeling", "Compound wear curves & thermal degradation slopes"],
+            ["[X]", "Dynamic Pit Strategy Simulator", "1/2-stop optimization & FIA 2-dry-compound rule"],
+            ["[X]", "Safety Car & Race Control Hazard Model", "Incident probabilities, field pack bunching & cheap stops"],
+            ["[X]", "Weather & Microclimate Integration", "Rain probability variance & wet weather driver rating"],
+        ]
+        print_table(["Active", "Capability Module", "Computational Role"], cap_rows)
         enable_enhanced = prompt_confirm("Enable Five Major ML Capabilities?", default=True)
         caps = {
             "race_pace_intelligence": True,
@@ -546,19 +574,33 @@ class InteractiveMenu:
         top_n = 3 if disp_choice == "1" else (10 if disp_choice == "2" else 22)
 
         # Step 8: Execute Prediction
-        print_header("Executing Prediction Pipeline", f"Running 25,000 Monte Carlo Simulations...")
+        print_header("Executing Prediction Pipeline", "Running 25,000 Monte Carlo Simulations...")
         pipeline = self._get_pipeline()
+        console = get_console()
         try:
-            results = pipeline.run(
-                track_key=track_key,
-                year=year,
-                round_num=round_num,
-                stage=stage,
-                model=selected_model_opt,
-                rf_weight=selected_custom_rf,
-                xgb_weight=selected_custom_xgb,
-                capabilities=caps,
-            )
+            if HAS_RICH and console and _supports_color():
+                with console.status("[bold #E10600]Simulating Grand Prix (25,000 Monte Carlo draws)...[/]"):
+                    results = pipeline.run(
+                        track_key=track_key,
+                        year=year,
+                        round_num=round_num,
+                        stage=stage,
+                        model=selected_model_opt,
+                        rf_weight=selected_custom_rf,
+                        xgb_weight=selected_custom_xgb,
+                        capabilities=caps,
+                    )
+            else:
+                results = pipeline.run(
+                    track_key=track_key,
+                    year=year,
+                    round_num=round_num,
+                    stage=stage,
+                    model=selected_model_opt,
+                    rf_weight=selected_custom_rf,
+                    xgb_weight=selected_custom_xgb,
+                    capabilities=caps,
+                )
         except Exception as e:
             logger.error(f"Pipeline execution error: {e}", exc_info=True)
             print_error(f"Pipeline execution error [{type(e).__name__}]: {e}")
@@ -782,20 +824,23 @@ class InteractiveMenu:
         stage = results["stage"]
 
         if results.get("is_provisional_quali") and stage in ["after_qualifying", "post_race"]:
-            print("\n" + Colors.YELLOW + "!" * 76 + Colors.RESET)
-            print(Colors.YELLOW + " WARNING: Actual qualifying results were not found. Provisional model used." + Colors.RESET)
-            print(Colors.YELLOW + "!" * 76 + Colors.RESET)
+            print_warning("Actual qualifying results were not found. Provisional model used.")
 
-        print("\n" + "=" * 76)
-        print(Colors.BOLD + Colors.CYAN + f" GRAND PRIX RACE TOP {min(top_n, len(df))} PREDICTION: {track_name.upper()} {year} [{stage.upper()}]" + Colors.RESET)
+        print_header(f"GRAND PRIX RACE TOP {min(top_n, len(df))} PREDICTION: {track_name.upper()} {year} [{stage.upper()}]")
         mae_val = results.get('selected_mae')
         mae_str = f"{mae_val:.4f}" if isinstance(mae_val, (int, float)) else str(mae_val)
-        print(f" Model Selected  : {results.get('selected_model', 'N/A')}")
-        print(f" Selection Method: {results.get('selection_method', 'N/A')} (MAE: {mae_str})")
         grid_meta = results.get("grid_meta", {})
         grid_source = format_grid_provenance_display(grid_meta)
-        print(f" Starting Grid   : {Colors.BOLD}{grid_source}{Colors.RESET}")
-        print("=" * 76)
+        print(f" Model Selected  : {results.get('selected_model', 'N/A')}")
+        print(f" Selection Method: {results.get('selection_method', 'N/A')} (MAE: {mae_str})")
+        print(f" Starting Grid   : {Colors.BOLD}{grid_source}{Colors.RESET}\n")
+
+        # Podium showcase
+        if len(df) >= 3 and top_n >= 3:
+            p1_dict = df.iloc[0].to_dict()
+            p2_dict = df.iloc[1].to_dict()
+            p3_dict = df.iloc[2].to_dict()
+            print_podium(p1_dict, p2_dict, p3_dict)
 
         sub_df = df.iloc[:top_n]
         headers = ["Pos", "Driver", "Team", "Grid", "ExpFinish", "Win%", "Podium%", "Points%", "Range"]
@@ -814,7 +859,7 @@ class InteractiveMenu:
             else:
                 grid = "-"
             exp = f"{r['ExpectedFinish']:.2f}"
-            win = f"{r['WinProbability']:.1f}%"
+            win = render_probability_bar(r['WinProbability']) if (HAS_RICH and _supports_color()) else f"{r['WinProbability']:.1f}%"
             pod = f"{r['Top3Probability']:.1f}%"
             pts = f"{r['PointsProbability']:.1f}%"
             rng = f"P{int(r['P5'])}-P{int(r['P95'])}"
@@ -824,13 +869,11 @@ class InteractiveMenu:
         print_table(headers, rows, align_right=align_right)
 
         if "RecommendedStrategy" in df.columns:
-            print("\n" + "=" * 76)
-            print(Colors.BOLD + Colors.GREEN + " STRATEGIC & ENVIRONMENTAL RACE INTELLIGENCE" + Colors.RESET)
+            print_header("STRATEGIC & ENVIRONMENTAL RACE INTELLIGENCE")
             sim_meta = results.get("simulation_meta", {})
             sc_p = sim_meta.get("p_safety_car", "N/A")
             rain_p = sim_meta.get("rain_probability", "N/A")
-            print(f" Safety Car Probability: {Colors.BOLD}{sc_p}{Colors.RESET} | Rain Probability: {Colors.BOLD}{rain_p}{Colors.RESET}")
-            print(Colors.GREEN + "-" * 76 + Colors.RESET)
+            print(f" Safety Car Probability: {Colors.BOLD}{sc_p}{Colors.RESET} | Rain Probability: {Colors.BOLD}{rain_p}{Colors.RESET}\n")
             strat_headers = ["Driver", "Recommended Strategy", "Stops", "Delta to Alt"]
             strat_rows = []
             for _, r in sub_df.iterrows():
@@ -842,16 +885,16 @@ class InteractiveMenu:
 
         if results.get("post_race_metrics"):
             m = results["post_race_metrics"]
-            print(Colors.CYAN + "-" * 76 + Colors.RESET)
-            print(Colors.BOLD + " POST-RACE OUT-OF-SAMPLE EVALUATION SCORECARD" + Colors.RESET)
-            print(Colors.CYAN + "-" * 76 + Colors.RESET)
-            print(f"  MAE (Expected Finish) : {Colors.BOLD}{m['mae_expected']:.4f}{Colors.RESET} (Walk-Forward Benchmark: 3.5343)")
-            print(f"  MAE (Predicted Pos)   : {m['mae_predicted']:.4f}")
-            print(f"  Spearman Rank Corr    : {Colors.BOLD}{m['spearman_rank_corr']:.4f}{Colors.RESET} (Strong ordinal ranking)")
-            print(f"  Top 10 Points Overlap : {m['top10_overlap']} / 10 ({m['top10_overlap']*10:.1f}%)")
-            print(f"  Top 3 Podium Overlap  : {m['top3_overlap']} / 3 ({m['top3_overlap']/3*100:.1f}%)")
-            print(f"  Podium Brier Score    : {m['podium_brier_score']:.4f}")
-            print(Colors.CYAN + "-" * 76 + Colors.RESET)
+            print_header("POST-RACE OUT-OF-SAMPLE EVALUATION SCORECARD")
+            scorecard_rows = [
+                ["MAE (Expected Finish)", f"{m['mae_expected']:.4f} (Walk-Forward Benchmark: 3.5343)"],
+                ["MAE (Predicted Pos)", f"{m['mae_predicted']:.4f}"],
+                ["Spearman Rank Corr", f"{m['spearman_rank_corr']:.4f} (Strong ordinal ranking)"],
+                ["Top 10 Points Overlap", f"{m['top10_overlap']} / 10 ({m['top10_overlap']*10:.1f}%)"],
+                ["Top 3 Podium Overlap", f"{m['top3_overlap']} / 3 ({m['top3_overlap']/3*100:.1f}%)"],
+                ["Podium Brier Score", f"{m['podium_brier_score']:.4f}"],
+            ]
+            print_table(["Evaluation Dimension", "Scorecard Result"], scorecard_rows, align_right=[False, True])
 
         print(f"Artifacts and Markdown reports written to:\n  {Colors.DIM}{results['output_dir']}{Colors.RESET}\n")
 
@@ -1657,9 +1700,23 @@ class InteractiveMenu:
         while True:
             clear_screen()
             print_banner(season=2026, status_text="Data Management")
-            print(f"{Colors.BOLD}DATA MANAGEMENT & DELETION{Colors.RESET}")
-            print(f"{Colors.DIM}Safely manage and selectively delete project-generated data.{Colors.RESET}")
-            print(f"{Colors.DIM}Source code, configurations, tests, docs, and audit logs are permanently protected.{Colors.RESET}\n")
+            console = get_console()
+            if HAS_RICH and console and _supports_color():
+                from rich.panel import Panel
+                from rich.text import Text
+                from rich.box import ROUNDED
+                warn_text = Text()
+                warn_text.append("HIGH-VISIBILITY DATA MANAGEMENT & DELETION\n", style="bold #FFB800")
+                warn_text.append("Safely manage and selectively delete project-generated data.\n", style="white")
+                warn_text.append("Source code, configurations, tests, docs, and audit logs are permanently protected.\n", style="dim")
+                warn_text.append("Fetch-only note: Historical Analytics queries provider endpoints dynamically in-memory;\nzero historical data is written to disk. Deletion affects local FastF1 cache & session CSVs only.", style="italic cyan")
+                console.print(Panel(warn_text, box=ROUNDED, border_style="#FFB800", padding=(0, 2)))
+                console.print()
+            else:
+                print(f"{Colors.BOLD}DATA MANAGEMENT & DELETION{Colors.RESET}")
+                print(f"{Colors.DIM}Safely manage and selectively delete project-generated data.{Colors.RESET}")
+                print(f"{Colors.DIM}Source code, configurations, tests, docs, and audit logs are permanently protected.{Colors.RESET}")
+                print(f"{Colors.CYAN}Fetch-only note: Historical Analytics (Option 5) queries endpoints dynamically in-memory and stores zero data on disk.{Colors.RESET}\n")
 
             print("  1. Delete Cached Data (FastF1 cache, session cache, temporary files)")
             print("  2. Delete Collected Datasets (Categorized: practice, qualifying, race, grids)")

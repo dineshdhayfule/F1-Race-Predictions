@@ -48,6 +48,20 @@ from src.features.build_features import FeatureEngineer
 from src.features.grid_features import format_grid_provenance_display
 from src.models.evaluate import ModelEvaluator
 from src.utils.logging_utils import get_logger
+from src.cli.terminal_ui import (
+    get_console,
+    print_table,
+    print_header,
+    print_success,
+    print_warning,
+    print_error,
+    print_info,
+    print_podium,
+    render_probability_bar,
+    Colors,
+    HAS_RICH,
+    _supports_color,
+)
 
 logger = get_logger("main_cli")
 
@@ -193,70 +207,127 @@ def cmd_predict(args, parser=None):
     else:
         grid_source = "Actual Observed Qualifying Session"
 
-    print("\n" + "=" * 80)
-    print(f"GRAND PRIX RACE TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{stage_clean.upper()}]")
-    print(f"Model Selected   : {results.get('selected_model', 'N/A')}")
-    print(f"Selection Method : {results.get('selection_method', 'Chronological Walk-Forward Validation')}")
-    mae_val = results.get('selected_mae')
-    mae_str = f"{mae_val:.4f}" if isinstance(mae_val, (int, float)) else str(mae_val)
-    print(f"Selected MAE     : {mae_str}")
-    print(f"Starting Grid    : {grid_source}")
-    print("=" * 80)
-    print(f"{'Pos':<4} {'Driver':<5} {'Team':<22} {'Grid':<5} {'ExpFinish':<10} {'Win%':<7} {'Podium%':<9} {'Points%':<9}")
-    print("-" * 80)
+    is_interactive = HAS_RICH and _supports_color() and hasattr(sys.stdout, "isatty") and sys.stdout.isatty()
 
-    for _, r in top_race.iterrows():
-        grid_raw = r.get("ActualStartingGrid")
-        raw_pit = r.get("is_pit_lane_start", 0)
-        is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
-        if is_pit:
-            grid_str = "PL"
-        elif pd.notna(grid_raw):
-            grid_str = str(int(round(float(grid_raw))))
-        else:
-            grid_str = "-"
-        pos_str = str(int(r["PredictedPosition"])) if pd.notna(r.get("PredictedPosition")) else str(r.get("StartingGridStatus", "-"))
-        exp_str = f"{r['ExpectedFinish']:<10.2f}" if pd.notna(r.get("ExpectedFinish")) else f"{'-':<10}"
-        win_str = f"{r['WinProbability']:<7.1f}" if pd.notna(r.get("WinProbability")) else f"{'-':<7}"
-        top3_str = f"{r['Top3Probability']:<9.1f}" if pd.notna(r.get("Top3Probability")) else f"{'-':<9}"
-        pts_str = f"{r['PointsProbability']:<9.1f}" if pd.notna(r.get("PointsProbability")) else f"{'-':<9}"
-        print(
-            f"{pos_str:<4} "
-            f"{r['Abbreviation']:<5} "
-            f"{r['TeamName'][:21]:<22} "
-            f"{grid_str:<5} "
-            f"{exp_str} "
-            f"{win_str} "
-            f"{top3_str} "
-            f"{pts_str}"
-        )
-    print("=" * 80)
+    if is_interactive:
+        print_header(f"GRAND PRIX RACE TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{stage_clean.upper()}]")
+        mae_val = results.get('selected_mae')
+        mae_str = f"{mae_val:.4f}" if isinstance(mae_val, (int, float)) else str(mae_val)
+        print(f" Model Selected  : {results.get('selected_model', 'N/A')}")
+        print(f" Selection Method: {results.get('selection_method', 'Chronological Walk-Forward Validation')} (MAE: {mae_str})")
+        print(f" Starting Grid   : {Colors.BOLD}{grid_source}{Colors.RESET}\n")
 
-    if "RecommendedStrategy" in top_race.columns:
-        print("\n" + "=" * 80)
-        print("STRATEGIC & ENVIRONMENTAL RACE INTELLIGENCE")
-        print("=" * 80)
-        sim_meta = results.get("simulation_meta", {})
-        print(f"Safety Car Probability : {sim_meta.get('p_safety_car', 'N/A')} | Rain Probability: {sim_meta.get('rain_probability', 'N/A')}")
-        print(f"{'Driver':<6} {'Recommended Strategy':<25} {'Stops':<7} {'Delta to Alt':<14}")
-        print("-" * 80)
+        if len(df) >= 3 and top_n >= 3:
+            print_podium(df.iloc[0].to_dict(), df.iloc[1].to_dict(), df.iloc[2].to_dict())
+
+        headers = ["Pos", "Driver", "Team", "Grid", "ExpFinish", "Win%", "Podium%", "Points%"]
+        rows = []
         for _, r in top_race.iterrows():
-            print(f"{r['Abbreviation']:<6} {str(r.get('RecommendedStrategy', '1-Stop')):<25} {int(r.get('OptimalStops', 1)):<7} {float(r.get('StrategyDeltaSec', 0.0)):.1f}s")
+            grid_raw = r.get("ActualStartingGrid")
+            raw_pit = r.get("is_pit_lane_start", 0)
+            is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
+            if is_pit:
+                grid_str = "PL"
+            elif pd.notna(grid_raw):
+                grid_str = str(int(round(float(grid_raw))))
+            else:
+                grid_str = "-"
+            pos_str = str(int(r["PredictedPosition"])) if pd.notna(r.get("PredictedPosition")) else str(r.get("StartingGridStatus", "-"))
+            exp_str = f"{r['ExpectedFinish']:.2f}" if pd.notna(r.get("ExpectedFinish")) else "-"
+            win_str = render_probability_bar(r['WinProbability']) if pd.notna(r.get("WinProbability")) else "-"
+            pod_str = f"{r['Top3Probability']:.1f}%" if pd.notna(r.get("Top3Probability")) else "-"
+            pts_str = f"{r['PointsProbability']:.1f}%" if pd.notna(r.get("PointsProbability")) else "-"
+            rows.append([pos_str, r['Abbreviation'], r['TeamName'][:20], grid_str, exp_str, win_str, pod_str, pts_str])
+
+        print_table(headers, rows, align_right=[True, False, False, True, True, True, True, True])
+
+        if "RecommendedStrategy" in top_race.columns:
+            print_header("STRATEGIC & ENVIRONMENTAL RACE INTELLIGENCE")
+            sim_meta = results.get("simulation_meta", {})
+            print(f" Safety Car Probability: {sim_meta.get('p_safety_car', 'N/A')} | Rain Probability: {sim_meta.get('rain_probability', 'N/A')}\n")
+            strat_headers = ["Driver", "Recommended Strategy", "Stops", "Delta to Alt"]
+            strat_rows = []
+            for _, r in top_race.iterrows():
+                strat_rows.append([r['Abbreviation'], str(r.get('RecommendedStrategy', '1-Stop')), str(int(r.get('OptimalStops', 1))), f"{float(r.get('StrategyDeltaSec', 0.0)):.1f}s"])
+            print_table(strat_headers, strat_rows, align_right=[False, False, True, True])
+
+        if results.get("post_race_metrics"):
+            m = results["post_race_metrics"]
+            print_header(f"POST-RACE OUT-OF-SAMPLE EVALUATION: {track_name.upper()} {args.year}")
+            scorecard_rows = [
+                ["MAE (Expected Finish)", f"{m['mae_expected']:.4f} (CV Benchmark: 3.5343)"],
+                ["MAE (Predicted Pos)", f"{m['mae_predicted']:.4f}"],
+                ["Spearman Rank Corr", f"{m['spearman_rank_corr']:.4f}"],
+                ["Top 10 Points Overlap", f"{m['top10_overlap']} / 10 ({m['top10_overlap']*10:.1f}%)"],
+                ["Top 3 Podium Overlap", f"{m['top3_overlap']} / 3 ({m['top3_overlap']/3*100:.1f}%)"],
+                ["Podium Brier Score", f"{m['podium_brier_score']:.4f}"],
+            ]
+            print_table(["Evaluation Dimension", "Scorecard Result"], scorecard_rows, align_right=[False, True])
+    else:
+        print("\n" + "=" * 80)
+        print(f"GRAND PRIX RACE TOP {top_n} PREDICTION: {track_name.upper()} {args.year} [{stage_clean.upper()}]")
+        print(f"Model Selected   : {results.get('selected_model', 'N/A')}")
+        print(f"Selection Method : {results.get('selection_method', 'Chronological Walk-Forward Validation')}")
+        mae_val = results.get('selected_mae')
+        mae_str = f"{mae_val:.4f}" if isinstance(mae_val, (int, float)) else str(mae_val)
+        print(f"Selected MAE     : {mae_str}")
+        print(f"Starting Grid    : {grid_source}")
+        print("=" * 80)
+        print(f"{'Pos':<4} {'Driver':<5} {'Team':<22} {'Grid':<5} {'ExpFinish':<10} {'Win%':<7} {'Podium%':<9} {'Points%':<9}")
+        print("-" * 80)
+
+        for _, r in top_race.iterrows():
+            grid_raw = r.get("ActualStartingGrid")
+            raw_pit = r.get("is_pit_lane_start", 0)
+            is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
+            if is_pit:
+                grid_str = "PL"
+            elif pd.notna(grid_raw):
+                grid_str = str(int(round(float(grid_raw))))
+            else:
+                grid_str = "-"
+            pos_str = str(int(r["PredictedPosition"])) if pd.notna(r.get("PredictedPosition")) else str(r.get("StartingGridStatus", "-"))
+            exp_str = f"{r['ExpectedFinish']:<10.2f}" if pd.notna(r.get("ExpectedFinish")) else f"{'-':<10}"
+            win_str = f"{r['WinProbability']:<7.1f}" if pd.notna(r.get("WinProbability")) else f"{'-':<7}"
+            top3_str = f"{r['Top3Probability']:<9.1f}" if pd.notna(r.get("Top3Probability")) else f"{'-':<9}"
+            pts_str = f"{r['PointsProbability']:<9.1f}" if pd.notna(r.get("PointsProbability")) else f"{'-':<9}"
+            print(
+                f"{pos_str:<4} "
+                f"{r['Abbreviation']:<5} "
+                f"{r['TeamName'][:21]:<22} "
+                f"{grid_str:<5} "
+                f"{exp_str} "
+                f"{win_str} "
+                f"{top3_str} "
+                f"{pts_str}"
+            )
         print("=" * 80)
 
-    # Post-Race Out-of-Sample Scorecard (if post_race stage with actual race results)
-    if results.get("post_race_metrics"):
-        m = results["post_race_metrics"]
-        print("\n" + "=" * 80)
-        print(f"POST-RACE OUT-OF-SAMPLE EVALUATION: {track_name.upper()} {args.year}")
-        print("=" * 80)
-        print(f"MAE (Expected Finish) : {m['mae_expected']:.4f} (CV Benchmark: 3.5343)")
-        print(f"MAE (Predicted Pos)   : {m['mae_predicted']:.4f}")
-        print(f"Spearman Rank Corr    : {m['spearman_rank_corr']:.4f}")
-        print(f"Top 10 Points Overlap : {m['top10_overlap']} / 10 ({m['top10_overlap']*10:.1f}%)")
-        print(f"Top 3 Podium Overlap  : {m['top3_overlap']} / 3 ({m['top3_overlap']/3*100:.1f}%)")
-        print(f"Podium Brier Score    : {m['podium_brier_score']:.4f}")
-        print("=" * 80)
+        if "RecommendedStrategy" in top_race.columns:
+            print("\n" + "=" * 80)
+            print("STRATEGIC & ENVIRONMENTAL RACE INTELLIGENCE")
+            print("=" * 80)
+            sim_meta = results.get("simulation_meta", {})
+            print(f"Safety Car Probability : {sim_meta.get('p_safety_car', 'N/A')} | Rain Probability: {sim_meta.get('rain_probability', 'N/A')}")
+            print(f"{'Driver':<6} {'Recommended Strategy':<25} {'Stops':<7} {'Delta to Alt':<14}")
+            print("-" * 80)
+            for _, r in top_race.iterrows():
+                print(f"{r['Abbreviation']:<6} {str(r.get('RecommendedStrategy', '1-Stop')):<25} {int(r.get('OptimalStops', 1)):<7} {float(r.get('StrategyDeltaSec', 0.0)):.1f}s")
+            print("=" * 80)
+
+        # Post-Race Out-of-Sample Scorecard (if post_race stage with actual race results)
+        if results.get("post_race_metrics"):
+            m = results["post_race_metrics"]
+            print("\n" + "=" * 80)
+            print(f"POST-RACE OUT-OF-SAMPLE EVALUATION: {track_name.upper()} {args.year}")
+            print("=" * 80)
+            print(f"MAE (Expected Finish) : {m['mae_expected']:.4f} (CV Benchmark: 3.5343)")
+            print(f"MAE (Predicted Pos)   : {m['mae_predicted']:.4f}")
+            print(f"Spearman Rank Corr    : {m['spearman_rank_corr']:.4f}")
+            print(f"Top 10 Points Overlap : {m['top10_overlap']} / 10 ({m['top10_overlap']*10:.1f}%)")
+            print(f"Top 3 Podium Overlap  : {m['top3_overlap']} / 3 ({m['top3_overlap']/3*100:.1f}%)")
+            print(f"Podium Brier Score    : {m['podium_brier_score']:.4f}")
+            print("=" * 80)
 
     out_dir = results.get("output_dir", "")
     if out_dir:
