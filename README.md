@@ -107,14 +107,27 @@ Launch the interactive terminal interface:
 python main.py
 ```
 
-The menu provides seven guided workflows:
+Or access historical statistics and analytics directly:
+
+```bash
+python main.py history
+```
+
+The menu provides eight guided workflows organized into three logical operational groups:
+
+#### Core Pipeline
 1. **Predict a Race:** Interactive wizard for circuit selection, weekend stage, model selection, and forecast execution.
 2. **Load / Collect Data:** Ingest FastF1 practice telemetry or full-season championship rounds.
-3. **View Previous Predictions & Reports:** Inspect generated prediction tables and Markdown race reports.
-4. **Evaluate a Prediction:** Score forecast accuracy against official race classifications.
-5. **System Health & Data Readiness:** Run diagnostic checks and data availability audits.
-6. **Configuration & Supported Circuits:** View circuit parameters, track types, and model settings.
-7. **Data Management:** Safely preview and prune disposable FastF1 cache and telemetry files.
+3. **Evaluate a Prediction:** Score forecast accuracy against official race classifications.
+
+#### Analytics & History
+4. **View Previous Predictions & Reports:** Inspect generated prediction tables and Markdown race reports.
+5. **Historical Statistics & Analytics (1950–2026):** Explore driver statistics, teammate head-to-heads, qualifying analytics, race performance, circuit history, and championship season progress.
+
+#### System & Admin
+6. **System Health & Data Readiness:** Run diagnostic checks and data availability audits.
+7. **Configuration & Supported Circuits:** View circuit parameters, track types, and model settings.
+8. **Data Management & Deletion:** Safely preview and prune disposable FastF1 cache and telemetry files.
 
 ---
 

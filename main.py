@@ -808,6 +808,12 @@ def main():
     clean_parser.add_argument("--force", action="store_true", help="Bypass confirmation prompt")
     clean_parser.add_argument("--audit-log", action="store_true", help="Display recent deletion audit log records")
 
+    # Historical Analytics Command
+    subparsers.add_parser(
+        "history",
+        help="Explore historical Formula 1 statistics and analytics (1950–2026)"
+    )
+
     args = parser.parse_args()
 
     if args.command is None or args.command == "menu":
@@ -829,6 +835,10 @@ def main():
         cmd_collect(args)
     elif args.command == "clean":
         cmd_clean(args, clean_parser)
+    elif args.command in ("history", "historical"):
+        from src.cli.historical_menu import HistoricalStatsMenu
+        hist_menu = HistoricalStatsMenu()
+        hist_menu.run()
 
 
 if __name__ == "__main__":

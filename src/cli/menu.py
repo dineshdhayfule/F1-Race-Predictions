@@ -217,16 +217,20 @@ class InteractiveMenu:
                 clear_screen()
                 print_banner(season=2026, status_text="Ready")
                 print(f"{Colors.BOLD}MAIN MENU{Colors.RESET}\n")
+                print("  ── Core Pipeline ───────────────────────────────────────────────")
                 print("  1. Predict a Race")
                 print("  2. Load / Collect Data")
-                print("  3. View Previous Predictions & Reports")
-                print("  4. Evaluate a Prediction")
-                print("  5. System Health & Data Readiness")
-                print("  6. Configuration & Supported Circuits")
-                print("  7. Data Management & Deletion")
+                print("  3. Evaluate a Prediction")
+                print("\n  ── Analytics & History ─────────────────────────────────────────")
+                print("  4. View Previous Predictions & Reports")
+                print("  5. Historical Statistics & Analytics (1950–2026)")
+                print("\n  ── System & Admin ──────────────────────────────────────────────")
+                print("  6. System Health & Data Readiness")
+                print("  7. Configuration & Supported Circuits")
+                print("  8. Data Management & Deletion")
                 print("\n  0. Exit\n")
 
-                choice = prompt_choice("Enter your choice", ["1", "2", "3", "4", "5", "6", "7", "0"], default="1")
+                choice = prompt_choice("Enter your choice", ["1", "2", "3", "4", "5", "6", "7", "8", "0"], default="1")
 
                 if choice == "0":
                     print("\nExiting ApexGrid. Goodbye!\n")
@@ -236,14 +240,16 @@ class InteractiveMenu:
                 elif choice == "2":
                     self.menu_collect_data()
                 elif choice == "3":
-                    self.menu_view_outputs()
-                elif choice == "4":
                     self.menu_evaluate_prediction()
+                elif choice == "4":
+                    self.menu_view_outputs()
                 elif choice == "5":
-                    self.menu_system_health()
+                    self.menu_historical_stats()
                 elif choice == "6":
-                    self.menu_configuration()
+                    self.menu_system_health()
                 elif choice == "7":
+                    self.menu_configuration()
+                elif choice == "8":
                     self.menu_data_management()
 
             except (KeyboardInterrupt, EOFError):
@@ -1310,7 +1316,7 @@ class InteractiveMenu:
             print_error(f"Automated collection encountered an error: {e}")
 
     # =========================================================================
-    # OPTION 3: VIEW PREVIOUS PREDICTIONS & REPORTS
+    # OPTION 4: VIEW PREVIOUS PREDICTIONS & REPORTS
     # =========================================================================
     def menu_view_outputs(self) -> None:
         while True:
@@ -1387,7 +1393,7 @@ class InteractiveMenu:
         prompt_str("Press [Enter] to return", allow_empty=True)
 
     # =========================================================================
-    # OPTION 4: EVALUATE A PREDICTION
+    # OPTION 3: EVALUATE A PREDICTION
     # =========================================================================
     def menu_evaluate_prediction(self) -> None:
         clear_screen()
@@ -1517,7 +1523,7 @@ class InteractiveMenu:
         prompt_str("Press [Enter] to continue", allow_empty=True)
 
     # =========================================================================
-    # OPTION 5: SYSTEM HEALTH & DIAGNOSTICS
+    # OPTION 6: SYSTEM HEALTH & DIAGNOSTICS
     # =========================================================================
     def menu_system_health(self) -> None:
         clear_screen()
@@ -1602,7 +1608,7 @@ class InteractiveMenu:
             prompt_str("\nPress [Enter] to continue", allow_empty=True)
 
     # =========================================================================
-    # OPTION 6: CONFIGURATION & SUPPORTED CIRCUITS
+    # OPTION 7: CONFIGURATION & SUPPORTED CIRCUITS
     # =========================================================================
     def menu_configuration(self) -> None:
         clear_screen()
@@ -1644,7 +1650,7 @@ class InteractiveMenu:
         prompt_str("Press [Enter] to return to Main Menu", allow_empty=True)
 
     # =========================================================================
-    # OPTION 7: DATA MANAGEMENT & DELETION
+    # OPTION 8: DATA MANAGEMENT & DELETION
     # =========================================================================
     def menu_data_management(self) -> None:
         """Interactive controller for safe data management and selective deletion."""
@@ -2033,3 +2039,13 @@ class InteractiveMenu:
 
         print_table(["Timestamp (UTC)", "Operation", "Status", "Deleted", "Reclaimed", "Historical"], rows)
         prompt_str("\nPress [Enter] to return to Data Management Menu", allow_empty=True)
+
+    # =========================================================================
+    # OPTION 5: HISTORICAL STATISTICS & ANALYTICS (1950–2026)
+    # =========================================================================
+    def menu_historical_stats(self) -> None:
+        """Interactive controller for historical analytics and statistics (1950–2026)."""
+        from src.cli.historical_menu import HistoricalStatsMenu
+        hist_menu = HistoricalStatsMenu()
+        hist_menu.run()
+

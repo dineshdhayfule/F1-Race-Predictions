@@ -272,3 +272,48 @@ def test_interactive_menu_cache_deletion_all_seasons_workflow(tmp_path: Path, ca
     assert "COMPLETED" in log_content
 
 
+def test_main_menu_sections_and_options_layout(capsys):
+    """Verifies that the interactive menu displays all 3 sections and 8 options in the approved layout."""
+    with patch("builtins.input", return_value="0"):
+        menu = InteractiveMenu(root_dir=ROOT)
+        with pytest.raises(SystemExit):
+            menu.run()
+
+    captured = capsys.readouterr().out
+    assert "Core Pipeline" in captured
+    assert "1. Predict a Race" in captured
+    assert "2. Load / Collect Data" in captured
+    assert "3. Evaluate a Prediction" in captured
+    assert "Analytics & History" in captured
+    assert "4. View Previous Predictions & Reports" in captured
+    assert "5. Historical Statistics & Analytics (1950–2026)" in captured
+    assert "System & Admin" in captured
+    assert "6. System Health & Data Readiness" in captured
+    assert "7. Configuration & Supported Circuits" in captured
+    assert "8. Data Management & Deletion" in captured
+    assert "0. Exit" in captured
+
+
+def test_main_menu_all_options_dispatch():
+    """Verifies that every option (1-8) dispatches to its respective handler method."""
+    dispatch_map = [
+        ("1", "menu_predict_race"),
+        ("2", "menu_collect_data"),
+        ("3", "menu_evaluate_prediction"),
+        ("4", "menu_view_outputs"),
+        ("5", "menu_historical_stats"),
+        ("6", "menu_system_health"),
+        ("7", "menu_configuration"),
+        ("8", "menu_data_management"),
+    ]
+
+    for opt, handler_name in dispatch_map:
+        with patch("builtins.input", side_effect=[opt, "0"]):
+            with patch.object(InteractiveMenu, handler_name) as mock_handler:
+                menu = InteractiveMenu(root_dir=ROOT)
+                with pytest.raises(SystemExit):
+                    menu.run()
+                mock_handler.assert_called_once()
+
+
+
