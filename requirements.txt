@@ -16,5 +16,9 @@ xgboost>=2.0.0,<4.0.0
 # Telemetry & Official F1 Timing Data
 fastf1>=3.4.0,<4.0.0
 
+# Command Line Interface & Terminal Styling
+typer>=0.12.0,<1.0.0
+rich>=13.7.0,<15.0.0
+
 # Testing & Quality Assurance
 pytest>=8.0.0,<9.0.0
