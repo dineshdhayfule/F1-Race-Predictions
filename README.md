@@ -1,3 +1,5 @@
+<div align="center">
+
 # ApexGrid
 
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
@@ -5,6 +7,9 @@
 [![Test Suite](https://img.shields.io/badge/tests-300%20passed%20(100%25)-brightgreen.svg)](tests/)
 [![Architecture](https://img.shields.io/badge/architecture-Multi--Model%20Ensemble-orange.svg)](src/models/)
 [![Simulation](https://img.shields.io/badge/Monte%20Carlo-25%2C000%20runs-purple.svg)](src/simulation/)
+
+</div>
+
 
 > **Predicting the Race Beyond the Grid.**  
 > *An ML-powered motorsport intelligence, multi-model ensemble, and Monte Carlo simulation platform for Formula 1 Grand Prix outcome forecasting.*
