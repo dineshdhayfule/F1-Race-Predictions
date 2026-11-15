@@ -7,7 +7,7 @@ Provides guided workflows for:
 1. Driver Statistics & Career Breakdowns
 2. Teammate Head-to-Head Comparisons
 3. Qualifying Performance & Pole Statistics
-4. Race Execution & Overtakes/Positions Gained
+4. Race Performance & Positions Gained
 5. Circuit History & Historical Winners
 6. Season Summaries & Championship Progression
 0. Return to Main Menu
@@ -28,7 +28,11 @@ from src.cli.terminal_ui import (
     prompt_str,
     prompt_int,
     print_table,
+    render_probability_bar,
+    get_console,
     Colors,
+    HAS_RICH,
+    _supports_color,
 )
 from src.historical.api_client import HistoricalAPIClient
 from src.historical.analytics import (
@@ -62,14 +66,25 @@ class HistoricalStatsMenu:
             try:
                 clear_screen()
                 print_banner(season=2026, status_text="Historical Analytics")
-                print(f"{Colors.BOLD}HISTORICAL MOTORSPORT INTELLIGENCE (1950–2026){Colors.RESET}\n")
-                print("  1. Driver Career & Season Statistics")
-                print("  2. Teammate Head-to-Head Comparison")
-                print("  3. Qualifying Analytics & Pole Statistics")
-                print("  4. Race Performance & Positions Gained")
-                print("  5. Circuit History & Track Records")
-                print("  6. Championship Season Summary & Standings")
-                print("\n  0. Return to Main Menu\n")
+                console = get_console()
+                if HAS_RICH and console and _supports_color():
+                    console.print("[bold #F5F5F7]HISTORICAL MOTORSPORT INTELLIGENCE (1950–2026)[/]\n")
+                    console.print("  [bold #00B4D8]1.[/] Driver Career & Season Statistics")
+                    console.print("  [bold #00B4D8]2.[/] Teammate Head-to-Head Comparison")
+                    console.print("  [bold #00B4D8]3.[/] Qualifying Analytics & Pole Statistics")
+                    console.print("  [bold #00B4D8]4.[/] Race Performance & Positions Gained")
+                    console.print("  [bold #00B4D8]5.[/] Circuit History & Track Records")
+                    console.print("  [bold #00B4D8]6.[/] Championship Season Summary & Standings")
+                    console.print("\n  [bold red]0.[/] Return to Main Menu\n")
+                else:
+                    print(f"{Colors.BOLD}HISTORICAL MOTORSPORT INTELLIGENCE (1950–2026){Colors.RESET}\n")
+                    print("  1. Driver Career & Season Statistics")
+                    print("  2. Teammate Head-to-Head Comparison")
+                    print("  3. Qualifying Analytics & Pole Statistics")
+                    print("  4. Race Performance & Positions Gained")
+                    print("  5. Circuit History & Track Records")
+                    print("  6. Championship Season Summary & Standings")
+                    print("\n  0. Return to Main Menu\n")
 
                 choice = prompt_choice("Select an analytics category", ["1", "2", "3", "4", "5", "6", "0"], default="1")
 
@@ -155,7 +170,7 @@ class HistoricalStatsMenu:
             ["Championship Points", f"{stats.total_points:.2f}"],
             ["Average Finish Position", avg_fin_display],
         ])
-        print_table(overview_headers, overview_rows)
+        print_table(overview_headers, overview_rows, align_right=[False, True])
 
         if stats.seasons_breakdown:
             print(f"\n{Colors.BOLD}Season-by-Season Breakdown:{Colors.RESET}")
@@ -180,7 +195,7 @@ class HistoricalStatsMenu:
                     f"P{sb.best_finish}" if sb.best_finish else "-",
                     f"P{sb.avg_finish:.1f}" if sb.avg_finish else "-",
                 ])
-            print_table(s_headers, s_rows)
+            print_table(s_headers, s_rows, align_right=[False, False, True, True, True, True, True, True, True])
 
         if stats.coverage_notes:
             print(f"\n{Colors.DIM}Provider Coverage & Historical Limitations:{Colors.RESET}")
@@ -219,7 +234,7 @@ class HistoricalStatsMenu:
             ["Championship Points", f"{h2h.points_comparison[0]:.2f}", f"{h2h.points_comparison[1]:.2f}"],
             ["Retirements (DNF)", str(h2h.dnfs_comparison[0]), str(h2h.dnfs_comparison[1])],
         ]
-        print_table(headers, rows)
+        print_table(headers, rows, align_right=[False, True, True])
 
         print(f"\n{Colors.DIM}Comparison Rules & Notes:{Colors.RESET}")
         print(f"  * {h2h.qualifying_coverage_note}")
@@ -263,7 +278,7 @@ class HistoricalStatsMenu:
         if q_stats.avg_grid_drop_or_gain is not None:
             rows.append(["Average Grid Penalty Drop", f"{q_stats.avg_grid_drop_or_gain:+.2f} positions"])
 
-        print_table(headers, rows)
+        print_table(headers, rows, align_right=[False, True])
 
         if q_stats.coverage_limitations:
             print(f"\n{Colors.DIM}Provider Coverage Limitations:{Colors.RESET}")
@@ -305,19 +320,19 @@ class HistoricalStatsMenu:
             ["Average Positions Gained / Race", f"{r_stats.avg_positions_gained:+.2f}" if r_stats.avg_positions_gained is not None else "N/A"],
             ["Valid Grid Starts Analyzed", str(r_stats.valid_grid_starts_count)],
         ]
-        print_table(headers, rows)
+        print_table(headers, rows, align_right=[False, True])
 
         if r_stats.finishing_distribution:
             print(f"\n{Colors.BOLD}Finishing Position Distribution:{Colors.RESET}")
             d_headers = ["Position Bracket", "Count"]
             d_rows = [[k, str(v)] for k, v in r_stats.finishing_distribution.items()]
-            print_table(d_headers, d_rows)
+            print_table(d_headers, d_rows, align_right=[False, True])
 
         if r_stats.retirement_breakdown:
             print(f"\n{Colors.BOLD}Top Retirement Causes:{Colors.RESET}")
             ret_headers = ["Reason / Status", "Occurrences"]
             ret_rows = [[k, str(v)] for k, v in list(r_stats.retirement_breakdown.items())[:5]]
-            print_table(ret_headers, ret_rows)
+            print_table(ret_headers, ret_rows, align_right=[False, True])
 
         for n in r_stats.coverage_notes:
             print(f"\n{Colors.DIM}  * {n}{Colors.RESET}")
@@ -348,19 +363,19 @@ class HistoricalStatsMenu:
             print(f"\n{Colors.BOLD}Top Winning Drivers:{Colors.RESET}")
             w_headers = ["Driver", "Wins"]
             w_rows = [[d, str(w)] for d, w in c_stats.top_winning_drivers[:5]]
-            print_table(w_headers, w_rows)
+            print_table(w_headers, w_rows, align_right=[False, True])
 
         if c_stats.top_winning_constructors:
             print(f"\n{Colors.BOLD}Top Winning Constructors:{Colors.RESET}")
             cw_headers = ["Constructor", "Wins"]
             cw_rows = [[c, str(w)] for c, w in c_stats.top_winning_constructors[:5]]
-            print_table(cw_headers, cw_rows)
+            print_table(cw_headers, cw_rows, align_right=[False, True])
 
         if c_stats.recent_winners:
             print(f"\n{Colors.BOLD}Recent Grand Prix Winners:{Colors.RESET}")
             rec_headers = ["Year", "Winning Driver", "Constructor"]
             rec_rows = [[str(y), d, c] for y, d, c in c_stats.recent_winners]
-            print_table(rec_headers, rec_rows)
+            print_table(rec_headers, rec_rows, align_right=[True, False, False])
 
         for n in c_stats.coverage_notes:
             print(f"\n{Colors.DIM}  * {n}{Colors.RESET}")
@@ -393,19 +408,19 @@ class HistoricalStatsMenu:
             ["Qualifying Coverage", s_stats.qualifying_coverage_summary],
             ["Race Results Coverage", s_stats.race_results_coverage_summary],
         ]
-        print_table(headers, rows)
+        print_table(headers, rows, align_right=[False, True])
 
         if s_stats.top_drivers_standings:
             print(f"\n{Colors.BOLD}Top Drivers Championship Standings:{Colors.RESET}")
             d_headers = ["Pos", "Driver", "Constructor", "Points", "Wins"]
             d_rows = [[str(pos), name, team[:18], f"{pts:.1f}", str(wins)] for pos, name, team, pts, wins in s_stats.top_drivers_standings]
-            print_table(d_headers, d_rows)
+            print_table(d_headers, d_rows, align_right=[True, False, False, True, True])
 
         if s_stats.top_constructors_standings:
             print(f"\n{Colors.BOLD}Top Constructors Championship Standings:{Colors.RESET}")
             c_headers = ["Pos", "Constructor", "Points", "Wins"]
             c_rows = [[str(pos), team, f"{pts:.1f}", str(wins)] for pos, team, pts, wins in s_stats.top_constructors_standings]
-            print_table(c_headers, c_rows)
+            print_table(c_headers, c_rows, align_right=[True, False, True, True])
 
         if s_stats.coverage_notes:
             print(f"\n{Colors.DIM}Season Notes & Coverage Limitations:{Colors.RESET}")
