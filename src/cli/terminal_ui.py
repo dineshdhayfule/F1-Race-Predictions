@@ -1,12 +1,31 @@
 """
-Terminal UI Utilities for Interactive CLI Menu.
-Pure Python standard library implementation compatible with Windows PowerShell, CMD, and Unix terminals.
+Terminal UI Utilities and Design System for ApexGrid Motorsport Intelligence Platform.
+Predicting the Race Beyond the Grid.
+
+Provides rich terminal presentation with graceful fallback to standard ANSI/ASCII
+for non-TTY environments, piped output, and terminals without Rich or color support.
 """
 
 import os
 import sys
 import shutil
-from typing import List, Optional, Any, Sequence, Dict
+from typing import List, Optional, Any, Sequence, Dict, Tuple
+
+try:
+    import rich
+    from rich.console import Console
+    from rich.table import Table
+    from rich.panel import Panel
+    from rich.theme import Theme
+    from rich.text import Text
+    from rich.align import Align
+    from rich.columns import Columns
+    from rich.box import ROUNDED, SIMPLE, HORIZONTALS, SIMPLE_HEAVY, DOUBLE_EDGE
+    from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
+    from rich.rule import Rule
+    HAS_RICH = True
+except ImportError:
+    HAS_RICH = False
 
 
 # Check color support
@@ -16,7 +35,13 @@ def _supports_color() -> bool:
     if not hasattr(sys.stdout, "isatty") or not sys.stdout.isatty():
         return False
     if sys.platform == "win32":
-        return os.environ.get("ANSICON") is not None or "WT_SESSION" in os.environ or os.environ.get("TERM_PROGRAM") is not None
+        return (
+            os.environ.get("ANSICON") is not None
+            or "WT_SESSION" in os.environ
+            or os.environ.get("TERM_PROGRAM") is not None
+            or os.environ.get("COLORTERM") is not None
+            or (hasattr(sys, "getwindowsversion") and sys.getwindowsversion().major >= 10)
+        )
     return True
 
 
@@ -24,6 +49,7 @@ SUPPORTS_COLOR = _supports_color()
 
 
 class Colors:
+    """Standard ANSI color escape sequences for backward compatibility."""
     RESET = "\033[0m" if SUPPORTS_COLOR else ""
     BOLD = "\033[1m" if SUPPORTS_COLOR else ""
     DIM = "\033[2m" if SUPPORTS_COLOR else ""
@@ -36,48 +62,130 @@ class Colors:
     WHITE = "\033[97m" if SUPPORTS_COLOR else ""
 
 
+# Motorsport Palette Theme
+APEX_THEME = None
+if HAS_RICH:
+    APEX_THEME = Theme({
+        "info": "bold #00B4D8",
+        "warning": "bold #FFB800",
+        "error": "bold #E10600",
+        "success": "bold #00D084",
+        "brand": "bold #E10600",
+        "purple": "bold #B138DD",
+        "cyan": "#00B4D8",
+        "muted": "#8E8E93",
+        "highlight": "bold #F5F5F7",
+        "gold": "bold #FFD700",
+        "silver": "bold #C0C0C0",
+        "bronze": "bold #CD7F32",
+    })
+
+_CONSOLE_INSTANCE: Optional[Any] = None
+
+
+def get_console() -> Optional[Any]:
+    """Returns the Rich Console configured for ApexGrid or None if Rich is absent."""
+    global _CONSOLE_INSTANCE
+    if not HAS_RICH:
+        return None
+    no_color = bool(os.environ.get("NO_COLOR"))
+    # Create or refresh console instance when NO_COLOR state changes
+    if _CONSOLE_INSTANCE is None or getattr(_CONSOLE_INSTANCE, "_apex_no_color", None) != no_color:
+        _CONSOLE_INSTANCE = Console(
+            theme=APEX_THEME,
+            highlight=False,
+            no_color=no_color,
+            color_system=None if (no_color or not _supports_color()) else "auto",
+        )
+        _CONSOLE_INSTANCE._apex_no_color = no_color
+    return _CONSOLE_INSTANCE
+
+
 def clear_screen() -> None:
     """Clears the console screen safely."""
-    # Use standard console clear
     os.system("cls" if os.name == "nt" else "clear")
 
 
 def print_banner(season: int = 2026, status_text: str = "Motorsport Intelligence Ready") -> None:
-    """Displays the main ASCII header banner."""
-    width = 68
-    border = "=" * width
-    print(Colors.CYAN + border + Colors.RESET)
-    print(Colors.BOLD + Colors.WHITE + "             ApexGrid".center(width) + Colors.RESET)
-    print(Colors.CYAN + "       Predicting the Race Beyond the Grid".center(width) + Colors.RESET)
-    print(Colors.CYAN + border + Colors.RESET)
-    print(f" Season: {Colors.BOLD}{season}{Colors.RESET} | Status: {Colors.GREEN}{status_text}{Colors.RESET}")
-    print(border + "\n")
+    """Displays the main ApexGrid motorsport intelligence header banner."""
+    console = get_console()
+    if HAS_RICH and console and _supports_color():
+        brand_text = Text()
+        brand_text.append("A P E X G R I D\n", style="bold #E10600")
+        brand_text.append("Predicting the Race Beyond the Grid", style="bold #00B4D8")
+        panel = Panel(
+            Align.center(brand_text),
+            box=ROUNDED,
+            border_style="#E10600",
+            padding=(0, 2),
+            subtitle=f"[bold #F5F5F7]Season: {season}[/]  [#8E8E93]|[/]  [bold #00D084]Status: {status_text}[/]",
+            subtitle_align="center",
+        )
+        console.print(panel)
+        console.print()
+    else:
+        width = 68
+        border = "=" * width
+        print(Colors.CYAN + border + Colors.RESET)
+        print(Colors.BOLD + Colors.WHITE + "             ApexGrid".center(width) + Colors.RESET)
+        print(Colors.CYAN + "       Predicting the Race Beyond the Grid".center(width) + Colors.RESET)
+        print(Colors.CYAN + border + Colors.RESET)
+        print(f" Season: {Colors.BOLD}{season}{Colors.RESET} | Status: {Colors.GREEN}{status_text}{Colors.RESET}")
+        print(border + "\n")
 
 
 def print_header(title: str, subtitle: Optional[str] = None) -> None:
     """Prints a distinct section header."""
-    width = 68
-    print("\n" + Colors.CYAN + "-" * width + Colors.RESET)
-    print(Colors.BOLD + Colors.WHITE + f"  {title.upper()}" + Colors.RESET)
-    if subtitle:
-        print(Colors.DIM + f"  {subtitle}" + Colors.RESET)
-    print(Colors.CYAN + "-" * width + Colors.RESET)
+    console = get_console()
+    if HAS_RICH and console and _supports_color():
+        console.print()
+        console.rule(f"[bold #00B4D8]{title.upper()}[/]", style="#8E8E93")
+        if subtitle:
+            console.print(Align.center(f"[dim]{subtitle}[/]"))
+        console.print()
+    else:
+        width = 68
+        print("\n" + Colors.CYAN + "-" * width + Colors.RESET)
+        print(Colors.BOLD + Colors.WHITE + f"  {title.upper()}" + Colors.RESET)
+        if subtitle:
+            print(Colors.DIM + f"  {subtitle}" + Colors.RESET)
+        print(Colors.CYAN + "-" * width + Colors.RESET)
 
 
 def print_success(message: str) -> None:
-    print(f" {Colors.GREEN}[OK]{Colors.RESET} {message}")
+    """Prints an operation success status line."""
+    console = get_console()
+    if HAS_RICH and console and _supports_color():
+        console.print(f" [bold #00D084]✓ READY[/]  {message}")
+    else:
+        print(f" {Colors.GREEN}[OK]{Colors.RESET} {message}")
 
 
 def print_warning(message: str) -> None:
-    print(f" {Colors.YELLOW}[WARN]{Colors.RESET} {message}")
+    """Prints an operation warning status line."""
+    console = get_console()
+    if HAS_RICH and console and _supports_color():
+        console.print(f" [bold #FFB800]▲ WARN[/]   {message}")
+    else:
+        print(f" {Colors.YELLOW}[WARN]{Colors.RESET} {message}")
 
 
 def print_error(message: str) -> None:
-    print(f" {Colors.RED}[ERROR]{Colors.RESET} {message}")
+    """Prints an operation error status line."""
+    console = get_console()
+    if HAS_RICH and console and _supports_color():
+        console.print(f" [bold #E10600]✖ ERROR[/]  {message}")
+    else:
+        print(f" {Colors.RED}[ERROR]{Colors.RESET} {message}")
 
 
 def print_info(message: str) -> None:
-    print(f" {Colors.BLUE}[INFO]{Colors.RESET} {message}")
+    """Prints an informational status line."""
+    console = get_console()
+    if HAS_RICH and console and _supports_color():
+        console.print(f" [bold #00B4D8]ℹ INFO[/]   {message}")
+    else:
+        print(f" {Colors.BLUE}[INFO]{Colors.RESET} {message}")
 
 
 def prompt_choice(prompt_text: str, valid_choices: Sequence[str], default: Optional[str] = None) -> str:
@@ -100,7 +208,6 @@ def prompt_choice(prompt_text: str, valid_choices: Sequence[str], default: Optio
 
         val = raw.lower()
         if val in valid_set:
-            # Return the matching casing from original valid_choices
             for orig in valid_choices:
                 if str(orig).strip().lower() == val:
                     return str(orig)
@@ -198,41 +305,56 @@ def prompt_confirm(prompt_text: str, default: bool = True) -> bool:
         print_warning("Please respond with 'y' or 'n'.")
 
 
-def print_table(headers: List[str], rows: List[List[Any]], align_right: Optional[List[bool]] = None) -> None:
-    """Prints a nicely aligned tabular output with ASCII borders."""
+def print_table(
+    headers: List[str],
+    rows: List[List[Any]],
+    align_right: Optional[List[bool]] = None,
+    title: Optional[str] = None,
+    box_style: Optional[Any] = None,
+) -> None:
+    """Prints a styled tabular output with Rich formatting or ASCII border fallback."""
     if not rows:
         print("  (No records found)\n")
         return
 
-    num_cols = len(headers)
-    str_rows = [[str(cell) for cell in row] for row in rows]
+    console = get_console()
+    if HAS_RICH and console and _supports_color():
+        box_type = box_style or ROUNDED
+        table = Table(box=box_type, header_style="bold #00B4D8", border_style="#8E8E93", title=title)
+        for i, h in enumerate(headers):
+            justify = "right" if (align_right and i < len(align_right) and align_right[i]) else "left"
+            table.add_column(h, justify=justify)
+        for row in rows:
+            str_row = [str(cell) if cell is not None else "" for cell in row]
+            table.add_row(*str_row)
+        console.print(table)
+        console.print()
+    else:
+        num_cols = len(headers)
+        str_rows = [[str(cell) if cell is not None else "" for cell in row] for row in rows]
+        col_widths = [len(h) for h in headers]
+        for row in str_rows:
+            for i in range(num_cols):
+                if i < len(row):
+                    col_widths[i] = max(col_widths[i], len(row[i]))
 
-    col_widths = [len(h) for h in headers]
-    for row in str_rows:
-        for i in range(num_cols):
-            if i < len(row):
-                col_widths[i] = max(col_widths[i], len(row[i]))
-
-    # Print header
-    header_line = " | ".join(
-        h.rjust(col_widths[i]) if (align_right and i < len(align_right) and align_right[i]) else h.ljust(col_widths[i])
-        for i, h in enumerate(headers)
-    )
-    separator = "-+-".join("-" * col_widths[i] for i in range(num_cols))
-
-    print(Colors.BOLD + header_line + Colors.RESET)
-    print(separator)
-
-    # Print rows
-    for row in str_rows:
-        line = " | ".join(
-            (row[i] if i < len(row) else "").rjust(col_widths[i])
-            if (align_right and i < len(align_right) and align_right[i])
-            else (row[i] if i < len(row) else "").ljust(col_widths[i])
-            for i in range(num_cols)
+        header_line = " | ".join(
+            h.rjust(col_widths[i]) if (align_right and i < len(align_right) and align_right[i]) else h.ljust(col_widths[i])
+            for i, h in enumerate(headers)
         )
-        print(line)
-    print()
+        separator = "-+-".join("-" * col_widths[i] for i in range(num_cols))
+
+        print(Colors.BOLD + header_line + Colors.RESET)
+        print(separator)
+        for row in str_rows:
+            line = " | ".join(
+                (row[i] if i < len(row) else "").rjust(col_widths[i])
+                if (align_right and i < len(align_right) and align_right[i])
+                else (row[i] if i < len(row) else "").ljust(col_widths[i])
+                for i in range(num_cols)
+            )
+            print(line)
+        print()
 
 
 def paginate_text(text: str, page_size: int = 30) -> None:
@@ -256,3 +378,73 @@ def paginate_text(text: str, page_size: int = 30) -> None:
             except (KeyboardInterrupt, EOFError):
                 break
     print()
+
+
+def render_probability_bar(pct: float, width: int = 10) -> str:
+    """Renders a visual probability bar string e.g. [██████░░░░] 60.0%."""
+    if pct < 0.0:
+        pct = 0.0
+    if pct > 100.0:
+        pct = 100.0
+    filled = int(round((pct / 100.0) * width))
+    empty = width - filled
+    bar = "█" * filled + "░" * empty
+
+    if HAS_RICH and _supports_color():
+        if pct >= 50.0:
+            color = "#00D084"
+        elif pct >= 20.0:
+            color = "#00B4D8"
+        elif pct >= 5.0:
+            color = "#FFB800"
+        else:
+            color = "#8E8E93"
+        return f"[{color}]{bar}[/] {pct:5.1f}%"
+    return f"{bar} {pct:5.1f}%"
+
+
+def print_podium(p1: Dict[str, Any], p2: Optional[Dict[str, Any]] = None, p3: Optional[Dict[str, Any]] = None) -> None:
+    """Displays a stylized podium showcase for P1, P2, and P3."""
+    console = get_console()
+    if HAS_RICH and console and _supports_color():
+        cards = []
+
+        # P2 Card
+        if p2:
+            t2 = Text()
+            t2.append("🥈 P2 PODIUM\n", style="bold #C0C0C0")
+            t2.append(f"{p2.get('Driver', p2.get('Abbreviation', 'P2'))}\n", style="bold white")
+            t2.append(f"{p2.get('Team', p2.get('TeamName', ''))[:18]}\n", style="#8E8E93")
+            win_pct = p2.get("WinProbability", 0.0)
+            pod_pct = p2.get("Top3Probability", 0.0)
+            t2.append(f"Win: {win_pct:.1f}% | Pod: {pod_pct:.1f}%", style="cyan")
+            cards.append(Panel(Align.center(t2), box=ROUNDED, border_style="#C0C0C0", width=24))
+
+        # P1 Card (Center, highlighted)
+        if p1:
+            t1 = Text()
+            t1.append("🏆 P1 WINNER\n", style="bold #FFD700")
+            t1.append(f"{p1.get('Driver', p1.get('Abbreviation', 'P1'))}\n", style="bold white")
+            t1.append(f"{p1.get('Team', p1.get('TeamName', ''))[:18]}\n", style="#8E8E93")
+            win_pct = p1.get("WinProbability", 0.0)
+            pod_pct = p1.get("Top3Probability", 0.0)
+            t1.append(f"Win: {win_pct:.1f}% | Pod: {pod_pct:.1f}%", style="bold #00D084")
+            cards.append(Panel(Align.center(t1), box=ROUNDED, border_style="#FFD700", width=26))
+
+        # P3 Card
+        if p3:
+            t3 = Text()
+            t3.append("🥉 P3 PODIUM\n", style="bold #CD7F32")
+            t3.append(f"{p3.get('Driver', p3.get('Abbreviation', 'P3'))}\n", style="bold white")
+            t3.append(f"{p3.get('Team', p3.get('TeamName', ''))[:18]}\n", style="#8E8E93")
+            win_pct = p3.get("WinProbability", 0.0)
+            pod_pct = p3.get("Top3Probability", 0.0)
+            t3.append(f"Win: {win_pct:.1f}% | Pod: {pod_pct:.1f}%", style="cyan")
+            cards.append(Panel(Align.center(t3), box=ROUNDED, border_style="#CD7F32", width=24))
+
+        if cards:
+            console.print(Align.center(Columns(cards)))
+            console.print()
+    else:
+        # Fallback simple podium text
+        print(f"\n  [PODIUM] P1: {p1.get('Abbreviation', 'P1')} | P2: {p2.get('Abbreviation', '-') if p2 else '-'} | P3: {p3.get('Abbreviation', '-') if p3 else '-'}\n")

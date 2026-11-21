@@ -825,6 +825,11 @@ class RacePredictionPipeline:
             })
 
         target_df = apply_stage_feature_mask(pd.DataFrame(target_rows), stage)
+        if target_df.empty:
+            raise ValueError(
+                f"Cannot generate provisional qualifying prediction for {track_name} {year} "
+                f"(Round {target_round}): no target roster rows were resolved."
+            )
 
         # Walk-forward validation over prior rounds (Rounds 4 .. target_round - 1)
         val_rounds = [r for r in train_rounds if r >= 4]
@@ -833,6 +838,13 @@ class RacePredictionPipeline:
         for r in val_rounds:
             tr = train_features[train_features["Round"] < r]
             te = train_features[train_features["Round"] == r]
+            if tr.empty or te.empty:
+                missing_part = "training" if tr.empty else "validation"
+                raise ValueError(
+                    f"Cannot run chronological qualifying validation for Round {r}: "
+                    f"{missing_part} fold is empty. Required historical race-result data is missing "
+                    f"or unusable; collect the completed prior rounds before retrying."
+                )
             imp = create_feature_imputer(strategy="median")
             X_tr = imp.fit_transform(tr[quali_feature_cols])
             X_te = imp.transform(te[quali_feature_cols])

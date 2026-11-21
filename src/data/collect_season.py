@@ -26,6 +26,7 @@ from pathlib import Path
 import argparse
 import json
 import fastf1
+import numpy as np
 import pandas as pd
 from typing import Optional, List, Dict, Any, Tuple, Union
 
@@ -45,10 +46,52 @@ from src.utils.logging_utils import get_logger
 logger = get_logger("collect_season")
 
 
+def get_allowed_stage_sessions(stage: Optional[str], is_sprint: bool) -> Optional[List[str]]:
+    """
+    Returns the list of session slugs permitted up to the active prediction stage cutoff.
+    Matches the stage cutoffs defined in DataLoader.load_weekend_sessions.
+    """
+    if not stage:
+        return None
+    stg = str(stage).lower().strip()
+    if stg == "after_sprint":
+        stg = "after_sprint_race"
+
+    if is_sprint:
+        if stg == "pre_fp1":
+            return []
+        elif stg == "after_fp1":
+            return ["fp1"]
+        elif stg == "after_sprint_qualifying":
+            return ["fp1", "sprint_qualifying"]
+        elif stg == "after_sprint_race":
+            return ["fp1", "sprint_qualifying", "sprint_race"]
+        elif stg in ("after_qualifying", "before_race"):
+            return ["fp1", "sprint_qualifying", "sprint_race", "qualifying"]
+        elif stg == "post_race":
+            return ["fp1", "sprint_qualifying", "sprint_race", "qualifying", "race"]
+        return None
+    else:
+        if stg == "pre_fp1":
+            return []
+        elif stg == "after_fp1":
+            return ["fp1"]
+        elif stg == "after_fp2":
+            return ["fp1", "fp2"]
+        elif stg == "after_fp3":
+            return ["fp1", "fp2", "fp3"]
+        elif stg in ("after_qualifying", "before_race"):
+            return ["fp1", "fp2", "fp3", "qualifying"]
+        elif stg == "post_race":
+            return ["fp1", "fp2", "fp3", "qualifying", "race"]
+        return None
+
+
 def detect_event_format_and_sessions(
     event_row: pd.Series,
     session_mode: str = "prediction_only",
     include_practice: Optional[bool] = None,
+    stage: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Analyzes event schedule metadata to determine if the event is a Sprint or Standard weekend,
@@ -65,6 +108,9 @@ def detect_event_format_and_sessions(
           - 'practice_only': Collect practice sessions only (FP1, FP2, FP3)
     include_practice : bool, optional
         Compatibility toggle. If True and session_mode=='prediction_only', upgraded to 'full'.
+    stage : str, optional
+        Active prediction stage cutoff (e.g. 'after_fp1', 'after_fp2', 'after_qualifying').
+        When provided, scopes the planned sessions to only those required up to that stage.
     """
     if include_practice is True and session_mode == "prediction_only":
         session_mode = "full"
@@ -87,6 +133,10 @@ def detect_event_format_and_sessions(
         "sprint" in fmt_raw
         or any("sprint" in s.lower() for s in session_names)
     )
+
+    allowed_slugs = get_allowed_stage_sessions(stage, is_sprint) if stage else None
+    if allowed_slugs is not None:
+        session_mode = "full"
 
     # Discover specific sprint session names from schedule
     sq_declared = None
@@ -217,6 +267,9 @@ def detect_event_format_and_sessions(
                 "slug": "race",
                 "candidates": r_candidates,
             })
+
+    if allowed_slugs is not None:
+        session_plan = [item for item in session_plan if item["slug"] in allowed_slugs]
 
     return {
         "is_sprint": is_sprint,
@@ -435,23 +488,17 @@ def validate_and_format_practice_laps(
         except Exception:
             pass
 
-    if "LapTimeSeconds" not in laps.columns or laps["LapTimeSeconds"].dropna().empty:
-        return validate_and_format_session_results(
-            session=session,
-            expected_year=expected_year,
-            expected_round=expected_round,
-            event_name=event_name,
-            circuit_name=circuit_name,
-            country=country,
-            canonical_type=canonical_type,
-            original_session_name=original_session_name,
-        )
+    if "LapTimeSeconds" not in laps.columns:
+        laps["LapTimeSeconds"] = np.nan
 
     # Filter competing drivers
-    if "Driver" in laps.columns:
-        laps = filter_competing_drivers(laps, driver_col="Driver")
-    elif "Abbreviation" in laps.columns:
-        laps = filter_competing_drivers(laps, driver_col="Abbreviation")
+    laps = filter_competing_drivers(laps)
+    if laps is None or laps.empty:
+        return False, "No competing drivers found in practice laps.", None
+
+    driver_col = next((c for c in ["Abbreviation", "Driver", "BroadcastName", "DriverNumber"] if c in laps.columns), None)
+    if not driver_col or laps[driver_col].dropna().empty:
+        return False, "No valid driver identifier found in practice laps.", None
 
     keep_cols = [
         "Driver", "DriverNumber", "LapTime", "LapTimeSeconds", "LapNumber",
@@ -461,6 +508,8 @@ def validate_and_format_practice_laps(
     practice_df = laps[available].copy()
     if "Driver" in practice_df.columns and "Abbreviation" not in practice_df.columns:
         practice_df["Abbreviation"] = practice_df["Driver"]
+    if "LapTimeSeconds" not in practice_df.columns:
+        practice_df["LapTimeSeconds"] = np.nan
 
     # Session date resolution
     session_date = None
@@ -492,9 +541,10 @@ def collect_round_data(
     force: bool = False,
     session_mode: str = "prediction_only",
     include_practice: Optional[bool] = None,
+    stage: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
-    Collects required session data for a single Grand Prix round based on session_mode.
+    Collects required session data for a single Grand Prix round based on session_mode and stage.
     """
     event_name = str(event_row.get("EventName", f"Round {round_num}"))
     circuit_name = str(event_row.get("Location", event_row.get("Circuit", "")))
@@ -503,7 +553,8 @@ def collect_round_data(
     format_info = detect_event_format_and_sessions(
         event_row,
         session_mode=session_mode,
-        include_practice=include_practice
+        include_practice=include_practice,
+        stage=stage,
     )
     is_sprint = format_info["is_sprint"]
     session_plan = format_info["session_plan"]
@@ -544,6 +595,22 @@ def collect_round_data(
                         continue
             except Exception as e:
                 logger.warning(f"Existing file {target_file.name} corrupted ({e}). Re-collecting.")
+
+        # Check future session schedules BEFORE FastF1 downloads
+        sched_dt = resolve_session_scheduled_time(event_row, c_type, slug, candidates)
+        now_utc = datetime.now(timezone.utc)
+        if sched_dt is not None and sched_dt > now_utc:
+            status = "FUTURE_SESSION"
+            err_summary = f"{c_type}: Scheduled for {sched_dt.strftime('%Y-%m-%d %H:%M UTC')}. Session has not yet taken place."
+            round_unavailable.append(f"[FUTURE_SESSION] {err_summary}")
+            logger.info(f"    [FUTURE] {err_summary}")
+            session_statuses[slug] = {
+                "canonical": c_type,
+                "status": status,
+                "detail": err_summary,
+                "scheduled_date": sched_dt.isoformat(),
+            }
+            continue
 
         # Attempt download across candidates
         collected = False
@@ -624,9 +691,6 @@ def collect_round_data(
                 last_error = f"{type(e).__name__}: {e}"
                 logger.debug(f"Candidate '{cand}' for {c_type} failed: {e}", exc_info=True)
 
-        sched_dt = resolve_session_scheduled_time(event_row, c_type, slug, candidates)
-        now_utc = datetime.now(timezone.utc)
-
         if collected:
             session_statuses[slug] = {
                 "canonical": c_type,
@@ -635,12 +699,7 @@ def collect_round_data(
                 "scheduled_date": sched_dt.isoformat() if sched_dt else None,
             }
         else:
-            if sched_dt is not None and sched_dt > now_utc:
-                status = "FUTURE_SESSION"
-                err_summary = f"{c_type}: Scheduled for {sched_dt.strftime('%Y-%m-%d %H:%M UTC')}. Session has not yet taken place."
-                round_unavailable.append(f"[FUTURE_SESSION] {err_summary}")
-                logger.info(f"    [FUTURE] {err_summary}")
-            elif sched_dt is not None and (now_utc - sched_dt).total_seconds() < 86400 * 2:
+            if sched_dt is not None and (now_utc - sched_dt).total_seconds() < 86400 * 2:
                 status = "NOT_YET_AVAILABLE"
                 err_summary = f"{c_type}: Scheduled for {sched_dt.strftime('%Y-%m-%d %H:%M UTC')}; official results not yet available upstream ({last_error or 'no data published'})."
                 round_unavailable.append(f"[NOT_YET_AVAILABLE] {err_summary}")
@@ -696,6 +755,7 @@ def collect_season_data(
     verbose: bool = True,
     session_mode: str = "prediction_only",
     include_practice: Optional[bool] = None,
+    stage: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Collects season sessions for any championship year.
@@ -822,7 +882,8 @@ def collect_season_data(
         format_info = detect_event_format_and_sessions(
             event_row,
             session_mode=session_mode,
-            include_practice=include_practice
+            include_practice=include_practice,
+            stage=stage,
         )
         is_sprint = format_info["is_sprint"]
 
@@ -845,6 +906,7 @@ def collect_season_data(
             force=force,
             session_mode=session_mode,
             include_practice=include_practice,
+            stage=stage,
         )
 
         round_summaries.append(r_summary)
@@ -904,9 +966,10 @@ def collect_grand_prix(
     verbose: bool = True,
     session_mode: str = "prediction_only",
     include_practice: Optional[bool] = None,
+    stage: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
-    Collects required session data for an individual Grand Prix circuit based on session_mode.
+    Collects required session data for an individual Grand Prix circuit based on session_mode and stage.
     """
     if include_practice is True and session_mode == "prediction_only":
         session_mode = "full"
@@ -938,7 +1001,8 @@ def collect_grand_prix(
     format_info = detect_event_format_and_sessions(
         event_row,
         session_mode=session_mode,
-        include_practice=include_practice
+        include_practice=include_practice,
+        stage=stage,
     )
     is_sprint = format_info["is_sprint"]
 
@@ -964,6 +1028,7 @@ def collect_grand_prix(
         force=force,
         session_mode=session_mode,
         include_practice=include_practice,
+        stage=stage,
     )
 
     if verbose:

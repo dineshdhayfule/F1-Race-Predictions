@@ -131,18 +131,25 @@ def save_practice_laps(session, target_path: Path, force: bool = False):
         return None
 
 
-def collect_track_data(track_id: str, year: int = 2026, force: bool = False) -> dict:
+def collect_track_data(
+    track_id: str,
+    year: int = 2026,
+    force: bool = False,
+    session_mode: str = "prediction_only",
+    stage: Optional[str] = None,
+) -> dict:
     """
-    Collects race and qualifying session data for a specific Grand Prix track.
-    Follows strict ApexGrid platform rules:
-      - Qualifying
-      - Race
-      - Sprint Qualifying / Shootout (if sprint weekend)
-      - Sprint Race (if sprint weekend)
-    Practice sessions (FP1, FP2, FP3) are strictly excluded.
+    Collects session data for a specific Grand Prix track.
+    Respects stage and session_mode when specified, defaulting to race prediction sessions.
     """
     from src.data.collect_season import collect_grand_prix
-    return collect_grand_prix(track_id=track_id, year=year, force=force)
+    return collect_grand_prix(
+        track_id=track_id,
+        year=year,
+        force=force,
+        session_mode=session_mode,
+        stage=stage,
+    )
 
 
 

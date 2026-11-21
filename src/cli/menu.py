@@ -10,11 +10,12 @@ Provides complete guided workflows for:
 6. Configuration & Supported Circuits
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 from pathlib import Path
 import sys
 import json
+import re
 import subprocess
 from typing import Dict, Any, List, Optional, Tuple
 import pandas as pd
@@ -44,7 +45,12 @@ from src.cli.terminal_ui import (
     prompt_confirm,
     print_table,
     paginate_text,
+    render_probability_bar,
+    print_podium,
+    get_console,
     Colors,
+    HAS_RICH,
+    _supports_color,
 )
 from src.features.grid_features import format_grid_provenance_display, GridProvenance
 from src.data.data_loader import DataLoader
@@ -216,19 +222,35 @@ class InteractiveMenu:
             try:
                 clear_screen()
                 print_banner(season=2026, status_text="Ready")
-                print(f"{Colors.BOLD}MAIN MENU{Colors.RESET}\n")
-                print("  ── Core Pipeline ───────────────────────────────────────────────")
-                print("  1. Predict a Race")
-                print("  2. Load / Collect Data")
-                print("  3. Evaluate a Prediction")
-                print("\n  ── Analytics & History ─────────────────────────────────────────")
-                print("  4. View Previous Predictions & Reports")
-                print("  5. Historical Statistics & Analytics (1950–2026)")
-                print("\n  ── System & Admin ──────────────────────────────────────────────")
-                print("  6. System Health & Data Readiness")
-                print("  7. Configuration & Supported Circuits")
-                print("  8. Data Management & Deletion")
-                print("\n  0. Exit\n")
+                console = get_console()
+                if HAS_RICH and console and _supports_color():
+                    console.print("[bold #F5F5F7]MAIN MENU[/]\n")
+                    console.print("  [bold #00B4D8]── Core Pipeline ───────────────────────────────────────────────[/]")
+                    console.print("  [bold white]1.[/] Predict a Race")
+                    console.print("  [bold white]2.[/] Load / Collect Data")
+                    console.print("  [bold white]3.[/] Evaluate a Prediction")
+                    console.print("\n  [bold #B138DD]── Analytics & History ─────────────────────────────────────────[/]")
+                    console.print("  [bold white]4.[/] View Previous Predictions & Reports")
+                    console.print("  [bold white]5.[/] Historical Statistics & Analytics (1950–2026)")
+                    console.print("\n  [bold #8E8E93]── System & Admin ──────────────────────────────────────────────[/]")
+                    console.print("  [bold white]6.[/] System Health & Data Readiness")
+                    console.print("  [bold white]7.[/] Configuration & Supported Circuits")
+                    console.print("  [bold white]8.[/] Data Management & Deletion")
+                    console.print("\n  [bold red]0.[/] Exit\n")
+                else:
+                    print(f"{Colors.BOLD}MAIN MENU{Colors.RESET}\n")
+                    print("  ── Core Pipeline ───────────────────────────────────────────────")
+                    print("  1. Predict a Race")
+                    print("  2. Load / Collect Data")
+                    print("  3. Evaluate a Prediction")
+                    print("\n  ── Analytics & History ─────────────────────────────────────────")
+                    print("  4. View Previous Predictions & Reports")
+                    print("  5. Historical Statistics & Analytics (1950–2026)")
+                    print("\n  ── System & Admin ──────────────────────────────────────────────")
+                    print("  6. System Health & Data Readiness")
+                    print("  7. Configuration & Supported Circuits")
+                    print("  8. Data Management & Deletion")
+                    print("\n  0. Exit\n")
 
                 choice = prompt_choice("Enter your choice", ["1", "2", "3", "4", "5", "6", "7", "8", "0"], default="1")
 
@@ -457,7 +479,7 @@ class InteractiveMenu:
             print("  0. Cancel prediction\n")
             action = prompt_choice("Select action", ["1", "2", "3", "0"], default="1")
             if action == "1":
-                self._run_data_collection_wizard(track_key, year, round_num)
+                self._run_data_collection_wizard(track_key, year, round_num, stage=stage, is_sprint=is_sprint)
                 # Re-audit
                 ready, new_details = self._audit_prediction_readiness(track_key, year, round_num, stage, is_sprint)
                 if not ready:
@@ -489,12 +511,16 @@ class InteractiveMenu:
 
         # Step 5: Select Prediction Model
         print_header("Step 5: Select Prediction Model", f"Circuit: {track_display} | Stage: {stage}")
-        print("  1. Random Forest (100%)")
-        print("  2. XGBoost (100%)")
-        print("  3. Ridge Regression (100%)")
-        print("  4. Hybrid Ensemble (60% RF / 40% XGB) — Default")
-        print("  5. Hybrid Ensemble (Custom Weights)")
-        print("  6. Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)")
+        model_table_rows = [
+            ["1", "Random Forest (100%)", "Non-linear feature interactions, robust to outliers", "3.612"],
+            ["2", "XGBoost (100%)", "Gradient-boosted decision trees, fast convergence", "3.684"],
+            ["3", "Ridge Regression (100%)", "L2 regularized linear model, baseline stability", "3.750"],
+            ["4", "Hybrid Ensemble (60% RF / 40% XGB)", "Default balanced dual-model ensemble", "3.585"],
+            ["5", "Hybrid Ensemble (Custom Weights)", "User-configured percentage weights", "Custom"],
+            ["6", "Validated Multi-Model Ensemble", "Production benchmark: 40% RF / 30% XGB / 30% Ridge", "3.534"],
+        ]
+        print_table(["#", "Model Architecture", "Description", "Overall Historical CV MAE"], model_table_rows, align_right=[True, False, False, True])
+        print(f"{Colors.DIM}Note: The figures above represent overall historical cross-validation benchmarks and are not dynamically calculated track-specific MAEs.{Colors.RESET}\n")
         print("  0. Cancel / Back\n")
         model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "5", "6", "0"], default="4")
         if model_choice_input == "0":
@@ -520,11 +546,14 @@ class InteractiveMenu:
 
         # Step 6: Enhanced Simulation Capabilities
         print_header("Step 6: Enhanced Simulation Capabilities")
-        print("  • Race Pace Intelligence (Long-run multi-lap stint extraction & fuel correction)")
-        print("  • Tire Degradation Modelling (Compound wear slopes & thermal scaling)")
-        print("  • Pit Stop Strategy Simulator (1/2-stop optimization & FIA 2-dry-compound rule)")
-        print("  • Race Control Probability Model (Safety Car / VSC pack bunching & cheap pit stops)")
-        print("  • Weather-Aware Race Predictions (Session telemetry, rain variance & wet driver skill)\n")
+        cap_rows = [
+            ["[X]", "Race Pace Intelligence", "FP1/FP2/FP3 long-run stint pace & fuel correction"],
+            ["[X]", "Tire Degradation Modeling", "Compound wear curves & thermal degradation slopes"],
+            ["[X]", "Dynamic Pit Strategy Simulator", "1/2-stop optimization & FIA 2-dry-compound rule"],
+            ["[X]", "Safety Car & Race Control Hazard Model", "Incident probabilities, field pack bunching & cheap stops"],
+            ["[X]", "Weather & Microclimate Integration", "Rain probability variance & wet weather driver rating"],
+        ]
+        print_table(["Active", "Capability Module", "Computational Role"], cap_rows)
         enable_enhanced = prompt_confirm("Enable Five Major ML Capabilities?", default=True)
         caps = {
             "race_pace_intelligence": True,
@@ -546,19 +575,33 @@ class InteractiveMenu:
         top_n = 3 if disp_choice == "1" else (10 if disp_choice == "2" else 22)
 
         # Step 8: Execute Prediction
-        print_header("Executing Prediction Pipeline", f"Running 25,000 Monte Carlo Simulations...")
+        print_header("Executing Prediction Pipeline", "Running 25,000 Monte Carlo Simulations...")
         pipeline = self._get_pipeline()
+        console = get_console()
         try:
-            results = pipeline.run(
-                track_key=track_key,
-                year=year,
-                round_num=round_num,
-                stage=stage,
-                model=selected_model_opt,
-                rf_weight=selected_custom_rf,
-                xgb_weight=selected_custom_xgb,
-                capabilities=caps,
-            )
+            if HAS_RICH and console and _supports_color():
+                with console.status("[bold #E10600]Simulating Grand Prix (25,000 Monte Carlo draws)...[/]"):
+                    results = pipeline.run(
+                        track_key=track_key,
+                        year=year,
+                        round_num=round_num,
+                        stage=stage,
+                        model=selected_model_opt,
+                        rf_weight=selected_custom_rf,
+                        xgb_weight=selected_custom_xgb,
+                        capabilities=caps,
+                    )
+            else:
+                results = pipeline.run(
+                    track_key=track_key,
+                    year=year,
+                    round_num=round_num,
+                    stage=stage,
+                    model=selected_model_opt,
+                    rf_weight=selected_custom_rf,
+                    xgb_weight=selected_custom_xgb,
+                    capabilities=caps,
+                )
         except Exception as e:
             logger.error(f"Pipeline execution error: {e}", exc_info=True)
             print_error(f"Pipeline execution error [{type(e).__name__}]: {e}")
@@ -570,6 +613,41 @@ class InteractiveMenu:
 
         # Step 8: Post-Prediction Actions
         self._handle_post_prediction_actions(results)
+
+    def _historical_round_is_future(self, year: int, round_num: int) -> bool:
+        """Return whether the calendar places a prior round in the future."""
+        try:
+            event = next(
+                (ev for ev in self.calendar_service.get_calendar(year) if ev.round_number == round_num),
+                None,
+            )
+        except Exception:
+            return False
+        if event is None:
+            return False
+        date_value = event.sessions.get("Race") if event.sessions else None
+        date_value = date_value or event.event_date
+        if not date_value:
+            return False
+        try:
+            timestamp = pd.to_datetime(date_value)
+            if pd.isna(timestamp):
+                return False
+            if timestamp.tzinfo is None:
+                timestamp = timestamp.tz_localize(timezone.utc)
+            else:
+                timestamp = timestamp.tz_convert(timezone.utc)
+            return timestamp > datetime.now(timezone.utc)
+        except (TypeError, ValueError):
+            return False
+
+    @staticmethod
+    def _is_valid_session_dataset(df: Optional[pd.DataFrame], slug: str) -> bool:
+        """Validate the minimum ApexGrid schema for one exported session type."""
+        from src.data.session_validation import validate_session_dataframe
+
+        valid, _ = validate_session_dataframe(df, slug)
+        return valid
 
     def _audit_prediction_readiness(
         self, track_key: str, year: int, round_num: int, stage: str, is_sprint: bool
@@ -583,34 +661,50 @@ class InteractiveMenu:
 
         # 1. Historical training rounds (1 .. round_num-1)
         train_rounds = list(range(1, round_num))
-        season_dir = self.loader.raw_data_dir / "season" / str(year)
         completed_historical = 0
+        invalid_historical = []
+        future_historical = []
         for r in train_rounds:
-            rf = season_dir / f"{year}_round_{r}_race.csv"
-            if not rf.exists():
-                for tk, tinfo in self.loader.tracks_config.items():
-                    r_match = tinfo.get(f"round_{year}") or (tinfo.get("round_2026") if year == 2026 else None)
-                    if r_match == r:
-                        for cand in [
-                            self.loader.raw_data_dir / "tracks" / tk / str(year) / f"{year}_{tk}_race.csv",
-                            self.loader.raw_data_dir / "tracks" / tk / str(year) / "race.csv",
-                            self.loader.raw_data_dir / "tracks" / tk / "history" / f"{tk}_{year}_race.csv",
-                        ]:
-                            if cand.exists():
-                                rf = cand
-                                break
-                        break
-            if rf.exists():
-                completed_historical += 1
+            race_df, _ = self.loader.load_season_rounds(year, [r])
+            if race_df is not None and not race_df.empty:
+                validation_df = race_df.copy()
+                if "ActualFinish" not in validation_df.columns:
+                    finish_column = next(
+                        (column for column in ("ClassifiedPosition", "Position") if column in validation_df.columns),
+                        None,
+                    )
+                    if finish_column:
+                        validation_df["ActualFinish"] = validation_df[finish_column]
+                validation_grid_size = max(expected_grid_size, 22)
+                valid, errors = self.validator.validate_training_dataset(
+                    validation_df, validation_grid_size
+                )
+                if valid:
+                    completed_historical += 1
+                else:
+                    invalid_historical.append((r, "; ".join(errors)))
+            elif self._historical_round_is_future(year, r):
+                future_historical.append(r)
+            else:
+                invalid_historical.append((r, "race-result dataset is missing or unusable"))
+
+        if invalid_historical:
+            invalid_rounds = ", ".join(str(r) for r, _ in invalid_historical)
+            details.append(("MISSING", f"Historical Training Rounds unusable: {invalid_rounds}. Valid race-result datasets are required."))
+            is_ready = False
+        if future_historical:
+            details.append(("FUTURE", f"Historical Training Rounds not yet completed: {', '.join(map(str, future_historical))}."))
+            is_ready = False
+
+        if not invalid_historical and not future_historical and completed_historical == len(train_rounds):
+            details.append(("OK", f"Historical Training Rounds: {completed_historical}/{len(train_rounds)} completed rounds available ({completed_historical*expected_grid_size} driver-race observations)."))
+        elif not invalid_historical and not future_historical and completed_historical > 0:
+            details.append(("WARN", f"Historical Training Rounds: {completed_historical}/{len(train_rounds)} completed rounds found in season directory."))
 
         if round_num <= 1 or len(train_rounds) == 0:
             details.append(("MISSING", f"Round 1 Season Opener: No prior {year} rounds exist to train predictive models. Minimum 1 completed round is required."))
             is_ready = False
-        elif completed_historical == len(train_rounds):
-            details.append(("OK", f"Historical Training Rounds: {completed_historical}/{len(train_rounds)} completed rounds available ({completed_historical*expected_grid_size} driver-race observations)."))
-        elif completed_historical > 0:
-            details.append(("WARN", f"Historical Training Rounds: {completed_historical}/{len(train_rounds)} completed rounds found in season directory."))
-        else:
+        elif not invalid_historical and not future_historical and completed_historical == 0:
             details.append(("MISSING", f"No completed season rounds found in data/raw/season/{year}/ for Round {round_num}."))
             is_ready = False
 
@@ -782,20 +876,23 @@ class InteractiveMenu:
         stage = results["stage"]
 
         if results.get("is_provisional_quali") and stage in ["after_qualifying", "post_race"]:
-            print("\n" + Colors.YELLOW + "!" * 76 + Colors.RESET)
-            print(Colors.YELLOW + " WARNING: Actual qualifying results were not found. Provisional model used." + Colors.RESET)
-            print(Colors.YELLOW + "!" * 76 + Colors.RESET)
+            print_warning("Actual qualifying results were not found. Provisional model used.")
 
-        print("\n" + "=" * 76)
-        print(Colors.BOLD + Colors.CYAN + f" GRAND PRIX RACE TOP {min(top_n, len(df))} PREDICTION: {track_name.upper()} {year} [{stage.upper()}]" + Colors.RESET)
+        print_header(f"GRAND PRIX RACE TOP {min(top_n, len(df))} PREDICTION: {track_name.upper()} {year} [{stage.upper()}]")
         mae_val = results.get('selected_mae')
         mae_str = f"{mae_val:.4f}" if isinstance(mae_val, (int, float)) else str(mae_val)
-        print(f" Model Selected  : {results.get('selected_model', 'N/A')}")
-        print(f" Selection Method: {results.get('selection_method', 'N/A')} (MAE: {mae_str})")
         grid_meta = results.get("grid_meta", {})
         grid_source = format_grid_provenance_display(grid_meta)
-        print(f" Starting Grid   : {Colors.BOLD}{grid_source}{Colors.RESET}")
-        print("=" * 76)
+        print(f" Model Selected  : {results.get('selected_model', 'N/A')}")
+        print(f" Selection Method: {results.get('selection_method', 'N/A')} (MAE: {mae_str})")
+        print(f" Starting Grid   : {Colors.BOLD}{grid_source}{Colors.RESET}\n")
+
+        # Podium showcase
+        if len(df) >= 3 and top_n >= 3:
+            p1_dict = df.iloc[0].to_dict()
+            p2_dict = df.iloc[1].to_dict()
+            p3_dict = df.iloc[2].to_dict()
+            print_podium(p1_dict, p2_dict, p3_dict)
 
         sub_df = df.iloc[:top_n]
         headers = ["Pos", "Driver", "Team", "Grid", "ExpFinish", "Win%", "Podium%", "Points%", "Range"]
@@ -814,7 +911,7 @@ class InteractiveMenu:
             else:
                 grid = "-"
             exp = f"{r['ExpectedFinish']:.2f}"
-            win = f"{r['WinProbability']:.1f}%"
+            win = render_probability_bar(r['WinProbability']) if (HAS_RICH and _supports_color()) else f"{r['WinProbability']:.1f}%"
             pod = f"{r['Top3Probability']:.1f}%"
             pts = f"{r['PointsProbability']:.1f}%"
             rng = f"P{int(r['P5'])}-P{int(r['P95'])}"
@@ -824,13 +921,11 @@ class InteractiveMenu:
         print_table(headers, rows, align_right=align_right)
 
         if "RecommendedStrategy" in df.columns:
-            print("\n" + "=" * 76)
-            print(Colors.BOLD + Colors.GREEN + " STRATEGIC & ENVIRONMENTAL RACE INTELLIGENCE" + Colors.RESET)
+            print_header("STRATEGIC & ENVIRONMENTAL RACE INTELLIGENCE")
             sim_meta = results.get("simulation_meta", {})
             sc_p = sim_meta.get("p_safety_car", "N/A")
             rain_p = sim_meta.get("rain_probability", "N/A")
-            print(f" Safety Car Probability: {Colors.BOLD}{sc_p}{Colors.RESET} | Rain Probability: {Colors.BOLD}{rain_p}{Colors.RESET}")
-            print(Colors.GREEN + "-" * 76 + Colors.RESET)
+            print(f" Safety Car Probability: {Colors.BOLD}{sc_p}{Colors.RESET} | Rain Probability: {Colors.BOLD}{rain_p}{Colors.RESET}\n")
             strat_headers = ["Driver", "Recommended Strategy", "Stops", "Delta to Alt"]
             strat_rows = []
             for _, r in sub_df.iterrows():
@@ -842,16 +937,16 @@ class InteractiveMenu:
 
         if results.get("post_race_metrics"):
             m = results["post_race_metrics"]
-            print(Colors.CYAN + "-" * 76 + Colors.RESET)
-            print(Colors.BOLD + " POST-RACE OUT-OF-SAMPLE EVALUATION SCORECARD" + Colors.RESET)
-            print(Colors.CYAN + "-" * 76 + Colors.RESET)
-            print(f"  MAE (Expected Finish) : {Colors.BOLD}{m['mae_expected']:.4f}{Colors.RESET} (Walk-Forward Benchmark: 3.5343)")
-            print(f"  MAE (Predicted Pos)   : {m['mae_predicted']:.4f}")
-            print(f"  Spearman Rank Corr    : {Colors.BOLD}{m['spearman_rank_corr']:.4f}{Colors.RESET} (Strong ordinal ranking)")
-            print(f"  Top 10 Points Overlap : {m['top10_overlap']} / 10 ({m['top10_overlap']*10:.1f}%)")
-            print(f"  Top 3 Podium Overlap  : {m['top3_overlap']} / 3 ({m['top3_overlap']/3*100:.1f}%)")
-            print(f"  Podium Brier Score    : {m['podium_brier_score']:.4f}")
-            print(Colors.CYAN + "-" * 76 + Colors.RESET)
+            print_header("POST-RACE OUT-OF-SAMPLE EVALUATION SCORECARD")
+            scorecard_rows = [
+                ["MAE (Expected Finish)", f"{m['mae_expected']:.4f} (Walk-Forward Benchmark: 3.5343)"],
+                ["MAE (Predicted Pos)", f"{m['mae_predicted']:.4f}"],
+                ["Spearman Rank Corr", f"{m['spearman_rank_corr']:.4f} (Strong ordinal ranking)"],
+                ["Top 10 Points Overlap", f"{m['top10_overlap']} / 10 ({m['top10_overlap']*10:.1f}%)"],
+                ["Top 3 Podium Overlap", f"{m['top3_overlap']} / 3 ({m['top3_overlap']/3*100:.1f}%)"],
+                ["Podium Brier Score", f"{m['podium_brier_score']:.4f}"],
+            ]
+            print_table(["Evaluation Dimension", "Scorecard Result"], scorecard_rows, align_right=[False, True])
 
         print(f"Artifacts and Markdown reports written to:\n  {Colors.DIM}{results['output_dir']}{Colors.RESET}\n")
 
@@ -913,7 +1008,7 @@ class InteractiveMenu:
             print("  4. Collect data for a specific circuit (Interactive: Full Weekend, Quali+Race, Practice)")
             print("  5. Collect historical circuit data (configured tracks & year ranges)")
             print("  6. Audit data integrity & validate schemas")
-            print("  7. View missing sessions across 2026 calendar")
+            print("  7. Browse session availability by year")
             print("  0. Back to Main Menu\n")
 
             c = prompt_choice("Select option", ["1", "2", "3", "4", "5", "6", "7", "0"], default="1")
@@ -932,7 +1027,7 @@ class InteractiveMenu:
             elif c == "6":
                 self._audit_data_integrity()
             elif c == "7":
-                self._view_calendar_missing_sessions()
+                self._browse_session_availability_by_year()
 
     def _prompt_session_collection_mode(self) -> str:
         """Prompts user to select which sessions to collect."""
@@ -1270,47 +1365,406 @@ class InteractiveMenu:
             print_success("Zero future-race or post-race leakage detected.")
         prompt_str("\nPress [Enter] to continue", allow_empty=True)
 
-    def _view_calendar_missing_sessions(self) -> None:
+    def _browse_session_availability_by_year(self) -> None:
+        """
+        Dataset Availability Explorer (Option 7):
+        Step 1: Enter Year (1950-2026).
+        Step 2: Display Circuit List with championship round numbers.
+        Step 3: Display Session Availability for selected circuit in chronological order.
+        """
+        while True:
+            clear_screen()
+            print_banner(season=2026)
+            print_header("Dataset Availability Explorer")
+            print("Enter Year (1950-2026):\n")
+            print("  (Enter 0 or press [Enter] to return to menu)\n")
+
+            year_raw = prompt_str("Enter Year (1950-2026)", default=None, allow_empty=True)
+            if not year_raw or year_raw.strip() == "0" or year_raw.strip().lower() in ("back", "exit", "b", "q"):
+                break
+
+            try:
+                year = int(year_raw.strip())
+            except ValueError:
+                print_warning(f"Invalid year '{year_raw}'. Please enter a 4-digit championship year between 1950 and 2026.")
+                prompt_str("Press [Enter] to continue", allow_empty=True)
+                continue
+
+            if year < 1950 or year > 2026:
+                print_warning(f"Year {year} is out of championship calendar range (1950-2026).")
+                prompt_str("Press [Enter] to continue", allow_empty=True)
+                continue
+
+            events = self._get_calendar_events_for_year(year)
+            if not events:
+                print_warning(f"No championship rounds found or calendar unavailable for season {year}.")
+                prompt_str("Press [Enter] to continue", allow_empty=True)
+                continue
+
+            nav = self._display_circuit_list_and_select(year, events)
+            if nav == "main_menu":
+                break
+
+    def _display_circuit_list_and_select(self, year: int, events: List[Any]) -> str:
+        """
+        Step 2: Displays the circuit list for the selected year and prompts for round selection.
+        Preserves official round numbering and circuit/event names.
+        Returns 'main_menu' to return to collection menu, or 'back' to return to Step 1.
+        """
+        events_by_round = {ev.round_number: ev for ev in events}
+        sorted_rounds = sorted(events_by_round.keys())
+
+        while True:
+            clear_screen()
+            print_banner(season=year)
+            print_header(f"{year} Circuit List")
+
+            rows = []
+            for r in sorted_rounds:
+                ev = events_by_round[r]
+                name = ev.event_name or ev.circuit_name or f"Round {r}"
+                rows.append([f"{r}.", name])
+
+            print_table([" #", "Circuit"], rows)
+            print("0. Back\n")
+
+            round_input = prompt_str("Enter Round Number to inspect", default=None, allow_empty=True)
+            if not round_input or round_input.strip() == "0" or round_input.strip().lower() in ("back", "b"):
+                return "back"
+
+            try:
+                selected_round = int(round_input.strip())
+            except ValueError:
+                print_warning(f"Invalid input '{round_input}'. Please enter a valid round number from the list above.")
+                prompt_str("Press [Enter] to continue", allow_empty=True)
+                continue
+
+            if selected_round not in events_by_round:
+                print_warning(f"Round {selected_round} is not on the {year} championship calendar.")
+                prompt_str("Press [Enter] to continue", allow_empty=True)
+                continue
+
+            ev = events_by_round[selected_round]
+            nav = self._display_round_session_availability(ev, year)
+            if nav == "main_menu":
+                return "main_menu"
+            # If nav == "another_circuit", loop re-displays the circuit list for the same year
+
+    def _display_round_session_availability(self, ev: Any, year: int) -> str:
+        """
+        Step 3: Displays session availability for the selected event in chronological order.
+        Displays summary counts: Available, Missing, Future.
+        Returns 'another_circuit' to select another circuit, or 'main_menu' to return to menu.
+        """
         clear_screen()
-        print_header("2026 Calendar Session Availability")
-        rows = []
-        season_dir = self.loader.raw_data_dir / "season" / "2026"
-        for k, info in sorted(self.tracks_cfg.items(), key=lambda x: x[1].get("round_2026", 99)):
-            r = info.get("round_2026", 0)
-            name = info.get("display_name", k.title())
-            is_sprint = info.get("sprint_weekend_2026", False)
+        print_banner(season=year)
+        ev_title = (ev.event_name or ev.circuit_name or f"Round {ev.round_number}").upper()
+        print_header(f"{ev_title} – {year}")
 
-            # Check track dir
-            td = self.loader.raw_data_dir / "tracks" / k / "2026"
-            has_fp = (td / "fp1.csv").exists()
-            # Check season dir
-            has_q = (season_dir / f"2026_round_{r}_qualifying.csv").exists() or (td / "qualifying.csv").exists()
-            has_r = (season_dir / f"2026_round_{r}_race.csv").exists()
+        # Resolve chronological sessions
+        if hasattr(ev, "sessions") and ev.sessions:
+            session_items = list(ev.sessions.items())
+        else:
+            is_sprint = getattr(ev, "is_sprint", False)
+            if is_sprint:
+                session_items = [
+                    ("Practice 1", getattr(ev, "event_date", None)),
+                    ("Sprint Qualifying", getattr(ev, "event_date", None)),
+                    ("Sprint", getattr(ev, "event_date", None)),
+                    ("Qualifying", getattr(ev, "event_date", None)),
+                    ("Race", getattr(ev, "event_date", None)),
+                ]
+            else:
+                session_items = [
+                    ("Practice 1", getattr(ev, "event_date", None)),
+                    ("Practice 2", getattr(ev, "event_date", None)),
+                    ("Practice 3", getattr(ev, "event_date", None)),
+                    ("Qualifying", getattr(ev, "event_date", None)),
+                    ("Race", getattr(ev, "event_date", None)),
+                ]
+        canonical_order = {
+            "practice 1": 0, "fp1": 0,
+            "practice 2": 1, "fp2": 1,
+            "practice 3": 2, "fp3": 2,
+            "sprint qualifying": 1, "sprint shootout": 1, "sq": 1,
+            "sprint": 2, "sprint race": 2, "sr": 2,
+            "qualifying": 3, "q": 3, "quali": 3,
+            "race": 4, "r": 4,
+        }
 
-            fp_s = "Yes" if has_fp else "No"
-            q_s = "Yes" if has_q else "No"
-            r_s = "Yes" if has_r else "No"
-            rows.append([r, name, "Sprint" if is_sprint else "Normal", fp_s, q_s, r_s])
+        def session_sort_key(item: Tuple[str, Any]) -> Tuple[int, datetime, str]:
+            name, raw_date = item
+            try:
+                timestamp = pd.to_datetime(raw_date)
+                if pd.isna(timestamp):
+                    raise ValueError
+                if timestamp.tzinfo is None:
+                    timestamp = timestamp.tz_localize(timezone.utc)
+                else:
+                    timestamp = timestamp.tz_convert(timezone.utc)
+                parsed_date = timestamp.to_pydatetime()
+            except (TypeError, ValueError):
+                parsed_date = datetime.max.replace(tzinfo=timezone.utc)
+            return (0 if parsed_date != datetime.max.replace(tzinfo=timezone.utc) else 1,
+                    parsed_date, name.lower())
 
-        print_table(["Round", "Grand Prix", "Format", "Practice", "Qualifying", "Race"], rows)
-        prompt_str("Press [Enter] to continue", allow_empty=True)
+        session_items.sort(
+            key=lambda item: (
+                session_sort_key(item)[0],
+                session_sort_key(item)[1],
+                canonical_order.get(item[0].lower().strip(), 99),
+                item[0].lower(),
+            )
+        )
+        avail_count = 0
+        missing_count = 0
+        future_count = 0
+        unknown_count = 0
+        table_rows = []
 
-    def _run_data_collection_wizard(self, track_key: str, year: int, round_num: int) -> None:
+        for s_name, s_date in session_items:
+            status = self._check_session_dataset_availability(
+                year=year,
+                round_num=ev.round_number,
+                circuit_key=getattr(ev, "circuit_key", None),
+                event_name=getattr(ev, "event_name", ""),
+                circuit_name=getattr(ev, "circuit_name", ""),
+                session_name=s_name,
+                session_date_raw=s_date,
+                event_date_raw=getattr(ev, "event_date", None),
+            )
+            if status == "YES":
+                avail_count += 1
+            elif status == "FUTURE":
+                future_count += 1
+            elif status == "UNKNOWN":
+                unknown_count += 1
+            else:
+                missing_count += 1
+
+            table_rows.append([s_name, status])
+
+        total_sessions = len(table_rows)
+        print_table(["Session", "Dataset Available"], table_rows)
+
+        print(f"Available: {avail_count} / {total_sessions}")
+        print(f"Missing:   {missing_count} / {total_sessions}")
+        print(f"Future:    {future_count} / {total_sessions}\n")
+        if unknown_count:
+            print(f"Unknown:   {unknown_count} / {total_sessions}\n")
+
+        print("  1. Select Another Circuit")
+        print("  0. Back to Main Menu\n")
+
+        choice = prompt_choice("Select option", ["1", "0"], default="1")
+        if choice == "0":
+            return "main_menu"
+        return "another_circuit"
+
+    def _check_session_dataset_availability(
+        self,
+        year: int,
+        round_num: int,
+        circuit_key: Optional[str],
+        event_name: str,
+        circuit_name: str,
+        session_name: str,
+        session_date_raw: Any,
+        event_date_raw: Any,
+    ) -> str:
+        """
+        Determines availability status ('YES', 'NO', 'FUTURE') for a session.
+        - YES: An exported ApexGrid dataset file exists on disk and is a valid non-empty CSV.
+        - FUTURE: Session is scheduled for a future date/time relative to now, and no valid dataset exists.
+        - NO: Session is in the past, but dataset is missing, 0 bytes, or empty/corrupt.
+        FastF1 cache presence alone NEVER produces YES.
+        """
+        s_clean = session_name.lower().strip()
+        if s_clean in ("practice 1", "fp1", "practice"):
+            slug = "fp1"
+            slug_aliases = ["fp1", "practice_1", "practice 1"]
+        elif s_clean in ("practice 2", "fp2"):
+            slug = "fp2"
+            slug_aliases = ["fp2", "practice_2", "practice 2"]
+        elif s_clean in ("practice 3", "fp3"):
+            slug = "fp3"
+            slug_aliases = ["fp3", "practice_3", "practice 3"]
+        elif s_clean in ("sprint qualifying", "sprint shootout", "sq", "sprint quali"):
+            slug = "sprint_qualifying"
+            slug_aliases = ["sprint_qualifying", "sprint_shootout", "sprint_quali", "sq"]
+        elif s_clean in ("sprint", "sprint race", "sr"):
+            slug = "sprint_race"
+            slug_aliases = ["sprint_race", "sprint", "sr"]
+        elif s_clean in ("qualifying", "q", "quali"):
+            slug = "qualifying"
+            slug_aliases = ["qualifying", "quali", "q"]
+        elif s_clean in ("race", "r"):
+            slug = "race"
+            slug_aliases = ["race", "r"]
+        else:
+            slug = re.sub(r"[^a-z0-9]+", "_", s_clean).strip("_")
+            slug_aliases = [slug]
+
+        candidate_paths: List[Path] = []
+
+        # 1. Season directory candidate files
+        for base_dir in [
+            self.loader.raw_data_dir / "season" / str(year),
+            self.loader.processed_data_dir / "season" / str(year),
+        ]:
+            for alias in slug_aliases:
+                candidate_paths.append(base_dir / f"{year}_round_{round_num}_{alias}.csv")
+                candidate_paths.append(base_dir / f"{year}_r{round_num}_{alias}.csv")
+                candidate_paths.append(base_dir / f"round_{round_num}_{alias}.csv")
+
+        # 2. Track directory candidate files
+        from src.utils.circuit_mapping import resolve_circuit_key
+        c_keys = []
+        if circuit_key:
+            c_keys.append(circuit_key)
+        resolved_ev = resolve_circuit_key(event_name) if event_name else None
+        if resolved_ev and resolved_ev not in c_keys:
+            c_keys.append(resolved_ev)
+        resolved_circ = resolve_circuit_key(circuit_name) if circuit_name else None
+        if resolved_circ and resolved_circ not in c_keys:
+            c_keys.append(resolved_circ)
+
+        for k, info in self.tracks_cfg.items():
+            if info.get(f"round_{year}") == round_num or info.get("round_2026") == round_num:
+                if k not in c_keys:
+                    c_keys.append(k)
+
+        for c_k in c_keys:
+            for base_dir in [
+                self.loader.raw_data_dir / "tracks" / c_k / str(year),
+                self.loader.raw_data_dir / "tracks" / c_k,
+                self.loader.processed_data_dir / "tracks" / c_k / str(year),
+                self.loader.processed_data_dir / "tracks" / c_k,
+            ]:
+                for alias in slug_aliases:
+                    candidate_paths.append(base_dir / f"{alias}.csv")
+                    candidate_paths.append(base_dir / f"{year}_{alias}.csv")
+                    candidate_paths.append(base_dir / f"{year}_{c_k}_{alias}.csv")
+                    candidate_paths.append(base_dir / f"{c_k}_{alias}.csv")
+                    candidate_paths.append(base_dir / f"{year}_round_{round_num}_{alias}.csv")
+
+        # Check candidate files
+        for p in candidate_paths:
+            if p.exists() and p.is_file() and p.stat().st_size > 0:
+                try:
+                    df = DataLoader.safe_read_csv(p, normalize=False)
+                    if self._is_valid_session_dataset(df, slug):
+                        return "YES"
+                except (OSError, ValueError, pd.errors.ParserError):
+                    continue
+
+        # No valid dataset on disk -> determine if session is scheduled in the future
+        now_utc = datetime.now(timezone.utc)
+        now_naive = datetime.now()
+
+        date_to_eval = session_date_raw or event_date_raw
+        if date_to_eval:
+            try:
+                ts = pd.to_datetime(date_to_eval)
+                if pd.notna(ts):
+                    if ts.tzinfo is not None:
+                        ts_utc = ts.tz_convert(timezone.utc)
+                        if ts_utc > now_utc:
+                            return "FUTURE"
+                    else:
+                        if ts.to_pydatetime() > now_naive:
+                            return "FUTURE"
+            except Exception:
+                pass
+
+        if year > now_naive.year:
+            return "FUTURE"
+
+        return "UNKNOWN" if not date_to_eval else "NO"
+
+    def _get_calendar_events_for_year(self, year: int) -> List[Any]:
+        """
+        Retrieves normalized CalendarEvent objects for the given year.
+        Uses CalendarService with fallback to tracks.json for 2026.
+        """
+        try:
+            from src.data.calendar_service import CalendarService
+            cs = CalendarService(root_dir=self.root_dir)
+            events = cs.get_calendar(year)
+            if events:
+                return events
+        except Exception as e:
+            from src.utils.logging_utils import get_logger
+            get_logger("menu").warning(f"FastF1 schedule retrieval failed for season {year}: {e}")
+
+        # Resilient fallback for 2026 using tracks.json if CalendarService retrieval fails
+        if year == 2026 and self.tracks_cfg:
+            from src.data.calendar_service import CalendarEvent
+            fallback_events = []
+            for k, info in self.tracks_cfg.items():
+                r = info.get("round_2026")
+                if r is not None and isinstance(r, int) and r > 0:
+                    is_sprint = info.get("sprint_weekend_2026", False)
+                    if is_sprint:
+                        sessions = {
+                            "Practice 1": "",
+                            "Sprint Qualifying": "",
+                            "Sprint": "",
+                            "Qualifying": "",
+                            "Race": "",
+                        }
+                    else:
+                        sessions = {
+                            "Practice 1": "",
+                            "Practice 2": "",
+                            "Practice 3": "",
+                            "Qualifying": "",
+                            "Race": "",
+                        }
+                    ev = CalendarEvent(
+                        year=2026,
+                        round_number=r,
+                        event_name=info.get("display_name", k.title()),
+                        official_event_name=info.get("display_name", k.title()),
+                        country=info.get("country", ""),
+                        location="",
+                        circuit_name=info.get("circuit_name", k.title()),
+                        circuit_key=k,
+                        event_date=None,
+                        event_format="sprint" if is_sprint else "conventional",
+                        is_sprint=is_sprint,
+                        sessions=sessions,
+                    )
+                    fallback_events.append(ev)
+            fallback_events.sort(key=lambda x: x.round_number)
+            return fallback_events
+
+        return []
+
+    def _view_calendar_missing_sessions(self) -> None:
+        """Backward-compatibility alias for _browse_session_availability_by_year."""
+        self._browse_session_availability_by_year()
+
+    def _run_data_collection_wizard(
+        self,
+        track_key: str,
+        year: int,
+        round_num: int,
+        stage: Optional[str] = None,
+        is_sprint: Optional[bool] = None,
+    ) -> None:
         print_info(f"Attempting automated data collection for {track_key.title()} (Round {round_num})...")
         try:
-            from src.data.collect_season import collect_season_data
-            from src.data.collect_track import collect_track_data
-            rounds_to_collect = [round_num]
+            from src.data.collect_season import collect_season_data, collect_grand_prix
             if round_num > 1:
                 season_dir = self.loader.raw_data_dir / "season" / str(year)
                 has_prior = any((season_dir / f"{year}_round_{r}_race.csv").exists() for r in range(1, round_num))
                 if not has_prior:
                     prior_round = round_num - 1
                     print_info(f"No prior completed rounds found for {year}. Also collecting Round {prior_round} for baseline training...")
-                    rounds_to_collect = [prior_round, round_num]
+                    collect_season_data(year=year, rounds=[prior_round])
 
-            collect_season_data(year=year, rounds=rounds_to_collect)
-            collect_track_data(track_id=track_key, year=year)
+            collect_grand_prix(track_id=track_key, year=year, stage=stage)
             print_success("Automated collection routine finished.")
         except Exception as e:
             print_error(f"Automated collection encountered an error: {e}")
@@ -1657,9 +2111,23 @@ class InteractiveMenu:
         while True:
             clear_screen()
             print_banner(season=2026, status_text="Data Management")
-            print(f"{Colors.BOLD}DATA MANAGEMENT & DELETION{Colors.RESET}")
-            print(f"{Colors.DIM}Safely manage and selectively delete project-generated data.{Colors.RESET}")
-            print(f"{Colors.DIM}Source code, configurations, tests, docs, and audit logs are permanently protected.{Colors.RESET}\n")
+            console = get_console()
+            if HAS_RICH and console and _supports_color():
+                from rich.panel import Panel
+                from rich.text import Text
+                from rich.box import ROUNDED
+                warn_text = Text()
+                warn_text.append("HIGH-VISIBILITY DATA MANAGEMENT & DELETION\n", style="bold #FFB800")
+                warn_text.append("Safely manage and selectively delete project-generated data.\n", style="white")
+                warn_text.append("Source code, configurations, tests, docs, and audit logs are permanently protected.\n", style="dim")
+                warn_text.append("Fetch-only note: Historical Analytics queries provider endpoints dynamically in-memory;\nzero historical data is written to disk. Deletion affects local FastF1 cache & session CSVs only.", style="italic cyan")
+                console.print(Panel(warn_text, box=ROUNDED, border_style="#FFB800", padding=(0, 2)))
+                console.print()
+            else:
+                print(f"{Colors.BOLD}DATA MANAGEMENT & DELETION{Colors.RESET}")
+                print(f"{Colors.DIM}Safely manage and selectively delete project-generated data.{Colors.RESET}")
+                print(f"{Colors.DIM}Source code, configurations, tests, docs, and audit logs are permanently protected.{Colors.RESET}")
+                print(f"{Colors.CYAN}Fetch-only note: Historical Analytics (Option 5) queries endpoints dynamically in-memory and stores zero data on disk.{Colors.RESET}\n")
 
             print("  1. Delete Cached Data (FastF1 cache, session cache, temporary files)")
             print("  2. Delete Collected Datasets (Categorized: practice, qualifying, race, grids)")
@@ -2048,4 +2516,3 @@ class InteractiveMenu:
         from src.cli.historical_menu import HistoricalStatsMenu
         hist_menu = HistoricalStatsMenu()
         hist_menu.run()
-

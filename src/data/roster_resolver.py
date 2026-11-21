@@ -293,7 +293,7 @@ class RosterResolver:
         if stage in ["after_sprint_race", "after_qualifying", "post_race"]:
             allowed.append("sprint_race")
 
-        combined_rows = []
+        latest_rows = None
         for s in allowed:
             sess_df = weekend_sessions.get(s)
             if sess_df is not None and not sess_df.empty:
@@ -304,15 +304,14 @@ class RosterResolver:
                     year=year,
                 )
                 if not extracted.empty:
-                    combined_rows.append(extracted)
+                    latest_rows = extracted
 
-        if not combined_rows:
+        if latest_rows is None:
             return None
 
-        all_prac = pd.concat(combined_rows, ignore_index=True)
-        # Later practice sessions take precedence
-        all_prac = all_prac.drop_duplicates(subset=["Abbreviation"], keep="last").reset_index(drop=True)
-        return all_prac
+        # A later session is the authoritative lineup for the current stage.
+        # Earlier sessions may contain reserve drivers who only participated in FP1.
+        return latest_rows.reset_index(drop=True)
 
     def _build_from_season_pool(
         self,

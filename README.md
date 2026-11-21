@@ -1,3 +1,5 @@
+<div align="center">
+
 # ApexGrid
 
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
@@ -5,6 +7,8 @@
 [![Test Suite](https://img.shields.io/badge/tests-300%20passed%20(100%25)-brightgreen.svg)](tests/)
 [![Architecture](https://img.shields.io/badge/architecture-Multi--Model%20Ensemble-orange.svg)](src/models/)
 [![Simulation](https://img.shields.io/badge/Monte%20Carlo-25%2C000%20runs-purple.svg)](src/simulation/)
+
+</div>
 
 > **Predicting the Race Beyond the Grid.**  
 > *An ML-powered motorsport intelligence, multi-model ensemble, and Monte Carlo simulation platform for Formula 1 Grand Prix outcome forecasting.*
@@ -64,6 +68,7 @@ ApexGrid models the probabilistic distribution of finishing positions, win proba
 ### Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/dineshdhayfule/F1-Race-Predictions.git
    cd F1-Race-Predictions
@@ -71,17 +76,21 @@ ApexGrid models the probabilistic distribution of finishing positions, win proba
 
 2. **Create and activate a virtual environment:**
    - *Windows (PowerShell):*
+
      ```powershell
      python -m venv .venv
      .venv\Scripts\Activate.ps1
      ```
+
    - *Linux / macOS:*
+
      ```bash
      python3 -m venv .venv
      source .venv/bin/activate
      ```
 
 3. **Install dependencies:**
+
    ```bash
    pip install --upgrade pip
    pip install -r requirements.txt
@@ -90,6 +99,7 @@ ApexGrid models the probabilistic distribution of finishing positions, win proba
 ### Configuration
 
 ApexGrid uses JSON configuration files in the [`config/`](config/) directory:
+
 - [`config/model_config.json`](config/model_config.json): Estimator hyperparameters, feature sets, circuit blending weights, and pruning toggles.
 - [`config/tracks.json`](config/tracks.json): Canonical circuit mappings, track lengths, circuit types, and championship calendars.
 - [`config/strategy_config.json`](config/strategy_config.json): Compound parameters, pit lane loss times, and degradation priors.
@@ -116,18 +126,21 @@ python main.py history
 The menu provides eight guided workflows organized into three logical operational groups:
 
 #### Core Pipeline
+
 1. **Predict a Race:** Interactive wizard for circuit selection, weekend stage, model selection, and forecast execution.
 2. **Load / Collect Data:** Ingest FastF1 practice telemetry or full-season championship rounds.
 3. **Evaluate a Prediction:** Score forecast accuracy against official race classifications.
 
 #### Analytics & History
+
 4. **View Previous Predictions & Reports:** Inspect generated prediction tables and Markdown race reports.
-5. **Historical Statistics & Analytics (1950–2026):** Explore driver statistics, teammate head-to-heads, qualifying analytics, race performance, circuit history, and championship season progress.
+2. **Historical Statistics & Analytics (1950–2026):** Explore driver statistics, teammate head-to-heads, qualifying analytics, race performance, circuit history, and championship season progress.
 
 #### System & Admin
+
 6. **System Health & Data Readiness:** Run diagnostic checks and data availability audits.
-7. **Configuration & Supported Circuits:** View circuit parameters, track types, and model settings.
-8. **Data Management & Deletion:** Safely preview and prune disposable FastF1 cache and telemetry files.
+2. **Configuration & Supported Circuits:** View circuit parameters, track types, and model settings.
+3. **Data Management & Deletion:** Safely preview and prune disposable FastF1 cache and telemetry files.
 
 ---
 
@@ -205,8 +218,6 @@ pytest tests/test_parity_regression.py
 pytest tests/test_leakage.py tests/test_sprint_leakage_remediation.py
 ```
 
-
-
 ---
 
 ## Contributing
@@ -217,6 +228,7 @@ pytest tests/test_leakage.py tests/test_sprint_leakage_remediation.py
    ```bash
    git checkout -b feature/your-feature-name
    ```
+
 3. **Implement Changes & Tests:** Add unit/integration tests in [`tests/`](tests/) matching existing conventions.
 4. **Run Verification:** Confirm zero test regressions (`pytest` must exit with code 0).
 5. **Submit a Pull Request:** Open a PR against `main` with detailed verification logs.
