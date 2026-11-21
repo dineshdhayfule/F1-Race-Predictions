@@ -106,8 +106,23 @@ def test_track_collector_delegates_stage_and_mode(monkeypatch):
 
 
 def test_future_schedule_is_detected_before_download():
-    scheduled = datetime.now(timezone.utc) + timedelta(days=7)
-    assert scheduled > datetime.now(timezone.utc)
+    from src.data.collect_season import resolve_session_scheduled_time
+    event_row = pd.Series({
+        "Session1DateUtc": "2099-05-15 10:00:00",
+        "Session1": "Practice 1",
+    })
+    sched_dt = resolve_session_scheduled_time(event_row, "Practice 1", "fp1", ["FP1", "Practice 1"])
+    assert sched_dt is not None
+    assert sched_dt > datetime.now(timezone.utc)
+
+
+def test_before_race_session_plan():
+    assert get_allowed_stage_sessions("before_race", False) == [
+        "fp1", "fp2", "fp3", "qualifying",
+    ]
+    assert get_allowed_stage_sessions("before_race", True) == [
+        "fp1", "sprint_qualifying", "sprint_race", "qualifying",
+    ]
 
 
 def test_post_race_session_plan_includes_only_observed_results():

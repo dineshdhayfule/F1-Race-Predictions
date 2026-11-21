@@ -319,12 +319,16 @@ def cmd_evaluate(
     table.add_column("Spearman Rank", justify="right", style=GREEN_FLAG)
 
     for row in eval_results["ensemble_comparisons"]:
+        mae_str = f"{row['mae']:.3f}" if row.get("mae") is not None else "BLOCKED"
+        medae_str = f"{row['medae']:.3f}" if row.get("medae") is not None else "N/A"
+        rmse_str = f"{row['rmse']:.3f}" if row.get("rmse") is not None else "N/A"
+        spearman_str = f"{row['spearman']:.3f}" if row.get("spearman") is not None else "N/A"
         table.add_row(
             row["model_name"],
-            f"{row['mae']:.3f}",
-            f"{row['medae']:.3f}",
-            f"{row['rmse']:.3f}",
-            f"{row['spearman']:.3f}",
+            mae_str,
+            medae_str,
+            rmse_str,
+            spearman_str,
         )
 
     console.print(table)

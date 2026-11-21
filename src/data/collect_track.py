@@ -5,6 +5,7 @@ Strictly excludes target race result during pre-race data collection.
 """
 
 from pathlib import Path
+import os
 import json
 import argparse
 import fastf1
@@ -123,7 +124,9 @@ def save_practice_laps(session, target_path: Path, force: bool = False):
         practice_data["Session"] = session.name
 
         target_path.parent.mkdir(parents=True, exist_ok=True)
-        practice_data.to_csv(target_path, index=False)
+        tmp_target = target_path.with_suffix(".csv.tmp")
+        practice_data.to_csv(tmp_target, index=False)
+        os.replace(tmp_target, target_path)
         logger.info(f"  [OK] Saved {target_path.name}: {practice_data['Driver'].nunique()} drivers, {len(practice_data)} laps.")
         return practice_data
     except Exception as e:
@@ -244,10 +247,15 @@ def collect_historical_track_data(
 
         # 2. Race session
         race_file = hist_dir / f"{t_key}_{y}_race.csv"
+        from src.data.session_validation import validate_session_csv
+        race_is_valid = False
         if race_file.exists() and not force:
-            skips.append(f"{y} Race: file already exists ({race_file.name})")
-            logger.info(f"  [SKIP] {y} Race already exists ({race_file.name}).")
-        else:
+            race_is_valid, _ = validate_session_csv(race_file, "race")
+            if race_is_valid:
+                skips.append(f"{y} Race: file already exists ({race_file.name})")
+                logger.info(f"  [SKIP] {y} Race already exists ({race_file.name}).")
+
+        if not race_is_valid and (not race_file.exists() or force):
             try:
                 r_sess = fastf1.get_session(y, round_num, "R")
                 if y < 2018 or not getattr(r_sess, "f1_api_support", True):
@@ -259,7 +267,9 @@ def collect_historical_track_data(
                     res["Year"] = y
                     res["Race"] = event_name
                     res["Session"] = "Race"
-                    res.to_csv(race_file, index=False)
+                    tmp_race = race_file.with_suffix(".csv.tmp")
+                    res.to_csv(tmp_race, index=False)
+                    os.replace(tmp_race, race_file)
                     successes.append(f"{y} Race ({len(res)} drivers)")
                     newly_saved_race = True
                     logger.info(f"  [OK] Saved {y} Race: {len(res)} drivers.")
@@ -274,10 +284,14 @@ def collect_historical_track_data(
 
         # 3. Qualifying session
         quali_file = hist_dir / f"{t_key}_{y}_qualifying.csv"
+        quali_is_valid = False
         if quali_file.exists() and not force:
-            skips.append(f"{y} Qualifying: file already exists ({quali_file.name})")
-            logger.info(f"  [SKIP] {y} Qualifying already exists ({quali_file.name}).")
-        else:
+            quali_is_valid, _ = validate_session_csv(quali_file, "qualifying")
+            if quali_is_valid:
+                skips.append(f"{y} Qualifying: file already exists ({quali_file.name})")
+                logger.info(f"  [SKIP] {y} Qualifying already exists ({quali_file.name}).")
+
+        if not quali_is_valid and (not quali_file.exists() or force):
             try:
                 q_sess = fastf1.get_session(y, round_num, "Q")
                 if y < 2018 or not getattr(q_sess, "f1_api_support", True):
@@ -289,7 +303,9 @@ def collect_historical_track_data(
                     res["Year"] = y
                     res["Race"] = event_name
                     res["Session"] = "Qualifying"
-                    res.to_csv(quali_file, index=False)
+                    tmp_quali = quali_file.with_suffix(".csv.tmp")
+                    res.to_csv(tmp_quali, index=False)
+                    os.replace(tmp_quali, quali_file)
                     successes.append(f"{y} Qualifying ({len(res)} drivers)")
                     newly_saved_quali = True
                     logger.info(f"  [OK] Saved {y} Qualifying: {len(res)} drivers.")

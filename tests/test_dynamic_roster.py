@@ -143,3 +143,55 @@ def test_incomplete_roster_logs_warning(caplog):
         final = resolver._finalize_roster(short, expected_grid_size=20, year=2025)
     assert len(final) == 1
     assert any("expected 20" in record.message for record in caplog.records)
+
+
+def test_partial_practice_session_retains_confirmed_drivers():
+    resolver = RosterResolver()
+    # 17 confirmed drivers participated in FP1 (e.g. red-flagged practice)
+    confirmed_17 = [
+        "VER", "NOR", "LEC", "HAM", "RUS", "PIA", "SAI", "ALO",
+        "GAS", "OCO", "ALB", "TSU", "STR", "HUL", "BOT", "ZHO", "MAG"
+    ]
+    # Prior round season data contains full 22-driver grid
+    prior_22 = confirmed_17 + ["RIC", "LAW", "SAR", "BEA", "DOO"]
+    prior_races = pd.DataFrame([
+        {"Round": 20, "Abbreviation": d, "TeamName": f"Team_{i//2}", "Position": i + 1}
+        for i, d in enumerate(prior_22)
+    ])
+    prior_qualis = pd.DataFrame([
+        {"Round": 20, "Abbreviation": d, "TeamName": f"Team_{i//2}", "Position": i + 1}
+        for i, d in enumerate(prior_22)
+    ])
+    sessions = {
+        "fp1": pd.DataFrame([{"Abbreviation": d, "TeamName": f"Team_{i//2}"} for i, d in enumerate(confirmed_17)]),
+    }
+    roster = resolver.resolve_roster(
+        year=2026,
+        round_num=21,
+        stage="after_fp1",
+        weekend_sessions=sessions,
+        season_races_df=prior_races,
+        season_qualis_df=prior_qualis,
+        expected_grid_size=22,
+    )
+    # Roster must strictly remain 17 drivers — latest eligible practice session authority is preserved
+    assert len(roster) == 17
+    for d in confirmed_17:
+        assert d in roster["Abbreviation"].values
+    # Unconfirmed prior-round drivers must NOT be added to pad the grid to 22
+    for unconfirmed in ["RIC", "LAW", "SAR", "BEA", "DOO"]:
+        assert unconfirmed not in roster["Abbreviation"].values
+    assert "catalog_baseline" not in roster["Source"].values
+    assert (roster["Source"] == "practice_fp1").all()
+
+
+def test_unresolved_roster_returns_empty_without_catalog_invention():
+    resolver = RosterResolver()
+    roster = resolver.resolve_roster(
+        year=2026,
+        round_num=1,
+        stage="pre_fp1",
+        expected_grid_size=22,
+    )
+    assert roster.empty
+    assert "catalog_baseline" not in roster.get("Source", pd.Series(dtype=str)).values

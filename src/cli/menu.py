@@ -418,7 +418,8 @@ class InteractiveMenu:
                 ("3", "after_sprint_qualifying", "After Sprint Shootout results observed"),
                 ("4", "after_sprint_race", "After Sprint Race classification observed"),
                 ("5", "after_qualifying", "After Grand Prix Qualifying (Actual Starting Grid)"),
-                ("6", "post_race", "Post-Race Evaluation (Verified actual finish)"),
+                ("6", "before_race", "Sunday Pre-Race (Final Starting Grid with penalties)"),
+                ("7", "post_race", "Post-Race Evaluation (Verified actual finish)"),
             ]
         else:
             available_stages = [
@@ -427,7 +428,8 @@ class InteractiveMenu:
                 ("3", "after_fp2", "After Free Practice 2 telemetry observed"),
                 ("4", "after_fp3", "After Free Practice 3 telemetry observed"),
                 ("5", "after_qualifying", "After Grand Prix Qualifying (Actual Starting Grid)"),
-                ("6", "post_race", "Post-Race Evaluation (Verified actual finish)"),
+                ("6", "before_race", "Sunday Pre-Race (Final Starting Grid with penalties)"),
+                ("7", "post_race", "Post-Race Evaluation (Verified actual finish)"),
             ]
 
         for num, stg, desc in available_stages:
@@ -688,25 +690,28 @@ class InteractiveMenu:
             else:
                 invalid_historical.append((r, "race-result dataset is missing or unusable"))
 
-        if invalid_historical:
-            invalid_rounds = ", ".join(str(r) for r, _ in invalid_historical)
-            details.append(("MISSING", f"Historical Training Rounds unusable: {invalid_rounds}. Valid race-result datasets are required."))
-            is_ready = False
-        if future_historical:
-            details.append(("FUTURE", f"Historical Training Rounds not yet completed: {', '.join(map(str, future_historical))}."))
-            is_ready = False
-
-        if not invalid_historical and not future_historical and completed_historical == len(train_rounds):
-            details.append(("OK", f"Historical Training Rounds: {completed_historical}/{len(train_rounds)} completed rounds available ({completed_historical*expected_grid_size} driver-race observations)."))
-        elif not invalid_historical and not future_historical and completed_historical > 0:
-            details.append(("WARN", f"Historical Training Rounds: {completed_historical}/{len(train_rounds)} completed rounds found in season directory."))
-
         if round_num <= 1 or len(train_rounds) == 0:
             details.append(("MISSING", f"Round 1 Season Opener: No prior {year} rounds exist to train predictive models. Minimum 1 completed round is required."))
             is_ready = False
-        elif not invalid_historical and not future_historical and completed_historical == 0:
-            details.append(("MISSING", f"No completed season rounds found in data/raw/season/{year}/ for Round {round_num}."))
+        elif completed_historical == 0:
+            details.append(("MISSING", f"No completed season rounds found in data/raw/season/{year}/ for Round {round_num}. Minimum 1 completed round is required."))
             is_ready = False
+        else:
+            if completed_historical >= 3:
+                details.append(("OK", f"Historical Training Rounds: {completed_historical}/{len(train_rounds)} completed rounds available ({completed_historical*expected_grid_size} driver-race observations). Meets minimum threshold (3 rounds)."))
+            else:
+                details.append(("WARN", f"Limited historical training data: only {completed_historical}/{len(train_rounds)} completed round(s) available (minimum 3 recommended for walk-forward validation). Early season models run in EXPERIMENTAL mode."))
+
+            if future_historical:
+                details.append(("INFO", f"Intermediate Calendar Rounds not yet completed: {', '.join(map(str, future_historical))} (omitted from training)."))
+
+            if invalid_historical:
+                invalid_rounds = ", ".join(str(r) for r, _ in invalid_historical)
+                if completed_historical >= 3:
+                    details.append(("WARN", f"Some past calendar rounds missing/unusable: {invalid_rounds}. Training proceeds with {completed_historical} valid rounds."))
+                else:
+                    details.append(("MISSING", f"Historical Training Rounds unusable: {invalid_rounds}. Valid race-result datasets are required."))
+                    is_ready = False
 
         # 2. Stage-specific weekend session readiness
         sessions = self.loader.load_weekend_sessions(track_key, year=year, stage=stage, round_num=round_num)
@@ -761,15 +766,15 @@ class InteractiveMenu:
                 else:
                     details.append(("MISSING", f"{s.replace('_', ' ').title()} NOT found for {track_key.title()} {year}."))
                     is_ready = False
-        elif stage in ["after_qualifying", "post_race"]:
+        elif stage in ["after_qualifying", "before_race", "post_race"]:
             fp1_df = sessions.get("fp1")
             if fp1_df is not None and not fp1_df.empty:
                 details.append(("OK", f"Weekend practice telemetry available ({len(fp1_df)} drivers)."))
             else:
                 details.append(("INFO", "Weekend practice telemetry absent (optional: pipeline uses historical team pace fallback)."))
 
-        # 3. Target qualifying and starting grid verification (for after_qualifying and post_race)
-        if stage in ["after_qualifying", "post_race"]:
+        # 3. Target qualifying and starting grid verification (for after_qualifying, before_race, and post_race)
+        if stage in ["after_qualifying", "before_race", "post_race"]:
             target_q = self.loader.load_target_qualifying(track_key, year, round_num=round_num)
             grid_df, grid_meta = self.loader.load_starting_grid(
                 track_id=track_key,
@@ -1492,30 +1497,23 @@ class InteractiveMenu:
             "race": 4, "r": 4,
         }
 
-        def session_sort_key(item: Tuple[str, Any]) -> Tuple[int, datetime, str]:
+        def session_sort_key(item: Tuple[str, Any]) -> Tuple[int, datetime, int, str]:
             name, raw_date = item
-            try:
-                timestamp = pd.to_datetime(raw_date)
-                if pd.isna(timestamp):
-                    raise ValueError
-                if timestamp.tzinfo is None:
-                    timestamp = timestamp.tz_localize(timezone.utc)
-                else:
-                    timestamp = timestamp.tz_convert(timezone.utc)
-                parsed_date = timestamp.to_pydatetime()
-            except (TypeError, ValueError):
-                parsed_date = datetime.max.replace(tzinfo=timezone.utc)
-            return (0 if parsed_date != datetime.max.replace(tzinfo=timezone.utc) else 1,
-                    parsed_date, name.lower())
+            order_idx = canonical_order.get(name.lower().strip(), 99)
+            if raw_date is not None and str(raw_date).strip() not in ("", "None", "nan", "NaT"):
+                try:
+                    timestamp = pd.to_datetime(raw_date)
+                    if pd.notna(timestamp):
+                        if timestamp.tzinfo is None:
+                            timestamp = timestamp.tz_localize(timezone.utc)
+                        else:
+                            timestamp = timestamp.tz_convert(timezone.utc)
+                        return (0, timestamp.to_pydatetime(), order_idx, name.lower())
+                except (TypeError, ValueError):
+                    pass
+            return (1, datetime.max.replace(tzinfo=timezone.utc), order_idx, name.lower())
 
-        session_items.sort(
-            key=lambda item: (
-                session_sort_key(item)[0],
-                session_sort_key(item)[1],
-                canonical_order.get(item[0].lower().strip(), 99),
-                item[0].lower(),
-            )
-        )
+        session_items.sort(key=session_sort_key)
         avail_count = 0
         missing_count = 0
         future_count = 0
@@ -1649,38 +1647,36 @@ class InteractiveMenu:
                     candidate_paths.append(base_dir / f"{year}_round_{round_num}_{alias}.csv")
 
         # Check candidate files
+        from src.data.session_validation import validate_session_csv
         for p in candidate_paths:
-            if p.exists() and p.is_file() and p.stat().st_size > 0:
-                try:
-                    df = DataLoader.safe_read_csv(p, normalize=False)
-                    if self._is_valid_session_dataset(df, slug):
-                        return "YES"
-                except (OSError, ValueError, pd.errors.ParserError):
-                    continue
+            if p.exists() and p.is_file():
+                valid, _ = validate_session_csv(p, slug)
+                if valid:
+                    return "YES"
 
         # No valid dataset on disk -> determine if session is scheduled in the future
         now_utc = datetime.now(timezone.utc)
-        now_naive = datetime.now()
+        parsed_dt = None
+        date_to_eval = session_date_raw if session_date_raw is not None else event_date_raw
 
-        date_to_eval = session_date_raw or event_date_raw
-        if date_to_eval:
+        if date_to_eval is not None and str(date_to_eval).strip() not in ("", "None", "nan", "NaT"):
             try:
                 ts = pd.to_datetime(date_to_eval)
                 if pd.notna(ts):
                     if ts.tzinfo is not None:
-                        ts_utc = ts.tz_convert(timezone.utc)
-                        if ts_utc > now_utc:
-                            return "FUTURE"
+                        parsed_dt = ts.tz_convert(timezone.utc)
                     else:
-                        if ts.to_pydatetime() > now_naive:
-                            return "FUTURE"
+                        parsed_dt = ts.tz_localize(timezone.utc)
             except Exception:
-                pass
+                parsed_dt = None
 
-        if year > now_naive.year:
+        if parsed_dt is None:
+            return "UNKNOWN"
+
+        if parsed_dt > now_utc:
             return "FUTURE"
 
-        return "UNKNOWN" if not date_to_eval else "NO"
+        return "NO"
 
     def _get_calendar_events_for_year(self, year: int) -> List[Any]:
         """

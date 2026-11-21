@@ -145,9 +145,9 @@ class RosterResolver:
             stage=stage_clean,
             year=year,
         )
-        if practice_roster is not None and len(practice_roster) >= expected_grid_size:
+        if practice_roster is not None and not practice_roster.empty:
             logger.info(
-                f"Roster resolved from Weekend Practice Sessions ({len(practice_roster)} drivers, expected {expected_grid_size})."
+                f"Roster resolved from Weekend Practice Sessions ({len(practice_roster)} drivers confirmed)."
             )
             return self._finalize_roster(practice_roster, expected_grid_size, year)
 
@@ -184,12 +184,15 @@ class RosterResolver:
             )
             return self._finalize_roster(fallback_roster, expected_grid_size, year)
 
-        # Emergency catalog fallback if no session or season data exists (e.g. Round 1 pre_fp1 synthetic test)
+        # If no verified session, entry list, or season history exists, block rather than inventing unconfirmed drivers
         logger.warning(
-            f"No session or season history found. Generating catalog baseline for year {year}."
+            f"No session or season history found for year {year} Round {round_num}. "
+            f"Roster resolution blocked: will not invent unconfirmed catalog baseline drivers."
         )
-        catalog_roster = self._build_catalog_baseline(year, expected_grid_size)
-        return self._finalize_roster(catalog_roster, expected_grid_size, year)
+        blocked_df = pd.DataFrame(columns=[
+            "Abbreviation", "FullName", "TeamName", "DriverNumber", "EntryStatus", "Source", "Confidence"
+        ])
+        return blocked_df
 
     def _extract_from_dataframe(
         self,

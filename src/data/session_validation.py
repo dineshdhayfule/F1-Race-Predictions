@@ -1,6 +1,7 @@
 """Validation helpers for ApexGrid-exported session datasets."""
 
-from typing import List, Optional, Tuple
+from pathlib import Path
+from typing import List, Optional, Tuple, Union
 
 import pandas as pd
 
@@ -69,3 +70,38 @@ def validate_session_dataframe(
         errors.append(f"Unsupported session type '{slug}'.")
 
     return not errors, errors
+
+
+def validate_session_csv(
+    file_path: Union[str, Path],
+    session_slug: str,
+) -> Tuple[bool, List[str]]:
+    """
+    Safely inspect a session CSV file on disk and validate its schema.
+    Returns (True, []) if valid, or (False, [error_messages]) if missing, empty, corrupt, or invalid.
+    """
+    path = Path(file_path)
+    if not path.exists():
+        return False, [f"File not found: {path}"]
+    if not path.is_file():
+        return False, [f"Path is not a regular file: {path}"]
+    try:
+        if path.stat().st_size == 0:
+            return False, [f"File is empty (0 bytes): {path.name}"]
+    except OSError as e:
+        return False, [f"Unable to read file metadata for {path.name}: {e}"]
+
+    try:
+        from src.data.data_loader import DataLoader
+        df = DataLoader.safe_read_csv(path, normalize=False)
+    except Exception:
+        try:
+            df = pd.read_csv(path)
+        except Exception as e:
+            return False, [f"Failed to parse CSV {path.name}: {e}"]
+
+    if df is None or df.empty:
+        return False, [f"Dataset in {path.name} is empty or contains no parseable records."]
+
+    return validate_session_dataframe(df, session_slug)
+

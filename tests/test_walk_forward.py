@@ -74,3 +74,29 @@ def test_nan_training_targets_are_removed_before_fit():
     df = df.dropna(subset=["ActualFinish"])
     assert len(df) == 1
     assert df["ActualFinish"].isna().sum() == 0
+
+
+def test_failed_fold_returns_blocked_validation_status():
+    df = pd.DataFrame([
+        {"Round": 1, "Abbreviation": "VER", "ActualFinish": 1, "f": 1.0},
+        {"Round": 2, "Abbreviation": "VER", "ActualFinish": 2, "f": 2.0},
+        {"Round": 3, "Abbreviation": "VER", "ActualFinish": 3, "f": 3.0},
+        {"Round": 4, "Abbreviation": "VER", "ActualFinish": np.nan, "f": 4.0},
+    ])
+    evaluator = ModelEvaluator(_config(["f"]))
+    result = evaluator.evaluate_walk_forward(df)
+    assert result["validation_status"] == "BLOCKED"
+    assert result["is_out_of_sample"] is False
+    assert len(result["failed_folds"]) > 0
+    assert result["failed_folds"][0]["round"] == 4
+    # All five residual arrays must be strictly empty (zero partial residual leakage into Monte Carlo)
+    for key in ("selected_residuals", "rf_residuals", "xgb_residuals", "ridge_residuals", "multi_residuals"):
+        assert isinstance(result[key], np.ndarray)
+        assert len(result[key]) == 0
+
+
+def test_grid_blend_sweep_with_empty_actuals_returns_empty_dict():
+    df = pd.DataFrame(columns=["Round", "Abbreviation", "ActualFinish", "f"])
+    evaluator = ModelEvaluator(_config(["f"]))
+    sweep = evaluator.evaluate_grid_blend_sweep(df)
+    assert sweep == {}

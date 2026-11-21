@@ -306,12 +306,16 @@ def cmd_evaluate(args):
     print("-" * 80)
 
     for row in eval_results["ensemble_comparisons"]:
+        mae_str = f"{row['mae']:<8.3f}" if row.get("mae") is not None else f"{'BLOCKED':<8}"
+        medae_str = f"{row['medae']:<8.3f}" if row.get("medae") is not None else f"{'N/A':<8}"
+        rmse_str = f"{row['rmse']:<8.3f}" if row.get("rmse") is not None else f"{'N/A':<8}"
+        spearman_str = f"{row['spearman']:<10.3f}" if row.get("spearman") is not None else f"{'N/A':<10}"
         print(
             f"{row['model_name']:<28} "
-            f"{row['mae']:<8.3f} "
-            f"{row['medae']:<8.3f} "
-            f"{row['rmse']:<8.3f} "
-            f"{row['spearman']:<10.3f}"
+            f"{mae_str} "
+            f"{medae_str} "
+            f"{rmse_str} "
+            f"{spearman_str}"
         )
     print("=" * 80)
     print(f"Empirical DNF Hazard Rate: {eval_results['empirical_dnf_rate']*100:.1f}%\n")

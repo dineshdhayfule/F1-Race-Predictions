@@ -576,23 +576,26 @@ def collect_round_data(
         # Check if already present and valid (Incremental / Resumable)
         if target_file.exists() and not force:
             try:
-                if target_file.stat().st_size > 0:
+                from src.data.session_validation import validate_session_csv
+                valid, errors = validate_session_csv(target_file, slug)
+                if valid:
                     existing_df = pd.read_csv(target_file)
-                    if not existing_df.empty:
-                        skip_msg = f"{c_type} (file exists: {target_file.name}, {len(existing_df)} records)"
-                        round_skips.append(skip_msg)
-                        logger.info(f"    [SKIP] {skip_msg}")
-                        session_statuses[slug] = {
-                            "canonical": c_type,
-                            "status": "SUCCESS",
-                            "detail": skip_msg,
-                            "scheduled_date": None,
-                        }
-                        # Also sync track dir if requested
-                        if track_target_file and not track_target_file.exists():
-                            track_target_file.parent.mkdir(parents=True, exist_ok=True)
-                            existing_df.to_csv(track_target_file, index=False)
-                        continue
+                    skip_msg = f"{c_type} (file exists: {target_file.name}, {len(existing_df)} records)"
+                    round_skips.append(skip_msg)
+                    logger.info(f"    [SKIP] {skip_msg}")
+                    session_statuses[slug] = {
+                        "canonical": c_type,
+                        "status": "SUCCESS",
+                        "detail": skip_msg,
+                        "scheduled_date": None,
+                    }
+                    # Also sync track dir if requested
+                    if track_target_file and not track_target_file.exists():
+                        track_target_file.parent.mkdir(parents=True, exist_ok=True)
+                        existing_df.to_csv(track_target_file, index=False)
+                    continue
+                else:
+                    logger.warning(f"Existing file {target_file.name} invalid ({'; '.join(errors)}). Re-collecting.")
             except Exception as e:
                 logger.warning(f"Existing file {target_file.name} corrupted ({e}). Re-collecting.")
 
@@ -670,12 +673,16 @@ def collect_round_data(
                     )
 
                 if valid and df is not None and not df.empty:
+                    tmp_file = target_file.with_suffix(".csv.tmp")
                     target_file.parent.mkdir(parents=True, exist_ok=True)
-                    df.to_csv(target_file, index=False)
+                    df.to_csv(tmp_file, index=False)
+                    os.replace(tmp_file, target_file)
 
                     if track_target_file:
+                        track_tmp = track_target_file.with_suffix(".csv.tmp")
                         track_target_file.parent.mkdir(parents=True, exist_ok=True)
-                        df.to_csv(track_target_file, index=False)
+                        df.to_csv(track_tmp, index=False)
+                        os.replace(track_tmp, track_target_file)
 
                     success_msg = f"{c_type} ({len(df)} records via '{cand}')"
                     round_successes.append(success_msg)

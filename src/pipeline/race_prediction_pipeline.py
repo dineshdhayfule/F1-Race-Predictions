@@ -356,27 +356,27 @@ class RacePredictionPipeline:
         if model_choice == "rf":
             selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 1.0, 0.0, 0.0
             selected_model_name = "Random Forest (100%)"
-            selected_mae = eval_results["rf_mae"]
+            selected_mae = eval_results.get("rf_mae")
             selection_method = "User Selected (Random Forest)"
-            residuals = eval_results["rf_residuals"]
+            residuals = eval_results.get("rf_residuals", np.array([]))
         elif model_choice == "xgb":
             selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 1.0, 0.0
             selected_model_name = "XGBoost (100%)"
-            selected_mae = eval_results["xgb_mae"]
+            selected_mae = eval_results.get("xgb_mae")
             selection_method = "User Selected (XGBoost)"
-            residuals = eval_results["xgb_residuals"]
+            residuals = eval_results.get("xgb_residuals", np.array([]))
         elif model_choice == "ridge":
             selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 0.0, 1.0
             selected_model_name = "Ridge Regression (100%)"
-            selected_mae = eval_results.get("ridge_mae", eval_results["best_mae"])
+            selected_mae = eval_results.get("ridge_mae", eval_results.get("best_mae"))
             selection_method = "User Selected (Ridge Regression)"
-            residuals = eval_results.get("ridge_residuals", eval_results["selected_residuals"])
+            residuals = eval_results.get("ridge_residuals", eval_results.get("selected_residuals", np.array([])))
         elif model_choice in {"ensemble", "multi"}:
             selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.40, 0.30, 0.30
             selected_model_name = "Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)"
-            selected_mae = eval_results.get("multi_mae", eval_results["best_mae"])
+            selected_mae = eval_results.get("multi_mae", eval_results.get("best_mae"))
             selection_method = "Validated Multi-Model Ensemble (Phase 4)"
-            residuals = eval_results.get("multi_residuals", eval_results["selected_residuals"])
+            residuals = eval_results.get("multi_residuals", eval_results.get("selected_residuals", np.array([])))
         elif model_choice == "hybrid":
             if custom_weights is not None:
                 selected_rf_weight, selected_xgb_weight = custom_weights
@@ -386,19 +386,19 @@ class RacePredictionPipeline:
                 selection_method = f"User Selected Hybrid ({rf_pct}% RF / {xgb_pct}% XGB)"
                 selected_mae = eval_results.get("custom_mae")
                 if selected_mae is None:
-                    match = next((x for x in eval_results["ensemble_comparisons"] if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
-                    selected_mae = match["mae"] if match else eval_results["best_mae"]
+                    match = next((x for x in eval_results.get("ensemble_comparisons", []) if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
+                    selected_mae = match["mae"] if match else eval_results.get("best_mae")
                 residuals = eval_results.get("custom_residuals")
                 if residuals is None:
-                    residuals = eval_results["selected_residuals"]
+                    residuals = eval_results.get("selected_residuals", np.array([]))
             else:
                 selected_rf_weight = 0.60
                 selected_xgb_weight = 0.40
                 selected_model_name = "Hybrid Ensemble (60% RF / 40% XGB)"
                 selection_method = "Fixed Configuration (Manual Ensemble)"
-                match = next((x for x in eval_results["ensemble_comparisons"] if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
-                selected_mae = match["mae"] if match else eval_results["best_mae"]
-                residuals = eval_results["selected_residuals"]
+                match = next((x for x in eval_results.get("ensemble_comparisons", []) if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
+                selected_mae = match["mae"] if match else eval_results.get("best_mae")
+                residuals = eval_results.get("selected_residuals", np.array([]))
         else:
             mode = sel_cfg.get("mode", "fixed_ensemble")
             if mode == "walk_forward_auto":
@@ -444,42 +444,43 @@ class RacePredictionPipeline:
                 else:
                     residuals = eval_results.get("xgb_residuals", eval_results.get("selected_residuals"))
                 if residuals is None:
-                    residuals = eval_results["selected_residuals"]
+                    residuals = eval_results.get("selected_residuals", np.array([]))
             elif mode == "fixed_rf":
                 selected_rf_weight, selected_xgb_weight = 1.0, 0.0
                 selected_model_name = "Random Forest (100%)"
-                selected_mae = eval_results["rf_mae"]
+                selected_mae = eval_results.get("rf_mae")
                 selection_method = "Fixed Configuration (Random Forest)"
-                residuals = eval_results["rf_residuals"]
+                residuals = eval_results.get("rf_residuals", np.array([]))
             elif mode == "fixed_xgb":
                 selected_rf_weight, selected_xgb_weight = 0.0, 1.0
                 selected_model_name = "XGBoost (100%)"
-                selected_mae = eval_results["xgb_mae"]
+                selected_mae = eval_results.get("xgb_mae")
                 selection_method = "Fixed Configuration (XGBoost)"
-                residuals = eval_results["xgb_residuals"]
+                residuals = eval_results.get("xgb_residuals", np.array([]))
             elif mode == "fixed_ridge":
                 selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 0.0, 1.0
                 selected_model_name = "Ridge Regression (100%)"
-                selected_mae = eval_results.get("ridge_mae", eval_results["best_mae"])
+                selected_mae = eval_results.get("ridge_mae", eval_results.get("best_mae"))
                 selection_method = "Fixed Configuration (Ridge Regression)"
-                residuals = eval_results.get("ridge_residuals", eval_results["selected_residuals"])
+                residuals = eval_results.get("ridge_residuals", eval_results.get("selected_residuals", np.array([])))
             elif mode in {"multi_model", "ensemble"}:
                 selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.40, 0.30, 0.30
                 selected_model_name = "Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)"
-                selected_mae = eval_results.get("multi_mae", eval_results["best_mae"])
+                selected_mae = eval_results.get("multi_mae", eval_results.get("best_mae"))
                 selection_method = "Fixed Configuration (Multi-Model Ensemble)"
-                residuals = eval_results.get("multi_residuals", eval_results["selected_residuals"])
+                residuals = eval_results.get("multi_residuals", eval_results.get("selected_residuals", np.array([])))
             else:
                 selected_rf_weight = 0.60
                 selected_xgb_weight = 0.40
                 selected_model_name = "Hybrid Ensemble (60% RF / 40% XGB)"
                 selection_method = "Fixed Configuration (Manual Ensemble)"
-                match = next((x for x in eval_results["ensemble_comparisons"] if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
-                selected_mae = match["mae"] if match else eval_results["best_mae"]
-                residuals = eval_results["selected_residuals"]
+                match = next((x for x in eval_results.get("ensemble_comparisons", []) if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
+                selected_mae = match["mae"] if match else eval_results.get("best_mae")
+                residuals = eval_results.get("selected_residuals", np.array([]))
 
         empirical_dnf = eval_results.get("empirical_dnf_rate", 0.158)
-        logger.info(f"Selected model: {selected_model_name} via {selection_method} (MAE={selected_mae:.4f})")
+        mae_disp = f"MAE={selected_mae:.4f}" if selected_mae is not None else "MAE=N/A"
+        logger.info(f"Selected model: {selected_model_name} via {selection_method} ({mae_disp})")
 
         # 8. Train Final Estimators on all training rounds
         imputer, rf_model, xgb_model, feature_names = self.model_trainer.fit(training_features)

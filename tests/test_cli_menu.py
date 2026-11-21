@@ -60,3 +60,17 @@ def test_default_menu_route():
         result = runner.invoke(app, [])
         assert result.exit_code == 0
         assert mock_run.call_count == 1
+
+
+def test_predict_stage_before_race_readiness(tmp_path):
+    from src.cli.menu import InteractiveMenu
+    menu = InteractiveMenu(root_dir=tmp_path)
+    ready, details = menu._audit_prediction_readiness(
+        track_key="melbourne",
+        year=2026,
+        round_num=1,
+        stage="before_race",
+        is_sprint=False,
+    )
+    assert isinstance(ready, bool)
+    assert isinstance(details, list)

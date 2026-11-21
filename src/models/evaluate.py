@@ -57,9 +57,78 @@ class ModelEvaluator:
         If stage is an early pre-qualifying stage (e.g. pre_fp1..after_fp3),
         Sunday starting-grid features are masked out in evaluation to prevent leakage.
         """
-        rounds = sorted([int(r) for r in training_df["Round"].dropna().unique()])
-        min_priors = self.min_train_rounds if len(rounds) > self.min_train_rounds else 1
+        rounds = sorted([int(r) for r in training_df["Round"].dropna().unique()]) if (training_df is not None and not training_df.empty and "Round" in training_df.columns) else []
+
+        if not rounds:
+            return {
+                "validation_rounds": [],
+                "requested_rounds": [],
+                "is_out_of_sample": False,
+                "validation_status": "UNAVAILABLE",
+                "validation_method": "none",
+                "sample_count": 0,
+                "failed_folds": [],
+                "completed_folds": [],
+                "diagnostic_message": "Insufficient history: training dataset is empty or contains no rounds.",
+                "ensemble_comparisons": [],
+                "best_w_rf": 0.60,
+                "best_w_xgb": 0.40,
+                "best_w_ridge": 0.0,
+                "best_model_name": "Unavailable",
+                "best_mae": None,
+                "selected_residuals": np.array([]),
+                "rf_residuals": np.array([]),
+                "xgb_residuals": np.array([]),
+                "ridge_residuals": np.array([]),
+                "multi_residuals": np.array([]),
+                "rf_mae": None,
+                "xgb_mae": None,
+                "ridge_mae": None,
+                "multi_mae": None,
+                "custom_mae": None,
+                "custom_residuals": None,
+                "empirical_dnf_rate": 0.158,
+                "grid_positions": np.array([]),
+                "round_predictions": {},
+                "actuals": np.array([]),
+            }
+
+        min_priors = self.min_train_rounds
         val_rounds = [r for r in rounds if len([pr for pr in rounds if pr < r]) >= min_priors]
+
+        if not val_rounds:
+            return {
+                "validation_rounds": [],
+                "requested_rounds": [],
+                "is_out_of_sample": False,
+                "validation_status": "UNAVAILABLE",
+                "validation_method": "none",
+                "sample_count": 0,
+                "failed_folds": [],
+                "completed_folds": [],
+                "diagnostic_message": f"Insufficient history: {len(rounds)} round(s) available, but at least {min_priors + 1} rounds required for walk-forward validation.",
+                "ensemble_comparisons": [],
+                "best_w_rf": 0.60,
+                "best_w_xgb": 0.40,
+                "best_w_ridge": 0.0,
+                "best_model_name": "Unavailable",
+                "best_mae": None,
+                "selected_residuals": np.array([]),
+                "rf_residuals": np.array([]),
+                "xgb_residuals": np.array([]),
+                "ridge_residuals": np.array([]),
+                "multi_residuals": np.array([]),
+                "rf_mae": None,
+                "xgb_mae": None,
+                "ridge_mae": None,
+                "multi_mae": None,
+                "custom_mae": None,
+                "custom_residuals": None,
+                "empirical_dnf_rate": 0.158,
+                "grid_positions": np.array([]),
+                "round_predictions": {},
+                "actuals": np.array([]),
+            }
 
         tested_weights = [
             (1.0, 0.0, "100% RF"),
@@ -272,6 +341,9 @@ class ModelEvaluator:
         round_actuals = []
         round_grids = []
 
+        failed_folds = []
+        completed_folds = []
+
         for r in val_rounds:
             train = training_df[training_df["Round"] < r].copy()
             test = training_df[training_df["Round"] == r].copy()
@@ -281,7 +353,11 @@ class ModelEvaluator:
             if "ActualFinish" in test.columns:
                 test = test.dropna(subset=["ActualFinish"])
 
-            if train.empty or test.empty:
+            if train.empty:
+                failed_folds.append({"round": r, "reason": "empty_training_fold"})
+                continue
+            if test.empty:
+                failed_folds.append({"round": r, "reason": "empty_testing_fold"})
                 continue
 
             for col in self.feature_cols:
@@ -349,7 +425,10 @@ class ModelEvaluator:
             round_actuals.extend(y_test)
 
             grid_col = "ActualStartingGrid" if "ActualStartingGrid" in test.columns else "GridPosition"
-            grids = pd.to_numeric(test.get(grid_col, test.get("GridPosition")), errors="coerce").fillna(12.0).values
+            if grid_col in test.columns:
+                grids = pd.to_numeric(test[grid_col], errors="coerce").fillna(12.0).values
+            else:
+                grids = np.full(len(test), 12.0)
             round_grids.extend(grids)
 
             for w_rf, w_xgb, name in tested_weights:
@@ -358,6 +437,79 @@ class ModelEvaluator:
 
             round_predictions["100% Ridge"].extend(ridge_pred)
             round_predictions["Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"].extend(multi_pred)
+            completed_folds.append(r)
+
+        if failed_folds or len(completed_folds) == 0:
+            if failed_folds:
+                fold_details = ", ".join(f"Round {f['round']}: {f['reason']}" for f in failed_folds)
+                diagnostic = f"Walk-forward validation blocked: {len(failed_folds)} of {len(val_rounds)} fold(s) failed ({fold_details})."
+            else:
+                diagnostic = "Walk-forward validation blocked: no validation folds completed successfully."
+            logger.warning(diagnostic)
+            return {
+                "validation_rounds": completed_folds,
+                "requested_rounds": val_rounds,
+                "is_out_of_sample": False,
+                "validation_status": "BLOCKED",
+                "validation_method": "chronological_walk_forward",
+                "sample_count": len(round_actuals),
+                "failed_folds": failed_folds,
+                "completed_folds": completed_folds,
+                "diagnostic_message": diagnostic,
+                "ensemble_comparisons": [
+                    {
+                        "model_name": name,
+                        "rf_weight": w_rf,
+                        "xgb_weight": w_xgb,
+                        "mae": None,
+                        "medae": None,
+                        "rmse": None,
+                        "spearman": None,
+                    }
+                    for w_rf, w_xgb, name in tested_weights
+                ] + [
+                    {
+                        "model_name": "100% Ridge",
+                        "rf_weight": 0.0,
+                        "xgb_weight": 0.0,
+                        "ridge_weight": 1.0,
+                        "mae": None,
+                        "medae": None,
+                        "rmse": None,
+                        "spearman": None,
+                    },
+                    {
+                        "model_name": "Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)",
+                        "rf_weight": 0.40,
+                        "xgb_weight": 0.30,
+                        "ridge_weight": 0.30,
+                        "mae": None,
+                        "medae": None,
+                        "rmse": None,
+                        "spearman": None,
+                    },
+                ],
+                "best_w_rf": 0.60,
+                "best_w_xgb": 0.40,
+                "best_w_ridge": 0.0,
+                "best_model_name": "Fallback Baseline (60% RF / 40% XGB)",
+                "best_mae": None,
+                "selected_residuals": np.array([]),
+                "rf_residuals": np.array([]),
+                "xgb_residuals": np.array([]),
+                "ridge_residuals": np.array([]),
+                "multi_residuals": np.array([]),
+                "rf_mae": None,
+                "xgb_mae": None,
+                "ridge_mae": None,
+                "multi_mae": None,
+                "custom_mae": None,
+                "custom_residuals": None,
+                "empirical_dnf_rate": float(training_df["driver_dnf_rate"].mean()) if "driver_dnf_rate" in training_df.columns else 0.158,
+                "grid_positions": np.array(round_grids),
+                "round_predictions": round_predictions,
+                "actuals": np.array(round_actuals),
+            }
 
         # Compute summary metrics across all validation rounds
         actuals = np.array(round_actuals)
@@ -449,10 +601,14 @@ class ModelEvaluator:
 
         return {
             "validation_rounds": val_rounds,
+            "requested_rounds": val_rounds,
             "is_out_of_sample": True,
             "validation_status": "CHRONOLOGICAL_WALK_FORWARD",
             "validation_method": "chronological_walk_forward",
             "sample_count": len(actuals),
+            "failed_folds": [],
+            "completed_folds": completed_folds,
+            "diagnostic_message": f"Successfully completed chronological walk-forward validation across {len(completed_folds)} rounds.",
             "ensemble_comparisons": ensemble_results,
             "best_w_rf": best_w_rf,
             "best_w_xgb": best_w_xgb,
@@ -497,7 +653,9 @@ class ModelEvaluator:
             Grid weight values to sweep (e.g. [0.0, 0.05, ..., 0.50]).
         """
         eval_base = self.evaluate_walk_forward(training_df)
-        actuals = eval_base["actuals"]
+        actuals = eval_base.get("actuals", np.array([]))
+        if len(actuals) == 0:
+            return {}
         grids = eval_base["grid_positions"]
         round_preds = eval_base["round_predictions"]
 
