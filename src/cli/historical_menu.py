@@ -28,6 +28,7 @@ from src.cli.terminal_ui import (
     prompt_str,
     prompt_int,
     print_table,
+    get_terminal_width,
     Colors,
 )
 from src.historical.api_client import HistoricalAPIClient
@@ -62,7 +63,11 @@ class HistoricalStatsMenu:
             try:
                 clear_screen()
                 print_banner(season=2026, status_text="Historical Analytics")
-                print(f"{Colors.BOLD}HISTORICAL MOTORSPORT INTELLIGENCE (1950–2026){Colors.RESET}\n")
+                w = get_terminal_width()
+                title_str = "HISTORICAL MOTORSPORT INTELLIGENCE (1950–2026)"
+                if w < len(title_str) + 4:
+                    title_str = "HISTORICAL MOTORSPORT INTELLIGENCE"
+                print(f"{Colors.BOLD}{title_str}{Colors.RESET}\n")
                 print("  1. Driver Career & Season Statistics")
                 print("  2. Teammate Head-to-Head Comparison")
                 print("  3. Qualifying Analytics & Pole Statistics")

@@ -48,6 +48,9 @@ from src.cli.terminal_ui import (
     render_probability_bar,
     print_podium,
     get_console,
+    get_terminal_width,
+    get_terminal_height,
+    format_menu_divider,
     Colors,
     HAS_RICH,
     _supports_color,
@@ -225,28 +228,28 @@ class InteractiveMenu:
                 console = get_console()
                 if HAS_RICH and console and _supports_color():
                     console.print("[bold #F5F5F7]MAIN MENU[/]\n")
-                    console.print("  [bold #00B4D8]── Core Pipeline ───────────────────────────────────────────────[/]")
+                    console.print(f"  {format_menu_divider('Core Pipeline', 'bold #00B4D8')}")
                     console.print("  [bold white]1.[/] Predict a Race")
                     console.print("  [bold white]2.[/] Load / Collect Data")
                     console.print("  [bold white]3.[/] Evaluate a Prediction")
-                    console.print("\n  [bold #B138DD]── Analytics & History ─────────────────────────────────────────[/]")
+                    console.print(f"\n  {format_menu_divider('Analytics & History', 'bold #B138DD')}")
                     console.print("  [bold white]4.[/] View Previous Predictions & Reports")
                     console.print("  [bold white]5.[/] Historical Statistics & Analytics (1950–2026)")
-                    console.print("\n  [bold #8E8E93]── System & Admin ──────────────────────────────────────────────[/]")
+                    console.print(f"\n  {format_menu_divider('System & Admin', 'bold #8E8E93')}")
                     console.print("  [bold white]6.[/] System Health & Data Readiness")
                     console.print("  [bold white]7.[/] Configuration & Supported Circuits")
                     console.print("  [bold white]8.[/] Data Management & Deletion")
                     console.print("\n  [bold red]0.[/] Exit\n")
                 else:
                     print(f"{Colors.BOLD}MAIN MENU{Colors.RESET}\n")
-                    print("  ── Core Pipeline ───────────────────────────────────────────────")
+                    print(f"  {format_menu_divider('Core Pipeline')}")
                     print("  1. Predict a Race")
                     print("  2. Load / Collect Data")
                     print("  3. Evaluate a Prediction")
-                    print("\n  ── Analytics & History ─────────────────────────────────────────")
+                    print(f"\n  {format_menu_divider('Analytics & History')}")
                     print("  4. View Previous Predictions & Reports")
                     print("  5. Historical Statistics & Analytics (1950–2026)")
-                    print("\n  ── System & Admin ──────────────────────────────────────────────")
+                    print(f"\n  {format_menu_divider('System & Admin')}")
                     print("  6. System Health & Data Readiness")
                     print("  7. Configuration & Supported Circuits")
                     print("  8. Data Management & Deletion")
@@ -1828,9 +1831,10 @@ class InteractiveMenu:
     def _view_csv_file(self, path: Path) -> None:
         try:
             df = pd.read_csv(path)
-            print("\n" + "=" * 76)
+            w = get_terminal_width()
+            print("\n" + "=" * w)
             print(f" TABLE: {path.name} ({len(df)} rows, {len(df.columns)} columns)")
-            print("=" * 76)
+            print("=" * w)
             # Show top columns for readability
             cols = [c for c in ["PredictedPosition", "Position", "Abbreviation", "TeamName", "ActualStartingGrid", "ExpectedFinish", "WinProbability", "Top3Probability", "PointsProbability", "ActualFinish"] if c in df.columns]
             if not cols:
@@ -2077,11 +2081,17 @@ class InteractiveMenu:
         print(f"  Expected Grid Size    : {self.model_cfg.get('expected_grid_size', 22)} drivers")
 
         print(f"\n{Colors.BOLD}Five Major ML Capabilities (Modularly Supported):{Colors.RESET}")
-        print(f"  • Race Pace Intelligence       : {Colors.GREEN}Available{Colors.RESET} (FP1/FP2/FP3 stint extraction, fuel burn adj)")
-        print(f"  • Tire Degradation Modelling   : {Colors.GREEN}Available{Colors.RESET} (Compound slopes, teammate pooling, thermal scale)")
-        print(f"  • Pit Stop Strategy Simulator  : {Colors.GREEN}Available{Colors.RESET} (1/2-stop optimization & FIA 2-dry-compound rule)")
-        print(f"  • Race Control Incident Model  : {Colors.GREEN}Available{Colors.RESET} (SC/VSC field compression & cheap pit stops)")
-        print(f"  • Weather-Aware Predictions    : {Colors.GREEN}Available{Colors.RESET} (Session telemetry, rain variance & wet driver skill)")
+        cfg_w = get_terminal_width()
+        desc_pace = " (FP1/FP2/FP3 stint extraction, fuel burn adj)" if cfg_w >= 80 else ""
+        desc_tire = " (Compound slopes, teammate pooling, thermal scale)" if cfg_w >= 80 else ""
+        desc_strat = " (1/2-stop optimization & FIA 2-dry-compound rule)" if cfg_w >= 80 else ""
+        desc_sc = " (SC/VSC field compression & cheap pit stops)" if cfg_w >= 80 else ""
+        desc_wet = " (Session telemetry, rain variance & wet driver skill)" if cfg_w >= 80 else ""
+        print(f"  • Race Pace Intelligence       : {Colors.GREEN}Available{Colors.RESET}{desc_pace}")
+        print(f"  • Tire Degradation Modelling   : {Colors.GREEN}Available{Colors.RESET}{desc_tire}")
+        print(f"  • Pit Stop Strategy Simulator  : {Colors.GREEN}Available{Colors.RESET}{desc_strat}")
+        print(f"  • Race Control Incident Model  : {Colors.GREEN}Available{Colors.RESET}{desc_sc}")
+        print(f"  • Weather-Aware Predictions    : {Colors.GREEN}Available{Colors.RESET}{desc_wet}")
 
         print(f"\n{Colors.BOLD}2026 Championship Calendar (23 Configured Circuits):{Colors.RESET}")
         rows = []
