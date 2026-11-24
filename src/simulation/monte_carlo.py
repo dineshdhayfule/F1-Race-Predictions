@@ -45,6 +45,8 @@ class MonteCarloSimulator:
         deterministic_scores: np.ndarray,
         residuals: Optional[np.ndarray] = None,
         empirical_dnf_rate: Optional[float] = None,
+        driver_dnf_probs: Optional[np.ndarray] = None,
+        driver_dnf_driver_ids: Optional[list] = None,
         circuit_key: Optional[str] = None,
         n_simulations: Optional[int] = None,
     ) -> Tuple[pd.DataFrame, Dict[str, Any]]:
@@ -61,6 +63,10 @@ class MonteCarloSimulator:
             Walk-forward out-of-fold validation residuals for sigma calibration.
         empirical_dnf_rate : float, optional
             Empirical season DNF rate.
+        driver_dnf_probs : np.ndarray, optional
+            Per-driver in-race retirement probabilities aligned to target_df.
+        driver_dnf_driver_ids : list, optional
+            Driver identifiers used to validate probability alignment.
         circuit_key : str, optional
             Target circuit identifier.
         n_simulations : int, optional
@@ -88,6 +94,22 @@ class MonteCarloSimulator:
             dnf_prob = float(self.fallback_dnf_prob)
         logger.info(f"Using empirical DNF incident probability: {dnf_prob:.4f}")
 
+        per_driver_probs = None
+        if driver_dnf_probs is not None:
+            per_driver_probs = np.asarray(driver_dnf_probs, dtype=float)
+            if per_driver_probs.ndim != 1 or len(per_driver_probs) != len(target_df):
+                raise ValueError(
+                    "driver_dnf_probs must be a one-dimensional vector with one "
+                    "entry per target driver."
+                )
+            if not np.isfinite(per_driver_probs).all() or np.any((per_driver_probs < 0) | (per_driver_probs > 1)):
+                raise ValueError("driver_dnf_probs must contain finite values in [0, 1].")
+            if driver_dnf_driver_ids is not None:
+                expected_ids = [str(x) for x in target_df["Abbreviation"].tolist()]
+                supplied_ids = [str(x) for x in driver_dnf_driver_ids]
+                if supplied_ids != expected_ids:
+                    raise ValueError("driver_dnf_driver_ids do not match target_df ordering.")
+
         # Filter out DNS / Race DSQ entrants from active simulation
         status_series = target_df.get("StartingGridStatus", pd.Series(["CLASSIFIED"] * len(target_df), index=target_df.index))
         active_mask = ~status_series.isin(["DNS", "DSQ"])
@@ -95,12 +117,15 @@ class MonteCarloSimulator:
             logger.info(f"Excluding {sum(~active_mask)} DNS/DSQ entrants from active Monte Carlo race simulation.")
             active_df = target_df[active_mask].reset_index(drop=True)
             active_scores = deterministic_scores[active_mask.values]
+            if per_driver_probs is not None:
+                per_driver_probs = per_driver_probs[active_mask.values]
         else:
             active_df = target_df.reset_index(drop=True)
             active_scores = deterministic_scores
 
         n = len(active_df)
         sim_scores = np.empty((num_sims, n))
+        dnf_counts = np.zeros(n, dtype=np.int64)
 
         # Extract circuit event probabilities for race control
         p_sc = float(active_df["p_safety_car"].iloc[0]) if "p_safety_car" in active_df.columns and pd.notna(active_df["p_safety_car"].iloc[0]) else 0.50
@@ -123,14 +148,17 @@ class MonteCarloSimulator:
         # Vectorized batch simulation
         for i in range(num_sims):
             iter_sigma = calibrated_sigma
-            iter_dnf_prob = dnf_prob
+            iter_dnf_prob = per_driver_probs.copy() if per_driver_probs is not None else dnf_prob
             iter_scores = active_scores.copy()
 
             # Weather scenario sampling
             if self.enable_weather and (rng.random() < rain_prob):
                 # Wet race scenario: increased pace volatility, higher DNF hazard
                 iter_sigma *= 1.35
-                iter_dnf_prob = min(0.35, dnf_prob * 1.40)
+                if per_driver_probs is not None:
+                    iter_dnf_prob = np.clip(per_driver_probs * 1.40, 0.0, 1.0)
+                else:
+                    iter_dnf_prob = min(0.35, dnf_prob * 1.40)
                 # Apply wet driver skill differentials
                 iter_scores = iter_scores + wet_skill_bonuses
 
@@ -147,6 +175,7 @@ class MonteCarloSimulator:
 
             # Stochastic DNF indicator
             is_dnf = rng.binomial(1, iter_dnf_prob, n).astype(bool)
+            dnf_counts += is_dnf
 
             iter_scores = iter_scores + noise + strat_noise
 
@@ -218,6 +247,7 @@ class MonteCarloSimulator:
                 "Top3Probability": round(float(np.mean(finishes <= 3) * 100), 2),
                 "Top5Probability": round(float(np.mean(finishes <= 5) * 100), 2),
                 "PointsProbability": round(float(np.mean(finishes <= 10) * 100), 2),
+                "DNFProbability": round(float(dnf_counts[idx] / num_sims * 100), 2),
 
                 "P5": int(np.percentile(finishes, 5)),
                 "P25": int(np.percentile(finishes, 25)),
@@ -288,6 +318,7 @@ class MonteCarloSimulator:
                     "Top3Probability": 0.0,
                     "Top5Probability": 0.0,
                     "PointsProbability": 0.0,
+                    "DNFProbability": np.nan,
 
                     "P5": np.nan,
                     "P25": np.nan,

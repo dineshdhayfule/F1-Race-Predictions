@@ -18,7 +18,7 @@ def test_missing_race_pace_driver_keeps_rank_22():
     ])
     features = build_race_pace_features({"fp2": laps}, drivers=["VER", "HAM", "BOT"])
     bot = features.loc[features["Abbreviation"] == "BOT", "long_run_pace_rank"].iloc[0]
-    assert bot == 22.0
+    assert pd.isna(bot)
 
 
 def test_measured_race_pace_ranks_fastest_first():

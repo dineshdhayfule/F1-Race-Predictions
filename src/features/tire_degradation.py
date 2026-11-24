@@ -22,6 +22,15 @@ logger = get_logger("tire_degradation")
 
 # Default config path
 DEFAULT_STRATEGY_CFG_PATH = Path(__file__).resolve().parents[2] / "config" / "strategy_config.json"
+TIRE_FEATURE_COLUMNS = [
+    "Abbreviation",
+    "soft_tyre_deg_rate",
+    "medium_tyre_deg_rate",
+    "hard_tyre_deg_rate",
+    "estimated_tyre_deg_rate",
+    "compound_pace_delta",
+    "tyre_deg_confidence",
+]
 
 
 def load_strategy_config(config_path: Optional[Path] = None) -> Dict[str, Any]:
@@ -179,15 +188,46 @@ class TireDegradationModel:
                     "compound_pace_delta": 0.65,
                     "tyre_deg_confidence": 0.20,
                 })
-            return pd.DataFrame(results)
+            return pd.DataFrame(results, columns=TIRE_FEATURE_COLUMNS)
 
         df = laps_df.copy()
         driver_col = "Abbreviation" if "Abbreviation" in df.columns else ("Driver" if "Driver" in df.columns else None)
-        if driver_col:
-            df["Abbreviation"] = normalize_driver_series(df[driver_col])
+        if driver_col is None:
+            logger.warning(
+                "Tyre degradation telemetry has no driver identifier; using circuit priors."
+            )
+            return pd.DataFrame([
+                {
+                    "Abbreviation": drv,
+                    "soft_tyre_deg_rate": round(base_soft, 4),
+                    "medium_tyre_deg_rate": round(base_med, 4),
+                    "hard_tyre_deg_rate": round(base_hard, 4),
+                    "estimated_tyre_deg_rate": round(base_med, 4),
+                    "compound_pace_delta": 0.65,
+                    "tyre_deg_confidence": 0.20,
+                }
+                for drv in drivers
+            ], columns=TIRE_FEATURE_COLUMNS)
+        df["Abbreviation"] = normalize_driver_series(df[driver_col])
 
         if "LapTimeSeconds" not in df.columns and "LapTime" in df.columns:
             df["LapTimeSeconds"] = df["LapTime"].apply(timedelta_to_seconds)
+        if "LapTimeSeconds" not in df.columns:
+            logger.warning(
+                "Tyre degradation telemetry has no usable lap-time column; using circuit priors."
+            )
+            return pd.DataFrame([
+                {
+                    "Abbreviation": drv,
+                    "soft_tyre_deg_rate": round(base_soft, 4),
+                    "medium_tyre_deg_rate": round(base_med, 4),
+                    "hard_tyre_deg_rate": round(base_hard, 4),
+                    "estimated_tyre_deg_rate": round(base_med, 4),
+                    "compound_pace_delta": 0.65,
+                    "tyre_deg_confidence": 0.20,
+                }
+                for drv in drivers
+            ], columns=TIRE_FEATURE_COLUMNS)
 
         df = df[pd.to_numeric(df.get("LapTimeSeconds"), errors="coerce") > 50.0].copy()
 
@@ -268,7 +308,7 @@ class TireDegradationModel:
                 "tyre_deg_confidence": confidence,
             })
 
-        return pd.DataFrame(results)
+        return pd.DataFrame(results, columns=TIRE_FEATURE_COLUMNS)
 
 
 def build_tire_degradation_features(
@@ -287,14 +327,26 @@ def build_tire_degradation_features(
         df = session_dfs.get(s_name)
         if df is not None and not df.empty and ("LapTime" in df.columns or "LapTimeSeconds" in df.columns):
             all_laps_list.append(df)
+    if not all_laps_list and drivers:
+        logger.warning(
+            "No practice telemetry was available for tyre degradation; "
+            "using configured circuit priors for %d drivers.",
+            len(drivers),
+        )
 
     pooled_laps = pd.concat(all_laps_list, ignore_index=True) if all_laps_list else pd.DataFrame()
 
-    return model.extract_driver_compound_degradation(
+    result = model.extract_driver_compound_degradation(
         laps_df=pooled_laps,
         drivers=drivers,
         circuit_key=circuit_key,
         track_temperature=track_temperature,
         team_map=team_map,
     )
+    if result.empty and drivers:
+        logger.warning(
+            "Tyre degradation produced no driver features for %d drivers.",
+            len(drivers),
+        )
+    return result.reindex(columns=TIRE_FEATURE_COLUMNS)
 

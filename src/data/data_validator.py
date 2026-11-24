@@ -3,6 +3,7 @@ Automated data and feature validator with strict zero-leakage enforcement.
 """
 
 from typing import Dict, List, Tuple, Any
+import re
 import pandas as pd
 import numpy as np
 
@@ -15,6 +16,22 @@ class DataValidator:
     FORBIDDEN_PRE_RACE_COLUMNS = [
         "ActualFinish", "Position", "Points", "Status", "Laps", "Time", "ClassifiedPosition"
     ]
+    FORBIDDEN_PRE_RACE_PATTERNS = (
+        re.compile(r"^fastest[_-]?lap"),
+        re.compile(r"^pit[_-]?stop[_-]?count$"),
+        re.compile(r"^total[_-]?laps[_-]?completed$"),
+        re.compile(r"^status[_-]?id$"),
+    )
+
+    @classmethod
+    def _post_race_columns(cls, columns: Any) -> List[str]:
+        forbidden = set(cls.FORBIDDEN_PRE_RACE_COLUMNS)
+        matches = [col for col in columns if col in forbidden]
+        for col in columns:
+            normalized = re.sub(r"[^a-z0-9_-]", "", str(col).lower())
+            if any(pattern.search(normalized) for pattern in cls.FORBIDDEN_PRE_RACE_PATTERNS):
+                matches.append(col)
+        return sorted(set(matches))
 
     @staticmethod
     def validate_leakage(target_df: pd.DataFrame, stage: str = "after_qualifying") -> Tuple[bool, List[str]]:
@@ -23,9 +40,8 @@ class DataValidator:
         """
         errors = []
         if stage != "post_race":
-            for col in DataValidator.FORBIDDEN_PRE_RACE_COLUMNS:
-                if col in target_df.columns:
-                    errors.append(f"LEAKAGE ERROR: Post-race column '{col}' detected in pre-race target dataset.")
+            for col in DataValidator._post_race_columns(target_df.columns):
+                errors.append(f"LEAKAGE ERROR: Post-race column '{col}' detected in pre-race target dataset.")
 
         return len(errors) == 0, errors
 
@@ -43,9 +59,8 @@ class DataValidator:
 
         # 1. Target dataset cannot contain post-race outcome columns
         if stage != "post_race":
-            for col in DataValidator.FORBIDDEN_PRE_RACE_COLUMNS:
-                if col in target_df.columns:
-                    violations.append(f"LEAKAGE: Column '{col}' present in target dataset.")
+            for col in DataValidator._post_race_columns(target_df.columns):
+                violations.append(f"LEAKAGE: Column '{col}' present in target dataset.")
 
         # 2. Training dataset cannot contain target round or future rounds
         if "Round" in training_df.columns:

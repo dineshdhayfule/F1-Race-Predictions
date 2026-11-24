@@ -19,7 +19,12 @@ import xgboost as xgb
 
 from src.data.data_loader import DataLoader
 from src.data.data_validator import DataValidator
-from src.features.build_features import FeatureEngineer, apply_stage_feature_mask
+from src.features.build_features import (
+    FeatureEngineer,
+    apply_stage_feature_mask,
+    get_effective_feature_columns,
+    validate_stage_feature_contract,
+)
 from src.features.grid_features import GridProvenance
 from src.features.weekend_features import (
     build_practice_features,
@@ -31,12 +36,24 @@ from src.features.teammate_features import compute_rolling_teammate_h2h
 from src.models.train import ModelTrainer, create_feature_imputer
 from src.models.evaluate import ModelEvaluator
 from src.models.predict import Predictor
+from src.models.dnf_hazard import DNFHazardModel
 from src.simulation.monte_carlo import MonteCarloSimulator
 from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.driver_mapping import filter_competing_drivers, normalize_driver_series
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("pipeline")
+
+
+def _format_optional_metric(value: Any, precision: int = 3) -> str:
+    """Format a report metric without turning unavailable values into numbers."""
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return "N/A"
+    if not np.isfinite(numeric):
+        return "N/A"
+    return f"{numeric:.{precision}f}"
 
 
 class RacePredictionPipeline:
@@ -62,12 +79,14 @@ class RacePredictionPipeline:
         self.data_loader = DataLoader(self.data_dir)
         self.data_validator = DataValidator()
         self.feature_engineer = FeatureEngineer(
-            ewma_alpha=self.model_config.get("feature_engineering", {}).get("ewma_alpha", 0.3)
+            ewma_alpha=self.model_config.get("feature_engineering", {}).get("ewma_alpha", 0.3),
+            capabilities=self.model_config.get("capabilities", {}),
         )
         self.model_trainer = ModelTrainer(self.model_config)
         self.model_evaluator = ModelEvaluator(self.model_config)
         self.predictor = Predictor(self.model_config)
         self.simulator = MonteCarloSimulator(self.model_config)
+        self.dnf_hazard_model: Optional[DNFHazardModel] = None
 
     def run(
         self,
@@ -328,6 +347,28 @@ class RacePredictionPipeline:
             expected_grid_size=expected_grid_size,
         )
 
+        configured_features = list(self.model_config.get("features", []))
+        effective_features = get_effective_feature_columns(configured_features, stage)
+        validate_stage_feature_contract(
+            training_features,
+            stage,
+            effective_features,
+        )
+        validate_stage_feature_contract(
+            target_features,
+            stage,
+            effective_features,
+        )
+        self.model_trainer.feature_cols = effective_features
+        self.model_evaluator.feature_cols = effective_features
+        self.predictor.feature_cols = effective_features
+        logger.info(
+            "Using %d/%d configured model features for stage '%s'.",
+            len(effective_features),
+            len(configured_features),
+            stage,
+        )
+
         # 6. Audit for Data Leakage
         leakage_report = self.data_validator.audit_leakage(
             training_df=training_features,
@@ -486,6 +527,22 @@ class RacePredictionPipeline:
         imputer, rf_model, xgb_model, feature_names = self.model_trainer.fit(training_features)
         ridge_model = getattr(self.model_trainer, "ridge_model", None)
 
+        driver_dnf_probs = None
+        dnf_model_status = "UNAVAILABLE"
+        dnf_validation = {"status": "UNAVAILABLE", "folds": []}
+        try:
+            self.dnf_hazard_model = DNFHazardModel(
+                random_state=self.model_config.get("random_seed", 42)
+            ).fit(training_features)
+            driver_dnf_probs = self.dnf_hazard_model.predict_proba(target_features)
+            dnf_validation = self.dnf_hazard_model.evaluate_chronological(training_features)
+            dnf_model_status = "CALIBRATED_RUNTIME_MODEL"
+        except ValueError as exc:
+            logger.warning(
+                "Driver-specific DNF model unavailable; using validated scalar fallback: %s",
+                exc,
+            )
+
         circuit_type = track_info.get("circuit_type", "permanent")
         w_ml, w_grid = self.predictor.resolve_blending_weights(circuit_type=circuit_type)
 
@@ -509,6 +566,8 @@ class RacePredictionPipeline:
             deterministic_scores=blended_scores,
             residuals=residuals,
             empirical_dnf_rate=empirical_dnf,
+            driver_dnf_probs=driver_dnf_probs,
+            driver_dnf_driver_ids=target_features["Abbreviation"].tolist() if driver_dnf_probs is not None else None,
             circuit_key=track_key,
             n_simulations=n_simulations,
         )
@@ -523,6 +582,8 @@ class RacePredictionPipeline:
         sim_meta["validation_status"] = val_status
         sim_meta["readiness_classification"] = readiness_cls
         sim_meta["validation_method"] = eval_results.get("validation_method", "chronological_walk_forward" if is_oos else "in_sample_training_baseline")
+        sim_meta["dnf_model_status"] = dnf_model_status
+        sim_meta["dnf_validation"] = dnf_validation
         sim_meta["selected_rf_weight"] = selected_rf_weight
         sim_meta["selected_xgb_weight"] = selected_xgb_weight
         sim_meta["selected_ridge_weight"] = selected_ridge_weight
@@ -1160,7 +1221,13 @@ class RacePredictionPipeline:
             ])
 
         for _, row in comp_df.iterrows():
-            lines.append(f"| {row['model_name']} | {row['mae']:.3f} | {row['medae']:.3f} | {row['rmse']:.3f} | {row['spearman']:.3f} |")
+            lines.append(
+                f"| {row['model_name']} | "
+                f"{_format_optional_metric(row.get('mae'))} | "
+                f"{_format_optional_metric(row.get('medae'))} | "
+                f"{_format_optional_metric(row.get('rmse'))} | "
+                f"{_format_optional_metric(row.get('spearman'))} |"
+            )
 
         lines.extend([
             "",
@@ -1181,7 +1248,11 @@ class RacePredictionPipeline:
                 "|:------:|:--------------------:|:-----:|:----------------:|",
             ])
             for _, r in sim_results.head(10).iterrows():
-                lines.append(f"| **{r['Abbreviation']}** | {r.get('RecommendedStrategy', '1-Stop')} | {r.get('OptimalStops', 1)} | {r.get('StrategyDeltaSec', 0.0):.1f}s |")
+                lines.append(
+                    f"| **{r['Abbreviation']}** | {r.get('RecommendedStrategy', '1-Stop')} | "
+                    f"{r.get('OptimalStops', 1)} | "
+                    f"{_format_optional_metric(r.get('StrategyDeltaSec', 0.0), 1)}s |"
+                )
 
         lines.extend([
             "",
@@ -1211,8 +1282,10 @@ class RacePredictionPipeline:
             f"# F1 {year} {title_name} — Race Qualifying Top 3 Prediction",
             f"**Round**: {target_round} | **Stage**: `{stage}` | **Simulations**: 25,000",
             f"**Selected Model**: **60% Random Forest / 40% XGBoost**",
-            f"**Validation**: Chronological Walk-Forward (Rounds 4–{target_round-1}) | **MAE**: {mae:.4f} | **Spearman**: {spearman:.4f}",
-            f"**Residual Pace σ**: {sigma:.4f}",
+            f"**Validation**: Chronological Walk-Forward (Rounds 4–{target_round-1}) | "
+            f"**MAE**: {_format_optional_metric(mae, 4)} | "
+            f"**Spearman**: {_format_optional_metric(spearman, 4)}",
+            f"**Residual Pace σ**: {_format_optional_metric(sigma, 4)}",
             "",
             "## Race Qualifying — Predicted Top 3",
             "",

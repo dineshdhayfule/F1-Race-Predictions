@@ -18,7 +18,7 @@ from sklearn.preprocessing import StandardScaler
 import xgboost as xgb
 
 from src.features.build_features import apply_stage_feature_mask
-from src.models.train import create_feature_imputer
+from src.models.train import create_feature_imputer, prepare_pace_training_rows
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("model_evaluate")
@@ -160,7 +160,40 @@ class ModelEvaluator:
                 f"No walk-forward validation rounds available ({len(rounds)} completed rounds <= min_train_rounds={self.min_train_rounds}). "
                 f"Evaluating in-sample on available training data."
             )
-            train_copy = training_df.copy()
+            train_copy = prepare_pace_training_rows(training_df.copy())
+            if train_copy.empty:
+                return {
+                    "validation_rounds": [],
+                    "requested_rounds": [],
+                    "is_out_of_sample": False,
+                    "validation_status": "BLOCKED",
+                    "validation_method": "none",
+                    "sample_count": 0,
+                    "failed_folds": [],
+                    "completed_folds": [],
+                    "diagnostic_message": "No classified-finisher rows are eligible for pace regression.",
+                    "ensemble_comparisons": [],
+                    "best_w_rf": 0.60,
+                    "best_w_xgb": 0.40,
+                    "best_w_ridge": 0.0,
+                    "best_model_name": "Unavailable",
+                    "best_mae": None,
+                    "selected_residuals": np.array([]),
+                    "rf_residuals": np.array([]),
+                    "xgb_residuals": np.array([]),
+                    "ridge_residuals": np.array([]),
+                    "multi_residuals": np.array([]),
+                    "rf_mae": None,
+                    "xgb_mae": None,
+                    "ridge_mae": None,
+                    "multi_mae": None,
+                    "custom_mae": None,
+                    "custom_residuals": None,
+                    "empirical_dnf_rate": 0.158,
+                    "grid_positions": np.array([]),
+                    "round_predictions": {},
+                    "actuals": np.array([]),
+                }
             if stage:
                 train_copy = apply_stage_feature_mask(train_copy, stage)
             for col in self.feature_cols:
@@ -345,8 +378,8 @@ class ModelEvaluator:
         completed_folds = []
 
         for r in val_rounds:
-            train = training_df[training_df["Round"] < r].copy()
-            test = training_df[training_df["Round"] == r].copy()
+            train = prepare_pace_training_rows(training_df[training_df["Round"] < r].copy())
+            test = prepare_pace_training_rows(training_df[training_df["Round"] == r].copy())
 
             if "ActualFinish" in train.columns:
                 train = train.dropna(subset=["ActualFinish"])

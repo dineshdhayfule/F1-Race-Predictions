@@ -20,6 +20,18 @@ from src.utils.logging_utils import get_logger
 logger = get_logger("model_train")
 
 
+def prepare_pace_training_rows(training_df: pd.DataFrame) -> pd.DataFrame:
+    """Return rows eligible for pace regression under the explicit status policy.
+
+    Real feature-engineered data carries ``PaceEligible`` derived from the
+    canonical race status classifier.  Legacy callers without that metadata
+    retain the historical behavior for compatibility.
+    """
+    if "PaceEligible" not in training_df.columns:
+        return training_df
+    return training_df[training_df["PaceEligible"].eq(1)].copy()
+
+
 def create_feature_imputer(strategy: str = "median") -> SimpleImputer:
     """
     Creates a SimpleImputer configured to retain empty (all-NaN) feature columns,
@@ -82,6 +94,10 @@ class ModelTrainer:
         """
         if "ActualFinish" not in training_df.columns:
             raise ValueError("Training DataFrame must contain 'ActualFinish' target column.")
+
+        training_df = prepare_pace_training_rows(training_df)
+        if training_df.empty:
+            raise ValueError("No classified-finisher rows are eligible for pace regression.")
 
         # Ensure all required feature columns exist, filling missing with NaN for imputer
         for col in self.feature_cols:

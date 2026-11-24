@@ -3,9 +3,15 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from src.data.session_validation import validate_session_dataframe
-from src.features.build_features import apply_stage_feature_mask
+from src.data.data_validator import DataValidator
+from src.features.build_features import (
+    FeatureEngineer,
+    apply_stage_feature_mask,
+    get_effective_feature_columns,
+)
 from src.models.train import create_feature_imputer
 from src.models.train import ModelTrainer
 from src.models.predict import Predictor
@@ -53,6 +59,57 @@ def test_stage_feature_mask_pre_fp1():
     assert np.isnan(masked["GridPosition"].iloc[0])
 
 
+def test_effective_features_follow_stage_cutoffs_without_mutating_config():
+    config = _load_config()
+    configured = list(config["features"])
+
+    pre_fp1 = get_effective_feature_columns(configured, "pre_fp1")
+    after_fp1 = get_effective_feature_columns(configured, "after_fp1")
+    after_qualifying = get_effective_feature_columns(configured, "after_qualifying")
+
+    assert "GridPosition" not in pre_fp1
+    assert "QualifyingPosition" not in pre_fp1
+    assert "fp1_gap_pct" not in pre_fp1
+    assert "fp1_gap_pct" in after_fp1
+    assert "GridPosition" not in after_fp1
+    assert after_qualifying == configured
+    assert config["features"] == configured
+
+
+def test_pre_fp1_training_masks_same_weekend_information():
+    races = pd.DataFrame([
+        {
+            "Round": 1, "Abbreviation": "VER", "TeamName": "A",
+            "GridPosition": 1, "Position": 1, "ActualFinish": 1,
+            "Status": "Finished", "Race": "Test GP", "Points": 25,
+        },
+        {
+            "Round": 1, "Abbreviation": "HAM", "TeamName": "B",
+            "GridPosition": 2, "Position": 2, "ActualFinish": 2,
+            "Status": "Finished", "Race": "Test GP", "Points": 18,
+        },
+    ])
+    qualis = races[["Round", "Abbreviation", "TeamName", "Position"]]
+    sessions = {
+        1: {
+            "fp1": pd.DataFrame([
+                {"Abbreviation": "VER", "LapTimeSeconds": 90.0},
+                {"Abbreviation": "HAM", "LapTimeSeconds": 91.0},
+            ])
+        }
+    }
+
+    training = FeatureEngineer(expected_grid_size=2).build_training_dataset(
+        races, qualis, sessions, [1], stage="pre_fp1"
+    )
+
+    for column in [
+        "GridPosition", "QualifyingPosition", "practice_gap_pct",
+        "fp1_gap_pct", "long_run_pace_rank",
+    ]:
+        assert training[column].isna().all(), column
+
+
 def test_stage_feature_mask_practice_cutoffs():
     config = _load_config()
     df = pd.DataFrame([{c: 1.0 for c in config["features"]}])
@@ -74,6 +131,33 @@ def test_after_qualifying_reveals_grid_features():
     assert not np.isnan(masked["QualifyingPosition"].iloc[0])
     assert not np.isnan(masked["GridPosition"].iloc[0])
     assert not np.isnan(masked["is_pit_lane_start"].iloc[0])
+
+
+def test_supported_stage_contracts_reject_unknown_model_features():
+    from src.features.build_features import SUPPORTED_FEATURE_STAGES, validate_stage_feature_contract
+
+    config = _load_config()
+    assert set(SUPPORTED_FEATURE_STAGES) == {
+        "pre_fp1", "after_fp1", "after_sprint_qualifying", "after_sprint_race",
+        "after_sprint", "after_fp2", "after_fp3", "after_qualifying",
+        "before_race", "post_race",
+    }
+    with pytest.raises(ValueError, match="Unknown model features"):
+        validate_stage_feature_contract(pd.DataFrame(), "after_qualifying", config["features"] + ["future_lap_feature"])
+
+
+def test_stage_contract_rejects_target_outcomes_before_post_race():
+    from src.features.build_features import validate_stage_feature_contract
+
+    with pytest.raises(ValueError, match="outcome features"):
+        validate_stage_feature_contract(pd.DataFrame(), "before_race", ["ActualFinish"])
+
+
+def test_leakage_validator_rejects_post_race_aliases():
+    target = pd.DataFrame({"fastest_lap_time": [90.0], "total_laps_completed": [50]})
+    valid, errors = DataValidator.validate_leakage(target, stage="before_race")
+    assert not valid
+    assert len(errors) == 2
 
 
 def test_all_nan_feature_is_imputed_without_crashing():

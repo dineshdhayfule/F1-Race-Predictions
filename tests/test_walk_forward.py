@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 
 from src.models.evaluate import ModelEvaluator
+from src.models.train import ModelTrainer, prepare_pace_training_rows
 
 
 def _config(features):
@@ -100,3 +101,15 @@ def test_grid_blend_sweep_with_empty_actuals_returns_empty_dict():
     evaluator = ModelEvaluator(_config(["f"]))
     sweep = evaluator.evaluate_grid_blend_sweep(df)
     assert sweep == {}
+
+
+def test_pace_training_excludes_non_finished_status_rows():
+    config = {"features": ["f"], "models": {}, "random_seed": 42}
+    df = pd.DataFrame([
+        {"ActualFinish": 1, "PaceEligible": 1, "f": 1.0},
+        {"ActualFinish": 2, "PaceEligible": 0, "f": 2.0},
+        {"ActualFinish": 3, "PaceEligible": 0, "f": 3.0},
+    ])
+    assert len(prepare_pace_training_rows(df)) == 1
+    _, rf, _, _ = ModelTrainer(config).fit(df)
+    assert rf.n_features_in_ == 1

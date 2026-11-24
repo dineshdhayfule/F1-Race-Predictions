@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 from src.simulation.monte_carlo import MonteCarloSimulator
 
@@ -83,3 +84,32 @@ def test_residual_sigma_floor():
 
 def test_dnf_fallback_probability_is_configured():
     assert _config()["monte_carlo"]["fallback_dnf_prob"] == 0.158
+
+
+def test_driver_specific_dnf_probabilities_are_reported():
+    simulator = MonteCarloSimulator(_config())
+    target = _target().iloc[:2].copy()
+    result, _ = simulator.simulate(
+        target,
+        np.array([1.0, 2.0]),
+        driver_dnf_probs=np.array([0.0, 1.0]),
+        driver_dnf_driver_ids=target["Abbreviation"].tolist(),
+        n_simulations=500,
+    )
+    assert result.loc[result["Abbreviation"] == "D1", "DNFProbability"].iloc[0] == 0.0
+    assert result.loc[result["Abbreviation"] == "D2", "DNFProbability"].iloc[0] == 100.0
+
+
+def test_driver_specific_dnf_probability_alignment_is_validated():
+    simulator = MonteCarloSimulator(_config())
+    target = _target().iloc[:2].copy()
+    with pytest.raises(ValueError, match="one-dimensional vector"):
+        simulator.simulate(target, np.array([1.0, 2.0]), driver_dnf_probs=np.array([0.5]), n_simulations=10)
+    with pytest.raises(ValueError, match="ordering"):
+        simulator.simulate(
+            target,
+            np.array([1.0, 2.0]),
+            driver_dnf_probs=np.array([0.5, 0.5]),
+            driver_dnf_driver_ids=["D2", "D1"],
+            n_simulations=10,
+        )

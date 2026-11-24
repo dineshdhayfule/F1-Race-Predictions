@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from src.features.grid_conversion import convert_grid_position_to_race_position
+from src.features.grid_conversion import compute_grid_conversion_map
 from src.features.grid_features import apply_grid_penalties
 from src.features.season_features import classify_race_status, is_dnf, is_classified_finish
 from src.simulation.monte_carlo import MonteCarloSimulator
@@ -22,7 +22,7 @@ def test_retired_status_is_dnf_but_not_classified():
 def test_dns_status_is_not_finish():
     assert classify_race_status("Did not start") == "DNS"
     assert is_classified_finish("Did not start") is False
-    assert is_dnf("Did not start") is True
+    assert is_dnf("Did not start") is False
 
 
 def test_dsq_status_is_not_finish():
@@ -35,21 +35,20 @@ def test_nc_status_is_not_finish():
     assert is_classified_finish("Not classified") is False
 
 
-def test_grid_conversion_maps_finished_and_dnf():
+def test_grid_conversion_maps_classified_finishes_and_excludes_dnfs():
     df = pd.DataFrame([
-        {"Abbreviation": "VER", "GridPosition": 1, "Status": "Finished"},
-        {"Abbreviation": "NOR", "GridPosition": 2, "Status": "Retired"},
+        {"Abbreviation": "VER", "GridPosition": 1, "Position": 1, "Status": "Finished"},
+        {"Abbreviation": "NOR", "GridPosition": 2, "Position": 2, "Status": "Retired"},
     ])
-    converted = convert_grid_position_to_race_position(df)
-    assert "ActualFinish" in converted.columns
-    assert pd.notna(converted.loc[0, "ActualFinish"])
-    assert pd.isna(converted.loc[1, "ActualFinish"])
+    converted = compute_grid_conversion_map(df, expected_grid_size=2)
+    assert converted[1]["expected_grid_finish"] == 1.0
+    assert converted[2]["expected_grid_finish"] == 1.714
 
 
 def test_missing_status_uses_safe_fallback():
-    df = pd.DataFrame([{"Abbreviation": "VER", "GridPosition": 1}])
-    converted = convert_grid_position_to_race_position(df)
-    assert "ActualFinish" in converted.columns
+    df = pd.DataFrame([{"Abbreviation": "VER", "GridPosition": 1, "Position": 1}])
+    converted = compute_grid_conversion_map(df, expected_grid_size=2)
+    assert set(converted[1]) == {"expected_grid_finish", "grid_retention_prob"}
 
 
 def test_penalty_shifts_qualifying_grid_position():
@@ -58,9 +57,14 @@ def test_penalty_shifts_qualifying_grid_position():
         "TeamName": "Red Bull",
         "QualifyingPosition": 1,
         "GridPosition": 1,
+    }, {
+        "Abbreviation": "NOR",
+        "TeamName": "McLaren",
+        "QualifyingPosition": 2,
+        "GridPosition": 2,
     }])
-    result = apply_grid_penalties(df, {"VER": 5})
-    assert float(result["ActualStartingGrid"].iloc[0]) == 6
+    result = apply_grid_penalties(df, {"VER": 1}, expected_grid_size=2)
+    assert float(result.loc[result["Abbreviation"] == "VER", "ActualStartingGrid"].iloc[0]) == 2
 
 
 def test_pit_lane_start_does_not_replace_physical_grid():
@@ -69,10 +73,15 @@ def test_pit_lane_start_does_not_replace_physical_grid():
         "TeamName": "McLaren",
         "QualifyingPosition": 3,
         "GridPosition": 3,
-        "StartingGridStatus": "PIT_LANE",
+        "is_pit_lane_start": 1,
+    }, {
+        "Abbreviation": "VER",
+        "TeamName": "Red Bull",
+        "QualifyingPosition": 1,
+        "GridPosition": 1,
     }])
-    result = apply_grid_penalties(df, {})
-    assert int(result["is_pit_lane_start"].iloc[0]) == 1
+    result = apply_grid_penalties(df, {}, expected_grid_size=2)
+    assert int(result.loc[result["Abbreviation"] == "NOR", "is_pit_lane_start"].iloc[0]) == 1
 
 
 def test_duplicate_grid_positions_are_rejected():

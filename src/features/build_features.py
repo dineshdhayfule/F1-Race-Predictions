@@ -11,7 +11,7 @@ import pandas as pd
 
 from src.features.grid_features import apply_grid_penalties, resolve_fia_starting_grid
 from src.features.grid_conversion import compute_grid_conversion_map, get_conversion_features_for_grid
-from src.features.season_features import build_season_form
+from src.features.season_features import build_season_form, classify_race_status
 from src.features.weekend_features import (
     build_practice_features,
     build_qualifying_features,
@@ -24,7 +24,7 @@ from src.features.teammate_features import (
     compute_rolling_teammate_h2h,
 )
 from src.features.race_pace import build_race_pace_features
-from src.features.tire_degradation import build_tire_degradation_features
+from src.features.tire_degradation import build_tire_degradation_features, TIRE_FEATURE_COLUMNS
 from src.simulation.strategy_simulator import build_pit_strategy_features
 from src.simulation.race_control_model import build_race_control_features
 from src.features.weather_features import build_weather_features
@@ -33,6 +33,26 @@ from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.logging_utils import get_logger
 
 logger = get_logger("build_features")
+
+
+def _ensure_driver_feature_schema(
+    features: pd.DataFrame,
+    subsystem: str,
+    columns: Optional[List[str]] = None,
+    warn_on_missing: bool = True,
+) -> pd.DataFrame:
+    """Keep optional subsystem frames indexable when observations are absent."""
+    if features is None or features.empty:
+        return pd.DataFrame(columns=columns or ["Abbreviation"])
+    if "Abbreviation" not in features.columns:
+        if warn_on_missing:
+            logger.warning(
+                "%s produced features without an Abbreviation column; "
+                "using per-driver fallback values.",
+                subsystem,
+            )
+        return pd.DataFrame(columns=columns or ["Abbreviation"])
+    return features
 
 STAGE_UNAVAILABLE_FEATURES: Dict[str, List[str]] = {
     "pre_fp1": [
@@ -158,6 +178,106 @@ _STAGE_ALLOWED_WEEKEND_SESSIONS: Dict[str, set] = {
     "after_sprint": {"fp1", "sprint_qualifying", "sprint_race"},
 }
 _PRE_QUALIFYING_STAGES = set(_STAGE_ALLOWED_WEEKEND_SESSIONS.keys())
+SUPPORTED_FEATURE_STAGES = {
+    "pre_fp1",
+    "after_fp1",
+    "after_sprint_qualifying",
+    "after_sprint_race",
+    "after_sprint",
+    "after_fp2",
+    "after_fp3",
+    "after_qualifying",
+    "before_race",
+    "post_race",
+}
+
+# Columns that are valid model inputs but represent the current target weekend
+# rather than historical outcomes.  Historical form features remain available at
+# every stage because they are computed strictly from prior rounds.
+_TARGET_OUTCOME_COLUMNS = {
+    "ActualFinish", "Position", "Points", "Status", "RaceStatus",
+    "DNFTarget", "PaceEligible", "Laps", "Time", "ClassifiedPosition",
+}
+
+
+def _known_generated_features() -> set:
+    known_generated = set()
+    for cols in STAGE_UNAVAILABLE_FEATURES.values():
+        known_generated.update(cols)
+    known_generated.update({
+        "GridPosition", "grid_norm", "expected_grid_finish", "grid_retention_prob",
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "practice_gap_pct", "practice_rank",
+        "practice_laps_norm", "fp1_gap_pct", "fp2_gap_pct", "fp3_gap_pct",
+        "driver_finish_ewma", "driver_quali_ewma", "driver_dnf_rate", "recent_finish",
+        "recent_grid", "recent_points", "avg_finish", "avg_grid", "total_points",
+        "races_completed", "team_finish_ewma", "team_points_rate", "team_avg_finish",
+        "team_points", "sprint_finish_pos", "sprint_pos_delta", "driver_teammate_h2h_ratio",
+    })
+    return known_generated
+
+
+def get_effective_feature_columns(
+    feature_cols: List[str],
+    stage: Optional[str],
+) -> List[str]:
+    """Return configured features available at a prediction-stage cutoff."""
+    stage_clean = str(stage or "after_qualifying").lower().strip()
+    if stage_clean == "after_sprint":
+        stage_clean = "after_sprint_race"
+    if stage_clean not in SUPPORTED_FEATURE_STAGES:
+        raise ValueError(f"Unsupported prediction stage '{stage}'.")
+
+    configured = list(dict.fromkeys(feature_cols))
+    unknown = set(configured) - _known_generated_features()
+    if unknown:
+        raise ValueError(
+            f"Unknown model features for stage contract '{stage_clean}': {sorted(unknown)}"
+        )
+
+    leaked = set(configured) & _TARGET_OUTCOME_COLUMNS
+    if stage_clean != "post_race" and leaked:
+        raise ValueError(
+            f"Target-race outcome features are forbidden before post_race: {sorted(leaked)}"
+        )
+
+    unavailable = set(STAGE_UNAVAILABLE_FEATURES.get(stage_clean, []))
+    return [col for col in configured if col not in unavailable]
+
+
+def validate_stage_feature_contract(
+    df: pd.DataFrame,
+    stage: Optional[str],
+    feature_cols: List[str],
+) -> None:
+    """Validate configured model inputs against the supported stage contract."""
+    stage_clean = str(stage or "after_qualifying").lower().strip()
+    if stage_clean == "after_sprint":
+        stage_clean = "after_sprint_race"
+    if stage_clean not in SUPPORTED_FEATURE_STAGES:
+        raise ValueError(f"Unsupported prediction stage '{stage}'.")
+
+    configured = set(feature_cols)
+    if stage_clean != "post_race":
+        leaked = configured & _TARGET_OUTCOME_COLUMNS
+        if leaked:
+            raise ValueError(
+                f"Target-race outcome features are forbidden before post_race: {sorted(leaked)}"
+            )
+
+    known_generated = _known_generated_features()
+    unknown = configured - known_generated
+    if unknown:
+        raise ValueError(
+            f"Unknown model features for stage contract '{stage_clean}': {sorted(unknown)}"
+        )
+
+    unavailable = set(STAGE_UNAVAILABLE_FEATURES.get(stage_clean, []))
+    invalid = configured & unavailable
+    if invalid:
+        raise ValueError(
+            f"Features unavailable at stage '{stage_clean}': {sorted(invalid)}"
+        )
 
 
 def apply_stage_feature_mask(df: pd.DataFrame, stage: Optional[str]) -> pd.DataFrame:
@@ -179,9 +299,18 @@ def apply_stage_feature_mask(df: pd.DataFrame, stage: Optional[str]) -> pd.DataF
 class FeatureEngineer:
     """Unified feature engineering engine for Formula 1 race prediction."""
 
-    def __init__(self, ewma_alpha: float = 0.3, expected_grid_size: int = 22):
+    def __init__(
+        self,
+        ewma_alpha: float = 0.3,
+        expected_grid_size: int = 22,
+        capabilities: Optional[Dict[str, bool]] = None,
+    ):
         self.ewma_alpha = ewma_alpha
         self.expected_grid_size = expected_grid_size
+        caps = capabilities or {}
+        self.enable_tire_degradation = caps.get("tire_degradation_modeling", True)
+        self.enable_pit_strategy = caps.get("pit_strategy_simulator", True)
+        self.enable_weather = caps.get("weather_aware_prediction", True)
 
     def build_training_dataset(
         self,
@@ -279,11 +408,18 @@ class FeatureEngineer:
             circuit_raw = str(race.iloc[0].get("Race", race.iloc[0].get("EventName", f"round_{r}")))
             circuit_key = resolve_circuit_key(circuit_raw) or circuit_raw.lower().replace(" ", "_")
             team_map = race.set_index("Abbreviation")["TeamName"].to_dict() if "TeamName" in race.columns else {}
-            td_feats = build_tire_degradation_features(
-                weekend_sessions,
-                drivers,
-                circuit_key=circuit_key,
-                team_map=team_map,
+            td_feats = (
+                build_tire_degradation_features(
+                    weekend_sessions,
+                    drivers,
+                    circuit_key=circuit_key,
+                    team_map=team_map,
+                )
+                if self.enable_tire_degradation
+                else pd.DataFrame(columns=TIRE_FEATURE_COLUMNS)
+            )
+            td_feats = _ensure_driver_feature_schema(
+                td_feats, "Tyre degradation", columns=TIRE_FEATURE_COLUMNS
             )
 
             # Capability 4: Race Control Probabilities
@@ -293,11 +429,18 @@ class FeatureEngineer:
             )
 
             # Capability 5: Weather Features
-            w_feats = build_weather_features(
-                drivers=drivers,
-                circuit_key=circuit_key,
-                stage=stage or "after_qualifying",
+            w_feats = (
+                build_weather_features(
+                    drivers=drivers,
+                    circuit_key=circuit_key,
+                    stage=stage or "after_qualifying",
+                )
+                if self.enable_weather
+                else pd.DataFrame()
             )
+            rp_feats = _ensure_driver_feature_schema(rp_feats, "Race pace")
+            rc_feats = _ensure_driver_feature_schema(rc_feats, "Race control")
+            w_feats = _ensure_driver_feature_schema(w_feats, "Weather")
 
             for _, rr in race.iterrows():
                 drv = rr["Abbreviation"]
@@ -356,6 +499,12 @@ class FeatureEngineer:
                 conv_feat = get_conversion_features_for_grid(effective_grid, grid_conv_map, expected_grid_size=self.expected_grid_size)
 
                 finish = pd.to_numeric(rr.get("Position"), errors="coerce")
+                race_status = classify_race_status(rr.get("Status"))
+                dnf_target = (
+                    1 if race_status == "RETIRED"
+                    else 0 if race_status == "FINISHED"
+                    else np.nan
+                )
                 q_pos_val = float(q_dict.get("QualifyingPosition", effective_grid))
 
                 rows.append({
@@ -364,6 +513,9 @@ class FeatureEngineer:
                     "Abbreviation": drv,
                     "TeamName": team,
                     "ActualFinish": finish,
+                    "RaceStatus": race_status,
+                    "DNFTarget": dnf_target,
+                    "PaceEligible": int(race_status == "FINISHED"),
 
                     "GridPosition": float(effective_grid),
                     "ActualStartingGrid": actual_grid,
@@ -632,11 +784,17 @@ class FeatureEngineer:
         canonical_key = resolve_circuit_key(track_key) or resolve_circuit_key(track_name) or str(track_name).lower().replace(" ", "_")
 
         # Capability 2: Tire Degradation Modeling
-        td_feats = build_tire_degradation_features(
-            filtered_sessions,
-            drivers,
-            circuit_key=canonical_key,
-            team_map=team_map,
+        td_feats = (
+            build_tire_degradation_features(
+                filtered_sessions,
+                drivers,
+                circuit_key=canonical_key,
+            )
+            if self.enable_tire_degradation
+            else pd.DataFrame(columns=TIRE_FEATURE_COLUMNS)
+        )
+        td_feats = _ensure_driver_feature_schema(
+            td_feats, "Tyre degradation", columns=TIRE_FEATURE_COLUMNS
         )
 
         # Capability 4: Race Control Probabilities
@@ -646,11 +804,18 @@ class FeatureEngineer:
         )
 
         # Capability 5: Weather Features
-        w_feats = build_weather_features(
-            drivers=drivers,
-            circuit_key=canonical_key,
-            stage=stage,
+        w_feats = (
+            build_weather_features(
+                drivers=drivers,
+                circuit_key=canonical_key,
+                stage=stage,
+            )
+            if self.enable_weather
+            else pd.DataFrame()
         )
+        rp_feats = _ensure_driver_feature_schema(rp_feats, "Race pace")
+        rc_feats = _ensure_driver_feature_schema(rc_feats, "Race control")
+        w_feats = _ensure_driver_feature_schema(w_feats, "Weather")
 
         rows = []
         for drv in drivers:
@@ -812,9 +977,13 @@ class FeatureEngineer:
 
         # Capability 3: Grid Strategy Simulation
         try:
-            strat_df = build_pit_strategy_features(
-                target_df=target_df,
-                circuit_key=canonical_key,
+            strat_df = (
+                build_pit_strategy_features(
+                    target_df=target_df,
+                    circuit_key=canonical_key,
+                )
+                if self.enable_pit_strategy
+                else pd.DataFrame()
             )
             if not strat_df.empty:
                 for col in ["optimal_strategy_stops", "strategy_time_loss_sec", "recommended_strategy", "alternative_strategy", "strategy_delta_seconds", "strategy_confidence"]:
