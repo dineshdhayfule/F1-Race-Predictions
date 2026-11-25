@@ -261,6 +261,7 @@ class PitStrategySimulator:
 
         base_nominal_pace = 85.0  # seconds
 
+        driver_candidates = []
         for _, row in target_df.iterrows():
             drv = row["Abbreviation"]
             # Extract driver-specific compound degradation if available
@@ -282,7 +283,17 @@ class PitStrategySimulator:
                 driver_deg_rates=d_deg,
                 is_wet=is_wet,
             )
+            driver_candidates.append((drv, strategies, conf))
 
+        # Determine fastest optimal strategy baseline across all evaluated drivers
+        valid_optimal_times = [
+            strats[0]["total_time_seconds"]
+            for _, strats, _ in driver_candidates
+            if strats
+        ]
+        min_optimal_time = min(valid_optimal_times) if valid_optimal_times else 0.0
+
+        for drv, strategies, conf in driver_candidates:
             if strategies:
                 optimal = strategies[0]
                 alt = strategies[1] if len(strategies) > 1 else strategies[0]
@@ -290,16 +301,19 @@ class PitStrategySimulator:
                 best_stop_count = float(optimal["stop_count"])
                 rec_name = optimal["strategy_name"]
                 alt_name = alt["strategy_name"]
+                # Deficit of this driver's optimal strategy relative to the best optimal race strategy on grid
+                strat_loss_sec = round(max(0.0, float(optimal["total_time_seconds"] - min_optimal_time)), 2)
             else:
                 best_stop_count = 1.0
                 delta_sec = 5.0
                 rec_name = "1-Stop (M-H)"
                 alt_name = "2-Stop (S-M-H)"
+                strat_loss_sec = 0.0
 
             results.append({
                 "Abbreviation": drv,
                 "optimal_strategy_stops": best_stop_count,
-                "strategy_time_loss_sec": delta_sec,
+                "strategy_time_loss_sec": strat_loss_sec,
                 "recommended_strategy": rec_name,
                 "alternative_strategy": alt_name,
                 "strategy_delta_seconds": delta_sec,

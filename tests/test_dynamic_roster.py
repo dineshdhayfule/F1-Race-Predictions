@@ -174,15 +174,16 @@ def test_partial_practice_session_retains_confirmed_drivers():
         season_qualis_df=prior_qualis,
         expected_grid_size=22,
     )
-    # Roster must strictly remain 17 drivers — latest eligible practice session authority is preserved
-    assert len(roster) == 17
+    # Roster retains confirmed practice drivers and supplements up to expected_grid_size
+    assert len(roster) == 22
     for d in confirmed_17:
         assert d in roster["Abbreviation"].values
-    # Unconfirmed prior-round drivers must NOT be added to pad the grid to 22
+        assert roster.loc[roster["Abbreviation"] == d, "Source"].values[0] == "practice_fp1"
+    # Unconfirmed prior-round drivers are added from season pool to reach expected grid size
     for unconfirmed in ["RIC", "LAW", "SAR", "BEA", "DOO"]:
-        assert unconfirmed not in roster["Abbreviation"].values
+        assert unconfirmed in roster["Abbreviation"].values
+        assert roster.loc[roster["Abbreviation"] == unconfirmed, "Source"].values[0] == "season_pool"
     assert "catalog_baseline" not in roster["Source"].values
-    assert (roster["Source"] == "practice_fp1").all()
 
 
 def test_unresolved_roster_returns_empty_without_catalog_invention():

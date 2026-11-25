@@ -144,12 +144,18 @@ class RosterResolver:
             weekend_sessions=weekend_sessions,
             stage=stage_clean,
             year=year,
+            expected_grid_size=expected_grid_size,
         )
         if practice_roster is not None and not practice_roster.empty:
+            if len(practice_roster) >= expected_grid_size:
+                logger.info(
+                    f"Roster resolved from Weekend Practice Sessions ({len(practice_roster)} drivers confirmed)."
+                )
+                return self._finalize_roster(practice_roster, expected_grid_size, year)
             logger.info(
-                f"Roster resolved from Weekend Practice Sessions ({len(practice_roster)} drivers confirmed)."
+                f"Practice sessions yielded incomplete roster ({len(practice_roster)}/{expected_grid_size} drivers). "
+                f"Supplementing with Season Driver Pool..."
             )
-            return self._finalize_roster(practice_roster, expected_grid_size, year)
 
         # -------------------------------------------------------------
         # PRIORITY 4: Season Driver Pool (Repairs previous-race DNS/absences)
@@ -278,8 +284,15 @@ class RosterResolver:
         weekend_sessions: Optional[Dict[str, Optional[pd.DataFrame]]],
         stage: str,
         year: int,
+        expected_grid_size: int = 22,
     ) -> Optional[pd.DataFrame]:
-        """Extracts confirmed active drivers who ran laps in weekend sessions up to stage cutoff."""
+        """
+        Extracts confirmed active drivers who ran laps in weekend sessions up to stage cutoff.
+        Uses the latest session as the authoritative lineup baseline, but recovers regular
+        drivers from earlier practice sessions if a driver missed the latest session (e.g.
+        mechanical fault or crash), while avoiding retention of FP1-only reserve drivers for
+        teams with full 2-car participation in later sessions.
+        """
         if not weekend_sessions:
             return None
 
@@ -296,7 +309,7 @@ class RosterResolver:
         if stage in ["after_sprint_race", "after_qualifying", "post_race"]:
             allowed.append("sprint_race")
 
-        latest_rows = None
+        session_extracted = {}
         for s in allowed:
             sess_df = weekend_sessions.get(s)
             if sess_df is not None and not sess_df.empty:
@@ -307,13 +320,45 @@ class RosterResolver:
                     year=year,
                 )
                 if not extracted.empty:
-                    latest_rows = extracted
+                    session_extracted[s] = extracted
 
-        if latest_rows is None:
+        if not session_extracted:
             return None
 
-        # A later session is the authoritative lineup for the current stage.
-        # Earlier sessions may contain reserve drivers who only participated in FP1.
+        # Find the most recent non-empty session as authoritative baseline
+        latest_session_key = None
+        for s in reversed(allowed):
+            if s in session_extracted:
+                latest_session_key = s
+                break
+
+        latest_rows = session_extracted[latest_session_key].copy()
+
+        # If the latest session is missing drivers (< expected_grid_size),
+        # inspect earlier sessions in reverse order to recover regular drivers for teams
+        # that have fewer than 2 cars in the latest session.
+        if len(latest_rows) < expected_grid_size:
+            team_counts = latest_rows["TeamName"].value_counts().to_dict()
+            current_drivers = set(latest_rows["Abbreviation"].unique())
+
+            for s in reversed(allowed):
+                if s == latest_session_key or s not in session_extracted:
+                    continue
+                earlier_df = session_extracted[s]
+                for _, erow in earlier_df.iterrows():
+                    team = erow["TeamName"]
+                    drv = erow["Abbreviation"]
+                    if drv not in current_drivers and team_counts.get(team, 0) < 2:
+                        erow_dict = erow.to_dict()
+                        erow_dict["Confidence"] = "recovered_practice"
+                        latest_rows = pd.concat([latest_rows, pd.DataFrame([erow_dict])], ignore_index=True)
+                        current_drivers.add(drv)
+                        team_counts[team] = team_counts.get(team, 0) + 1
+                        if len(latest_rows) >= expected_grid_size:
+                            break
+                if len(latest_rows) >= expected_grid_size:
+                    break
+
         return latest_rows.reset_index(drop=True)
 
     def _build_from_season_pool(

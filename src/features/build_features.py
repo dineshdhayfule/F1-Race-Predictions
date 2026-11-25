@@ -993,6 +993,15 @@ class FeatureEngineer:
         except Exception as e:
             logger.warning(f"Error simulating pit stop strategy features: {e}")
 
+        # Attach legitimate pre-qualifying provisional grid predictions for downstream blending
+        # (Preserves strict temporal stage mask on official GridPosition and QualifyingPosition)
+        stage_clean = str(stage).lower().strip() if stage else ""
+        if stage_clean in _PRE_QUALIFYING_STAGES and quali_df is not None and not quali_df.empty:
+            pos_col = "Position" if "Position" in quali_df.columns else "QualifyingPosition"
+            if pos_col in quali_df.columns:
+                q_map = dict(zip(quali_df["Abbreviation"], pd.to_numeric(quali_df[pos_col], errors="coerce")))
+                target_df["provisional_grid_position"] = target_df["Abbreviation"].map(q_map)
+
         if "ActualFinish" in target_df.columns:
             raise AssertionError("LEAKAGE DETECTED: ActualFinish found in target dataset!")
 

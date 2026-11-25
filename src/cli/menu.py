@@ -70,6 +70,91 @@ ROOT = Path(__file__).resolve().parents[2]
 logger = get_logger("menu")
 
 
+def format_grid_display(
+    grid_raw: Any = None,
+    prov_raw: Any = None,
+    raw_pit: Any = 0,
+) -> str:
+    """
+    Formats the grid position display string with strict priority:
+    1) Valid pit lane start -> 'PL'
+    2) Valid official ActualStartingGrid -> 'P<number>'
+    3) Valid provisional_grid_position -> '~P<number>'
+    4) Neither -> '-'
+    """
+    is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
+    if is_pit:
+        return "PL"
+    if pd.notna(grid_raw):
+        try:
+            return f"P{int(round(float(grid_raw)))}"
+        except (ValueError, TypeError):
+            s = str(grid_raw).strip()
+            return s if s.startswith("P") else f"P{s}"
+    if pd.notna(prov_raw):
+        try:
+            return f"~P{int(round(float(prov_raw)))}"
+        except (ValueError, TypeError):
+            s = str(prov_raw).strip()
+            return s if s.startswith("~P") else f"~P{s}"
+    return "-"
+
+
+def select_probability_podium(df: pd.DataFrame) -> List[Dict[str, Any]]:
+    """
+    Selects top 3 drivers for podium display based strictly on:
+    1. Win probability descending (WinProbability)
+    2. Podium probability descending (Top3Probability)
+    3. Expected finish ascending (ExpectedFinish) as tie-breaker
+
+    Preserves the caller's DataFrame without mutation or reordering.
+    Safely handles missing probability columns, NaNs, empty inputs, or < 3 drivers.
+    """
+    if df is None or len(df) == 0:
+        return []
+
+    # Create an explicit shallow copy to prevent mutating the original DataFrame
+    working_df = df.copy()
+
+    win_col = "WinProbability" if "WinProbability" in working_df.columns else None
+    pod_col = "Top3Probability" if "Top3Probability" in working_df.columns else None
+    exp_col = "ExpectedFinish" if "ExpectedFinish" in working_df.columns else None
+
+    sort_cols = []
+    ascending_flags = []
+
+    if win_col:
+        working_df["_sort_win"] = working_df[win_col].fillna(0.0)
+        sort_cols.append("_sort_win")
+        ascending_flags.append(False)
+
+    if pod_col:
+        working_df["_sort_pod"] = working_df[pod_col].fillna(0.0)
+        sort_cols.append("_sort_pod")
+        ascending_flags.append(False)
+
+    if exp_col:
+        working_df["_sort_exp"] = working_df[exp_col].fillna(999.0)
+        sort_cols.append("_sort_exp")
+        ascending_flags.append(True)
+
+    if sort_cols:
+        sorted_df = working_df.sort_values(by=sort_cols, ascending=ascending_flags)
+    else:
+        sorted_df = working_df
+
+    top3 = sorted_df.head(3)
+    results = []
+    for _, row in top3.iterrows():
+        r_dict = row.to_dict()
+        r_dict.pop("_sort_win", None)
+        r_dict.pop("_sort_pod", None)
+        r_dict.pop("_sort_exp", None)
+        results.append(r_dict)
+
+    return results
+
+
 def prompt_custom_weights_only() -> Tuple[Optional[str], Optional[float], Optional[float]]:
     """Prompt for custom RF and XGBoost weights with validation and confirmation."""
     while True:
@@ -897,10 +982,13 @@ class InteractiveMenu:
 
         # Podium showcase
         if len(df) >= 3 and top_n >= 3:
-            p1_dict = df.iloc[0].to_dict()
-            p2_dict = df.iloc[1].to_dict()
-            p3_dict = df.iloc[2].to_dict()
-            print_podium(p1_dict, p2_dict, p3_dict)
+            podium_drivers = select_probability_podium(df)
+            p1_dict = podium_drivers[0] if len(podium_drivers) > 0 else df.iloc[0].to_dict()
+            p2_dict = podium_drivers[1] if len(podium_drivers) > 1 else df.iloc[1].to_dict()
+            p3_dict = podium_drivers[2] if len(podium_drivers) > 2 else df.iloc[2].to_dict()
+            print(f" {Colors.BOLD}{Colors.YELLOW}★ MOST LIKELY PODIUM (Probability-Based){Colors.RESET}")
+            print(f" {Colors.DIM}Banner: Top 3 by Win% & Podium% | Table below: Ordered by Expected Finish{Colors.RESET}\n")
+            print_podium(p1_dict, p2_dict, p3_dict, title="")
 
         sub_df = df.iloc[:top_n]
         headers = ["Pos", "Driver", "Team", "Grid", "ExpFinish", "Win%", "Podium%", "Points%", "Range"]
@@ -910,14 +998,9 @@ class InteractiveMenu:
             drv = r["Abbreviation"]
             team = r["TeamName"][:20]
             grid_raw = r.get("ActualStartingGrid")
+            prov_raw = r.get("provisional_grid_position")
             raw_pit = r.get("is_pit_lane_start", 0)
-            is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
-            if is_pit:
-                grid = "PL"
-            elif pd.notna(grid_raw):
-                grid = str(int(round(float(grid_raw))))
-            else:
-                grid = "-"
+            grid = format_grid_display(grid_raw, prov_raw, raw_pit)
             exp = f"{r['ExpectedFinish']:.2f}"
             win = render_probability_bar(r['WinProbability']) if (HAS_RICH and _supports_color()) else f"{r['WinProbability']:.1f}%"
             pod = f"{r['Top3Probability']:.1f}%"

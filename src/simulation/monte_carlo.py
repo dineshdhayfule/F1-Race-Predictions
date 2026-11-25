@@ -140,10 +140,11 @@ class MonteCarloSimulator:
         for idx, drv in enumerate(active_df["Abbreviation"]):
             wet_skill_bonuses[idx] = self.weather_model.driver_wet_bonuses.get(str(drv).upper(), 0.0)
 
-        # Vector of strategy time loss deltas
+        # Vector of strategy time loss deltas (converted from seconds to finishing-position score deficit)
         strat_time_loss = np.zeros(n)
         if "strategy_time_loss_sec" in active_df.columns:
-            strat_time_loss = active_df["strategy_time_loss_sec"].fillna(0.0).values * 0.15
+            # Approximate conversion: ~20 seconds strategy race deficit = 1.0 position on finishing score
+            strat_time_loss = np.maximum(0.0, pd.to_numeric(active_df["strategy_time_loss_sec"], errors="coerce").fillna(0.0).values * 0.05)
 
         # Vectorized batch simulation
         for i in range(num_sims):
@@ -165,11 +166,11 @@ class MonteCarloSimulator:
             # Baseline pace noise
             noise = rng.normal(0, iter_sigma, n)
 
-            # Strategy execution noise (pit stop execution variation: +-0.75s);
-            # strategy_time_loss_sec >= 0 represents optimal strategy time saved vs alternative,
-            # so subtracting it reduces (improves) the simulated score/time.
+            # Strategy execution noise (pit stop execution variation: +-0.75s).
+            # A strategy disadvantage (strat_time_loss >= 0) increases (worsens) the simulated finishing score (lower is better).
+            # Zero strategy loss leaves the baseline score unchanged (mean adjustment is 0).
             if self.enable_pit_strategy:
-                strat_noise = rng.normal(0, 0.75, n) - strat_time_loss
+                strat_noise = rng.normal(0, 0.75, n) + strat_time_loss
             else:
                 strat_noise = 0.0
 
@@ -215,6 +216,8 @@ class MonteCarloSimulator:
                 raw_sim = row.get("ActualStartingGrid")
             if pd.isna(raw_sim):
                 raw_sim = row.get("GridPosition")
+            if pd.isna(raw_sim):
+                raw_sim = row.get("provisional_grid_position")
             sim_rank_out = int(round(float(raw_sim))) if pd.notna(raw_sim) else (idx + 1)
 
             raw_pit = row.get("is_pit_lane_start")
@@ -228,6 +231,8 @@ class MonteCarloSimulator:
             grid_pos_out = np.nan if (is_pit == 1 or pd.isna(actual_grid)) else int(round(float(actual_grid)))
             ref_pos = grid_pos_out if pd.notna(grid_pos_out) else sim_rank_out
             delta = int(ref_pos - q_pos_out) if (pd.notna(ref_pos) and pd.notna(q_pos_out)) else 0
+            raw_prov = row.get("provisional_grid_position")
+            prov_pos_out = int(round(float(raw_prov))) if pd.notna(raw_prov) else np.nan
 
             rec_dict = {
                 "Abbreviation": str(row["Abbreviation"]),
@@ -237,6 +242,7 @@ class MonteCarloSimulator:
                 "grid_penalty_places": assessed_penalty,
                 "grid_vs_quali_delta": delta,
                 "ActualStartingGrid": grid_pos_out,
+                "provisional_grid_position": prov_pos_out,
                 "simulation_start_rank": sim_rank_out,
                 "is_pit_lane_start": is_pit,
                 "StartingGridStatus": str(row.get("StartingGridStatus", "CLASSIFIED")),
@@ -299,6 +305,8 @@ class MonteCarloSimulator:
                 ref_pos = grid_pos_out if pd.notna(grid_pos_out) else sim_rank_out
                 delta = int(ref_pos - q_pos_out) if (pd.notna(ref_pos) and pd.notna(q_pos_out)) else 0
                 status_val = str(ex_row.get("StartingGridStatus", "NON_STARTER"))
+                raw_prov = ex_row.get("provisional_grid_position")
+                prov_pos_out = int(round(float(raw_prov))) if pd.notna(raw_prov) else np.nan
 
                 ex_dict = {
                     "Abbreviation": str(ex_row["Abbreviation"]),
@@ -308,6 +316,7 @@ class MonteCarloSimulator:
                     "grid_penalty_places": assessed_penalty,
                     "grid_vs_quali_delta": delta,
                     "ActualStartingGrid": grid_pos_out,
+                    "provisional_grid_position": prov_pos_out,
                     "simulation_start_rank": sim_rank_out,
                     "is_pit_lane_start": is_pit,
                     "StartingGridStatus": status_val,

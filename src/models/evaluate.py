@@ -42,12 +42,23 @@ class ModelEvaluator:
 
         self.min_train_rounds = self.val_cfg.get("min_train_rounds", 3)
         self.model_cfg = config.get("models", {})
+        blend_cfg = config.get("blending", {})
+        ens_cfg = self.model_cfg.get("ensemble", {})
+        self.grid_weight = blend_cfg.get("grid_weight", ens_cfg.get("grid_weight", 0.35))
+        self.ml_weight = blend_cfg.get("ml_weight", ens_cfg.get("ml_weight", 0.65))
+        self.circuit_weights = blend_cfg.get("circuit_weights", {
+            "street": {"grid_weight": 0.50, "ml_weight": 0.50},
+            "permanent": {"grid_weight": 0.35, "ml_weight": 0.65},
+            "temporary": {"grid_weight": 0.45, "ml_weight": 0.55},
+            "default": {"grid_weight": 0.35, "ml_weight": 0.65}
+        })
 
     def evaluate_walk_forward(
         self,
         training_df: pd.DataFrame,
         stage: Optional[str] = None,
         custom_weights: Optional[Tuple[float, float]] = None,
+        apply_grid_blending: bool = True,
     ) -> Dict[str, Any]:
         """
         Executes chronological walk-forward validation.
@@ -95,40 +106,6 @@ class ModelEvaluator:
 
         min_priors = self.min_train_rounds
         val_rounds = [r for r in rounds if len([pr for pr in rounds if pr < r]) >= min_priors]
-
-        if not val_rounds:
-            return {
-                "validation_rounds": [],
-                "requested_rounds": [],
-                "is_out_of_sample": False,
-                "validation_status": "UNAVAILABLE",
-                "validation_method": "none",
-                "sample_count": 0,
-                "failed_folds": [],
-                "completed_folds": [],
-                "diagnostic_message": f"Insufficient history: {len(rounds)} round(s) available, but at least {min_priors + 1} rounds required for walk-forward validation.",
-                "ensemble_comparisons": [],
-                "best_w_rf": 0.60,
-                "best_w_xgb": 0.40,
-                "best_w_ridge": 0.0,
-                "best_model_name": "Unavailable",
-                "best_mae": None,
-                "selected_residuals": np.array([]),
-                "rf_residuals": np.array([]),
-                "xgb_residuals": np.array([]),
-                "ridge_residuals": np.array([]),
-                "multi_residuals": np.array([]),
-                "rf_mae": None,
-                "xgb_mae": None,
-                "ridge_mae": None,
-                "multi_mae": None,
-                "custom_mae": None,
-                "custom_residuals": None,
-                "empirical_dnf_rate": 0.158,
-                "grid_positions": np.array([]),
-                "round_predictions": {},
-                "actuals": np.array([]),
-            }
 
         tested_weights = [
             (1.0, 0.0, "100% RF"),
@@ -248,8 +225,13 @@ class ModelEvaluator:
             ridge_residuals = list(y_all - ridge_pred)
             multi_residuals = list(y_all - multi_pred)
 
-            grid_col = "ActualStartingGrid" if "ActualStartingGrid" in train_copy.columns else "GridPosition"
-            round_grids = pd.to_numeric(train_copy.get(grid_col, train_copy.get("GridPosition")), errors="coerce").fillna(12.0).values
+            if "ActualStartingGrid" in train_copy.columns:
+                grid_series = pd.to_numeric(train_copy["ActualStartingGrid"], errors="coerce")
+            elif "GridPosition" in train_copy.columns:
+                grid_series = pd.to_numeric(train_copy["GridPosition"], errors="coerce")
+            else:
+                grid_series = pd.Series(12.0, index=train_copy.index)
+            round_grids = grid_series.fillna(12.0).values
 
             ensemble_results = []
             round_predictions = {}
@@ -451,25 +433,50 @@ class ModelEvaluator:
 
             multi_pred = 0.40 * rf_pred + 0.30 * xgb_pred + 0.30 * ridge_pred
 
-            rf_residuals.extend(y_test - rf_pred)
-            xgb_residuals.extend(y_test - xgb_pred)
-            ridge_residuals.extend(y_test - ridge_pred)
-            multi_residuals.extend(y_test - multi_pred)
-            round_actuals.extend(y_test)
-
             grid_col = "ActualStartingGrid" if "ActualStartingGrid" in test.columns else "GridPosition"
+            has_grid_data = False
             if grid_col in test.columns:
-                grids = pd.to_numeric(test[grid_col], errors="coerce").fillna(12.0).values
+                raw_grids = pd.to_numeric(test[grid_col], errors="coerce")
+                if raw_grids.notna().any():
+                    has_grid_data = True
+                    median_grid = float(raw_grids.median()) if not np.isnan(raw_grids.median()) else 12.0
+                    grids = raw_grids.fillna(median_grid).values
+                else:
+                    grids = np.full(len(test), 12.0)
             else:
                 grids = np.full(len(test), 12.0)
             round_grids.extend(grids)
 
+            # Resolve circuit-aware grid blending weights matching deployment Predictor
+            stage_str = str(stage or "after_qualifying").lower().strip()
+            is_pre_quali = stage_str in {"pre_fp1", "after_fp1", "after_fp2", "after_fp3"}
+            if apply_grid_blending and (not is_pre_quali) and has_grid_data:
+                c_type = test["circuit_type"].iloc[0] if "circuit_type" in test.columns and pd.notna(test["circuit_type"].iloc[0]) else "default"
+                c_weights = self.circuit_weights.get(str(c_type).lower(), self.circuit_weights.get("default", {"grid_weight": 0.35, "ml_weight": 0.65}))
+                eff_grid_w = float(c_weights.get("grid_weight", self.grid_weight))
+                eff_ml_w = float(c_weights.get("ml_weight", self.ml_weight))
+            else:
+                eff_grid_w = 0.0
+                eff_ml_w = 1.0
+
+            blended_rf = eff_ml_w * rf_pred + eff_grid_w * grids
+            blended_xgb = eff_ml_w * xgb_pred + eff_grid_w * grids
+            blended_ridge = eff_ml_w * ridge_pred + eff_grid_w * grids
+            blended_multi = eff_ml_w * multi_pred + eff_grid_w * grids
+
+            rf_residuals.extend(y_test - blended_rf)
+            xgb_residuals.extend(y_test - blended_xgb)
+            ridge_residuals.extend(y_test - blended_ridge)
+            multi_residuals.extend(y_test - blended_multi)
+            round_actuals.extend(y_test)
+
             for w_rf, w_xgb, name in tested_weights:
                 blend_pred = w_rf * rf_pred + w_xgb * xgb_pred
-                round_predictions[name].extend(blend_pred)
+                final_blended = eff_ml_w * blend_pred + eff_grid_w * grids
+                round_predictions[name].extend(final_blended)
 
-            round_predictions["100% Ridge"].extend(ridge_pred)
-            round_predictions["Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"].extend(multi_pred)
+            round_predictions["100% Ridge"].extend(blended_ridge)
+            round_predictions["Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"].extend(blended_multi)
             completed_folds.append(r)
 
         if failed_folds or len(completed_folds) == 0:

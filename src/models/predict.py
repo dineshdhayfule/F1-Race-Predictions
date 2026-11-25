@@ -175,13 +175,40 @@ class Predictor:
         )
 
         # Blended deterministic baseline: eff_ml_w * ML + eff_grid_w * GridPosition
-        # Use simulation_start_rank if present (handles pit-lane starters), else GridPosition
-        grid_col = "simulation_start_rank" if "simulation_start_rank" in target_df.columns else "GridPosition"
-        grid_positions = pd.to_numeric(target_df.get(grid_col, target_df.get("GridPosition")), errors="coerce").fillna(12.0).values
-        blended = eff_ml_w * ml_pred + eff_grid_w * grid_positions
+        # Prioritize confirmed simulation_start_rank (handles pit-lane starts), then GridPosition,
+        # then legitimate pre-qualifying provisional predictions (provisional_grid_position).
+        # If no legitimate starting grid exists (e.g. pre-qualifying without provisional grid),
+        # disable grid blending (eff_ml_w = 1.0, eff_grid_w = 0.0) rather than forcing all drivers to P12.
+        grid_series = None
+        for col_cand in ["simulation_start_rank", "GridPosition", "provisional_grid_position"]:
+            if col_cand in target_df.columns:
+                s = pd.to_numeric(target_df[col_cand], errors="coerce")
+                if s.notna().any():
+                    grid_series = s
+                    break
 
+        if grid_series is not None and grid_series.notna().any():
+            median_pos = float(grid_series.median()) if not np.isnan(grid_series.median()) else 12.0
+            grid_positions = grid_series.fillna(median_pos).values
+            blended = eff_ml_w * ml_pred + eff_grid_w * grid_positions
+        else:
+            eff_ml_w, eff_grid_w = 1.0, 0.0
+            grid_positions = np.full(len(target_df), np.nan)
+            blended = ml_pred
 
-        out = target_df[["Abbreviation", "TeamName", "GridPosition", "QualifyingPosition"]].copy()
+        out = target_df[["Abbreviation", "TeamName"]].copy()
+        if "GridPosition" in target_df.columns:
+            out["GridPosition"] = target_df["GridPosition"]
+        elif "provisional_grid_position" in target_df.columns:
+            out["GridPosition"] = target_df["provisional_grid_position"]
+        else:
+            out["GridPosition"] = np.nan
+
+        if "QualifyingPosition" in target_df.columns:
+            out["QualifyingPosition"] = target_df["QualifyingPosition"]
+        else:
+            out["QualifyingPosition"] = np.nan
+
         out["ML_PredictedScore"] = np.round(ml_pred, 3)
         out["BlendedScore"] = np.round(blended, 3)
         out["DeterministicRank"] = np.argsort(np.argsort(blended)) + 1

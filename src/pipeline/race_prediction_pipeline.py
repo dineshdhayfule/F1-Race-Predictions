@@ -379,10 +379,12 @@ class RacePredictionPipeline:
             raise AssertionError(f"Leakage check failed: {leakage_report['violations']}")
 
         # 6b. Fix driver order before deterministic prediction and Monte Carlo:
-        # Drivers must be sorted P1 -> P22 by simulation_start_rank (or GridPosition) to match sequential NumPy RNG draws
+        # Drivers must be sorted P1 -> P22 by simulation_start_rank (or GridPosition / provisional grid)
         # Note: ActualStartingGrid has np.nan for pit-lane starters, so simulation_start_rank provides the safe total ordering
-        sort_col = "simulation_start_rank" if "simulation_start_rank" in target_features.columns else ("ActualStartingGrid" if "ActualStartingGrid" in target_features.columns else "GridPosition")
-        target_features = target_features.sort_values(sort_col).reset_index(drop=True)
+        sort_candidates = ["simulation_start_rank", "ActualStartingGrid", "GridPosition", "provisional_grid_position"]
+        sort_col = next((c for c in sort_candidates if c in target_features.columns and target_features[c].notna().any()), None)
+        if sort_col:
+            target_features = target_features.sort_values(sort_col).reset_index(drop=True)
 
         # 7. Model Walk-Forward Validation & Dynamic Model Selection
         eval_results = self.model_evaluator.evaluate_walk_forward(
@@ -1425,45 +1427,94 @@ class RacePredictionPipeline:
             f.write("\n".join(lines) + "\n")
 
     def _evaluate_race_predictions(self, sim_results: pd.DataFrame, actual_race_df: pd.DataFrame) -> Dict[str, Any]:
-        """Calculates out-of-sample evaluation metrics comparing predictions against actual race finish."""
+        """
+        Calculates out-of-sample evaluation metrics comparing predictions against actual race finish.
+        Preserves classified-finisher MAE and rank correlation metrics, while evaluating
+        DNF retirements separately (DNF Brier score, classification metrics) and handling
+        DNS non-starters distinctly from in-race retirements.
+        """
         from scipy.stats import spearmanr
         act = actual_race_df.copy()
         pos_col = "Position" if "Position" in act.columns else "ActualFinish"
-        act["ActualFinish"] = pd.to_numeric(act[pos_col], errors="coerce")
+        status_col = "Status" if "Status" in act.columns else "RaceStatus"
+
+        act["NumericFinish"] = pd.to_numeric(act[pos_col], errors="coerce")
+        act["RawStatus"] = act[status_col].astype(str).str.strip() if status_col in act.columns else ""
+
+        # Identify DNS (did not start / withdrew) vs classified finishers vs DNF retirements
+        is_dns = act["RawStatus"].str.lower().isin(["did not start", "withdrew", "not started"]) | (act[pos_col].astype(str).str.strip().str.upper() == "W")
+        is_classified = act["NumericFinish"].notna()
+        is_dnf = (~is_dns) & (~is_classified)
+
         merged = pd.merge(
             sim_results,
-            act[["Abbreviation", "ActualFinish"] + [c for c in ["Status", "Points"] if c in act.columns]],
+            act[["Abbreviation", "NumericFinish", "RawStatus"] + [c for c in ["Points"] if c in act.columns]],
             on="Abbreviation"
-        ).dropna(subset=["ActualFinish"])
-        merged = merged.sort_values("ActualFinish").reset_index(drop=True)
+        )
+        merged["IsDNS"] = merged["RawStatus"].str.lower().isin(["did not start", "withdrew", "not started"]) | (merged["RawStatus"].str.upper() == "W")
+        merged["IsClassified"] = merged["NumericFinish"].notna()
+        merged["IsDNF"] = (~merged["IsDNS"]) & (~merged["IsClassified"])
 
-        mae_exp = float(np.mean(np.abs(merged["ExpectedFinish"] - merged["ActualFinish"])))
-        mae_pred = float(np.mean(np.abs(merged["PredictedPosition"] - merged["ActualFinish"])))
-        spearman, _ = spearmanr(merged["ExpectedFinish"], merged["ActualFinish"])
+        starters = merged[~merged["IsDNS"]].copy()
+        classified = merged[merged["IsClassified"]].copy().sort_values("NumericFinish").reset_index(drop=True)
+        retirements = merged[merged["IsDNF"]].copy()
+        dns_drivers = merged[merged["IsDNS"]].copy()
+
+        # Finishing position metrics for classified finishers
+        if not classified.empty:
+            mae_exp = float(np.mean(np.abs(classified["ExpectedFinish"] - classified["NumericFinish"])))
+            mae_pred = float(np.mean(np.abs(classified["PredictedPosition"] - classified["NumericFinish"])))
+            spearman_stat = float(spearmanr(classified["ExpectedFinish"], classified["NumericFinish"]).statistic)
+            top1_act = set(classified.sort_values("NumericFinish").head(1)["Abbreviation"])
+            top3_act = set(classified.sort_values("NumericFinish").head(3)["Abbreviation"])
+            top5_act = set(classified.sort_values("NumericFinish").head(5)["Abbreviation"])
+            top10_act = set(classified.sort_values("NumericFinish").head(10)["Abbreviation"])
+        else:
+            mae_exp, mae_pred, spearman_stat = np.nan, np.nan, np.nan
+            top1_act, top3_act, top5_act, top10_act = set(), set(), set(), set()
 
         top1_pred = set(sim_results.sort_values("PredictedPosition").head(1)["Abbreviation"])
-        top1_act = set(merged.sort_values("ActualFinish").head(1)["Abbreviation"])
         top3_pred = set(sim_results.sort_values("PredictedPosition").head(3)["Abbreviation"])
-        top3_act = set(merged.sort_values("ActualFinish").head(3)["Abbreviation"])
         top5_pred = set(sim_results.sort_values("PredictedPosition").head(5)["Abbreviation"])
-        top5_act = set(merged.sort_values("ActualFinish").head(5)["Abbreviation"])
         top10_pred = set(sim_results.sort_values("PredictedPosition").head(10)["Abbreviation"])
-        top10_act = set(merged.sort_values("ActualFinish").head(10)["Abbreviation"])
 
-        y_true_podium = (merged["ActualFinish"] <= 3).astype(int)
-        p_pred_podium = merged["Top3Probability"] / 100.0
-        brier_podium = float(np.mean((p_pred_podium - y_true_podium) ** 2))
+        # Multi-driver podium Brier score on classified finishers
+        if not classified.empty:
+            y_true_podium = (classified["NumericFinish"] <= 3).astype(int)
+            p_pred_podium = classified["Top3Probability"] / 100.0
+            brier_podium = float(np.mean((p_pred_podium - y_true_podium) ** 2))
+        else:
+            brier_podium = np.nan
+
+        # DNF evaluation metrics across all race starters (excluding DNS)
+        dnf_brier_score = np.nan
+        dnf_accuracy = np.nan
+        if not starters.empty and "DNFProbability" in starters.columns:
+            p_pred_dnf = starters["DNFProbability"] / 100.0
+            y_actual_dnf = starters["IsDNF"].astype(int)
+            dnf_brier_score = float(np.mean((p_pred_dnf - y_actual_dnf) ** 2))
+            dnf_accuracy = float(np.mean((p_pred_dnf >= 0.5) == y_actual_dnf))
+
+        # Check for top-predicted drivers who suffered retirements
+        retiring_top_predicted = retirements[retirements["PredictedPosition"] <= 3]["Abbreviation"].tolist()
 
         return {
             "mae_expected": mae_exp,
             "mae_predicted": mae_pred,
-            "spearman_rank_corr": float(spearman),
+            "spearman_rank_corr": spearman_stat,
             "top1_overlap": len(top1_pred & top1_act),
             "top3_overlap": len(top3_pred & top3_act),
             "top5_overlap": len(top5_pred & top5_act),
             "top10_overlap": len(top10_pred & top10_act),
             "podium_brier_score": brier_podium,
+            "dnf_brier_score": dnf_brier_score,
+            "dnf_accuracy": dnf_accuracy,
+            "starters_count": len(starters),
+            "classified_count": len(classified),
+            "retirements_count": len(retirements),
+            "dns_count": len(dns_drivers),
             "evaluated_drivers": len(merged),
+            "retiring_top_predicted": retiring_top_predicted,
         }
 
     def _write_post_race_evaluation_report(
@@ -1481,39 +1532,53 @@ class RacePredictionPipeline:
         title_name = track_name if track_name.endswith("Grand Prix") else f"{track_name} Grand Prix"
         act = actual_race_df.copy()
         pos_col = "Position" if "Position" in act.columns else "ActualFinish"
-        act["ActualFinish"] = pd.to_numeric(act[pos_col], errors="coerce")
+        act["NumericFinish"] = pd.to_numeric(act[pos_col], errors="coerce")
+        act["RawPosition"] = act[pos_col].astype(str)
         merged = pd.merge(
             sim_results,
-            act[["Abbreviation", "ActualFinish"] + [c for c in ["Status", "Points"] if c in act.columns]],
-            on="Abbreviation"
-        ).dropna(subset=["ActualFinish"])
-        merged = merged.sort_values("ActualFinish").reset_index(drop=True)
+            act[["Abbreviation", "NumericFinish", "RawPosition"] + [c for c in ["Status", "Points"] if c in act.columns]],
+            on="Abbreviation",
+            how="left"
+        )
+        # Sort classified by finish position first, then retirements/DNS
+        merged = merged.sort_values(by=["NumericFinish", "PredictedPosition"], na_position="last").reset_index(drop=True)
+
+        mae_exp_str = f"{metrics['mae_expected']:.4f}" if pd.notna(metrics.get("mae_expected")) else "N/A"
+        mae_pred_str = f"{metrics['mae_predicted']:.4f}" if pd.notna(metrics.get("mae_predicted")) else "N/A"
+        spearman_str = f"{metrics['spearman_rank_corr']:.4f}" if pd.notna(metrics.get("spearman_rank_corr")) else "N/A"
+        podium_brier_str = f"{metrics['podium_brier_score']:.4f}" if pd.notna(metrics.get("podium_brier_score")) else "N/A"
+        dnf_brier_str = f"{metrics['dnf_brier_score']:.4f}" if pd.notna(metrics.get("dnf_brier_score")) else "N/A"
+        dnf_acc_str = f"{metrics['dnf_accuracy']*100:.1f}%" if pd.notna(metrics.get("dnf_accuracy")) else "N/A"
+        retiring_top = ", ".join(metrics.get("retiring_top_predicted", [])) or "None"
 
         lines = [
             f"# F1 {year} {title_name} — Post-Race Prediction Evaluation Report",
-            f"**Round**: {target_round} | **Stage**: `post_race` | **Evaluated Drivers**: {metrics['evaluated_drivers']}",
+            f"**Round**: {target_round} | **Stage**: `post_race` | **Evaluated Drivers**: {metrics.get('evaluated_drivers', len(merged))}",
+            f"**Starters**: {metrics.get('starters_count', '-')} | **Classified**: {metrics.get('classified_count', '-')} | **Retirements (DNF)**: {metrics.get('retirements_count', '-')} | **Non-Starters (DNS)**: {metrics.get('dns_count', '-')}",
             f"**Qualifying Source**: {'Provisional Fallback Model (Missing Real Quali)' if is_provisional_quali else 'Actual Observed Qualifying Session'}",
             "",
             "## Executive Summary & Out-of-Sample Scorecard",
             "",
             "| Evaluation Metric | Pipeline Prediction | Walk-Forward CV Benchmark | Assessment |",
             "|:---|:---:|:---:|:---|",
-            f"| **Mean Absolute Error (Expected Finish)** | **{metrics['mae_expected']:.4f}** | 3.5343 | {'Outperformed Benchmark' if metrics['mae_expected'] < 3.5343 else 'Within Expected Tolerance'} |",
-            f"| **Mean Absolute Error (Predicted Pos)** | **{metrics['mae_predicted']:.4f}** | ~4.2000 | Ordinal integer delta |",
-            f"| **Spearman Rank Correlation** | **{metrics['spearman_rank_corr']:.4f}** | 0.6740 | {'Strong positive ranking correlation' if metrics['spearman_rank_corr'] > 0.60 else 'Moderate correlation'} |",
-            f"| **Top 10 Points Scorers Hit Rate** | **{metrics['top10_overlap']} / 10 ({metrics['top10_overlap']*10:.1f}%)** | 70–80% | Points finishers accurately captured |",
-            f"| **Top 5 Set Overlap** | **{metrics['top5_overlap']} / 5 ({metrics['top5_overlap']*20:.1f}%)** | 40–60% | Top 5 bracket capture |",
-            f"| **Top 3 Exact Podium Set** | **{metrics['top3_overlap']} / 3 ({metrics['top3_overlap']/3*100:.1f}%)** | 20–33% | Podium finishers capture |",
-            f"| **Multi-Driver Podium Brier Score** | **{metrics['podium_brier_score']:.4f}** | < 0.1500 | {'Calibrated probability distribution' if metrics['podium_brier_score'] < 0.15 else 'Uncalibrated'} |",
+            f"| **Mean Absolute Error (Classified Expected Finish)** | **{mae_exp_str}** | 3.5343 | {'Outperformed Benchmark' if pd.notna(metrics.get('mae_expected')) and metrics['mae_expected'] < 3.5343 else 'Within Expected Tolerance'} |",
+            f"| **Mean Absolute Error (Classified Predicted Pos)** | **{mae_pred_str}** | ~4.2000 | Ordinal integer delta |",
+            f"| **Spearman Rank Correlation (Classified)** | **{spearman_str}** | 0.6740 | {'Strong positive ranking correlation' if pd.notna(metrics.get('spearman_rank_corr')) and metrics['spearman_rank_corr'] > 0.60 else 'Moderate correlation'} |",
+            f"| **Top 10 Points Scorers Hit Rate** | **{metrics.get('top10_overlap', 0)} / 10 ({metrics.get('top10_overlap', 0)*10:.1f}%)** | 70–80% | Points finishers accurately captured |",
+            f"| **Top 5 Set Overlap** | **{metrics.get('top5_overlap', 0)} / 5 ({metrics.get('top5_overlap', 0)*20:.1f}%)** | 40–60% | Top 5 bracket capture |",
+            f"| **Top 3 Exact Podium Set** | **{metrics.get('top3_overlap', 0)} / 3 ({metrics.get('top3_overlap', 0)/3*100:.1f}%)** | 20–33% | Podium finishers capture |",
+            f"| **Multi-Driver Podium Brier Score** | **{podium_brier_str}** | < 0.1500 | {'Calibrated probability distribution' if pd.notna(metrics.get('podium_brier_score')) and metrics['podium_brier_score'] < 0.15 else 'Uncalibrated'} |",
+            f"| **DNF Brier Score (Starters)** | **{dnf_brier_str}** | < 0.1800 | Reliability calibration |",
+            f"| **DNF Prediction Accuracy** | **{dnf_acc_str}** | > 85.0% | Retirement classification accuracy |",
+            f"| **Top-3 Predicted Retirements** | **{retiring_top}** | - | Impact of unpredicted mechanical/crash failures |",
             "",
             "## Driver-by-Driver Comparison (Actual Finish vs Prediction)",
             "",
-            "| Actual Pos | Driver | Team | Grid | Predicted Pos | Exp. Finish | Win % | Podium % | Points % | Delta | Status | Points |",
-            "|:---:|:------:|:-----|:----:|:-------------:|:-----------:|:-----:|:--------:|:--------:|:-----:|:------:|:------:|",
+            "| Actual Pos | Driver | Team | Grid | Predicted Pos | Exp. Finish | Win % | Podium % | Points % | DNF % | Delta | Status | Points |",
+            "|:---:|:------:|:-----|:----:|:-------------:|:-----------:|:-----:|:--------:|:--------:|:-----:|:-----:|:------:|:------:|",
         ]
 
         for _, r in merged.iterrows():
-            act_p = int(r["ActualFinish"])
             drv = r["Abbreviation"]
             team = r["TeamName"]
             grid_raw = r.get("ActualStartingGrid")
@@ -1530,11 +1595,28 @@ class RacePredictionPipeline:
             win_p = f"{r['WinProbability']:.1f}%"
             pod_p = f"{r['Top3Probability']:.1f}%"
             pts_p = f"{r['PointsProbability']:.1f}%"
-            delta = int(pred_p - act_p)
-            delta_str = f"+{delta}" if delta > 0 else f"{delta}"
-            status = r.get("Status", "Finished")
-            pts = int(r.get("Points", 0))
-            lines.append(f"| {act_p} | **{drv}** | {team} | {grid} | P{pred_p} | {exp_f} | {win_p} | {pod_p} | {pts_p} | {delta_str} | {status} | {pts} |")
+            dnf_p = f"{r.get('DNFProbability', 0.0):.1f}%"
+            status = str(r.get("Status", "Finished"))
+            pts = int(r.get("Points", 0)) if pd.notna(r.get("Points")) else 0
+
+            if pd.notna(r["NumericFinish"]):
+                act_p = int(r["NumericFinish"])
+                delta = int(pred_p - act_p)
+                delta_str = f"+{delta}" if delta > 0 else f"{delta}"
+                act_str = str(act_p)
+            else:
+                act_str = r.get("RawPosition", "DNF")
+                delta_str = "N/A"
+
+            lines.append(f"| {act_str} | **{drv}** | {team} | {grid} | P{pred_p} | {exp_f} | {win_p} | {pod_p} | {pts_p} | {dnf_p} | {delta_str} | {status} | {pts} |")
+
+        lines.extend([
+            "",
+            "---",
+            "*Report generated by ApexGrid — Predicting the Race Beyond the Grid (Zero Data Leakage).*"
+        ])
+        with open(report_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
 
         lines.extend([
             "",

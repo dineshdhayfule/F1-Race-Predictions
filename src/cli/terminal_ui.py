@@ -608,7 +608,12 @@ def render_probability_bar(pct: float, width: int = 10) -> str:
     return f"{bar} {pct:5.1f}%"
 
 
-def print_podium(p1: Dict[str, Any], p2: Optional[Dict[str, Any]] = None, p3: Optional[Dict[str, Any]] = None) -> None:
+def print_podium(
+    p1: Dict[str, Any],
+    p2: Optional[Dict[str, Any]] = None,
+    p3: Optional[Dict[str, Any]] = None,
+    title: Optional[str] = None,
+) -> None:
     """Displays a stylized podium showcase for P1, P2, and P3."""
     term_width = get_terminal_width()
     console = get_console()
@@ -650,6 +655,8 @@ def print_podium(p1: Dict[str, Any], p2: Optional[Dict[str, Any]] = None, p3: Op
                 cards.append(Panel(Align.center(t3), box=ROUNDED, border_style="#CD7F32", width=24))
 
             if cards:
+                if title:
+                    console.print(Align.center(Text(title, style="bold #FFD700")))
                 console.print(Align.center(Columns(cards)))
                 console.print()
         else:
@@ -679,7 +686,7 @@ def print_podium(p1: Dict[str, Any], p2: Optional[Dict[str, Any]] = None, p3: Op
             card_width = min(term_width, 55)
             panel = Panel(
                 podium_text,
-                title="[bold #FFD700]🏆 PODIUM SHOWCASE[/]",
+                title=title or "[bold #FFD700]🏆 PODIUM SHOWCASE[/]",
                 box=ROUNDED,
                 border_style="#FFD700",
                 width=card_width,
@@ -691,7 +698,8 @@ def print_podium(p1: Dict[str, Any], p2: Optional[Dict[str, Any]] = None, p3: Op
         p1_code = p1.get('Abbreviation', p1.get('Driver', 'P1'))
         p2_code = p2.get('Abbreviation', p2.get('Driver', '-')) if p2 else '-'
         p3_code = p3.get('Abbreviation', p3.get('Driver', '-')) if p3 else '-'
+        hdr = title if title else "[PODIUM]"
         if term_width >= 60:
-            print(f"\n  [PODIUM] P1: {p1_code} | P2: {p2_code} | P3: {p3_code}\n")
+            print(f"\n  {hdr} P1: {p1_code} | P2: {p2_code} | P3: {p3_code}\n")
         else:
-            print(f"\n  [PODIUM]\n    P1: {p1_code}\n    P2: {p2_code}\n    P3: {p3_code}\n")
+            print(f"\n  {hdr}\n    P1: {p1_code}\n    P2: {p2_code}\n    P3: {p3_code}\n")

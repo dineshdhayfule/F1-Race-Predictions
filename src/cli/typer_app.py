@@ -211,9 +211,10 @@ def cmd_predict(
             pos_style = MUTED_GREY
 
         grid_raw = r.get("ActualStartingGrid")
+        prov_raw = r.get("provisional_grid_position")
         raw_pit = r.get("is_pit_lane_start", 0)
-        is_pit = pd.notna(raw_pit) and int(round(float(raw_pit))) == 1
-        grid_str = "PL" if is_pit else (str(int(round(float(grid_raw)))) if pd.notna(grid_raw) else "-")
+        from src.cli.menu import format_grid_display
+        grid_str = format_grid_display(grid_raw, prov_raw, raw_pit)
 
         exp_str = f"{r.get('ExpectedFinish', 0.0):.2f}"
         win_str = render_probability_bar(r.get('WinProbability', 0.0), width=6)
