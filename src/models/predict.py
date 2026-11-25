@@ -214,3 +214,169 @@ class Predictor:
         out["DeterministicRank"] = np.argsort(np.argsort(blended)) + 1
 
         return out, blended
+
+    def calculate_analytical_weekend_score(
+        self,
+        target_df: pd.DataFrame,
+        stage: str = "after_qualifying",
+        circuit_type: Optional[str] = None,
+    ) -> np.ndarray:
+        """Computes analytical weekend score delegating to module function."""
+        return calculate_analytical_weekend_score(
+            target_df=target_df,
+            stage=stage,
+            circuit_type=circuit_type or "permanent",
+        )
+
+
+def calculate_analytical_weekend_score(
+    target_df: pd.DataFrame,
+    stage: str = "after_qualifying",
+    circuit_type: str = "permanent",
+) -> np.ndarray:
+    """
+    Computes an analytical weekend physical pace score for each driver
+    based strictly on active weekend session telemetry (FP1-FP3, SQ, Sprint, Quali, Grid).
+
+    Parameters
+    ----------
+    target_df : pd.DataFrame
+        DataFrame of target race drivers with weekend features.
+    stage : str
+        Prediction stage cutoff (e.g. 'pre_fp1', 'after_fp1', 'after_fp2', 'after_fp3', 'after_qualifying').
+    circuit_type : str
+        Type of circuit ('street', 'permanent', 'temporary').
+
+    Returns
+    -------
+    np.ndarray
+        Continuous pace scores bounded within [1.0, 22.0] matching ML prediction space.
+    """
+    n = len(target_df)
+    if n == 0:
+        return np.array([], dtype=float)
+
+    stage_clean = str(stage or "after_qualifying").lower().strip()
+    if stage_clean == "after_sprint":
+        stage_clean = "after_sprint_race"
+
+    # 1. Base Practice / Long-Run Pace Score
+    # Prefer long_run_pace_gap_pct; fallback to practice_gap_pct, best_practice_lap, or session gaps
+    lr_gap = (
+        pd.to_numeric(target_df["long_run_pace_gap_pct"], errors="coerce")
+        if "long_run_pace_gap_pct" in target_df.columns
+        else None
+    )
+
+    if lr_gap is not None and lr_gap.notna().any():
+        lr_rank = lr_gap.rank(method="average", na_option="bottom")
+        # In F1, a 0.0% gap is ~P1, 1.0% is ~P5, 2.5% is ~P15
+        gap_pos = 1.0 + np.clip(lr_gap.fillna(lr_rank * 0.15), 0.0, 5.0) * 4.0
+        base_pace = 0.50 * lr_rank + 0.50 * gap_pos
+    else:
+        # Fall back to single-lap practice metrics
+        prac_gap = None
+        for col in ["practice_gap_pct", "fp3_gap_pct", "fp2_gap_pct", "fp1_gap_pct"]:
+            if col in target_df.columns:
+                s = pd.to_numeric(target_df[col], errors="coerce")
+                if s.notna().any():
+                    prac_gap = s
+                    break
+
+        if prac_gap is not None and prac_gap.notna().any():
+            prac_rank = prac_gap.rank(method="average", na_option="bottom")
+            gap_pos = 1.0 + np.clip(prac_gap.fillna(prac_rank * 0.15), 0.0, 5.0) * 4.0
+            base_pace = 0.50 * prac_rank + 0.50 * gap_pos
+        else:
+            # Fall back to best practice lap or neutral order
+            best_lap = (
+                pd.to_numeric(target_df["best_practice_lap"], errors="coerce")
+                if "best_practice_lap" in target_df.columns
+                else None
+            )
+            if best_lap is not None and best_lap.notna().any():
+                base_pace = best_lap.rank(method="average", na_option="bottom")
+            else:
+                base_pace = pd.Series(np.linspace(1.0, float(n), n), index=target_df.index)
+
+    # 2. Tyre Degradation Adjustment
+    deg_col = None
+    for col in ["fp_tyre_deg_slope", "estimated_tyre_deg_rate", "medium_tyre_deg_rate", "soft_tyre_deg_rate"]:
+        if col in target_df.columns:
+            s = pd.to_numeric(target_df[col], errors="coerce")
+            if s.notna().nunique() > 1:
+                deg_col = s
+                break
+
+    if deg_col is not None and deg_col.notna().any():
+        med_deg = deg_col.median()
+        deg_delta = deg_col.fillna(med_deg) - med_deg
+        # Scale: +/- 0.05 s/lap difference contributes up to +/- 1.0 position
+        deg_penalty = np.clip(deg_delta * 15.0, -2.0, 2.0)
+        base_pace = base_pace + deg_penalty
+
+    # 3. Sprint Telemetry Adjustment (if available on Sprint weekends)
+    sprint_fin = (
+        pd.to_numeric(target_df["sprint_finish_pos"], errors="coerce")
+        if "sprint_finish_pos" in target_df.columns
+        else None
+    )
+    sprint_delta = (
+        pd.to_numeric(target_df["sprint_pos_delta"], errors="coerce")
+        if "sprint_pos_delta" in target_df.columns
+        else None
+    )
+    if sprint_fin is not None and sprint_fin.notna().any():
+        if stage_clean == "after_sprint_race":
+            delta_val = sprint_delta.fillna(0.0) if sprint_delta is not None else 0.0
+            sprint_score = sprint_fin.fillna(base_pace) - 0.20 * np.clip(delta_val, -5.0, 5.0)
+            base_pace = 0.40 * sprint_score + 0.40 * base_pace + 0.20 * base_pace.rank()
+        elif stage_clean in ["after_qualifying", "before_race", "post_race"]:
+            # On Sprint weekends, persist live Sprint Race finishing order into base pace
+            valid_sprint = sprint_fin.fillna(base_pace)
+            base_pace = 0.80 * base_pace + 0.20 * valid_sprint
+
+    # 4. Qualifying / Starting Grid Blending
+    # Circuit-aware weights
+    c_key = str(circuit_type or "permanent").lower().strip()
+    if c_key == "street":
+        w_grid, w_pace = 0.50, 0.50
+    elif c_key == "temporary":
+        w_grid, w_pace = 0.45, 0.55
+    else:
+        w_grid, w_pace = 0.35, 0.65
+
+    # Look for confirmed grid or qualifying
+    grid_series = None
+    if stage_clean in ["after_qualifying", "before_race", "post_race"]:
+        for col_cand in ["simulation_start_rank", "ActualStartingGrid", "GridPosition", "QualifyingPosition"]:
+            if col_cand in target_df.columns:
+                s = pd.to_numeric(target_df[col_cand], errors="coerce")
+                if s.notna().any():
+                    grid_series = s
+                    break
+    elif stage_clean in ["after_fp1", "after_fp2", "after_fp3"]:
+        # If provisional qualifying prediction exists in pre-qualifying stages
+        if "provisional_grid_position" in target_df.columns:
+            s = pd.to_numeric(target_df["provisional_grid_position"], errors="coerce")
+            if s.notna().any():
+                grid_series = s
+                # Pre-qualifying provisional grid uses conservative weight
+                w_grid, w_pace = 0.25, 0.75
+
+    if grid_series is not None and grid_series.notna().any():
+        med_grid = float(grid_series.median()) if not np.isnan(grid_series.median()) else 12.0
+        grid_positions = grid_series.fillna(med_grid)
+        final_score = w_grid * grid_positions + w_pace * base_pace
+    else:
+        final_score = base_pace
+
+    # 5. Sanitize and bound
+    final_arr = pd.to_numeric(final_score, errors="coerce").to_numpy(dtype=float)
+    if np.isnan(final_arr).any():
+        nan_mask = np.isnan(final_arr)
+        final_arr[nan_mask] = 12.0
+
+    # Ensure strictly bounded in [1.0, 22.0]
+    final_arr = np.clip(final_arr, 1.0, max(22.0, float(n)))
+    return final_arr

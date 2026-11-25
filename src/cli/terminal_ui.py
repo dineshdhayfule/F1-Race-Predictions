@@ -227,7 +227,7 @@ def print_header(title: str, subtitle: Optional[str] = None) -> None:
         console.print()
     else:
         width = term_width
-        print("\n" + Colors.CYAN + "-" * width + Colors.RESET)
+        print("\n" + Colors.CYAN + "─" * width + Colors.RESET)
         disp_title = title.upper()
         if len(disp_title) > width - 4:
             disp_title = disp_title[:max(10, width - 7)] + "..."
@@ -237,7 +237,7 @@ def print_header(title: str, subtitle: Optional[str] = None) -> None:
             if len(disp_sub) > width - 4:
                 disp_sub = disp_sub[:max(10, width - 7)] + "..."
             print(Colors.DIM + f"  {disp_sub}" + Colors.RESET)
-        print(Colors.CYAN + "-" * width + Colors.RESET)
+        print(Colors.CYAN + "─" * width + Colors.RESET)
 
 
 def print_success(message: str) -> None:

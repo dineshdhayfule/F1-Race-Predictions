@@ -95,10 +95,11 @@ def cmd_predict(
     year: int = typer.Option(2026, "--year", "-y", help="Championship season year"),
     round_num: Optional[int] = typer.Option(None, "--round", "-r", help="Championship round number"),
     stage: str = typer.Option("after_qualifying", "--stage", "-s", help="Prediction timeline stage cutoff"),
-    model: str = typer.Option("hybrid", "--model", "-m", help="Prediction model: 'rf', 'xgb', 'ridge', 'hybrid', 'ensemble'/'multi'"),
+    model: str = typer.Option("hybrid", "--model", "-m", help="Prediction model: 'rf', 'xgb', 'ridge', 'hybrid', 'ensemble'/'multi', 'weekend_only'"),
     rf_weight: Optional[float] = typer.Option(None, "--rf-weight", help="Custom Random Forest weight percentage (0-100)"),
     xgb_weight: Optional[float] = typer.Option(None, "--xgb-weight", help="Custom XGBoost weight percentage (0-100)"),
     enhanced: bool = typer.Option(False, "--enhanced", help="Enable 5 ML Enhancements (Pace, Tires, Pit Strategy, Safety Car, Weather)"),
+    weekend_only: bool = typer.Option(False, "--weekend-only", help="Predict strictly from active weekend telemetry without prior season history"),
     top: int = typer.Option(10, "--top", help="Number of finishing positions to display"),
     simulations: Optional[int] = typer.Option(None, "--simulations", help="Monte Carlo iterations (e.g. 10000 default, 25000 publication)"),
     debug: bool = typer.Option(False, "--debug", help="Display diagnostic traceback on execution error"),
@@ -107,8 +108,10 @@ def cmd_predict(
     from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
 
     model_clean = model.strip().lower()
-    if model_clean not in ("rf", "xgb", "ridge", "hybrid", "ensemble", "multi"):
-        print_error(f"Invalid model architecture: '{model}'. Choose from 'rf', 'xgb', 'ridge', 'hybrid', 'ensemble', 'multi'.")
+    if weekend_only:
+        model_clean = "weekend_only"
+    elif model_clean not in ("rf", "xgb", "ridge", "hybrid", "ensemble", "multi", "weekend_only"):
+        print_error(f"Invalid model architecture: '{model}'. Choose from 'rf', 'xgb', 'ridge', 'hybrid', 'ensemble', 'multi', 'weekend_only'.")
         raise typer.Exit(code=2)
 
     # Validate custom weights
@@ -155,6 +158,7 @@ def cmd_predict(
                 xgb_weight=xgb_weight,
                 capabilities=caps,
                 n_simulations=simulations,
+                weekend_only=weekend_only,
             )
         except Exception as e:
             print_error(f"Prediction pipeline halted: {e}", exc=e, debug=debug)
@@ -934,6 +938,471 @@ def history_standings(
         )
 
     console.print(table)
+
+
+@history_app.command("session", help="Query official Grand Prix, qualifying, sprint, or practice results")
+def history_session(
+    year: int = typer.Option(2024, "--year", "-y", help="Championship season year (1950–2026)"),
+    round_num: int = typer.Option(1, "--round", "-r", help="Championship round number"),
+    session_type: str = typer.Option("race", "--session", "-s", help="Session type: race, qualifying, sprint, sprint_qualifying, fp1, fp2, fp3"),
+) -> None:
+    """Queries official FIA session classifications and telemetry lap times."""
+    from src.historical.analytics.session_results import SessionResultsService
+
+    svc = SessionResultsService()
+    stype_clean = session_type.strip().lower()
+
+    with console.status(f"[bold {TELEMETRY_CYAN}]Fetching session classification for {year} Round {round_num} ({stype_clean})...[/]"):
+        try:
+            if stype_clean in ("race", "gp"):
+                results = svc.get_race_results(year, round_num)
+                if not results:
+                    console.print(f"[yellow]No race classification recorded for {year} Round {round_num}.[/yellow]")
+                    return
+                table = Table(title=f"Grand Prix Race Classification — {year} Round {round_num}", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Pos", justify="right", style="bold")
+                table.add_column("Driver", style="bold")
+                table.add_column("Constructor", style=MUTED_GREY)
+                table.add_column("Grid", justify="right")
+                table.add_column("Laps", justify="right")
+                table.add_column("Time/Gap")
+                table.add_column("Status")
+                table.add_column("Pts", justify="right", style=TELEMETRY_CYAN)
+
+                for r in results:
+                    pos = str(getattr(r, "position", None) or getattr(r, "position_text", "-"))
+                    grid = str(getattr(r, "grid_position", getattr(r, "grid", None)) or "-")
+                    time_disp = getattr(r, "race_time_or_gap", getattr(r, "time_str", None)) or ("Leader" if pos == "1" else "")
+                    pts_val = getattr(r, "points", 0.0) or 0.0
+                    table.add_row(
+                        pos,
+                        getattr(r, "driver_name", "") or getattr(r, "driver_id", "-"),
+                        getattr(r, "constructor_name", "") or getattr(r, "constructor_id", "-"),
+                        grid,
+                        str(getattr(r, "laps_completed", getattr(r, "laps", "-"))),
+                        time_disp,
+                        getattr(r, "status", "-"),
+                        f"{pts_val:.1f}" if isinstance(pts_val, (int, float)) else str(pts_val),
+                    )
+                console.print(table)
+
+            elif stype_clean in ("qualifying", "quali"):
+                results = svc.get_qualifying_results(year, round_num)
+                if not results:
+                    console.print(f"[yellow]No qualifying classification recorded for {year} Round {round_num}.[/yellow]")
+                    return
+                table = Table(title=f"Official Qualifying Classification — {year} Round {round_num}", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Pos", justify="right", style="bold")
+                table.add_column("Driver", style="bold")
+                table.add_column("Constructor", style=MUTED_GREY)
+                table.add_column("Q1")
+                table.add_column("Q2")
+                table.add_column("Q3", style=TELEMETRY_CYAN)
+                table.add_column("Laps", justify="right")
+
+                for r in results:
+                    table.add_row(
+                        str(getattr(r, "position", "-")),
+                        getattr(r, "driver_name", "") or getattr(r, "driver_id", "-"),
+                        getattr(r, "constructor_name", "") or getattr(r, "constructor_id", "-"),
+                        getattr(r, "q1", "-") or "-",
+                        getattr(r, "q2", "-") or "-",
+                        getattr(r, "q3", "-") or "-",
+                        str(getattr(r, "laps", "-")),
+                    )
+                console.print(table)
+
+            elif stype_clean in ("sprint", "sprint_race"):
+                results = svc.get_sprint_results(year, round_num)
+                if not results:
+                    console.print(f"[yellow]No sprint race classification recorded for {year} Round {round_num}.[/yellow]")
+                    return
+                table = Table(title=f"Sprint Race Classification — {year} Round {round_num}", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Pos", justify="right", style="bold")
+                table.add_column("Driver", style="bold")
+                table.add_column("Constructor", style=MUTED_GREY)
+                table.add_column("Grid", justify="right")
+                table.add_column("Laps", justify="right")
+                table.add_column("Time/Gap")
+                table.add_column("Status")
+                table.add_column("Pts", justify="right", style=TELEMETRY_CYAN)
+
+                for r in results:
+                    pos = str(getattr(r, "position", None) or getattr(r, "position_text", "-"))
+                    grid = str(getattr(r, "grid_position", getattr(r, "grid", None)) or "-")
+                    time_disp = getattr(r, "race_time_or_gap", getattr(r, "time_str", None)) or ("Leader" if pos == "1" else "")
+                    pts_val = getattr(r, "points", 0.0) or 0.0
+                    table.add_row(
+                        pos,
+                        getattr(r, "driver_name", "") or getattr(r, "driver_id", "-"),
+                        getattr(r, "constructor_name", "") or getattr(r, "constructor_id", "-"),
+                        grid,
+                        str(getattr(r, "laps_completed", getattr(r, "laps", "-"))),
+                        time_disp,
+                        getattr(r, "status", "-"),
+                        f"{pts_val:.1f}" if isinstance(pts_val, (int, float)) else str(pts_val),
+                    )
+                console.print(table)
+
+            elif stype_clean in ("sq", "sprint_qualifying", "shootout"):
+                results = svc.get_sprint_qualifying_results(year, round_num)
+                if not results:
+                    console.print(f"[yellow]No sprint qualifying data recorded for {year} Round {round_num}.[/yellow]")
+                    return
+                table = Table(title=f"Sprint Qualifying (SQ) Classification — {year} Round {round_num}", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Pos", justify="right", style="bold")
+                table.add_column("Driver", style="bold")
+                table.add_column("Best Lap", style=TELEMETRY_CYAN)
+                table.add_column("Gap")
+                table.add_column("Laps", justify="right")
+
+                for r in results:
+                    table.add_row(str(r["position"]), r["driver"], r["best_lap_time"], r["gap"], str(r["laps_completed"]))
+                console.print(table)
+
+            elif stype_clean in ("fp1", "fp2", "fp3", "practice"):
+                sess_name = stype_clean if stype_clean.startswith("fp") else "fp1"
+                results = svc.get_practice_results(year, round_num, session_name=sess_name)
+                if not results:
+                    console.print(f"[yellow]No {sess_name.upper()} practice telemetry recorded for {year} Round {round_num}.[/yellow]")
+                    return
+                table = Table(title=f"{sess_name.upper()} Practice Classification — {year} Round {round_num}", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Pos", justify="right", style="bold")
+                table.add_column("Driver", style="bold")
+                table.add_column("Best Lap", style=TELEMETRY_CYAN)
+                table.add_column("Gap")
+                table.add_column("Laps", justify="right")
+
+                for r in results:
+                    table.add_row(str(r["position"]), r["driver"], r["best_lap_time"], r["gap"], str(r["laps_completed"]))
+                console.print(table)
+            else:
+                print_error(f"Unknown session type: '{session_type}'. Choose from race, qualifying, sprint, sprint_qualifying, fp1, fp2, fp3.")
+                raise typer.Exit(code=2)
+        except typer.Exit:
+            raise
+        except Exception as e:
+            print_error(f"Session query failed: {e}", exc=e)
+            raise typer.Exit(code=1)
+
+
+@history_app.command("dominance", help="Query constructor and engine historical dominance rankings")
+def history_dominance(
+    metric: str = typer.Option("all_time", "--metric", "-m", help="Dominance metric: all_time, win_rate, one_two"),
+    top: int = typer.Option(15, "--top", "-t", help="Number of records to display"),
+) -> None:
+    """Queries all-time constructor supremacy, single-season win rates, and 1-2 finish records."""
+    from src.historical.analytics.dominance_analytics import DominanceAnalyticsService
+
+    svc = DominanceAnalyticsService()
+    metric_clean = metric.strip().lower()
+
+    with console.status(f"[bold {TELEMETRY_CYAN}]Computing constructor dominance analytics ({metric_clean})...[/]"):
+        try:
+            if metric_clean in ("all_time", "constructors", "championships"):
+                records = svc.get_constructor_dominance()[:top]
+                table = Table(title="All-Time Formula 1 Constructor Supremacy Rankings", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Rank", justify="right", style="bold")
+                table.add_column("Constructor", style="bold")
+                table.add_column("Championships", justify="right", style=APEX_RED)
+                table.add_column("Wins", justify="right", style=TELEMETRY_CYAN)
+                table.add_column("Poles", justify="right")
+                table.add_column("Podiums", justify="right")
+                table.add_column("1-2s", justify="right")
+                table.add_column("Starts", justify="right", style=MUTED_GREY)
+                table.add_column("Win %", justify="right")
+
+                for r in records:
+                    table.add_row(
+                        str(r["rank"]),
+                        r["constructor"],
+                        str(r["championships"]),
+                        str(r["wins"]),
+                        str(r["poles"]),
+                        str(r["podiums"]),
+                        str(r["one_twos"]),
+                        str(r["starts"]),
+                        f"{r['win_percentage']:.1f}%",
+                    )
+                console.print(table)
+
+            elif metric_clean in ("win_rate", "seasons", "dominant"):
+                seasons = svc.get_highest_win_rate_seasons(top_n=top)
+                table = Table(title=f"Top {len(seasons)} Most Dominant Single Seasons in F1 History", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Rank", justify="right", style="bold")
+                table.add_column("Season", justify="center")
+                table.add_column("Constructor", style="bold")
+                table.add_column("Wins/Races", justify="right")
+                table.add_column("Win %", justify="right", style=TELEMETRY_CYAN)
+                table.add_column("Champion Driver", style=APEX_RED)
+                table.add_column("Historical Context", style=MUTED_GREY)
+
+                for s in seasons:
+                    table.add_row(
+                        str(s["rank"]),
+                        str(s["season"]),
+                        s["constructor"],
+                        f"{s['wins']}/{s['races']}",
+                        f"{s['win_pct']:.1f}%",
+                        s["driver_champs"],
+                        s["notes"][:45],
+                    )
+                console.print(table)
+
+            elif metric_clean in ("one_two", "1-2", "one_twos"):
+                teams = svc.get_one_two_finish_rankings(top_n=top)
+                table = Table(title=f"All-Time Constructor 1-2 Finish Rankings (Top {len(teams)})", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Rank", justify="right", style="bold")
+                table.add_column("Constructor", style="bold")
+                table.add_column("1-2 Finishes", justify="right", style=APEX_RED)
+                table.add_column("Total Wins", justify="right", style=TELEMETRY_CYAN)
+                table.add_column("1-2 % of Wins", justify="right")
+
+                for t in teams:
+                    table.add_row(
+                        str(t["rank"]),
+                        t["constructor"],
+                        str(t["one_twos"]),
+                        str(t["wins"]),
+                        f"{t['one_two_pct_of_wins']:.1f}%",
+                    )
+                console.print(table)
+            else:
+                print_error(f"Unknown dominance metric: '{metric}'. Choose from all_time, win_rate, one_two.")
+                raise typer.Exit(code=2)
+        except typer.Exit:
+            raise
+        except Exception as e:
+            print_error(f"Dominance query failed: {e}", exc=e)
+            raise typer.Exit(code=1)
+
+
+@history_app.command("records", help="Query all-time F1 records, streaks, and milestones")
+def history_records(
+    category: str = typer.Option("wins", "--category", "-c", help="Records category: wins, poles, podiums, streaks, milestones"),
+    streak_type: str = typer.Option("wins", "--streak-type", help="Streak type (if category=streaks): wins, podiums, points, starts"),
+    top: int = typer.Option(20, "--top", "-t", help="Number of records to display"),
+) -> None:
+    """Queries all-time driver records, unbroken streaks, and age milestones."""
+    from src.historical.analytics.all_time_records import AllTimeRecordsService
+
+    svc = AllTimeRecordsService()
+    cat_clean = category.strip().lower()
+
+    with console.status(f"[bold {TELEMETRY_CYAN}]Querying all-time Formula 1 records ({cat_clean})...[/]"):
+        try:
+            if cat_clean == "wins":
+                records = svc.get_all_time_wins(top_n=top)
+                table = Table(title=f"All-Time Grand Prix Winners (Top {len(records)})", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Rank", justify="right", style="bold")
+                table.add_column("Driver", style="bold")
+                table.add_column("Nationality", style=MUTED_GREY)
+                table.add_column("Wins", justify="right", style=APEX_RED)
+                table.add_column("Starts", justify="right")
+                table.add_column("Win %", justify="right", style=TELEMETRY_CYAN)
+
+                for r in records:
+                    table.add_row(str(r["rank"]), r["driver"], r["nationality"], str(r["wins"]), str(r["starts"]), f"{r['win_pct']:.1f}%")
+                console.print(table)
+
+            elif cat_clean in ("poles", "pole_positions"):
+                records = svc.get_all_time_poles(top_n=top)
+                table = Table(title=f"All-Time Pole Position Records (Top {len(records)})", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Rank", justify="right", style="bold")
+                table.add_column("Driver", style="bold")
+                table.add_column("Nationality", style=MUTED_GREY)
+                table.add_column("Poles", justify="right", style=APEX_RED)
+                table.add_column("Starts", justify="right")
+                table.add_column("Pole %", justify="right", style=TELEMETRY_CYAN)
+
+                for r in records:
+                    table.add_row(str(r["rank"]), r["driver"], r["nationality"], str(r["poles"]), str(r["starts"]), f"{r['pole_pct']:.1f}%")
+                console.print(table)
+
+            elif cat_clean in ("podiums", "podium"):
+                records = svc.get_all_time_podiums(top_n=top)
+                table = Table(title=f"All-Time Podium Finishes (Top {len(records)})", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Rank", justify="right", style="bold")
+                table.add_column("Driver", style="bold")
+                table.add_column("Nationality", style=MUTED_GREY)
+                table.add_column("Podiums", justify="right", style=APEX_RED)
+                table.add_column("Starts", justify="right")
+                table.add_column("Podium %", justify="right", style=TELEMETRY_CYAN)
+
+                for r in records:
+                    table.add_row(str(r["rank"]), r["driver"], r["nationality"], str(r["podiums"]), str(r["starts"]), f"{r['podium_pct']:.1f}%")
+                console.print(table)
+
+            elif cat_clean in ("streaks", "streak"):
+                streak_map = {
+                    "wins": "consecutive_wins",
+                    "podiums": "consecutive_podiums",
+                    "points": "consecutive_points",
+                    "starts": "consecutive_starts",
+                }
+                st_key = streak_map.get(streak_type.strip().lower(), "consecutive_wins")
+                streaks = svc.get_consecutive_records(st_key)[:top]
+                title = st_key.replace("_", " ").title()
+                table = Table(title=f"All-Time Streaks: {title}", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Rank", justify="right", style="bold")
+                table.add_column("Driver", style="bold")
+                table.add_column("Streak Count", justify="right", style=APEX_RED)
+                table.add_column("Season", justify="center")
+                table.add_column("Grand Prix Span", style=MUTED_GREY)
+
+                for s in streaks:
+                    table.add_row(str(s["rank"]), s["driver"], str(s["count"]), s["season"], s["races"])
+                console.print(table)
+
+            elif cat_clean in ("milestones", "age"):
+                milestones = svc.get_age_milestones()
+                # Youngest
+                table_y = Table(title="Youngest Grand Prix Winners", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table_y.add_column("Rank", justify="right", style="bold")
+                table_y.add_column("Driver", style="bold")
+                table_y.add_column("Age", style=TELEMETRY_CYAN)
+                table_y.add_column("Event")
+                for x in milestones["youngest_winners"]:
+                    table_y.add_row(str(x["rank"]), x["driver"], x["age"], x["event"])
+                console.print(table_y)
+
+                # Oldest
+                table_o = Table(title="Oldest Grand Prix Winners", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table_o.add_column("Rank", justify="right", style="bold")
+                table_o.add_column("Driver", style="bold")
+                table_o.add_column("Age", style=TELEMETRY_CYAN)
+                table_o.add_column("Event")
+                for x in milestones["oldest_winners"]:
+                    table_o.add_row(str(x["rank"]), x["driver"], x["age"], x["event"])
+                console.print(table_o)
+
+                # Most starts no win
+                table_u = Table(title="Most Race Starts Without a Grand Prix Win", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table_u.add_column("Rank", justify="right", style="bold")
+                table_u.add_column("Driver", style="bold")
+                table_u.add_column("Starts", justify="right", style=APEX_RED)
+                table_u.add_column("Best Finish")
+                for x in milestones["most_starts_no_win"]:
+                    table_u.add_row(str(x["rank"]), x["driver"], str(x["starts"]), x["best_finish"])
+                console.print(table_u)
+            else:
+                print_error(f"Unknown records category: '{category}'. Choose from wins, poles, podiums, streaks, milestones.")
+                raise typer.Exit(code=2)
+        except typer.Exit:
+            raise
+        except Exception as e:
+            print_error(f"Records query failed: {e}", exc=e)
+            raise typer.Exit(code=1)
+
+
+@history_app.command("reliability", help="Query historical mechanical attrition and constructor reliability")
+def history_reliability(
+    view: str = typer.Option("eras", "--view", "-v", help="Reliability view: eras, attritional_races, constructors"),
+    top: int = typer.Option(10, "--top", "-t", help="Number of records to display"),
+) -> None:
+    """Queries historical mechanical attrition rates, race finish percentages, and constructor reliability."""
+    from src.historical.analytics.reliability_analytics import ReliabilityAnalyticsService
+
+    svc = ReliabilityAnalyticsService()
+    v_clean = view.strip().lower()
+
+    with console.status(f"[bold {TELEMETRY_CYAN}]Querying reliability analytics ({v_clean})...[/]"):
+        try:
+            if v_clean in ("eras", "trends", "attrition"):
+                eras = svc.get_season_attrition_rates()[:top]
+                table = Table(title="Historical Attrition Evolution Across Eras (1950–2026)", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Era", style="bold")
+                table.add_column("Races", justify="right")
+                table.add_column("Finish Rate %", justify="right", style=GREEN_FLAG)
+                table.add_column("Mech. DNF %", justify="right", style=APEX_RED)
+                table.add_column("Accident %", justify="right", style=FLAG_YELLOW)
+                table.add_column("Avg Finishers", justify="right")
+
+                for e in eras:
+                    table.add_row(
+                        e["era"],
+                        str(e["races"]),
+                        f"{e['finish_rate_pct']:.1f}%",
+                        f"{e['mech_dnf_pct']:.1f}%",
+                        f"{e['accident_dnf_pct']:.1f}%",
+                        f"{e['avg_finishers']:.1f}",
+                    )
+                console.print(table)
+
+            elif v_clean in ("attritional_races", "races", "carnage"):
+                races = svc.get_most_attritional_races(top_n=top)
+                table = Table(title="Most Attritional Races in F1 History (Fewest Checkered Flag Finishers)", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Grand Prix", style="bold")
+                table.add_column("Year", justify="center")
+                table.add_column("Starters", justify="right")
+                table.add_column("Finishers", justify="right", style=APEX_RED)
+                table.add_column("Winner", style=TELEMETRY_CYAN)
+                table.add_column("Race Context", style=MUTED_GREY)
+
+                for r in races:
+                    table.add_row(r["race"], str(r["year"]), str(r["starters"]), str(r["finishers"]), r["winner"], r["notes"][:45])
+                console.print(table)
+
+            elif v_clean in ("constructors", "teams", "reliable"):
+                constructors = svc.get_most_reliable_constructors(top_n=top)
+                table = Table(title="Constructor Reliability Rankings (Modern V6 Turbo-Hybrid Era)", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+                table.add_column("Rank", justify="right", style="bold")
+                table.add_column("Constructor", style="bold")
+                table.add_column("Regulatory Era", style=MUTED_GREY)
+                table.add_column("Race Starts", justify="right")
+                table.add_column("Finish Rate %", justify="right", style=GREEN_FLAG)
+                table.add_column("Engine PU")
+
+                for c in constructors:
+                    table.add_row(str(c["rank"]), c["constructor"], c["era"], str(c["starts"]), f"{c['finish_rate_pct']:.1f}%", c["engine"])
+                console.print(table)
+            else:
+                print_error(f"Unknown reliability view: '{view}'. Choose from eras, attritional_races, constructors.")
+                raise typer.Exit(code=2)
+        except typer.Exit:
+            raise
+        except Exception as e:
+            print_error(f"Reliability query failed: {e}", exc=e)
+            raise typer.Exit(code=1)
+
+
+@history_app.command("eras", help="Query regulatory eras and macro-metrics comparison (1950–2026)")
+def history_eras() -> None:
+    """Queries technical and regulatory era comparisons across Formula 1 history."""
+    from src.historical.analytics.era_analytics import EraAnalyticsService
+
+    svc = EraAnalyticsService()
+    with console.status(f"[bold {TELEMETRY_CYAN}]Computing regulatory era comparisons...[/]"):
+        try:
+            eras = svc.get_era_overview()
+        except Exception as e:
+            print_error(f"Era query failed: {e}", exc=e)
+            raise typer.Exit(code=1)
+
+    table = Table(title="The 8 Canonical Technical Eras of Formula 1 (1950–2026)", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+    table.add_column("Era", style="bold")
+    table.add_column("Period", justify="center")
+    table.add_column("Avg Races/Yr", justify="right")
+    table.add_column("Avg Grid", justify="right")
+    table.add_column("Finish Rate %", justify="right", style=GREEN_FLAG)
+    table.add_column("Winners/Yr", justify="right", style=APEX_RED)
+    table.add_column("Teams/Yr", justify="right", style=TELEMETRY_CYAN)
+
+    for e in eras:
+        table.add_row(
+            e["name"],
+            e["period"],
+            f"{e['avg_races_per_year']:.1f}",
+            f"{e['avg_grid_size']:.1f}",
+            f"{e['finish_rate_pct']:.1f}%",
+            f"{e['unique_winners_per_year']:.1f}",
+            f"{e['unique_winning_teams_per_yr']:.1f}",
+        )
+    console.print(table)
+
+    console.print(f"\n[bold {TITANIUM_WHITE}]Technical Architecture & Defining Innovations:[/bold {TITANIUM_WHITE}]")
+    for e in eras:
+        console.print(f"  • [bold {TELEMETRY_CYAN}]{e['name']} ({e['period']}):[/bold {TELEMETRY_CYAN}] {e['defining_characteristics']}")
 
 
 if __name__ == "__main__":

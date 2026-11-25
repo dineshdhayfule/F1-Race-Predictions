@@ -16,7 +16,7 @@ def test_root_help_lists_core_commands():
 def test_history_help_lists_subcommands():
     result = runner.invoke(app, ["history", "--help"])
     assert result.exit_code == 0
-    for command in ("driver", "h2h", "qualifying", "race", "circuit", "standings"):
+    for command in ("driver", "h2h", "qualifying", "race", "circuit", "standings", "session", "dominance", "records", "reliability", "eras"):
         assert command in result.output
 
 

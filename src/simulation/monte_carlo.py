@@ -49,6 +49,7 @@ class MonteCarloSimulator:
         driver_dnf_driver_ids: Optional[list] = None,
         circuit_key: Optional[str] = None,
         n_simulations: Optional[int] = None,
+        pace_sigma: Optional[float] = None,
     ) -> Tuple[pd.DataFrame, Dict[str, Any]]:
         """
         Executes Monte Carlo simulations incorporating strategic, race control, and weather factors.
@@ -80,7 +81,10 @@ class MonteCarloSimulator:
         num_sims = int(n_simulations) if n_simulations is not None else self.n_simulations
 
         # Calibrate sigma using MAD (robust standard deviation) if residuals available
-        if residuals is not None and len(residuals) > 0:
+        if pace_sigma is not None:
+            calibrated_sigma = float(pace_sigma)
+            logger.info(f"Using stage-adaptive pace sigma: {calibrated_sigma:.4f}")
+        elif residuals is not None and len(residuals) > 0:
             calibrated_sigma = float(median_abs_deviation(residuals) * 1.4826)
             calibrated_sigma = max(calibrated_sigma, 1.5)
             logger.info(f"Using residual-calibrated pace sigma: {calibrated_sigma:.4f} (from {len(residuals)} samples)")

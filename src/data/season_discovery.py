@@ -146,7 +146,7 @@ class SeasonDiscovery:
                     "error_reason": f"Season {year} is prior to FastF1 detailed coverage ({FASTF1_MIN_YEAR}). Results-only data is not usable for telemetry-based prediction.",
                 }
             usable = len(verified_rounds) >= 1
-            error_reason = None if usable else "Prediction workflow requires at least 1 completed round."
+            error_reason = None if usable else "Prediction workflow with historical form requires at least 1 completed round; active weekend telemetry mode remains usable."
         else:
             usable = len(verified_rounds) >= 1
             error_reason = None if usable else "At least 1 completed round is required."

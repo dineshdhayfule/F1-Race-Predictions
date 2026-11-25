@@ -530,6 +530,7 @@ class InteractiveMenu:
             return
 
         stage = next((s[1] for s in available_stages if s[0] == chosen_stage_val or s[1] == chosen_stage_val), "after_qualifying")
+        selected_weekend_only = False
 
         # Step 4: Data Readiness Check
         clear_screen()
@@ -559,28 +560,39 @@ class InteractiveMenu:
 
         # Step 5: Missing-data Handling
         if not ready:
+            historical_only_missing = all(
+                status in ["OK", "INFO", "WARN"] or ("Round 1" in msg or "prior" in msg or "completed round" in msg or "Historical Training" in msg)
+                for status, msg in details
+            )
             print("\nRequired session data is missing for the selected stage.")
             print("  1. Collect missing session data via FastF1")
-            if stage == "after_qualifying":
-                print(f"  2. {Colors.YELLOW}Change stage to an earlier practice stage for provisional prediction{Colors.RESET}")
-            else:
-                print("  2. Proceed anyway using fallback provisional models (if permissible)")
+            print("  2. Proceed anyway using fallback provisional models (if permissible)")
             print("  3. Change stage")
+            if historical_only_missing:
+                print(f"  4. {Colors.GREEN}Proceed with Weekend-Only Mode (uses active weekend session telemetry without prior season history){Colors.RESET}")
             print("  0. Cancel prediction\n")
-            action = prompt_choice("Select action", ["1", "2", "3", "0"], default="1")
-            if action == "1":
+            allowed_actions = ["1", "2", "3", "0"] + (["4"] if historical_only_missing else [])
+            action = prompt_choice("Select action", allowed_actions, default="4" if historical_only_missing else "1")
+            if action == "4":
+                selected_weekend_only = True
+                ready = True
+            elif action == "1":
                 self._run_data_collection_wizard(track_key, year, round_num, stage=stage, is_sprint=is_sprint)
                 # Re-audit
                 ready, new_details = self._audit_prediction_readiness(track_key, year, round_num, stage, is_sprint)
                 if not ready:
                     new_missing = [msg for status, msg in new_details if status in ["MISSING", "INVALID"]]
                     only_r1 = len(new_missing) == 1 and any("Round 1" in m for m in new_missing)
-                    if only_r1:
+                    if only_r1 or all("Round 1" in m or "prior" in m or "completed round" in m for m in new_missing):
                         print_info("Target session and starting grid data verified successfully.")
-                        print_warning(
-                            f"Predictive model training remains unavailable because Round 1 ({year}) has no prior completed championship rounds."
-                        )
-                        return
+                        if prompt_confirm("Run prediction using Weekend-Only Mode (uses active weekend telemetry)?", default=True):
+                            selected_weekend_only = True
+                            ready = True
+                        else:
+                            print_warning(
+                                f"Predictive model training remains unavailable because Round 1 ({year}) has no prior completed championship rounds."
+                            )
+                            return
                     else:
                         print_error("Required data remains unverified after collection.")
                         if stage == "after_qualifying":
@@ -608,11 +620,12 @@ class InteractiveMenu:
             ["4", "Hybrid Ensemble (60% RF / 40% XGB)", "Default balanced dual-model ensemble", "3.585"],
             ["5", "Hybrid Ensemble (Custom Weights)", "User-configured percentage weights", "Custom"],
             ["6", "Validated Multi-Model Ensemble", "Production benchmark: 40% RF / 30% XGB / 30% Ridge", "3.534"],
+            ["7", "Weekend-Only ML Ensemble (40% RF / 30% XGB / 30% Ridge)", "Active weekend telemetry only (zero prior season history)", "3.534*"],
         ]
         print_table(["#", "Model Architecture", "Description", "Overall Historical CV MAE"], model_table_rows, align_right=[True, False, False, True])
         print(f"{Colors.DIM}Note: The figures above represent overall historical cross-validation benchmarks and are not dynamically calculated track-specific MAEs.{Colors.RESET}\n")
         print("  0. Cancel / Back\n")
-        model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "5", "6", "0"], default="4")
+        model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "5", "6", "7", "0"], default="7" if selected_weekend_only else "4")
         if model_choice_input == "0":
             return
         selected_custom_rf = None
@@ -631,6 +644,9 @@ class InteractiveMenu:
                 return self.menu_predict_race()
         elif model_choice_input == "6":
             selected_model_opt = "ensemble"
+        elif model_choice_input == "7":
+            selected_model_opt = "weekend_only"
+            selected_weekend_only = True
         else:
             selected_model_opt = "hybrid"
 
@@ -680,6 +696,7 @@ class InteractiveMenu:
                         rf_weight=selected_custom_rf,
                         xgb_weight=selected_custom_xgb,
                         capabilities=caps,
+                        weekend_only=selected_weekend_only,
                     )
             else:
                 results = pipeline.run(
@@ -691,6 +708,7 @@ class InteractiveMenu:
                     rf_weight=selected_custom_rf,
                     xgb_weight=selected_custom_xgb,
                     capabilities=caps,
+                    weekend_only=selected_weekend_only,
                 )
         except Exception as e:
             logger.error(f"Pipeline execution error: {e}", exc_info=True)
@@ -740,7 +758,7 @@ class InteractiveMenu:
         return valid
 
     def _audit_prediction_readiness(
-        self, track_key: str, year: int, round_num: int, stage: str, is_sprint: bool
+        self, track_key: str, year: int, round_num: int, stage: str, is_sprint: bool, weekend_only: bool = False
     ) -> (bool, List[tuple]):
         """Inspects disk files and validates schemas to determine if the pipeline is ready to run."""
         from src.data.roster_resolver import RosterResolver
@@ -778,7 +796,9 @@ class InteractiveMenu:
             else:
                 invalid_historical.append((r, "race-result dataset is missing or unusable"))
 
-        if round_num <= 1 or len(train_rounds) == 0:
+        if weekend_only:
+            details.append(("OK", "Weekend-Only Mode: Historical season rounds bypassed. Predictions use active weekend session telemetry."))
+        elif round_num <= 1 or len(train_rounds) == 0:
             details.append(("MISSING", f"Round 1 Season Opener: No prior {year} rounds exist to train predictive models. Minimum 1 completed round is required."))
             is_ready = False
         elif completed_historical == 0:
@@ -1080,9 +1100,7 @@ class InteractiveMenu:
             print_warning(f"File not found: {path}")
             return
         content = path.read_text(encoding="utf-8", errors="replace")
-        print("\n" + "=" * 76)
-        print(f" FILE: {path.name}")
-        print("=" * 76 + "\n")
+        print_header(f"File Preview: {path.name}")
         paginate_text(content)
 
     # =========================================================================
@@ -1342,7 +1360,7 @@ class InteractiveMenu:
 
         all_results = []
         for k, d_name in selected_circuits:
-            print(f"\n{Colors.CYAN}--- Processing {d_name} ({k}) ---{Colors.RESET}")
+            print(f"\n{format_menu_divider(f'Processing {d_name} ({k})', 'bold #00B4D8')}")
             try:
                 res = collect_historical_track_data(
                     track_id=k,
@@ -1914,10 +1932,7 @@ class InteractiveMenu:
     def _view_csv_file(self, path: Path) -> None:
         try:
             df = pd.read_csv(path)
-            w = get_terminal_width()
-            print("\n" + "=" * w)
-            print(f" TABLE: {path.name} ({len(df)} rows, {len(df.columns)} columns)")
-            print("=" * w)
+            print_header(f"Table Preview: {path.name}", f"{len(df)} rows, {len(df.columns)} columns")
             # Show top columns for readability
             cols = [c for c in ["PredictedPosition", "Position", "Abbreviation", "TeamName", "ActualStartingGrid", "ExpectedFinish", "WinProbability", "Top3Probability", "PointsProbability", "ActualFinish"] if c in df.columns]
             if not cols:
@@ -2104,44 +2119,38 @@ class InteractiveMenu:
             else:
                 print_warning(f"Directory '{d_name}' not yet created.")
 
-        # 5. Git Status
-        print(f"\n{Colors.BOLD}Git Working Tree Status:{Colors.RESET}")
-        try:
-            res = subprocess.run(["git", "status", "--short"], cwd=self.root_dir, capture_output=True, text=True, check=False)
-            if res.returncode == 0:
-                lines = res.stdout.strip().splitlines()
-                if not lines:
-                    print_success("Working tree clean (zero uncommitted changes).")
-                else:
-                    print_info(f"Working tree has {len(lines)} modified/untracked files.")
-                    for l in lines[:5]:
-                        print(f"     {l}")
-                    if len(lines) > 5:
-                        print(f"     ... and {len(lines)-5} more.")
-            else:
-                print_warning("Git command exited with non-zero status.")
-        except Exception as e:
-            print_warning(f"Could not query git: {e}")
+        # Action: Option to run diagnostics tests
+        core_test_files = [
+            "tests/test_feature_schema.py",
+            "tests/test_grid_race_logic.py",
+            "tests/test_dynamic_roster.py",
+            "tests/test_dnf_hazard.py",
+            "tests/test_terminal_ui.py",
+            "tests/test_historical_intelligence_v2.py",
+            "tests/test_remediation_integrity.py",
+        ]
+        sim_test_files = [
+            "tests/test_weekend_only_pipeline.py",
+            "tests/test_monte_carlo.py",
+        ]
 
-        # Action: Option to run tests
         print(f"\n{Colors.BOLD}Diagnostics Options:{Colors.RESET}")
-        print("  1. Run Fast Unit Tests (56 tests)")
-        print("  2. Run COTA Session Discovery Tests (6 tests)")
+        print("  1. Run Fast Core Engine Tests (~59 tests)")
+        print("  2. Run Weekend-Only & Simulation Tests (~22 tests)")
+        print("  3. Run Full Fast Diagnostic Suite (~81 tests)")
         print("  0. Back to Main Menu\n")
-        c = prompt_choice("Select action", ["1", "2", "0"], default="0")
+        c = prompt_choice("Select action", ["1", "2", "3", "0"], default="0")
         if c == "1":
-            print_info("Executing fast unit tests...")
-            subprocess.run([
-                sys.executable, "-m", "pytest",
-                "tests/test_leakage.py", "tests/test_sprint_architecture.py",
-                "tests/test_config_driven_circuits.py", "tests/test_grid_conversion.py",
-                "tests/test_grid_penalties.py", "tests/test_sprint_features.py",
-                "tests/test_teammate_features.py", "tests/test_timing.py"
-            ], cwd=self.root_dir)
+            print_info("Executing fast core engine unit tests...")
+            subprocess.run([sys.executable, "-m", "pytest"] + core_test_files + ["-v"], cwd=self.root_dir)
             prompt_str("\nPress [Enter] to continue", allow_empty=True)
         elif c == "2":
-            print_info("Executing COTA session discovery tests...")
-            subprocess.run([sys.executable, "-m", "pytest", "tests/test_cota_session_discovery.py"], cwd=self.root_dir)
+            print_info("Executing weekend-only & simulation tests...")
+            subprocess.run([sys.executable, "-m", "pytest"] + sim_test_files + ["-v"], cwd=self.root_dir)
+            prompt_str("\nPress [Enter] to continue", allow_empty=True)
+        elif c == "3":
+            print_info("Executing full fast diagnostic test suite...")
+            subprocess.run([sys.executable, "-m", "pytest"] + core_test_files + sim_test_files + ["-v"], cwd=self.root_dir)
             prompt_str("\nPress [Enter] to continue", allow_empty=True)
 
     # =========================================================================

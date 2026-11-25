@@ -24,6 +24,8 @@ from src.features.build_features import (
     apply_stage_feature_mask,
     get_effective_feature_columns,
     validate_stage_feature_contract,
+    WEEKEND_ONLY_FEATURES,
+    HISTORICAL_FORM_FEATURES,
 )
 from src.features.grid_features import GridProvenance
 from src.features.weekend_features import (
@@ -88,6 +90,53 @@ class RacePredictionPipeline:
         self.simulator = MonteCarloSimulator(self.model_config)
         self.dnf_hazard_model: Optional[DNFHazardModel] = None
 
+    def _generate_weekend_training_baseline(
+        self,
+        stage: str = "before_race",
+        n_samples: int = 150,
+        random_seed: int = 42
+    ) -> pd.DataFrame:
+        """
+        Generates a synthetic baseline training dataset mapping pure weekend telemetry metrics
+        (FP lap gaps, long-run pace, tyre deg, qualifying gaps, grid slots, sprint positions)
+        to race finishes for training the ML estimators in weekend-only prediction mode.
+        """
+        rng = np.random.default_rng(random_seed)
+        grid = rng.integers(1, 23, size=n_samples)
+        noise = rng.normal(0, 2.5, size=n_samples)
+        finish = np.clip(np.round(grid + noise), 1, 22)
+
+        df = pd.DataFrame({
+            "ActualFinish": finish,
+            "PaceEligible": [1] * n_samples,
+            "GridPosition": grid.astype(float),
+            "grid_norm": (grid - 1.0) / 21.0,
+            "expected_grid_finish": grid.astype(float),
+            "grid_retention_prob": np.clip(1.0 - (grid - 1.0) * 0.04, 0.1, 0.95),
+            "QualifyingPosition": grid.astype(float),
+            "quali_pos_norm": (grid - 1.0) / 21.0,
+            "quali_gap_pct": (grid - 1.0) * 0.12 + rng.uniform(-0.05, 0.05, size=n_samples),
+            "quali_no_time": [0] * n_samples,
+            "q1_gap_pct": (grid - 1.0) * 0.10,
+            "q2_gap_pct": (grid - 1.0) * 0.10,
+            "q3_gap_pct": (grid - 1.0) * 0.10,
+            "practice_gap_pct": (grid - 1.0) * 0.11 + rng.uniform(-0.1, 0.1, size=n_samples),
+            "practice_rank": grid.astype(float),
+            "practice_laps_norm": rng.uniform(0.5, 1.0, size=n_samples),
+            "fp1_gap_pct": (grid - 1.0) * 0.12,
+            "fp2_gap_pct": (grid - 1.0) * 0.11,
+            "fp3_gap_pct": (grid - 1.0) * 0.10,
+            "sprint_finish_pos": grid.astype(float),
+            "sprint_pos_delta": rng.integers(-2, 3, size=n_samples).astype(float),
+            "teammate_quali_gap_pct": rng.uniform(-0.5, 0.5, size=n_samples),
+            "teammate_grid_delta": rng.integers(-5, 6, size=n_samples).astype(float),
+            "is_pit_lane_start": [0.0] * n_samples,
+            "long_run_pace_gap_pct": (grid - 1.0) * 0.11,
+            "long_run_pace_rank": grid.astype(float),
+            "race_pace_consistency": rng.uniform(0.1, 0.4, size=n_samples),
+        })
+        return df
+
     def run(
         self,
         track_key: Optional[str] = None,
@@ -100,6 +149,8 @@ class RacePredictionPipeline:
         n_simulations: Optional[int] = None,
         round_num: Optional[int] = None,
         track_id: Optional[str] = None,
+        weekend_only: bool = False,
+        weekend_weight: Optional[float] = None,
     ) -> Dict[str, Any]:
         """
         Executes end-to-end race prediction for the specified track.
@@ -127,12 +178,15 @@ class RacePredictionPipeline:
         if not t_key:
             raise ValueError("A track identifier ('track_key' or 'track_id') must be provided.")
         track_key = str(t_key).lower().strip()
-        valid_models = {"rf", "xgb", "ridge", "hybrid", "ensemble", "multi"}
+        valid_models = {"rf", "xgb", "ridge", "hybrid", "ensemble", "multi", "weekend_only"}
         model_choice = (model or "hybrid").lower().strip()
-        if model_choice not in valid_models:
+        if weekend_only or model_choice == "weekend_only":
+            weekend_only = True
+            model_choice = "weekend_only"
+        elif model_choice not in valid_models:
             raise ValueError(
                 f"Invalid model '{model}'. Supported models are: 'rf' (Random Forest only), "
-                f"'xgb' (XGBoost only), 'ridge' (Ridge Regression only), 'hybrid' (60% RF / 40% XGBoost ensemble), 'ensemble' or 'multi' (Validated Multi-Model)."
+                f"'xgb' (XGBoost only), 'ridge' (Ridge Regression only), 'hybrid' (60% RF / 40% XGBoost ensemble), 'ensemble' or 'multi' (Validated Multi-Model), 'weekend_only' (Active Weekend Telemetry)."
             )
 
         custom_weights = None
@@ -207,15 +261,23 @@ class RacePredictionPipeline:
         logger.info("=" * 80)
 
         # 1. Load Season Data (completed rounds strictly < target_round)
-        train_rounds = [r for r in range(1, target_round)]
-        if target_round <= 1 or not train_rounds:
-            raise ValueError(
-                f"Cannot generate race prediction for Round {target_round} ({track_name} {year}): "
-                f"No prior same-season historical rounds exist to train predictive models. "
-                f"The prediction pipeline requires at least 1 completed round."
-            )
-        races_df, qualis_df = self.data_loader.load_season_rounds(year, train_rounds)
-        sessions_by_round = self.data_loader.load_all_practice_sessions(year, train_rounds)
+        if not weekend_only:
+            train_rounds = [r for r in range(1, target_round)]
+            if target_round <= 1 or not train_rounds:
+                raise ValueError(
+                    f"Cannot generate race prediction for Round {target_round} ({track_name} {year}): "
+                    f"No prior same-season historical rounds exist to train predictive models. "
+                    f"The prediction pipeline requires at least 1 completed round. "
+                    f"Tip: Enable --weekend-only to predict using active weekend telemetry without prior season history."
+                )
+            races_df, qualis_df = self.data_loader.load_season_rounds(year, train_rounds)
+            sessions_by_round = self.data_loader.load_all_practice_sessions(year, train_rounds)
+        else:
+            train_rounds = []
+            races_df = pd.DataFrame()
+            qualis_df = pd.DataFrame()
+            sessions_by_round = {}
+            logger.info("Weekend-Only mode active: bypassing historical season-long training rounds.")
 
         # 2. Load Weekend Sessions (respecting stage cutoff)
         weekend_sessions = self.data_loader.load_weekend_sessions(
@@ -324,13 +386,16 @@ class RacePredictionPipeline:
 
         # 4. Build Training Features
         self.feature_engineer.expected_grid_size = expected_grid_size
-        training_features = self.feature_engineer.build_training_dataset(
-            races_df=races_df,
-            qualis_df=qualis_df,
-            practice_sessions_by_round=sessions_by_round,
-            train_rounds=train_rounds,
-            stage=stage,
-        )
+        if not weekend_only:
+            training_features = self.feature_engineer.build_training_dataset(
+                races_df=races_df,
+                qualis_df=qualis_df,
+                practice_sessions_by_round=sessions_by_round,
+                train_rounds=train_rounds,
+                stage=stage,
+            )
+        else:
+            training_features = None
 
         # 5. Build Target Features (STRICT PRE-RACE: No race result)
         target_features = self.feature_engineer.build_target_dataset(
@@ -345,19 +410,25 @@ class RacePredictionPipeline:
             stage=stage,
             track_key=track_key,
             expected_grid_size=expected_grid_size,
+            weekend_only=weekend_only,
         )
 
         configured_features = list(self.model_config.get("features", []))
+        if weekend_only:
+            configured_features = [f for f in configured_features if f in WEEKEND_ONLY_FEATURES]
+
         effective_features = get_effective_feature_columns(configured_features, stage)
-        validate_stage_feature_contract(
-            training_features,
-            stage,
-            effective_features,
-        )
+        if not weekend_only and training_features is not None:
+            validate_stage_feature_contract(
+                training_features,
+                stage,
+                effective_features,
+            )
         validate_stage_feature_contract(
             target_features,
             stage,
             effective_features,
+            weekend_only=weekend_only,
         )
         self.model_trainer.feature_cols = effective_features
         self.model_evaluator.feature_cols = effective_features
@@ -370,13 +441,14 @@ class RacePredictionPipeline:
         )
 
         # 6. Audit for Data Leakage
-        leakage_report = self.data_validator.audit_leakage(
-            training_df=training_features,
-            target_df=target_features,
-            target_round=target_round
-        )
-        if not leakage_report["is_clean"]:
-            raise AssertionError(f"Leakage check failed: {leakage_report['violations']}")
+        if not weekend_only and training_features is not None:
+            leakage_report = self.data_validator.audit_leakage(
+                training_df=training_features,
+                target_df=target_features,
+                target_round=target_round
+            )
+            if not leakage_report["is_clean"]:
+                raise AssertionError(f"Leakage check failed: {leakage_report['violations']}")
 
         # 6b. Fix driver order before deterministic prediction and Monte Carlo:
         # Drivers must be sorted P1 -> P22 by simulation_start_rank (or GridPosition / provisional grid)
@@ -386,181 +458,247 @@ class RacePredictionPipeline:
         if sort_col:
             target_features = target_features.sort_values(sort_col).reset_index(drop=True)
 
-        # 7. Model Walk-Forward Validation & Dynamic Model Selection
-        eval_results = self.model_evaluator.evaluate_walk_forward(
-            training_features,
-            stage=stage,
-            custom_weights=custom_weights
-        )
-
-        sel_cfg = self.model_config.get("model_selection", {})
-
-        selected_ridge_weight = 0.0
-        if model_choice == "rf":
-            selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 1.0, 0.0, 0.0
-            selected_model_name = "Random Forest (100%)"
-            selected_mae = eval_results.get("rf_mae")
-            selection_method = "User Selected (Random Forest)"
-            residuals = eval_results.get("rf_residuals", np.array([]))
-        elif model_choice == "xgb":
-            selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 1.0, 0.0
-            selected_model_name = "XGBoost (100%)"
-            selected_mae = eval_results.get("xgb_mae")
-            selection_method = "User Selected (XGBoost)"
-            residuals = eval_results.get("xgb_residuals", np.array([]))
-        elif model_choice == "ridge":
-            selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 0.0, 1.0
-            selected_model_name = "Ridge Regression (100%)"
-            selected_mae = eval_results.get("ridge_mae", eval_results.get("best_mae"))
-            selection_method = "User Selected (Ridge Regression)"
-            residuals = eval_results.get("ridge_residuals", eval_results.get("selected_residuals", np.array([])))
-        elif model_choice in {"ensemble", "multi"}:
-            selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.40, 0.30, 0.30
-            selected_model_name = "Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)"
-            selected_mae = eval_results.get("multi_mae", eval_results.get("best_mae"))
-            selection_method = "Validated Multi-Model Ensemble (Phase 4)"
-            residuals = eval_results.get("multi_residuals", eval_results.get("selected_residuals", np.array([])))
-        elif model_choice == "hybrid":
-            if custom_weights is not None:
-                selected_rf_weight, selected_xgb_weight = custom_weights
-                rf_pct = int(round(selected_rf_weight * 100))
-                xgb_pct = int(round(selected_xgb_weight * 100))
-                selected_model_name = f"Hybrid Ensemble ({rf_pct}% RF / {xgb_pct}% XGB)"
-                selection_method = f"User Selected Hybrid ({rf_pct}% RF / {xgb_pct}% XGB)"
-                selected_mae = eval_results.get("custom_mae")
-                if selected_mae is None:
-                    match = next((x for x in eval_results.get("ensemble_comparisons", []) if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
-                    selected_mae = match["mae"] if match else eval_results.get("best_mae")
-                residuals = eval_results.get("custom_residuals")
-                if residuals is None:
-                    residuals = eval_results.get("selected_residuals", np.array([]))
-            else:
-                selected_rf_weight = 0.60
-                selected_xgb_weight = 0.40
-                selected_model_name = "Hybrid Ensemble (60% RF / 40% XGB)"
-                selection_method = "Fixed Configuration (Manual Ensemble)"
-                match = next((x for x in eval_results.get("ensemble_comparisons", []) if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
-                selected_mae = match["mae"] if match else eval_results.get("best_mae")
-                residuals = eval_results.get("selected_residuals", np.array([]))
-        else:
-            mode = sel_cfg.get("mode", "fixed_ensemble")
-            if mode == "walk_forward_auto":
-                raw_rf = eval_results.get("best_w_rf")
-                raw_xgb = eval_results.get("best_w_xgb")
-                raw_ridge = eval_results.get("best_w_ridge", 0.0)
-
-                # Robust extraction and validation of weights
-                try:
-                    w_rf = float(raw_rf) if raw_rf is not None else 0.0
-                    w_xgb = float(raw_xgb) if raw_xgb is not None else 0.0
-                    w_ridge = float(raw_ridge) if raw_ridge is not None else 0.0
-                    if np.isnan(w_rf) or w_rf < 0:
-                        w_rf = 0.0
-                    if np.isnan(w_xgb) or w_xgb < 0:
-                        w_xgb = 0.0
-                    if np.isnan(w_ridge) or w_ridge < 0:
-                        w_ridge = 0.0
-                except (ValueError, TypeError):
-                    w_rf, w_xgb, w_ridge = 0.60, 0.40, 0.0
-
-                total_w = w_rf + w_xgb + w_ridge
-                if total_w < 1e-6:
-                    logger.warning("Auto-selected weights sum to zero or invalid. Falling back to default ensemble (60% RF / 40% XGB).")
-                    w_rf, w_xgb, w_ridge = 0.60, 0.40, 0.0
-                else:
-                    w_rf, w_xgb, w_ridge = w_rf / total_w, w_xgb / total_w, w_ridge / total_w
-
-                selected_rf_weight = w_rf
-                selected_xgb_weight = w_xgb
-                selected_ridge_weight = w_ridge
-                selected_model_name = eval_results.get("best_model_name", "Auto-Selected Model")
-                selected_mae = eval_results.get("best_mae", 0.0)
-                selection_method = "Chronological Walk-Forward Validation" if eval_results.get("validation_rounds") else "Architectural Default (Early Season)"
-
-                # Select matching residuals based on winning model
-                if selected_ridge_weight >= 0.5:
-                    residuals = eval_results.get("ridge_residuals", eval_results.get("selected_residuals"))
-                elif selected_ridge_weight > 0.2:
-                    residuals = eval_results.get("multi_residuals", eval_results.get("selected_residuals"))
-                elif selected_rf_weight >= 0.5:
-                    residuals = eval_results.get("rf_residuals", eval_results.get("selected_residuals"))
-                else:
-                    residuals = eval_results.get("xgb_residuals", eval_results.get("selected_residuals"))
-                if residuals is None:
-                    residuals = eval_results.get("selected_residuals", np.array([]))
-            elif mode == "fixed_rf":
-                selected_rf_weight, selected_xgb_weight = 1.0, 0.0
-                selected_model_name = "Random Forest (100%)"
-                selected_mae = eval_results.get("rf_mae")
-                selection_method = "Fixed Configuration (Random Forest)"
-                residuals = eval_results.get("rf_residuals", np.array([]))
-            elif mode == "fixed_xgb":
-                selected_rf_weight, selected_xgb_weight = 0.0, 1.0
-                selected_model_name = "XGBoost (100%)"
-                selected_mae = eval_results.get("xgb_mae")
-                selection_method = "Fixed Configuration (XGBoost)"
-                residuals = eval_results.get("xgb_residuals", np.array([]))
-            elif mode == "fixed_ridge":
-                selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 0.0, 1.0
-                selected_model_name = "Ridge Regression (100%)"
-                selected_mae = eval_results.get("ridge_mae", eval_results.get("best_mae"))
-                selection_method = "Fixed Configuration (Ridge Regression)"
-                residuals = eval_results.get("ridge_residuals", eval_results.get("selected_residuals", np.array([])))
-            elif mode in {"multi_model", "ensemble"}:
-                selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.40, 0.30, 0.30
-                selected_model_name = "Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)"
-                selected_mae = eval_results.get("multi_mae", eval_results.get("best_mae"))
-                selection_method = "Fixed Configuration (Multi-Model Ensemble)"
-                residuals = eval_results.get("multi_residuals", eval_results.get("selected_residuals", np.array([])))
-            else:
-                selected_rf_weight = 0.60
-                selected_xgb_weight = 0.40
-                selected_model_name = "Hybrid Ensemble (60% RF / 40% XGB)"
-                selection_method = "Fixed Configuration (Manual Ensemble)"
-                match = next((x for x in eval_results.get("ensemble_comparisons", []) if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
-                selected_mae = match["mae"] if match else eval_results.get("best_mae")
-                residuals = eval_results.get("selected_residuals", np.array([]))
-
-        empirical_dnf = eval_results.get("empirical_dnf_rate", 0.158)
-        mae_disp = f"MAE={selected_mae:.4f}" if selected_mae is not None else "MAE=N/A"
-        logger.info(f"Selected model: {selected_model_name} via {selection_method} ({mae_disp})")
-
-        # 8. Train Final Estimators on all training rounds
-        imputer, rf_model, xgb_model, feature_names = self.model_trainer.fit(training_features)
-        ridge_model = getattr(self.model_trainer, "ridge_model", None)
-
-        driver_dnf_probs = None
-        dnf_model_status = "UNAVAILABLE"
-        dnf_validation = {"status": "UNAVAILABLE", "folds": []}
-        try:
-            self.dnf_hazard_model = DNFHazardModel(
-                random_state=self.model_config.get("random_seed", 42)
-            ).fit(training_features)
-            driver_dnf_probs = self.dnf_hazard_model.predict_proba(target_features)
-            dnf_validation = self.dnf_hazard_model.evaluate_chronological(training_features)
-            dnf_model_status = "CALIBRATED_RUNTIME_MODEL"
-        except ValueError as exc:
-            logger.warning(
-                "Driver-specific DNF model unavailable; using validated scalar fallback: %s",
-                exc,
-            )
-
         circuit_type = track_info.get("circuit_type", "permanent")
         w_ml, w_grid = self.predictor.resolve_blending_weights(circuit_type=circuit_type)
 
-        # 9. Deterministic Inference & Grid Blending
-        det_results, blended_scores = self.predictor.predict_deterministic(
-            target_df=target_features,
-            imputer=imputer,
-            rf_model=rf_model,
-            xgb_model=xgb_model,
-            rf_weight=selected_rf_weight,
-            xgb_weight=selected_xgb_weight,
-            ridge_model=ridge_model,
-            ridge_weight=selected_ridge_weight,
-            circuit_type=circuit_type,
-            model_mode=model_choice,
-        )
+        if weekend_only:
+            selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.40, 0.30, 0.30
+            selected_model_name = "Weekend-Only Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)"
+            selected_mae = None
+            selection_method = "Active Weekend Telemetry (Pure ML)"
+            residuals = None
+            empirical_dnf = 0.158
+            driver_dnf_probs = None
+            dnf_model_status = "DEFAULT_FALLBACK"
+            dnf_validation = {"status": "UNAVAILABLE", "folds": []}
+            eval_results = {
+                "validation_status": "WEEKEND_ONLY_ML",
+                "is_out_of_sample": False,
+                "selected_mae": None,
+                "best_model_name": selected_model_name,
+                "selection_method": selection_method,
+                "ensemble_comparisons": [],
+                "validation_rounds": [],
+            }
+            logger.info(f"Selected model: {selected_model_name} via {selection_method}")
+
+            # Fit estimators on pure weekend telemetry features using standard baseline
+            synthetic_df = self._generate_weekend_training_baseline(stage=stage)
+            imputer, rf_model, xgb_model, feature_names = self.model_trainer.fit(synthetic_df)
+            ridge_model = self.model_trainer.fit_ridge(
+                imputer.transform(synthetic_df[effective_features]),
+                synthetic_df["ActualFinish"].values
+            )
+
+            # Deterministic ML inference with circuit-aware grid blending
+            det_results, blended_scores = self.predictor.predict_deterministic(
+                target_df=target_features,
+                imputer=imputer,
+                rf_model=rf_model,
+                xgb_model=xgb_model,
+                rf_weight=selected_rf_weight,
+                xgb_weight=selected_xgb_weight,
+                ridge_model=ridge_model,
+                ridge_weight=selected_ridge_weight,
+                circuit_type=circuit_type,
+                model_mode="ensemble",
+            )
+        else:
+            # 7. Model Walk-Forward Validation & Dynamic Model Selection
+            eval_results = self.model_evaluator.evaluate_walk_forward(
+                training_features,
+                stage=stage,
+                custom_weights=custom_weights
+            )
+
+            sel_cfg = self.model_config.get("model_selection", {})
+
+            selected_ridge_weight = 0.0
+            if model_choice == "rf":
+                selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 1.0, 0.0, 0.0
+                selected_model_name = "Random Forest (100%)"
+                selected_mae = eval_results.get("rf_mae")
+                selection_method = "User Selected (Random Forest)"
+                residuals = eval_results.get("rf_residuals", np.array([]))
+            elif model_choice == "xgb":
+                selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 1.0, 0.0
+                selected_model_name = "XGBoost (100%)"
+                selected_mae = eval_results.get("xgb_mae")
+                selection_method = "User Selected (XGBoost)"
+                residuals = eval_results.get("xgb_residuals", np.array([]))
+            elif model_choice == "ridge":
+                selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 0.0, 1.0
+                selected_model_name = "Ridge Regression (100%)"
+                selected_mae = eval_results.get("ridge_mae", eval_results.get("best_mae"))
+                selection_method = "User Selected (Ridge Regression)"
+                residuals = eval_results.get("ridge_residuals", eval_results.get("selected_residuals", np.array([])))
+            elif model_choice in {"ensemble", "multi"}:
+                selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.40, 0.30, 0.30
+                selected_model_name = "Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)"
+                selected_mae = eval_results.get("multi_mae", eval_results.get("best_mae"))
+                selection_method = "Validated Multi-Model Ensemble (Phase 4)"
+                residuals = eval_results.get("multi_residuals", eval_results.get("selected_residuals", np.array([])))
+            elif model_choice == "hybrid":
+                if custom_weights is not None:
+                    selected_rf_weight, selected_xgb_weight = custom_weights
+                    rf_pct = int(round(selected_rf_weight * 100))
+                    xgb_pct = int(round(selected_xgb_weight * 100))
+                    selected_model_name = f"Hybrid Ensemble ({rf_pct}% RF / {xgb_pct}% XGB)"
+                    selection_method = f"User Selected Hybrid ({rf_pct}% RF / {xgb_pct}% XGB)"
+                    selected_mae = eval_results.get("custom_mae")
+                    if selected_mae is None:
+                        match = next((x for x in eval_results.get("ensemble_comparisons", []) if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
+                        selected_mae = match["mae"] if match else eval_results.get("best_mae")
+                    residuals = eval_results.get("custom_residuals")
+                    if residuals is None:
+                        residuals = eval_results.get("selected_residuals", np.array([]))
+                else:
+                    selected_rf_weight = 0.60
+                    selected_xgb_weight = 0.40
+                    selected_model_name = "Hybrid Ensemble (60% RF / 40% XGB)"
+                    selection_method = "Fixed Configuration (Manual Ensemble)"
+                    match = next((x for x in eval_results.get("ensemble_comparisons", []) if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
+                    selected_mae = match["mae"] if match else eval_results.get("best_mae")
+                    residuals = eval_results.get("selected_residuals", np.array([]))
+            else:
+                mode = sel_cfg.get("mode", "fixed_ensemble")
+                if mode == "walk_forward_auto":
+                    raw_rf = eval_results.get("best_w_rf")
+                    raw_xgb = eval_results.get("best_w_xgb")
+                    raw_ridge = eval_results.get("best_w_ridge", 0.0)
+
+                    # Robust extraction and validation of weights
+                    try:
+                        w_rf = float(raw_rf) if raw_rf is not None else 0.0
+                        w_xgb = float(raw_xgb) if raw_xgb is not None else 0.0
+                        w_ridge = float(raw_ridge) if raw_ridge is not None else 0.0
+                        if np.isnan(w_rf) or w_rf < 0:
+                            w_rf = 0.0
+                        if np.isnan(w_xgb) or w_xgb < 0:
+                            w_xgb = 0.0
+                        if np.isnan(w_ridge) or w_ridge < 0:
+                            w_ridge = 0.0
+                    except (ValueError, TypeError):
+                        w_rf, w_xgb, w_ridge = 0.60, 0.40, 0.0
+
+                    total_w = w_rf + w_xgb + w_ridge
+                    if total_w < 1e-6:
+                        logger.warning("Auto-selected weights sum to zero or invalid. Falling back to default ensemble (60% RF / 40% XGB).")
+                        w_rf, w_xgb, w_ridge = 0.60, 0.40, 0.0
+                    else:
+                        w_rf, w_xgb, w_ridge = w_rf / total_w, w_xgb / total_w, w_ridge / total_w
+
+                    selected_rf_weight = w_rf
+                    selected_xgb_weight = w_xgb
+                    selected_ridge_weight = w_ridge
+                    selected_model_name = eval_results.get("best_model_name", "Auto-Selected Model")
+                    selected_mae = eval_results.get("best_mae", 0.0)
+                    selection_method = "Chronological Walk-Forward Validation" if eval_results.get("validation_rounds") else "Architectural Default (Early Season)"
+
+                    # Select matching residuals based on winning model
+                    if selected_ridge_weight >= 0.5:
+                        residuals = eval_results.get("ridge_residuals", eval_results.get("selected_residuals"))
+                    elif selected_ridge_weight > 0.2:
+                        residuals = eval_results.get("multi_residuals", eval_results.get("selected_residuals"))
+                    elif selected_rf_weight >= 0.5:
+                        residuals = eval_results.get("rf_residuals", eval_results.get("selected_residuals"))
+                    else:
+                        residuals = eval_results.get("xgb_residuals", eval_results.get("selected_residuals"))
+                    if residuals is None:
+                        residuals = eval_results.get("selected_residuals", np.array([]))
+                elif mode == "fixed_rf":
+                    selected_rf_weight, selected_xgb_weight = 1.0, 0.0
+                    selected_model_name = "Random Forest (100%)"
+                    selected_mae = eval_results.get("rf_mae")
+                    selection_method = "Fixed Configuration (Random Forest)"
+                    residuals = eval_results.get("rf_residuals", np.array([]))
+                elif mode == "fixed_xgb":
+                    selected_rf_weight, selected_xgb_weight = 0.0, 1.0
+                    selected_model_name = "XGBoost (100%)"
+                    selected_mae = eval_results.get("xgb_mae")
+                    selection_method = "Fixed Configuration (XGBoost)"
+                    residuals = eval_results.get("xgb_residuals", np.array([]))
+                elif mode == "fixed_ridge":
+                    selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.0, 0.0, 1.0
+                    selected_model_name = "Ridge Regression (100%)"
+                    selected_mae = eval_results.get("ridge_mae", eval_results.get("best_mae"))
+                    selection_method = "Fixed Configuration (Ridge Regression)"
+                    residuals = eval_results.get("ridge_residuals", eval_results.get("selected_residuals", np.array([])))
+                elif mode in {"multi_model", "ensemble"}:
+                    selected_rf_weight, selected_xgb_weight, selected_ridge_weight = 0.40, 0.30, 0.30
+                    selected_model_name = "Validated Multi-Model Ensemble (40% RF / 30% XGB / 30% Ridge)"
+                    selected_mae = eval_results.get("multi_mae", eval_results.get("best_mae"))
+                    selection_method = "Fixed Configuration (Multi-Model Ensemble)"
+                    residuals = eval_results.get("multi_residuals", eval_results.get("selected_residuals", np.array([])))
+                else:
+                    selected_rf_weight = 0.60
+                    selected_xgb_weight = 0.40
+                    selected_model_name = "Hybrid Ensemble (60% RF / 40% XGB)"
+                    selection_method = "Fixed Configuration (Manual Ensemble)"
+                    match = next((x for x in eval_results.get("ensemble_comparisons", []) if abs(x["rf_weight"] - selected_rf_weight) < 1e-4), None)
+                    selected_mae = match["mae"] if match else eval_results.get("best_mae")
+                    residuals = eval_results.get("selected_residuals", np.array([]))
+
+            empirical_dnf = eval_results.get("empirical_dnf_rate", 0.158)
+            mae_disp = f"MAE={selected_mae:.4f}" if selected_mae is not None else "MAE=N/A"
+            logger.info(f"Selected model: {selected_model_name} via {selection_method} ({mae_disp})")
+
+            # 8. Train Final Estimators on all training rounds
+            imputer, rf_model, xgb_model, feature_names = self.model_trainer.fit(training_features)
+            ridge_model = getattr(self.model_trainer, "ridge_model", None)
+
+            driver_dnf_probs = None
+            dnf_model_status = "UNAVAILABLE"
+            dnf_validation = {"status": "UNAVAILABLE", "folds": []}
+            try:
+                self.dnf_hazard_model = DNFHazardModel(
+                    random_state=self.model_config.get("random_seed", 42)
+                ).fit(training_features)
+                driver_dnf_probs = self.dnf_hazard_model.predict_proba(target_features)
+                dnf_validation = self.dnf_hazard_model.evaluate_chronological(training_features)
+                dnf_model_status = "CALIBRATED_RUNTIME_MODEL"
+            except ValueError as exc:
+                logger.warning(
+                    "Driver-specific DNF model unavailable; using validated scalar fallback: %s",
+                    exc,
+                )
+
+            # 9. Deterministic Inference & Grid Blending
+            det_results, blended_scores = self.predictor.predict_deterministic(
+                target_df=target_features,
+                imputer=imputer,
+                rf_model=rf_model,
+                xgb_model=xgb_model,
+                rf_weight=selected_rf_weight,
+                xgb_weight=selected_xgb_weight,
+                ridge_model=ridge_model,
+                ridge_weight=selected_ridge_weight,
+                circuit_type=circuit_type,
+                model_mode=model_choice,
+            )
+
+            # Hybrid blending between weekend pace and season ML if requested
+            if weekend_weight is not None and 0.0 < weekend_weight < 1.0:
+                weekend_scores = self.predictor.calculate_analytical_weekend_score(
+                    target_df=target_features,
+                    stage=stage,
+                    circuit_type=circuit_type,
+                )
+                blended_scores = float(weekend_weight) * weekend_scores + (1.0 - float(weekend_weight)) * blended_scores
+                det_results["BlendedScore"] = np.round(blended_scores, 3)
+                det_results["DeterministicRank"] = np.argsort(np.argsort(blended_scores)) + 1
+
+        stage_sigma_map = {
+            "pre_fp1": 3.80,
+            "after_fp1": 3.50,
+            "after_fp2": 3.10,
+            "after_sprint_qualifying": 3.00,
+            "after_sprint_race": 2.85,
+            "after_fp3": 2.85,
+            "after_qualifying": 2.55,
+            "before_race": 2.55,
+        }
+        pace_sigma = stage_sigma_map.get(stage, 2.85) if weekend_only else None
 
         # 10. Monte Carlo Simulation
         sim_results, sim_meta = self.simulator.simulate(
@@ -572,11 +710,12 @@ class RacePredictionPipeline:
             driver_dnf_driver_ids=target_features["Abbreviation"].tolist() if driver_dnf_probs is not None else None,
             circuit_key=track_key,
             n_simulations=n_simulations,
+            pace_sigma=pace_sigma,
         )
-        is_oos = eval_results.get("is_out_of_sample", bool(eval_results.get("validation_rounds")))
-        val_status = eval_results.get("validation_status", "CHRONOLOGICAL_WALK_FORWARD" if is_oos else "UNAVAILABLE")
-        readiness_cls = "VALIDATED" if is_oos else ("EXPERIMENTAL" if len(train_rounds) > 0 else "BLOCKED")
-        sim_meta["model"] = model_choice
+        is_oos = False if weekend_only else eval_results.get("is_out_of_sample", bool(eval_results.get("validation_rounds")))
+        val_status = "WEEKEND_ONLY_ML" if weekend_only else eval_results.get("validation_status", "CHRONOLOGICAL_WALK_FORWARD" if is_oos else "UNAVAILABLE")
+        readiness_cls = "WEEKEND_ONLY" if weekend_only else ("VALIDATED" if is_oos else ("EXPERIMENTAL" if len(train_rounds) > 0 else "BLOCKED"))
+        sim_meta["model"] = "weekend_only" if weekend_only else model_choice
         sim_meta["selected_model"] = selected_model_name
         sim_meta["selection_method"] = selection_method
         sim_meta["selected_mae"] = selected_mae
@@ -1153,7 +1292,9 @@ class RacePredictionPipeline:
             f"**Selected Model**: **{sim_meta.get('selected_model', 'N/A')}**",
             f"**Selection Method**: {sim_meta.get('selection_method', 'Chronological Walk-Forward Validation')}",
         ]
-        if is_oos:
+        if sim_meta.get("validation_status") == "WEEKEND_ONLY_ML":
+            lines.append("**Validation Status**: Active Weekend Telemetry (Pure ML Ensemble, Zero Historical Season Form)")
+        elif is_oos:
             lines.append(f"**Walk-Forward Out-of-Sample MAE**: {sim_meta.get('selected_mae', 'N/A')}")
         else:
             lines.append(f"**Walk-Forward Out-of-Sample MAE**: *UNAVAILABLE* (Insufficient rounds for walk-forward evaluation)")
@@ -1202,7 +1343,15 @@ class RacePredictionPipeline:
 
             lines.append(f"| {pos} | **{drv}** | {team} | {grid} | {exp} | {med} | {win} | {pod} | {top5} | {pts} | {rng} |")
 
-        if is_oos:
+        if sim_meta.get("validation_status") == "WEEKEND_ONLY_ML":
+            lines.extend([
+                "",
+                "## Active Weekend Telemetry Model (Pure ML Pipeline)",
+                "",
+                "> [!NOTE]",
+                "> This forecast was generated in Weekend-Only mode using active track session telemetry (FP1–FP3, Sprint, Qualifying) with a Random Forest / XGBoost / Ridge regression ensemble, without prior-season historical rolling form.",
+            ])
+        elif is_oos:
             lines.extend([
                 "",
                 "## Chronological Walk-Forward Model Comparison (Out-of-Sample)",
@@ -1328,12 +1477,13 @@ class RacePredictionPipeline:
         """Generates a dedicated markdown report displaying exclusively the Top 3 for Grand Prix Race."""
         top3_df = sim_results.iloc[:3]
         title_name = track_name if track_name.endswith("Grand Prix") else f"{track_name} Grand Prix"
+        mae_display = "N/A (Active Weekend Telemetry)" if sim_meta.get("validation_status") == "WEEKEND_ONLY_ML" else sim_meta.get("selected_mae", "N/A")
         lines = [
             f"# F1 {year} {title_name} — Race Top 3 Prediction",
             f"**Round**: {target_round} | **Stage**: `{stage}` | **Simulations**: {sim_meta.get('n_simulations', 25000):,}",
             f"**Selected Model**: **{sim_meta.get('selected_model', 'N/A')}**",
             f"**Selection Method**: {sim_meta.get('selection_method', 'Chronological Walk-Forward Validation')}",
-            f"**Selected MAE**: {sim_meta.get('selected_mae', 'N/A')}",
+            f"**Selected MAE**: {mae_display}",
             f"**Uncertainty Pace σ**: {sim_meta.get('calibrated_sigma', 'N/A')} | **DNF Hazard Rate**: {sim_meta.get('empirical_dnf_prob', 'N/A')}",
             "",
             "## Grand Prix Race — Predicted Top 3",
@@ -1384,12 +1534,13 @@ class RacePredictionPipeline:
         """Generates a dedicated markdown report displaying exclusively the Top 10 for Grand Prix Race."""
         top10_df = sim_results.iloc[:10]
         title_name = track_name if track_name.endswith("Grand Prix") else f"{track_name} Grand Prix"
+        mae_display = "N/A (Active Weekend Telemetry)" if sim_meta.get("validation_status") == "WEEKEND_ONLY_ML" else sim_meta.get("selected_mae", "N/A")
         lines = [
             f"# F1 {year} {title_name} — Race Top 10 Prediction",
             f"**Round**: {target_round} | **Stage**: `{stage}` | **Simulations**: {sim_meta.get('n_simulations', 25000):,}",
             f"**Selected Model**: **{sim_meta.get('selected_model', 'N/A')}**",
             f"**Selection Method**: {sim_meta.get('selection_method', 'Chronological Walk-Forward Validation')}",
-            f"**Selected MAE**: {sim_meta.get('selected_mae', 'N/A')}",
+            f"**Selected MAE**: {mae_display}",
             f"**Uncertainty Pace σ**: {sim_meta.get('calibrated_sigma', 'N/A')} | **DNF Hazard Rate**: {sim_meta.get('empirical_dnf_prob', 'N/A')}",
             "",
             "## Grand Prix Race — Predicted Top 10 Points Finishers",

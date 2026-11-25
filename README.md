@@ -4,7 +4,7 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Test Suite](https://img.shields.io/badge/tests-160%20passed%20(100%25)-brightgreen.svg)](tests/)
+[![Test Suite](https://img.shields.io/badge/tests-183%20passed%20(100%25)-brightgreen.svg)](tests/)
 [![Architecture](https://img.shields.io/badge/architecture-Multi--Model%20Ensemble-orange.svg)](src/models/)
 [![Simulation](https://img.shields.io/badge/Monte%20Carlo-25%2C000%20runs-purple.svg)](src/simulation/)
 
@@ -30,6 +30,7 @@ ApexGrid models the probabilistic distribution of finishing positions, win proba
   - *Street circuits* (Monaco, Baku, Singapore): 50% Grid / 50% ML ($w_{\text{grid}} = 0.50$, $w_{\text{ml}} = 0.50$) for high positional conservatism.
   - *Permanent circuits* (Silverstone, Spa, Monza, Interlagos): 35% Grid / 65% ML ($w_{\text{grid}} = 0.35$, $w_{\text{ml}} = 0.65$).
   - *Temporary circuits* (Melbourne, Montreal): 45% Grid / 55% ML ($w_{\text{grid}} = 0.45$, $w_{\text{ml}} = 0.55$).
+  - *Active Weekend-Only Mode:* When executing without prior-season historical form (`--weekend-only`), the pipeline uses the 25-feature telemetry matrix with the full Random Forest / XGBoost / Ridge ensemble and applies this exact circuit-aware grid blending seamlessly.
 - **Strict Stage-Aware Temporal Boundaries:** Enforces chronological cutoffs preventing target and future-session data leakage across seven weekend stages: `pre_fp1`, `after_fp1`, `after_fp2`, `after_fp3`, `after_sprint_qualifying`, `after_sprint_race`, and `after_qualifying`.
 - **Pre-Qualifying Provisional Forecasts & Fallback Blending:** Generates out-of-sample ML qualifying predictions (`provisional_grid_position`, rendered as `~P1`, `~P2`, etc.) when official qualifying hasn't occurred. If no starting grid data exists, grid blending is cleanly bypassed ($w_{\text{grid}} = 0.0, w_{\text{ml}} = 1.0$) rather than forcing an artificial constant midfield rank.
 - **Dual-View Probability & ExpectedFinish Presentation:** 
@@ -44,7 +45,7 @@ ApexGrid models the probabilistic distribution of finishing positions, win proba
   - *Weather Intelligence:* Live ambient and track temperature evaluation with stochastic rainfall scenario sampling.
 - **Multi-Source Starting Grid Resolution:** Three-tier grid resolution pipeline supporting official FIA Starting Grid Manifests (`data/grids/`), OpenF1 live feeds, and programmatic FIA Article 42 penalty cascade re-alignment.
 - **Safe Data Management & Boundary Guard:** Integrated cleanup utility with strict root directory containment, dry-run preview mode, and protected file preservation (`outputs/`, `data/grids/`, `config/`).
-- **160-Test Verified Regression Suite:** Comprehensive automated test coverage (160 passing, 0 failing) across 19 test modules ensuring 100% pass rates with exit code 0.
+- **183-Test Verified Regression Suite:** Comprehensive automated test coverage (183 passing, 0 failing) across 21 test modules ensuring 100% pass rates with exit code 0.
 
 ---
 
@@ -170,7 +171,7 @@ The menu provides eight guided workflows organized into three logical operationa
 
 #### Analytics & History
 4. **View Previous Predictions & Reports:** Inspect generated prediction tables and Markdown race reports.
-5. **Historical Statistics & Analytics (1950–2026):** Explore driver statistics, teammate head-to-heads, qualifying analytics, race performance, circuit history, and championship season progress.
+5. **Historical Statistics & Analytics (1950–2026):** 11 modular motorsport intelligence views spanning session results (FP1–FP3, SQ, Sprint, Quali, Race), driver career metrics, teammate H2H, qualifying performance, race history, circuit records, season standings, constructor & engine dominance, all-time records & milestones, historical reliability & attrition, and regulatory era comparisons.
 
 #### System & Admin
 6. **System Health & Data Readiness:** Run diagnostic checks and data availability audits.
@@ -204,6 +205,9 @@ python main.py predict --track spa --year 2026 --stage after_fp3 --model xgb
 # Custom Hybrid Ensemble Weights (70% RF / 30% XGB)
 python main.py predict --track baku --year 2026 --stage after_qualifying --model hybrid --rf-weight 70 --xgb-weight 30
 
+# Pure Active Weekend Telemetry ML Ensemble (Zero prior season historical form)
+python main.py predict --track las_vegas --year 2026 --stage after_qualifying --weekend-only
+
 # Enable Enhanced Physics Capabilities (Race Pace, Tire Deg, Weather, Strategy)
 python main.py predict --track monaco --year 2026 --stage after_qualifying --enhanced
 ```
@@ -236,7 +240,7 @@ python main.py clean --target cache --force
 
 ## Testing & Quality Assurance
 
-ApexGrid maintains **160 automated tests** across 19 test modules, guaranteeing 100% pass rates:
+ApexGrid maintains **183 automated tests** across 21 test modules, guaranteeing 100% pass rates:
 
 ```bash
 # Run the entire test suite
@@ -256,6 +260,9 @@ pytest tests/test_dynamic_roster.py
 
 # Run stage isolation, core features, and anti-leakage tests
 pytest tests/test_core_features.py
+
+# Run historical intelligence expansion and weekend-only ML pipeline tests
+pytest tests/test_historical_intelligence_v2.py tests/test_weekend_only_pipeline.py
 
 # Run terminal UI and CLI interaction tests
 pytest tests/test_terminal_ui.py tests/test_cli_menu.py

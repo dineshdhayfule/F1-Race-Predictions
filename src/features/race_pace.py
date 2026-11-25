@@ -16,6 +16,16 @@ from src.utils.logging_utils import get_logger
 
 logger = get_logger("race_pace")
 
+# Compound pace deltas in seconds relative to Medium baseline (0.0s)
+COMPOUND_PACE_DELTAS: Dict[str, float] = {
+    "SOFT": -0.65,
+    "MEDIUM": 0.0,
+    "HARD": 0.55,
+    "INTERMEDIATE": 3.50,
+    "WET": 7.50,
+    "UNKNOWN": 0.0,
+}
+
 
 def extract_stints_from_laps(
     laps_df: pd.DataFrame,
@@ -195,9 +205,16 @@ def compute_driver_race_pace(
             })
             continue
 
-        # Sort stints by lap count descending, then mean lap time ascending
+        # Normalize each stint to Medium compound baseline
+        for s in d_stints:
+            cmp_key = str(s.get("compound", "MEDIUM")).upper()
+            c_delta = COMPOUND_PACE_DELTAS.get(cmp_key, 0.0)
+            s["compound_pace_delta"] = c_delta
+            s["normalized_mean_lap"] = s["fuel_adj_mean_lap"] - c_delta
+
+        # Sort stints by lap count descending, then normalized mean lap time ascending
         # Prioritize stints on race-relevant compounds with longest valid runs
-        d_stints.sort(key=lambda x: (-x["lap_count"], x["fuel_adj_mean_lap"]))
+        d_stints.sort(key=lambda x: (-x["lap_count"], x.get("normalized_mean_lap", x["fuel_adj_mean_lap"])))
         best_stint = d_stints[0]
 
         total_laps = sum(s["lap_count"] for s in d_stints)
@@ -211,7 +228,9 @@ def compute_driver_race_pace(
             "has_long_run": True,
             "best_stint_mean": round(best_stint["mean_lap"], 3),
             "best_stint_median": round(best_stint["median_lap"], 3),
-            "fuel_adj_pace": round(best_stint["fuel_adj_mean_lap"], 3),
+            "fuel_adj_pace": round(best_stint.get("normalized_mean_lap", best_stint["fuel_adj_mean_lap"]), 3),
+            "raw_fuel_adj_pace": round(best_stint["fuel_adj_mean_lap"], 3),
+            "normalized_mean_lap": round(best_stint.get("normalized_mean_lap", best_stint["fuel_adj_mean_lap"]), 3),
             "race_pace_consistency": round(consistency, 3),
             "race_pace_sample_count": int(total_laps),
             "long_run_stint_length": int(max_stint_len),

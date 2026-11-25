@@ -200,6 +200,54 @@ _TARGET_OUTCOME_COLUMNS = {
 }
 
 
+# Pure weekend feature metrics (25 features) excluding all multi-race rolling form & EWMA metrics
+WEEKEND_ONLY_FEATURES: List[str] = [
+    "GridPosition",
+    "grid_norm",
+    "expected_grid_finish",
+    "grid_retention_prob",
+    "QualifyingPosition",
+    "quali_pos_norm",
+    "quali_gap_pct",
+    "quali_no_time",
+    "q1_gap_pct",
+    "q2_gap_pct",
+    "q3_gap_pct",
+    "practice_gap_pct",
+    "practice_rank",
+    "practice_laps_norm",
+    "fp1_gap_pct",
+    "fp2_gap_pct",
+    "fp3_gap_pct",
+    "sprint_finish_pos",
+    "sprint_pos_delta",
+    "teammate_quali_gap_pct",
+    "teammate_grid_delta",
+    "is_pit_lane_start",
+    "long_run_pace_gap_pct",
+    "long_run_pace_rank",
+    "race_pace_consistency",
+]
+
+HISTORICAL_FORM_FEATURES: set = {
+    "driver_finish_ewma",
+    "driver_quali_ewma",
+    "driver_dnf_rate",
+    "recent_finish",
+    "recent_grid",
+    "recent_points",
+    "avg_finish",
+    "avg_grid",
+    "total_points",
+    "races_completed",
+    "team_finish_ewma",
+    "team_points_rate",
+    "team_avg_finish",
+    "team_points",
+    "driver_teammate_h2h_ratio",
+}
+
+
 def _known_generated_features() -> set:
     known_generated = set()
     for cols in STAGE_UNAVAILABLE_FEATURES.values():
@@ -249,6 +297,7 @@ def validate_stage_feature_contract(
     df: pd.DataFrame,
     stage: Optional[str],
     feature_cols: List[str],
+    weekend_only: bool = False,
 ) -> None:
     """Validate configured model inputs against the supported stage contract."""
     stage_clean = str(stage or "after_qualifying").lower().strip()
@@ -258,6 +307,14 @@ def validate_stage_feature_contract(
         raise ValueError(f"Unsupported prediction stage '{stage}'.")
 
     configured = set(feature_cols)
+    if weekend_only:
+        # Enforce pure weekend features: historical form metrics are strictly forbidden
+        forbidden_hist = configured & HISTORICAL_FORM_FEATURES
+        if forbidden_hist:
+            raise ValueError(
+                f"Historical form features forbidden in weekend_only mode: {sorted(forbidden_hist)}"
+            )
+
     if stage_clean != "post_race":
         leaked = configured & _TARGET_OUTCOME_COLUMNS
         if leaked:
@@ -628,7 +685,7 @@ class FeatureEngineer:
         track_name: str,
         quali_df: Optional[pd.DataFrame],
         practice_sessions: Dict[str, Optional[pd.DataFrame]],
-        season_races_df: pd.DataFrame,
+        season_races_df: Optional[pd.DataFrame] = None,
         season_qualis_df: Optional[pd.DataFrame] = None,
         penalties: Optional[Dict[str, int]] = None,
         historical_track_df: Optional[pd.DataFrame] = None,
@@ -636,6 +693,7 @@ class FeatureEngineer:
         stage: str = "after_qualifying",
         track_key: Optional[str] = None,
         expected_grid_size: Optional[int] = None,
+        weekend_only: bool = False,
     ) -> pd.DataFrame:
         """
         Builds the target feature dataset for the upcoming race.
@@ -751,11 +809,16 @@ class FeatureEngineer:
         sr_feats = build_sprint_race_features(sr_df, drivers)
 
         # Strict chronological form and grid conversion up to Round < target_round
-        dform, tform = build_season_form(
-            target_round, season_races_df, season_qualis_df, alpha=self.ewma_alpha
-        )
-        prior_target_races = season_races_df[season_races_df["Round"] < target_round] if not season_races_df.empty else pd.DataFrame()
-        target_conv_map = compute_grid_conversion_map(prior_target_races, expected_grid_size=effective_expected_size)
+        if not weekend_only and season_races_df is not None and not season_races_df.empty:
+            dform, tform = build_season_form(
+                target_round, season_races_df, season_qualis_df, alpha=self.ewma_alpha
+            )
+            prior_target_races = season_races_df[season_races_df["Round"] < target_round]
+            target_conv_map = compute_grid_conversion_map(prior_target_races, expected_grid_size=effective_expected_size)
+        else:
+            dform, tform = {}, {}
+            prior_target_races = pd.DataFrame()
+            target_conv_map = {}
 
         # Teammate features
         # If qualifying occurred, compute teammate qualifying gap; otherwise leave neutral/NaN
@@ -1001,6 +1064,12 @@ class FeatureEngineer:
             if pos_col in quali_df.columns:
                 q_map = dict(zip(quali_df["Abbreviation"], pd.to_numeric(quali_df[pos_col], errors="coerce")))
                 target_df["provisional_grid_position"] = target_df["Abbreviation"].map(q_map)
+
+        if weekend_only:
+            # Completely strip out all historical multi-race rolling form & EWMA metrics
+            for h_col in HISTORICAL_FORM_FEATURES:
+                if h_col in target_df.columns:
+                    target_df.drop(columns=[h_col], inplace=True)
 
         if "ActualFinish" in target_df.columns:
             raise AssertionError("LEAKAGE DETECTED: ActualFinish found in target dataset!")

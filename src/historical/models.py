@@ -177,6 +177,33 @@ class RaceResultEntry:
     fastest_lap_rank: Optional[int] = None
     fastest_lap_time: Optional[str] = None
 
+    @property
+    def grid(self) -> Optional[int]:
+        """Backward-compatible alias for grid_position."""
+        return self.grid_position
+
+    @property
+    def laps(self) -> int:
+        """Backward-compatible alias for laps_completed."""
+        return self.laps_completed
+
+    @property
+    def time_str(self) -> Optional[str]:
+        """Backward-compatible alias for race_time_or_gap."""
+        return self.race_time_or_gap
+
+    @property
+    def given_name(self) -> str:
+        """Derives given name from driver_name."""
+        parts = self.driver_name.split()
+        return parts[0] if parts else ""
+
+    @property
+    def family_name(self) -> str:
+        """Derives family name from driver_name."""
+        parts = self.driver_name.split()
+        return " ".join(parts[1:]) if len(parts) > 1 else self.driver_name
+
 
 @dataclass(frozen=True)
 class SprintResultEntry:
@@ -191,6 +218,33 @@ class SprintResultEntry:
     points: float
     status: str
     race_time_or_gap: Optional[str] = None
+
+    @property
+    def grid(self) -> Optional[int]:
+        """Backward-compatible alias for grid_position."""
+        return self.grid_position
+
+    @property
+    def laps(self) -> int:
+        """Backward-compatible alias for laps_completed."""
+        return self.laps_completed
+
+    @property
+    def time_str(self) -> Optional[str]:
+        """Backward-compatible alias for race_time_or_gap."""
+        return self.race_time_or_gap
+
+    @property
+    def given_name(self) -> str:
+        """Derives given name from driver_name."""
+        parts = self.driver_name.split()
+        return parts[0] if parts else ""
+
+    @property
+    def family_name(self) -> str:
+        """Derives family name from driver_name."""
+        parts = self.driver_name.split()
+        return " ".join(parts[1:]) if len(parts) > 1 else self.driver_name
 
 
 @dataclass(frozen=True)
