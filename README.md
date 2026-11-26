@@ -50,8 +50,21 @@ FastF1 / OpenF1 ──► Feature Engineering ──► ML Ensemble ──► 25
 
 ### End Users (PyPI)
 
+Install the package:
+
 ```bash
 pip install apexgrid
+```
+
+Upgrade to the latest release:
+
+```bash
+pip install --upgrade apexgrid
+```
+
+Launch ApexGrid:
+
+```bash
 apexgrid
 ```
 
