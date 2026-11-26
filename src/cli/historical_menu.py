@@ -486,355 +486,382 @@ class HistoricalStatsMenu:
         """Guided workflow to view official session results (FP1-3, SQ, Sprint, Quali, Race)."""
         from src.utils.season_utils import get_active_season
         max_year = get_active_season()
-        print_header("Checkered Flag & Session Results", f"Official Finishing Classifications (1950–{max_year})")
-        year = prompt_int(f"Enter Season Year (1950–{max_year})", min_val=1950, max_val=max_year, default=max_year - 1)
-        round_num = prompt_int("Enter Round Number", min_val=1, max_val=30, default=1)
 
-        # Detect format dynamically
-        is_sprint = (year >= 2021) and self.session_service.is_sprint_round(year, round_num)
+        while True:
+            print_header("Checkered Flag & Session Results", f"Official Finishing Classifications (1950–{max_year})")
+            year = prompt_int(
+                f"Enter Season Year (1950–{max_year}, 0 to Back)",
+                min_val=0,
+                max_val=max_year,
+                default=max_year - 1,
+            )
+            if year is None or year == 0:
+                return
+            if year < 1950:
+                print_warning("Please enter a valid championship year (1950 or later).")
+                continue
 
-        if year < 2018:
-            print(f"\nAvailable Session Types ({year} Historical Era):")
-            print("  1. Race (Grand Prix Checkered Flag Classification)")
-            print("  2. Qualifying (Official Grid / Starting Classification)")
-            sess_choice = prompt_choice("Select session", ["1", "2"], default="1")
-            action = "race" if sess_choice == "1" else "qualifying"
-        elif is_sprint:
-            print("\nAvailable Session Types (Sprint Weekend Format):")
-            print("  1. Race (Grand Prix Checkered Flag Classification)")
-            print("  2. Qualifying (Grand Prix Qualifying Classification)")
-            print("  3. Sprint Race (Sprint Classification)")
-            print("  4. Sprint Qualifying (SQ Telemetry / Shootout)")
-            print("  5. Practice 1 (FP1 Telemetry Lap Times)")
-            sess_choice = prompt_choice("Select session", ["1", "2", "3", "4", "5"], default="1")
-            action_map = {
-                "1": ("race", None),
-                "2": ("qualifying", None),
-                "3": ("sprint_race", None),
-                "4": ("sprint_qualifying", None),
-                "5": ("practice", "fp1"),
-            }
-            action, stype = action_map[sess_choice]
-        else:
-            print("\nAvailable Session Types (Conventional Weekend Format):")
-            print("  1. Race (Grand Prix Checkered Flag Classification)")
-            print("  2. Qualifying (Knockout / Official Grid Classification)")
-            print("  3. Practice 1 (FP1 Telemetry Lap Times)")
-            print("  4. Practice 2 (FP2 Telemetry Lap Times)")
-            print("  5. Practice 3 (FP3 Telemetry Lap Times)")
-            sess_choice = prompt_choice("Select session", ["1", "2", "3", "4", "5"], default="1")
-            action_map = {
-                "1": ("race", None),
-                "2": ("qualifying", None),
-                "3": ("practice", "fp1"),
-                "4": ("practice", "fp2"),
-                "5": ("practice", "fp3"),
-            }
-            action, stype = action_map[sess_choice]
+            round_num = prompt_int("Enter Round Number (0 to Back)", min_val=0, max_val=30, default=1)
+            if round_num is None or round_num == 0:
+                continue
 
-        if action == "race":
-            print_info(f"Retrieving official Race classification for {year} Round {round_num}...")
-            race_results = self.session_service.get_race_results(year, round_num)
-            if not race_results:
-                print_warning(f"No race classification recorded for {year} Round {round_num}.")
-            else:
-                headers = ["Pos", "Driver", "Constructor", "Grid", "Laps", "Time/Gap", "Status", "Pts"]
-                rows = []
-                for r in race_results:
-                    pos = str(getattr(r, "position", None) or getattr(r, "position_text", "-"))
-                    grid = str(getattr(r, "grid_position", getattr(r, "grid", None)) or "-")
-                    time_disp = getattr(r, "race_time_or_gap", getattr(r, "time_str", None)) or ("Leader" if pos == "1" else "")
-                    d_name = getattr(r, "driver_name", getattr(r, "driver_id", "Unknown"))
-                    c_name = getattr(r, "constructor_name", "Unknown")[:18]
-                    laps = str(getattr(r, "laps_completed", getattr(r, "laps", 0)))
-                    status = str(getattr(r, "status", "Finished"))[:14]
-                    pts = f"{getattr(r, 'points', 0.0):g}"
-                    rows.append([pos, d_name, c_name, grid, laps, time_disp, status, pts])
-                print_header(f"{year} Round {round_num} — Grand Prix Race Results", f"{len(race_results)} Classified Entries")
-                print_table(headers, rows)
+            # Detect format dynamically
+            is_sprint = (year >= 2021) and self.session_service.is_sprint_round(year, round_num)
 
-        elif action == "qualifying":
-            print_info(f"Retrieving official Qualifying classification for {year} Round {round_num}...")
-            quali_results = self.session_service.get_qualifying_results(year, round_num)
-            if not quali_results:
-                if year < 1994:
-                    print_warning(f"Qualifying session classifications are unavailable in historical provider archive for pre-1994 seasons (Race starting grids exist in Option 1).")
+            while True:
+                if year < 2018:
+                    print(f"\nAvailable Session Types ({year} Historical Era — Round {round_num}):")
+                    print("  1. Race (Grand Prix Checkered Flag Classification)")
+                    print("  2. Qualifying (Official Grid / Starting Classification)")
+                    print(f"  {Colors.RED}0.{Colors.RESET} Back to Year/Round Selection\n")
+                    sess_choice = prompt_choice("Select session", ["1", "2", "0"], default="1")
+                    if sess_choice == "0":
+                        break
+                    action = "race" if sess_choice == "1" else "qualifying"
+                    stype = None
+                elif is_sprint:
+                    print(f"\nAvailable Session Types (Sprint Weekend Format — {year} Round {round_num}):")
+                    print("  1. Race (Grand Prix Checkered Flag Classification)")
+                    print("  2. Qualifying (Grand Prix Qualifying Classification)")
+                    print("  3. Sprint Race (Sprint Classification)")
+                    print("  4. Sprint Qualifying (SQ Telemetry / Shootout)")
+                    print("  5. Practice 1 (FP1 Telemetry Lap Times)")
+                    print(f"  {Colors.RED}0.{Colors.RESET} Back to Year/Round Selection\n")
+                    sess_choice = prompt_choice("Select session", ["1", "2", "3", "4", "5", "0"], default="1")
+                    if sess_choice == "0":
+                        break
+                    action_map = {
+                        "1": ("race", None),
+                        "2": ("qualifying", None),
+                        "3": ("sprint_race", None),
+                        "4": ("sprint_qualifying", None),
+                        "5": ("practice", "fp1"),
+                    }
+                    action, stype = action_map[sess_choice]
                 else:
-                    print_warning(f"No qualifying results recorded for {year} Round {round_num}.")
-            else:
-                has_q3 = any(getattr(q, "q3", None) for q in quali_results)
-                has_q2 = any(getattr(q, "q2", None) for q in quali_results)
-                if has_q3:
-                    headers = ["Pos", "Driver", "Constructor", "Q1", "Q2", "Q3"]
-                    rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "q1", None) or "-", getattr(q, "q2", None) or "-", getattr(q, "q3", None) or "-"] for q in quali_results]
-                elif has_q2:
-                    headers = ["Pos", "Driver", "Constructor", "Q1", "Q2"]
-                    rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "q1", None) or "-", getattr(q, "q2", None) or "-"] for q in quali_results]
-                else:
-                    headers = ["Pos", "Driver", "Constructor", "Time"]
-                    rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "best_lap_time", None) or getattr(q, "q1", None) or "-"] for q in quali_results]
-                print_header(f"{year} Round {round_num} — Official Qualifying Results", f"{len(quali_results)} Classified Entries")
-                print_table(headers, rows)
+                    print(f"\nAvailable Session Types (Conventional Weekend Format — {year} Round {round_num}):")
+                    print("  1. Race (Grand Prix Checkered Flag Classification)")
+                    print("  2. Qualifying (Knockout / Official Grid Classification)")
+                    print("  3. Practice 1 (FP1 Telemetry Lap Times)")
+                    print("  4. Practice 2 (FP2 Telemetry Lap Times)")
+                    print("  5. Practice 3 (FP3 Telemetry Lap Times)")
+                    print(f"  {Colors.RED}0.{Colors.RESET} Back to Year/Round Selection\n")
+                    sess_choice = prompt_choice("Select session", ["1", "2", "3", "4", "5", "0"], default="1")
+                    if sess_choice == "0":
+                        break
+                    action_map = {
+                        "1": ("race", None),
+                        "2": ("qualifying", None),
+                        "3": ("practice", "fp1"),
+                        "4": ("practice", "fp2"),
+                        "5": ("practice", "fp3"),
+                    }
+                    action, stype = action_map[sess_choice]
 
-        elif action == "sprint_race":
-            print_info(f"Retrieving official Sprint classification for {year} Round {round_num}...")
-            sprint_results = self.session_service.get_sprint_results(year, round_num)
-            if not sprint_results:
-                print_warning(f"No sprint race data found for {year} Round {round_num}.")
-            else:
-                headers = ["Pos", "Driver", "Constructor", "Grid", "Laps", "Time/Gap", "Status", "Pts"]
-                rows = []
-                for s in sprint_results:
-                    pos = str(getattr(s, "position", None) or getattr(s, "position_text", "-"))
-                    grid = str(getattr(s, "grid_position", getattr(s, "grid", None)) or "-")
-                    time_disp = getattr(s, "race_time_or_gap", getattr(s, "time_str", None)) or ("Leader" if pos == "1" else "")
-                    d_name = getattr(s, "driver_name", getattr(s, "driver_id", "Unknown"))
-                    c_name = getattr(s, "constructor_name", "Unknown")[:18]
-                    laps = str(getattr(s, "laps_completed", getattr(s, "laps", 0)))
-                    status = str(getattr(s, "status", "Finished"))[:14]
-                    pts = f"{getattr(s, 'points', 0.0):g}"
-                    rows.append([pos, d_name, c_name, grid, laps, time_disp, status, pts])
-                print_header(f"{year} Round {round_num} — Sprint Race Results", f"{len(sprint_results)} Classified Entries")
-                print_table(headers, rows)
+                if action == "race":
+                    print_info(f"Retrieving official Race classification for {year} Round {round_num}...")
+                    race_results = self.session_service.get_race_results(year, round_num)
+                    if not race_results:
+                        print_warning(f"No race classification recorded for {year} Round {round_num}.")
+                    else:
+                        headers = ["Pos", "Driver", "Constructor", "Grid", "Laps", "Time/Gap", "Status", "Pts"]
+                        rows = []
+                        for r in race_results:
+                            pos = str(getattr(r, "position", None) or getattr(r, "position_text", "-"))
+                            grid = str(getattr(r, "grid_position", getattr(r, "grid", None)) or "-")
+                            time_disp = getattr(r, "race_time_or_gap", getattr(r, "time_str", None)) or ("Leader" if pos == "1" else "")
+                            d_name = getattr(r, "driver_name", getattr(r, "driver_id", "Unknown"))
+                            c_name = getattr(r, "constructor_name", "Unknown")[:18]
+                            laps = str(getattr(r, "laps_completed", getattr(r, "laps", 0)))
+                            status = str(getattr(r, "status", "Finished"))[:14]
+                            pts = f"{getattr(r, 'points', 0.0):g}"
+                            rows.append([pos, d_name, c_name, grid, laps, time_disp, status, pts])
+                        print_header(f"{year} Round {round_num} — Grand Prix Race Results", f"{len(race_results)} Classified Entries")
+                        print_table(headers, rows)
 
-        elif action == "sprint_qualifying":
-            print_info(f"Retrieving Sprint Qualifying (SQ) classification for {year} Round {round_num}...")
-            sq_results = self.session_service.get_sprint_qualifying_results(year, round_num)
-            if not sq_results:
-                print_warning(f"No sprint qualifying (SQ) data recorded for {year} Round {round_num}.")
-            else:
-                has_q3 = any(getattr(q, "q3", None) for q in sq_results)
-                has_q2 = any(getattr(q, "q2", None) for q in sq_results)
-                if has_q3:
-                    headers = ["Pos", "Driver", "Constructor", "SQ1", "SQ2", "SQ3"]
-                    rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "q1", None) or "-", getattr(q, "q2", None) or "-", getattr(q, "q3", None) or "-"] for q in sq_results]
-                elif has_q2:
-                    headers = ["Pos", "Driver", "Constructor", "SQ1", "SQ2"]
-                    rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "q1", None) or "-", getattr(q, "q2", None) or "-"] for q in sq_results]
-                else:
-                    headers = ["Pos", "Driver", "Constructor", "Time"]
-                    rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "best_lap_time", None) or getattr(q, "q1", None) or "-"] for q in sq_results]
-                print_header(f"{year} Round {round_num} — Sprint Qualifying (SQ) Results", f"{len(sq_results)} Drivers Classified")
-                print_table(headers, rows)
+                elif action == "qualifying":
+                    print_info(f"Retrieving official Qualifying classification for {year} Round {round_num}...")
+                    quali_results = self.session_service.get_qualifying_results(year, round_num)
+                    if not quali_results:
+                        if year < 1994:
+                            print_warning(f"Qualifying session classifications are unavailable in historical provider archive for pre-1994 seasons (Race starting grids exist in Option 1).")
+                        else:
+                            print_warning(f"No qualifying results recorded for {year} Round {round_num}.")
+                    else:
+                        has_q3 = any(getattr(q, "q3", None) for q in quali_results)
+                        has_q2 = any(getattr(q, "q2", None) for q in quali_results)
+                        if has_q3:
+                            headers = ["Pos", "Driver", "Constructor", "Q1", "Q2", "Q3"]
+                            rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "q1", None) or "-", getattr(q, "q2", None) or "-", getattr(q, "q3", None) or "-"] for q in quali_results]
+                        elif has_q2:
+                            headers = ["Pos", "Driver", "Constructor", "Q1", "Q2"]
+                            rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "q1", None) or "-", getattr(q, "q2", None) or "-"] for q in quali_results]
+                        else:
+                            headers = ["Pos", "Driver", "Constructor", "Time"]
+                            rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "best_lap_time", None) or getattr(q, "q1", None) or "-"] for q in quali_results]
+                        print_header(f"{year} Round {round_num} — Official Qualifying Results", f"{len(quali_results)} Classified Entries")
+                        print_table(headers, rows)
 
-        elif action == "practice":
-            print_info(f"Retrieving {stype.upper()} practice timing for {year} Round {round_num}...")
-            practice_rows = self.session_service.get_practice_classification(year, round_num, session_type=stype)
-            if not practice_rows:
-                print_warning(f"No {stype.upper()} telemetry available for {year} Round {round_num} (or session not held).")
-            else:
-                headers = ["Pos", "Driver", "Best Lap", "Gap", "Laps"]
-                table_rows = [[str(r["position"]), r["driver"], r["best_lap_time"], r["gap"], str(r["laps_completed"])] for r in practice_rows]
-                print_header(f"{year} Round {round_num} — {stype.upper()} Classification", f"{len(practice_rows)} Drivers Recorded")
-                print_table(headers, table_rows)
+                elif action == "sprint_race":
+                    print_info(f"Retrieving official Sprint classification for {year} Round {round_num}...")
+                    sprint_results = self.session_service.get_sprint_results(year, round_num)
+                    if not sprint_results:
+                        print_warning(f"No sprint race data found for {year} Round {round_num}.")
+                    else:
+                        headers = ["Pos", "Driver", "Constructor", "Grid", "Laps", "Time/Gap", "Status", "Pts"]
+                        rows = []
+                        for s in sprint_results:
+                            pos = str(getattr(s, "position", None) or getattr(s, "position_text", "-"))
+                            grid = str(getattr(s, "grid_position", getattr(s, "grid", None)) or "-")
+                            time_disp = getattr(s, "race_time_or_gap", getattr(s, "time_str", None)) or ("Leader" if pos == "1" else "")
+                            d_name = getattr(s, "driver_name", getattr(s, "driver_id", "Unknown"))
+                            c_name = getattr(s, "constructor_name", "Unknown")[:18]
+                            laps = str(getattr(s, "laps_completed", getattr(s, "laps", 0)))
+                            status = str(getattr(s, "status", "Finished"))[:14]
+                            pts = f"{getattr(s, 'points', 0.0):g}"
+                            rows.append([pos, d_name, c_name, grid, laps, time_disp, status, pts])
+                        print_header(f"{year} Round {round_num} — Sprint Race Results", f"{len(sprint_results)} Classified Entries")
+                        print_table(headers, rows)
 
-        prompt_str("\nPress [Enter] to return to Historical Menu", allow_empty=True)
+                elif action == "sprint_qualifying":
+                    print_info(f"Retrieving Sprint Qualifying (SQ) classification for {year} Round {round_num}...")
+                    sq_results = self.session_service.get_sprint_qualifying_results(year, round_num)
+                    if not sq_results:
+                        print_warning(f"No sprint qualifying (SQ) data recorded for {year} Round {round_num}.")
+                    else:
+                        has_q3 = any(getattr(q, "q3", None) for q in sq_results)
+                        has_q2 = any(getattr(q, "q2", None) for q in sq_results)
+                        if has_q3:
+                            headers = ["Pos", "Driver", "Constructor", "SQ1", "SQ2", "SQ3"]
+                            rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "q1", None) or "-", getattr(q, "q2", None) or "-", getattr(q, "q3", None) or "-"] for q in sq_results]
+                        elif has_q2:
+                            headers = ["Pos", "Driver", "Constructor", "SQ1", "SQ2"]
+                            rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "q1", None) or "-", getattr(q, "q2", None) or "-"] for q in sq_results]
+                        else:
+                            headers = ["Pos", "Driver", "Constructor", "Time"]
+                            rows = [[str(getattr(q, "position", "-")), getattr(q, "driver_name", "Unknown"), getattr(q, "constructor_name", "Unknown")[:16], getattr(q, "best_lap_time", None) or getattr(q, "q1", None) or "-"] for q in sq_results]
+                        print_header(f"{year} Round {round_num} — Sprint Qualifying (SQ) Results", f"{len(sq_results)} Drivers Classified")
+                        print_table(headers, rows)
 
-        prompt_str("\nPress [Enter] to return to Historical Menu", allow_empty=True)
+                elif action == "practice":
+                    print_info(f"Retrieving {stype.upper()} practice timing for {year} Round {round_num}...")
+                    practice_rows = self.session_service.get_practice_classification(year, round_num, session_type=stype)
+                    if not practice_rows:
+                        print_warning(f"No {stype.upper()} telemetry available for {year} Round {round_num} (or session not held).")
+                    else:
+                        headers = ["Pos", "Driver", "Best Lap", "Gap", "Laps"]
+                        table_rows = [[str(r["position"]), r["driver"], r["best_lap_time"], r["gap"], str(r["laps_completed"])] for r in practice_rows]
+                        print_header(f"{year} Round {round_num} — {stype.upper()} Classification", f"{len(practice_rows)} Drivers Recorded")
+                        print_table(headers, table_rows)
+
+                prompt_str("\nPress [Enter] to return to Session Selection: ", allow_empty=True)
 
     # =========================================================================
     # 8. Constructor & Engine Dominance Analytics (New Option 8)
     # =========================================================================
     def view_constructor_dominance(self) -> None:
         """Guided workflow for constructor and engine dominance analytics."""
-        print_header("Constructor & Engine Dominance", "All-Time Constructor Supremacy & Win Rates (1950–2026)")
-        print("  1. All-Time Constructor Leaderboard (Championships, Wins, Poles, 1-2s)")
-        print("  2. Highest Win-Rate Seasons in F1 History (Dominant Cars & Seasons)")
-        print("  3. All-Time 1-2 Finish Rankings")
-        print(f"\n  {Colors.RED}0.{Colors.RESET} Back\n")
-        sub_choice = prompt_choice("Select dominance metric", ["1", "2", "3", "0"], default="1")
-        if sub_choice == "0":
-            return
+        while True:
+            print_header("Constructor & Engine Dominance", "All-Time Constructor Supremacy & Win Rates (1950–2026)")
+            print("  1. All-Time Constructor Leaderboard (Championships, Wins, Poles, 1-2s)")
+            print("  2. Highest Win-Rate Seasons in F1 History (Dominant Cars & Seasons)")
+            print("  3. All-Time 1-2 Finish Rankings")
+            print(f"\n  {Colors.RED}0.{Colors.RESET} Back\n")
+            sub_choice = prompt_choice("Select dominance metric", ["1", "2", "3", "0"], default="1")
+            if sub_choice == "0":
+                break
 
-        if sub_choice == "1":
-            print_info("Compiling all-time constructor dominance rankings...")
-            records = self.dominance_service.get_constructor_dominance()
-            headers = ["Rank", "Constructor", "Championships", "Wins", "Poles", "Podiums", "1-2s", "Starts", "Win %"]
-            rows = [
-                [
-                    str(r["rank"]),
-                    r["constructor"],
-                    str(r["championships"]),
-                    str(r["wins"]),
-                    str(r["poles"]),
-                    str(r["podiums"]),
-                    str(r["one_twos"]),
-                    str(r["starts"]),
-                    f"{r['win_percentage']:.1f}%",
+            if sub_choice == "1":
+                print_info("Compiling all-time constructor dominance rankings...")
+                records = self.dominance_service.get_constructor_dominance()
+                headers = ["Rank", "Constructor", "Championships", "Wins", "Poles", "Podiums", "1-2s", "Starts", "Win %"]
+                rows = [
+                    [
+                        str(r["rank"]),
+                        r["constructor"],
+                        str(r["championships"]),
+                        str(r["wins"]),
+                        str(r["poles"]),
+                        str(r["podiums"]),
+                        str(r["one_twos"]),
+                        str(r["starts"]),
+                        f"{r['win_percentage']:.1f}%",
+                    ]
+                    for r in records
                 ]
-                for r in records
-            ]
-            print_header("All-Time Constructor Rankings", "Sorted by World Championships & Grand Prix Wins")
-            print_table(headers, rows)
+                print_header("All-Time Constructor Rankings", "Sorted by World Championships & Grand Prix Wins")
+                print_table(headers, rows)
 
-        elif sub_choice == "2":
-            print_info("Fetching highest win-rate single seasons in F1 history...")
-            seasons = self.dominance_service.get_highest_win_rate_seasons(top_n=15)
-            headers = ["Rank", "Season", "Constructor", "Wins/Races", "Win %", "Champion Driver", "Historical Context"]
-            rows = [
-                [
-                    str(s["rank"]),
-                    str(s["season"]),
-                    s["constructor"],
-                    f"{s['wins']}/{s['races']}",
-                    f"{s['win_pct']:.1f}%",
-                    s["driver_champs"],
-                    s["notes"][:45],
+            elif sub_choice == "2":
+                print_info("Fetching highest win-rate single seasons in F1 history...")
+                seasons = self.dominance_service.get_highest_win_rate_seasons(top_n=15)
+                headers = ["Rank", "Season", "Constructor", "Wins/Races", "Win %", "Champion Driver", "Historical Context"]
+                rows = [
+                    [
+                        str(s["rank"]),
+                        str(s["season"]),
+                        s["constructor"],
+                        f"{s['wins']}/{s['races']}",
+                        f"{s['win_pct']:.1f}%",
+                        s["driver_champs"],
+                        s["notes"][:45],
+                    ]
+                    for s in seasons
                 ]
-                for s in seasons
-            ]
-            print_header("Top 15 Most Dominant Single Seasons in F1 History", "Minimum 8 Races Held")
-            print_table(headers, rows)
+                print_header("Top 15 Most Dominant Single Seasons in F1 History", "Minimum 8 Races Held")
+                print_table(headers, rows)
 
-        elif sub_choice == "3":
-            print_info("Fetching all-time 1-2 finish leaderboards...")
-            teams = self.dominance_service.get_one_two_finish_rankings(top_n=12)
-            headers = ["Rank", "Constructor", "1-2 Finishes", "Total Wins", "1-2 % of Wins"]
-            rows = [
-                [
-                    str(t["rank"]),
-                    t["constructor"],
-                    str(t["one_twos"]),
-                    str(t["wins"]),
-                    f"{t['one_two_pct_of_wins']:.1f}%",
+            elif sub_choice == "3":
+                print_info("Fetching all-time 1-2 finish leaderboards...")
+                teams = self.dominance_service.get_one_two_finish_rankings(top_n=12)
+                headers = ["Rank", "Constructor", "1-2 Finishes", "Total Wins", "1-2 % of Wins"]
+                rows = [
+                    [
+                        str(t["rank"]),
+                        t["constructor"],
+                        str(t["one_twos"]),
+                        str(t["wins"]),
+                        f"{t['one_two_pct_of_wins']:.1f}%",
+                    ]
+                    for t in teams
                 ]
-                for t in teams
-            ]
-            print_header("All-Time Constructor 1-2 Finishes", "Both Drivers Finishing P1 and P2")
-            print_table(headers, rows)
+                print_header("All-Time Constructor 1-2 Finishes", "Both Drivers Finishing P1 and P2")
+                print_table(headers, rows)
 
-        prompt_str("\nPress [Enter] to return to Historical Menu", allow_empty=True)
+            prompt_str("\nPress [Enter] to return to Constructor Dominance Menu", allow_empty=True)
 
     # =========================================================================
     # 9. All-Time Records, Streaks & Milestones (New Option 9)
     # =========================================================================
     def view_all_time_records(self) -> None:
         """Guided workflow for all-time driver records, streaks, and milestones."""
-        print_header("All-Time Records & Milestones", "Poles, Wins, Podiums, Streaks & Age Records (1950–2026)")
-        print("  1. All-Time Grand Prix Wins (Top 20)")
-        print("  2. All-Time Pole Positions (Top 20)")
-        print("  3. All-Time Podiums (Top 15)")
-        print("  4. Consecutive Streaks (Wins, Podiums, Points, Starts)")
-        print("  5. Age Milestones & Unwanted Records (Youngest/Oldest, Most Starts No Win)")
-        print(f"\n  {Colors.RED}0.{Colors.RESET} Back\n")
-        sub_choice = prompt_choice("Select records view", ["1", "2", "3", "4", "5", "0"], default="1")
-        if sub_choice == "0":
-            return
-
-        if sub_choice == "1":
-            records = self.records_service.get_all_time_wins(top_n=20)
-            headers = ["Rank", "Driver", "Nationality", "Wins", "Starts", "Win %"]
-            rows = [[str(r["rank"]), r["driver"], r["nationality"], str(r["wins"]), str(r["starts"]), f"{r['win_pct']:.1f}%"] for r in records]
-            print_header("All-Time Formula 1 Race Winners", "Top 20 Drivers in History")
-            print_table(headers, rows)
-
-        elif sub_choice == "2":
-            records = self.records_service.get_all_time_poles(top_n=20)
-            headers = ["Rank", "Driver", "Nationality", "Poles", "Starts", "Pole %"]
-            rows = [[str(r["rank"]), r["driver"], r["nationality"], str(r["poles"]), str(r["starts"]), f"{r['pole_pct']:.1f}%"] for r in records]
-            print_header("All-Time Formula 1 Pole Positions", "Top 20 Drivers in History")
-            print_table(headers, rows)
-
-        elif sub_choice == "3":
-            records = self.records_service.get_all_time_podiums(top_n=15)
-            headers = ["Rank", "Driver", "Nationality", "Podiums", "Starts", "Podium %"]
-            rows = [[str(r["rank"]), r["driver"], r["nationality"], str(r["podiums"]), str(r["starts"]), f"{r['podium_pct']:.1f}%"] for r in records]
-            print_header("All-Time Formula 1 Podium Finishes", "Top 15 Drivers in History")
-            print_table(headers, rows)
-
-        elif sub_choice == "4":
-            print("\nSelect Streak Type:")
-            print("  1. Consecutive Wins")
-            print("  2. Consecutive Podiums")
-            print("  3. Consecutive Points Finishes")
-            print("  4. Consecutive Race Starts")
+        while True:
+            print_header("All-Time Records & Milestones", "Poles, Wins, Podiums, Streaks & Age Records (1950–2026)")
+            print("  1. All-Time Grand Prix Wins (Top 20)")
+            print("  2. All-Time Pole Positions (Top 20)")
+            print("  3. All-Time Podiums (Top 15)")
+            print("  4. Consecutive Streaks (Wins, Podiums, Points, Starts)")
+            print("  5. Age Milestones & Unwanted Records (Youngest/Oldest, Most Starts No Win)")
             print(f"\n  {Colors.RED}0.{Colors.RESET} Back\n")
-            streak_sel = prompt_choice("Select streak", ["1", "2", "3", "4", "0"], default="1")
-            if streak_sel == "0":
-                return
-            streak_key = {"1": "consecutive_wins", "2": "consecutive_podiums", "3": "consecutive_points", "4": "consecutive_starts"}[streak_sel]
-            streaks = self.records_service.get_consecutive_records(streak_key)
-            headers = ["Rank", "Driver", "Streak Count", "Season", "Grand Prix Span"]
-            rows = [[str(s["rank"]), s["driver"], str(s["count"]), s["season"], s["races"]] for s in streaks]
-            title = streak_key.replace("_", " ").title()
-            print_header(f"All-Time Streaks: {title}", "Longest Unbroken Runs in F1 History")
-            print_table(headers, rows)
+            sub_choice = prompt_choice("Select records view", ["1", "2", "3", "4", "5", "0"], default="1")
+            if sub_choice == "0":
+                break
 
-        elif sub_choice == "5":
-            milestones = self.records_service.get_age_milestones()
-            print(f"\n{Colors.BOLD}Youngest Grand Prix Winners:{Colors.RESET}")
-            y_headers = ["Rank", "Driver", "Age", "Event"]
-            y_rows = [[str(x["rank"]), x["driver"], x["age"], x["event"]] for x in milestones["youngest_winners"]]
-            print_table(y_headers, y_rows)
+            if sub_choice == "1":
+                records = self.records_service.get_all_time_wins(top_n=20)
+                headers = ["Rank", "Driver", "Nationality", "Wins", "Starts", "Win %"]
+                rows = [[str(r["rank"]), r["driver"], r["nationality"], str(r["wins"]), str(r["starts"]), f"{r['win_pct']:.1f}%"] for r in records]
+                print_header("All-Time Formula 1 Race Winners", "Top 20 Drivers in History")
+                print_table(headers, rows)
 
-            print(f"\n{Colors.BOLD}Oldest Grand Prix Winners:{Colors.RESET}")
-            o_headers = ["Rank", "Driver", "Age", "Event"]
-            o_rows = [[str(x["rank"]), x["driver"], x["age"], x["event"]] for x in milestones["oldest_winners"]]
-            print_table(o_headers, o_rows)
+            elif sub_choice == "2":
+                records = self.records_service.get_all_time_poles(top_n=20)
+                headers = ["Rank", "Driver", "Nationality", "Poles", "Starts", "Pole %"]
+                rows = [[str(r["rank"]), r["driver"], r["nationality"], str(r["poles"]), str(r["starts"]), f"{r['pole_pct']:.1f}%"] for r in records]
+                print_header("All-Time Formula 1 Pole Positions", "Top 20 Drivers in History")
+                print_table(headers, rows)
 
-            print(f"\n{Colors.BOLD}Most Race Starts Without a Grand Prix Win:{Colors.RESET}")
-            u_headers = ["Rank", "Driver", "Starts", "Best Finish"]
-            u_rows = [[str(x["rank"]), x["driver"], str(x["starts"]), x["best_finish"]] for x in milestones["most_starts_no_win"]]
-            print_table(u_headers, u_rows)
+            elif sub_choice == "3":
+                records = self.records_service.get_all_time_podiums(top_n=15)
+                headers = ["Rank", "Driver", "Nationality", "Podiums", "Starts", "Podium %"]
+                rows = [[str(r["rank"]), r["driver"], r["nationality"], str(r["podiums"]), str(r["starts"]), f"{r['podium_pct']:.1f}%"] for r in records]
+                print_header("All-Time Formula 1 Podium Finishes", "Top 15 Drivers in History")
+                print_table(headers, rows)
 
-        prompt_str("\nPress [Enter] to return to Historical Menu", allow_empty=True)
+            elif sub_choice == "4":
+                print("\nSelect Streak Type:")
+                print("  1. Consecutive Wins")
+                print("  2. Consecutive Podiums")
+                print("  3. Consecutive Points Finishes")
+                print("  4. Consecutive Race Starts")
+                print(f"\n  {Colors.RED}0.{Colors.RESET} Back\n")
+                streak_sel = prompt_choice("Select streak", ["1", "2", "3", "4", "0"], default="1")
+                if streak_sel == "0":
+                    continue
+                streak_key = {"1": "consecutive_wins", "2": "consecutive_podiums", "3": "consecutive_points", "4": "consecutive_starts"}[streak_sel]
+                streaks = self.records_service.get_consecutive_records(streak_key)
+                headers = ["Rank", "Driver", "Streak Count", "Season", "Grand Prix Span"]
+                rows = [[str(s["rank"]), s["driver"], str(s["count"]), s["season"], s["races"]] for s in streaks]
+                title = streak_key.replace("_", " ").title()
+                print_header(f"All-Time Streaks: {title}", "Longest Unbroken Runs in F1 History")
+                print_table(headers, rows)
+
+            elif sub_choice == "5":
+                milestones = self.records_service.get_age_milestones()
+                print(f"\n{Colors.BOLD}Youngest Grand Prix Winners:{Colors.RESET}")
+                y_headers = ["Rank", "Driver", "Age", "Event"]
+                y_rows = [[str(x["rank"]), x["driver"], x["age"], x["event"]] for x in milestones["youngest_winners"]]
+                print_table(y_headers, y_rows)
+
+                print(f"\n{Colors.BOLD}Oldest Grand Prix Winners:{Colors.RESET}")
+                o_headers = ["Rank", "Driver", "Age", "Event"]
+                o_rows = [[str(x["rank"]), x["driver"], x["age"], x["event"]] for x in milestones["oldest_winners"]]
+                print_table(o_headers, o_rows)
+
+                print(f"\n{Colors.BOLD}Most Race Starts Without a Grand Prix Win:{Colors.RESET}")
+                u_headers = ["Rank", "Driver", "Starts", "Best Finish"]
+                u_rows = [[str(x["rank"]), x["driver"], str(x["starts"]), x["best_finish"]] for x in milestones["most_starts_no_win"]]
+                print_table(u_headers, u_rows)
+
+            prompt_str("\nPress [Enter] to return to All-Time Records Menu", allow_empty=True)
 
     # =========================================================================
     # 10. Historical Reliability & Retirement Stats (New Option 10)
     # =========================================================================
     def view_reliability_stats(self) -> None:
         """Guided workflow for reliability, DNF causes, and attrition trends."""
-        print_header("Historical Reliability & Retirement Stats", "Mechanical Attrition & Finish Rates Across Decades")
-        print("  1. Era-by-Era Attrition Trends (1950s to 2026)")
-        print("  2. Most Attritional Races in F1 History (Fewest Finishers)")
-        print("  3. Modern Era Constructor Reliability Rankings")
-        print(f"\n  {Colors.RED}0.{Colors.RESET} Back\n")
-        sub_choice = prompt_choice("Select reliability view", ["1", "2", "3", "0"], default="1")
-        if sub_choice == "0":
-            return
+        while True:
+            print_header("Historical Reliability & Retirement Stats", "Mechanical Attrition & Finish Rates Across Decades")
+            print("  1. Era-by-Era Attrition Trends (1950s to 2026)")
+            print("  2. Most Attritional Races in F1 History (Fewest Finishers)")
+            print("  3. Modern Era Constructor Reliability Rankings")
+            print(f"\n  {Colors.RED}0.{Colors.RESET} Back\n")
+            sub_choice = prompt_choice("Select reliability view", ["1", "2", "3", "0"], default="1")
+            if sub_choice == "0":
+                break
 
-        if sub_choice == "1":
-            eras = self.reliability_service.get_season_attrition_rates()
-            headers = ["Era", "Races", "Finish Rate %", "Mech. DNF %", "Accident %", "Avg Finishers"]
-            rows = [
-                [
-                    e["era"],
-                    str(e["races"]),
-                    f"{e['finish_rate_pct']:.1f}%",
-                    f"{e['mech_dnf_pct']:.1f}%",
-                    f"{e['accident_dnf_pct']:.1f}%",
-                    f"{e['avg_finishers']:.1f}",
+            if sub_choice == "1":
+                eras = self.reliability_service.get_season_attrition_rates()
+                headers = ["Era", "Races", "Finish Rate %", "Mech. DNF %", "Accident %", "Avg Finishers"]
+                rows = [
+                    [
+                        e["era"],
+                        str(e["races"]),
+                        f"{e['finish_rate_pct']:.1f}%",
+                        f"{e['mech_dnf_pct']:.1f}%",
+                        f"{e['accident_dnf_pct']:.1f}%",
+                        f"{e['avg_finishers']:.1f}",
+                    ]
+                    for e in eras
                 ]
-                for e in eras
-            ]
-            print_header("Historical Attrition Evolution (1950–2026)", "Mechanical Failure Decline Across Decades")
-            print_table(headers, rows)
+                print_header("Historical Attrition Evolution (1950–2026)", "Mechanical Failure Decline Across Decades")
+                print_table(headers, rows)
 
-        elif sub_choice == "2":
-            races = self.reliability_service.get_most_attritional_races(top_n=8)
-            headers = ["Grand Prix", "Year", "Starters", "Finishers", "Winner", "Race Context"]
-            rows = [[r["race"], str(r["year"]), str(r["starters"]), str(r["finishers"]), r["winner"], r["notes"][:45]] for r in races]
-            print_header("Most Attritional Races in History", "Events with the Fewest Checkered Flag Finishers")
-            print_table(headers, rows)
+            elif sub_choice == "2":
+                races = self.reliability_service.get_most_attritional_races(top_n=8)
+                headers = ["Grand Prix", "Year", "Starters", "Finishers", "Winner", "Race Context"]
+                rows = [[r["race"], str(r["year"]), str(r["starters"]), str(r["finishers"]), r["winner"], r["notes"][:45]] for r in races]
+                print_header("Most Attritional Races in History", "Events with the Fewest Checkered Flag Finishers")
+                print_table(headers, rows)
 
-        elif sub_choice == "3":
-            constructors = self.reliability_service.get_most_reliable_constructors(top_n=5)
-            headers = ["Rank", "Constructor", "Regulatory Era", "Race Starts", "Finish Rate %", "Engine PU"]
-            rows = [
-                [
-                    str(c["rank"]),
-                    c["constructor"],
-                    c["era"],
-                    str(c["starts"]),
-                    f"{c['finish_rate_pct']:.1f}%",
-                    c["engine"],
+            elif sub_choice == "3":
+                constructors = self.reliability_service.get_most_reliable_constructors(top_n=5)
+                headers = ["Rank", "Constructor", "Regulatory Era", "Race Starts", "Finish Rate %", "Engine PU"]
+                rows = [
+                    [
+                        str(c["rank"]),
+                        c["constructor"],
+                        c["era"],
+                        str(c["starts"]),
+                        f"{c['finish_rate_pct']:.1f}%",
+                        c["engine"],
+                    ]
+                    for c in constructors
                 ]
-                for c in constructors
-            ]
-            print_header("Constructor Reliability Rankings (V6 Turbo-Hybrid)", "Lowest Mechanical Attrition Rates")
-            print_table(headers, rows)
+                print_header("Constructor Reliability Rankings (V6 Turbo-Hybrid)", "Lowest Mechanical Attrition Rates")
+                print_table(headers, rows)
 
-        prompt_str("\nPress [Enter] to return to Historical Menu", allow_empty=True)
+            prompt_str("\nPress [Enter] to return to Reliability Menu", allow_empty=True)
 
     # =========================================================================
     # 11. F1 Eras & Regulation Comparison (New Option 11)

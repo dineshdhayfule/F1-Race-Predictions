@@ -128,6 +128,9 @@ class MonteCarloSimulator:
             active_scores = deterministic_scores
 
         n = len(active_df)
+        if n < 20 and n > 0:
+            calibrated_sigma = max(calibrated_sigma * (n / 20.0), 1.2)
+            logger.info(f"Scaled pace sigma for {n}-car field: {calibrated_sigma:.4f}")
         sim_scores = np.empty((num_sims, n))
         dnf_counts = np.zeros(n, dtype=np.int64)
 

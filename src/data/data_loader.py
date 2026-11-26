@@ -208,6 +208,8 @@ class DataLoader:
         """
         from src.utils.season_utils import get_active_season
         year = year or get_active_season()
+        if year < 2021:
+            return False
         try:
             info = self.get_track_info(track_id)
         except KeyError:

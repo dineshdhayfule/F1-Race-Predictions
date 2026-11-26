@@ -474,229 +474,265 @@ class InteractiveMenu:
         return circuits[-1][1], circuits[-1][0]
 
     def menu_predict_race(self) -> None:
-        default = datetime.now().year
-        clear_screen()
-        print_banner(season=default, status_text="Prediction Wizard")
-        print_header("Step 1: Select Season & Championship Year")
-
-        # Step 1: Select Season Year (default 2026, calendar-driven)
-        year = prompt_int("Enter Season Year", min_val=1950, max_val=default, default=default)
-        if year is None:
-            return
-
-        # Step 2: Retrieve calendar
-        print(f"\n{Colors.CYAN}Discovering {year} F1 calendar...{Colors.RESET}")
-        try:
-            calendar_events = self.calendar_service.get_calendar(year)
-        except Exception as e:
-            logger.error(f"Calendar retrieval failure for season {year}: {e}")
-            print_error(f"Failed to retrieve F1 calendar for season {year}: {e}")
-            prompt_str("Press [Enter] to return to Main Menu", allow_empty=True)
-            return
-
-        if not calendar_events:
-            print_error(f"No championship Grand Prix events found for season {year}.")
-            prompt_str("Press [Enter] to return to Main Menu", allow_empty=True)
-            return
-
-        print_header("Step 2: Select Grand Prix Event", f"Championship Season: {year}")
-        print(f"\n{Colors.BOLD}Available Grand Prix events:{Colors.RESET}\n")
-
-        default_track_key, default_round = self._get_default_circuit_for_season(year)
-        default_choice = "1"
-        rows = []
-        key_map = {}
-
-        for idx, ev in enumerate(calendar_events, start=1):
-            r_num = ev.round_number
-            d_name = ev.event_name
-            country = ev.country
-            sprint_tag = "[SPRINT]" if ev.is_sprint else "Normal"
-            circ_key = ev.circuit_key or "-"
-            rows.append([idx, f"Round {r_num}", d_name, country, sprint_tag, circ_key])
-            key_map[str(idx)] = ev
-            if ev.circuit_key:
-                key_map[ev.circuit_key] = ev
-            if default_round and ev.round_number == default_round:
-                default_choice = str(idx)
-
-        print_table(["#", "Round", "Grand Prix", "Country", "Format", "Circuit Key"], rows)
-
-        selected_input = prompt_choice("Select Grand Prix (# or key)", list(key_map.keys()) + ["0"], default=default_choice)
-        if selected_input == "0":
-            return
-
-        selected_event = key_map[selected_input]
-        round_num = selected_event.round_number
-        track_display = selected_event.event_name
-        is_sprint = selected_event.is_sprint
-        track_key = selected_event.circuit_key or resolve_circuit_key(selected_event.event_name) or "unknown"
-
-        # Step 3: Select Prediction Stage
-        print_header("Step 3: Select Prediction Timeline Stage", f"{track_display} (Round {round_num})")
-        available_stages = get_available_stages_for_event(year, is_sprint=is_sprint)
-        default_stage_choice = "1" if year < 2018 else "5"
-
-        for num, stg, desc in available_stages:
-            print(f"  {num}. {stg:<24} - {desc}")
-        print("  0. Cancel / Back\n")
-
-        stage_choice_keys = [s[0] for s in available_stages] + [s[1] for s in available_stages] + ["0"]
-        chosen_stage_val = prompt_choice("Select Stage (# or name)", stage_choice_keys, default=default_stage_choice)
-        if chosen_stage_val == "0":
-            return
-
-        default_stage_key = "before_race" if year < 2018 else "after_qualifying"
-        stage = next((s[1] for s in available_stages if s[0] == chosen_stage_val or s[1] == chosen_stage_val), default_stage_key)
+        default = get_active_season()
+        step = 1
+        year = default
+        calendar_events = []
+        round_num = 1
+        track_display = ""
+        is_sprint = False
+        track_key = "unknown"
+        stage = "after_qualifying"
         selected_weekend_only = False
-
-        # Step 4: Data Readiness Check
-        clear_screen()
-        print_banner(season=year)
-        print_header("Step 4: Data Readiness Audit", f"Circuit: {track_display} | Stage: {stage}")
-
-        audit_res = self._audit_prediction_readiness(track_key, year, round_num, stage, is_sprint)
-        ready, details = audit_res
-        classification = getattr(audit_res, "classification", "VALIDATED" if ready else "BLOCKED")
-
-        for status, msg in details:
-            if status in ["OK", "VALIDATED"]:
-                print_success(msg)
-            elif status in ["WARN", "EXPERIMENTAL"]:
-                print_warning(msg)
-            elif status in ["MISSING", "BLOCKED", "INVALID"]:
-                print_error(msg)
-            else:
-                print_info(msg)
-
-        if classification == "VALIDATED":
-            print(f"\n{Colors.BOLD}Prediction Readiness:{Colors.RESET} {Colors.GREEN}VALIDATED (Full Historical Dataset & Walk-Forward Validation Verified){Colors.RESET}")
-        elif classification == "EXPERIMENTAL":
-            print(f"\n{Colors.BOLD}Prediction Readiness:{Colors.RESET} {Colors.YELLOW}EXPERIMENTAL (Technical Execution Possible, Statistical Validation Limited){Colors.RESET}")
-        else:
-            print(f"\n{Colors.BOLD}Prediction Readiness:{Colors.RESET} {Colors.RED}BLOCKED (Required Training or Target Data Unavailable){Colors.RESET}")
-
-        # Step 5: Missing-data Handling
-        if not ready:
-            historical_only_missing = all(
-                status in ["OK", "INFO", "WARN"] or ("Round 1" in msg or "prior" in msg or "completed round" in msg or "Historical Training" in msg)
-                for status, msg in details
-            )
-            print("\nRequired session data is missing for the selected stage.")
-            print("  1. Collect missing session data via FastF1")
-            print("  2. Proceed anyway using fallback provisional models (if permissible)")
-            print("  3. Change stage")
-            if historical_only_missing:
-                print(f"  4. {Colors.GREEN}Proceed with Weekend-Only Mode (uses active weekend session telemetry without prior season history){Colors.RESET}")
-            print("  0. Cancel prediction\n")
-            allowed_actions = ["1", "2", "3", "0"] + (["4"] if historical_only_missing else [])
-            action = prompt_choice("Select action", allowed_actions, default="4" if historical_only_missing else "1")
-            if action == "4":
-                selected_weekend_only = True
-                ready = True
-            elif action == "1":
-                self._run_data_collection_wizard(track_key, year, round_num, stage=stage, is_sprint=is_sprint)
-                # Re-audit
-                ready, new_details = self._audit_prediction_readiness(track_key, year, round_num, stage, is_sprint)
-                if not ready:
-                    new_missing = [msg for status, msg in new_details if status in ["MISSING", "INVALID"]]
-                    only_r1 = len(new_missing) == 1 and any("Round 1" in m for m in new_missing)
-                    if only_r1 or all("Round 1" in m or "prior" in m or "completed round" in m for m in new_missing):
-                        print_info("Target session and starting grid data verified successfully.")
-                        if prompt_confirm("Run prediction using Weekend-Only Mode (uses active weekend telemetry)?", default=True):
-                            selected_weekend_only = True
-                            ready = True
-                        else:
-                            print_warning(
-                                f"Predictive model training remains unavailable because Round 1 ({year}) has no prior completed championship rounds."
-                            )
-                            return
-                    else:
-                        print_error("Required data remains unverified after collection.")
-                        if stage == "after_qualifying":
-                            print_error("Cannot proceed: Stage 'after_qualifying' strictly requires verified official qualifying results.")
-                            return
-                        if not prompt_confirm("Proceed with fallback model?", default=False):
-                            return
-            elif action == "2":
-                if stage == "after_qualifying":
-                    print_warning("Provisional fallback models cannot be used for 'after_qualifying'. Switching to stage selection...")
-                    return self.menu_predict_race()
-                else:
-                    print_warning("Proceeding with provisional fallback model. Actual starting grid will NOT be used.")
-            elif action == "3":
-                return self.menu_predict_race()
-            else:
-                return
-
-        # Step 5: Select Prediction Model
-        print_header("Step 5: Select Prediction Model", f"Circuit: {track_display} | Stage: {stage}")
-        model_table_rows = [
-            ["1", "Random Forest (100%)", "Non-linear feature interactions, robust to outliers", "3.612"],
-            ["2", "XGBoost (100%)", "Gradient-boosted decision trees, fast convergence", "3.684"],
-            ["3", "Ridge Regression (100%)", "L2 regularized linear model, baseline stability", "3.750"],
-            ["4", "Hybrid Ensemble (60% RF / 40% XGB)", "Default balanced dual-model ensemble", "3.585"],
-            ["5", "Hybrid Ensemble (Custom Weights)", "User-configured percentage weights", "Custom"],
-            ["6", "Validated Multi-Model Ensemble", "Production benchmark: 40% RF / 30% XGB / 30% Ridge", "3.534"],
-            ["7", "Weekend-Only ML Ensemble (40% RF / 30% XGB / 30% Ridge)", "Active weekend telemetry only (zero prior season history)", "3.534*"],
-        ]
-        print_table(["#", "Model Architecture", "Description", "Overall Historical CV MAE"], model_table_rows, align_right=[True, False, False, True])
-        print(f"{Colors.DIM}Note: The figures above represent overall historical cross-validation benchmarks and are not dynamically calculated track-specific MAEs.{Colors.RESET}\n")
-        print("  0. Cancel / Back\n")
-        model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "5", "6", "7", "0"], default="7" if selected_weekend_only else "4")
-        if model_choice_input == "0":
-            return
+        selected_model_opt = "hybrid"
         selected_custom_rf = None
         selected_custom_xgb = None
-        if model_choice_input == "1":
-            selected_model_opt = "rf"
-        elif model_choice_input == "2":
-            selected_model_opt = "xgb"
-        elif model_choice_input == "3":
-            selected_model_opt = "ridge"
-        elif model_choice_input == "4":
-            selected_model_opt = "hybrid"
-        elif model_choice_input == "5":
-            selected_model_opt, selected_custom_rf, selected_custom_xgb = prompt_custom_weights_only()
-            if selected_model_opt is None:
-                return self.menu_predict_race()
-        elif model_choice_input == "6":
-            selected_model_opt = "ensemble"
-        elif model_choice_input == "7":
-            selected_model_opt = "weekend_only"
-            selected_weekend_only = True
-        else:
-            selected_model_opt = "hybrid"
+        caps = None
+        top_n = 10
 
-        # Step 6: Enhanced Simulation Capabilities
-        print_header("Step 6: Enhanced Simulation Capabilities")
-        cap_rows = [
-            ["[X]", "Race Pace Intelligence", "FP1/FP2/FP3 long-run stint pace & fuel correction"],
-            ["[X]", "Tire Degradation Modeling", "Compound wear curves & thermal degradation slopes"],
-            ["[X]", "Dynamic Pit Strategy Simulator", "1/2-stop optimization & FIA 2-dry-compound rule"],
-            ["[X]", "Safety Car & Race Control Hazard Model", "Incident probabilities, field pack bunching & cheap stops"],
-            ["[X]", "Weather & Microclimate Integration", "Rain probability variance & wet weather driver rating"],
-        ]
-        print_table(["Active", "Capability Module", "Computational Role"], cap_rows)
-        enable_enhanced = prompt_confirm("Enable Five Major ML Capabilities?", default=True)
-        caps = {
-            "race_pace_intelligence": True,
-            "tire_degradation_modeling": True,
-            "pit_strategy_simulator": True,
-            "race_control_model": True,
-            "weather_aware_prediction": True,
-        } if enable_enhanced else None
+        while step <= 7:
+            if step == 1:
+                clear_screen()
+                print_banner(season=default, status_text="Prediction Wizard")
+                print_header("Step 1: Select Season & Championship Year")
+                year = prompt_int("Enter Season Year (0 to Back)", min_val=0, max_val=default, default=default)
+                if year is None or year == 0:
+                    return
+                if year < 1950:
+                    print_warning("Please enter a valid championship year (1950 or later).")
+                    prompt_str("Press [Enter] to continue", allow_empty=True)
+                    continue
 
-        # Step 7: Output Display Options
-        print_header("Step 7: Output Display Options")
-        print("  1. Top 3 (Podium prediction)")
-        print("  2. Top 10 (Points scoring positions)")
-        print("  3. Full Grid (All 22 classified positions)")
-        print("  0. Back\n")
-        disp_choice = prompt_choice("Select display scope", ["1", "2", "3", "0"], default="2")
-        if disp_choice == "0":
-            return
-        top_n = 3 if disp_choice == "1" else (10 if disp_choice == "2" else 22)
+                print(f"\n{Colors.CYAN}Discovering {year} F1 calendar...{Colors.RESET}")
+                try:
+                    calendar_events = self.calendar_service.get_calendar(year)
+                except Exception as e:
+                    logger.error(f"Calendar retrieval failure for season {year}: {e}")
+                    print_error(f"Failed to retrieve F1 calendar for season {year}: {e}")
+                    prompt_str("Press [Enter] to return", allow_empty=True)
+                    continue
+
+                if not calendar_events:
+                    print_error(f"No championship Grand Prix events found for season {year}.")
+                    prompt_str("Press [Enter] to return", allow_empty=True)
+                    continue
+                step = 2
+
+            elif step == 2:
+                print_header("Step 2: Select Grand Prix Event", f"Championship Season: {year}")
+                print(f"\n{Colors.BOLD}Available Grand Prix events:{Colors.RESET}\n")
+
+                default_track_key, default_round = self._get_default_circuit_for_season(year)
+                default_choice = "1"
+                rows = []
+                key_map = {}
+
+                for idx, ev in enumerate(calendar_events, start=1):
+                    r_num = ev.round_number
+                    d_name = ev.event_name
+                    country = ev.country
+                    sprint_tag = "[SPRINT]" if ev.is_sprint else "Normal"
+                    circ_key = ev.circuit_key or "-"
+                    rows.append([idx, f"Round {r_num}", d_name, country, sprint_tag, circ_key])
+                    key_map[str(idx)] = ev
+                    if ev.circuit_key:
+                        key_map[ev.circuit_key] = ev
+                    if default_round and ev.round_number == default_round:
+                        default_choice = str(idx)
+
+                print_table(["#", "Round", "Grand Prix", "Country", "Format", "Circuit Key"], rows)
+
+                selected_input = prompt_choice("Select Grand Prix (# or key, 0 to Back)", list(key_map.keys()) + ["0"], default=default_choice)
+                if selected_input == "0":
+                    step = 1
+                    continue
+
+                selected_event = key_map[selected_input]
+                round_num = selected_event.round_number
+                track_display = selected_event.event_name
+                is_sprint = selected_event.is_sprint
+                track_key = selected_event.circuit_key or resolve_circuit_key(selected_event.event_name) or "unknown"
+                step = 3
+
+            elif step == 3:
+                print_header("Step 3: Select Prediction Timeline Stage", f"{track_display} (Round {round_num})")
+                available_stages = get_available_stages_for_event(year, is_sprint=is_sprint)
+                default_stage_choice = "1" if year < 2018 else "5"
+
+                for num, stg, desc in available_stages:
+                    print(f"  {num}. {stg:<24} - {desc}")
+                print("  0. Cancel / Back\n")
+
+                stage_choice_keys = [s[0] for s in available_stages] + [s[1] for s in available_stages] + ["0"]
+                chosen_stage_val = prompt_choice("Select Stage (# or name)", stage_choice_keys, default=default_stage_choice)
+                if chosen_stage_val == "0":
+                    step = 2
+                    continue
+
+                default_stage_key = "before_race" if year < 2018 else "after_qualifying"
+                stage = next((s[1] for s in available_stages if s[0] == chosen_stage_val or s[1] == chosen_stage_val), default_stage_key)
+                selected_weekend_only = False
+                step = 4
+
+            elif step == 4:
+                clear_screen()
+                print_banner(season=year)
+                print_header("Step 4: Data Readiness Audit", f"Circuit: {track_display} | Stage: {stage}")
+
+                audit_res = self._audit_prediction_readiness(track_key, year, round_num, stage, is_sprint)
+                ready, details = audit_res
+                classification = getattr(audit_res, "classification", "VALIDATED" if ready else "BLOCKED")
+
+                for status, msg in details:
+                    if status in ["OK", "VALIDATED"]:
+                        print_success(msg)
+                    elif status in ["WARN", "EXPERIMENTAL"]:
+                        print_warning(msg)
+                    elif status in ["MISSING", "BLOCKED", "INVALID"]:
+                        print_error(msg)
+                    else:
+                        print_info(msg)
+
+                if classification == "VALIDATED":
+                    print(f"\n{Colors.BOLD}Prediction Readiness:{Colors.RESET} {Colors.GREEN}VALIDATED (Full Historical Dataset & Walk-Forward Validation Verified){Colors.RESET}")
+                elif classification == "EXPERIMENTAL":
+                    print(f"\n{Colors.BOLD}Prediction Readiness:{Colors.RESET} {Colors.YELLOW}EXPERIMENTAL (Technical Execution Possible, Statistical Validation Limited){Colors.RESET}")
+                else:
+                    print(f"\n{Colors.BOLD}Prediction Readiness:{Colors.RESET} {Colors.RED}BLOCKED (Required Training or Target Data Unavailable){Colors.RESET}")
+
+                if not ready:
+                    historical_only_missing = all(
+                        status in ["OK", "INFO", "WARN"] or ("Round 1" in msg or "prior" in msg or "completed round" in msg or "Historical Training" in msg)
+                        for status, msg in details
+                    )
+                    print("\nRequired session data is missing for the selected stage.")
+                    print("  1. Collect missing session data via FastF1")
+                    print("  2. Proceed anyway using fallback provisional models (if permissible)")
+                    print("  3. Change stage")
+                    if historical_only_missing:
+                        print(f"  4. {Colors.GREEN}Proceed with Weekend-Only Mode (uses active weekend session telemetry without prior season history){Colors.RESET}")
+                    print("  0. Back to Stage Selection\n")
+                    allowed_actions = ["1", "2", "3", "0"] + (["4"] if historical_only_missing else [])
+                    action = prompt_choice("Select action", allowed_actions, default="4" if historical_only_missing else "1")
+                    if action == "4":
+                        selected_weekend_only = True
+                        ready = True
+                    elif action == "1":
+                        self._run_data_collection_wizard(track_key, year, round_num, stage=stage, is_sprint=is_sprint)
+                        ready, new_details = self._audit_prediction_readiness(track_key, year, round_num, stage, is_sprint)
+                        if not ready:
+                            new_missing = [msg for status, msg in new_details if status in ["MISSING", "INVALID"]]
+                            only_r1 = len(new_missing) == 1 and any("Round 1" in m for m in new_missing)
+                            if only_r1 or all("Round 1" in m or "prior" in m or "completed round" in m for m in new_missing):
+                                print_info("Target session and starting grid data verified successfully.")
+                                if prompt_confirm("Run prediction using Weekend-Only Mode (uses active weekend telemetry)?", default=True):
+                                    selected_weekend_only = True
+                                    ready = True
+                                else:
+                                    print_warning(
+                                        f"Predictive model training remains unavailable because Round 1 ({year}) has no prior completed championship rounds."
+                                    )
+                                    step = 3
+                                    continue
+                            else:
+                                print_error("Required data remains unverified after collection.")
+                                if stage == "after_qualifying":
+                                    print_error("Cannot proceed: Stage 'after_qualifying' strictly requires verified official qualifying results.")
+                                    step = 3
+                                    continue
+                                if not prompt_confirm("Proceed with fallback model?", default=False):
+                                    step = 3
+                                    continue
+                    elif action == "2":
+                        if stage == "after_qualifying":
+                            print_warning("Provisional fallback models cannot be used for 'after_qualifying'. Switching to stage selection...")
+                            step = 3
+                            continue
+                        else:
+                            print_warning("Proceeding with provisional fallback model. Actual starting grid will NOT be used.")
+                    elif action == "3":
+                        step = 3
+                        continue
+                    else:
+                        step = 3
+                        continue
+                step = 5
+
+            elif step == 5:
+                print_header("Step 5: Select Prediction Model", f"Circuit: {track_display} | Stage: {stage}")
+                model_table_rows = [
+                    ["1", "Random Forest (100%)", "Non-linear feature interactions, robust to outliers", "3.612"],
+                    ["2", "XGBoost (100%)", "Gradient-boosted decision trees, fast convergence", "3.684"],
+                    ["3", "Ridge Regression (100%)", "L2 regularized linear model, baseline stability", "3.750"],
+                    ["4", "Hybrid Ensemble (60% RF / 40% XGB)", "Default balanced dual-model ensemble", "3.585"],
+                    ["5", "Hybrid Ensemble (Custom Weights)", "User-configured percentage weights", "Custom"],
+                    ["6", "Validated Multi-Model Ensemble", "Production benchmark: 40% RF / 30% XGB / 30% Ridge", "3.534"],
+                    ["7", "Weekend-Only ML Ensemble (40% RF / 30% XGB / 30% Ridge)", "Active weekend telemetry only (zero prior season history)", "3.534*"],
+                ]
+                print_table(["#", "Model Architecture", "Description", "Overall Historical CV MAE"], model_table_rows, align_right=[True, False, False, True])
+                print(f"{Colors.DIM}Note: The figures above represent overall historical cross-validation benchmarks and are not dynamically calculated track-specific MAEs.{Colors.RESET}\n")
+                print("  0. Cancel / Back\n")
+                model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "5", "6", "7", "0"], default="7" if selected_weekend_only else "4")
+                if model_choice_input == "0":
+                    step = 3
+                    continue
+                selected_custom_rf = None
+                selected_custom_xgb = None
+                if model_choice_input == "1":
+                    selected_model_opt = "rf"
+                elif model_choice_input == "2":
+                    selected_model_opt = "xgb"
+                elif model_choice_input == "3":
+                    selected_model_opt = "ridge"
+                elif model_choice_input == "4":
+                    selected_model_opt = "hybrid"
+                elif model_choice_input == "5":
+                    selected_model_opt, selected_custom_rf, selected_custom_xgb = prompt_custom_weights_only()
+                    if selected_model_opt is None:
+                        continue
+                elif model_choice_input == "6":
+                    selected_model_opt = "ensemble"
+                elif model_choice_input == "7":
+                    selected_model_opt = "weekend_only"
+                    selected_weekend_only = True
+                else:
+                    selected_model_opt = "hybrid"
+                step = 6
+
+            elif step == 6:
+                print_header("Step 6: Enhanced Simulation Capabilities")
+                cap_rows = [
+                    ["[X]", "Race Pace Intelligence", "FP1/FP2/FP3 long-run stint pace & fuel correction"],
+                    ["[X]", "Tire Degradation Modeling", "Compound wear curves & thermal degradation slopes"],
+                    ["[X]", "Dynamic Pit Strategy Simulator", "1/2-stop optimization & FIA 2-dry-compound rule"],
+                    ["[X]", "Safety Car & Race Control Hazard Model", "Incident probabilities, field pack bunching & cheap stops"],
+                    ["[X]", "Weather & Microclimate Integration", "Rain probability variance & wet weather driver rating"],
+                ]
+                print_table(["Active", "Capability Module", "Computational Role"], cap_rows)
+                enable_enhanced = prompt_confirm("Enable Five Major ML Capabilities?", default=True)
+                caps = {
+                    "race_pace_intelligence": True,
+                    "tire_degradation_modeling": True,
+                    "pit_strategy_simulator": True,
+                    "race_control_model": True,
+                    "weather_aware_prediction": True,
+                } if enable_enhanced else None
+                step = 7
+
+            elif step == 7:
+                from src.data.roster_resolver import RosterResolver
+                expected_count = RosterResolver.get_expected_grid_size(year, round_num)
+                print_header("Step 7: Output Display Options")
+                print("  1. Top 3 (Podium prediction)")
+                print("  2. Top 10 (Points scoring positions)")
+                print(f"  3. Full Grid (All {expected_count} classified positions)")
+                print("  0. Back\n")
+                disp_choice = prompt_choice("Select display scope", ["1", "2", "3", "0"], default="2")
+                if disp_choice == "0":
+                    step = 6
+                    continue
+                top_n = 3 if disp_choice == "1" else (10 if disp_choice == "2" else None)
+                break
 
         # Step 8: Execute Prediction
         print_header("Executing Prediction Pipeline", "Running 25,000 Monte Carlo Simulations...")
@@ -735,7 +771,8 @@ class InteractiveMenu:
             return
 
         # Display Results
-        self._display_prediction_results(results, top_n=top_n)
+        display_top_n = len(results.get("predictions", [])) if top_n is None else top_n
+        self._display_prediction_results(results, top_n=display_top_n)
 
         # Step 8: Post-Prediction Actions
         self._handle_post_prediction_actions(results)
@@ -1086,9 +1123,10 @@ class InteractiveMenu:
         year = results["year"]
         stage = results["stage"]
 
+        n_drivers = len(results.get("predictions", []))
         while True:
             print(f"{Colors.BOLD}Post-Prediction Options:{Colors.RESET}")
-            print("  1. View full prediction table (All 22 drivers)")
+            print(f"  1. View full prediction table (All {n_drivers} drivers)")
             print("  2. View Top 3 Race Report")
             print("  3. View Top 10 Race Report")
             print("  4. View full Markdown summary report")
@@ -1099,13 +1137,11 @@ class InteractiveMenu:
             if choice == "0":
                 break
             elif choice == "1":
-                self._display_prediction_results(results, top_n=22)
+                self._display_prediction_results(results, top_n=n_drivers)
             elif choice == "2":
-                p = out_dir / f"{track_key}_{year}_race_top3_report.md"
-                self._view_markdown_file(p)
+                self._display_prediction_results(results, top_n=3)
             elif choice == "3":
-                p = out_dir / f"{track_key}_{year}_race_top10_report.md"
-                self._view_markdown_file(p)
+                self._display_prediction_results(results, top_n=10)
             elif choice == "4":
                 p = out_dir / f"{track_key}_{year}_{stage}_report.md"
                 self._view_markdown_file(p)
@@ -1118,8 +1154,15 @@ class InteractiveMenu:
             print_warning(f"File not found: {path}")
             return
         content = path.read_text(encoding="utf-8", errors="replace")
-        print_header(f"File Preview: {path.name}")
-        paginate_text(content)
+        console = get_console()
+        if HAS_RICH and console and _supports_color():
+            from rich.markdown import Markdown
+            from rich.panel import Panel
+            console.print(Panel(Markdown(content), title=f"[bold #00B4D8]{path.name}[/]", border_style="#00B4D8"))
+            prompt_str("\nPress [Enter] to continue", allow_empty=True)
+        else:
+            print_header(f"File Preview: {path.name}")
+            paginate_text(content)
 
     # =========================================================================
     # OPTION 2: LOAD / COLLECT DATA
@@ -1676,11 +1719,11 @@ class InteractiveMenu:
             print(f"Unknown:   {unknown_count} / {total_sessions}\n")
 
         print("  1. Select Another Circuit")
-        print("  0. Back to Main Menu\n")
+        print("  0. Back to Circuit List\n")
 
         choice = prompt_choice("Select option", ["1", "0"], default="1")
         if choice == "0":
-            return "main_menu"
+            return "another_circuit"
         return "another_circuit"
 
     def _check_session_dataset_availability(

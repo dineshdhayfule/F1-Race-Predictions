@@ -151,6 +151,11 @@ def cmd_predict(
         stage_clean = "after_sprint_race"
 
     pipeline = RacePredictionPipeline(root_dir=PROJECT_ROOT)
+    if weekend_only and year < 2018:
+        console.print(
+            f"[bold {FLAG_YELLOW}]INFO:[/] [white]Pre-2018 races lack practice lap telemetry. "
+            f"Predictions in weekend-only mode rely strictly on starting grid / historical baseline signals.[/]"
+        )
     
     with console.status(f"[bold {TELEMETRY_CYAN}]Executing 25,000 Monte Carlo draws for {track.title()} {year} [{stage_clean}]...[/]"):
         try:

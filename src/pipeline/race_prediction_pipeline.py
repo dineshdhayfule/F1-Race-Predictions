@@ -284,6 +284,11 @@ class RacePredictionPipeline:
             qualis_df = pd.DataFrame()
             sessions_by_round = {}
             logger.info("Weekend-Only mode active: bypassing historical season-long training rounds.")
+            if year < 2018:
+                logger.info(
+                    "Pre-2018 races lack practice lap telemetry. Predictions in weekend-only mode "
+                    "rely strictly on starting grid / historical baseline signals."
+                )
 
         # 2. Load Weekend Sessions (respecting stage cutoff)
         weekend_sessions = self.data_loader.load_weekend_sessions(
@@ -681,6 +686,12 @@ class RacePredictionPipeline:
                 )
 
             # 9. Deterministic Inference & Grid Blending
+            sparse_grid_w, sparse_ml_w = (None, None)
+            if year < 2018 and starting_grid_df is not None and not starting_grid_df.empty:
+                sparse_grid_w, sparse_ml_w = 0.75, 0.25
+                logger.info(
+                    f"Pre-2018 telemetry-sparse race ({year}): prioritizing verified starting grid (75% Grid / 25% ML)."
+                )
             det_results, blended_scores = self.predictor.predict_deterministic(
                 target_df=target_features,
                 imputer=imputer,
@@ -691,6 +702,8 @@ class RacePredictionPipeline:
                 ridge_model=ridge_model,
                 ridge_weight=selected_ridge_weight,
                 circuit_type=circuit_type,
+                grid_weight=sparse_grid_w,
+                ml_weight=sparse_ml_w,
                 model_mode=model_choice,
             )
 
