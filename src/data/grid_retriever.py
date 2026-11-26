@@ -37,7 +37,8 @@ class StartingGridRetriever:
     """Authoritative multi-source retrieval and validation engine for F1 starting grids."""
 
     def __init__(self, root_dir: Optional[Union[str, Path]] = None):
-        self.root_dir = Path(root_dir) if root_dir else Path(__file__).resolve().parents[2]
+        from src.utils.paths import get_runtime_root
+        self.root_dir = Path(root_dir) if root_dir else get_runtime_root()
         self.grids_dir = self.root_dir / "data" / "grids"
         self.raw_grids_dir = self.root_dir / "data" / "raw" / "grids"
 

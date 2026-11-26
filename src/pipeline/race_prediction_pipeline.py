@@ -43,6 +43,7 @@ from src.simulation.monte_carlo import MonteCarloSimulator
 from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.driver_mapping import filter_competing_drivers, normalize_driver_series
 from src.utils.logging_utils import get_logger
+from src.utils.paths import get_runtime_root, resolve_config_file
 
 logger = get_logger("pipeline")
 
@@ -62,17 +63,17 @@ class RacePredictionPipeline:
     """Config-driven, multi-track race prediction pipeline."""
 
     def __init__(self, root_dir: Optional[Path] = None):
-        self.root_dir = root_dir or Path(__file__).resolve().parents[2]
+        self.root_dir = Path(root_dir) if root_dir is not None else get_runtime_root()
         self.config_dir = self.root_dir / "config"
 
         # Load configurations
-        with open(self.config_dir / "tracks.json", "r", encoding="utf-8") as f:
+        with open(resolve_config_file("tracks.json", root_dir), "r", encoding="utf-8") as f:
             self.tracks_config = json.load(f)
 
-        with open(self.config_dir / "model_config.json", "r", encoding="utf-8") as f:
+        with open(resolve_config_file("model_config.json", root_dir), "r", encoding="utf-8") as f:
             self.model_config = json.load(f)
 
-        with open(self.config_dir / "settings.json", "r", encoding="utf-8") as f:
+        with open(resolve_config_file("settings.json", root_dir), "r", encoding="utf-8") as f:
             self.settings = json.load(f)
 
         self.data_dir = self.root_dir / self.settings.get("paths", {}).get("data_raw", "data/raw")

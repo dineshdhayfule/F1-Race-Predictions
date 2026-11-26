@@ -178,9 +178,10 @@ def collect_historical_track_data(
     Safely skips existing files when force=False.
     Returns a dict with successes, skips, and failures.
     """
-    root = Path(__file__).resolve().parents[2]
+    from src.utils.paths import get_config_path, get_runtime_root
+    root = get_runtime_root()
     if tracks_config is None:
-        config_file = root / "config" / "tracks.json"
+        config_file = get_config_path("tracks.json")
         with open(config_file, "r", encoding="utf-8") as f:
             tracks_config = json.load(f).get("tracks", {})
 

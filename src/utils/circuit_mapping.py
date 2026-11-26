@@ -13,8 +13,9 @@ import json
 from typing import Dict, List, Optional, Any
 from functools import lru_cache
 
-ROOT_DIR = Path(__file__).resolve().parents[2]
-TRACKS_CONFIG_PATH = ROOT_DIR / "config" / "tracks.json"
+from src.utils.paths import get_config_path
+
+TRACKS_CONFIG_PATH = get_config_path("tracks.json")
 
 # Common known aliases mapping to canonical keys in config/tracks.json
 CANONICAL_ALIASES: Dict[str, str] = {

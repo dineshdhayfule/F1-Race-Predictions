@@ -17,11 +17,12 @@ from src.utils.driver_mapping import normalize_driver, normalize_driver_series
 from src.utils.timing import timedelta_to_seconds
 from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.logging_utils import get_logger
+from src.utils.paths import get_config_path
 
 logger = get_logger("tire_degradation")
 
 # Default config path
-DEFAULT_STRATEGY_CFG_PATH = Path(__file__).resolve().parents[2] / "config" / "strategy_config.json"
+DEFAULT_STRATEGY_CFG_PATH = get_config_path("strategy_config.json")
 TIRE_FEATURE_COLUMNS = [
     "Abbreviation",
     "soft_tyre_deg_rate",

@@ -65,7 +65,8 @@ class CalendarService:
         enable_cache: bool = False,
         cache_dir: Optional[Path] = None,
     ):
-        self.root_dir = Path(root_dir) if root_dir else Path(__file__).resolve().parents[2]
+        from src.utils.paths import get_runtime_root
+        self.root_dir = Path(root_dir) if root_dir else get_runtime_root()
         self.enable_cache = enable_cache
         self.cache_dir = cache_dir or (self.root_dir / "data" / "cache")
         self._memory_cache: Dict[int, List[CalendarEvent]] = {}

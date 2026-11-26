@@ -19,6 +19,7 @@ import re
 import shutil
 
 from src.data.deletion_audit import DeletionAuditLogger
+from src.utils.paths import get_runtime_root, resolve_config_file
 from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.logging_utils import get_logger
 
@@ -39,11 +40,11 @@ class DataManager:
     }
 
     def __init__(self, root_dir: Optional[Path] = None, audit_logger: Optional[DeletionAuditLogger] = None):
-        self.root_dir = (root_dir or Path(__file__).resolve().parents[2]).resolve()
+        self.root_dir = (Path(root_dir) if root_dir is not None else get_runtime_root()).resolve()
         self.audit_logger = audit_logger or DeletionAuditLogger(root_dir=self.root_dir)
 
         # Configured tracks
-        self.tracks_config_path = self.root_dir / "config" / "tracks.json"
+        self.tracks_config_path = resolve_config_file("tracks.json", root_dir)
         self.tracks_config: Dict[str, Any] = {}
         if self.tracks_config_path.exists():
             try:

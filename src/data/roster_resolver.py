@@ -34,7 +34,8 @@ class RosterResolver:
     """
 
     def __init__(self, root_dir: Optional[Path] = None):
-        self.root_dir = Path(root_dir) if root_dir else Path(__file__).resolve().parents[2]
+        from src.utils.paths import get_runtime_root
+        self.root_dir = Path(root_dir) if root_dir else get_runtime_root()
 
     @staticmethod
     def get_expected_grid_size(year: int, target_round: Optional[int] = None) -> int:

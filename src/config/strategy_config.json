@@ -1,0 +1,165 @@
+{
+  "default_pit_loss_seconds": 22.0,
+  "stationary_stop_seconds": 2.5,
+  "sc_pit_loss_discount": 0.40,
+  "vsc_pit_loss_discount": 0.30,
+  "fuel_effect_seconds_per_lap": 0.035,
+  "nominal_fuel_laps": 55,
+  "compounds": {
+    "SOFT": {
+      "base_deg_rate_sec_per_lap": 0.110,
+      "pace_delta_sec": -0.65,
+      "max_usable_laps": 22
+    },
+    "MEDIUM": {
+      "base_deg_rate_sec_per_lap": 0.065,
+      "pace_delta_sec": 0.0,
+      "max_usable_laps": 35
+    },
+    "HARD": {
+      "base_deg_rate_sec_per_lap": 0.038,
+      "pace_delta_sec": 0.55,
+      "max_usable_laps": 48
+    },
+    "INTERMEDIATE": {
+      "base_deg_rate_sec_per_lap": 0.080,
+      "pace_delta_sec": 3.50,
+      "max_usable_laps": 30
+    },
+    "WET": {
+      "base_deg_rate_sec_per_lap": 0.095,
+      "pace_delta_sec": 7.50,
+      "max_usable_laps": 28
+    }
+  },
+  "circuit_priors": {
+    "monaco": {
+      "sc_probability": 0.75,
+      "vsc_probability": 0.50,
+      "red_flag_probability": 0.25,
+      "pit_loss_seconds": 24.5,
+      "deg_multiplier": 0.60
+    },
+    "singapore": {
+      "sc_probability": 0.85,
+      "vsc_probability": 0.60,
+      "red_flag_probability": 0.20,
+      "pit_loss_seconds": 28.0,
+      "deg_multiplier": 1.15
+    },
+    "baku": {
+      "sc_probability": 0.70,
+      "vsc_probability": 0.55,
+      "red_flag_probability": 0.30,
+      "pit_loss_seconds": 21.0,
+      "deg_multiplier": 0.85
+    },
+    "mexico": {
+      "sc_probability": 0.55,
+      "vsc_probability": 0.40,
+      "red_flag_probability": 0.15,
+      "pit_loss_seconds": 22.0,
+      "deg_multiplier": 0.90
+    },
+    "austin": {
+      "sc_probability": 0.45,
+      "vsc_probability": 0.35,
+      "red_flag_probability": 0.10,
+      "pit_loss_seconds": 20.5,
+      "deg_multiplier": 1.25
+    },
+    "sepang": {
+      "sc_probability": 0.50,
+      "vsc_probability": 0.40,
+      "red_flag_probability": 0.20,
+      "pit_loss_seconds": 22.5,
+      "deg_multiplier": 1.35
+    },
+    "silverstone": {
+      "sc_probability": 0.50,
+      "vsc_probability": 0.40,
+      "red_flag_probability": 0.15,
+      "pit_loss_seconds": 20.0,
+      "deg_multiplier": 1.30
+    },
+    "monza": {
+      "sc_probability": 0.40,
+      "vsc_probability": 0.30,
+      "red_flag_probability": 0.15,
+      "pit_loss_seconds": 24.0,
+      "deg_multiplier": 0.75
+    },
+    "spa": {
+      "sc_probability": 0.65,
+      "vsc_probability": 0.45,
+      "red_flag_probability": 0.25,
+      "pit_loss_seconds": 22.0,
+      "deg_multiplier": 1.20
+    },
+    "interlagos": {
+      "sc_probability": 0.65,
+      "vsc_probability": 0.45,
+      "red_flag_probability": 0.25,
+      "pit_loss_seconds": 21.5,
+      "deg_multiplier": 1.20
+    },
+    "sao_paulo": {
+      "sc_probability": 0.65,
+      "vsc_probability": 0.45,
+      "red_flag_probability": 0.25,
+      "pit_loss_seconds": 21.5,
+      "deg_multiplier": 1.20
+    },
+    "suzuka": {
+      "sc_probability": 0.45,
+      "vsc_probability": 0.35,
+      "red_flag_probability": 0.15,
+      "pit_loss_seconds": 22.5,
+      "deg_multiplier": 1.40
+    },
+    "bahrain": {
+      "sc_probability": 0.45,
+      "vsc_probability": 0.40,
+      "red_flag_probability": 0.10,
+      "pit_loss_seconds": 23.0,
+      "deg_multiplier": 1.45
+    },
+    "jeddah": {
+      "sc_probability": 0.80,
+      "vsc_probability": 0.60,
+      "red_flag_probability": 0.35,
+      "pit_loss_seconds": 20.5,
+      "deg_multiplier": 0.80
+    },
+    "default": {
+      "sc_probability": 0.50,
+      "vsc_probability": 0.40,
+      "red_flag_probability": 0.15,
+      "pit_loss_seconds": 22.0,
+      "deg_multiplier": 1.00
+    }
+  },
+  "wet_weather": {
+    "intermediate_rain_threshold": 0.30,
+    "heavy_rain_threshold": 0.70,
+    "pace_variance_dry": 1.0,
+    "pace_variance_intermediate": 1.35,
+    "pace_variance_heavy_wet": 1.80,
+    "sc_probability_wet_multiplier": 1.40,
+    "dnf_probability_wet_multiplier": 1.50,
+    "driver_wet_skill_bonuses": {
+      "VER": -0.65,
+      "HAM": -0.55,
+      "NOR": -0.45,
+      "ALO": -0.40,
+      "LEC": -0.30,
+      "RUS": -0.30,
+      "PIA": -0.25,
+      "SAI": -0.20,
+      "GAS": -0.15,
+      "OCO": -0.15,
+      "HUL": -0.20
+    }
+  }
+}
+

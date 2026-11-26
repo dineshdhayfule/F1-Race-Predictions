@@ -800,7 +800,8 @@ def collect_season_data(
     elif include_practice is False and session_mode == "full":
         session_mode = "prediction_only"
 
-    root = Path(__file__).resolve().parents[2]
+    from src.utils.paths import get_runtime_root
+    root = get_runtime_root()
     out_dir = output_dir or (root / "data" / "raw" / "season" / str(year))
     cache_dir = root / "data" / "cache"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -983,8 +984,10 @@ def collect_grand_prix(
     elif include_practice is False and session_mode == "full":
         session_mode = "prediction_only"
 
-    root = Path(__file__).resolve().parents[2]
-    config_file = root / "config" / "tracks.json"
+    from src.utils.paths import get_runtime_root
+    root = get_runtime_root()
+    from src.utils.paths import get_config_path
+    config_file = get_config_path("tracks.json")
     with open(config_file, "r", encoding="utf-8") as f:
         tracks_config = json.load(f).get("tracks", {})
 

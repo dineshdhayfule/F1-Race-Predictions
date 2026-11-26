@@ -14,11 +14,14 @@ from pathlib import Path
 from typing import Dict, Any, List, Optional
 
 
+from src.utils.paths import get_runtime_root
+
+
 class DeletionAuditLogger:
     """Manages immutable, append-only logging of data management operations."""
 
     def __init__(self, root_dir: Optional[Path] = None, log_file: Optional[Path] = None):
-        self.root_dir = (root_dir or Path(__file__).resolve().parents[2]).resolve()
+        self.root_dir = (Path(root_dir) if root_dir is not None else get_runtime_root()).resolve()
         if log_file:
             self.log_path = log_file.resolve()
         else:

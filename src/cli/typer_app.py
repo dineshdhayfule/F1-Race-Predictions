@@ -17,10 +17,14 @@ from rich.table import Table
 from rich.text import Text
 import typer
 
-# Root Directory Anchoring — canonical project root
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
+# Root Directory Anchoring — canonical project root (dev) or ~/.apexgrid (pip)
+_PACKAGE_PARENT = Path(__file__).resolve().parents[2]
+if str(_PACKAGE_PARENT) not in sys.path:
+    sys.path.insert(0, str(_PACKAGE_PARENT))
+
+from src.utils.paths import get_runtime_root
+
+PROJECT_ROOT = get_runtime_root()
 
 # Color Palette Constants (FIA Motorsport Aesthetic)
 APEX_RED = "#E10600"

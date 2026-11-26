@@ -13,10 +13,11 @@ import numpy as np
 import pandas as pd
 
 from src.utils.logging_utils import get_logger
+from src.utils.paths import get_config_path
 
 logger = get_logger("race_control")
 
-DEFAULT_STRATEGY_CFG_PATH = Path(__file__).resolve().parents[2] / "config" / "strategy_config.json"
+DEFAULT_STRATEGY_CFG_PATH = get_config_path("strategy_config.json")
 
 
 class RaceControlModel:

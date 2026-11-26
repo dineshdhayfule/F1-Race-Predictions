@@ -70,8 +70,10 @@ def is_historical_sprint_round(
         return round_num in sprint_calendar[year]
 
     if season_dir is None:
-        raw_season = Path(__file__).resolve().parents[2] / "data" / "raw" / "season" / str(year)
-        proc_season = Path(__file__).resolve().parents[2] / "data" / "processed" / "season" / str(year)
+        from src.utils.paths import get_runtime_root
+        runtime_root = get_runtime_root()
+        raw_season = runtime_root / "data" / "raw" / "season" / str(year)
+        proc_season = runtime_root / "data" / "processed" / "season" / str(year)
         if raw_season.exists():
             season_dir = raw_season
         elif proc_season.exists():
@@ -118,7 +120,9 @@ class DataLoader:
     ]
 
     def __init__(self, root_dir: Optional[Path] = None):
-        provided = Path(root_dir) if root_dir else Path(__file__).resolve().parents[2]
+        from src.utils.paths import get_runtime_root
+        self._explicit_root = root_dir is not None
+        provided = Path(root_dir) if root_dir else get_runtime_root()
         if provided.name == "raw" and provided.parent.name == "data":
             self.root_dir = provided.parent.parent
             self.raw_data_dir = provided
@@ -135,7 +139,8 @@ class DataLoader:
         self.tracks_config = self._load_tracks_config()
 
     def _load_tracks_config(self) -> Dict:
-        config_path = self.config_dir / "tracks.json"
+        from src.utils.paths import resolve_config_file
+        config_path = resolve_config_file("tracks.json", self.root_dir if self._explicit_root else None)
         if not config_path.exists():
             return {}
         with open(config_path, "r", encoding="utf-8") as f:

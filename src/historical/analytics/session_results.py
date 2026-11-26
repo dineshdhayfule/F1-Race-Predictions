@@ -55,8 +55,9 @@ class SessionResultsService:
         self.api_client = api_client or HistoricalAPIClient()
         self.classification_service = HistoricalClassificationService(api_client=self.api_client)
         self.qualifying_service = HistoricalQualifyingService(api_client=self.api_client)
+        from src.utils.paths import get_runtime_root
         self.data_loader = data_loader or DataLoader()
-        self.root_dir = Path(root_dir) if root_dir else Path(__file__).resolve().parents[3]
+        self.root_dir = Path(root_dir) if root_dir else get_runtime_root()
 
     def is_sprint_round(self, season: int, round_num: int) -> bool:
         """

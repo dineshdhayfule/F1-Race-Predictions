@@ -65,8 +65,9 @@ from src.data.data_manager import DataManager
 from src.data.calendar_service import CalendarService
 from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.logging_utils import get_logger
+from src.utils.paths import get_runtime_root, resolve_config_file
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = get_runtime_root()
 logger = get_logger("menu")
 
 
@@ -291,14 +292,14 @@ class InteractiveMenu:
         return self.pipeline
 
     def _load_tracks_config(self) -> Dict[str, Any]:
-        cfg_path = self.root_dir / "config" / "tracks.json"
+        cfg_path = resolve_config_file("tracks.json", self.root_dir)
         if cfg_path.exists():
             with open(cfg_path, "r", encoding="utf-8") as f:
                 return json.load(f).get("tracks", {})
         return {}
 
     def _load_model_config(self) -> Dict[str, Any]:
-        cfg_path = self.root_dir / "config" / "model_config.json"
+        cfg_path = resolve_config_file("model_config.json", self.root_dir)
         if cfg_path.exists():
             with open(cfg_path, "r", encoding="utf-8") as f:
                 return json.load(f)
@@ -2096,7 +2097,7 @@ class InteractiveMenu:
         # 2. Configuration
         print(f"\n{Colors.BOLD}Configuration Files:{Colors.RESET}")
         for c_file in ["tracks.json", "model_config.json", "settings.json"]:
-            p = self.root_dir / "config" / c_file
+            p = resolve_config_file(c_file, self.root_dir)
             if p.exists():
                 print_success(f"Config '{c_file}' present ({p.stat().st_size} bytes).")
             else:
