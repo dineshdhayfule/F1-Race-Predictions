@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apexgrid"
-version = "1.0.1"
+version = "1.0.2"
 description = "Formula 1 race outcome prediction engine using FastF1 telemetry and Monte Carlo simulation"
 readme = "README.md"
 license = "MIT"
@@ -28,6 +28,11 @@ dev = [
 
 [project.scripts]
 apexgrid = "src.cli.typer_app:app"
+
+[project.urls]
+Homepage = "https://github.com/dineshdhayfule/F1-Race-Predictions"
+Repository = "https://github.com/dineshdhayfule/F1-Race-Predictions"
+Issues = "https://github.com/dineshdhayfule/F1-Race-Predictions/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
