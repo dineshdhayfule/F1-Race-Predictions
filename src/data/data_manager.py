@@ -122,11 +122,13 @@ class DataManager:
 
         # Historical training datasets protection by default
         if not include_historical:
-            # Past seasons (e.g. data/raw/season/<year> where year < 2026)
+            from src.utils.season_utils import get_active_season
+            active_year = get_active_season()
+            # Past seasons (e.g. data/raw/season/<year> where year < active_year)
             if len(parts) >= 4 and parts[0] == "data" and parts[1] == "raw" and parts[2] == "season":
                 try:
                     yr = int(parts[3])
-                    if yr < 2026:
+                    if yr < active_year:
                         return True, f"Protected historical training dataset ({yr})"
                 except ValueError:
                     pass
@@ -137,7 +139,7 @@ class DataManager:
                     return True, f"Protected historical circuit dataset ({parts[3]} history)"
                 try:
                     yr = int(parts[4])
-                    if yr < 2026:
+                    if yr < active_year:
                         return True, f"Protected historical circuit dataset ({parts[3]} {yr})"
                 except ValueError:
                     pass
@@ -308,7 +310,7 @@ class DataManager:
     def discover_grand_prix_data(
         self,
         track_key: Optional[str] = None,
-        year: int = 2026,
+        year: Optional[int] = None,
         round_num: Optional[int] = None,
         include_historical: bool = False,
         track: Optional[str] = None,
@@ -333,8 +335,10 @@ class DataManager:
             except Exception:
                 pass
 
+        from src.utils.season_utils import get_active_season
+        year = year or get_active_season()
         t_info = self.tracks_config.get(clean_track, {})
-        resolved_round = round_num or t_info.get(f"round_{year}" if year != 2026 else "round_2026")
+        resolved_round = round_num or t_info.get(f"round_{year}") or t_info.get("round")
 
         event_files: Dict[str, List[Path]] = {
             "session_data": [],

@@ -81,24 +81,26 @@ def test_dynamic_resizing_between_consecutive_calls():
 # =========================================================================
 
 def test_banner_at_different_widths(capsys):
-    # 40 columns
+    from src.utils.season_utils import get_active_season
+    active_yr = str(get_active_season())
+    # 40 columns (dynamic default season)
     with patch("shutil.get_terminal_size", return_value=MockTerminalSize(40, 20)):
-        print_banner(season=2026, status_text="Ready")
+        print_banner(status_text="Ready")
         captured = capsys.readouterr().out
         assert "ApexGrid" in captured or "APEXGRID" in captured or "A P E X G R I D" in captured
-        assert "2026" in captured
+        assert active_yr in captured
 
     # 80 columns
     with patch("shutil.get_terminal_size", return_value=MockTerminalSize(80, 24)):
-        print_banner(season=2026, status_text="Ready")
+        print_banner(season=get_active_season(), status_text="Ready")
         captured = capsys.readouterr().out
-        assert "2026" in captured
+        assert active_yr in captured
 
     # 120 columns
     with patch("shutil.get_terminal_size", return_value=MockTerminalSize(120, 30)):
-        print_banner(season=2026, status_text="Ready")
+        print_banner(season=get_active_season(), status_text="Ready")
         captured = capsys.readouterr().out
-        assert "2026" in captured
+        assert active_yr in captured
 
 
 def test_header_at_different_widths(capsys):

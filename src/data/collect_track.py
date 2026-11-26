@@ -59,19 +59,21 @@ def format_year_range(years: Optional[List[int]]) -> str:
 
 
 def get_event_by_track_id(year: int, track_id: str, tracks_config: dict):
-    schedule = fastf1.get_event_schedule(year)
+    try:
+        schedule = fastf1.get_event_schedule(year)
+    except Exception as e:
+        raise RuntimeError(f"Schedule unavailable for {year} (off-season or API error): {e}") from e
+
+    if schedule is None or schedule.empty or "EventName" not in schedule.columns or "RoundNumber" not in schedule.columns:
+        raise RuntimeError(f"Official {year} FIA schedule has not been published yet.")
+
     info = tracks_config.get(track_id.lower().strip())
     if not info:
         raise ValueError(f"Unknown track_id '{track_id}'.")
 
-    # Match by round if configured for this year or 2026 default
+    # Match by round if configured for this year
     if f"round_{year}" in info:
         r_num = info[f"round_{year}"]
-        match = schedule[schedule["RoundNumber"] == r_num]
-        if not match.empty:
-            return match.iloc[0]
-    elif "round_2026" in info and year == 2026:
-        r_num = info["round_2026"]
         match = schedule[schedule["RoundNumber"] == r_num]
         if not match.empty:
             return match.iloc[0]
@@ -136,7 +138,7 @@ def save_practice_laps(session, target_path: Path, force: bool = False):
 
 def collect_track_data(
     track_id: str,
-    year: int = 2026,
+    year: Optional[int] = None,
     force: bool = False,
     session_mode: str = "prediction_only",
     stage: Optional[str] = None,
@@ -146,6 +148,8 @@ def collect_track_data(
     Respects stage and session_mode when specified, defaulting to race prediction sessions.
     """
     from src.data.collect_season import collect_grand_prix
+    from src.utils.season_utils import get_active_season
+    year = year or get_active_season()
     return collect_grand_prix(
         track_id=track_id,
         year=year,
@@ -366,9 +370,10 @@ def collect_historical_track_data(
 
 
 if __name__ == "__main__":
+    from src.utils.season_utils import get_active_season
     parser = argparse.ArgumentParser(description="Collect Weekend Session Data for Track")
     parser.add_argument("--track", type=str, required=True)
-    parser.add_argument("--year", type=int, default=2026)
+    parser.add_argument("--year", type=int, default=get_active_season())
     parser.add_argument("--historical", action="store_true", help="Collect historical race & qualifying sessions")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()

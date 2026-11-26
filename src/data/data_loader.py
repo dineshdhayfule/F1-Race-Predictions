@@ -201,12 +201,13 @@ class DataLoader:
 
         return df
 
-    def is_sprint_weekend(self, track_id: str, year: int = 2026) -> bool:
+    def is_sprint_weekend(self, track_id: str, year: Optional[int] = None) -> bool:
         """
         Determines whether a track is configured as a Sprint weekend for the given year.
         Checks 'sprint_weekend_{year}' first, then falls back to 'sprint_weekend'.
-        Authoritative ONLY for the specified target calendar (e.g. 2026).
         """
+        from src.utils.season_utils import get_active_season
+        year = year or get_active_season()
         try:
             info = self.get_track_info(track_id)
         except KeyError:
@@ -307,7 +308,7 @@ class DataLoader:
 
             if not rf.exists():
                 for tk, tinfo in self.tracks_config.items():
-                    r_match = tinfo.get(f"round_{year}") or (tinfo.get("round_2026") if year == 2026 else None)
+                    r_match = tinfo.get(f"round_{year}") or tinfo.get("round")
                     if r_match == r_num:
                         for cand in [
                             self.raw_data_dir / "tracks" / tk / str(year) / f"{year}_{tk}_race.csv",
@@ -321,7 +322,7 @@ class DataLoader:
 
             if not qf.exists():
                 for tk, tinfo in self.tracks_config.items():
-                    r_match = tinfo.get(f"round_{year}") or (tinfo.get("round_2026") if year == 2026 else None)
+                    r_match = tinfo.get(f"round_{year}") or tinfo.get("round")
                     if r_match == r_num:
                         for cand in [
                             self.raw_data_dir / "tracks" / tk / str(year) / f"{year}_{tk}_qualifying.csv",
@@ -439,40 +440,36 @@ class DataLoader:
             return None
 
         track_k = str(track_id).lower().strip()
-        hist = kwargs.get("historical_tracks") or kwargs.get("historical_rounds") or kwargs.get("tracks")
-        if isinstance(hist, dict) and track_k in hist:
-            info = hist[track_k]
-            r = info.get(f"round_{year}")
-            if r is None and year == 2026:
-                r = info.get("round_2026")
-            if r is None:
-                r = info.get("round")
-            if r is not None:
-                try:
-                    return int(r)
-                except (ValueError, TypeError):
-                    pass
+        for cfg in (
+            kwargs.get("historical_tracks") or kwargs.get("historical_rounds") or kwargs.get("tracks"),
+            self.tracks_config,
+        ):
+            if isinstance(cfg, dict) and track_k in cfg:
+                info = cfg[track_k]
+                r = info.get(f"round_{year}") or info.get("round")
+                if r is not None:
+                    try:
+                        return int(r)
+                    except (ValueError, TypeError):
+                        pass
 
-        if track_k in self.tracks_config:
-            info = self.tracks_config[track_k]
-            r = info.get(f"round_{year}")
-            if r is None and year == 2026:
-                r = info.get("round_2026")
-            if r is None:
-                r = info.get("round")
-            if r is not None:
-                try:
-                    return int(r)
-                except (ValueError, TypeError):
-                    pass
+        try:
+            from src.data.calendar_service import CalendarService
+            ev = CalendarService(root_dir=self.root_dir).get_event_by_circuit(year, track_k)
+            if ev is not None:
+                return int(ev.round_number)
+        except Exception:
+            pass
 
         return None
 
-    def load_target_qualifying(self, track_id: Optional[str] = None, year: int = 2026, track_key: Optional[str] = None, **kwargs) -> Optional[pd.DataFrame]:
+    def load_target_qualifying(self, track_id: Optional[str] = None, year: Optional[int] = None, track_key: Optional[str] = None, **kwargs) -> Optional[pd.DataFrame]:
         """
         Loads current target qualifying session results.
         Searches track directory, processed directory, and season directory.
         """
+        from src.utils.season_utils import get_active_season
+        year = year or get_active_season()
         tid = track_id or track_key or kwargs.get("track") or ""
         track_k = str(tid).lower().strip()
         candidates = [
@@ -497,7 +494,7 @@ class DataLoader:
     def load_target_race(
         self,
         track_id: Optional[str] = None,
-        year: int = 2026,
+        year: Optional[int] = None,
         track_key: Optional[str] = None,
         **kwargs
     ) -> Optional[pd.DataFrame]:
@@ -505,6 +502,8 @@ class DataLoader:
         Loads current target race session results.
         NOTE: Permitted ONLY for post-race verification and evaluation.
         """
+        from src.utils.season_utils import get_active_season
+        year = year or get_active_season()
         tid = track_id or track_key or kwargs.get("track") or ""
         track_k = str(tid).lower().strip()
         candidates = [
@@ -526,10 +525,12 @@ class DataLoader:
                     return df
         return None
 
-    def load_target_sprint_qualifying(self, track_id: Optional[str] = None, year: int = 2026, track_key: Optional[str] = None, **kwargs) -> Optional[pd.DataFrame]:
+    def load_target_sprint_qualifying(self, track_id: Optional[str] = None, year: Optional[int] = None, track_key: Optional[str] = None, **kwargs) -> Optional[pd.DataFrame]:
         """
         Loads current target sprint qualifying session results.
         """
+        from src.utils.season_utils import get_active_season
+        year = year or get_active_season()
         tid = track_id or track_key or kwargs.get("track") or ""
         track_k = str(tid).lower().strip()
         candidates = [
@@ -554,10 +555,12 @@ class DataLoader:
                     return df
         return None
 
-    def load_target_sprint_race(self, track_id: Optional[str] = None, year: int = 2026, track_key: Optional[str] = None, **kwargs) -> Optional[pd.DataFrame]:
+    def load_target_sprint_race(self, track_id: Optional[str] = None, year: Optional[int] = None, track_key: Optional[str] = None, **kwargs) -> Optional[pd.DataFrame]:
         """
         Loads current target sprint race results.
         """
+        from src.utils.season_utils import get_active_season
+        year = year or get_active_season()
         tid = track_id or track_key or kwargs.get("track") or ""
         track_k = str(tid).lower().strip()
         candidates = [
@@ -585,7 +588,7 @@ class DataLoader:
     def load_weekend_sessions(
         self,
         track_id: Optional[str] = None,
-        year: int = 2026,
+        year: Optional[int] = None,
         stage: str = "after_qualifying",
         track_key: Optional[str] = None,
         is_sprint: Optional[bool] = None,
@@ -595,6 +598,8 @@ class DataLoader:
         Loads weekend sessions up to the declared stage cutoff.
         Respects weekend format (normal vs sprint) and prevents future-session data leakage.
         """
+        from src.utils.season_utils import get_active_season
+        year = year or get_active_season()
         stage = str(stage or "after_qualifying").lower().strip()
         if stage == "after_sprint":
             stage = "after_sprint_race"
@@ -735,7 +740,7 @@ class DataLoader:
     def load_starting_grid(
         self,
         track_id: str,
-        year: int = 2026,
+        year: Optional[int] = None,
         round_num: Optional[int] = None,
         stage: str = "after_qualifying",
         quali_df: Optional[pd.DataFrame] = None,
@@ -748,6 +753,9 @@ class DataLoader:
         """
         from src.data.grid_retriever import StartingGridRetriever
         from src.data.roster_resolver import RosterResolver
+        from src.utils.season_utils import get_active_season
+
+        year = year or get_active_season()
 
         if round_num is None:
             round_num = self._resolve_round_number(track_id, year)

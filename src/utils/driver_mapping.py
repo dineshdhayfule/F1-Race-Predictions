@@ -3,6 +3,7 @@ Driver normalization and identification mapping.
 Maintains canonical 3-letter abbreviation, number, and full name mappings.
 """
 
+from typing import Optional
 import pandas as pd
 
 
@@ -194,4 +195,23 @@ def normalize_driver_code(val: str) -> str:
 def normalize_driver_series(series: pd.Series) -> pd.Series:
     """Normalizes a pandas Series of driver identifiers to uppercase canonical 3-letter codes."""
     return series.astype(str).str.strip().str.upper().map(lambda x: NAME_TO_CODE.get(x, x))
+
+
+def resolve_driver_metadata(abbr: str, session_df: Optional[pd.DataFrame] = None) -> dict:
+    """
+    Resolves driver metadata (full_name, number, default_team) dynamically from
+    the provided session/season DataFrame first, falling back to DRIVER_CATALOG.
+    """
+    code = normalize_driver_code(abbr)
+    fallback = DRIVER_CATALOG.get(code, {"full_name": code, "number": None, "default_team": "Unknown"})
+    if session_df is not None and not session_df.empty and "Abbreviation" in session_df.columns:
+        match = session_df[session_df["Abbreviation"].astype(str).str.strip().str.upper() == code]
+        if not match.empty:
+            row = match.iloc[0]
+            return {
+                "full_name": row.get("FullName") or fallback.get("full_name", code),
+                "number": row.get("DriverNumber") if pd.notna(row.get("DriverNumber")) else fallback.get("number"),
+                "default_team": row.get("TeamName") or fallback.get("default_team", "Unknown"),
+            }
+    return dict(fallback)
 

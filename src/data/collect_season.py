@@ -570,6 +570,18 @@ def collect_round_data(
         slug = item["slug"]
         candidates = item["candidates"]
 
+        if year < 2018 and slug in ("fp1", "fp2", "fp3"):
+            skip_msg = f"{c_type}: Practice telemetry unavailable in FastF1/Ergast for pre-2018 season {year}."
+            round_unavailable.append(f"[PRE_2018_UNSUPPORTED] {skip_msg}")
+            logger.info(f"    [SKIP] {skip_msg}")
+            session_statuses[slug] = {
+                "canonical": c_type,
+                "status": "DATA_MISSING",
+                "detail": skip_msg,
+                "scheduled_date": None,
+            }
+            continue
+
         target_file = output_dir / f"{year}_round_{round_num}_{slug}.csv"
         track_target_file = (track_dir / f"{slug}.csv") if track_dir else None
 
@@ -967,7 +979,7 @@ def collect_season_data(
 
 def collect_grand_prix(
     track_id: str,
-    year: int = 2026,
+    year: Optional[int] = None,
     force: bool = False,
     output_dir: Optional[Path] = None,
     season_output_dir: Optional[Path] = None,
@@ -979,6 +991,8 @@ def collect_grand_prix(
     """
     Collects required session data for an individual Grand Prix circuit based on session_mode and stage.
     """
+    from src.utils.season_utils import get_active_season
+    year = year or get_active_season()
     if include_practice is True and session_mode == "prediction_only":
         session_mode = "full"
     elif include_practice is False and session_mode == "full":
@@ -1065,8 +1079,9 @@ def collect_grand_prix(
 
 
 if __name__ == "__main__":
+    from src.utils.season_utils import get_active_season
     parser = argparse.ArgumentParser(description="Collect FastF1 Season Data (Qualifying & Race)")
-    parser.add_argument("--year", type=int, default=2026, help="Season championship year")
+    parser.add_argument("--year", type=int, default=get_active_season(), help="Season championship year")
     parser.add_argument("--rounds", type=int, nargs="+", default=None, help="Explicit round numbers to collect")
     parser.add_argument("--force", action="store_true", help="Force re-collection of existing session files")
     parser.add_argument(

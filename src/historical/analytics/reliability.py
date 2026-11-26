@@ -56,11 +56,13 @@ class ReliabilityAnalyticsService:
     def get_season_attrition_rates(
         self,
         start_year: int = 1950,
-        end_year: int = 2026
+        end_year: Optional[int] = None
     ) -> List[Dict[str, Any]]:
         """
         Retrieves reliability and attrition breakdown across historical eras.
         """
+        from src.utils.season_utils import get_active_season
+        end_year = end_year or get_active_season()
         return self.ERA_ATTRITION_DATA
 
     def get_most_attritional_races(self, top_n: int = 8) -> List[Dict[str, Any]]:

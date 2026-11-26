@@ -321,7 +321,8 @@ class DriverAnalyticsService:
                     else:
                         s_poles = None
 
-            is_prov = (s_year == 2026)
+            from src.utils.season_utils import get_active_season
+            is_prov = (s_year >= get_active_season())
 
             seasons_breakdown.append(
                 DriverSeasonBreakdown(

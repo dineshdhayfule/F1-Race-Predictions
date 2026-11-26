@@ -255,8 +255,10 @@ class HistoricalStatsMenu:
     # =========================================================================
     def view_teammate_h2h(self) -> None:
         """Guided workflow to compare two drivers who competed for the same constructor."""
+        from src.utils.season_utils import get_active_season
+        max_year = get_active_season()
         print_header("Teammate Head-to-Head Comparison", "Same Team & Season Performance")
-        season_year = prompt_int("Enter Championship Season (1950–2026)", min_val=1950, max_val=2026, default=2023)
+        season_year = prompt_int(f"Enter Championship Season (1950–{max_year})", min_val=1950, max_val=max_year, default=max_year - 1)
         driver1 = prompt_str("Enter First Driver ID (e.g. 'verstappen', 'hamilton', 'senna')")
         driver2 = prompt_str("Enter Second Driver ID (e.g. 'perez', 'rosberg', 'prost')")
         if not driver1 or not driver2:
@@ -433,8 +435,10 @@ class HistoricalStatsMenu:
     # =========================================================================
     def view_season_stats(self) -> None:
         """Guided workflow to view season progression and championship standings."""
+        from src.utils.season_utils import get_active_season
+        max_year = get_active_season()
         print_header("Championship Season Analytics", "Standings, Participation & Coverage")
-        year = prompt_int("Enter Season Year (1950–2026)", min_val=1950, max_val=2026, default=2023)
+        year = prompt_int(f"Enter Season Year (1950–{max_year})", min_val=1950, max_val=max_year, default=max_year - 1)
 
         print_info(f"Fetching championship analytics for season {year}...")
         s_stats = self.season_service.get_season_summary(year)
@@ -480,8 +484,10 @@ class HistoricalStatsMenu:
     # =========================================================================
     def view_session_results(self) -> None:
         """Guided workflow to view official session results (FP1-3, SQ, Sprint, Quali, Race)."""
-        print_header("Checkered Flag & Session Results", "Official Finishing Classifications (1950–2026)")
-        year = prompt_int("Enter Season Year (1950–2026)", min_val=1950, max_val=2026, default=2024)
+        from src.utils.season_utils import get_active_season
+        max_year = get_active_season()
+        print_header("Checkered Flag & Session Results", f"Official Finishing Classifications (1950–{max_year})")
+        year = prompt_int(f"Enter Season Year (1950–{max_year})", min_val=1950, max_val=max_year, default=max_year - 1)
         round_num = prompt_int("Enter Round Number", min_val=1, max_val=30, default=1)
 
         # Detect format dynamically

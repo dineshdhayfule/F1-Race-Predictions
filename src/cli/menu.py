@@ -66,9 +66,43 @@ from src.data.calendar_service import CalendarService
 from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.logging_utils import get_logger
 from src.utils.paths import get_runtime_root, resolve_config_file
+from src.utils.season_utils import get_active_season
 
 ROOT = get_runtime_root()
 logger = get_logger("menu")
+
+
+def get_available_stages_for_event(year: int, is_sprint: bool = False) -> List[Tuple[str, str, str]]:
+    """
+    Returns ordered (option_num, stage_key, description) tuples valid for the event's era and format.
+    Excludes FP1-FP3 and Sprint stages for pre-2018 historical seasons.
+    """
+    if year < 2018:
+        return [
+            ("1", "before_race", "Pre-Race (Official Starting Grid / Historical Classification)"),
+            ("2", "pre_fp1", "Pre-Weekend (Rolling Historical Form Only)"),
+            ("3", "after_qualifying", "After Qualifying / Official Grid (if recorded for season)"),
+            ("4", "post_race", "Post-Race Evaluation (Verified actual finish)"),
+        ]
+    if year >= 2021 and is_sprint:
+        return [
+            ("1", "pre_fp1", "Before weekend start (Zero telemetry, rolling form only)"),
+            ("2", "after_fp1", "After Free Practice 1 telemetry observed"),
+            ("3", "after_sprint_qualifying", "After Sprint Shootout results observed"),
+            ("4", "after_sprint_race", "After Sprint Race classification observed"),
+            ("5", "after_qualifying", "After Grand Prix Qualifying (Actual Starting Grid)"),
+            ("6", "before_race", "Sunday Pre-Race (Final Starting Grid with penalties)"),
+            ("7", "post_race", "Post-Race Evaluation (Verified actual finish)"),
+        ]
+    return [
+        ("1", "pre_fp1", "Before weekend start (Zero telemetry, rolling form only)"),
+        ("2", "after_fp1", "After Free Practice 1 telemetry observed"),
+        ("3", "after_fp2", "After Free Practice 2 telemetry observed"),
+        ("4", "after_fp3", "After Free Practice 3 telemetry observed"),
+        ("5", "after_qualifying", "After Grand Prix Qualifying (Actual Starting Grid)"),
+        ("6", "before_race", "Sunday Pre-Race (Final Starting Grid with penalties)"),
+        ("7", "post_race", "Post-Race Evaluation (Verified actual finish)"),
+    ]
 
 
 def format_grid_display(
@@ -500,37 +534,20 @@ class InteractiveMenu:
 
         # Step 3: Select Prediction Stage
         print_header("Step 3: Select Prediction Timeline Stage", f"{track_display} (Round {round_num})")
-        if is_sprint:
-            available_stages = [
-                ("1", "pre_fp1", "Before weekend start (Zero telemetry, rolling form only)"),
-                ("2", "after_fp1", "After Free Practice 1 telemetry observed"),
-                ("3", "after_sprint_qualifying", "After Sprint Shootout results observed"),
-                ("4", "after_sprint_race", "After Sprint Race classification observed"),
-                ("5", "after_qualifying", "After Grand Prix Qualifying (Actual Starting Grid)"),
-                ("6", "before_race", "Sunday Pre-Race (Final Starting Grid with penalties)"),
-                ("7", "post_race", "Post-Race Evaluation (Verified actual finish)"),
-            ]
-        else:
-            available_stages = [
-                ("1", "pre_fp1", "Before weekend start (Zero telemetry, rolling form only)"),
-                ("2", "after_fp1", "After Free Practice 1 telemetry observed"),
-                ("3", "after_fp2", "After Free Practice 2 telemetry observed"),
-                ("4", "after_fp3", "After Free Practice 3 telemetry observed"),
-                ("5", "after_qualifying", "After Grand Prix Qualifying (Actual Starting Grid)"),
-                ("6", "before_race", "Sunday Pre-Race (Final Starting Grid with penalties)"),
-                ("7", "post_race", "Post-Race Evaluation (Verified actual finish)"),
-            ]
+        available_stages = get_available_stages_for_event(year, is_sprint=is_sprint)
+        default_stage_choice = "1" if year < 2018 else "5"
 
         for num, stg, desc in available_stages:
             print(f"  {num}. {stg:<24} - {desc}")
         print("  0. Cancel / Back\n")
 
         stage_choice_keys = [s[0] for s in available_stages] + [s[1] for s in available_stages] + ["0"]
-        chosen_stage_val = prompt_choice("Select Stage (# or name)", stage_choice_keys, default="5")
+        chosen_stage_val = prompt_choice("Select Stage (# or name)", stage_choice_keys, default=default_stage_choice)
         if chosen_stage_val == "0":
             return
 
-        stage = next((s[1] for s in available_stages if s[0] == chosen_stage_val or s[1] == chosen_stage_val), "after_qualifying")
+        default_stage_key = "before_race" if year < 2018 else "after_qualifying"
+        stage = next((s[1] for s in available_stages if s[0] == chosen_stage_val or s[1] == chosen_stage_val), default_stage_key)
         selected_weekend_only = False
 
         # Step 4: Data Readiness Check
@@ -1423,7 +1440,8 @@ class InteractiveMenu:
 
     def _audit_data_integrity(self) -> None:
         print_header("Dataset Integrity & Anti-Leakage Audit")
-        def_k, def_r = self._get_default_circuit_for_season(2026)
+        active_year = get_active_season()
+        def_k, def_r = self._get_default_circuit_for_season(active_year)
         def_k = def_k or "sepang"
         t_key = prompt_str("Enter circuit key to audit against", default=def_k)
         if t_key not in self.tracks_cfg:
@@ -1432,17 +1450,17 @@ class InteractiveMenu:
             return
 
         pipeline = self._get_pipeline()
-        r_num = self.tracks_cfg[t_key].get("round_2026", def_r or 16)
+        r_num = self.tracks_cfg[t_key].get(f"round_{active_year}", self.tracks_cfg[t_key].get("round_2026", def_r or 16))
         train_rounds = list(range(1, r_num))
 
-        races_df, qualis_df = pipeline.data_loader.load_season_rounds(2026, train_rounds)
-        sessions_by_round = pipeline.data_loader.load_all_practice_sessions(2026, train_rounds)
-        weekend_sessions = pipeline.data_loader.load_weekend_sessions(t_key, 2026, stage="after_qualifying")
-        target_q = pipeline.data_loader.load_target_qualifying(t_key, 2026)
+        races_df, qualis_df = pipeline.data_loader.load_season_rounds(active_year, train_rounds)
+        sessions_by_round = pipeline.data_loader.load_all_practice_sessions(active_year, train_rounds)
+        weekend_sessions = pipeline.data_loader.load_weekend_sessions(t_key, active_year, stage="after_qualifying")
+        target_q = pipeline.data_loader.load_target_qualifying(t_key, active_year)
 
         if target_q is None:
             print_warning(f"Qualifying data for {t_key.title()} not found. Generating provisional...")
-            meta = pipeline.predict_qualifying(t_key, 2026)
+            meta = pipeline.predict_qualifying(t_key, active_year)
             target_q = meta["predictions"][["Abbreviation", "TeamName", "PredictedPosition"]].copy()
             target_q.rename(columns={"PredictedPosition": "Position"}, inplace=True)
 
@@ -1483,25 +1501,26 @@ class InteractiveMenu:
         Step 3: Display Session Availability for selected circuit in chronological order.
         """
         while True:
+            active_year = get_active_season()
             clear_screen()
-            print_banner(season=2026)
+            print_banner(season=active_year)
             print_header("Dataset Availability Explorer")
-            print("Enter Year (1950-2026):\n")
+            print(f"Enter Year (1950-{active_year}):\n")
             print("  (Enter 0 or press [Enter] to return to menu)\n")
 
-            year_raw = prompt_str("Enter Year (1950-2026)", default=None, allow_empty=True)
+            year_raw = prompt_str(f"Enter Year (1950-{active_year})", default=None, allow_empty=True)
             if not year_raw or year_raw.strip() == "0" or year_raw.strip().lower() in ("back", "exit", "b", "q"):
                 break
 
             try:
                 year = int(year_raw.strip())
             except ValueError:
-                print_warning(f"Invalid year '{year_raw}'. Please enter a 4-digit championship year between 1950 and 2026.")
+                print_warning(f"Invalid year '{year_raw}'. Please enter a 4-digit championship year between 1950 and {active_year}.")
                 prompt_str("Press [Enter] to continue", allow_empty=True)
                 continue
 
-            if year < 1950 or year > 2026:
-                print_warning(f"Year {year} is out of championship calendar range (1950-2026).")
+            if year < 1950 or year > active_year:
+                print_warning(f"Year {year} is out of championship calendar range (1950-{active_year}).")
                 prompt_str("Press [Enter] to continue", allow_empty=True)
                 continue
 

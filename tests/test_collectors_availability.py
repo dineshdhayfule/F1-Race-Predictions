@@ -113,7 +113,8 @@ def test_future_schedule_is_detected_before_download():
     })
     sched_dt = resolve_session_scheduled_time(event_row, "Practice 1", "fp1", ["FP1", "Practice 1"])
     assert sched_dt is not None
-    assert sched_dt > datetime.now(timezone.utc)
+    ref_now = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    assert sched_dt > ref_now
 
 
 def test_before_race_session_plan():

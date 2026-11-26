@@ -23,6 +23,7 @@ if str(_PACKAGE_PARENT) not in sys.path:
     sys.path.insert(0, str(_PACKAGE_PARENT))
 
 from src.utils.paths import get_runtime_root
+from src.utils.season_utils import MissingSessionTelemetryError, get_active_season
 
 PROJECT_ROOT = get_runtime_root()
 
@@ -96,7 +97,7 @@ def main_landing(
 @app.command("predict", help="Execute end-to-end race prediction pipeline with 25,000 Monte Carlo draws")
 def cmd_predict(
     track: str = typer.Option(..., "--track", "-t", help="Circuit identifier (e.g. melbourne, sepang, monza, baku)"),
-    year: int = typer.Option(2026, "--year", "-y", help="Championship season year"),
+    year: Optional[int] = typer.Option(None, "--year", "-y", help="Championship season year (defaults to current season)"),
     round_num: Optional[int] = typer.Option(None, "--round", "-r", help="Championship round number"),
     stage: str = typer.Option("after_qualifying", "--stage", "-s", help="Prediction timeline stage cutoff"),
     model: str = typer.Option("hybrid", "--model", "-m", help="Prediction model: 'rf', 'xgb', 'ridge', 'hybrid', 'ensemble'/'multi', 'weekend_only'"),
@@ -111,6 +112,7 @@ def cmd_predict(
     """Executes prediction simulation and displays classification table."""
     from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
 
+    year = year or get_active_season()
     model_clean = model.strip().lower()
     if weekend_only:
         model_clean = "weekend_only"
@@ -164,6 +166,9 @@ def cmd_predict(
                 n_simulations=simulations,
                 weekend_only=weekend_only,
             )
+        except MissingSessionTelemetryError as e:
+            print_error(str(e), debug=False)
+            raise typer.Exit(code=1)
         except Exception as e:
             print_error(f"Prediction pipeline halted: {e}", exc=e, debug=debug)
             raise typer.Exit(code=1)
@@ -277,11 +282,13 @@ def cmd_predict(
 @app.command("evaluate", help="Run chronological walk-forward cross-validation on completed season rounds")
 def cmd_evaluate(
     track: str = typer.Option(..., "--track", "-t", help="Target circuit identifier"),
-    year: int = typer.Option(2026, "--year", "-y", help="Championship season year"),
+    year: Optional[int] = typer.Option(None, "--year", "-y", help="Championship season year (defaults to current season)"),
     round_num: Optional[int] = typer.Option(None, "--round", "-r", help="Championship round number"),
 ) -> None:
     """Executes model walk-forward evaluation and prints metrics scorecard."""
     from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
+
+    year = year or get_active_season()
 
     pipeline = RacePredictionPipeline(root_dir=PROJECT_ROOT)
     track_key = track.lower().strip()
@@ -351,11 +358,13 @@ def cmd_evaluate(
 @app.command("validate", help="Audit datasets and feature pipeline for future leakage and data integrity")
 def cmd_validate(
     track: str = typer.Option(..., "--track", "-t", help="Target circuit identifier"),
-    year: int = typer.Option(2026, "--year", "-y", help="Championship season year"),
+    year: Optional[int] = typer.Option(None, "--year", "-y", help="Championship season year (defaults to current season)"),
     stage: str = typer.Option("after_qualifying", "--stage", "-s", help="Prediction stage cutoff"),
 ) -> None:
     """Executes dataset integrity and future leakage verification."""
     from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
+
+    year = year or get_active_season()
 
     pipeline = RacePredictionPipeline(root_dir=PROJECT_ROOT)
     track_key = track.lower().strip()
@@ -421,7 +430,7 @@ def cmd_validate(
 @app.command("collect", help="Ingest official practice, qualifying, sprint, and race sessions via FastF1")
 def cmd_collect(
     track: Optional[str] = typer.Option(None, "--track", "-t", help="Target circuit identifier (if omitted, collects full season)"),
-    year: int = typer.Option(2026, "--year", "-y", help="Championship season year"),
+    year: Optional[int] = typer.Option(None, "--year", "-y", help="Championship season year (defaults to current active season)"),
     rounds: Optional[List[int]] = typer.Option(None, "--rounds", help="Explicit round numbers to collect"),
     session_mode: Optional[str] = typer.Option(None, "--session-mode", help="Session mode: full, prediction_only, practice_only"),
     include_practice: bool = typer.Option(False, "--include-practice", help="Include practice sessions (FP1, FP2, FP3)"),
@@ -429,6 +438,8 @@ def cmd_collect(
 ) -> None:
     """Executes FastF1 session telemetry collection."""
     from src.data.collect_season import collect_season_data, collect_grand_prix
+
+    year = year or get_active_season()
 
     mode = session_mode or ("full" if include_practice else "prediction_only")
 
@@ -511,7 +522,7 @@ def cmd_clean(
         op_name = "Delete Collected Datasets"
         op_type = "collected"
     elif track or round_num:
-        eff_year = year or 2026
+        eff_year = year or get_active_season()
         gp_dict = dm.discover_grand_prix_data(track_key=track or "", year=eff_year, round_num=round_num, include_historical=include_historical)
         target_files = [f for flist in gp_dict.values() for f in flist]
         op_name = f"Delete Grand Prix Data ({track or f'Round {round_num}'} {eff_year})"
@@ -557,15 +568,16 @@ def cmd_clean(
 # Subcommand: circuits
 # ==============================================================================
 
-@app.command("circuits", help="List all 23 championship circuits in the 2026 FIA Formula 1 Calendar")
+@app.command("circuits", help="List championship circuits in the FIA Formula 1 Calendar")
 def cmd_circuits() -> None:
-    """Displays 2026 championship calendar registry."""
+    """Displays championship calendar registry."""
     from src.data.data_loader import DataLoader
 
+    active_year = get_active_season()
     loader = DataLoader(root_dir=PROJECT_ROOT)
     tracks_cfg = loader.tracks_config
 
-    table = Table(title="2026 FIA Formula 1 World Championship Calendar", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+    table = Table(title=f"{active_year} FIA Formula 1 World Championship Calendar", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
     table.add_column("Rnd", justify="right", style=TELEMETRY_CYAN)
     table.add_column("Circuit Name", style="bold")
     table.add_column("Country")
@@ -641,10 +653,11 @@ def cmd_health() -> None:
         table.add_row(f"[{MUTED_GREY}]INFO[/]", "Storage", "FastF1 Cache", "Cache not yet populated")
 
     # Circuit Registry
+    active_year = get_active_season()
     if len(loader.tracks_config) >= 23:
-        table.add_row(f"[{GREEN_FLAG}]OK[/]", "Configuration", "2026 Circuit Registry", f"All {len(loader.tracks_config)} Grand Prix circuits loaded")
+        table.add_row(f"[{GREEN_FLAG}]OK[/]", "Configuration", f"{active_year} Circuit Registry", f"All {len(loader.tracks_config)} Grand Prix circuits loaded")
     else:
-        table.add_row(f"[{APEX_RED}]WARN[/]", "Configuration", "2026 Circuit Registry", f"{len(loader.tracks_config)} circuits found")
+        table.add_row(f"[{APEX_RED}]WARN[/]", "Configuration", f"{active_year} Circuit Registry", f"{len(loader.tracks_config)} circuits found")
 
     # Raw telemetry
     if loader.raw_data_dir.exists():

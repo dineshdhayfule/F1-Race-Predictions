@@ -159,8 +159,11 @@ def clear_screen() -> None:
     os.system("cls" if os.name == "nt" else "clear")
 
 
-def print_banner(season: int = 2026, status_text: str = "Motorsport Intelligence Ready") -> None:
+def print_banner(season: Optional[int] = None, status_text: str = "Motorsport Intelligence Ready") -> None:
     """Displays the main ApexGrid motorsport intelligence header banner adapting to terminal width."""
+    if season is None:
+        from src.utils.season_utils import get_active_season
+        season = get_active_season()
     term_width = get_terminal_width()
     console = get_console()
     if HAS_RICH and console and _supports_color():

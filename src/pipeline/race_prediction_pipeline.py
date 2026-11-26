@@ -44,6 +44,7 @@ from src.utils.circuit_mapping import resolve_circuit_key
 from src.utils.driver_mapping import filter_competing_drivers, normalize_driver_series
 from src.utils.logging_utils import get_logger
 from src.utils.paths import get_runtime_root, resolve_config_file
+from src.utils.season_utils import MissingSessionTelemetryError, get_active_season
 
 logger = get_logger("pipeline")
 
@@ -141,7 +142,7 @@ class RacePredictionPipeline:
     def run(
         self,
         track_key: Optional[str] = None,
-        year: int = 2026,
+        year: Optional[int] = None,
         stage: str = "after_qualifying",
         model: Optional[str] = "hybrid",
         rf_weight: Optional[float] = None,
@@ -220,15 +221,22 @@ class RacePredictionPipeline:
         self.simulator.enable_weather = active_caps.get("weather_aware_prediction", False)
         self.simulator.enable_pit_strategy = active_caps.get("pit_strategy_simulator", False)
 
+        year = year or get_active_season()
         canon_key = resolve_circuit_key(track_key)
         if canon_key:
             track_key = canon_key
 
         tracks = self.tracks_config.get("tracks", {})
-        if track_key not in tracks:
-            raise KeyError(f"Track '{track_key}' not found in tracks.json. Available: {list(tracks.keys())}")
-
-        track_info = tracks[track_key]
+        default_track_info = {
+            "display_name": track_key.replace("_", " ").title(),
+            "circuit_type": "permanent",
+            "track_length_km": 5.0,
+            "straightness": 0.50,
+            "speed_bias": 0.50,
+            "overtaking_ease": 0.50,
+            "historical_data_available": False,
+        }
+        track_info = tracks.get(track_key, default_track_info)
         if round_num is not None:
             try:
                 target_round = int(round_num)
@@ -236,20 +244,20 @@ class RacePredictionPipeline:
                 target_round = None
         else:
             target_round = track_info.get(f"round_{year}")
+            if target_round is None:
+                from src.data.calendar_service import CalendarService
+                try:
+                    ev = CalendarService(root_dir=self.root_dir).get_event_by_circuit(year, track_key)
+                    if ev is not None:
+                        target_round = ev.round_number
+                except Exception:
+                    target_round = None
 
         if target_round is None:
-            if year == 2026:
-                target_round = track_info.get("round_2026", 16)
-            else:
-                raise ValueError(
-                    f"Calendar round for track '{track_key}' is not configured for year {year} in tracks.json. "
-                    f"Configured calendar is for 2026."
-                )
+            raise MissingSessionTelemetryError(year=year, round_num=None)
+
         track_name = track_info.get("display_name", track_info.get("name", track_key.title()))
-        penalties = track_info.get(
-            f"known_penalties_{year}",
-            track_info.get("known_penalties_2026" if year == 2026 else None, {})
-        )
+        penalties = track_info.get(f"known_penalties_{year}", {})
 
 
         stage = str(stage or "after_qualifying").lower().strip()
@@ -265,13 +273,10 @@ class RacePredictionPipeline:
         if not weekend_only:
             train_rounds = [r for r in range(1, target_round)]
             if target_round <= 1 or not train_rounds:
-                raise ValueError(
-                    f"Cannot generate race prediction for Round {target_round} ({track_name} {year}): "
-                    f"No prior same-season historical rounds exist to train predictive models. "
-                    f"The prediction pipeline requires at least 1 completed round. "
-                    f"Tip: Enable --weekend-only to predict using active weekend telemetry without prior season history."
-                )
+                raise MissingSessionTelemetryError(year=year, round_num=target_round)
             races_df, qualis_df = self.data_loader.load_season_rounds(year, train_rounds)
+            if races_df is None or races_df.empty:
+                raise MissingSessionTelemetryError(year=year, round_num=target_round)
             sessions_by_round = self.data_loader.load_all_practice_sessions(year, train_rounds)
         else:
             train_rounds = []
@@ -299,8 +304,6 @@ class RacePredictionPipeline:
         # 3b. Load Authoritative Starting Grid (Multi-Source: FIA -> F1 -> OpenF1 -> Algorithmic Fallback -> Historical Race Grid)
         from src.data.roster_resolver import RosterResolver
         expected_grid_size = RosterResolver.get_expected_grid_size(year, target_round)
-        if self.model_config.get("expected_grid_size") and year == 2026:
-            expected_grid_size = self.model_config.get("expected_grid_size", 22)
 
         starting_grid_df, grid_meta = self.data_loader.load_starting_grid(
             track_id=track_key,
@@ -314,10 +317,23 @@ class RacePredictionPipeline:
 
         if quali_df is None or quali_df.empty:
             prov = grid_meta.get("provenance", "")
-            if starting_grid_df is not None and not starting_grid_df.empty and prov in [GridProvenance.HISTORICAL_RACE_RESULTS.value, "historical_race_results"]:
+            verified_historical_provenances = {
+                GridProvenance.HISTORICAL_RACE_RESULTS.value,
+                "historical_race_results",
+                GridProvenance.F1_WEBSITE.value,
+                "f1_website_grid",
+                GridProvenance.FIA_OFFICIAL.value,
+                "fia_official_manifest",
+                "fia_manifest",
+                GridProvenance.OPENF1_API.value,
+                "openf1_grid",
+            }
+            if starting_grid_df is not None and not starting_grid_df.empty and (
+                year < 2018 or prov in verified_historical_provenances
+            ):
                 logger.info(
-                    f"Using historical race-derived starting grid directly for {track_name} {year} "
-                    f"({len(starting_grid_df)} drivers; separate qualifying session unavailable for season {year})."
+                    f"Using verified starting grid directly for {track_name} {year} "
+                    f"({len(starting_grid_df)} drivers; provenance={prov})."
                 )
                 quali_df = None
             elif stage == "after_qualifying":
@@ -866,7 +882,7 @@ class RacePredictionPipeline:
     def predict_qualifying(
         self,
         track_key: str,
-        year: int = 2026,
+        year: Optional[int] = None,
         stage: str = "after_sprint_race",
         round_num: Optional[int] = None,
     ) -> Dict[str, Any]:
@@ -876,12 +892,19 @@ class RacePredictionPipeline:
         and teammate head-to-head features. Calibrates residual uncertainty
         and runs 25,000 Monte Carlo simulations.
         """
+        year = year or get_active_season()
         track_key_clean = track_key.lower().strip()
         tracks = self.tracks_config.get("tracks", {})
-        if track_key_clean not in tracks:
-            raise KeyError(f"Track '{track_key_clean}' not configured in tracks.json.")
-
-        track_info = tracks[track_key_clean]
+        default_track_info = {
+            "display_name": track_key_clean.replace("_", " ").title(),
+            "circuit_type": "permanent",
+            "track_length_km": 5.0,
+            "straightness": 0.50,
+            "speed_bias": 0.50,
+            "overtaking_ease": 0.50,
+            "historical_data_available": False,
+        }
+        track_info = tracks.get(track_key_clean, default_track_info)
         if round_num is not None:
             try:
                 target_round = int(round_num)
@@ -889,15 +912,17 @@ class RacePredictionPipeline:
                 target_round = None
         else:
             target_round = track_info.get(f"round_{year}")
+            if target_round is None:
+                from src.data.calendar_service import CalendarService
+                try:
+                    ev = CalendarService(root_dir=self.root_dir).get_event_by_circuit(year, track_key_clean)
+                    if ev is not None:
+                        target_round = ev.round_number
+                except Exception:
+                    target_round = None
 
         if target_round is None:
-            if year == 2026:
-                target_round = track_info.get("round_2026", 17)
-            else:
-                raise ValueError(
-                    f"Calendar round for track '{track_key_clean}' is not configured for year {year} in tracks.json. "
-                    f"Configured calendar is for 2026."
-                )
+            raise MissingSessionTelemetryError(year=year, round_num=None)
         track_name = track_info.get("display_name", track_key_clean.title())
 
         stage = str(stage or "after_sprint_race").lower().strip()

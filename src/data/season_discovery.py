@@ -228,13 +228,16 @@ class SeasonDiscovery:
         return f" ({', '.join(str(yr) for yr in s)})"
 
     @classmethod
-    def get_default_season(cls, seasons: List[int], preferred: int = 2026) -> Optional[int]:
+    def get_default_season(cls, seasons: List[int], preferred: Optional[int] = None) -> Optional[int]:
         """
         Selects the default season:
-        Preserves preferred (2026) if available; otherwise returns the latest available.
+        Preserves preferred (defaults to current active season) if available; otherwise returns the latest available.
         """
         if not seasons:
             return None
+        if preferred is None:
+            from src.utils.season_utils import get_active_season
+            preferred = get_active_season()
         if preferred in seasons:
             return preferred
         return max(seasons)

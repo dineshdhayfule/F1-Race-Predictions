@@ -48,6 +48,7 @@ from src.features.build_features import FeatureEngineer
 from src.features.grid_features import format_grid_provenance_display
 from src.models.evaluate import ModelEvaluator
 from src.utils.logging_utils import get_logger
+from src.utils.season_utils import MissingSessionTelemetryError, get_active_season
 
 logger = get_logger("main_cli")
 
@@ -138,7 +139,7 @@ def cmd_predict(args, parser=None):
         logger.error(f"Prediction failed: {e}", exc_info=True)
         print(f"\n[ERROR] Prediction Pipeline Execution Error:")
         print(f"  Grand Prix : {getattr(args, 'track', 'Unknown')}")
-        print(f"  Year       : {getattr(args, 'year', 2026)}")
+        print(f"  Year       : {getattr(args, 'year', get_active_season())}")
         print(f"  Stage      : {stage_clean}")
         print(f"  Error Type : {type(e).__name__}")
         print(f"  Message    : {e}")
@@ -274,15 +275,14 @@ def cmd_evaluate(args):
     track_info = tracks[track_key]
     target_round = getattr(args, "round", None)
     if target_round is None:
-        target_round = track_info.get(f"round_{args.year}")
+        target_round = track_info.get(f"round_{args.year}") or track_info.get("round")
     if target_round is None:
-        if args.year == 2026:
-            target_round = track_info.get("round_2026")
-        else:
-            raise ValueError(
-                f"Calendar round for track '{track_key}' is not configured for year {args.year} in tracks.json. "
-                f"Configured calendar is for 2026."
-            )
+        from src.data.calendar_service import CalendarService
+        ev = CalendarService(root_dir=ROOT).get_event_by_circuit(args.year, track_key)
+        if ev is not None:
+            target_round = ev.round_number
+    if target_round is None:
+        raise MissingSessionTelemetryError(year=args.year, round_num=None)
 
     train_rounds = [r for r in range(1, target_round)]
 
@@ -332,15 +332,14 @@ def cmd_validate(args):
     track_info = tracks[track_key]
     target_round = getattr(args, "round", None)
     if target_round is None:
-        target_round = track_info.get(f"round_{args.year}")
+        target_round = track_info.get(f"round_{args.year}") or track_info.get("round")
     if target_round is None:
-        if args.year == 2026:
-            target_round = track_info.get("round_2026")
-        else:
-            raise ValueError(
-                f"Calendar round for track '{track_key}' is not configured for year {args.year} in tracks.json. "
-                f"Configured calendar is for 2026."
-            )
+        from src.data.calendar_service import CalendarService
+        ev = CalendarService(root_dir=ROOT).get_event_by_circuit(args.year, track_key)
+        if ev is not None:
+            target_round = ev.round_number
+    if target_round is None:
+        raise MissingSessionTelemetryError(year=args.year, round_num=None)
 
     stage_clean = str(getattr(args, "stage", "after_qualifying") or "after_qualifying").lower().strip()
     if stage_clean == "after_sprint":
@@ -378,10 +377,7 @@ def cmd_validate(args):
         train_rounds=train_rounds,
         stage=stage_clean,
     )
-    penalties = track_info.get(
-        f"known_penalties_{args.year}",
-        track_info.get("known_penalties_2026" if args.year == 2026 else None, {})
-    )
+    penalties = track_info.get(f"known_penalties_{args.year}", {})
     target_feats = pipeline.feature_engineer.build_target_dataset(
         target_round=target_round,
         track_name=track_info.get("display_name", track_key.title()),
@@ -517,7 +513,7 @@ def cmd_clean(args, parser=None):
         target_files = [f for flist in cat_dict.values() for f in flist]
         op_name = f"Delete Collected Datasets ({', '.join(categories) if categories else 'All'})"
     elif track or round_num:
-        eff_year = year or 2026
+        eff_year = year or get_active_season()
         gp_dict = dm.discover_grand_prix_data(
             track_key=track or "",
             year=eff_year,
@@ -657,7 +653,7 @@ def main():
     # Predict Command
     predict_parser = subparsers.add_parser("predict", help="Run race prediction pipeline")
     predict_parser.add_argument("--track", required=True, help="Circuit identifier (e.g. sepang, baku, monza)")
-    predict_parser.add_argument("--year", type=int, default=2026, help="Season championship year")
+    predict_parser.add_argument("--year", type=int, default=get_active_season(), help="Season championship year")
     predict_parser.add_argument(
         "--stage",
         default="after_qualifying",
@@ -710,12 +706,12 @@ def main():
     # Evaluate Command
     eval_parser = subparsers.add_parser("evaluate", help="Run chronological model evaluation")
     eval_parser.add_argument("--track", required=True, help="Target circuit identifier")
-    eval_parser.add_argument("--year", type=int, default=2026, help="Season championship year")
+    eval_parser.add_argument("--year", type=int, default=get_active_season(), help="Season championship year")
 
     # Validate Command
     val_parser = subparsers.add_parser("validate", help="Validate dataset and run leakage checks")
     val_parser.add_argument("--track", required=True, help="Target circuit identifier")
-    val_parser.add_argument("--year", type=int, default=2026, help="Season championship year")
+    val_parser.add_argument("--year", type=int, default=get_active_season(), help="Season championship year")
     val_parser.add_argument(
         "--stage",
         default="after_qualifying",
@@ -728,7 +724,7 @@ def main():
         "collect-season",
         help="Collect season sessions via FastF1 (Full weekend, Quali+Race, or Practice only)"
     )
-    collect_season_parser.add_argument("--year", type=int, default=2026, help="Season championship year")
+    collect_season_parser.add_argument("--year", type=int, default=get_active_season(), help="Season championship year")
     collect_season_parser.add_argument(
         "--rounds",
         type=int,
@@ -763,7 +759,7 @@ def main():
         default=None,
         help="Target circuit identifier (e.g. mexico, austin, sepang)"
     )
-    collect_parser.add_argument("--year", type=int, default=2026, help="Season championship year")
+    collect_parser.add_argument("--year", type=int, default=get_active_season(), help="Season championship year")
     collect_parser.add_argument(
         "--rounds",
         type=int,

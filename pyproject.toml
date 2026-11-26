@@ -4,10 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apexgrid"
-version = "1.0.2"
+version = "1.0.3"
 description = "Formula 1 race outcome prediction engine using FastF1 telemetry and Monte Carlo simulation"
 readme = "README.md"
 license = "MIT"
+authors = [
+    { name = "Dinesh Dhayfule", email = "dineshdhayfule@gmail.com" }
+]
 requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.26.0,<3.0.0",

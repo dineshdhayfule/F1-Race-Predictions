@@ -63,8 +63,9 @@ class SeasonAnalyticsService:
             logger.info(f"No calendar or race data found for season {year}")
             return None
 
+        from src.utils.season_utils import get_active_season
         # Determine in-progress state
-        is_in_progress = (completed_rounds < total_scheduled) or (year == 2026 and completed_rounds < total_scheduled)
+        is_in_progress = (completed_rounds < total_scheduled) or (year >= get_active_season() and completed_rounds < total_scheduled)
 
         if completed_rounds == 0:
             status_display = f"Season {year} (Scheduled / Pending: 0/{total_scheduled} Rounds Completed)"

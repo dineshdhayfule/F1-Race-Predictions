@@ -119,7 +119,7 @@ class EraAnalyticsService:
             "id": "active_aero_2026",
             "name": "Active Aero & 100% Sustainable Fuel Era",
             "period": "2026+",
-            "years_span": 1,
+            "years_span": max(1, __import__("src.utils.season_utils", fromlist=["get_active_season"]).get_active_season() - 2026 + 1),
             "avg_races_per_year": 24.0,
             "avg_grid_size": 22.0,
             "finish_rate_pct": 88.0,
