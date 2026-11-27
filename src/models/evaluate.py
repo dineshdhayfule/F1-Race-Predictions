@@ -82,12 +82,13 @@ class ModelEvaluator:
                 "completed_folds": [],
                 "diagnostic_message": "Insufficient history: training dataset is empty or contains no rounds.",
                 "ensemble_comparisons": [],
-                "best_w_rf": 0.60,
-                "best_w_xgb": 0.40,
-                "best_w_ridge": 0.0,
+                "best_w_rf": 0.40,
+                "best_w_xgb": 0.30,
+                "best_w_ridge": 0.30,
                 "best_model_name": "Unavailable",
                 "best_mae": None,
                 "selected_residuals": np.array([]),
+                "team_residuals": {},
                 "rf_residuals": np.array([]),
                 "xgb_residuals": np.array([]),
                 "ridge_residuals": np.array([]),
@@ -150,10 +151,13 @@ class ModelEvaluator:
                     "completed_folds": [],
                     "diagnostic_message": "No classified-finisher rows are eligible for pace regression.",
                     "ensemble_comparisons": [],
-                    "best_w_rf": 0.60,
-                    "best_w_xgb": 0.40,
-                    "best_w_ridge": 0.0,
+                    "best_w_rf": 0.40,
+                    "best_w_xgb": 0.30,
+                    "best_w_ridge": 0.30,
                     "best_model_name": "Unavailable",
+                    "best_mae": None,
+                    "selected_residuals": np.array([]),
+                    "team_residuals": {},
                     "best_mae": None,
                     "selected_residuals": np.array([]),
                     "rf_residuals": np.array([]),
@@ -284,9 +288,21 @@ class ModelEvaluator:
             })
 
             sel_cfg = self.config.get("model_selection", {})
-            default_rf_w = float(sel_cfg.get("fixed_rf_weight", 0.6))
-            default_xgb_w = float(sel_cfg.get("fixed_xgb_weight", 0.4))
-            match = next((x for x in ensemble_results if abs(x.get("rf_weight", 0.0) - default_rf_w) < 1e-4 and abs(x.get("xgb_weight", 0.0) - default_xgb_w) < 1e-4), ensemble_results[2])
+            default_rf_w = float(sel_cfg.get("fixed_rf_weight", 0.40))
+            default_xgb_w = float(sel_cfg.get("fixed_xgb_weight", 0.30))
+            default_ridge_w = float(sel_cfg.get("fixed_ridge_weight", 0.30))
+            match = next(
+                (
+                    x for x in ensemble_results
+                    if abs(x.get("rf_weight", 0.0) - default_rf_w) < 1e-4
+                    and abs(x.get("xgb_weight", 0.0) - default_xgb_w) < 1e-4
+                    and abs(x.get("ridge_weight", 0.0) - default_ridge_w) < 1e-4
+                ),
+                next(
+                    (x for x in ensemble_results if "Validated Multi-Model" in x.get("model_name", "")),
+                    ensemble_results[-1],
+                ),
+            )
             best_w_rf = match["rf_weight"]
             best_w_xgb = match["xgb_weight"]
             best_w_ridge = match.get("ridge_weight", 0.0)
@@ -355,6 +371,7 @@ class ModelEvaluator:
         round_predictions["Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"] = []
         round_actuals = []
         round_grids = []
+        round_teams = []
 
         failed_folds = []
         completed_folds = []
@@ -469,6 +486,13 @@ class ModelEvaluator:
             ridge_residuals.extend(y_test - blended_ridge)
             multi_residuals.extend(y_test - blended_multi)
             round_actuals.extend(y_test)
+            if "TeamName" in test.columns:
+                fold_teams = test["TeamName"].fillna("").astype(str).tolist()
+            elif "Constructor" in test.columns:
+                fold_teams = test["Constructor"].fillna("").astype(str).tolist()
+            else:
+                fold_teams = [""] * len(test)
+            round_teams.extend(fold_teams)
 
             for w_rf, w_xgb, name in tested_weights:
                 blend_pred = w_rf * rf_pred + w_xgb * xgb_pred
@@ -529,11 +553,12 @@ class ModelEvaluator:
                         "spearman": None,
                     },
                 ],
-                "best_w_rf": 0.60,
-                "best_w_xgb": 0.40,
-                "best_w_ridge": 0.0,
-                "best_model_name": "Fallback Baseline (60% RF / 40% XGB)",
+                "best_w_rf": 0.40,
+                "best_w_xgb": 0.30,
+                "best_w_ridge": 0.30,
+                "best_model_name": "Fallback Baseline (40% RF / 30% XGB / 30% Ridge)",
                 "best_mae": None,
+                "team_residuals": {},
                 "selected_residuals": np.array([]),
                 "rf_residuals": np.array([]),
                 "xgb_residuals": np.array([]),
@@ -639,6 +664,14 @@ class ModelEvaluator:
 
         xgb_match = next((x for x in ensemble_results if x["model_name"] == "100% XGB"), ensemble_results[6])
 
+        team_residuals_map: Dict[str, List[float]] = {}
+        for team_name, res_val in zip(round_teams, selected_residuals):
+            if team_name:
+                team_residuals_map.setdefault(team_name, []).append(float(res_val))
+        team_residuals: Dict[str, np.ndarray] = {
+            team: np.array(vals, dtype=float) for team, vals in team_residuals_map.items()
+        }
+
         return {
             "validation_rounds": val_rounds,
             "requested_rounds": val_rounds,
@@ -656,6 +689,7 @@ class ModelEvaluator:
             "best_model_name": best_name,
             "best_mae": best_mae,
             "selected_residuals": selected_residuals,
+            "team_residuals": team_residuals,
             "rf_residuals": np.array(rf_residuals),
             "xgb_residuals": np.array(xgb_residuals),
             "ridge_residuals": np.array(ridge_residuals),

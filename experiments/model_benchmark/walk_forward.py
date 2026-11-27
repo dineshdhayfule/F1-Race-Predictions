@@ -41,7 +41,7 @@ class WalkForwardEngine:
         self.tracks_config = self._load_tracks_config()
 
     def _load_tracks_config(self) -> Dict[str, Any]:
-        cfg_path = self.root_dir / "config" / "tracks.json"
+        cfg_path = self.root_dir / "src" / "config" / "tracks.json"
         if cfg_path.exists():
             with open(cfg_path, "r", encoding="utf-8") as f:
                 return json.load(f).get("tracks", {})

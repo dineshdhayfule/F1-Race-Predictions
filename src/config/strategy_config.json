@@ -131,6 +131,97 @@
       "pit_loss_seconds": 20.5,
       "deg_multiplier": 0.80
     },
+    "abu_dhabi": {
+      "sc_probability": 0.45,
+      "vsc_probability": 0.35,
+      "red_flag_probability": 0.10,
+      "pit_loss_seconds": 21.5,
+      "deg_multiplier": 1.05
+    },
+    "australia": {
+      "sc_probability": 0.70,
+      "vsc_probability": 0.50,
+      "red_flag_probability": 0.25,
+      "pit_loss_seconds": 20.5,
+      "deg_multiplier": 1.05
+    },
+    "austria": {
+      "sc_probability": 0.45,
+      "vsc_probability": 0.40,
+      "red_flag_probability": 0.10,
+      "pit_loss_seconds": 20.0,
+      "deg_multiplier": 1.15
+    },
+    "barcelona": {
+      "sc_probability": 0.35,
+      "vsc_probability": 0.30,
+      "red_flag_probability": 0.08,
+      "pit_loss_seconds": 22.0,
+      "deg_multiplier": 1.40
+    },
+    "canada": {
+      "sc_probability": 0.70,
+      "vsc_probability": 0.45,
+      "red_flag_probability": 0.20,
+      "pit_loss_seconds": 18.5,
+      "deg_multiplier": 0.95
+    },
+    "china": {
+      "sc_probability": 0.50,
+      "vsc_probability": 0.40,
+      "red_flag_probability": 0.12,
+      "pit_loss_seconds": 23.0,
+      "deg_multiplier": 1.25
+    },
+    "hungary": {
+      "sc_probability": 0.40,
+      "vsc_probability": 0.30,
+      "red_flag_probability": 0.12,
+      "pit_loss_seconds": 21.0,
+      "deg_multiplier": 1.20
+    },
+    "japan": {
+      "sc_probability": 0.45,
+      "vsc_probability": 0.35,
+      "red_flag_probability": 0.15,
+      "pit_loss_seconds": 22.5,
+      "deg_multiplier": 1.40
+    },
+    "las_vegas": {
+      "sc_probability": 0.65,
+      "vsc_probability": 0.45,
+      "red_flag_probability": 0.20,
+      "pit_loss_seconds": 20.5,
+      "deg_multiplier": 0.85
+    },
+    "madrid": {
+      "sc_probability": 0.55,
+      "vsc_probability": 0.40,
+      "red_flag_probability": 0.15,
+      "pit_loss_seconds": 22.0,
+      "deg_multiplier": 1.00
+    },
+    "miami": {
+      "sc_probability": 0.55,
+      "vsc_probability": 0.45,
+      "red_flag_probability": 0.15,
+      "pit_loss_seconds": 20.5,
+      "deg_multiplier": 1.10
+    },
+    "qatar": {
+      "sc_probability": 0.50,
+      "vsc_probability": 0.40,
+      "red_flag_probability": 0.15,
+      "pit_loss_seconds": 24.0,
+      "deg_multiplier": 1.45
+    },
+    "zandvoort": {
+      "sc_probability": 0.55,
+      "vsc_probability": 0.45,
+      "red_flag_probability": 0.15,
+      "pit_loss_seconds": 21.5,
+      "deg_multiplier": 1.30
+    },
     "default": {
       "sc_probability": 0.50,
       "vsc_probability": 0.40,
@@ -158,7 +249,20 @@
       "SAI": -0.20,
       "GAS": -0.15,
       "OCO": -0.15,
-      "HUL": -0.20
+      "HUL": -0.20,
+      "PER": 0.15,
+      "BOT": 0.10,
+      "STR": 0.08,
+      "TSU": 0.05,
+      "ALB": 0.05,
+      "ANT": 0.00,
+      "HAD": 0.00,
+      "LAW": 0.00,
+      "BEA": 0.00,
+      "BOR": 0.00,
+      "COL": 0.00,
+      "DOO": 0.00,
+      "LIN": 0.00
     }
   }
 }

@@ -55,7 +55,7 @@ logger = get_logger("main_cli")
 
 def cmd_predict(args, parser=None):
     """Executes prediction command."""
-    model_raw = getattr(args, "model", "hybrid") or "hybrid"
+    model_raw = getattr(args, "model", "ensemble") or "ensemble"
     if model_raw not in ("rf", "xgb", "ridge", "hybrid", "ensemble", "multi", "__interactive__"):
         err_msg = f"argument --model: invalid choice: '{model_raw}' (choose from 'rf', 'xgb', 'ridge', 'hybrid', 'ensemble', 'multi')"
         if parser:
@@ -664,7 +664,7 @@ def main():
         "--model",
         nargs="?",
         const="__interactive__",
-        default="hybrid",
+        default="ensemble",
         type=str.lower,
         help="Prediction model: 'rf' (Random Forest only), 'xgb' (XGBoost only), 'ridge' (Ridge Regression only), 'hybrid' (60%% RF / 40%% XGB ensemble, default), 'ensemble'/'multi' (Validated Multi-Model: 40%% RF / 30%% XGB / 30%% Ridge). Bare --model opens interactive model selection."
     )

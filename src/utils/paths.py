@@ -16,8 +16,8 @@ _REPO_ROOT = _SRC_DIR.parent
 
 
 def is_dev_mode() -> bool:
-    """True if running inside a git repo clone with local pyproject.toml and config/."""
-    return (_REPO_ROOT / "pyproject.toml").exists() and (_REPO_ROOT / "config").is_dir()
+    """True if running inside a git repo clone with local pyproject.toml and src/config/."""
+    return (_REPO_ROOT / "pyproject.toml").exists() and (_SRC_DIR / "config").is_dir()
 
 
 def get_runtime_root() -> Path:
@@ -36,15 +36,9 @@ def get_runtime_root() -> Path:
 def get_config_path(filename: str) -> Path:
     """
     Resolve configuration files in priority:
-    1. Local repo config/ (if dev mode)
-    2. Bundled package config/ (src/config/)
-    3. User home ~/.apexgrid/config/
+    1. Bundled package config/ (src/config/)
+    2. User home ~/.apexgrid/config/
     """
-    if is_dev_mode():
-        local_cfg = _REPO_ROOT / "config" / filename
-        if local_cfg.exists():
-            return local_cfg
-
     bundled_cfg = _SRC_DIR / "config" / filename
     if bundled_cfg.exists():
         return bundled_cfg
@@ -53,19 +47,21 @@ def get_config_path(filename: str) -> Path:
     if user_cfg.exists():
         return user_cfg
 
-    # Fallback to local config even if missing, to give clear FileNotFoundError
-    return _REPO_ROOT / "config" / filename
+    # Fallback to bundled src/config/ even if missing, to give clear FileNotFoundError
+    return bundled_cfg
 
 
 def resolve_config_file(filename: str, root_dir: Optional[Path] = None) -> Path:
     """
-    Resolve a config file, honoring an explicit root_dir/config/filename if it exists
-    (e.g., in isolated unit tests), otherwise falling back to get_config_path().
+    Resolve a config file, honoring an explicit root_dir/src/config/filename or
+    root_dir/config/filename if it exists (e.g., in isolated unit tests),
+    otherwise falling back to get_config_path().
     """
     if root_dir is not None:
-        candidate = Path(root_dir) / "config" / filename
-        if candidate.exists():
-            return candidate
+        base = Path(root_dir)
+        for candidate in (base / "src" / "config" / filename, base / "config" / filename):
+            if candidate.exists():
+                return candidate
     return get_config_path(filename)
 
 

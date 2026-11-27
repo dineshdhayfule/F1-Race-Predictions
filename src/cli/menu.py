@@ -672,7 +672,7 @@ class InteractiveMenu:
                 print_table(["#", "Model Architecture", "Description", "Overall Historical CV MAE"], model_table_rows, align_right=[True, False, False, True])
                 print(f"{Colors.DIM}Note: The figures above represent overall historical cross-validation benchmarks and are not dynamically calculated track-specific MAEs.{Colors.RESET}\n")
                 print("  0. Cancel / Back\n")
-                model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "5", "6", "7", "0"], default="7" if selected_weekend_only else "4")
+                model_choice_input = prompt_choice("Select Model", ["1", "2", "3", "4", "5", "6", "7", "0"], default="7" if selected_weekend_only else "6")
                 if model_choice_input == "0":
                     step = 3
                     continue
@@ -2261,7 +2261,7 @@ class InteractiveMenu:
             rows.append([r, name, c_type, km, sprint, pen_str, k])
 
         print_table(["Round", "Grand Prix", "Type", "Length", "Sprint", "Grid Penalties", "Key"], rows)
-        print(f"{Colors.DIM}Note: Configuration is read-only. Settings live in config/tracks.json and config/model_config.json.{Colors.RESET}\n")
+        print(f"{Colors.DIM}Note: Configuration is read-only. Settings live in src/config/tracks.json and src/config/model_config.json.{Colors.RESET}\n")
         prompt_str("Press [Enter] to return to Main Menu", allow_empty=True)
 
     # =========================================================================

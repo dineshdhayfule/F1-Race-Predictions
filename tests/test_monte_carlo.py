@@ -32,6 +32,7 @@ def test_default_draw_count():
     assert simulator.n_simulations == 10000
 
 
+@pytest.mark.slow
 def test_10k_and_25k_draw_depth():
     simulator = MonteCarloSimulator(_config())
     target = _target()
@@ -74,12 +75,23 @@ def test_nan_grid_and_pit_lane_are_handled():
 
 def test_residual_sigma_floor():
     simulator = MonteCarloSimulator(_config())
+    full_target = _target()
     _, meta = simulator.simulate(
-        _target().iloc[:2],
-        np.array([1.0, 2.0]),
+        full_target,
+        np.arange(1.0, len(full_target) + 1.0),
         residuals=np.array([0.01, -0.01, 0.02, 0.0, -0.02]),
+        n_simulations=100,
     )
     assert meta["calibrated_sigma"] == 1.5
+
+    # Sparse-grid n < 20 scaling clamps 1.5 * (2 / 20) to the 1.20 floor
+    _, meta_sparse = simulator.simulate(
+        full_target.iloc[:2],
+        np.array([1.0, 2.0]),
+        residuals=np.array([0.01, -0.01, 0.02, 0.0, -0.02]),
+        n_simulations=100,
+    )
+    assert meta_sparse["calibrated_sigma"] == 1.2
 
 
 def test_dnf_fallback_probability_is_configured():

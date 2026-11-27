@@ -50,6 +50,7 @@ class MonteCarloSimulator:
         circuit_key: Optional[str] = None,
         n_simulations: Optional[int] = None,
         pace_sigma: Optional[float] = None,
+        team_residuals: Optional[Dict[str, np.ndarray]] = None,
     ) -> Tuple[pd.DataFrame, Dict[str, Any]]:
         """
         Executes Monte Carlo simulations incorporating strategic, race control, and weather factors.
@@ -131,7 +132,27 @@ class MonteCarloSimulator:
         if n < 20 and n > 0:
             calibrated_sigma = max(calibrated_sigma * (n / 20.0), 1.2)
             logger.info(f"Scaled pace sigma for {n}-car field: {calibrated_sigma:.4f}")
+
+        global_sigma = calibrated_sigma
+        driver_sigmas = np.full(n, global_sigma, dtype=float)
+        shrunk_team_sigmas: Dict[str, float] = {}
+        if team_residuals and n > 0:
+            for idx, row in active_df.iterrows():
+                team_name = str(row.get("TeamName", ""))
+                t_res = team_residuals.get(team_name)
+                if t_res is not None:
+                    t_arr = np.asarray(t_res, dtype=float)
+                    t_arr = t_arr[np.isfinite(t_arr)]
+                    if len(t_arr) >= 8:
+                        team_sigma = float(median_abs_deviation(t_arr) * 1.4826)
+                        shrunk = float(np.clip(0.70 * team_sigma + 0.30 * global_sigma, 1.20, 1.5 * global_sigma))
+                        driver_sigmas[idx] = shrunk
+                        shrunk_team_sigmas[team_name] = round(shrunk, 4)
+        if shrunk_team_sigmas:
+            logger.info(f"Constructor-shrunk sigmas active ({len(shrunk_team_sigmas)} teams): {shrunk_team_sigmas}")
+
         sim_scores = np.empty((num_sims, n))
+        dnf_matrix = np.zeros((num_sims, n), dtype=bool)
         dnf_counts = np.zeros(n, dtype=np.int64)
 
         # Extract circuit event probabilities for race control
@@ -155,14 +176,14 @@ class MonteCarloSimulator:
 
         # Vectorized batch simulation
         for i in range(num_sims):
-            iter_sigma = calibrated_sigma
+            iter_sigma_vec = driver_sigmas.copy()
             iter_dnf_prob = per_driver_probs.copy() if per_driver_probs is not None else dnf_prob
             iter_scores = active_scores.copy()
 
             # Weather scenario sampling
             if self.enable_weather and (rng.random() < rain_prob):
                 # Wet race scenario: increased pace volatility, higher DNF hazard
-                iter_sigma *= 1.35
+                iter_sigma_vec *= 1.35
                 if per_driver_probs is not None:
                     iter_dnf_prob = np.clip(per_driver_probs * 1.40, 0.0, 1.0)
                 else:
@@ -171,7 +192,7 @@ class MonteCarloSimulator:
                 iter_scores = iter_scores + wet_skill_bonuses
 
             # Baseline pace noise
-            noise = rng.normal(0, iter_sigma, n)
+            noise = rng.normal(0.0, iter_sigma_vec)
 
             # Strategy execution noise (pit stop execution variation: +-0.75s).
             # A strategy disadvantage (strat_time_loss >= 0) increases (worsens) the simulated finishing score (lower is better).
@@ -183,6 +204,7 @@ class MonteCarloSimulator:
 
             # Stochastic DNF indicator
             is_dnf = rng.binomial(1, iter_dnf_prob, n).astype(bool)
+            dnf_matrix[i] = is_dnf
             dnf_counts += is_dnf
 
             iter_scores = iter_scores + noise + strat_noise
@@ -255,6 +277,7 @@ class MonteCarloSimulator:
                 "StartingGridStatus": str(row.get("StartingGridStatus", "CLASSIFIED")),
 
                 "ExpectedFinish": round(float(finishes.mean()), 2),
+                "ExpFinishClassified": round(float(finishes[~dnf_matrix[:, idx]].mean()), 2) if (~dnf_matrix[:, idx]).any() else np.nan,
                 "MedianFinish": int(np.median(finishes)),
                 "WinProbability": round(float(np.mean(finishes == 1) * 100), 2),
                 "Top3Probability": round(float(np.mean(finishes <= 3) * 100), 2),
@@ -329,6 +352,7 @@ class MonteCarloSimulator:
                     "StartingGridStatus": status_val,
 
                     "ExpectedFinish": np.nan,
+                    "ExpFinishClassified": np.nan,
                     "MedianFinish": np.nan,
                     "WinProbability": 0.0,
                     "Top3Probability": 0.0,
@@ -356,6 +380,8 @@ class MonteCarloSimulator:
         summary = {
             "n_simulations": num_sims,
             "calibrated_sigma": round(calibrated_sigma, 4),
+            "constructor_shrunk_teams": len(shrunk_team_sigmas),
+            "team_sigmas": shrunk_team_sigmas,
             "empirical_dnf_prob": round(dnf_prob, 4),
             "driver_count": len(result),
             "active_driver_count": n,

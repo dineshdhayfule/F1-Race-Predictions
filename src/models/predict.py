@@ -180,14 +180,21 @@ class Predictor:
         # If no legitimate starting grid exists (e.g. pre-qualifying without provisional grid),
         # disable grid blending (eff_ml_w = 1.0, eff_grid_w = 0.0) rather than forcing all drivers to P12.
         grid_series = None
+        grid_source_kind = "none"
         for col_cand in ["simulation_start_rank", "GridPosition", "provisional_grid_position"]:
             if col_cand in target_df.columns:
                 s = pd.to_numeric(target_df[col_cand], errors="coerce")
                 if s.notna().any():
                     grid_series = s
+                    grid_source_kind = "provisional" if col_cand == "provisional_grid_position" else "actual"
                     break
 
         if grid_series is not None and grid_series.notna().any():
+            if grid_source_kind == "provisional" and grid_weight is None and ml_weight is None:
+                blend_cfg = self.config.get("blending", {})
+                prov_discount = float(blend_cfg.get("provisional_grid_discount", 0.5))
+                eff_grid_w = eff_grid_w * prov_discount
+                eff_ml_w = 1.0 - eff_grid_w
             median_pos = float(grid_series.median()) if not np.isnan(grid_series.median()) else 12.0
             grid_positions = grid_series.fillna(median_pos).values
             blended = eff_ml_w * ml_pred + eff_grid_w * grid_positions
@@ -195,6 +202,10 @@ class Predictor:
             eff_ml_w, eff_grid_w = 1.0, 0.0
             grid_positions = np.full(len(target_df), np.nan)
             blended = ml_pred
+
+        logger.info(
+            f"Grid blending: {eff_grid_w:.2f} Grid / {eff_ml_w:.2f} ML (source={grid_source_kind})"
+        )
 
         out = target_df[["Abbreviation", "TeamName"]].copy()
         if "GridPosition" in target_df.columns:

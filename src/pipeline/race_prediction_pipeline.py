@@ -65,7 +65,7 @@ class RacePredictionPipeline:
 
     def __init__(self, root_dir: Optional[Path] = None):
         self.root_dir = Path(root_dir) if root_dir is not None else get_runtime_root()
-        self.config_dir = self.root_dir / "config"
+        self.config_dir = self.root_dir / "src" / "config"
 
         # Load configurations
         with open(resolve_config_file("tracks.json", root_dir), "r", encoding="utf-8") as f:
@@ -77,8 +77,9 @@ class RacePredictionPipeline:
         with open(resolve_config_file("settings.json", root_dir), "r", encoding="utf-8") as f:
             self.settings = json.load(f)
 
-        self.data_dir = self.root_dir / self.settings.get("paths", {}).get("data_raw", "data/raw")
-        self.output_dir = self.root_dir / self.settings.get("paths", {}).get("outputs", "outputs")
+        paths_cfg = self.settings.get("paths", {})
+        self.data_dir = self.root_dir / (paths_cfg.get("raw_data_dir") or paths_cfg.get("data_raw") or "data/raw")
+        self.output_dir = self.root_dir / (paths_cfg.get("outputs_dir") or paths_cfg.get("outputs") or "outputs")
 
         self.data_loader = DataLoader(self.data_dir)
         self.data_validator = DataValidator()
@@ -144,7 +145,7 @@ class RacePredictionPipeline:
         track_key: Optional[str] = None,
         year: Optional[int] = None,
         stage: str = "after_qualifying",
-        model: Optional[str] = "hybrid",
+        model: Optional[str] = "ensemble",
         rf_weight: Optional[float] = None,
         xgb_weight: Optional[float] = None,
         capabilities: Optional[Dict[str, bool]] = None,
@@ -166,7 +167,7 @@ class RacePredictionPipeline:
         stage : str
             Prediction stage cutoff ('pre_fp1', 'after_fp1', 'after_fp2', 'after_fp3', 'after_qualifying').
         model : str, optional
-            Prediction model ('rf', 'xgb', 'hybrid'). Default is 'hybrid'.
+            Prediction model ('rf', 'xgb', 'ridge', 'hybrid', 'ensemble', 'multi', 'weekend_only'). Default is 'ensemble'.
         rf_weight : float, optional
             Custom Random Forest weight (0-1.0 or 0-100%). Must be supplied with xgb_weight.
         xgb_weight : float, optional
@@ -181,7 +182,7 @@ class RacePredictionPipeline:
             raise ValueError("A track identifier ('track_key' or 'track_id') must be provided.")
         track_key = str(t_key).lower().strip()
         valid_models = {"rf", "xgb", "ridge", "hybrid", "ensemble", "multi", "weekend_only"}
-        model_choice = (model or "hybrid").lower().strip()
+        model_choice = (model or "ensemble").lower().strip()
         if weekend_only or model_choice == "weekend_only":
             weekend_only = True
             model_choice = "weekend_only"
@@ -489,6 +490,7 @@ class RacePredictionPipeline:
             selected_mae = None
             selection_method = "Active Weekend Telemetry (Pure ML)"
             residuals = None
+            team_residuals = None
             empirical_dnf = 0.158
             driver_dnf_probs = None
             dnf_model_status = "DEFAULT_FALLBACK"
@@ -513,6 +515,12 @@ class RacePredictionPipeline:
             )
 
             # Deterministic ML inference with circuit-aware grid blending
+            sparse_grid_w, sparse_ml_w = (None, None)
+            if year < 2018 and starting_grid_df is not None and not starting_grid_df.empty:
+                sparse_grid_w, sparse_ml_w = 0.75, 0.25
+                logger.info(
+                    f"Pre-2018 telemetry-sparse race ({year}): prioritizing verified starting grid (75% Grid / 25% ML)."
+                )
             det_results, blended_scores = self.predictor.predict_deterministic(
                 target_df=target_features,
                 imputer=imputer,
@@ -523,6 +531,8 @@ class RacePredictionPipeline:
                 ridge_model=ridge_model,
                 ridge_weight=selected_ridge_weight,
                 circuit_type=circuit_type,
+                grid_weight=sparse_grid_w,
+                ml_weight=sparse_ml_w,
                 model_mode="ensemble",
             )
         else:
@@ -662,6 +672,7 @@ class RacePredictionPipeline:
                     residuals = eval_results.get("selected_residuals", np.array([]))
 
             empirical_dnf = eval_results.get("empirical_dnf_rate", 0.158)
+            team_residuals = eval_results.get("team_residuals")
             mae_disp = f"MAE={selected_mae:.4f}" if selected_mae is not None else "MAE=N/A"
             logger.info(f"Selected model: {selected_model_name} via {selection_method} ({mae_disp})")
 
@@ -741,6 +752,7 @@ class RacePredictionPipeline:
             circuit_key=track_key,
             n_simulations=n_simulations,
             pace_sigma=pace_sigma,
+            team_residuals=team_residuals,
         )
         is_oos = False if weekend_only else eval_results.get("is_out_of_sample", bool(eval_results.get("validation_rounds")))
         val_status = "WEEKEND_ONLY_ML" if weekend_only else eval_results.get("validation_status", "CHRONOLOGICAL_WALK_FORWARD" if is_oos else "UNAVAILABLE")
@@ -1075,7 +1087,7 @@ class RacePredictionPipeline:
 
         # Walk-forward validation over prior rounds (Rounds 4 .. target_round - 1)
         val_rounds = [r for r in train_rounds if r >= 4]
-        rf_res, xgb_res, actuals = [], [], []
+        rf_res, xgb_res, ridge_res, actuals = [], [], [], []
 
         for r in val_rounds:
             tr = train_features[train_features["Round"] < r]
@@ -1104,20 +1116,24 @@ class RacePredictionPipeline:
             model_xgb.fit(X_tr, y_tr)
             p_xgb = model_xgb.predict(X_te)
 
+            ridge_fold = self.model_trainer.fit_ridge(X_tr, y_tr)
+            p_ridge = ridge_fold.predict(X_te)
+
             rf_res.extend(p_rf)
             xgb_res.extend(p_xgb)
+            ridge_res.extend(p_ridge)
             actuals.extend(y_te)
 
         if val_rounds and len(actuals) > 0:
             actuals_arr = np.array(actuals)
-            ens_arr = 0.60 * np.array(rf_res) + 0.40 * np.array(xgb_res)
+            ens_arr = 0.40 * np.array(rf_res) + 0.30 * np.array(xgb_res) + 0.30 * np.array(ridge_res)
             mae = float(mean_absolute_error(actuals_arr, ens_arr))
             residuals = actuals_arr - ens_arr
             sigma = float(median_abs_deviation(residuals) * 1.4826)
             corr, _ = spearmanr(actuals_arr, ens_arr)
         else:
             # Early season (Rounds 2-4): Fewer than 4 completed rounds, so walk-forward splits are unavailable.
-            # Fit and evaluate models on all available training rounds using architectural default weights (60% RF / 40% XGB).
+            # Fit and evaluate models on all available training rounds using validated 3-way weights (40% RF / 30% XGB / 30% Ridge).
             imp_eval = create_feature_imputer(strategy="median")
             X_tr_eval = imp_eval.fit_transform(train_features[quali_feature_cols])
             y_tr_eval = train_features["TargetQualifyingPosition"].values
@@ -1133,7 +1149,10 @@ class RacePredictionPipeline:
             model_xgb_eval.fit(X_tr_eval, y_tr_eval)
             p_xgb_eval = model_xgb_eval.predict(X_tr_eval)
 
-            ens_eval = 0.60 * p_rf_eval + 0.40 * p_xgb_eval
+            ridge_eval = self.model_trainer.fit_ridge(X_tr_eval, y_tr_eval)
+            p_ridge_eval = ridge_eval.predict(X_tr_eval)
+
+            ens_eval = 0.40 * p_rf_eval + 0.30 * p_xgb_eval + 0.30 * p_ridge_eval
             mae = float(mean_absolute_error(y_tr_eval, ens_eval))
             residuals = y_tr_eval - ens_eval
             mad_sigma = float(median_abs_deviation(residuals) * 1.4826)
@@ -1163,7 +1182,11 @@ class RacePredictionPipeline:
         xgb_final.fit(X_tr_full, y_tr_full)
         p_xgb_final = xgb_final.predict(X_tgt)
 
-        scores = 0.60 * p_rf_final + 0.40 * p_xgb_final
+        ridge_final = self.model_trainer.fit_ridge(X_tr_full, y_tr_full)
+        p_ridge_final = ridge_final.predict(X_tgt)
+
+        scores = 0.40 * p_rf_final + 0.30 * p_xgb_final + 0.30 * p_ridge_final
+        logger.info("Qualifying ensemble weights: 40% RF / 30% XGB / 30% Ridge")
 
         # Monte Carlo Simulation (25,000 iterations)
         rng = np.random.default_rng(42)

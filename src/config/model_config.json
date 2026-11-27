@@ -22,6 +22,7 @@
   "blending": {
     "ml_weight": 0.65,
     "grid_weight": 0.35,
+    "provisional_grid_discount": 0.5,
     "circuit_aware": true,
     "circuit_weights": {
       "street": {

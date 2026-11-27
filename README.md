@@ -7,17 +7,17 @@
 [![PyPI Version](https://img.shields.io/pypi/v/apexgrid.svg?color=blue)](https://pypi.org/project/apexgrid/)
 [![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-183%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-197%20passed-brightgreen.svg)](tests/)
 
 </div>
 
 ---
 
-ApexGrid forecasts finishing positions, win probabilities, and podium chances across all 23 Formula 1 championship rounds. It ingests practice and qualifying telemetry via FastF1 and OpenF1, builds 25+ race-pace and degradation features, blends a 3-way ML ensemble (Random Forest, XGBoost, Ridge), and runs 25,000 Monte Carlo race simulations under strict stage-gated temporal cutoffs.
+ApexGrid forecasts finishing positions, win probabilities, and podium chances across all 23 Formula 1 championship rounds. It ingests practice and qualifying telemetry via FastF1 and OpenF1, builds 40 configured race-pace and degradation features (stage-gated from 15 at `pre_fp1` up to 40 at `after_qualifying`), blends a 3-way ML ensemble (Random Forest, XGBoost, Ridge), and runs 25,000 Monte Carlo race simulations under strict stage-gated temporal cutoffs.
 
 ```
 FastF1 / OpenF1 ──► Feature Engineering ──► ML Ensemble ──► 25,000 Monte Carlo ──► Predictions
-  (FP1–Quali)         (25+ features)       (RF+XGB+Ridge)    (DNF, SC, weather)     (Win%, Podium%, EF)
+  (FP1–Quali)       (40 features, gated)   (RF+XGB+Ridge)    (DNF, SC, weather)     (Win%, Podium%, EF)
 ```
 
 ---
@@ -158,7 +158,7 @@ $$
 | Permanent | 0.35 | 0.65 | Spa, Monza, Silverstone |
 | Temporary | 0.45 | 0.55 | Melbourne, Montreal |
 
-Pre-qualifying runs mask grid data to `NaN`, using provisional ML qualifying forecasts (`~P1`, `~P2`) or disabling blending ($w_{\text{grid}} = 0$, $w_{\text{ml}} = 1$).
+Pre-qualifying runs mask grid data to `NaN` and apply a `0.5x` `provisional_grid_discount` to circuit grid weights when using `provisional_grid_position` (re-normalizing $w_{\text{ml}} = 1.0 - w_{\text{grid}}$, or disabling blending $w_{\text{grid}} = 0$, $w_{\text{ml}} = 1$ when no grid is available); verified pre-2018 starting grids use a `0.75 / 0.25` override.
 
 ### Residual-Calibrated Pace Volatility
 
@@ -168,13 +168,13 @@ $$
 \sigma = \max\!\left(1.5,\; 1.4826 \cdot \text{MAD}(\text{residuals})\right)
 $$
 
-Wet-weather draws scale volatility by `1.35×` and DNF hazard by `1.40×`.
+Sparse grids ($n < 20$) scale $\sigma$ proportionally down to a `1.20` floor, and constructors with $\ge 8$ out-of-fold residuals use shrunk team volatility $\text{clip}(0.70 \cdot \sigma_{\text{team}} + 0.30 \cdot \sigma_{\text{global}},\, 1.20,\, 1.5 \cdot \sigma_{\text{global}})$. Wet-weather draws scale volatility by `1.35×`, Safety Car probability by `1.40×`, and DNF hazard by `1.50×`.
 
 ### Decoupled Modeling & Ranking
 
 - **Two-Stage Separation:** Regressors train only on classified finishers; DNF hazards are sampled via binomial draws in Monte Carlo.
 - **EWMA Form:** Driver and constructor form uses $\alpha = 0.30$ exponential decay.
-- **Dual-View Output:** Podium banner sorts by `Win%` ↓, `Top3%` ↓, `ExpectedFinish` ↑; full table sorts by DNF-adjusted `ExpectedFinish` (`+1000.0` penalty for non-finishers).
+- **Dual-View Output:** Podium banner sorts by `Win%` ↓, `Top3%` ↓, `ExpectedFinish` ↑; full table sorts by DNF-adjusted `ExpectedFinish` (`+1000.0` penalty for non-finishers) alongside `ExpFinishClassified` (mean finish across non-DNF runs).
 - **Walk-Forward Guard:** Any failed validation fold transitions status to `BLOCKED` and clears residual arrays.
 
 </details>
@@ -185,19 +185,20 @@ Wet-weather draws scale volatility by `1.35×` and DNF hazard by `1.40×`.
 
 | File | Purpose |
 |------|---------|
-| [`config/model_config.json`](config/model_config.json) | Ensemble weights, hyperparameters, feature sets, topology blending |
-| [`config/tracks.json`](config/tracks.json) | 23 championship circuits, lengths, types, calendar rounds |
-| [`config/strategy_config.json`](config/strategy_config.json) | Tire compounds, pit loss times, 15 circuit strategy priors |
-| [`config/settings.json`](config/settings.json) | Cache paths, logging, output directories |
+| [`src/config/model_config.json`](src/config/model_config.json) | Ensemble weights, hyperparameters, feature sets, topology blending |
+| [`src/config/tracks.json`](src/config/tracks.json) | 23 championship circuits, lengths, types, calendar rounds |
+| [`src/config/strategy_config.json`](src/config/strategy_config.json) | Tire compounds, pit loss times, 23 circuit strategy priors |
+| [`src/config/settings.json`](src/config/settings.json) | Cache paths, logging, output directories |
 
 ---
 
 ## Testing
 
-**183 tests** across 21 modules:
+**197 tests** across `23 test_*.py` files (`194` fast tests + `3` `@pytest.mark.slow` tests):
 
 ```bash
-pytest -q
+pytest -m "not slow" -q   # fast inner-loop suite
+pytest -q                 # full suite
 pytest tests/test_walk_forward.py
 pytest tests/test_core_features.py
 pytest tests/test_dynamic_roster.py

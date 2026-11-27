@@ -100,7 +100,7 @@ def cmd_predict(
     year: Optional[int] = typer.Option(None, "--year", "-y", help="Championship season year (defaults to current season)"),
     round_num: Optional[int] = typer.Option(None, "--round", "-r", help="Championship round number"),
     stage: str = typer.Option("after_qualifying", "--stage", "-s", help="Prediction timeline stage cutoff"),
-    model: str = typer.Option("hybrid", "--model", "-m", help="Prediction model: 'rf', 'xgb', 'ridge', 'hybrid', 'ensemble'/'multi', 'weekend_only'"),
+    model: str = typer.Option("ensemble", "--model", "-m", help="Prediction model: 'rf', 'xgb', 'ridge', 'hybrid', 'ensemble'/'multi', 'weekend_only'"),
     rf_weight: Optional[float] = typer.Option(None, "--rf-weight", help="Custom Random Forest weight percentage (0-100)"),
     xgb_weight: Optional[float] = typer.Option(None, "--xgb-weight", help="Custom XGBoost weight percentage (0-100)"),
     enhanced: bool = typer.Option(False, "--enhanced", help="Enable 5 ML Enhancements (Pace, Tires, Pit Strategy, Safety Car, Weather)"),

@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Dict, Any, List
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
-CONFIG_DIR = ROOT_DIR / "config"
+CONFIG_DIR = ROOT_DIR / "src" / "config"
 DATA_DIR = ROOT_DIR / "data" / "raw"
 OUTPUTS_DIR = ROOT_DIR / "outputs"
 REPORTS_DIR = ROOT_DIR / "reports" / "experiments" / "model_benchmark"

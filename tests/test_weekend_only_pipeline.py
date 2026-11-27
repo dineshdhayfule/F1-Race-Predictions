@@ -185,6 +185,7 @@ def test_monte_carlo_deterministic_seed_with_analytical_score(sample_target_df):
     assert (res1["PredictedPosition"].values == res2["PredictedPosition"].values).all()
 
 
+@pytest.mark.slow
 def test_race_prediction_pipeline_weekend_only_execution(tmp_path):
     """Pipeline runs successfully with weekend_only=True using pure ML ensemble."""
     pipeline = RacePredictionPipeline(root_dir=Path("."))
@@ -211,6 +212,7 @@ def test_race_prediction_pipeline_weekend_only_execution(tmp_path):
     assert results["simulation_meta"]["calibrated_sigma"] == 2.55
 
 
+@pytest.mark.slow
 def test_race_prediction_pipeline_stage_adaptive_sigma():
     """Pipeline uses stage-adaptive sigma across stages in weekend_only mode."""
     pipeline = RacePredictionPipeline(root_dir=Path("."))

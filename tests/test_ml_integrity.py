@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def _config():
-    return json.loads((ROOT / "config" / "model_config.json").read_text(encoding="utf-8"))
+    return json.loads((ROOT / "src" / "config" / "model_config.json").read_text(encoding="utf-8"))
 
 
 def _synthetic(config):
