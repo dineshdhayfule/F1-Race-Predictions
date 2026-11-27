@@ -313,6 +313,7 @@ def prompt_int(
     max_val: Optional[int] = None,
     default: Optional[int] = None,
     allowed_values: Optional[List[int]] = None,
+    allow_zero_back: bool = False,
 ) -> Optional[int]:
     """Prompts the user for an integer within an optional range or explicit allowed values."""
     range_hint = ""
@@ -345,6 +346,8 @@ def prompt_int(
 
         try:
             val = int(raw)
+            if allow_zero_back and val == 0:
+                return 0
             if allowed_values is not None and val not in allowed_values:
                 print_warning(f"Value must be one of: {sorted(allowed_values)}.")
                 continue

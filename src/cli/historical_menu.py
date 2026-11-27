@@ -489,19 +489,19 @@ class HistoricalStatsMenu:
 
         while True:
             print_header("Checkered Flag & Session Results", f"Official Finishing Classifications (1950–{max_year})")
+            print("  0. Back\n")
             year = prompt_int(
-                f"Enter Season Year (1950–{max_year}, 0 to Back)",
-                min_val=0,
+                "Enter Season Year",
+                min_val=1950,
                 max_val=max_year,
                 default=max_year - 1,
+                allow_zero_back=True,
             )
             if year is None or year == 0:
                 return
-            if year < 1950:
-                print_warning("Please enter a valid championship year (1950 or later).")
-                continue
 
-            round_num = prompt_int("Enter Round Number (0 to Back)", min_val=0, max_val=30, default=1)
+            print("  0. Back\n")
+            round_num = prompt_int("Enter Round Number", min_val=1, max_val=30, default=1, allow_zero_back=True)
             if round_num is None or round_num == 0:
                 continue
 

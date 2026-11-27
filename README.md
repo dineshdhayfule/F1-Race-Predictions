@@ -59,7 +59,7 @@ pip install apexgrid
 Upgrade to the latest release:
 
 ```bash
-pip install --upgrade apexgrid
+pip install --upgrade --no-cache-dir apexgrid
 ```
 
 Launch ApexGrid:

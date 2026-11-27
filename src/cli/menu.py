@@ -495,7 +495,8 @@ class InteractiveMenu:
                 clear_screen()
                 print_banner(season=default, status_text="Prediction Wizard")
                 print_header("Step 1: Select Season & Championship Year")
-                year = prompt_int("Enter Season Year (0 to Back)", min_val=0, max_val=default, default=default)
+                print("  0. Back\n")
+                year = prompt_int("Enter Season Year", min_val=1950, max_val=default, default=default, allow_zero_back=True)
                 if year is None or year == 0:
                     return
                 if year < 1950:
@@ -541,8 +542,9 @@ class InteractiveMenu:
                         default_choice = str(idx)
 
                 print_table(["#", "Round", "Grand Prix", "Country", "Format", "Circuit Key"], rows)
+                print("  0. Back\n")
 
-                selected_input = prompt_choice("Select Grand Prix (# or key, 0 to Back)", list(key_map.keys()) + ["0"], default=default_choice)
+                selected_input = prompt_choice("Select Grand Prix (# or key)", list(key_map.keys()) + ["0"], default=default_choice)
                 if selected_input == "0":
                     step = 1
                     continue
@@ -1124,16 +1126,24 @@ class InteractiveMenu:
         stage = results["stage"]
 
         n_drivers = len(results.get("predictions", []))
+        eval_report_path = out_dir / f"{track_key}_{year}_post_race_evaluation.md"
         while True:
+            has_eval = eval_report_path.is_file()
             print(f"{Colors.BOLD}Post-Prediction Options:{Colors.RESET}")
             print(f"  1. View full prediction table (All {n_drivers} drivers)")
             print("  2. View Top 3 Race Report")
             print("  3. View Top 10 Race Report")
             print("  4. View full Markdown summary report")
-            print("  5. View Post-Race Evaluation Report (if available)")
+            if has_eval:
+                print("  5. View Post-Race Evaluation Report")
+                print("  6. Compare Predicted Grid vs Actual Grid & Finish")
+                valid_choices = ["1", "2", "3", "4", "5", "6", "0"]
+            else:
+                print("  5. Compare Predicted Grid vs Actual Grid & Finish")
+                valid_choices = ["1", "2", "3", "4", "5", "0"]
             print("  0. Return to Main Menu\n")
 
-            choice = prompt_choice("Select option", ["1", "2", "3", "4", "5", "0"], default="0")
+            choice = prompt_choice("Select option", valid_choices, default="0")
             if choice == "0":
                 break
             elif choice == "1":
@@ -1146,8 +1156,170 @@ class InteractiveMenu:
                 p = out_dir / f"{track_key}_{year}_{stage}_report.md"
                 self._view_markdown_file(p)
             elif choice == "5":
-                p = out_dir / f"{track_key}_{year}_post_race_evaluation.md"
-                self._view_markdown_file(p)
+                if has_eval:
+                    self._view_markdown_file(eval_report_path)
+                else:
+                    self._show_grid_comparison(results)
+            elif choice == "6":
+                self._show_grid_comparison(results)
+
+    def _show_grid_comparison(self, results: Dict[str, Any]) -> None:
+        """Displays driver-by-driver Predicted vs Actual Grid and Race Finish comparison."""
+        df_pred = results.get("predictions")
+        if df_pred is None or len(df_pred) == 0:
+            print_warning("Prediction data is unavailable.")
+            return
+
+        actual_df = results.get("actual_race_df")
+        if actual_df is None or (isinstance(actual_df, pd.DataFrame) and actual_df.empty):
+            actual_df = self.loader.load_target_race(
+                results["track_key"],
+                results["year"],
+                historical_tracks=self.tracks_cfg,
+            )
+
+        if actual_df is None or actual_df.empty:
+            print_warning("Actual race results are not available for this Grand Prix yet.")
+            return
+
+        act_lookup: Dict[str, pd.Series] = {}
+        for _, arow in actual_df.iterrows():
+            abbr = str(arow.get("Abbreviation", "")).strip().upper()
+            if abbr:
+                act_lookup[abbr] = arow
+
+        grid_df = results.get("starting_grid_df")
+        if grid_df is None or (isinstance(grid_df, pd.DataFrame) and grid_df.empty):
+            try:
+                grid_df, _ = self.loader.load_starting_grid(
+                    results["track_key"],
+                    results["year"],
+                    stage="after_qualifying",
+                )
+            except Exception:
+                grid_df = None
+
+        grid_lookup: Dict[str, pd.Series] = {}
+        if grid_df is not None and not grid_df.empty:
+            for _, grow in grid_df.iterrows():
+                abbr = str(grow.get("Abbreviation", "")).strip().upper()
+                if abbr:
+                    grid_lookup[abbr] = grow
+
+        pos_col = "Position" if "Position" in actual_df.columns else "ActualFinish"
+
+        def _parse_pos(val: Any) -> Optional[int]:
+            num = pd.to_numeric(val, errors="coerce")
+            if pd.notna(num) and np.isfinite(num) and num > 0:
+                return int(round(float(num)))
+            return None
+
+        def _fmt_delta(pred_v: Optional[int], act_v: Optional[int]) -> str:
+            if pred_v is None or act_v is None:
+                return "-"
+            diff = act_v - pred_v
+            return "0" if diff == 0 else f"{diff:+d}"
+
+        track_name = results.get("track_name", results.get("track_key", ""))
+        year = results.get("year", "")
+        stage = str(results.get("stage", "")).upper()
+        print_header(f"PREDICTED VS ACTUAL GRID & FINISH: {str(track_name).upper()} {year} [{stage}]")
+
+        headers = ["Actual Finish", "Driver", "Team", "Actual Grid", "Pred Finish", "Track +/-", "Pred Error"]
+        sortable_rows = []
+        exact_finish_matches = 0
+        finish_abs_errors = []
+
+        for _, r in df_pred.iterrows():
+            abbr = str(r.get("Abbreviation", "")).strip().upper()
+            team = str(r.get("TeamName", ""))[:20]
+            pred_pos = _parse_pos(r.get("PredictedPosition"))
+            pred_finish_str = f"P{pred_pos}" if pred_pos is not None else "-"
+
+            arow = act_lookup.get(abbr)
+            act_grid_num = None
+            act_finish_num = None
+            act_grid_str = "-"
+            act_finish_str = "-"
+            if arow is not None:
+                raw_ag = arow.get("GridPosition")
+                act_grid_num = _parse_pos(raw_ag)
+                if act_grid_num is not None:
+                    act_grid_str = f"P{act_grid_num}"
+                elif pd.notna(raw_ag) and str(raw_ag).strip() in {"0", "0.0"}:
+                    act_grid_str = "PIT"
+
+                raw_af = arow.get(pos_col)
+                act_finish_num = _parse_pos(raw_af)
+                if act_finish_num is not None:
+                    act_finish_str = f"P{act_finish_num}"
+                elif pd.notna(raw_af) and str(raw_af).strip():
+                    raw_af_s = str(raw_af).strip()
+                    act_finish_str = "DNF" if raw_af_s.upper() in {"R", "RET", "DNF"} else raw_af_s
+                elif pd.notna(arow.get("Status")) and str(arow.get("Status")).strip():
+                    act_finish_str = "DNF"
+
+            if act_grid_str == "-":
+                grow = grid_lookup.get(abbr)
+                if grow is not None:
+                    raw_g_pit = grow.get("is_pit_lane_start", 0)
+                    if pd.notna(raw_g_pit) and int(round(float(raw_g_pit))) == 1:
+                        act_grid_str = "PIT"
+                    else:
+                        act_grid_num = _parse_pos(grow.get("ActualStartingGrid")) or _parse_pos(grow.get("simulation_start_rank"))
+                        if act_grid_num is not None:
+                            act_grid_str = f"P{act_grid_num}"
+
+            if act_grid_num is not None and act_finish_num is not None:
+                track_delta = act_grid_num - act_finish_num
+                track_delta_str = f"+{track_delta}" if track_delta > 0 else ("0" if track_delta == 0 else str(track_delta))
+            else:
+                track_delta_str = "-"
+
+            if pred_pos is not None and act_finish_num is not None:
+                pred_error = abs(act_finish_num - pred_pos)
+                pred_error_str = str(pred_error)
+                if pred_error == 0:
+                    exact_finish_matches += 1
+                finish_abs_errors.append(pred_error)
+            else:
+                pred_error_str = "-"
+
+            sort_key = (
+                0 if act_finish_num is not None else 1,
+                act_finish_num if act_finish_num is not None else 999,
+                pred_pos if pred_pos is not None else 999,
+                abbr,
+            )
+            sortable_rows.append((
+                sort_key,
+                [
+                    act_finish_str,
+                    abbr,
+                    team,
+                    act_grid_str,
+                    pred_finish_str,
+                    track_delta_str,
+                    pred_error_str,
+                ],
+            ))
+
+        sortable_rows.sort(key=lambda item: item[0])
+        rows = [item[1] for item in sortable_rows]
+
+        align_right = [True, False, False, True, True, True, True]
+        print_table(headers, rows, align_right=align_right)
+
+        if finish_abs_errors:
+            mean_finish_err = sum(finish_abs_errors) / len(finish_abs_errors)
+            print(
+                f" Summary: {Colors.BOLD}{exact_finish_matches}/{len(finish_abs_errors)}{Colors.RESET} exact finish matches | "
+                f"Mean Absolute Finish Error: {Colors.BOLD}{mean_finish_err:.2f}{Colors.RESET} places\n"
+            )
+        else:
+            print(" Summary: Classified finish positions unavailable for error calculation.\n")
+
+        prompt_str("Press [Enter] to return to options", allow_empty=True)
 
     def _view_markdown_file(self, path: Path) -> None:
         if not path.exists():
@@ -1375,7 +1547,7 @@ class InteractiveMenu:
         print("\n  0. Return to menu\n")
 
         selection_str = prompt_str(
-            "Select circuit numbers separated by space (e.g. '1 3 5', or 'all'), or enter 0 to return",
+            "Select circuit numbers separated by space (e.g. '1 3 5', or 'all')",
             default="0"
         )
         if selection_str.strip() == "0":
