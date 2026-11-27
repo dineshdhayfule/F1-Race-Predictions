@@ -14,16 +14,16 @@ import pytest
 import pandas as pd
 from unittest.mock import MagicMock, patch
 
-from src.historical.models import RaceResultEntry, SprintResultEntry, QualifyingResultEntry
-from src.historical.api_client import HistoricalAPIClient
-from src.historical.analytics import (
+from apexgrid.historical.models import RaceResultEntry, SprintResultEntry, QualifyingResultEntry
+from apexgrid.historical.api_client import HistoricalAPIClient
+from apexgrid.historical.analytics import (
     SessionResultsService,
     DominanceAnalyticsService,
     AllTimeRecordsService,
     ReliabilityAnalyticsService,
     EraAnalyticsService,
 )
-from src.cli.historical_menu import HistoricalStatsMenu
+from apexgrid.cli.historical_menu import HistoricalStatsMenu
 
 
 def test_session_results_service_practice_classification():

@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 
-from src.features.race_pace import build_race_pace_features
-from src.features.tire_degradation import estimate_stint_degradation_slope
-from src.simulation.strategy_simulator import PitStrategySimulator
+from apexgrid.features.race_pace import build_race_pace_features
+from apexgrid.features.tire_degradation import estimate_stint_degradation_slope
+from apexgrid.simulation.strategy_simulator import PitStrategySimulator
 
 
 def test_missing_race_pace_driver_keeps_rank_22():

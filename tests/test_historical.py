@@ -1,9 +1,9 @@
 from datetime import datetime, timezone
 
-from src.historical.in_memory_cache import InMemoryTTLCache
-from src.historical.events_service import HistoricalEventsService
-from src.historical.models import interpret_grid_position
-from src.historical.classification_service import HistoricalClassificationService
+from apexgrid.historical.in_memory_cache import InMemoryTTLCache
+from apexgrid.historical.events_service import HistoricalEventsService
+from apexgrid.historical.models import interpret_grid_position
+from apexgrid.historical.classification_service import HistoricalClassificationService
 
 
 def test_historical_api_cache_is_process_scoped():

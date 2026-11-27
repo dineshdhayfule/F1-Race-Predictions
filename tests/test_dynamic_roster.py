@@ -2,8 +2,8 @@ import logging
 
 import pandas as pd
 
-from src.data.roster_resolver import RosterResolver
-from src.features.build_features import FeatureEngineer
+from apexgrid.data.roster_resolver import RosterResolver
+from apexgrid.features.build_features import FeatureEngineer
 
 
 def test_previous_race_dns_repairs_team_slot():

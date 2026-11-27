@@ -2,8 +2,8 @@ from datetime import datetime, timedelta, timezone
 
 import pandas as pd
 
-from src.data.collect_season import detect_event_format_and_sessions, get_allowed_stage_sessions
-from src.data.collect_track import collect_track_data
+from apexgrid.data.collect_season import detect_event_format_and_sessions, get_allowed_stage_sessions
+from apexgrid.data.collect_track import collect_track_data
 
 
 def _standard_row():
@@ -86,8 +86,8 @@ def test_stage_aliases_are_normalized():
 
 
 def test_track_collector_delegates_stage_and_mode(monkeypatch):
-    import src.data.collect_track as track_module
-    import src.data.collect_season as season_module
+    import apexgrid.data.collect_track as track_module
+    import apexgrid.data.collect_season as season_module
     captured = {}
 
     def fake_collect_grand_prix(**kwargs):
@@ -106,7 +106,7 @@ def test_track_collector_delegates_stage_and_mode(monkeypatch):
 
 
 def test_future_schedule_is_detected_before_download():
-    from src.data.collect_season import resolve_session_scheduled_time
+    from apexgrid.data.collect_season import resolve_session_scheduled_time
     event_row = pd.Series({
         "Session1DateUtc": "2099-05-15 10:00:00",
         "Session1": "Practice 1",

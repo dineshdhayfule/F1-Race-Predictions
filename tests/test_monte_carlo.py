@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.simulation.monte_carlo import MonteCarloSimulator
+from apexgrid.simulation.monte_carlo import MonteCarloSimulator
 
 
 def _config():

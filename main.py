@@ -26,8 +26,11 @@ import sys
 from pathlib import Path
 import pandas as pd
 
-# Add project root to sys.path
+# Add src directory to sys.path for apexgrid package resolution
 ROOT = Path(__file__).resolve().parent
+SRC_ROOT = ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
@@ -41,14 +44,14 @@ try:
 except Exception:
     pass
 
-from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
-from src.data.data_loader import DataLoader
-from src.data.data_validator import DataValidator
-from src.features.build_features import FeatureEngineer
-from src.features.grid_features import format_grid_provenance_display
-from src.models.evaluate import ModelEvaluator
-from src.utils.logging_utils import get_logger
-from src.utils.season_utils import MissingSessionTelemetryError, get_active_season
+from apexgrid.pipeline.race_prediction_pipeline import RacePredictionPipeline
+from apexgrid.data.data_loader import DataLoader
+from apexgrid.data.data_validator import DataValidator
+from apexgrid.features.build_features import FeatureEngineer
+from apexgrid.features.grid_features import format_grid_provenance_display
+from apexgrid.models.evaluate import ModelEvaluator
+from apexgrid.utils.logging_utils import get_logger
+from apexgrid.utils.season_utils import MissingSessionTelemetryError, get_active_season
 
 logger = get_logger("main_cli")
 
@@ -103,7 +106,7 @@ def cmd_predict(args, parser=None):
     custom_xgb = xgb_w_arg
 
     if model_raw == "__interactive__":
-        from src.cli.menu import prompt_model_selection
+        from apexgrid.cli.menu import prompt_model_selection
         model_choice, custom_rf, custom_xgb = prompt_model_selection()
     else:
         model_choice = model_raw
@@ -277,7 +280,7 @@ def cmd_evaluate(args):
     if target_round is None:
         target_round = track_info.get(f"round_{args.year}") or track_info.get("round")
     if target_round is None:
-        from src.data.calendar_service import CalendarService
+        from apexgrid.data.calendar_service import CalendarService
         ev = CalendarService(root_dir=ROOT).get_event_by_circuit(args.year, track_key)
         if ev is not None:
             target_round = ev.round_number
@@ -334,7 +337,7 @@ def cmd_validate(args):
     if target_round is None:
         target_round = track_info.get(f"round_{args.year}") or track_info.get("round")
     if target_round is None:
-        from src.data.calendar_service import CalendarService
+        from apexgrid.data.calendar_service import CalendarService
         ev = CalendarService(root_dir=ROOT).get_event_by_circuit(args.year, track_key)
         if ev is not None:
             target_round = ev.round_number
@@ -411,7 +414,7 @@ def cmd_validate(args):
 
 def cmd_collect_season(args):
     """Executes full season session data collection."""
-    from src.data.collect_season import collect_season_data
+    from apexgrid.data.collect_season import collect_season_data
     session_mode = getattr(args, "session_mode", None)
     if not session_mode:
         session_mode = "full" if getattr(args, "include_practice", False) else "prediction_only"
@@ -430,7 +433,7 @@ def cmd_collect(args):
     if not session_mode:
         session_mode = "full" if getattr(args, "include_practice", False) else "prediction_only"
     if args.track:
-        from src.data.collect_season import collect_grand_prix
+        from apexgrid.data.collect_season import collect_grand_prix
         collect_grand_prix(
             track_id=args.track,
             year=args.year,
@@ -439,7 +442,7 @@ def cmd_collect(args):
             session_mode=session_mode,
         )
     else:
-        from src.data.collect_season import collect_season_data
+        from apexgrid.data.collect_season import collect_season_data
         collect_season_data(
             year=args.year,
             rounds=getattr(args, "rounds", None),
@@ -451,7 +454,7 @@ def cmd_collect(args):
 
 def cmd_clean(args, parser=None):
     """Safely manages and selectively deletes project-generated data."""
-    from src.data.data_manager import DataManager
+    from apexgrid.data.data_manager import DataManager
 
     dm = DataManager(root_dir=ROOT)
 
@@ -817,7 +820,7 @@ def main():
     args = parser.parse_args()
 
     if args.command is None or args.command == "menu":
-        from src.cli.menu import InteractiveMenu
+        from apexgrid.cli.menu import InteractiveMenu
         menu = InteractiveMenu(root_dir=ROOT)
         try:
             menu.run()
@@ -836,7 +839,7 @@ def main():
     elif args.command == "clean":
         cmd_clean(args, clean_parser)
     elif args.command in ("history", "historical"):
-        from src.cli.historical_menu import HistoricalStatsMenu
+        from apexgrid.cli.historical_menu import HistoricalStatsMenu
         hist_menu = HistoricalStatsMenu()
         hist_menu.run()
 

@@ -1,6 +1,6 @@
 from typer.testing import CliRunner
 
-from src.cli.typer_app import app
+from apexgrid.cli.typer_app import app
 
 
 runner = CliRunner()
@@ -56,14 +56,14 @@ def test_invalid_model_is_rejected():
 
 def test_default_menu_route():
     from unittest.mock import patch
-    with patch("src.cli.menu.InteractiveMenu.run", return_value=None) as mock_run:
+    with patch("apexgrid.cli.menu.InteractiveMenu.run", return_value=None) as mock_run:
         result = runner.invoke(app, [])
         assert result.exit_code == 0
         assert mock_run.call_count == 1
 
 
 def test_predict_stage_before_race_readiness(tmp_path):
-    from src.cli.menu import InteractiveMenu
+    from apexgrid.cli.menu import InteractiveMenu
     menu = InteractiveMenu(root_dir=tmp_path)
     ready, details = menu._audit_prediction_readiness(
         track_key="melbourne",

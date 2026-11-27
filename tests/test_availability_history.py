@@ -2,11 +2,11 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from src.data.season_discovery import SeasonDiscovery
+from apexgrid.data.season_discovery import SeasonDiscovery
 
 
 def test_exact_session_validation_states_are_distinct():
-    from src.data.session_validation import validate_session_dataframe
+    from apexgrid.data.session_validation import validate_session_dataframe
     valid = pd.DataFrame({
         "Abbreviation": ["VER"],
         "LapNumber": [1],
@@ -23,7 +23,7 @@ def test_missing_fastf1_cache_is_not_exported_dataset(tmp_path):
 
 
 def test_session_date_future_is_future(tmp_path):
-    from src.cli.menu import InteractiveMenu
+    from apexgrid.cli.menu import InteractiveMenu
     menu = InteractiveMenu(root_dir=tmp_path)
     status = menu._check_session_dataset_availability(
         year=2099,
@@ -62,14 +62,14 @@ def test_historical_readiness_accepts_completed_race_and_qualifying(tmp_path):
 
 
 def test_calendar_fallback_does_not_invent_sessions(tmp_path):
-    from src.cli.menu import InteractiveMenu
+    from apexgrid.cli.menu import InteractiveMenu
     menu = InteractiveMenu(root_dir=tmp_path)
     fallback = getattr(menu, "_get_calendar_events_for_year", lambda _year: [])(2027)
     assert fallback == []
 
 
 def test_unknown_is_used_when_dates_cannot_be_established(tmp_path):
-    from src.cli.menu import InteractiveMenu
+    from apexgrid.cli.menu import InteractiveMenu
     menu = InteractiveMenu(root_dir=tmp_path)
     status = menu._check_session_dataset_availability(
         year=2099,
@@ -85,7 +85,7 @@ def test_unknown_is_used_when_dates_cannot_be_established(tmp_path):
 
 
 def test_validate_session_csv_lifecycle(tmp_path):
-    from src.data.session_validation import validate_session_csv
+    from apexgrid.data.session_validation import validate_session_csv
 
     # 1. Missing file
     missing_file = tmp_path / "missing.csv"

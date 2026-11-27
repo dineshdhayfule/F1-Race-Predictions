@@ -13,13 +13,13 @@ import pandas as pd
 import pytest
 from pathlib import Path
 
-from src.simulation.monte_carlo import MonteCarloSimulator
-from src.simulation.strategy_simulator import PitStrategySimulator
-from src.models.predict import Predictor
-from src.features.build_features import apply_stage_feature_mask, FeatureEngineer
-from src.data.roster_resolver import RosterResolver
-from src.models.evaluate import ModelEvaluator
-from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
+from apexgrid.simulation.monte_carlo import MonteCarloSimulator
+from apexgrid.simulation.strategy_simulator import PitStrategySimulator
+from apexgrid.models.predict import Predictor
+from apexgrid.features.build_features import apply_stage_feature_mask, FeatureEngineer
+from apexgrid.data.roster_resolver import RosterResolver
+from apexgrid.models.evaluate import ModelEvaluator
+from apexgrid.pipeline.race_prediction_pipeline import RacePredictionPipeline
 
 
 # =====================================================================

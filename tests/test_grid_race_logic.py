@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 
-from src.features.grid_conversion import compute_grid_conversion_map
-from src.features.grid_features import apply_grid_penalties
-from src.features.season_features import classify_race_status, is_dnf, is_classified_finish
-from src.simulation.monte_carlo import MonteCarloSimulator
+from apexgrid.features.grid_conversion import compute_grid_conversion_map
+from apexgrid.features.grid_features import apply_grid_penalties
+from apexgrid.features.season_features import classify_race_status, is_dnf, is_classified_finish
+from apexgrid.simulation.monte_carlo import MonteCarloSimulator
 
 
 def test_finished_status_is_classified():
@@ -91,7 +91,7 @@ def test_duplicate_grid_positions_are_rejected():
         {"Abbreviation": "NOR", "GridPosition": 1, "ActualStartingGrid": 1,
          "simulation_start_rank": 2, "is_pit_lane_start": 0},
     ])
-    from src.data.grid_retriever import StartingGridRetriever
+    from apexgrid.data.grid_retriever import StartingGridRetriever
     valid, error = StartingGridRetriever().validate_grid_dataframe(df)
     assert valid is False
     assert error
@@ -104,7 +104,7 @@ def test_duplicate_driver_entries_are_rejected():
         {"Abbreviation": "VER", "GridPosition": 2, "ActualStartingGrid": 2,
          "simulation_start_rank": 2, "is_pit_lane_start": 0},
     ])
-    from src.data.grid_retriever import StartingGridRetriever
+    from apexgrid.data.grid_retriever import StartingGridRetriever
     valid, error = StartingGridRetriever().validate_grid_dataframe(df)
     assert valid is False
     assert error

@@ -5,24 +5,24 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.data.session_validation import validate_session_dataframe
-from src.data.data_validator import DataValidator
-from src.features.build_features import (
+from apexgrid.data.session_validation import validate_session_dataframe
+from apexgrid.data.data_validator import DataValidator
+from apexgrid.features.build_features import (
     FeatureEngineer,
     apply_stage_feature_mask,
     get_effective_feature_columns,
 )
-from src.models.train import create_feature_imputer
-from src.models.train import ModelTrainer
-from src.models.predict import Predictor
-from src.models.evaluate import ModelEvaluator
+from apexgrid.models.train import create_feature_imputer
+from apexgrid.models.train import ModelTrainer
+from apexgrid.models.predict import Predictor
+from apexgrid.models.evaluate import ModelEvaluator
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def _load_config():
-    return json.loads((ROOT / "src" / "config" / "model_config.json").read_text(encoding="utf-8"))
+    return json.loads((ROOT / "src" / "apexgrid" / "config" / "model_config.json").read_text(encoding="utf-8"))
 
 
 def test_exact_40_feature_configuration():
@@ -134,7 +134,7 @@ def test_after_qualifying_reveals_grid_features():
 
 
 def test_supported_stage_contracts_reject_unknown_model_features():
-    from src.features.build_features import SUPPORTED_FEATURE_STAGES, validate_stage_feature_contract
+    from apexgrid.features.build_features import SUPPORTED_FEATURE_STAGES, validate_stage_feature_contract
 
     config = _load_config()
     assert set(SUPPORTED_FEATURE_STAGES) == {
@@ -147,7 +147,7 @@ def test_supported_stage_contracts_reject_unknown_model_features():
 
 
 def test_stage_contract_rejects_target_outcomes_before_post_race():
-    from src.features.build_features import validate_stage_feature_contract
+    from apexgrid.features.build_features import validate_stage_feature_contract
 
     with pytest.raises(ValueError, match="outcome features"):
         validate_stage_feature_contract(pd.DataFrame(), "before_race", ["ActualFinish"])

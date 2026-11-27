@@ -1,0 +1,790 @@
+"""
+Walk-Forward Model Evaluation Module
+====================================
+Performs chronological out-of-fold walk-forward validation across season rounds.
+Calculates MAE, RMSE, Spearman correlation, Top-K overlap, and calibration residuals.
+"""
+
+from typing import Dict, List, Tuple, Any, Optional
+import numpy as np
+import pandas as pd
+from scipy.stats import spearmanr
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import Ridge
+from sklearn.metrics import mean_absolute_error, mean_squared_error, median_absolute_error
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+import xgboost as xgb
+
+from apexgrid.features.build_features import PRE_QUALI_STAGES, apply_stage_feature_mask
+from apexgrid.models.train import create_feature_imputer, prepare_pace_training_rows
+from apexgrid.utils.logging_utils import get_logger
+
+logger = get_logger("model_evaluate")
+
+
+def top_k_overlap(pred_series: pd.Series, actual_series: pd.Series, k: int) -> float:
+    """Computes percentage overlap between predicted top-k and actual top-k drivers."""
+    pred_top = set(pred_series.nsmallest(k).index)
+    actual_top = set(actual_series.nsmallest(k).index)
+    return len(pred_top & actual_top) / float(k)
+
+
+class ModelEvaluator:
+    """Evaluates predictive models using chronological walk-forward cross-validation."""
+
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        self.feature_cols = config.get("features", config.get("feature_columns", []))
+        self.random_state = config.get("random_seed", 42)
+        self.val_cfg = config.get("validation", {})
+
+        self.min_train_rounds = self.val_cfg.get("min_train_rounds", 3)
+        self.model_cfg = config.get("models", {})
+        blend_cfg = config.get("blending", {})
+        ens_cfg = self.model_cfg.get("ensemble", {})
+        self.grid_weight = blend_cfg.get("grid_weight", ens_cfg.get("grid_weight", 0.35))
+        self.ml_weight = blend_cfg.get("ml_weight", ens_cfg.get("ml_weight", 0.65))
+        self.circuit_weights = blend_cfg.get("circuit_weights", {
+            "street": {"grid_weight": 0.50, "ml_weight": 0.50},
+            "permanent": {"grid_weight": 0.35, "ml_weight": 0.65},
+            "temporary": {"grid_weight": 0.45, "ml_weight": 0.55},
+            "default": {"grid_weight": 0.35, "ml_weight": 0.65}
+        })
+
+    def evaluate_walk_forward(
+        self,
+        training_df: pd.DataFrame,
+        stage: Optional[str] = None,
+        custom_weights: Optional[Tuple[float, float]] = None,
+        apply_grid_blending: bool = True,
+    ) -> Dict[str, Any]:
+        """
+        Executes chronological walk-forward validation.
+        For each round r (where r > min_train_rounds):
+          - Train on rounds < r
+          - Test on round r
+        If stage is an early pre-qualifying stage (e.g. pre_fp1..after_fp3),
+        Sunday starting-grid features are masked out in evaluation to prevent leakage.
+        """
+        rounds = sorted([int(r) for r in training_df["Round"].dropna().unique()]) if (training_df is not None and not training_df.empty and "Round" in training_df.columns) else []
+
+        if not rounds:
+            return {
+                "validation_rounds": [],
+                "requested_rounds": [],
+                "is_out_of_sample": False,
+                "validation_status": "UNAVAILABLE",
+                "validation_method": "none",
+                "sample_count": 0,
+                "failed_folds": [],
+                "completed_folds": [],
+                "diagnostic_message": "Insufficient history: training dataset is empty or contains no rounds.",
+                "ensemble_comparisons": [],
+                "best_w_rf": 0.40,
+                "best_w_xgb": 0.30,
+                "best_w_ridge": 0.30,
+                "best_model_name": "Unavailable",
+                "best_mae": None,
+                "selected_residuals": np.array([]),
+                "team_residuals": {},
+                "rf_residuals": np.array([]),
+                "xgb_residuals": np.array([]),
+                "ridge_residuals": np.array([]),
+                "multi_residuals": np.array([]),
+                "rf_mae": None,
+                "xgb_mae": None,
+                "ridge_mae": None,
+                "multi_mae": None,
+                "custom_mae": None,
+                "custom_residuals": None,
+                "empirical_dnf_rate": 0.158,
+                "grid_positions": np.array([]),
+                "round_predictions": {},
+                "actuals": np.array([]),
+            }
+
+        min_priors = self.min_train_rounds
+        val_rounds = [r for r in rounds if len([pr for pr in rounds if pr < r]) >= min_priors]
+
+        tested_weights = [
+            (1.0, 0.0, "100% RF"),
+            (0.75, 0.25, "75% RF / 25% XGB"),
+            (0.60, 0.40, "60% RF / 40% XGB"),
+            (0.50, 0.50, "50% RF / 50% XGB"),
+            (0.40, 0.60, "40% RF / 60% XGB"),
+            (0.25, 0.75, "25% RF / 75% XGB"),
+            (0.0, 1.0, "100% XGB"),
+        ]
+
+        custom_name = None
+        if custom_weights is not None:
+            c_w_rf, c_w_xgb = custom_weights
+            match_custom = next(
+                (tw[2] for tw in tested_weights if abs(tw[0] - c_w_rf) < 1e-4 and abs(tw[1] - c_w_xgb) < 1e-4),
+                None
+            )
+            if match_custom:
+                custom_name = match_custom
+            else:
+                rf_pct = int(round(c_w_rf * 100))
+                xgb_pct = int(round(c_w_xgb * 100))
+                custom_name = f"{rf_pct}% RF / {xgb_pct}% XGB"
+                tested_weights = list(tested_weights) + [(c_w_rf, c_w_xgb, custom_name)]
+
+        if not val_rounds:
+            logger.info(
+                f"No walk-forward validation rounds available ({len(rounds)} completed rounds <= min_train_rounds={self.min_train_rounds}). "
+                f"Evaluating in-sample on available training data."
+            )
+            train_copy = prepare_pace_training_rows(training_df.copy())
+            if train_copy.empty:
+                return {
+                    "validation_rounds": [],
+                    "requested_rounds": [],
+                    "is_out_of_sample": False,
+                    "validation_status": "BLOCKED",
+                    "validation_method": "none",
+                    "sample_count": 0,
+                    "failed_folds": [],
+                    "completed_folds": [],
+                    "diagnostic_message": "No classified-finisher rows are eligible for pace regression.",
+                    "ensemble_comparisons": [],
+                    "best_w_rf": 0.40,
+                    "best_w_xgb": 0.30,
+                    "best_w_ridge": 0.30,
+                    "best_model_name": "Unavailable",
+                    "best_mae": None,
+                    "selected_residuals": np.array([]),
+                    "team_residuals": {},
+                    "best_mae": None,
+                    "selected_residuals": np.array([]),
+                    "rf_residuals": np.array([]),
+                    "xgb_residuals": np.array([]),
+                    "ridge_residuals": np.array([]),
+                    "multi_residuals": np.array([]),
+                    "rf_mae": None,
+                    "xgb_mae": None,
+                    "ridge_mae": None,
+                    "multi_mae": None,
+                    "custom_mae": None,
+                    "custom_residuals": None,
+                    "empirical_dnf_rate": 0.158,
+                    "grid_positions": np.array([]),
+                    "round_predictions": {},
+                    "actuals": np.array([]),
+                }
+            if stage:
+                train_copy = apply_stage_feature_mask(train_copy, stage)
+            for col in self.feature_cols:
+                if col not in train_copy.columns:
+                    train_copy[col] = np.nan
+
+            imputer = create_feature_imputer(strategy="median")
+            X_all = imputer.fit_transform(train_copy[self.feature_cols])
+            y_all = train_copy["ActualFinish"].values
+
+            rf_cfg = self.model_cfg.get("random_forest", {})
+            rf = RandomForestRegressor(
+                n_estimators=rf_cfg.get("n_estimators", 500),
+                max_depth=rf_cfg.get("max_depth", 8),
+                min_samples_leaf=rf_cfg.get("min_samples_leaf", 2),
+                random_state=self.random_state,
+                n_jobs=-1,
+            )
+            rf.fit(X_all, y_all)
+            rf_pred = rf.predict(X_all)
+
+            xgb_cfg = self.model_cfg.get("xgboost", {})
+            model_xgb = xgb.XGBRegressor(
+                n_estimators=xgb_cfg.get("n_estimators", 300),
+                max_depth=xgb_cfg.get("max_depth", 4),
+                learning_rate=xgb_cfg.get("learning_rate", 0.03),
+                subsample=xgb_cfg.get("subsample", 0.8),
+                colsample_bytree=xgb_cfg.get("colsample_bytree", 0.8),
+                min_child_weight=xgb_cfg.get("min_child_weight", 1),
+                reg_alpha=xgb_cfg.get("reg_alpha", 0.0),
+                reg_lambda=xgb_cfg.get("reg_lambda", 1.0),
+                random_state=self.random_state,
+                objective="reg:squarederror",
+            )
+            model_xgb.fit(X_all, y_all)
+            xgb_pred = model_xgb.predict(X_all)
+
+            # Ridge Regression
+            ridge_cfg = self.model_cfg.get("ridge", {})
+            alpha = float(ridge_cfg.get("alpha", 100.0))
+            ridge = Pipeline([
+                ("scaler", StandardScaler()),
+                ("ridge", Ridge(alpha=alpha, random_state=self.random_state))
+            ])
+            ridge.fit(X_all, y_all)
+            ridge_pred = ridge.predict(X_all)
+
+            multi_pred = 0.40 * rf_pred + 0.30 * xgb_pred + 0.30 * ridge_pred
+
+            rf_residuals = list(y_all - rf_pred)
+            xgb_residuals = list(y_all - xgb_pred)
+            ridge_residuals = list(y_all - ridge_pred)
+            multi_residuals = list(y_all - multi_pred)
+
+            if "ActualStartingGrid" in train_copy.columns:
+                grid_series = pd.to_numeric(train_copy["ActualStartingGrid"], errors="coerce")
+            elif "GridPosition" in train_copy.columns:
+                grid_series = pd.to_numeric(train_copy["GridPosition"], errors="coerce")
+            else:
+                grid_series = pd.Series(12.0, index=train_copy.index)
+            round_grids = grid_series.fillna(12.0).values
+
+            ensemble_results = []
+            round_predictions = {}
+            for w_rf, w_xgb, name in tested_weights:
+                blend_pred = w_rf * rf_pred + w_xgb * xgb_pred
+                round_predictions[name] = list(blend_pred)
+                mae = float(mean_absolute_error(y_all, blend_pred))
+                medae = float(median_absolute_error(y_all, blend_pred))
+                rmse = float(np.sqrt(mean_squared_error(y_all, blend_pred)))
+                spearman_corr = float(spearmanr(y_all, blend_pred).statistic)
+                ensemble_results.append({
+                    "model_name": name,
+                    "rf_weight": w_rf,
+                    "xgb_weight": w_xgb,
+                    "mae": round(mae, 4),
+                    "medae": round(medae, 4),
+                    "rmse": round(rmse, 4),
+                    "spearman": round(spearman_corr, 4),
+                })
+
+            # Add Ridge and Multi-Model evaluations to in-sample ensemble_results
+            ridge_mae = float(mean_absolute_error(y_all, ridge_pred))
+            ridge_medae = float(median_absolute_error(y_all, ridge_pred))
+            ridge_rmse = float(np.sqrt(mean_squared_error(y_all, ridge_pred)))
+            ridge_spearman = float(spearmanr(y_all, ridge_pred).statistic)
+            ensemble_results.append({
+                "model_name": "100% Ridge",
+                "rf_weight": 0.0,
+                "xgb_weight": 0.0,
+                "ridge_weight": 1.0,
+                "mae": round(ridge_mae, 4),
+                "medae": round(ridge_medae, 4),
+                "rmse": round(ridge_rmse, 4),
+                "spearman": round(ridge_spearman, 4),
+            })
+
+            multi_mae = float(mean_absolute_error(y_all, multi_pred))
+            multi_medae = float(median_absolute_error(y_all, multi_pred))
+            multi_rmse = float(np.sqrt(mean_squared_error(y_all, multi_pred)))
+            multi_spearman = float(spearmanr(y_all, multi_pred).statistic)
+            ensemble_results.append({
+                "model_name": "Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)",
+                "rf_weight": 0.40,
+                "xgb_weight": 0.30,
+                "ridge_weight": 0.30,
+                "mae": round(multi_mae, 4),
+                "medae": round(multi_medae, 4),
+                "rmse": round(multi_rmse, 4),
+                "spearman": round(multi_spearman, 4),
+            })
+
+            sel_cfg = self.config.get("model_selection", {})
+            default_rf_w = float(sel_cfg.get("fixed_rf_weight", 0.40))
+            default_xgb_w = float(sel_cfg.get("fixed_xgb_weight", 0.30))
+            default_ridge_w = float(sel_cfg.get("fixed_ridge_weight", 0.30))
+            match = next(
+                (
+                    x for x in ensemble_results
+                    if abs(x.get("rf_weight", 0.0) - default_rf_w) < 1e-4
+                    and abs(x.get("xgb_weight", 0.0) - default_xgb_w) < 1e-4
+                    and abs(x.get("ridge_weight", 0.0) - default_ridge_w) < 1e-4
+                ),
+                next(
+                    (x for x in ensemble_results if "Validated Multi-Model" in x.get("model_name", "")),
+                    ensemble_results[-1],
+                ),
+            )
+            best_w_rf = match["rf_weight"]
+            best_w_xgb = match["xgb_weight"]
+            best_w_ridge = match.get("ridge_weight", 0.0)
+            best_name = match["model_name"]
+            best_mae = match["mae"]
+            if best_w_ridge >= 0.5:
+                selected_residuals = np.array(ridge_residuals)
+            elif match.get("ridge_weight", 0.0) > 0.2:
+                selected_residuals = np.array(multi_residuals)
+            elif best_w_rf >= 0.5:
+                selected_residuals = np.array(rf_residuals)
+            else:
+                selected_residuals = np.array(xgb_residuals)
+            empirical_dnf_rate = float(training_df["driver_dnf_rate"].mean()) if "driver_dnf_rate" in training_df.columns else 0.158
+
+            custom_mae = None
+            custom_residuals = None
+            if custom_name is not None:
+                custom_match = next((x for x in ensemble_results if x["model_name"] == custom_name), None)
+                if custom_match is not None:
+                    custom_mae = custom_match["mae"]
+                if custom_name in round_predictions:
+                    custom_preds = np.array(round_predictions[custom_name])
+                    custom_residuals = np.array(y_all) - custom_preds
+
+            xgb_match = next((x for x in ensemble_results if x["model_name"] == "100% XGB"), ensemble_results[1])
+
+            prior_sigma = float(self.model_cfg.get("monte_carlo", {}).get("fallback_sigma", 2.85))
+            logger.info(
+                f"Early-season (< {min_priors} rounds): using prior sigma={prior_sigma:.2f} "
+                f"and clearing in-sample residuals/team_residuals."
+            )
+            return {
+                "validation_rounds": [],
+                "is_out_of_sample": False,
+                "validation_status": "PRIOR_FALLBACK",
+                "validation_method": "prior_sigma_fallback",
+                "calibration_source": "prior_fallback",
+                "prior_sigma": prior_sigma,
+                "sample_count": len(y_all),
+                "ensemble_comparisons": ensemble_results,
+                "best_w_rf": best_w_rf,
+                "best_w_xgb": best_w_xgb,
+                "best_w_ridge": best_w_ridge,
+                "best_model_name": best_name,
+                "best_mae": best_mae,
+                "selected_residuals": np.array([]),
+                "team_residuals": {},
+                "rf_residuals": np.array(rf_residuals),
+                "xgb_residuals": np.array(xgb_residuals),
+                "ridge_residuals": np.array(ridge_residuals),
+                "multi_residuals": np.array(multi_residuals),
+                "rf_mae": ensemble_results[0]["mae"],
+                "xgb_mae": xgb_match["mae"],
+                "ridge_mae": round(ridge_mae, 4),
+                "multi_mae": round(multi_mae, 4),
+                "custom_mae": custom_mae,
+                "custom_residuals": custom_residuals,
+                "empirical_dnf_rate": round(empirical_dnf_rate, 4),
+                "grid_positions": np.array(round_grids),
+                "round_predictions": round_predictions,
+                "actuals": y_all,
+            }
+
+        logger.info(f"Starting Walk-Forward Validation across rounds: {val_rounds}")
+
+        rf_residuals = []
+        xgb_residuals = []
+        ridge_residuals = []
+        multi_residuals = []
+
+        round_predictions = {name: [] for _, _, name in tested_weights}
+        round_predictions["100% Ridge"] = []
+        round_predictions["Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"] = []
+        round_actuals = []
+        round_grids = []
+        round_teams = []
+
+        failed_folds = []
+        completed_folds = []
+
+        for r in val_rounds:
+            train = prepare_pace_training_rows(training_df[training_df["Round"] < r].copy())
+            test = prepare_pace_training_rows(training_df[training_df["Round"] == r].copy())
+
+            if "ActualFinish" in train.columns:
+                train = train.dropna(subset=["ActualFinish"])
+            if "ActualFinish" in test.columns:
+                test = test.dropna(subset=["ActualFinish"])
+
+            if train.empty:
+                failed_folds.append({"round": r, "reason": "empty_training_fold"})
+                continue
+            if test.empty:
+                failed_folds.append({"round": r, "reason": "empty_testing_fold"})
+                continue
+
+            for col in self.feature_cols:
+                if col not in train.columns:
+                    train[col] = np.nan
+                if col not in test.columns:
+                    test[col] = np.nan
+
+            if stage:
+                train = apply_stage_feature_mask(train, stage)
+                test = apply_stage_feature_mask(test, stage)
+
+            imputer = create_feature_imputer(strategy="median")
+            X_train = imputer.fit_transform(train[self.feature_cols])
+            X_test = imputer.transform(test[self.feature_cols])
+
+            y_train = train["ActualFinish"].values
+            y_test = test["ActualFinish"].values
+
+            # Random Forest
+            rf_cfg = self.model_cfg.get("random_forest", {})
+            rf = RandomForestRegressor(
+                n_estimators=rf_cfg.get("n_estimators", 500),
+                max_depth=rf_cfg.get("max_depth", 8),
+                min_samples_leaf=rf_cfg.get("min_samples_leaf", 2),
+                random_state=self.random_state,
+                n_jobs=-1,
+            )
+            rf.fit(X_train, y_train)
+            rf_pred = rf.predict(X_test)
+
+            # XGBoost
+            xgb_cfg = self.model_cfg.get("xgboost", {})
+            model_xgb = xgb.XGBRegressor(
+                n_estimators=xgb_cfg.get("n_estimators", 300),
+                max_depth=xgb_cfg.get("max_depth", 4),
+                learning_rate=xgb_cfg.get("learning_rate", 0.03),
+                subsample=xgb_cfg.get("subsample", 0.8),
+                colsample_bytree=xgb_cfg.get("colsample_bytree", 0.8),
+                min_child_weight=xgb_cfg.get("min_child_weight", 1),
+                reg_alpha=xgb_cfg.get("reg_alpha", 0.0),
+                reg_lambda=xgb_cfg.get("reg_lambda", 1.0),
+                random_state=self.random_state,
+                objective="reg:squarederror",
+            )
+            model_xgb.fit(X_train, y_train)
+            xgb_pred = model_xgb.predict(X_test)
+
+            # Ridge Regression
+            ridge_cfg = self.model_cfg.get("ridge", {})
+            alpha = float(ridge_cfg.get("alpha", 100.0))
+            ridge_pipe = Pipeline([
+                ("scaler", StandardScaler()),
+                ("ridge", Ridge(alpha=alpha, random_state=self.random_state)),
+            ])
+            ridge_pipe.fit(X_train, y_train)
+            ridge_pred = ridge_pipe.predict(X_test)
+
+            multi_pred = 0.40 * rf_pred + 0.30 * xgb_pred + 0.30 * ridge_pred
+
+            grid_col = "ActualStartingGrid" if "ActualStartingGrid" in test.columns else "GridPosition"
+            has_grid_data = False
+            if grid_col in test.columns:
+                raw_grids = pd.to_numeric(test[grid_col], errors="coerce")
+                if raw_grids.notna().any():
+                    has_grid_data = True
+                    median_grid = float(raw_grids.median()) if not np.isnan(raw_grids.median()) else 12.0
+                    grids = raw_grids.fillna(median_grid).values
+                else:
+                    grids = np.full(len(test), 12.0)
+            else:
+                grids = np.full(len(test), 12.0)
+            round_grids.extend(grids)
+
+            # Resolve circuit-aware grid blending weights matching deployment Predictor
+            stage_str = str(stage or "after_qualifying").lower().strip()
+            is_pre_quali = stage_str in PRE_QUALI_STAGES
+            if apply_grid_blending and (not is_pre_quali) and has_grid_data:
+                c_type = test["circuit_type"].iloc[0] if "circuit_type" in test.columns and pd.notna(test["circuit_type"].iloc[0]) else "default"
+                c_weights = self.circuit_weights.get(str(c_type).lower(), self.circuit_weights.get("default", {"grid_weight": 0.35, "ml_weight": 0.65}))
+                eff_grid_w = float(c_weights.get("grid_weight", self.grid_weight))
+                eff_ml_w = float(c_weights.get("ml_weight", self.ml_weight))
+            else:
+                eff_grid_w = 0.0
+                eff_ml_w = 1.0
+
+            blended_rf = eff_ml_w * rf_pred + eff_grid_w * grids
+            blended_xgb = eff_ml_w * xgb_pred + eff_grid_w * grids
+            blended_ridge = eff_ml_w * ridge_pred + eff_grid_w * grids
+            blended_multi = eff_ml_w * multi_pred + eff_grid_w * grids
+
+            rf_residuals.extend(y_test - blended_rf)
+            xgb_residuals.extend(y_test - blended_xgb)
+            ridge_residuals.extend(y_test - blended_ridge)
+            multi_residuals.extend(y_test - blended_multi)
+            round_actuals.extend(y_test)
+            if "TeamName" in test.columns:
+                fold_teams = test["TeamName"].fillna("").astype(str).tolist()
+            elif "Constructor" in test.columns:
+                fold_teams = test["Constructor"].fillna("").astype(str).tolist()
+            else:
+                fold_teams = [""] * len(test)
+            round_teams.extend(fold_teams)
+
+            for w_rf, w_xgb, name in tested_weights:
+                blend_pred = w_rf * rf_pred + w_xgb * xgb_pred
+                final_blended = eff_ml_w * blend_pred + eff_grid_w * grids
+                round_predictions[name].extend(final_blended)
+
+            round_predictions["100% Ridge"].extend(blended_ridge)
+            round_predictions["Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"].extend(blended_multi)
+            completed_folds.append(r)
+
+        if failed_folds or len(completed_folds) == 0:
+            if failed_folds:
+                fold_details = ", ".join(f"Round {f['round']}: {f['reason']}" for f in failed_folds)
+                diagnostic = f"Walk-forward validation blocked: {len(failed_folds)} of {len(val_rounds)} fold(s) failed ({fold_details})."
+            else:
+                diagnostic = "Walk-forward validation blocked: no validation folds completed successfully."
+            logger.warning(diagnostic)
+            return {
+                "validation_rounds": completed_folds,
+                "requested_rounds": val_rounds,
+                "is_out_of_sample": False,
+                "validation_status": "BLOCKED",
+                "validation_method": "chronological_walk_forward",
+                "sample_count": len(round_actuals),
+                "failed_folds": failed_folds,
+                "completed_folds": completed_folds,
+                "diagnostic_message": diagnostic,
+                "ensemble_comparisons": [
+                    {
+                        "model_name": name,
+                        "rf_weight": w_rf,
+                        "xgb_weight": w_xgb,
+                        "mae": None,
+                        "medae": None,
+                        "rmse": None,
+                        "spearman": None,
+                    }
+                    for w_rf, w_xgb, name in tested_weights
+                ] + [
+                    {
+                        "model_name": "100% Ridge",
+                        "rf_weight": 0.0,
+                        "xgb_weight": 0.0,
+                        "ridge_weight": 1.0,
+                        "mae": None,
+                        "medae": None,
+                        "rmse": None,
+                        "spearman": None,
+                    },
+                    {
+                        "model_name": "Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)",
+                        "rf_weight": 0.40,
+                        "xgb_weight": 0.30,
+                        "ridge_weight": 0.30,
+                        "mae": None,
+                        "medae": None,
+                        "rmse": None,
+                        "spearman": None,
+                    },
+                ],
+                "best_w_rf": 0.40,
+                "best_w_xgb": 0.30,
+                "best_w_ridge": 0.30,
+                "best_model_name": "Fallback Baseline (40% RF / 30% XGB / 30% Ridge)",
+                "best_mae": None,
+                "team_residuals": {},
+                "selected_residuals": np.array([]),
+                "rf_residuals": np.array([]),
+                "xgb_residuals": np.array([]),
+                "ridge_residuals": np.array([]),
+                "multi_residuals": np.array([]),
+                "rf_mae": None,
+                "xgb_mae": None,
+                "ridge_mae": None,
+                "multi_mae": None,
+                "custom_mae": None,
+                "custom_residuals": None,
+                "empirical_dnf_rate": float(training_df["driver_dnf_rate"].mean()) if "driver_dnf_rate" in training_df.columns else 0.158,
+                "grid_positions": np.array(round_grids),
+                "round_predictions": round_predictions,
+                "actuals": np.array(round_actuals),
+            }
+
+        # Compute summary metrics across all validation rounds
+        actuals = np.array(round_actuals)
+        ensemble_results = []
+
+        for w_rf, w_xgb, name in tested_weights:
+            preds = np.array(round_predictions[name])
+            mae = float(mean_absolute_error(actuals, preds))
+            medae = float(median_absolute_error(actuals, preds))
+            rmse = float(np.sqrt(mean_squared_error(actuals, preds)))
+            spearman_corr = float(spearmanr(actuals, preds).statistic)
+
+            ensemble_results.append({
+                "model_name": name,
+                "rf_weight": w_rf,
+                "xgb_weight": w_xgb,
+                "mae": round(mae, 4),
+                "medae": round(medae, 4),
+                "rmse": round(rmse, 4),
+                "spearman": round(spearman_corr, 4),
+            })
+
+        # Add Ridge and Multi-Model evaluations
+        ridge_preds = np.array(round_predictions["100% Ridge"])
+        ridge_mae = float(mean_absolute_error(actuals, ridge_preds))
+        ridge_medae = float(median_absolute_error(actuals, ridge_preds))
+        ridge_rmse = float(np.sqrt(mean_squared_error(actuals, ridge_preds)))
+        ridge_spearman = float(spearmanr(actuals, ridge_preds).statistic)
+
+        ensemble_results.append({
+            "model_name": "100% Ridge",
+            "rf_weight": 0.0,
+            "xgb_weight": 0.0,
+            "ridge_weight": 1.0,
+            "mae": round(ridge_mae, 4),
+            "medae": round(ridge_medae, 4),
+            "rmse": round(ridge_rmse, 4),
+            "spearman": round(ridge_spearman, 4),
+        })
+
+        multi_preds = np.array(round_predictions["Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)"])
+        multi_mae = float(mean_absolute_error(actuals, multi_preds))
+        multi_medae = float(median_absolute_error(actuals, multi_preds))
+        multi_rmse = float(np.sqrt(mean_squared_error(actuals, multi_preds)))
+        multi_spearman = float(spearmanr(actuals, multi_preds).statistic)
+
+        ensemble_results.append({
+            "model_name": "Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)",
+            "rf_weight": 0.40,
+            "xgb_weight": 0.30,
+            "ridge_weight": 0.30,
+            "mae": round(multi_mae, 4),
+            "medae": round(multi_medae, 4),
+            "rmse": round(multi_rmse, 4),
+            "spearman": round(multi_spearman, 4),
+        })
+
+        # Rank configurations strictly by walk-forward MAE (Option 1: dynamic auto-selection)
+        sorted_ensembles = sorted(ensemble_results, key=lambda x: x["mae"])
+        best_cfg = sorted_ensembles[0]
+        best_w_rf = best_cfg["rf_weight"]
+        best_w_xgb = best_cfg["xgb_weight"]
+        best_w_ridge = best_cfg.get("ridge_weight", 0.0)
+        best_name = best_cfg["model_name"]
+        best_mae = best_cfg["mae"]
+
+        if best_w_ridge >= 0.5:
+            selected_residuals = np.array(ridge_residuals)
+        elif best_cfg.get("ridge_weight", 0.0) > 0.2:
+            selected_residuals = np.array(multi_residuals)
+        elif best_w_rf >= 0.5:
+            selected_residuals = np.array(rf_residuals)
+        else:
+            selected_residuals = np.array(xgb_residuals)
+        empirical_dnf_rate = float(training_df["driver_dnf_rate"].mean()) if "driver_dnf_rate" in training_df.columns else 0.158
+        logger.info(f"Dynamic walk-forward selection winner: {best_name} (MAE={best_mae:.4f})")
+
+        custom_mae = None
+        custom_residuals = None
+        if custom_name is not None:
+            custom_match = next((x for x in ensemble_results if x["model_name"] == custom_name), None)
+            if custom_match is not None:
+                custom_mae = custom_match["mae"]
+            if custom_name in round_predictions:
+                custom_preds = np.array(round_predictions[custom_name])
+                custom_residuals = np.array(actuals) - custom_preds
+
+        xgb_match = next((x for x in ensemble_results if x["model_name"] == "100% XGB"), ensemble_results[6])
+
+        team_residuals_map: Dict[str, List[float]] = {}
+        for team_name, res_val in zip(round_teams, selected_residuals):
+            if team_name:
+                team_residuals_map.setdefault(team_name, []).append(float(res_val))
+        team_residuals: Dict[str, np.ndarray] = {
+            team: np.array(vals, dtype=float) for team, vals in team_residuals_map.items()
+        }
+
+        return {
+            "validation_rounds": val_rounds,
+            "requested_rounds": val_rounds,
+            "is_out_of_sample": True,
+            "validation_status": "CHRONOLOGICAL_WALK_FORWARD",
+            "validation_method": "chronological_walk_forward",
+            "sample_count": len(actuals),
+            "failed_folds": [],
+            "completed_folds": completed_folds,
+            "diagnostic_message": f"Successfully completed chronological walk-forward validation across {len(completed_folds)} rounds.",
+            "ensemble_comparisons": ensemble_results,
+            "best_w_rf": best_w_rf,
+            "best_w_xgb": best_w_xgb,
+            "best_w_ridge": best_w_ridge,
+            "best_model_name": best_name,
+            "best_mae": best_mae,
+            "selected_residuals": selected_residuals,
+            "team_residuals": team_residuals,
+            "rf_residuals": np.array(rf_residuals),
+            "xgb_residuals": np.array(xgb_residuals),
+            "ridge_residuals": np.array(ridge_residuals),
+            "multi_residuals": np.array(multi_residuals),
+            "rf_mae": ensemble_results[0]["mae"],
+            "xgb_mae": xgb_match["mae"],
+            "ridge_mae": round(ridge_mae, 4),
+            "multi_mae": round(multi_mae, 4),
+            "custom_mae": custom_mae,
+            "custom_residuals": custom_residuals,
+            "empirical_dnf_rate": round(empirical_dnf_rate, 4),
+            "grid_positions": np.array(round_grids),
+            "round_predictions": round_predictions,
+            "actuals": actuals,
+        }
+
+    def evaluate_grid_blend_sweep(
+        self,
+        training_df: pd.DataFrame,
+        ml_models: Optional[Dict[str, Tuple[float, float]]] = None,
+        grid_weights: Optional[List[float]] = None
+    ) -> Dict[str, List[Dict[str, Any]]]:
+        """
+        Evaluates ML + ActualStartingGrid blending across specified grid weights
+        using the exact same chronological OOF walk-forward predictions.
+
+        Parameters
+        ----------
+        training_df : pd.DataFrame
+            Completed training features dataset.
+        ml_models : dict, optional
+            Mapping of model_name -> (w_rf, w_xgb). Default evaluates:
+            100% RF, 75% RF / 25% XGB, and 60% RF / 40% XGB.
+        grid_weights : list of float, optional
+            Grid weight values to sweep (e.g. [0.0, 0.05, ..., 0.50]).
+        """
+        eval_base = self.evaluate_walk_forward(training_df)
+        actuals = eval_base.get("actuals", np.array([]))
+        if len(actuals) == 0:
+            return {}
+        grids = eval_base["grid_positions"]
+        round_preds = eval_base["round_predictions"]
+
+        if ml_models is None:
+            ml_models = {
+                "100% RF": (1.0, 0.0),
+                "75% RF / 25% XGB": (0.75, 0.25),
+                "60% RF / 40% XGB": (0.60, 0.40),
+            }
+
+        if grid_weights is None:
+            grid_weights = [0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50]
+
+        sweep_results = {}
+
+        for m_name, (w_rf, w_xgb) in ml_models.items():
+            if m_name in round_preds:
+                ml_pred = np.array(round_preds[m_name])
+            else:
+                rf_p = np.array(round_preds["100% RF"])
+                xgb_p = np.array(round_preds["100% XGB"])
+                ml_pred = w_rf * rf_p + w_xgb * xgb_p
+
+            pure_ml_mae = float(mean_absolute_error(actuals, ml_pred))
+            model_evals = []
+
+            for w_grid in grid_weights:
+                w_ml = round(1.0 - w_grid, 4)
+                blended = w_ml * ml_pred + w_grid * grids
+                mae = float(mean_absolute_error(actuals, blended))
+                medae = float(median_absolute_error(actuals, blended))
+                rmse = float(np.sqrt(mean_squared_error(actuals, blended)))
+                spearman_corr = float(spearmanr(actuals, blended).statistic)
+
+                model_evals.append({
+                    "ml_model": m_name,
+                    "ml_weight": w_ml,
+                    "grid_weight": round(w_grid, 4),
+                    "mae": round(mae, 4),
+                    "delta_mae": round(mae - pure_ml_mae, 4),
+                    "medae": round(medae, 4),
+                    "rmse": round(rmse, 4),
+                    "spearman": round(spearman_corr, 4),
+                })
+
+            sweep_results[m_name] = model_evals
+
+        return sweep_results
+
+

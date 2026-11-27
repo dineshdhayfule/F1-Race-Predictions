@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apexgrid"
-version = "1.0.4"
+version = "1.1.0"
 description = "Formula 1 race outcome prediction engine using FastF1 telemetry and Monte Carlo simulation"
 readme = "README.md"
 license = "MIT"
@@ -12,6 +12,18 @@ authors = [
     { name = "Dinesh Dhayfule", email = "dineshdhayfule@gmail.com" }
 ]
 requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
     "numpy>=1.26.0,<3.0.0",
     "pandas>=2.1.0,<3.0.0",
@@ -31,7 +43,7 @@ dev = [
 ]
 
 [project.scripts]
-apexgrid = "src.cli.typer_app:app"
+apexgrid = "apexgrid.cli.typer_app:app"
 
 [project.urls]
 Homepage = "https://github.com/dineshdhayfule/F1-Race-Predictions"
@@ -39,8 +51,8 @@ Repository = "https://github.com/dineshdhayfule/F1-Race-Predictions"
 Issues = "https://github.com/dineshdhayfule/F1-Race-Predictions/issues"
 
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["src*"]
+where = ["src"]
+include = ["apexgrid*"]
 
 [tool.setuptools.package-data]
-src = ["config/*.json"]
+apexgrid = ["config/*.json"]

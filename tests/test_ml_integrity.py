@@ -7,16 +7,16 @@ from sklearn.linear_model import Ridge
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from src.models.train import ModelTrainer, create_feature_imputer
-from src.models.predict import Predictor
-from src.models.evaluate import ModelEvaluator
+from apexgrid.models.train import ModelTrainer, create_feature_imputer
+from apexgrid.models.predict import Predictor
+from apexgrid.models.evaluate import ModelEvaluator
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def _config():
-    return json.loads((ROOT / "src" / "config" / "model_config.json").read_text(encoding="utf-8"))
+    return json.loads((ROOT / "src" / "apexgrid" / "config" / "model_config.json").read_text(encoding="utf-8"))
 
 
 def _synthetic(config):
@@ -103,7 +103,7 @@ def test_default_hybrid_is_60_40():
 
 
 def test_stage_masking_is_lossless_at_after_qualifying():
-    from src.features.build_features import apply_stage_feature_mask
+    from apexgrid.features.build_features import apply_stage_feature_mask
     config = _config()
     df = pd.DataFrame([{c: 1.0 for c in config["features"]}])
     masked = apply_stage_feature_mask(df, "after_qualifying")

@@ -14,10 +14,10 @@ import pandas as pd
 import pytest
 from pathlib import Path
 
-from src.models.predict import calculate_analytical_weekend_score, Predictor
-from src.features.build_features import FeatureEngineer, validate_stage_feature_contract
-from src.simulation.monte_carlo import MonteCarloSimulator
-from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
+from apexgrid.models.predict import calculate_analytical_weekend_score, Predictor
+from apexgrid.features.build_features import FeatureEngineer, validate_stage_feature_contract
+from apexgrid.simulation.monte_carlo import MonteCarloSimulator
+from apexgrid.pipeline.race_prediction_pipeline import RacePredictionPipeline
 
 
 @pytest.fixture
@@ -145,7 +145,7 @@ def test_predictor_class_method_delegation(sample_target_df):
 
 def test_feature_contract_weekend_only():
     """validate_stage_feature_contract accepts weekend_only=True with pure weekend features and rejects historical form features."""
-    from src.features.build_features import WEEKEND_ONLY_FEATURES, HISTORICAL_FORM_FEATURES
+    from apexgrid.features.build_features import WEEKEND_ONLY_FEATURES, HISTORICAL_FORM_FEATURES
     
     # 1. Pure weekend features should pass
     configured_features = ["practice_gap_pct", "practice_rank", "QualifyingPosition", "GridPosition"]
@@ -231,7 +231,7 @@ def test_race_prediction_pipeline_stage_adaptive_sigma():
 
 def test_tyre_compound_normalization_ranking():
     """Tests that compound pace normalization appropriately adjusts Soft vs Hard long runs."""
-    from src.features.race_pace import compute_driver_race_pace
+    from apexgrid.features.race_pace import compute_driver_race_pace
 
     # Driver A did 10 laps on SOFT at 90.0s (normalized to Medium: 90.0 - (-0.65) = 90.65s)
     # Driver B did 10 laps on HARD at 90.8s (normalized to Medium: 90.8 - 0.55 = 90.25s)

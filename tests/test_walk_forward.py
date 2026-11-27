@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from src.models.evaluate import ModelEvaluator
-from src.models.train import ModelTrainer, prepare_pace_training_rows
+from apexgrid.models.evaluate import ModelEvaluator
+from apexgrid.models.train import ModelTrainer, prepare_pace_training_rows
 
 
 def _config(features):

@@ -1,7 +1,7 @@
 import pandas as pd
 
-from src.features.build_features import FeatureEngineer
-from src.features.tire_degradation import TIRE_FEATURE_COLUMNS, build_tire_degradation_features
+from apexgrid.features.build_features import FeatureEngineer
+from apexgrid.features.tire_degradation import TIRE_FEATURE_COLUMNS, build_tire_degradation_features
 
 
 def _race_data():

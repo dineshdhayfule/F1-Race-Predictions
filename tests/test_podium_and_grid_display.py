@@ -9,8 +9,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.cli.menu import format_grid_display, select_probability_podium
-from src.simulation.monte_carlo import MonteCarloSimulator
+from apexgrid.cli.menu import format_grid_display, select_probability_podium
+from apexgrid.simulation.monte_carlo import MonteCarloSimulator
 
 
 # =====================================================================

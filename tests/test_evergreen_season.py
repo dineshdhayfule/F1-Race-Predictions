@@ -8,9 +8,9 @@ from unittest.mock import patch
 import pandas as pd
 import pytest
 
-from src.cli.menu import get_available_stages_for_event
-from src.utils.driver_mapping import resolve_driver_metadata
-from src.utils.season_utils import MissingSessionTelemetryError, get_active_season
+from apexgrid.cli.menu import get_available_stages_for_event
+from apexgrid.utils.driver_mapping import resolve_driver_metadata
+from apexgrid.utils.season_utils import MissingSessionTelemetryError, get_active_season
 
 
 def test_get_active_season_uses_utc_year():
@@ -61,7 +61,7 @@ def test_pre_2018_after_qualifying_accepts_f1_website_grid_provenance(tmp_path):
     Verifies that a pre-2018 race with cached f1_website_grid provenance and quali_df=None
     does not raise the 'Official qualifying results are unavailable' ValueError.
     """
-    from src.pipeline.race_prediction_pipeline import RacePredictionPipeline
+    from apexgrid.pipeline.race_prediction_pipeline import RacePredictionPipeline
 
     pipeline = RacePredictionPipeline(root_dir=tmp_path)
     fake_races = pd.DataFrame([

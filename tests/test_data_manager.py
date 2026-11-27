@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from src.data.data_manager import DataManager
+from apexgrid.data.data_manager import DataManager
 
 
 def test_synthetic_workspace_discovery(tmp_path):

@@ -3,7 +3,7 @@ from unittest.mock import patch
 import os
 import pytest
 
-from src.cli.terminal_ui import (
+from apexgrid.cli.terminal_ui import (
     strip_ansi,
     get_terminal_width,
     get_terminal_height,
@@ -81,7 +81,7 @@ def test_dynamic_resizing_between_consecutive_calls():
 # =========================================================================
 
 def test_banner_at_different_widths(capsys):
-    from src.utils.season_utils import get_active_season
+    from apexgrid.utils.season_utils import get_active_season
     active_yr = str(get_active_season())
     # 40 columns (dynamic default season)
     with patch("shutil.get_terminal_size", return_value=MockTerminalSize(40, 20)):

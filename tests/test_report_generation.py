@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from src.pipeline.race_prediction_pipeline import (
+from apexgrid.pipeline.race_prediction_pipeline import (
     RacePredictionPipeline,
     _format_optional_metric,
 )

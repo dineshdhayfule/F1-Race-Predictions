@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.models.dnf_hazard import DNFHazardModel
+from apexgrid.models.dnf_hazard import DNFHazardModel
 
 
 def _training():

@@ -1,0 +1,1107 @@
+"""
+Unified Feature Engineering Pipeline
+====================================
+Orchestrates training and target feature matrix construction for any F1 circuit.
+Enforces zero data leakage: target race result is strictly excluded from target features.
+"""
+
+from typing import Dict, List, Optional, Any, Tuple
+import numpy as np
+import pandas as pd
+
+from apexgrid.features.grid_features import apply_grid_penalties, resolve_fia_starting_grid
+from apexgrid.features.grid_conversion import compute_grid_conversion_map, get_conversion_features_for_grid
+from apexgrid.features.season_features import build_season_form, classify_race_status
+from apexgrid.features.weekend_features import (
+    build_practice_features,
+    build_qualifying_features,
+    build_sprint_qualifying_features,
+    build_sprint_race_features,
+)
+from apexgrid.features.teammate_features import (
+    compute_teammate_quali_gap,
+    compute_teammate_grid_delta,
+    compute_rolling_teammate_h2h,
+)
+from apexgrid.features.race_pace import build_race_pace_features
+from apexgrid.features.tire_degradation import build_tire_degradation_features, TIRE_FEATURE_COLUMNS
+from apexgrid.simulation.strategy_simulator import build_pit_strategy_features
+from apexgrid.simulation.race_control_model import build_race_control_features
+from apexgrid.features.weather_features import build_weather_features
+from apexgrid.utils.driver_mapping import normalize_driver_series, filter_competing_drivers
+from apexgrid.utils.circuit_mapping import resolve_circuit_key
+from apexgrid.utils.logging_utils import get_logger
+
+logger = get_logger("build_features")
+
+
+def _ensure_driver_feature_schema(
+    features: pd.DataFrame,
+    subsystem: str,
+    columns: Optional[List[str]] = None,
+    warn_on_missing: bool = True,
+) -> pd.DataFrame:
+    """Keep optional subsystem frames indexable when observations are absent."""
+    if features is None or features.empty:
+        return pd.DataFrame(columns=columns or ["Abbreviation"])
+    if "Abbreviation" not in features.columns:
+        if warn_on_missing:
+            logger.warning(
+                "%s produced features without an Abbreviation column; "
+                "using per-driver fallback values.",
+                subsystem,
+            )
+        return pd.DataFrame(columns=columns or ["Abbreviation"])
+    return features
+
+STAGE_UNAVAILABLE_FEATURES: Dict[str, List[str]] = {
+    "pre_fp1": [
+        # Practice
+        "fp1_best_lap", "fp2_best_lap", "fp3_best_lap", "best_practice_lap",
+        "avg_practice_lap", "practice_gap_pct", "practice_rank", "practice_laps",
+        "practice_laps_norm", "practice_sessions", "fp1_gap_pct", "fp2_gap_pct", "fp3_gap_pct",
+        # Sprint
+        "sprint_quali_pos", "sprint_finish_pos", "sprint_pos_delta",
+        # Qualifying
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
+        # Grid
+        "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
+        "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
+        "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace Intelligence
+        "long_run_pace_gap_pct", "long_run_pace_rank", "race_pace_consistency",
+        "race_pace_sample_count", "long_run_stint_length", "race_pace_vs_quali_delta", "race_pace_confidence",
+        # Tire Degradation
+        "soft_tyre_deg_rate", "medium_tyre_deg_rate", "hard_tyre_deg_rate",
+        "estimated_tyre_deg_rate", "compound_pace_delta", "tyre_deg_confidence",
+        # Strategy
+        "optimal_strategy_stops", "strategy_time_loss_sec",
+        # Weather
+        "wet_conditions_indicator", "weather_confidence",
+    ],
+    "after_fp1": [
+        # FP2, FP3
+        "fp2_best_lap", "fp3_best_lap", "fp2_gap_pct", "fp3_gap_pct",
+        # Sprint
+        "sprint_quali_pos", "sprint_finish_pos", "sprint_pos_delta",
+        # Qualifying
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
+        # Grid
+        "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
+        "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
+        "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
+    ],
+    "after_sprint_qualifying": [
+        # FP2, FP3 (if not run)
+        "fp2_best_lap", "fp3_best_lap", "fp2_gap_pct", "fp3_gap_pct",
+        # Sprint Race (not yet run at after_sprint_qualifying)
+        "sprint_finish_pos", "sprint_pos_delta",
+        # Sunday Qualifying (not yet run)
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
+        # Sunday Grid (not yet published)
+        "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
+        "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
+        "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
+    ],
+    "after_sprint_race": [
+        # FP2, FP3
+        "fp2_best_lap", "fp3_best_lap", "fp2_gap_pct", "fp3_gap_pct",
+        # Note: sprint_quali_pos, sprint_finish_pos, and sprint_pos_delta ARE LEGITIMATELY AVAILABLE!
+        # Sunday Qualifying (not yet run)
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
+        # Sunday Grid (not yet published)
+        "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
+        "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
+        "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
+    ],
+    "after_sprint": [
+        # Alias for after_sprint_race
+        "fp2_best_lap", "fp3_best_lap", "fp2_gap_pct", "fp3_gap_pct",
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
+        "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
+        "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
+        "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
+    ],
+    "after_fp2": [
+        # FP3
+        "fp3_best_lap", "fp3_gap_pct",
+        # Sprint
+        "sprint_quali_pos", "sprint_finish_pos", "sprint_pos_delta",
+        # Qualifying
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
+        # Grid
+        "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
+        "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
+        "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
+    ],
+    "after_fp3": [
+        # Sprint
+        "sprint_quali_pos", "sprint_finish_pos", "sprint_pos_delta",
+        # Qualifying
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "teammate_quali_gap_pct",
+        # Grid
+        "GridPosition", "ActualStartingGrid", "simulation_start_rank", "is_pit_lane_start",
+        "StartingGridStatus", "GridPenalty", "grid_penalty_places", "grid_vs_quali_delta",
+        "grid_norm", "expected_grid_finish", "grid_retention_prob", "teammate_grid_delta",
+        # Race Pace vs Qualifying
+        "race_pace_vs_quali_delta",
+    ],
+    "after_qualifying": [],
+    "before_race": [],
+    "post_race": [],
+}
+
+_STAGE_ALLOWED_WEEKEND_SESSIONS: Dict[str, set] = {
+    "pre_fp1": set(),
+    "after_fp1": {"fp1"},
+    "after_fp2": {"fp1", "fp2"},
+    "after_fp3": {"fp1", "fp2", "fp3"},
+    "after_sprint_qualifying": {"fp1", "sprint_qualifying"},
+    "after_sprint_race": {"fp1", "sprint_qualifying", "sprint_race"},
+    "after_sprint": {"fp1", "sprint_qualifying", "sprint_race"},
+}
+PRE_QUALI_STAGES = set(_STAGE_ALLOWED_WEEKEND_SESSIONS.keys())
+_PRE_QUALIFYING_STAGES = PRE_QUALI_STAGES
+SUPPORTED_FEATURE_STAGES = {
+    "pre_fp1",
+    "after_fp1",
+    "after_sprint_qualifying",
+    "after_sprint_race",
+    "after_sprint",
+    "after_fp2",
+    "after_fp3",
+    "after_qualifying",
+    "before_race",
+    "post_race",
+}
+
+# Columns that are valid model inputs but represent the current target weekend
+# rather than historical outcomes.  Historical form features remain available at
+# every stage because they are computed strictly from prior rounds.
+_TARGET_OUTCOME_COLUMNS = {
+    "ActualFinish", "Position", "Points", "Status", "RaceStatus",
+    "DNFTarget", "PaceEligible", "Laps", "Time", "ClassifiedPosition",
+}
+
+
+# Pure weekend feature metrics (25 features) excluding all multi-race rolling form & EWMA metrics
+WEEKEND_ONLY_FEATURES: List[str] = [
+    "GridPosition",
+    "grid_norm",
+    "expected_grid_finish",
+    "grid_retention_prob",
+    "QualifyingPosition",
+    "quali_pos_norm",
+    "quali_gap_pct",
+    "quali_no_time",
+    "q1_gap_pct",
+    "q2_gap_pct",
+    "q3_gap_pct",
+    "practice_gap_pct",
+    "practice_rank",
+    "practice_laps_norm",
+    "fp1_gap_pct",
+    "fp2_gap_pct",
+    "fp3_gap_pct",
+    "sprint_finish_pos",
+    "sprint_pos_delta",
+    "teammate_quali_gap_pct",
+    "teammate_grid_delta",
+    "is_pit_lane_start",
+    "long_run_pace_gap_pct",
+    "long_run_pace_rank",
+    "race_pace_consistency",
+]
+
+HISTORICAL_FORM_FEATURES: set = {
+    "driver_finish_ewma",
+    "driver_quali_ewma",
+    "driver_dnf_rate",
+    "recent_finish",
+    "recent_grid",
+    "recent_points",
+    "avg_finish",
+    "avg_grid",
+    "total_points",
+    "races_completed",
+    "team_finish_ewma",
+    "team_points_rate",
+    "team_avg_finish",
+    "team_points",
+    "driver_teammate_h2h_ratio",
+}
+
+
+def _known_generated_features() -> set:
+    known_generated = set()
+    for cols in STAGE_UNAVAILABLE_FEATURES.values():
+        known_generated.update(cols)
+    known_generated.update({
+        "GridPosition", "grid_norm", "expected_grid_finish", "grid_retention_prob",
+        "QualifyingPosition", "quali_pos_norm", "quali_gap_pct", "quali_no_time",
+        "q1_gap_pct", "q2_gap_pct", "q3_gap_pct", "practice_gap_pct", "practice_rank",
+        "practice_laps_norm", "fp1_gap_pct", "fp2_gap_pct", "fp3_gap_pct",
+        "driver_finish_ewma", "driver_quali_ewma", "driver_dnf_rate", "recent_finish",
+        "recent_grid", "recent_points", "avg_finish", "avg_grid", "total_points",
+        "races_completed", "team_finish_ewma", "team_points_rate", "team_avg_finish",
+        "team_points", "sprint_finish_pos", "sprint_pos_delta", "driver_teammate_h2h_ratio",
+    })
+    return known_generated
+
+
+def get_effective_feature_columns(
+    feature_cols: List[str],
+    stage: Optional[str],
+) -> List[str]:
+    """Return configured features available at a prediction-stage cutoff."""
+    stage_clean = str(stage or "after_qualifying").lower().strip()
+    if stage_clean == "after_sprint":
+        stage_clean = "after_sprint_race"
+    if stage_clean not in SUPPORTED_FEATURE_STAGES:
+        raise ValueError(f"Unsupported prediction stage '{stage}'.")
+
+    configured = list(dict.fromkeys(feature_cols))
+    unknown = set(configured) - _known_generated_features()
+    if unknown:
+        raise ValueError(
+            f"Unknown model features for stage contract '{stage_clean}': {sorted(unknown)}"
+        )
+
+    leaked = set(configured) & _TARGET_OUTCOME_COLUMNS
+    if stage_clean != "post_race" and leaked:
+        raise ValueError(
+            f"Target-race outcome features are forbidden before post_race: {sorted(leaked)}"
+        )
+
+    unavailable = set(STAGE_UNAVAILABLE_FEATURES.get(stage_clean, []))
+    return [col for col in configured if col not in unavailable]
+
+
+def validate_stage_feature_contract(
+    df: pd.DataFrame,
+    stage: Optional[str],
+    feature_cols: List[str],
+    weekend_only: bool = False,
+) -> None:
+    """Validate configured model inputs against the supported stage contract."""
+    stage_clean = str(stage or "after_qualifying").lower().strip()
+    if stage_clean == "after_sprint":
+        stage_clean = "after_sprint_race"
+    if stage_clean not in SUPPORTED_FEATURE_STAGES:
+        raise ValueError(f"Unsupported prediction stage '{stage}'.")
+
+    configured = set(feature_cols)
+    if weekend_only:
+        # Enforce pure weekend features: historical form metrics are strictly forbidden
+        forbidden_hist = configured & HISTORICAL_FORM_FEATURES
+        if forbidden_hist:
+            raise ValueError(
+                f"Historical form features forbidden in weekend_only mode: {sorted(forbidden_hist)}"
+            )
+
+    if stage_clean != "post_race":
+        leaked = configured & _TARGET_OUTCOME_COLUMNS
+        if leaked:
+            raise ValueError(
+                f"Target-race outcome features are forbidden before post_race: {sorted(leaked)}"
+            )
+
+    known_generated = _known_generated_features()
+    unknown = configured - known_generated
+    if unknown:
+        raise ValueError(
+            f"Unknown model features for stage contract '{stage_clean}': {sorted(unknown)}"
+        )
+
+    unavailable = set(STAGE_UNAVAILABLE_FEATURES.get(stage_clean, []))
+    invalid = configured & unavailable
+    if invalid:
+        raise ValueError(
+            f"Features unavailable at stage '{stage_clean}': {sorted(invalid)}"
+        )
+
+
+def apply_stage_feature_mask(df: pd.DataFrame, stage: Optional[str]) -> pd.DataFrame:
+    """
+    Masks features that are not yet available at the given prediction stage cutoff.
+    Prevents temporal data leakage into early-stage models.
+    """
+    if df is None or df.empty or not stage:
+        return df
+
+    stage_clean = str(stage).lower().strip()
+    masked_cols = STAGE_UNAVAILABLE_FEATURES.get(stage_clean, [])
+    for col in masked_cols:
+        if col in df.columns:
+            df[col] = np.nan
+    return df
+
+
+class FeatureEngineer:
+    """Unified feature engineering engine for Formula 1 race prediction."""
+
+    def __init__(
+        self,
+        ewma_alpha: float = 0.3,
+        expected_grid_size: int = 22,
+        capabilities: Optional[Dict[str, bool]] = None,
+    ):
+        self.ewma_alpha = ewma_alpha
+        self.expected_grid_size = expected_grid_size
+        caps = capabilities or {}
+        self.enable_tire_degradation = caps.get("tire_degradation_modeling", True)
+        self.enable_pit_strategy = caps.get("pit_strategy_simulator", True)
+        self.enable_weather = caps.get("weather_aware_prediction", True)
+
+    def build_training_dataset(
+        self,
+        races_df: pd.DataFrame,
+        qualis_df: pd.DataFrame,
+        practice_sessions_by_round: Dict[int, Dict[str, pd.DataFrame]],
+        train_rounds: List[int],
+        stage: Optional[str] = None,
+    ) -> pd.DataFrame:
+        """
+        Builds the training dataset across completed historical rounds.
+        For each round r in train_rounds:
+          - Uses only rounds < r for rolling driver/team form.
+          - Uses round r's practice and qualifying sessions.
+          - Target is round r's ActualFinish.
+
+        Parameters
+        ----------
+        races_df : pd.DataFrame
+            All completed season race results.
+        qualis_df : pd.DataFrame
+            All completed season qualifying results.
+        practice_sessions_by_round : dict
+            Mapping of round_number -> {'fp1': df, 'fp2': df, 'fp3': df}.
+        train_rounds : list of int
+            List of completed round numbers to include in training.
+
+        Returns
+        -------
+        pd.DataFrame
+            Complete training feature matrix with 'ActualFinish'.
+        """
+        rows = []
+        logger.info(f"Building training features across {len(train_rounds)} rounds: {train_rounds}")
+
+        stage_clean = str(stage).lower().strip() if stage else None
+        allowed_sessions = _STAGE_ALLOWED_WEEKEND_SESSIONS.get(stage_clean) if stage_clean else None
+        is_pre_qualifying = stage_clean in _PRE_QUALIFYING_STAGES if stage_clean else False
+
+        for r in train_rounds:
+            race = races_df[races_df["Round"] == r].copy()
+            if race.empty:
+                logger.warning(f"Round {r} has no race data; skipping.")
+                continue
+
+            race["Abbreviation"] = normalize_driver_series(race["Abbreviation"])
+            race = filter_competing_drivers(race)
+            drivers = race["Abbreviation"].dropna().unique().tolist()
+
+            raw_weekend_sessions = practice_sessions_by_round.get(r, {})
+            if allowed_sessions is not None and raw_weekend_sessions:
+                weekend_sessions = {
+                    k: v for k, v in raw_weekend_sessions.items() if k in allowed_sessions
+                }
+            else:
+                weekend_sessions = raw_weekend_sessions
+            practice = build_practice_features(weekend_sessions, drivers)
+
+            round_quali = qualis_df[qualis_df["Round"] == r].copy() if not qualis_df.empty else None
+            quali = build_qualifying_features(round_quali, drivers)
+
+            # Sprint features (if sprint sessions were held and available prior to cutoff)
+            sq_df = weekend_sessions.get("sprint_qualifying") if weekend_sessions else None
+            sr_df = weekend_sessions.get("sprint_race") if weekend_sessions else None
+            sq_feats = build_sprint_qualifying_features(sq_df, drivers)
+            sr_feats = build_sprint_race_features(sr_df, drivers)
+
+            # Strict chronological cutoff: form and grid conversion computed ONLY on rounds < r
+            dform, tform = build_season_form(r, races_df, qualis_df, alpha=self.ewma_alpha)
+            prior_races = races_df[races_df["Round"] < r]
+            grid_conv_map = compute_grid_conversion_map(prior_races, expected_grid_size=self.expected_grid_size)
+
+            # Teammate features
+            tm_quali_feats = compute_teammate_quali_gap(round_quali, drivers)
+            tm_grid_feats = compute_teammate_grid_delta(race, drivers, grid_col="GridPosition")
+            tm_h2h_map = compute_rolling_teammate_h2h(prior_races, race[["Abbreviation", "TeamName"]])
+
+            # Capability 1: Race Pace Intelligence
+            if is_pre_qualifying:
+                q_pos_map = None
+            else:
+                q_pos_map = {
+                    d: float(quali[quali["Abbreviation"] == d]["QualifyingPosition"].iloc[0])
+                    for d in drivers
+                    if not quali.empty and not quali[quali["Abbreviation"] == d].empty
+                }
+            rp_feats = build_race_pace_features(
+                weekend_sessions,
+                drivers,
+                quali_positions=q_pos_map,
+                expected_grid_size=self.expected_grid_size
+            )
+
+            # Capability 2: Tire Degradation Modeling
+            circuit_raw = str(race.iloc[0].get("Race", race.iloc[0].get("EventName", f"round_{r}")))
+            circuit_key = resolve_circuit_key(circuit_raw) or circuit_raw.lower().replace(" ", "_")
+            team_map = race.set_index("Abbreviation")["TeamName"].to_dict() if "TeamName" in race.columns else {}
+            td_feats = (
+                build_tire_degradation_features(
+                    weekend_sessions,
+                    drivers,
+                    circuit_key=circuit_key,
+                    team_map=team_map,
+                )
+                if self.enable_tire_degradation
+                else pd.DataFrame(columns=TIRE_FEATURE_COLUMNS)
+            )
+            td_feats = _ensure_driver_feature_schema(
+                td_feats, "Tyre degradation", columns=TIRE_FEATURE_COLUMNS
+            )
+
+            # Capability 4: Race Control Probabilities
+            rc_feats = build_race_control_features(
+                circuit_key=circuit_key,
+                drivers=drivers,
+            )
+
+            # Capability 5: Weather Features
+            w_feats = (
+                build_weather_features(
+                    drivers=drivers,
+                    circuit_key=circuit_key,
+                    stage=stage or "after_qualifying",
+                )
+                if self.enable_weather
+                else pd.DataFrame()
+            )
+            rp_feats = _ensure_driver_feature_schema(rp_feats, "Race pace")
+            rc_feats = _ensure_driver_feature_schema(rc_feats, "Race control")
+            w_feats = _ensure_driver_feature_schema(w_feats, "Weather")
+
+            for _, rr in race.iterrows():
+                drv = rr["Abbreviation"]
+                team = str(rr.get("TeamName", rr.get("Team", "Unknown")))
+
+                p = practice[practice["Abbreviation"] == drv]
+                q = quali[quali["Abbreviation"] == drv]
+                sq_row = sq_feats[sq_feats["Abbreviation"] == drv]
+                sr_row = sr_feats[sr_feats["Abbreviation"] == drv]
+
+                p_dict = p.iloc[0].to_dict() if not p.empty else {}
+                q_dict = q.iloc[0].to_dict() if not q.empty else {}
+                sq_dict = sq_row.iloc[0].to_dict() if not sq_row.empty else {}
+                sr_dict = sr_row.iloc[0].to_dict() if not sr_row.empty else {}
+
+                tm_q_row = tm_quali_feats[tm_quali_feats["Abbreviation"] == drv]
+                tm_g_row = tm_grid_feats[tm_grid_feats["Abbreviation"] == drv]
+                tm_q_gap = tm_q_row["teammate_quali_gap_pct"].iloc[0] if not tm_q_row.empty else np.nan
+                tm_g_delta = tm_g_row["teammate_grid_delta"].iloc[0] if not tm_g_row.empty else np.nan
+                tm_h2h = tm_h2h_map.get(drv, 0.50)
+
+                rp_row = rp_feats[rp_feats["Abbreviation"] == drv]
+                rp_dict = rp_row.iloc[0].to_dict() if not rp_row.empty else {}
+
+                td_row = td_feats[td_feats["Abbreviation"] == drv]
+                td_dict = td_row.iloc[0].to_dict() if not td_row.empty else {}
+
+                rc_row = rc_feats[rc_feats["Abbreviation"] == drv]
+                rc_dict = rc_row.iloc[0].to_dict() if not rc_row.empty else {}
+
+                w_row = w_feats[w_feats["Abbreviation"] == drv]
+                w_dict = w_row.iloc[0].to_dict() if not w_row.empty else {}
+
+                raw_grid = pd.to_numeric(rr.get("GridPosition"), errors="coerce")
+                is_pit = 1.0 if (pd.notna(raw_grid) and raw_grid <= 0) or bool(rr.get("is_pit_lane", False)) or bool(rr.get("is_pit_lane_start", False)) else 0.0
+
+                if is_pit == 1.0:
+                    actual_grid = np.nan
+                    sim_rank = float(self.expected_grid_size)
+                    effective_grid = float(self.expected_grid_size)
+                    grid_norm = 1.0
+                elif pd.isna(raw_grid):
+                    actual_grid = 12.0
+                    sim_rank = 12.0
+                    effective_grid = 12.0
+                    grid_norm = (12.0 - 1.0) / float(self.expected_grid_size - 1)
+                else:
+                    actual_grid = float(raw_grid)
+                    sim_rank = float(raw_grid)
+                    effective_grid = float(raw_grid)
+                    grid_norm = (float(raw_grid) - 1.0) / float(self.expected_grid_size - 1)
+
+                dfv = dform.get(drv, {})
+                tfv = tform.get(team, {})
+
+                conv_feat = get_conversion_features_for_grid(effective_grid, grid_conv_map, expected_grid_size=self.expected_grid_size)
+
+                finish = pd.to_numeric(rr.get("Position"), errors="coerce")
+                race_status = classify_race_status(rr.get("Status"))
+                dnf_target = (
+                    1 if race_status == "RETIRED"
+                    else 0 if race_status == "FINISHED"
+                    else np.nan
+                )
+                q_pos_val = float(q_dict.get("QualifyingPosition", effective_grid))
+
+                rows.append({
+                    "Round": r,
+                    "RaceName": str(rr.get("Race", rr.get("EventName", f"Round_{r}"))),
+                    "Abbreviation": drv,
+                    "TeamName": team,
+                    "ActualFinish": finish,
+                    "RaceStatus": race_status,
+                    "DNFTarget": dnf_target,
+                    "PaceEligible": int(race_status == "FINISHED"),
+
+                    "GridPosition": float(effective_grid),
+                    "ActualStartingGrid": actual_grid,
+                    "simulation_start_rank": float(sim_rank),
+                    "is_pit_lane_start": float(is_pit),
+                    "grid_penalty_places": 0.0,
+                    "grid_vs_quali_delta": float(effective_grid - q_pos_val),
+                    "grid_norm": grid_norm,
+                    "expected_grid_finish": conv_feat["expected_grid_finish"],
+                    "grid_retention_prob": conv_feat["grid_retention_prob"],
+                    "QualifyingDataAvailable": 1 if (round_quali is not None and not round_quali.empty) else 0,
+                    "GridBasedComparisonAvailable": 1 if ("GridPosition" in race.columns or "grid" in race.columns) else 0,
+
+                    "teammate_quali_gap_pct": float(tm_q_gap) if pd.notna(tm_q_gap) else np.nan,
+                    "teammate_grid_delta": float(tm_g_delta) if pd.notna(tm_g_delta) else np.nan,
+                    "driver_teammate_h2h_ratio": float(tm_h2h),
+
+                    # Experimental Sprint features: supported and leakage-free, but Phase 6E showed only marginal/mixed predictive improvement.
+                    "sprint_quali_pos": float(sq_dict["sprint_quali_pos"]) if pd.notna(sq_dict.get("sprint_quali_pos")) else np.nan,
+                    "sprint_finish_pos": float(sr_dict["sprint_finish_pos"]) if pd.notna(sr_dict.get("sprint_finish_pos")) else np.nan,
+                    "sprint_pos_delta": float(sr_dict["sprint_pos_delta"]) if pd.notna(sr_dict.get("sprint_pos_delta")) else np.nan,
+
+                    "fp1_best_lap": p_dict.get("fp1_best_lap", np.nan),
+                    "fp2_best_lap": p_dict.get("fp2_best_lap", np.nan),
+                    "fp3_best_lap": p_dict.get("fp3_best_lap", np.nan),
+                    "best_practice_lap": p_dict.get("best_practice_lap", np.nan),
+                    "avg_practice_lap": p_dict.get("avg_practice_lap", np.nan),
+                    "practice_gap_pct": p_dict.get("practice_gap_pct", np.nan),
+                    "practice_rank": p_dict.get("practice_rank", np.nan),
+                    "practice_laps": p_dict.get("practice_laps", 0),
+                    "practice_laps_norm": p_dict.get("practice_laps_norm", 0.0),
+                    "practice_sessions": p_dict.get("practice_sessions", 0),
+                    "fp1_gap_pct": p_dict.get("fp1_gap_pct", np.nan),
+                    "fp2_gap_pct": p_dict.get("fp2_gap_pct", np.nan),
+                    "fp3_gap_pct": p_dict.get("fp3_gap_pct", np.nan),
+
+                    "QualifyingPosition": float(q_dict.get("QualifyingPosition", effective_grid)),
+                    "quali_pos_norm": float(q_dict.get("quali_pos_norm", (effective_grid - 1.0) / float(self.expected_grid_size - 1))),
+                    "quali_gap_pct": q_dict.get("quali_gap_pct", np.nan),
+                    "quali_no_time": q_dict.get("quali_no_time", 1),
+                    "q1_gap_pct": q_dict.get("q1_gap_pct", np.nan),
+                    "q2_gap_pct": q_dict.get("q2_gap_pct", np.nan),
+                    "q3_gap_pct": q_dict.get("q3_gap_pct", np.nan),
+
+                    "avg_finish": dfv.get("avg_finish", 12.0),
+                    "avg_grid": dfv.get("avg_grid", 12.0),
+                    "total_points": dfv.get("total_points", 0.0),
+                    "races_completed": dfv.get("races_completed", 0),
+                    "recent_finish": dfv.get("recent_finish", 12.0),
+                    "recent_grid": dfv.get("recent_grid", 12.0),
+                    "recent_points": dfv.get("recent_points", 0.0),
+                    "driver_finish_ewma": dfv.get("driver_finish_ewma", 12.0),
+                    "driver_quali_ewma": dfv.get("driver_quali_ewma", 12.0),
+                    "driver_dnf_rate": dfv.get("driver_dnf_rate", 0.0),
+
+                    "team_avg_finish": tfv.get("team_avg_finish", 12.0),
+                    "team_points": tfv.get("team_points", 0.0),
+                    "team_finish_ewma": tfv.get("team_finish_ewma", 12.0),
+                    "team_points_rate": tfv.get("team_points_rate", 0.0),
+
+                    # Capability 1: Race Pace Intelligence
+                    "long_run_pace_gap_pct": rp_dict.get("long_run_pace_gap_pct", np.nan),
+                    "long_run_pace_rank": rp_dict.get("long_run_pace_rank", np.nan),
+                    "race_pace_consistency": rp_dict.get("race_pace_consistency", np.nan),
+                    "race_pace_sample_count": rp_dict.get("race_pace_sample_count", 0),
+                    "long_run_stint_length": rp_dict.get("long_run_stint_length", 0),
+                    "race_pace_vs_quali_delta": rp_dict.get("race_pace_vs_quali_delta", np.nan),
+                    "race_pace_confidence": rp_dict.get("race_pace_confidence", 0.0),
+
+                    # Capability 2: Tire Degradation Modeling
+                    "soft_tyre_deg_rate": td_dict.get("soft_tyre_deg_rate", 0.110),
+                    "medium_tyre_deg_rate": td_dict.get("medium_tyre_deg_rate", 0.065),
+                    "hard_tyre_deg_rate": td_dict.get("hard_tyre_deg_rate", 0.038),
+                    "estimated_tyre_deg_rate": td_dict.get("estimated_tyre_deg_rate", 0.065),
+                    "compound_pace_delta": td_dict.get("compound_pace_delta", 0.65),
+                    "tyre_deg_confidence": td_dict.get("tyre_deg_confidence", 0.20),
+
+                    # Capability 3: Pit Stop Strategy Features
+                    "optimal_strategy_stops": 1.0,
+                    "strategy_time_loss_sec": 3.5,
+
+                    # Capability 4: Race Control Probabilities
+                    "p_safety_car": rc_dict.get("p_safety_car", 0.50),
+                    "p_vsc": rc_dict.get("p_vsc", 0.40),
+                    "p_red_flag": rc_dict.get("p_red_flag", 0.15),
+
+                    # Capability 5: Weather Features
+                    "air_temperature": w_dict.get("air_temperature", 23.0),
+                    "track_temperature": w_dict.get("track_temperature", 35.0),
+                    "humidity": w_dict.get("humidity", 60.0),
+                    "wind_speed": w_dict.get("wind_speed", 3.5),
+                    "rain_probability": w_dict.get("rain_probability", 0.15),
+                    "wet_conditions_indicator": w_dict.get("wet_conditions_indicator", 0.0),
+                    "weather_confidence": w_dict.get("weather_confidence", 0.30),
+                })
+
+        df = pd.DataFrame(rows)
+        if df.empty:
+            raise ValueError("Training dataset generation produced 0 rows.")
+
+        if stage is not None:
+            df = apply_stage_feature_mask(df, stage)
+
+        logger.info(f"Built training feature set: {len(df)} total driver-race samples.")
+        return df
+
+    def build_target_dataset(
+        self,
+        target_round: int,
+        track_name: str,
+        quali_df: Optional[pd.DataFrame],
+        practice_sessions: Dict[str, Optional[pd.DataFrame]],
+        season_races_df: Optional[pd.DataFrame] = None,
+        season_qualis_df: Optional[pd.DataFrame] = None,
+        penalties: Optional[Dict[str, int]] = None,
+        historical_track_df: Optional[pd.DataFrame] = None,
+        starting_grid_df: Optional[pd.DataFrame] = None,
+        stage: str = "after_qualifying",
+        track_key: Optional[str] = None,
+        expected_grid_size: Optional[int] = None,
+        weekend_only: bool = False,
+    ) -> pd.DataFrame:
+        """
+        Builds the target feature dataset for the upcoming race.
+        STRICT PRE-RACE GUARANTEES:
+        - NEVER includes 'ActualFinish' or any post-race data.
+        - Calculates effective starting grid applying known penalties or authoritative manifest.
+        - Strictly evaluates rolling form on rounds < target_round.
+
+        Parameters
+        ----------
+        target_round : int
+            Round number of the target race (e.g. 16 for Sepang).
+        track_name : str
+            Display name of the track (e.g. 'Sepang').
+        quali_df : pd.DataFrame, optional
+            Qualifying session results.
+        practice_sessions : dict
+            Mapping of 'fp1', 'fp2', 'fp3' to practice DataFrames.
+        season_races_df : pd.DataFrame
+            Historical completed races of the current season.
+        season_qualis_df : pd.DataFrame, optional
+            Historical completed qualifying sessions of the season.
+        penalties : dict, optional
+            Driver grid penalties (e.g. {'HAD': 5, 'COL': 15, 'LIN': 30}).
+        historical_track_df : pd.DataFrame, optional
+            Multi-year historical data for this circuit if available.
+        starting_grid_df : pd.DataFrame, optional
+            Authoritative starting grid DataFrame (e.g. from StartingGridRetriever).
+        stage : str
+            Prediction stage cutoff.
+
+        Returns
+        -------
+        pd.DataFrame
+            Target features with exactly expected_grid_size rows and no ActualFinish column.
+        """
+        effective_expected_size = expected_grid_size if (expected_grid_size is not None and expected_grid_size > 0) else self.expected_grid_size
+        logger.info(f"Building target features for {track_name} (Round {target_round}, Stage: {stage})...")
+
+        has_actual_qualifying = (quali_df is not None and not quali_df.empty)
+        if has_actual_qualifying:
+            q_sess = quali_df.copy()
+            if "Abbreviation" not in q_sess.columns and "Driver" in q_sess.columns:
+                q_sess["Abbreviation"] = q_sess["Driver"]
+            q_sess["Abbreviation"] = normalize_driver_series(q_sess["Abbreviation"])
+        elif starting_grid_df is not None and not starting_grid_df.empty:
+            q_sess = starting_grid_df.copy()
+            if "Abbreviation" not in q_sess.columns and "Driver" in q_sess.columns:
+                q_sess["Abbreviation"] = q_sess["Driver"]
+            q_sess["Abbreviation"] = normalize_driver_series(q_sess["Abbreviation"])
+        else:
+            raise ValueError(f"Target qualifying or starting grid data is required for {track_name}.")
+
+        q = q_sess.copy()
+        q = filter_competing_drivers(q)
+        pos_col = "Position" if "Position" in q.columns else "QualifyingPosition"
+        if pos_col in q.columns:
+            q["Position"] = pd.to_numeric(q[pos_col], errors="coerce")
+        else:
+            q["Position"] = np.nan
+
+        if has_actual_qualifying:
+            q = q.dropna(subset=["Abbreviation", "Position"]).drop_duplicates("Abbreviation")
+        else:
+            # When qualifying session was not held, retain all physical starting grid entrants
+            # Do not drop rows because qualifying Position is NaN
+            q = q.dropna(subset=["Abbreviation"]).drop_duplicates("Abbreviation")
+
+        if starting_grid_df is not None and not starting_grid_df.empty:
+            q_grid = starting_grid_df.copy()
+            if "Abbreviation" not in q_grid.columns and "Driver" in q_grid.columns:
+                q_grid["Abbreviation"] = q_grid["Driver"]
+            q_grid["Abbreviation"] = normalize_driver_series(q_grid["Abbreviation"])
+            q_grid = filter_competing_drivers(q_grid)
+        else:
+            penalties = penalties or {}
+            q_grid = resolve_fia_starting_grid(q, penalties=penalties, expected_grid_size=len(q))
+            q_grid = filter_competing_drivers(q_grid)
+
+        if len(q_grid) != effective_expected_size:
+            logger.warning(
+                f"Starting grid lineup has {len(q_grid)} drivers (expected {effective_expected_size})."
+            )
+
+        grid_lookup = {}
+        for _, grow in q_grid.iterrows():
+            d = grow["Abbreviation"]
+            grid_lookup[d] = grow.to_dict()
+
+        drivers = q_grid["Abbreviation"].tolist()
+        team_col = "TeamName" if "TeamName" in q_grid.columns else ("TeamName" if "TeamName" in q_sess.columns else "Team")
+        team_map = q_grid.set_index("Abbreviation")[team_col].to_dict() if team_col in q_grid.columns else (
+            q_sess.set_index("Abbreviation")[team_col].to_dict() if team_col in q_sess.columns else {}
+        )
+
+        stage_clean = str(stage).lower().strip() if stage else None
+        allowed_sessions = _STAGE_ALLOWED_WEEKEND_SESSIONS.get(stage_clean) if stage_clean else None
+        is_pre_qualifying = stage_clean in _PRE_QUALIFYING_STAGES if stage_clean else False
+        filtered_sessions = (
+            {k: v for k, v in practice_sessions.items() if k in allowed_sessions}
+            if (allowed_sessions is not None and practice_sessions)
+            else practice_sessions
+        )
+
+        practice = build_practice_features(filtered_sessions, drivers)
+        # If qualifying occurred, compute actual qualifying features; otherwise return neutral features
+        quali_feats = build_qualifying_features(q_sess if has_actual_qualifying else None, drivers)
+
+        # Sprint features (if sprint sessions were held and available prior to stage cutoff)
+        sq_df = filtered_sessions.get("sprint_qualifying") if filtered_sessions else None
+        sr_df = filtered_sessions.get("sprint_race") if filtered_sessions else None
+        sq_feats = build_sprint_qualifying_features(sq_df, drivers)
+        sr_feats = build_sprint_race_features(sr_df, drivers)
+
+        # Strict chronological form and grid conversion up to Round < target_round
+        if not weekend_only and season_races_df is not None and not season_races_df.empty:
+            dform, tform = build_season_form(
+                target_round, season_races_df, season_qualis_df, alpha=self.ewma_alpha
+            )
+            prior_target_races = season_races_df[season_races_df["Round"] < target_round]
+            target_conv_map = compute_grid_conversion_map(prior_target_races, expected_grid_size=effective_expected_size)
+        else:
+            dform, tform = {}, {}
+            prior_target_races = pd.DataFrame()
+            target_conv_map = {}
+
+        # Teammate features
+        # If qualifying occurred, compute teammate qualifying gap; otherwise leave neutral/NaN
+        tm_quali_feats = compute_teammate_quali_gap(q if has_actual_qualifying else None, drivers)
+        grid_col_for_tm = "ActualStartingGrid" if "ActualStartingGrid" in q_grid.columns else "GridPosition"
+        tm_grid_feats = compute_teammate_grid_delta(q_grid, drivers, grid_col=grid_col_for_tm)
+        q_for_tm = q if (has_actual_qualifying and not q.empty) else q_grid[["Abbreviation", team_col]].rename(columns={team_col: "TeamName"})
+        tm_h2h_map = compute_rolling_teammate_h2h(prior_target_races, q_for_tm)
+
+        # Capability 1: Race Pace Intelligence
+        if has_actual_qualifying and not is_pre_qualifying and not q.empty:
+            q_pos_map = {
+                d: float(q[q["Abbreviation"] == d]["Position"].iloc[0])
+                for d in drivers
+                if not q[q["Abbreviation"] == d].empty and pd.notna(q[q["Abbreviation"] == d]["Position"].iloc[0])
+            }
+        else:
+            q_pos_map = None
+        rp_feats = build_race_pace_features(
+            filtered_sessions,
+            drivers,
+            quali_positions=q_pos_map,
+            expected_grid_size=effective_expected_size
+        )
+
+        canonical_key = resolve_circuit_key(track_key) or resolve_circuit_key(track_name) or str(track_name).lower().replace(" ", "_")
+
+        # Capability 2: Tire Degradation Modeling
+        td_feats = (
+            build_tire_degradation_features(
+                filtered_sessions,
+                drivers,
+                circuit_key=canonical_key,
+            )
+            if self.enable_tire_degradation
+            else pd.DataFrame(columns=TIRE_FEATURE_COLUMNS)
+        )
+        td_feats = _ensure_driver_feature_schema(
+            td_feats, "Tyre degradation", columns=TIRE_FEATURE_COLUMNS
+        )
+
+        # Capability 4: Race Control Probabilities
+        rc_feats = build_race_control_features(
+            circuit_key=canonical_key,
+            drivers=drivers,
+        )
+
+        # Capability 5: Weather Features
+        w_feats = (
+            build_weather_features(
+                drivers=drivers,
+                circuit_key=canonical_key,
+                stage=stage,
+            )
+            if self.enable_weather
+            else pd.DataFrame()
+        )
+        rp_feats = _ensure_driver_feature_schema(rp_feats, "Race pace")
+        rc_feats = _ensure_driver_feature_schema(rc_feats, "Race control")
+        w_feats = _ensure_driver_feature_schema(w_feats, "Weather")
+
+        rows = []
+        for drv in drivers:
+            p = practice[practice["Abbreviation"] == drv]
+            qq = quali_feats[quali_feats["Abbreviation"] == drv]
+            sq_row = sq_feats[sq_feats["Abbreviation"] == drv]
+            sr_row = sr_feats[sr_feats["Abbreviation"] == drv]
+
+            p_dict = p.iloc[0].to_dict() if not p.empty else {}
+            q_dict = qq.iloc[0].to_dict() if not qq.empty else {}
+            sq_dict = sq_row.iloc[0].to_dict() if not sq_row.empty else {}
+            sr_dict = sr_row.iloc[0].to_dict() if not sr_row.empty else {}
+
+            rp_row = rp_feats[rp_feats["Abbreviation"] == drv] if not rp_feats.empty else pd.DataFrame()
+            td_row = td_feats[td_feats["Abbreviation"] == drv] if not td_feats.empty else pd.DataFrame()
+            rc_row = rc_feats[rc_feats["Abbreviation"] == drv] if not rc_feats.empty else pd.DataFrame()
+            w_row = w_feats[w_feats["Abbreviation"] == drv] if not w_feats.empty else pd.DataFrame()
+
+            rp_dict = rp_row.iloc[0].to_dict() if not rp_row.empty else {}
+            td_dict = td_row.iloc[0].to_dict() if not td_row.empty else {}
+            rc_dict = rc_row.iloc[0].to_dict() if not rc_row.empty else {}
+            w_dict = w_row.iloc[0].to_dict() if not w_row.empty else {}
+
+            tm_q_row = tm_quali_feats[tm_quali_feats["Abbreviation"] == drv]
+            tm_g_row = tm_grid_feats[tm_grid_feats["Abbreviation"] == drv]
+            tm_q_gap = tm_q_row["teammate_quali_gap_pct"].iloc[0] if not tm_q_row.empty else np.nan
+            tm_g_delta = tm_g_row["teammate_grid_delta"].iloc[0] if not tm_g_row.empty else np.nan
+            tm_h2h = tm_h2h_map.get(drv, 0.50)
+
+            team = str(team_map.get(drv, "Unknown"))
+            dfv = dform.get(drv, {})
+            tfv = tform.get(team, {})
+
+            g_info = grid_lookup.get(drv, {})
+            actual_grid = g_info.get("ActualStartingGrid")
+            sim_rank = g_info.get("simulation_start_rank")
+            is_pit = float(g_info.get("is_pit_lane_start", 0))
+            status = str(g_info.get("StartingGridStatus", "CLASSIFIED"))
+            pen_places = float(g_info.get("grid_penalty_places", g_info.get("GridPenalty", 0)))
+            delta = float(g_info.get("grid_vs_quali_delta", 0))
+
+            if is_pit == 1.0 or pd.isna(actual_grid):
+                effective_grid = float(sim_rank) if pd.notna(sim_rank) else float(effective_expected_size)
+                actual_grid_val = np.nan
+            else:
+                effective_grid = float(actual_grid)
+                actual_grid_val = float(actual_grid)
+
+            quali_pos = float(q_dict.get("QualifyingPosition", effective_grid))
+            conv_feat = get_conversion_features_for_grid(effective_grid, target_conv_map, expected_grid_size=effective_expected_size)
+            grid_norm_val = (effective_grid - 1.0) / float(max(effective_expected_size - 1, 1))
+
+            rows.append({
+                "Round": target_round,
+                "RaceName": track_name,
+                "Abbreviation": drv,
+                "TeamName": team,
+
+                # STRICT PRE-RACE: ActualFinish is intentionally excluded!
+
+                "GridPosition": effective_grid,
+                "ActualStartingGrid": actual_grid_val,
+                "simulation_start_rank": float(sim_rank) if pd.notna(sim_rank) else effective_grid,
+                "is_pit_lane_start": is_pit,
+                "StartingGridStatus": status,
+                "GridPenalty": int(pen_places),
+                "grid_penalty_places": pen_places,
+                "grid_vs_quali_delta": delta,
+                "grid_norm": grid_norm_val,
+                "expected_grid_finish": conv_feat["expected_grid_finish"],
+                "grid_retention_prob": conv_feat["grid_retention_prob"],
+                "QualifyingDataAvailable": 1 if has_actual_qualifying else 0,
+                "GridBasedComparisonAvailable": 1 if (starting_grid_df is not None and not starting_grid_df.empty) else 0,
+
+                "teammate_quali_gap_pct": float(tm_q_gap) if pd.notna(tm_q_gap) else np.nan,
+                "teammate_grid_delta": float(tm_g_delta) if pd.notna(tm_g_delta) else np.nan,
+                "driver_teammate_h2h_ratio": float(tm_h2h),
+
+                # Experimental Sprint features: supported and leakage-free, but Phase 6E showed only marginal/mixed predictive improvement.
+                "sprint_quali_pos": float(sq_dict["sprint_quali_pos"]) if pd.notna(sq_dict.get("sprint_quali_pos")) else np.nan,
+                "sprint_finish_pos": float(sr_dict["sprint_finish_pos"]) if pd.notna(sr_dict.get("sprint_finish_pos")) else np.nan,
+                "sprint_pos_delta": float(sr_dict["sprint_pos_delta"]) if pd.notna(sr_dict.get("sprint_pos_delta")) else np.nan,
+
+                "fp1_best_lap": p_dict.get("fp1_best_lap", np.nan),
+                "fp2_best_lap": p_dict.get("fp2_best_lap", np.nan),
+                "fp3_best_lap": p_dict.get("fp3_best_lap", np.nan),
+                "best_practice_lap": p_dict.get("best_practice_lap", np.nan),
+                "avg_practice_lap": p_dict.get("avg_practice_lap", np.nan),
+                "practice_gap_pct": p_dict.get("practice_gap_pct", np.nan),
+                "practice_rank": p_dict.get("practice_rank", np.nan),
+                "practice_laps": p_dict.get("practice_laps", 0),
+                "practice_laps_norm": p_dict.get("practice_laps_norm", 0.0),
+                "practice_sessions": p_dict.get("practice_sessions", 0),
+                "fp1_gap_pct": p_dict.get("fp1_gap_pct", np.nan),
+                "fp2_gap_pct": p_dict.get("fp2_gap_pct", np.nan),
+                "fp3_gap_pct": p_dict.get("fp3_gap_pct", np.nan),
+
+                "QualifyingPosition": quali_pos,
+                "quali_pos_norm": (quali_pos - 1.0) / float(max(effective_expected_size - 1, 1)),
+                "quali_gap_pct": q_dict.get("quali_gap_pct", np.nan),
+                "quali_no_time": q_dict.get("quali_no_time", 1),
+                "q1_gap_pct": q_dict.get("q1_gap_pct", np.nan),
+                "q2_gap_pct": q_dict.get("q2_gap_pct", np.nan),
+                "q3_gap_pct": q_dict.get("q3_gap_pct", np.nan),
+
+                "avg_finish": dfv.get("avg_finish", 12.0),
+                "avg_grid": dfv.get("avg_grid", 12.0),
+                "total_points": dfv.get("total_points", 0.0),
+                "races_completed": dfv.get("races_completed", 0),
+                "recent_finish": dfv.get("recent_finish", 12.0),
+                "recent_grid": dfv.get("recent_grid", 12.0),
+                "recent_points": dfv.get("recent_points", 0.0),
+                "driver_finish_ewma": dfv.get("driver_finish_ewma", 12.0),
+                "driver_quali_ewma": dfv.get("driver_quali_ewma", 12.0),
+                "driver_dnf_rate": dfv.get("driver_dnf_rate", 0.0),
+
+                "team_avg_finish": tfv.get("team_avg_finish", 12.0),
+                "team_points": tfv.get("team_points", 0.0),
+                "team_finish_ewma": tfv.get("team_finish_ewma", 12.0),
+                "team_points_rate": tfv.get("team_points_rate", 0.0),
+
+                # Capability 1: Race Pace Intelligence
+                "long_run_pace_gap_pct": rp_dict.get("long_run_pace_gap_pct", np.nan),
+                "long_run_pace_rank": rp_dict.get("long_run_pace_rank", np.nan),
+                "race_pace_consistency": rp_dict.get("race_pace_consistency", np.nan),
+                "race_pace_sample_count": rp_dict.get("race_pace_sample_count", 0),
+                "long_run_stint_length": rp_dict.get("long_run_stint_length", 0),
+                "race_pace_vs_quali_delta": rp_dict.get("race_pace_vs_quali_delta", np.nan),
+                "race_pace_confidence": rp_dict.get("race_pace_confidence", 0.0),
+
+                # Capability 2: Tire Degradation Modeling
+                "soft_tyre_deg_rate": td_dict.get("soft_tyre_deg_rate", 0.110),
+                "medium_tyre_deg_rate": td_dict.get("medium_tyre_deg_rate", 0.065),
+                "hard_tyre_deg_rate": td_dict.get("hard_tyre_deg_rate", 0.038),
+                "estimated_tyre_deg_rate": td_dict.get("estimated_tyre_deg_rate", 0.065),
+                "compound_pace_delta": td_dict.get("compound_pace_delta", 0.65),
+                "tyre_deg_confidence": td_dict.get("tyre_deg_confidence", 0.20),
+
+                # Capability 3: Pit Stop Strategy Features (defaults, will be refined below)
+                "optimal_strategy_stops": 1.0,
+                "strategy_time_loss_sec": 3.5,
+
+                # Capability 4: Race Control Probabilities
+                "p_safety_car": rc_dict.get("p_safety_car", 0.50),
+                "p_vsc": rc_dict.get("p_vsc", 0.40),
+                "p_red_flag": rc_dict.get("p_red_flag", 0.15),
+
+                # Capability 5: Weather Features
+                "air_temperature": w_dict.get("air_temperature", 23.0),
+                "track_temperature": w_dict.get("track_temperature", 35.0),
+                "humidity": w_dict.get("humidity", 60.0),
+                "wind_speed": w_dict.get("wind_speed", 3.5),
+                "rain_probability": w_dict.get("rain_probability", 0.15),
+                "wet_conditions_indicator": w_dict.get("wet_conditions_indicator", 0.0),
+                "weather_confidence": w_dict.get("weather_confidence", 0.30),
+            })
+
+        target_df = pd.DataFrame(rows)
+
+        defaulted_groups: List[str] = []
+        if not self.enable_tire_degradation or not td_dict:
+            defaulted_groups.append("tyre_degradation")
+        if not rc_dict:
+            defaulted_groups.append("race_control")
+        if not self.enable_weather or not w_dict:
+            defaulted_groups.append("weather")
+
+        # Capability 3: Grid Strategy Simulation
+        try:
+            strat_df = (
+                build_pit_strategy_features(
+                    target_df=target_df,
+                    circuit_key=canonical_key,
+                )
+                if self.enable_pit_strategy
+                else pd.DataFrame()
+            )
+            if not strat_df.empty:
+                for col in ["optimal_strategy_stops", "strategy_time_loss_sec", "recommended_strategy", "alternative_strategy", "strategy_delta_seconds", "strategy_confidence"]:
+                    if col in strat_df.columns:
+                        col_map = dict(zip(strat_df["Abbreviation"], strat_df[col]))
+                        target_df[col] = target_df["Abbreviation"].map(col_map)
+            else:
+                defaulted_groups.append("pit_strategy")
+        except Exception as e:
+            defaulted_groups.append("pit_strategy")
+            logger.warning(f"Error simulating pit stop strategy features (using prior defaults): {e}")
+
+        if defaulted_groups:
+            unique_defaults = sorted(set(defaulted_groups))
+            target_df.attrs["telemetry_fallbacks"] = unique_defaults
+            logger.warning(
+                f"Telemetry/capability fallbacks active for {track_name}: {', '.join(unique_defaults)}"
+            )
+        else:
+            target_df.attrs["telemetry_fallbacks"] = []
+
+        # Attach legitimate pre-qualifying provisional grid predictions for downstream blending
+        # (Preserves strict temporal stage mask on official GridPosition and QualifyingPosition)
+        stage_clean = str(stage).lower().strip() if stage else ""
+        if stage_clean in _PRE_QUALIFYING_STAGES and quali_df is not None and not quali_df.empty:
+            pos_col = "Position" if "Position" in quali_df.columns else "QualifyingPosition"
+            if pos_col in quali_df.columns:
+                q_map = dict(zip(quali_df["Abbreviation"], pd.to_numeric(quali_df[pos_col], errors="coerce")))
+                target_df["provisional_grid_position"] = target_df["Abbreviation"].map(q_map)
+
+        if weekend_only:
+            # Completely strip out all historical multi-race rolling form & EWMA metrics
+            for h_col in HISTORICAL_FORM_FEATURES:
+                if h_col in target_df.columns:
+                    target_df.drop(columns=[h_col], inplace=True)
+
+        if "ActualFinish" in target_df.columns:
+            raise AssertionError("LEAKAGE DETECTED: ActualFinish found in target dataset!")
+
+        if stage is not None:
+            target_df = apply_stage_feature_mask(target_df, stage)
+
+        if len(target_df) != effective_expected_size:
+            logger.warning(
+                f"Target feature count is {len(target_df)} (expected {effective_expected_size})."
+            )
+
+        logger.info(f"Target dataset built successfully for {track_name}: {len(target_df)} drivers.")
+        return target_df
