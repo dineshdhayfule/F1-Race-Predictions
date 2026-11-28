@@ -346,6 +346,7 @@ def apply_stage_feature_mask(df: pd.DataFrame, stage: Optional[str]) -> pd.DataF
     if df is None or df.empty or not stage:
         return df
 
+    df = df.copy()
     stage_clean = str(stage).lower().strip()
     masked_cols = STAGE_UNAVAILABLE_FEATURES.get(stage_clean, [])
     for col in masked_cols:
@@ -785,10 +786,14 @@ class FeatureEngineer:
             grid_lookup[d] = grow.to_dict()
 
         drivers = q_grid["Abbreviation"].tolist()
-        team_col = "TeamName" if "TeamName" in q_grid.columns else ("TeamName" if "TeamName" in q_sess.columns else "Team")
-        team_map = q_grid.set_index("Abbreviation")[team_col].to_dict() if team_col in q_grid.columns else (
-            q_sess.set_index("Abbreviation")[team_col].to_dict() if team_col in q_sess.columns else {}
-        )
+        q_grid_team_col = "TeamName" if "TeamName" in q_grid.columns else ("Team" if "Team" in q_grid.columns else None)
+        q_sess_team_col = "TeamName" if "TeamName" in q_sess.columns else ("Team" if "Team" in q_sess.columns else None)
+        if q_grid_team_col is not None:
+            team_map = q_grid.set_index("Abbreviation")[q_grid_team_col].to_dict()
+        elif q_sess_team_col is not None:
+            team_map = q_sess.set_index("Abbreviation")[q_sess_team_col].to_dict()
+        else:
+            team_map = {}
 
         stage_clean = str(stage).lower().strip() if stage else None
         allowed_sessions = _STAGE_ALLOWED_WEEKEND_SESSIONS.get(stage_clean) if stage_clean else None
@@ -826,7 +831,12 @@ class FeatureEngineer:
         tm_quali_feats = compute_teammate_quali_gap(q if has_actual_qualifying else None, drivers)
         grid_col_for_tm = "ActualStartingGrid" if "ActualStartingGrid" in q_grid.columns else "GridPosition"
         tm_grid_feats = compute_teammate_grid_delta(q_grid, drivers, grid_col=grid_col_for_tm)
-        q_for_tm = q if (has_actual_qualifying and not q.empty) else q_grid[["Abbreviation", team_col]].rename(columns={team_col: "TeamName"})
+        if has_actual_qualifying and not q.empty:
+            q_for_tm = q
+        elif q_grid_team_col is not None:
+            q_for_tm = q_grid[["Abbreviation", q_grid_team_col]].rename(columns={q_grid_team_col: "TeamName"})
+        else:
+            q_for_tm = q_grid[["Abbreviation"]].assign(TeamName="Unknown")
         tm_h2h_map = compute_rolling_teammate_h2h(prior_target_races, q_for_tm)
 
         # Capability 1: Race Pace Intelligence
@@ -1040,11 +1050,11 @@ class FeatureEngineer:
         target_df = pd.DataFrame(rows)
 
         defaulted_groups: List[str] = []
-        if not self.enable_tire_degradation or not td_dict:
+        if not self.enable_tire_degradation or td_feats.empty:
             defaulted_groups.append("tyre_degradation")
-        if not rc_dict:
+        if rc_feats.empty:
             defaulted_groups.append("race_control")
-        if not self.enable_weather or not w_dict:
+        if not self.enable_weather or w_feats.empty:
             defaulted_groups.append("weather")
 
         # Capability 3: Grid Strategy Simulation

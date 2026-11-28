@@ -274,7 +274,8 @@ class PitStrategySimulator:
             conf = float(row.get("tyre_deg_confidence", 0.50)) if pd.notna(row.get("tyre_deg_confidence")) else 0.50
 
             # Slightly adjust base pace by qualifying rank (fastest qualifier has lower base lap time)
-            q_pos = float(row.get("QualifyingPosition", 12.0))
+            raw_q = row.get("QualifyingPosition")
+            q_pos = float(raw_q) if pd.notna(raw_q) else 12.0
             drv_base_pace = base_nominal_pace + (q_pos - 1.0) * 0.08
 
             strategies = self.evaluate_strategy_candidates(

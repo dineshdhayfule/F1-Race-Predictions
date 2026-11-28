@@ -11,6 +11,7 @@ Enforces:
 
 from typing import Optional, List, Dict, Any, Tuple
 from collections import defaultdict
+import re
 
 from apexgrid.historical.api_client import HistoricalAPIClient
 from apexgrid.historical.classification_service import HistoricalClassificationService
@@ -99,8 +100,7 @@ class RacePerformanceAnalyticsService:
 
                 is_classified = (
                     status == "Finished"
-                    or "+ lap" in status.lower()
-                    or "+ laps" in status.lower()
+                    or bool(re.match(r"^\+\d+\s+laps?$", status.strip(), re.IGNORECASE))
                     or (pos_int is not None and str(item.get("positionText", "")).isdigit())
                 )
 

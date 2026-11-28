@@ -56,8 +56,8 @@ class SessionResultsService:
         self.classification_service = HistoricalClassificationService(api_client=self.api_client)
         self.qualifying_service = HistoricalQualifyingService(api_client=self.api_client)
         from apexgrid.utils.paths import get_runtime_root
-        self.data_loader = data_loader or DataLoader()
         self.root_dir = Path(root_dir) if root_dir else get_runtime_root()
+        self.data_loader = data_loader or DataLoader(root_dir=self.root_dir)
 
     def is_sprint_round(self, season: int, round_num: int) -> bool:
         """
@@ -363,7 +363,9 @@ class SessionResultsService:
         try:
             df = pd.read_csv(path)
             if "Position" in df.columns:
-                df = df.sort_values("Position")
+                df = df.sort_values("Position").reset_index(drop=True)
+            else:
+                df = df.reset_index(drop=True)
             entries: List[RaceResultEntry] = []
             for idx, row in df.iterrows():
                 pos = int(row["Position"]) if pd.notna(row.get("Position")) else None
@@ -409,7 +411,9 @@ class SessionResultsService:
         try:
             df = pd.read_csv(path)
             if "Position" in df.columns:
-                df = df.sort_values("Position")
+                df = df.sort_values("Position").reset_index(drop=True)
+            else:
+                df = df.reset_index(drop=True)
             entries: List[SprintResultEntry] = []
             for idx, row in df.iterrows():
                 pos = int(row["Position"]) if pd.notna(row.get("Position")) else None
@@ -447,7 +451,9 @@ class SessionResultsService:
         try:
             df = pd.read_csv(path)
             if "Position" in df.columns:
-                df = df.sort_values("Position")
+                df = df.sort_values("Position").reset_index(drop=True)
+            else:
+                df = df.reset_index(drop=True)
             entries: List[QualifyingResultEntry] = []
             fmt = "Sprint Qualifying (SQ)" if is_sprint_quali else "Knockout"
             code = "SQ" if is_sprint_quali else "Q"

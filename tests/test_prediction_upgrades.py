@@ -192,6 +192,9 @@ def test_predict_qualifying_uses_three_way_ensemble(tmp_path):
 
     df = res["predictions"]
     assert len(df) == 4
+    assert res["calibration_source"] == "prior_fallback"
+    assert res["calibrated_sigma"] == 2.85
+    assert res["team_residuals"] == {}
     for col in ("Abbreviation", "ExpectedQualifyingPosition", "PoleProbability", "DeterministicScore"):
         assert col in df.columns
         assert df[col].notna().all()

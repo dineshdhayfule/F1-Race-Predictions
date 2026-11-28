@@ -309,7 +309,7 @@ class DataLoader:
         """
         season_dir = self.raw_data_dir / "season" / str(year)
         if not season_dir.exists():
-            season_dir = self.processed_data_dir
+            season_dir = self.processed_data_dir / "season" / str(year)
 
         races = []
         qualis = []
@@ -375,7 +375,7 @@ class DataLoader:
         """
         season_dir = self.raw_data_dir / "season" / str(year)
         if not season_dir.exists():
-            season_dir = self.processed_data_dir / "season" / str(year)
+            season_dir = self.processed_data_dir / "season" / str(year) / "season" / str(year)
         if not season_dir.exists():
             season_dir = self.processed_data_dir
 
@@ -469,8 +469,8 @@ class DataLoader:
             ev = CalendarService(root_dir=self.root_dir).get_event_by_circuit(year, track_k)
             if ev is not None:
                 return int(ev.round_number)
-        except Exception:
-            pass
+        except (ImportError, OSError, ValueError, KeyError, TypeError, AttributeError, RuntimeError) as exc:
+            logger.debug("CalendarService round lookup failed for %s %s: %s", track_k, year, exc)
 
         return None
 

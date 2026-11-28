@@ -167,6 +167,16 @@ class HistoricalQualifyingService:
         """
         entries: List[QualifyingResultEntry] = []
         pole_time_str: Optional[str] = None
+        for item in raw_results:
+            if not isinstance(item, dict):
+                continue
+            try:
+                if int(item.get("position", 0)) == 1:
+                    pole_time_str = item.get("Q3") or item.get("Q2") or item.get("Q1")
+                    if pole_time_str:
+                        break
+            except (ValueError, TypeError):
+                continue
 
         for item in raw_results:
             if not isinstance(item, dict):

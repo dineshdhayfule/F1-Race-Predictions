@@ -45,6 +45,17 @@ CANONICAL_ALIASES: Dict[str, str] = {
     "sakhir": "bahrain",
     "malaysia": "sepang",
     "malaysian_grand_prix": "sepang",
+    "vegas": "las_vegas",
+    "las_vegas_strip": "las_vegas",
+    "brazil": "sao_paulo",
+    "spain": "barcelona",
+    "great_britain": "silverstone",
+    "uk": "silverstone",
+    "azerbaijan": "baku",
+    "netherlands": "zandvoort",
+    "uae": "abu_dhabi",
+    "usa": "austin",
+    "united_states": "austin",
 }
 
 
@@ -137,3 +148,33 @@ def resolve_circuit_key(
                 return k
 
     return fallback
+
+
+def resolve_ergast_circuit_id(user_input: Optional[str]) -> str:
+    """
+    Resolves any circuit identifier (canonical key, nickname, country, or Ergast ID)
+    into the Jolpica/Ergast API circuitId string.
+
+    Falls back to the normalized input string when the venue is a historic circuit
+    not present in tracks.json (e.g. 'nurburgring', 'hockenheimring', 'brands_hatch').
+    """
+    if user_input is None:
+        return ""
+    cleaned = str(user_input).strip().lower().replace("-", "_").replace(" ", "_")
+    if not cleaned:
+        return ""
+
+    tracks_cfg = load_tracks_config()
+    canonical = resolve_circuit_key(cleaned)
+    if canonical and canonical in tracks_cfg:
+        ergast_id = tracks_cfg[canonical].get("ergast_circuit_id")
+        if ergast_id:
+            return str(ergast_id).strip().lower()
+
+    # Check if user_input directly matches an ergast_circuit_id in tracks.json
+    for info in tracks_cfg.values():
+        ergast_id = str(info.get("ergast_circuit_id", "")).strip().lower()
+        if ergast_id and cleaned == ergast_id:
+            return ergast_id
+
+    return cleaned

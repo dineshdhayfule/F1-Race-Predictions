@@ -42,10 +42,20 @@ def get_config_path(filename: str) -> Path:
     """
     try:
         traversable = resources.files("apexgrid.config").joinpath(filename)
-        bundled_cfg = Path(str(traversable))
-        if bundled_cfg.exists():
-            return bundled_cfg
-    except (ModuleNotFoundError, TypeError, OSError):
+        if traversable.is_file():
+            try:
+                bundled_cfg = Path(str(traversable))
+                if bundled_cfg.exists():
+                    return bundled_cfg
+            except (TypeError, OSError):
+                pass
+            with resources.as_file(traversable) as tmp_path:
+                if tmp_path.exists():
+                    cached_cfg = Path.home() / ".apexgrid" / "config" / filename
+                    cached_cfg.parent.mkdir(parents=True, exist_ok=True)
+                    cached_cfg.write_bytes(tmp_path.read_bytes())
+                    return cached_cfg
+    except (ModuleNotFoundError, TypeError, OSError, FileNotFoundError):
         pass
 
     pkg_cfg = _PACKAGE_DIR / "config" / filename

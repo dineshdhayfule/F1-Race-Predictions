@@ -5,6 +5,7 @@ Performs chronological out-of-fold walk-forward validation across season rounds.
 Calculates MAE, RMSE, Spearman correlation, Top-K overlap, and calibration residuals.
 """
 
+import json
 from typing import Dict, List, Tuple, Any, Optional
 import numpy as np
 import pandas as pd
@@ -19,7 +20,9 @@ import xgboost as xgb
 
 from apexgrid.features.build_features import PRE_QUALI_STAGES, apply_stage_feature_mask
 from apexgrid.models.train import create_feature_imputer, prepare_pace_training_rows
+from apexgrid.utils.circuit_mapping import resolve_circuit_key
 from apexgrid.utils.logging_utils import get_logger
+from apexgrid.utils.paths import resolve_config_file
 
 logger = get_logger("model_evaluate")
 
@@ -50,8 +53,38 @@ class ModelEvaluator:
             "street": {"grid_weight": 0.50, "ml_weight": 0.50},
             "permanent": {"grid_weight": 0.35, "ml_weight": 0.65},
             "temporary": {"grid_weight": 0.45, "ml_weight": 0.55},
-            "default": {"grid_weight": 0.35, "ml_weight": 0.65}
+            "default": {"grid_weight": 0.35, "ml_weight": 0.65},
         })
+        self._tracks_cfg: Dict[str, Any] = {}
+        try:
+            tracks_path = resolve_config_file("tracks.json")
+            if tracks_path.exists():
+                with open(tracks_path, "r", encoding="utf-8") as f:
+                    self._tracks_cfg = json.load(f).get("tracks", {})
+        except Exception:
+            self._tracks_cfg = {}
+
+    def _resolve_circuit_type(self, test_df: pd.DataFrame, round_num: Any) -> str:
+        if "circuit_type" in test_df.columns and pd.notna(test_df["circuit_type"].iloc[0]):
+            return str(test_df["circuit_type"].iloc[0]).lower()
+        for col in ("Race", "Track", "Circuit", "track_key"):
+            if col in test_df.columns and pd.notna(test_df[col].iloc[0]):
+                val = str(test_df[col].iloc[0]).strip()
+                ck = resolve_circuit_key(val)
+                if ck in self._tracks_cfg:
+                    return str(self._tracks_cfg[ck].get("circuit_type", "default")).lower()
+                val_lower = val.lower()
+                for tk, tinfo in self._tracks_cfg.items():
+                    if str(tinfo.get("name", "")).lower() == val_lower or val_lower in [str(e).lower() for e in tinfo.get("event_names", [])]:
+                        return str(tinfo.get("circuit_type", "default")).lower()
+        year_val = int(test_df["Year"].iloc[0]) if "Year" in test_df.columns and pd.notna(test_df["Year"].iloc[0]) else None
+        for tinfo in self._tracks_cfg.values():
+            r_match = tinfo.get(f"round_{year_val}") if year_val else None
+            if r_match is None:
+                r_match = tinfo.get("round")
+            if r_match is not None and int(r_match) == int(round_num):
+                return str(tinfo.get("circuit_type", "default")).lower()
+        return "default"
 
     def evaluate_walk_forward(
         self,
@@ -158,8 +191,6 @@ class ModelEvaluator:
                     "best_mae": None,
                     "selected_residuals": np.array([]),
                     "team_residuals": {},
-                    "best_mae": None,
-                    "selected_residuals": np.array([]),
                     "rf_residuals": np.array([]),
                     "xgb_residuals": np.array([]),
                     "ridge_residuals": np.array([]),
@@ -175,196 +206,77 @@ class ModelEvaluator:
                     "round_predictions": {},
                     "actuals": np.array([]),
                 }
-            if stage:
-                train_copy = apply_stage_feature_mask(train_copy, stage)
-            for col in self.feature_cols:
-                if col not in train_copy.columns:
-                    train_copy[col] = np.nan
-
-            imputer = create_feature_imputer(strategy="median")
-            X_all = imputer.fit_transform(train_copy[self.feature_cols])
-            y_all = train_copy["ActualFinish"].values
-
-            rf_cfg = self.model_cfg.get("random_forest", {})
-            rf = RandomForestRegressor(
-                n_estimators=rf_cfg.get("n_estimators", 500),
-                max_depth=rf_cfg.get("max_depth", 8),
-                min_samples_leaf=rf_cfg.get("min_samples_leaf", 2),
-                random_state=self.random_state,
-                n_jobs=-1,
+            logger.info(
+                f"Early-season (< {min_priors} rounds): skipping in-sample evaluation; "
+                f"using prior fallback."
             )
-            rf.fit(X_all, y_all)
-            rf_pred = rf.predict(X_all)
-
-            xgb_cfg = self.model_cfg.get("xgboost", {})
-            model_xgb = xgb.XGBRegressor(
-                n_estimators=xgb_cfg.get("n_estimators", 300),
-                max_depth=xgb_cfg.get("max_depth", 4),
-                learning_rate=xgb_cfg.get("learning_rate", 0.03),
-                subsample=xgb_cfg.get("subsample", 0.8),
-                colsample_bytree=xgb_cfg.get("colsample_bytree", 0.8),
-                min_child_weight=xgb_cfg.get("min_child_weight", 1),
-                reg_alpha=xgb_cfg.get("reg_alpha", 0.0),
-                reg_lambda=xgb_cfg.get("reg_lambda", 1.0),
-                random_state=self.random_state,
-                objective="reg:squarederror",
-            )
-            model_xgb.fit(X_all, y_all)
-            xgb_pred = model_xgb.predict(X_all)
-
-            # Ridge Regression
-            ridge_cfg = self.model_cfg.get("ridge", {})
-            alpha = float(ridge_cfg.get("alpha", 100.0))
-            ridge = Pipeline([
-                ("scaler", StandardScaler()),
-                ("ridge", Ridge(alpha=alpha, random_state=self.random_state))
-            ])
-            ridge.fit(X_all, y_all)
-            ridge_pred = ridge.predict(X_all)
-
-            multi_pred = 0.40 * rf_pred + 0.30 * xgb_pred + 0.30 * ridge_pred
-
-            rf_residuals = list(y_all - rf_pred)
-            xgb_residuals = list(y_all - xgb_pred)
-            ridge_residuals = list(y_all - ridge_pred)
-            multi_residuals = list(y_all - multi_pred)
-
-            if "ActualStartingGrid" in train_copy.columns:
-                grid_series = pd.to_numeric(train_copy["ActualStartingGrid"], errors="coerce")
-            elif "GridPosition" in train_copy.columns:
-                grid_series = pd.to_numeric(train_copy["GridPosition"], errors="coerce")
-            else:
-                grid_series = pd.Series(12.0, index=train_copy.index)
-            round_grids = grid_series.fillna(12.0).values
-
-            ensemble_results = []
-            round_predictions = {}
-            for w_rf, w_xgb, name in tested_weights:
-                blend_pred = w_rf * rf_pred + w_xgb * xgb_pred
-                round_predictions[name] = list(blend_pred)
-                mae = float(mean_absolute_error(y_all, blend_pred))
-                medae = float(median_absolute_error(y_all, blend_pred))
-                rmse = float(np.sqrt(mean_squared_error(y_all, blend_pred)))
-                spearman_corr = float(spearmanr(y_all, blend_pred).statistic)
-                ensemble_results.append({
-                    "model_name": name,
-                    "rf_weight": w_rf,
-                    "xgb_weight": w_xgb,
-                    "mae": round(mae, 4),
-                    "medae": round(medae, 4),
-                    "rmse": round(rmse, 4),
-                    "spearman": round(spearman_corr, 4),
-                })
-
-            # Add Ridge and Multi-Model evaluations to in-sample ensemble_results
-            ridge_mae = float(mean_absolute_error(y_all, ridge_pred))
-            ridge_medae = float(median_absolute_error(y_all, ridge_pred))
-            ridge_rmse = float(np.sqrt(mean_squared_error(y_all, ridge_pred)))
-            ridge_spearman = float(spearmanr(y_all, ridge_pred).statistic)
-            ensemble_results.append({
-                "model_name": "100% Ridge",
-                "rf_weight": 0.0,
-                "xgb_weight": 0.0,
-                "ridge_weight": 1.0,
-                "mae": round(ridge_mae, 4),
-                "medae": round(ridge_medae, 4),
-                "rmse": round(ridge_rmse, 4),
-                "spearman": round(ridge_spearman, 4),
-            })
-
-            multi_mae = float(mean_absolute_error(y_all, multi_pred))
-            multi_medae = float(median_absolute_error(y_all, multi_pred))
-            multi_rmse = float(np.sqrt(mean_squared_error(y_all, multi_pred)))
-            multi_spearman = float(spearmanr(y_all, multi_pred).statistic)
-            ensemble_results.append({
-                "model_name": "Validated Multi-Model (40% RF / 30% XGB / 30% Ridge)",
-                "rf_weight": 0.40,
-                "xgb_weight": 0.30,
-                "ridge_weight": 0.30,
-                "mae": round(multi_mae, 4),
-                "medae": round(multi_medae, 4),
-                "rmse": round(multi_rmse, 4),
-                "spearman": round(multi_spearman, 4),
-            })
-
             sel_cfg = self.config.get("model_selection", {})
-            default_rf_w = float(sel_cfg.get("fixed_rf_weight", 0.40))
-            default_xgb_w = float(sel_cfg.get("fixed_xgb_weight", 0.30))
-            default_ridge_w = float(sel_cfg.get("fixed_ridge_weight", 0.30))
-            match = next(
-                (
-                    x for x in ensemble_results
-                    if abs(x.get("rf_weight", 0.0) - default_rf_w) < 1e-4
-                    and abs(x.get("xgb_weight", 0.0) - default_xgb_w) < 1e-4
-                    and abs(x.get("ridge_weight", 0.0) - default_ridge_w) < 1e-4
-                ),
-                next(
-                    (x for x in ensemble_results if "Validated Multi-Model" in x.get("model_name", "")),
-                    ensemble_results[-1],
-                ),
-            )
-            best_w_rf = match["rf_weight"]
-            best_w_xgb = match["xgb_weight"]
-            best_w_ridge = match.get("ridge_weight", 0.0)
-            best_name = match["model_name"]
-            best_mae = match["mae"]
-            if best_w_ridge >= 0.5:
-                selected_residuals = np.array(ridge_residuals)
-            elif match.get("ridge_weight", 0.0) > 0.2:
-                selected_residuals = np.array(multi_residuals)
-            elif best_w_rf >= 0.5:
-                selected_residuals = np.array(rf_residuals)
+            sel_mode = str(sel_cfg.get("mode", "multi_model")).lower().strip()
+            if sel_mode in ("multi_model", "ensemble", "multi") and isinstance(sel_cfg.get("promoted_ensemble"), dict):
+                pe = sel_cfg["promoted_ensemble"]
+                best_w_rf = float(pe.get("rf_weight", 0.40))
+                best_w_xgb = float(pe.get("xgb_weight", 0.30))
+                best_w_ridge = float(pe.get("ridge_weight", 0.30))
             else:
-                selected_residuals = np.array(xgb_residuals)
-            empirical_dnf_rate = float(training_df["driver_dnf_rate"].mean()) if "driver_dnf_rate" in training_df.columns else 0.158
+                best_w_rf = float(sel_cfg.get("fixed_rf_weight", 0.60))
+                best_w_xgb = float(sel_cfg.get("fixed_xgb_weight", 0.40))
+                best_w_ridge = float(sel_cfg.get("fixed_ridge_weight", 0.0))
 
-            custom_mae = None
-            custom_residuals = None
-            if custom_name is not None:
-                custom_match = next((x for x in ensemble_results if x["model_name"] == custom_name), None)
-                if custom_match is not None:
-                    custom_mae = custom_match["mae"]
-                if custom_name in round_predictions:
-                    custom_preds = np.array(round_predictions[custom_name])
-                    custom_residuals = np.array(y_all) - custom_preds
+            total_w = best_w_rf + best_w_xgb + best_w_ridge
+            if total_w > 1e-6:
+                best_w_rf /= total_w
+                best_w_xgb /= total_w
+                best_w_ridge /= total_w
+            else:
+                best_w_rf, best_w_xgb, best_w_ridge = 0.40, 0.30, 0.30
 
-            xgb_match = next((x for x in ensemble_results if x["model_name"] == "100% XGB"), ensemble_results[1])
-
+            best_name = (
+                f"Prior Ensemble ({best_w_rf * 100:.0f}% RF / "
+                f"{best_w_xgb * 100:.0f}% XGB / {best_w_ridge * 100:.0f}% Ridge)"
+            )
+            empirical_dnf_rate = (
+                float(training_df["driver_dnf_rate"].mean())
+                if "driver_dnf_rate" in training_df.columns
+                else 0.158
+            )
             prior_sigma = float(self.model_cfg.get("monte_carlo", {}).get("fallback_sigma", 2.85))
             logger.info(
                 f"Early-season (< {min_priors} rounds): using prior sigma={prior_sigma:.2f} "
-                f"and clearing in-sample residuals/team_residuals."
+                f"and clearing residuals/team_residuals."
             )
             return {
                 "validation_rounds": [],
+                "requested_rounds": [],
                 "is_out_of_sample": False,
                 "validation_status": "PRIOR_FALLBACK",
                 "validation_method": "prior_sigma_fallback",
                 "calibration_source": "prior_fallback",
                 "prior_sigma": prior_sigma,
-                "sample_count": len(y_all),
-                "ensemble_comparisons": ensemble_results,
+                "sample_count": len(train_copy),
+                "failed_folds": [],
+                "completed_folds": [],
+                "ensemble_comparisons": [],
                 "best_w_rf": best_w_rf,
                 "best_w_xgb": best_w_xgb,
                 "best_w_ridge": best_w_ridge,
                 "best_model_name": best_name,
-                "best_mae": best_mae,
+                "best_mae": None,
                 "selected_residuals": np.array([]),
                 "team_residuals": {},
-                "rf_residuals": np.array(rf_residuals),
-                "xgb_residuals": np.array(xgb_residuals),
-                "ridge_residuals": np.array(ridge_residuals),
-                "multi_residuals": np.array(multi_residuals),
-                "rf_mae": ensemble_results[0]["mae"],
-                "xgb_mae": xgb_match["mae"],
-                "ridge_mae": round(ridge_mae, 4),
-                "multi_mae": round(multi_mae, 4),
-                "custom_mae": custom_mae,
-                "custom_residuals": custom_residuals,
+                "rf_residuals": np.array([]),
+                "xgb_residuals": np.array([]),
+                "ridge_residuals": np.array([]),
+                "multi_residuals": np.array([]),
+                "rf_mae": None,
+                "xgb_mae": None,
+                "ridge_mae": None,
+                "multi_mae": None,
+                "custom_mae": None,
+                "custom_residuals": None,
                 "empirical_dnf_rate": round(empirical_dnf_rate, 4),
-                "grid_positions": np.array(round_grids),
-                "round_predictions": round_predictions,
-                "actuals": y_all,
+                "grid_positions": np.array([]),
+                "round_predictions": {},
+                "actuals": np.array([]),
             }
 
         logger.info(f"Starting Walk-Forward Validation across rounds: {val_rounds}")
@@ -424,7 +336,7 @@ class ModelEvaluator:
                 max_depth=rf_cfg.get("max_depth", 8),
                 min_samples_leaf=rf_cfg.get("min_samples_leaf", 2),
                 random_state=self.random_state,
-                n_jobs=-1,
+                n_jobs=int(rf_cfg.get("n_jobs", -1)),
             )
             rf.fit(X_train, y_train)
             rf_pred = rf.predict(X_test)
@@ -476,8 +388,8 @@ class ModelEvaluator:
             stage_str = str(stage or "after_qualifying").lower().strip()
             is_pre_quali = stage_str in PRE_QUALI_STAGES
             if apply_grid_blending and (not is_pre_quali) and has_grid_data:
-                c_type = test["circuit_type"].iloc[0] if "circuit_type" in test.columns and pd.notna(test["circuit_type"].iloc[0]) else "default"
-                c_weights = self.circuit_weights.get(str(c_type).lower(), self.circuit_weights.get("default", {"grid_weight": 0.35, "ml_weight": 0.65}))
+                c_type = self._resolve_circuit_type(test, r)
+                c_weights = self.circuit_weights.get(c_type, self.circuit_weights.get("default", {"grid_weight": 0.35, "ml_weight": 0.65}))
                 eff_grid_w = float(c_weights.get("grid_weight", self.grid_weight))
                 eff_ml_w = float(c_weights.get("ml_weight", self.ml_weight))
             else:

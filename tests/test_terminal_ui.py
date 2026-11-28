@@ -1,6 +1,5 @@
 import os
 from unittest.mock import patch
-import os
 import pytest
 
 from apexgrid.cli.terminal_ui import (

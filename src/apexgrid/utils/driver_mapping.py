@@ -122,23 +122,34 @@ def filter_competing_drivers(df: pd.DataFrame) -> pd.DataFrame:
     mask = ~df.apply(is_course_vehicle, axis=1)
     cleaned = df[mask].copy()
 
-    # If non-driver rows were dropped and Position exists, re-index non-NaN positions
+    # If non-driver rows were dropped and Position exists, re-index non-NaN positions in numeric order
     if len(cleaned) < len(df) and "Position" in cleaned.columns:
         pos_num = pd.to_numeric(cleaned["Position"], errors="coerce")
         has_pos = pos_num.notna()
         if has_pos.any():
-            cleaned.loc[has_pos, "Position"] = range(1, int(has_pos.sum()) + 1)
+            cleaned.loc[has_pos, "Position"] = pos_num[has_pos].rank(method="first").astype(int)
 
     return cleaned
 
-# Alias resolution mapping
-NAME_TO_CODE = {}
+# Alias resolution mapping: match exact codes and full names first, then unique surnames
+EXACT_NAME_TO_CODE = {}
+_surname_counts = {}
+_surname_to_code = {}
 for code, data in DRIVER_CATALOG.items():
-    NAME_TO_CODE[code.upper()] = code
-    NAME_TO_CODE[data["full_name"].upper()] = code
+    EXACT_NAME_TO_CODE[code.upper()] = code
+    EXACT_NAME_TO_CODE[data["full_name"].upper()] = code
     parts = data["full_name"].upper().split()
     if len(parts) >= 2:
-        NAME_TO_CODE[parts[-1]] = code  # Surname
+        surname = parts[-1]
+        _surname_counts[surname] = _surname_counts.get(surname, 0) + 1
+        _surname_to_code[surname] = code
+
+SURNAME_TO_CODE = {
+    surname: code
+    for surname, code in _surname_to_code.items()
+    if _surname_counts.get(surname, 0) == 1
+}
+NAME_TO_CODE = {**SURNAME_TO_CODE, **EXACT_NAME_TO_CODE}
 
 
 def normalize_driver(df):
@@ -173,9 +184,11 @@ def normalize_driver(df):
         if not val or val.upper() in ["NAN", "NONE"]:
             return ""
         text = str(val).strip().upper()
-        # If in modern alias catalog, map to canonical abbreviation (e.g. LEWIS HAMILTON -> HAM)
-        if text in NAME_TO_CODE:
-            return NAME_TO_CODE[text]
+        # Match exact code or full name first before single-token surname fallback
+        if text in EXACT_NAME_TO_CODE:
+            return EXACT_NAME_TO_CODE[text]
+        if " " not in text and text in SURNAME_TO_CODE:
+            return SURNAME_TO_CODE[text]
         # Otherwise keep the stable uppercase identifier without inventing conflicting codes
         return text
 
@@ -189,12 +202,16 @@ def normalize_driver_code(val: str) -> str:
     if pd.isna(val) or val is None:
         return ""
     text = str(val).strip().upper()
-    return NAME_TO_CODE.get(text, text)
+    if text in EXACT_NAME_TO_CODE:
+        return EXACT_NAME_TO_CODE[text]
+    if " " not in text and text in SURNAME_TO_CODE:
+        return SURNAME_TO_CODE[text]
+    return text
 
 
 def normalize_driver_series(series: pd.Series) -> pd.Series:
     """Normalizes a pandas Series of driver identifiers to uppercase canonical 3-letter codes."""
-    return series.astype(str).str.strip().str.upper().map(lambda x: NAME_TO_CODE.get(x, x))
+    return series.map(normalize_driver_code)
 
 
 def resolve_driver_metadata(abbr: str, session_df: Optional[pd.DataFrame] = None) -> dict:

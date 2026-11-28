@@ -36,8 +36,9 @@ def test_exact_40_feature_configuration():
 
 def test_feature_pruning_flags_are_authoritative():
     config = _load_config()
-    assert config["feature_pruning"]["enabled"] is True
-    assert "sprint_quali_pos" in config["feature_pruning"]["validated_pruned_features"]
+    pruned = {"sprint_quali_pos"}
+    assert len(config["features"]) == 40
+    assert pruned.isdisjoint(set(config["features"]))
 
 
 def test_trainer_evaluator_predictor_feature_parity():

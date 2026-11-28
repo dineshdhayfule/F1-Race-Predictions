@@ -22,10 +22,11 @@ class Predictor:
     def __init__(self, config: Dict[str, Any]):
         self.config = config
         self.feature_cols = config.get("features", config.get("feature_columns", []))
-        self.ens_cfg = config.get("models", {}).get("ensemble", {})
+        self.ens_cfg = config.get("model_selection", {}).get("promoted_ensemble", {})
         blend_cfg = config.get("blending", {})
-        self.rf_weight = self.ens_cfg.get("rf_weight", 1.0)
-        self.xgb_weight = self.ens_cfg.get("xgb_weight", 0.0)
+        self.rf_weight = self.ens_cfg.get("rf_weight", 0.40)
+        self.xgb_weight = self.ens_cfg.get("xgb_weight", 0.30)
+        self.ridge_weight = self.ens_cfg.get("ridge_weight", 0.30)
         self.grid_weight = blend_cfg.get("grid_weight", self.ens_cfg.get("grid_weight", 0.35))
         self.ml_weight = blend_cfg.get("ml_weight", self.ens_cfg.get("ml_weight", 0.65))
         self.circuit_aware = blend_cfg.get("circuit_aware", True)
@@ -107,6 +108,7 @@ class Predictor:
         -------
         tuple of (results_df, blended_deterministic_scores)
         """
+        target_df = target_df.copy()
         sel_cfg = self.config.get("model_selection", {})
         mode = (model_mode or sel_cfg.get("mode", "fixed_ensemble")).lower().strip()
 
@@ -207,7 +209,12 @@ class Predictor:
             f"Grid blending: {eff_grid_w:.2f} Grid / {eff_ml_w:.2f} ML (source={grid_source_kind})"
         )
 
-        out = target_df[["Abbreviation", "TeamName"]].copy()
+        team_col = "TeamName" if "TeamName" in target_df.columns else ("Team" if "Team" in target_df.columns else None)
+        if team_col is not None:
+            out = target_df[["Abbreviation", team_col]].rename(columns={team_col: "TeamName"}).copy()
+        else:
+            out = target_df[["Abbreviation"]].copy()
+            out["TeamName"] = "Unknown"
         if "GridPosition" in target_df.columns:
             out["GridPosition"] = target_df["GridPosition"]
         elif "provisional_grid_position" in target_df.columns:

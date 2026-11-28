@@ -91,6 +91,87 @@ def main_landing(
 
 
 # ==============================================================================
+# Subcommand: predict-quali
+# ==============================================================================
+
+@app.command("predict-quali", help="Predict Saturday Qualifying & Pole Position probabilities for a pre-qualifying stage")
+def cmd_predict_quali(
+    track: str = typer.Option(..., "--track", "-t", help="Canonical circuit key (e.g. qatar, monza, austin)"),
+    year: Optional[int] = typer.Option(None, "--year", "-y", help="Championship season year (defaults to current season)"),
+    stage: str = typer.Option("after_fp3", "--stage", "-s", help="Pre-qualifying stage cutoff (e.g. pre_fp1, after_fp1, after_fp3, after_sprint_race)"),
+    round_num: Optional[int] = typer.Option(None, "--round", "-r", help="Championship round number"),
+    top: int = typer.Option(10, "--top", help="Number of qualifying positions to display"),
+    debug: bool = typer.Option(False, "--debug", help="Display diagnostic traceback on execution error"),
+) -> None:
+    """Predicts Saturday Qualifying & Pole Position probabilities."""
+    from apexgrid.features.build_features import PRE_QUALI_STAGES
+    from apexgrid.pipeline.race_prediction_pipeline import RacePredictionPipeline
+
+    year = year or get_active_season()
+    stage_clean = stage.lower().strip()
+    if stage_clean not in PRE_QUALI_STAGES:
+        print_error(
+            f"Stage '{stage}' is not a pre-qualifying stage. "
+            f"Allowed stages for 'predict-quali': {sorted(PRE_QUALI_STAGES)}"
+        )
+        raise typer.Exit(code=2)
+
+    pipeline = RacePredictionPipeline(root_dir=PROJECT_ROOT)
+    with console.status(f"[bold {TELEMETRY_CYAN}]Running Qualifying & Pole simulation for {track.title()} {year} [{stage_clean}]...[/]"):
+        try:
+            quali_res = pipeline.predict_qualifying(
+                track_key=track,
+                year=year,
+                stage=stage_clean,
+                round_num=round_num,
+            )
+        except MissingSessionTelemetryError as e:
+            print_error(str(e), debug=False)
+            raise typer.Exit(code=1)
+        except Exception as e:
+            print_error(f"Qualifying prediction failed: {e}", exc=e, debug=debug)
+            raise typer.Exit(code=1)
+
+    df = quali_res["predictions"].iloc[:top]
+    mae_val = quali_res.get("selected_mae")
+    mae_str = f"{mae_val:.4f}" if isinstance(mae_val, (int, float)) else "N/A (Prior)"
+    console.print(
+        Panel(
+            f"[bold {TITANIUM_WHITE}]{quali_res['track_name']} {year}[/]  |  Stage: [bold {TELEMETRY_CYAN}]{stage_clean.upper()}[/]  |  "
+            f"MAE: [bold]{mae_str}[/]  |  Sigma: [bold]{quali_res['calibrated_sigma']:.2f}[/]",
+            title=f"[bold {FLAG_YELLOW}]QUALIFYING & POLE PREDICTION[/]",
+            border_style=TELEMETRY_CYAN,
+        )
+    )
+
+    table = Table(title=f"Projected Qualifying Order (Top {len(df)})", border_style="dim", header_style=f"bold {TITANIUM_WHITE}")
+    table.add_column("Pos", justify="right", style="bold")
+    table.add_column("Driver", style="bold")
+    table.add_column("Team")
+    table.add_column("ExpQuali", justify="right")
+    table.add_column("Pole %", justify="right")
+    table.add_column("Top 3 %", justify="right")
+    table.add_column("Top 5 %", justify="right")
+    table.add_column("Range", justify="center")
+
+    for _, row in df.iterrows():
+        pos = int(row["PredictedPosition"])
+        table.add_row(
+            f"P{pos}",
+            str(row["Abbreviation"]),
+            str(row["TeamName"]),
+            f"{row['ExpectedQualifyingPosition']:.2f}",
+            f"{row['PoleProbability']:.1f}%",
+            f"{row['Top3Probability']:.1f}%",
+            f"{row['Top5Probability']:.1f}%",
+            f"P{int(row['P5'])}-P{int(row['P95'])}",
+        )
+
+    console.print(table)
+    console.print(f"[{MUTED_GREY}]Qualifying artifacts written to: {quali_res['output_dir']}[/]")
+
+
+# ==============================================================================
 # Subcommand: predict
 # ==============================================================================
 
@@ -216,16 +297,22 @@ def cmd_predict(
     table.add_column("90% Range", justify="center", style=MUTED_GREY)
 
     for _, r in top_df.iterrows():
-        pos_int = int(r.get("PredictedPosition", 0))
-        if pos_int == 1:
-            pos_style = f"bold {FLAG_YELLOW}"
-        elif pos_int == 2:
-            pos_style = f"bold {TITANIUM_WHITE}"
-        elif pos_int == 3:
-            pos_style = "bold #CD7F32"  # Bronze
-        elif pos_int <= 10:
-            pos_style = f"bold {GREEN_FLAG}"
+        raw_pos = r.get("PredictedPosition")
+        if pd.notna(raw_pos):
+            pos_int = int(raw_pos)
+            pos_display = f"P{pos_int:02d}"
+            if pos_int == 1:
+                pos_style = f"bold {FLAG_YELLOW}"
+            elif pos_int == 2:
+                pos_style = f"bold {TITANIUM_WHITE}"
+            elif pos_int == 3:
+                pos_style = "bold #CD7F32"  # Bronze
+            elif pos_int <= 10:
+                pos_style = f"bold {GREEN_FLAG}"
+            else:
+                pos_style = MUTED_GREY
         else:
+            pos_display = str(r.get("StartingGridStatus", "-"))
             pos_style = MUTED_GREY
 
         grid_raw = r.get("ActualStartingGrid")
@@ -234,14 +321,16 @@ def cmd_predict(
         from apexgrid.cli.menu import format_grid_display
         grid_str = format_grid_display(grid_raw, prov_raw, raw_pit)
 
-        exp_str = f"{r.get('ExpectedFinish', 0.0):.2f}"
+        exp_raw = r.get("ExpectedFinish")
+        exp_str = f"{exp_raw:.2f}" if pd.notna(exp_raw) else "-"
         win_str = render_probability_bar(r.get('WinProbability', 0.0), width=6)
         pod_str = f"{r.get('Top3Probability', 0.0):.1f}%"
         pts_str = f"{r.get('PointsProbability', 0.0):.1f}%"
-        rng_str = f"P{int(r.get('P5', 1))}-P{int(r.get('P95', 20))}"
+        p5_raw, p95_raw = r.get("P5"), r.get("P95")
+        rng_str = f"P{int(p5_raw)}-P{int(p95_raw)}" if (pd.notna(p5_raw) and pd.notna(p95_raw)) else "-"
 
         table.add_row(
-            f"[{pos_style}]P{pos_int:02d}[/]",
+            f"[{pos_style}]{pos_display}[/]",
             f"[{pos_style}]{r.get('Abbreviation', '')}[/]",
             str(r.get("TeamName", ""))[:20],
             grid_str,
@@ -292,11 +381,12 @@ def cmd_evaluate(
 ) -> None:
     """Executes model walk-forward evaluation and prints metrics scorecard."""
     from apexgrid.pipeline.race_prediction_pipeline import RacePredictionPipeline
+    from apexgrid.utils.circuit_mapping import resolve_circuit_key
 
     year = year or get_active_season()
 
     pipeline = RacePredictionPipeline(root_dir=PROJECT_ROOT)
-    track_key = track.lower().strip()
+    track_key = resolve_circuit_key(track) or track.lower().strip()
     tracks = pipeline.tracks_config.get("tracks", {})
     if track_key not in tracks:
         print_error(f"Track '{track_key}' not found in tracks.json. Available: {list(tracks.keys())}")
@@ -379,7 +469,21 @@ def cmd_validate(
         raise typer.Exit(code=1)
 
     track_info = tracks[track_key]
-    target_round = track_info.get(f"round_{year}", track_info.get("round_2026", 1))
+    target_round = track_info.get(f"round_{year}")
+    if target_round is None:
+        try:
+            from apexgrid.data.calendar_service import CalendarService
+            cal_event = CalendarService().get_event_by_circuit(year, track_key)
+            if cal_event is not None:
+                target_round = cal_event.round_num
+        except Exception:
+            target_round = None
+    if target_round is None:
+        target_round = track_info.get("round_2026")
+    if target_round is None or int(target_round) <= 1:
+        print_error(f"Cannot run walk-forward validation for {track_key} {year} (round={target_round}): requires Round >= 2.")
+        raise typer.Exit(code=1)
+    target_round = int(target_round)
 
     with console.status(f"[bold {TELEMETRY_CYAN}]Auditing anti-leakage constraints for {track.title()} {year} [{stage}]...[/]"):
         try:
@@ -559,13 +663,23 @@ def cmd_clean(
         console.print("[green]Dry run complete. No files were removed.[/green]\n")
         return
 
+    req_phrase = plan.get("required_confirmation_phrase")
+    entered_phrase = None
     if not force:
-        confirm = typer.confirm(f"Are you sure you want to permanently delete these {plan['file_count']} files?")
-        if not confirm:
-            console.print("[yellow]Operation cancelled by user. No files were deleted.[/yellow]\n")
-            return
+        if req_phrase:
+            entered_phrase = typer.prompt(f"Type '{req_phrase}' to confirm permanent deletion")
+        else:
+            confirm = typer.confirm(f"Are you sure you want to permanently delete these {plan['file_count']} files?")
+            if not confirm:
+                console.print("[yellow]Operation cancelled by user. No files were deleted.[/yellow]\n")
+                return
+    else:
+        entered_phrase = req_phrase
 
-    res = dm.execute_deletion_plan(plan, confirmed=True)
+    res = dm.execute_deletion_plan(plan, confirmed=True, confirmation_phrase=entered_phrase)
+    if res.get("status") != "COMPLETED":
+        print_error(f"Deletion {res.get('status', 'FAILED')}: {res.get('reason', 'Confirmation check failed.')}")
+        raise typer.Exit(code=1)
     console.print(f"[bold {GREEN_FLAG}]Deletion complete: {res.get('files_deleted_count', 0)} files deleted ({res.get('storage_reclaimed_formatted', '0 B')} reclaimed).[/]\n")
 
 
@@ -650,7 +764,7 @@ def cmd_health() -> None:
             table.add_row(f"[{APEX_RED}]FAIL[/]", "Dependencies", desc, f"Missing: {pkg}")
 
     # FastF1 Cache
-    cache_dir = loader.root_dir / "data" / "cache" / "fastf1"
+    cache_dir = loader.root_dir / "data" / "cache"
     if cache_dir.exists():
         size_mb = sum(f.stat().st_size for f in cache_dir.glob("**/*") if f.is_file()) / (1024 * 1024)
         table.add_row(f"[{GREEN_FLAG}]OK[/]", "Storage", "FastF1 Cache", f"Active ({size_mb:.1f} MB in {cache_dir})")
@@ -888,9 +1002,20 @@ def history_race(
 def history_circuit(
     circuit_id: str = typer.Argument(..., help="Circuit identifier (e.g. monza, silverstone, spa, monaco)"),
 ) -> None:
-    """Fetches circuit venue history."""
+    """Fetches circuit venue history and technical specifications."""
     from apexgrid.historical.api_client import HistoricalAPIClient
     from apexgrid.historical.analytics.circuit_analytics import CircuitAnalyticsService
+    from apexgrid.utils.circuit_mapping import load_tracks_config, resolve_circuit_key, resolve_ergast_circuit_id
+
+    tracks_cfg = load_tracks_config()
+    canonical_key = resolve_circuit_key(circuit_id)
+    ergast_id = resolve_ergast_circuit_id(circuit_id)
+    track_info = tracks_cfg.get(canonical_key) if canonical_key else None
+    if track_info is None:
+        for info in tracks_cfg.values():
+            if str(info.get("ergast_circuit_id", "")).strip().lower() == ergast_id:
+                track_info = info
+                break
 
     svc = CircuitAnalyticsService(HistoricalAPIClient())
     with console.status(f"[bold {TELEMETRY_CYAN}]Fetching circuit history for '{circuit_id}'...[/]"):
@@ -899,6 +1024,34 @@ def history_circuit(
         except Exception as e:
             print_error(f"Circuit query failed: {e}", exc=e)
             raise typer.Exit(code=1)
+
+    if track_info:
+        c_type = str(track_info.get("circuit_type", "N/A")).title()
+        length_val = track_info.get("track_length_km")
+        length_str = f"{length_val} km" if length_val is not None else "N/A"
+        turns_str = str(track_info.get("turns", "N/A"))
+        drs_str = str(track_info.get("drs_zones", "N/A"))
+        first_gp_str = str(track_info.get("first_gp_year", "N/A"))
+        lr = track_info.get("lap_record")
+        if isinstance(lr, dict) and lr.get("time"):
+            lap_record_str = f"{lr['time']} ({lr.get('driver', 'Unknown')}, {lr.get('year', 'N/A')})"
+        else:
+            lap_record_str = "N/A"
+        downforce_str = str(track_info.get("downforce_level", "N/A"))
+        tyre_stress_str = str(track_info.get("tyre_stress", "N/A"))
+        throttle_val = track_info.get("full_throttle_pct")
+        throttle_str = f"{throttle_val}%" if throttle_val is not None else "N/A"
+
+        spec_grid = Table.grid(padding=(0, 2))
+        spec_grid.add_column(style=f"bold {TELEMETRY_CYAN}")
+        spec_grid.add_column()
+        spec_grid.add_column(style=f"bold {TELEMETRY_CYAN}")
+        spec_grid.add_column()
+        spec_grid.add_row("Type / Length:", f"{c_type} ({length_str})", "First GP:", first_gp_str)
+        spec_grid.add_row("Turns / DRS:", f"{turns_str} turns | {drs_str} DRS zones", "Lap Record:", lap_record_str)
+        spec_grid.add_row("Downforce:", downforce_str, "Tyre Stress:", f"{tyre_stress_str} | Full Throttle: {throttle_str}")
+        title = track_info.get("circuit_name") or track_info.get("display_name") or "Track Specifications"
+        console.print(Panel(spec_grid, title=f"[bold {APEX_RED}]{title} — Technical Specs[/]", border_style=TELEMETRY_CYAN))
 
     if not summary or summary.total_races_hosted == 0:
         console.print(f"[yellow]No Grand Prix records found for circuit '{circuit_id}'.[/yellow]")
@@ -926,6 +1079,8 @@ def history_circuit(
 @history_app.command("standings", help="Query Formula 1 World Championship standings (1950–2026)")
 def history_standings(
     season: int = typer.Argument(2024, help="Championship season year"),
+    show_all: bool = typer.Option(False, "--all", "-a", help="Display full grid standings with gap to leader, podiums, poles, and DNFs"),
+    constructors: bool = typer.Option(False, "--constructors", "-c", help="Include Constructors Championship standings"),
 ) -> None:
     """Fetches official championship standings."""
     from apexgrid.historical.api_client import HistoricalAPIClient
@@ -943,23 +1098,76 @@ def history_standings(
         console.print(f"[yellow]No driver standings available for season {season}.[/yellow]")
         return
 
-    table = Table(title=f"FIA Formula 1 World Championship Standings — {season}", border_style="dim", header_style="bold cyan")
-    table.add_column("Pos", justify="right", style="bold")
-    table.add_column("Driver", style="bold")
-    table.add_column("Constructor", style=MUTED_GREY)
-    table.add_column("Points", justify="right", style=TELEMETRY_CYAN)
-    table.add_column("Wins", justify="right", style=APEX_RED)
+    full_drivers = getattr(summary, "full_drivers_standings", None) or []
+    if show_all and full_drivers:
+        table = Table(title=f"FIA Formula 1 World Drivers' Championship — {season} (Full Grid)", border_style="dim", header_style="bold cyan")
+        table.add_column("Pos", justify="right", style="bold")
+        table.add_column("Driver", style="bold")
+        table.add_column("Constructor", style=MUTED_GREY)
+        table.add_column("Points", justify="right", style=TELEMETRY_CYAN)
+        table.add_column("Gap", justify="right", style=MUTED_GREY)
+        table.add_column("Wins", justify="right", style=APEX_RED)
+        table.add_column("Podiums", justify="right")
+        table.add_column("Poles", justify="right")
+        table.add_column("DNFs", justify="right")
+        table.add_column("DNS", justify="right")
 
-    for rank, name, team, pts, wins in summary.top_drivers_standings:
-        table.add_row(
-            str(rank),
-            name,
-            team,
-            f"{pts:.1f}",
-            str(wins),
-        )
+        for s in full_drivers:
+            gap_str = "-" if s.gap_to_leader <= 0.0 else f"-{s.gap_to_leader:.1f}"
+            table.add_row(
+                str(s.rank),
+                s.driver_name,
+                s.team_name,
+                f"{s.points:.1f}",
+                gap_str,
+                str(s.wins),
+                str(s.podiums),
+                str(s.poles),
+                str(s.dnfs),
+                str(s.dns),
+            )
+    else:
+        table = Table(title=f"FIA Formula 1 World Championship Standings — {season}", border_style="dim", header_style="bold cyan")
+        table.add_column("Pos", justify="right", style="bold")
+        table.add_column("Driver", style="bold")
+        table.add_column("Constructor", style=MUTED_GREY)
+        table.add_column("Points", justify="right", style=TELEMETRY_CYAN)
+        table.add_column("Wins", justify="right", style=APEX_RED)
+
+        for rank, name, team, pts, wins in summary.top_drivers_standings:
+            table.add_row(
+                str(rank),
+                name,
+                team,
+                f"{pts:.1f}",
+                str(wins),
+            )
 
     console.print(table)
+
+    if constructors:
+        full_constructors = getattr(summary, "full_constructors_standings", None) or []
+        if show_all and full_constructors:
+            c_table = Table(title=f"FIA Formula 1 World Constructors' Championship — {season} (Full Grid)", border_style="dim", header_style="bold cyan")
+            c_table.add_column("Pos", justify="right", style="bold")
+            c_table.add_column("Constructor", style="bold")
+            c_table.add_column("Points", justify="right", style=TELEMETRY_CYAN)
+            c_table.add_column("Gap", justify="right", style=MUTED_GREY)
+            c_table.add_column("Wins", justify="right", style=APEX_RED)
+            c_table.add_column("Podiums", justify="right")
+            for cs in full_constructors:
+                c_gap = "-" if cs.gap_to_leader <= 0.0 else f"-{cs.gap_to_leader:.1f}"
+                c_table.add_row(str(cs.rank), cs.team_name, f"{cs.points:.1f}", c_gap, str(cs.wins), str(cs.podiums))
+            console.print(c_table)
+        elif getattr(summary, "top_constructors_standings", None):
+            c_table = Table(title=f"FIA Formula 1 World Constructors' Championship — {season}", border_style="dim", header_style="bold cyan")
+            c_table.add_column("Pos", justify="right", style="bold")
+            c_table.add_column("Constructor", style="bold")
+            c_table.add_column("Points", justify="right", style=TELEMETRY_CYAN)
+            c_table.add_column("Wins", justify="right", style=APEX_RED)
+            for rank, team, pts, wins in summary.top_constructors_standings:
+                c_table.add_row(str(rank), team, f"{pts:.1f}", str(wins))
+            console.print(c_table)
 
 
 @history_app.command("session", help="Query official Grand Prix, qualifying, sprint, or practice results")
@@ -1114,7 +1322,7 @@ def history_dominance(
     top: int = typer.Option(15, "--top", "-t", help="Number of records to display"),
 ) -> None:
     """Queries all-time constructor supremacy, single-season win rates, and 1-2 finish records."""
-    from apexgrid.historical.analytics.dominance_analytics import DominanceAnalyticsService
+    from apexgrid.historical.analytics.dominance import DominanceAnalyticsService
 
     svc = DominanceAnalyticsService()
     metric_clean = metric.strip().lower()
@@ -1206,7 +1414,7 @@ def history_records(
     top: int = typer.Option(20, "--top", "-t", help="Number of records to display"),
 ) -> None:
     """Queries all-time driver records, unbroken streaks, and age milestones."""
-    from apexgrid.historical.analytics.all_time_records import AllTimeRecordsService
+    from apexgrid.historical.analytics.records import AllTimeRecordsService
 
     svc = AllTimeRecordsService()
     cat_clean = category.strip().lower()
@@ -1323,7 +1531,7 @@ def history_reliability(
     top: int = typer.Option(10, "--top", "-t", help="Number of records to display"),
 ) -> None:
     """Queries historical mechanical attrition rates, race finish percentages, and constructor reliability."""
-    from apexgrid.historical.analytics.reliability_analytics import ReliabilityAnalyticsService
+    from apexgrid.historical.analytics.reliability import ReliabilityAnalyticsService
 
     svc = ReliabilityAnalyticsService()
     v_clean = view.strip().lower()
@@ -1391,7 +1599,7 @@ def history_reliability(
 @history_app.command("eras", help="Query regulatory eras and macro-metrics comparison (1950–2026)")
 def history_eras() -> None:
     """Queries technical and regulatory era comparisons across Formula 1 history."""
-    from apexgrid.historical.analytics.era_analytics import EraAnalyticsService
+    from apexgrid.historical.analytics.eras import EraAnalyticsService
 
     svc = EraAnalyticsService()
     with console.status(f"[bold {TELEMETRY_CYAN}]Computing regulatory era comparisons...[/]"):

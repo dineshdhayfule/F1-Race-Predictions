@@ -60,7 +60,7 @@ class ModelTrainer:
         Scaling is fitted strictly on training data; alpha is pulled from validated config.
         """
         ridge_cfg = self.model_cfg.get("ridge", {})
-        alpha = float(ridge_cfg.get("alpha", 40.0))
+        alpha = float(ridge_cfg.get("alpha", 100.0))
         pipe = Pipeline([
             ("scaler", StandardScaler()),
             ("ridge", Ridge(alpha=alpha, random_state=self.random_state))
@@ -95,7 +95,7 @@ class ModelTrainer:
         if "ActualFinish" not in training_df.columns:
             raise ValueError("Training DataFrame must contain 'ActualFinish' target column.")
 
-        training_df = prepare_pace_training_rows(training_df)
+        training_df = prepare_pace_training_rows(training_df).copy()
         if training_df.empty:
             raise ValueError("No classified-finisher rows are eligible for pace regression.")
 
@@ -110,6 +110,8 @@ class ModelTrainer:
         valid_idx = ~np.isnan(y)
         X = X[valid_idx]
         y = y[valid_idx]
+        if X.empty:
+            raise ValueError("No valid non-NaN 'ActualFinish' target rows remain for training.")
 
         imputer = create_feature_imputer(strategy="median")
         X_imputed = imputer.fit_transform(X)
@@ -120,7 +122,7 @@ class ModelTrainer:
             max_depth=rf_cfg.get("max_depth", 8),
             min_samples_leaf=rf_cfg.get("min_samples_leaf", 2),
             random_state=self.random_state,
-            n_jobs=-1,
+            n_jobs=int(rf_cfg.get("n_jobs", -1)),
         )
         logger.info(f"Fitting Random Forest on {len(X_imputed)} samples...")
         rf.fit(X_imputed, y)

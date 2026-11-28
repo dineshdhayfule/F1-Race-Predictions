@@ -475,9 +475,31 @@ class StartingGridRetriever:
                 f"({len(df)} drivers, Ref: {metadata['document_reference']})"
             )
             return df, metadata
-        except Exception as e:
+        except (KeyError, TypeError, ValueError, OSError) as e:
             logger.error(f"Error parsing official F1 website grid: {e}")
             return None, {}
+
+    def _resolve_f1_website_slugs(self, track_key: str) -> List[str]:
+        """Resolve candidate formula1.com URL slugs from tracks.json and circuit_mapping."""
+        from apexgrid.utils.circuit_mapping import resolve_circuit_key
+        from apexgrid.utils.paths import get_config_path
+
+        raw_key = str(track_key or "").lower().strip()
+        canon_key = resolve_circuit_key(raw_key) or raw_key
+        candidates: List[str] = []
+        tracks_path = get_config_path("tracks.json")
+        if tracks_path.exists():
+            try:
+                tracks = json.loads(tracks_path.read_text(encoding="utf-8")).get("tracks", {})
+                track_info = tracks.get(canon_key) or tracks.get(raw_key) or {}
+                candidates.extend(str(s).lower() for s in track_info.get("f1_website_slugs", []) if s)
+            except (OSError, ValueError, TypeError) as exc:
+                logger.warning("Failed to read f1_website_slugs from %s: %s", tracks_path, exc)
+
+        for fallback in (canon_key.replace("_", "-"), canon_key, raw_key.replace("_", "-"), raw_key):
+            if fallback and fallback not in candidates:
+                candidates.append(fallback)
+        return candidates
 
     def _fetch_f1_website_live(
         self,
@@ -501,7 +523,7 @@ class StartingGridRetriever:
             req = urllib.request.Request(index_url, headers=headers)
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 html = resp.read().decode("utf-8", errors="ignore")
-        except Exception as e:
+        except (OSError, TimeoutError, ValueError, re.error) as e:
             logger.warning(f"Error fetching season race index from {index_url}: {e}")
             return None
 
@@ -518,37 +540,7 @@ class StartingGridRetriever:
             logger.warning(f"No race links discovered on {index_url}")
             return None
 
-        synonyms = {
-            "cota": ["united-states", "austin"],
-            "austin": ["united-states", "austin"],
-            "mexico": ["mexico", "hermanos-rodriguez"],
-            "silverstone": ["great-britain", "british"],
-            "monza": ["italy", "italian"],
-            "spa": ["belgium", "belgian"],
-            "red_bull_ring": ["austria", "austrian"],
-            "interlagos": ["brazil", "sao-paulo", "sao paulo"],
-            "sao_paulo": ["brazil", "sao-paulo", "sao paulo"],
-            "sao paulo": ["brazil", "sao-paulo", "sao paulo"],
-            "suzuka": ["japan", "japanese"],
-            "marina_bay": ["singapore"],
-            "yas_marina": ["abu-dhabi", "abu dhabi"],
-            "losail": ["qatar"],
-            "albert_park": ["australia", "australian", "melbourne"],
-            "jeddah": ["saudi-arabia", "saudi"],
-            "bahrain": ["bahrain", "sakhir"],
-            "sepang": ["malaysia", "malaysian"],
-            "baku": ["azerbaijan", "baku"],
-            "monaco": ["monaco", "monte-carlo"],
-            "villeneuve": ["canada", "canadian", "montreal"],
-            "barcelona": ["barcelona-catalunya", "spain", "spanish", "barcelona"],
-            "hungaroring": ["hungary", "hungarian", "budapest"],
-            "zandvoort": ["netherlands", "dutch"],
-            "shanghai": ["china", "chinese"],
-            "las_vegas": ["las-vegas"],
-            "miami": ["miami"],
-        }
-        tk_clean = track_key.lower().replace("_", "-")
-        patterns = synonyms.get(track_key.lower(), [tk_clean, track_key.lower()])
+        patterns = self._resolve_f1_website_slugs(track_key)
 
         target_race_id = None
         target_slug = None
@@ -576,7 +568,7 @@ class StartingGridRetriever:
             req = urllib.request.Request(grid_url, headers=headers)
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 grid_html = resp.read().decode("utf-8", errors="ignore")
-        except Exception as e:
+        except (OSError, TimeoutError, ValueError, re.error) as e:
             logger.warning(f"Error fetching starting grid from {grid_url}: {e}")
             return None
 
@@ -849,7 +841,7 @@ class StartingGridRetriever:
             "albert_park": ["australian", "australia"],
             "jeddah": ["saudi arabian", "saudi"],
             "bahrain": ["bahrain", "sakhir"],
-            "sepang": ["malaysian", "malaysia", "sepang", "bahrain"],
+            "sepang": ["malaysian", "malaysia", "sepang"],
             "baku": ["azerbaijan", "baku"],
             "monaco": ["monaco", "monte carlo"],
             "villeneuve": ["canadian", "canada"],

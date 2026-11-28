@@ -38,6 +38,7 @@ class HistoricalCircuitsService:
                 endpoint="circuits",
                 table_key="CircuitTable",
                 items_key="Circuits",
+                bypass_cache=bypass_cache,
                 ttl_seconds=3600.0,  # 1 hour cache TTL for static circuit definitions
             )
             circuits: List[HistoricalCircuit] = []
@@ -92,6 +93,7 @@ class HistoricalCircuitsService:
                 endpoint=endpoint,
                 table_key="CircuitTable",
                 items_key="Circuits",
+                bypass_cache=bypass_cache,
                 ttl_seconds=1800.0,
             )
             circuits: List[HistoricalCircuit] = []

@@ -56,8 +56,8 @@ def _parse_laptime_to_seconds(val: Any) -> Optional[float]:
         secs = td.total_seconds()
         if secs > 0:
             return float(secs)
-    except Exception:
-        pass
+    except (ValueError, TypeError, AttributeError) as exc:
+        logger.debug("Timedelta parse fallback for '%s': %s", s, exc)
     # 2. Try colon format mm:ss.fff or hh:mm:ss.fff
     try:
         if ":" in s:
@@ -67,7 +67,8 @@ def _parse_laptime_to_seconds(val: Any) -> Optional[float]:
             elif len(parts) == 3:
                 return float(parts[0]) * 3600.0 + float(parts[1]) * 60.0 + float(parts[2])
         return float(s)
-    except Exception:
+    except (ValueError, TypeError) as exc:
+        logger.debug("Laptime string parse failed for '%s': %s", s, exc)
         return None
 
 
@@ -259,13 +260,6 @@ def resolve_fia_starting_grid(
     # Deduplicate drivers if necessary
     out = out.drop_duplicates(subset=["Abbreviation"]).copy()
 
-    # Time tie-breaker column if available
-    time_col = None
-    for c in ["QualifyingTime", "QTime", "Time", "q_time", "best_lap"]:
-        if c in out.columns:
-            time_col = c
-            break
-
     # Parse penalties into standardized structure
     pen_dict: Dict[str, int] = {}
     pit_lane_drivers: List[str] = []
@@ -383,9 +377,6 @@ def resolve_fia_starting_grid(
     # Sort main drivers by qualifying
     main_drivers.sort(key=get_sort_key)
     bog_drivers.sort(key=get_sort_key)
-
-    unpenalized = [d for d in main_drivers if pen_dict.get(d, 0) == 0]
-    penalized = [d for d in main_drivers if pen_dict.get(d, 0) > 0]
 
     # Order main grid under official FIA Article 42.3 Procedure:
     # 1. Unpenalized drivers maintain their relative qualifying order.

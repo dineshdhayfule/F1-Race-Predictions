@@ -13,8 +13,12 @@ Provides guided workflows for:
 0. Return to Main Menu
 """
 
+import json
 import sys
 from typing import Optional, List, Dict, Any
+
+from apexgrid.utils.circuit_mapping import resolve_circuit_key, resolve_ergast_circuit_id
+from apexgrid.utils.paths import resolve_config_file
 
 from apexgrid.cli.terminal_ui import (
     clear_screen,
@@ -259,6 +263,8 @@ class HistoricalStatsMenu:
         max_year = get_active_season()
         print_header("Teammate Head-to-Head Comparison", "Same Team & Season Performance")
         season_year = prompt_int(f"Enter Championship Season (1950–{max_year})", min_val=1950, max_val=max_year, default=max_year - 1)
+        if season_year is None:
+            return
         driver1 = prompt_str("Enter First Driver ID (e.g. 'verstappen', 'hamilton', 'senna')")
         driver2 = prompt_str("Enter Second Driver ID (e.g. 'perez', 'rosberg', 'prost')")
         if not driver1 or not driver2:
@@ -390,22 +396,138 @@ class HistoricalStatsMenu:
     # =========================================================================
     # 5. Circuit Statistics
     # =========================================================================
+    def _load_tracks_registry(self) -> Dict[str, Dict[str, Any]]:
+        """Loads circuit metadata from tracks.json safely."""
+        cfg_path = resolve_config_file("tracks.json")
+        if not cfg_path.exists():
+            return {}
+        try:
+            return json.loads(cfg_path.read_text(encoding="utf-8")).get("tracks", {})
+        except (OSError, json.JSONDecodeError):
+            return {}
+
+    def _render_circuit_spec_card(self, track_info: Dict[str, Any]) -> None:
+        """Renders a Track Specification Summary Card from tracks.json metadata."""
+        if not track_info:
+            return
+        c_type = str(track_info.get("circuit_type", "N/A")).title()
+        length_val = track_info.get("track_length_km")
+        length_str = f"{length_val} km" if length_val is not None else "N/A"
+        turns_str = str(track_info.get("turns", "N/A"))
+        drs_str = str(track_info.get("drs_zones", "N/A"))
+        first_gp_str = str(track_info.get("first_gp_year", "N/A"))
+        lr = track_info.get("lap_record")
+        if isinstance(lr, dict) and lr.get("time"):
+            lr_driver = lr.get("driver", "Unknown")
+            lr_year = lr.get("year", "N/A")
+            lap_record_str = f"{lr['time']} ({lr_driver}, {lr_year})"
+        else:
+            lap_record_str = "N/A"
+        downforce_str = str(track_info.get("downforce_level", "N/A"))
+        tyre_stress_str = str(track_info.get("tyre_stress", "N/A"))
+        throttle_val = track_info.get("full_throttle_pct")
+        throttle_str = f"{throttle_val}%" if throttle_val is not None else "N/A"
+
+        console = get_console()
+        if HAS_RICH and console and _supports_color():
+            from rich.panel import Panel
+            from rich.table import Table
+            spec_table = Table.grid(padding=(0, 2))
+            spec_table.add_column(style="bold #00B4D8")
+            spec_table.add_column()
+            spec_table.add_column(style="bold #00B4D8")
+            spec_table.add_column()
+            spec_table.add_row("Type / Length:", f"{c_type} ({length_str})", "First GP:", first_gp_str)
+            spec_table.add_row("Turns / DRS:", f"{turns_str} turns | {drs_str} DRS zones", "Lap Record:", lap_record_str)
+            spec_table.add_row("Downforce:", downforce_str, "Tyre Stress:", f"{tyre_stress_str} | Full Throttle: {throttle_str}")
+            title = track_info.get("circuit_name") or track_info.get("display_name") or "Track Specifications"
+            console.print(Panel(spec_table, title=f"[bold #E10600]{title} — Technical Specs[/]", border_style="#00B4D8"))
+        else:
+            print(f"\n{Colors.BOLD}Track Specifications:{Colors.RESET}")
+            spec_rows = [
+                ["Type / Length", f"{c_type} ({length_str})"],
+                ["Turns / DRS Zones", f"{turns_str} turns | {drs_str} DRS zones"],
+                ["First GP Year", first_gp_str],
+                ["Official Lap Record", lap_record_str],
+                ["Engineering Demands", f"Downforce: {downforce_str} | Tyre Stress: {tyre_stress_str} | Full Throttle: {throttle_str}"],
+            ]
+            print_table(["Specification", "Details"], spec_rows)
+
     def view_circuit_stats(self) -> None:
-        """Guided workflow to view track history and historical winners."""
-        print_header("Circuit History & Statistics", "Venue Records & Historical Winners")
-        circuit_input = prompt_str("Enter Circuit ID (e.g. 'monza', 'silverstone', 'spa', 'monaco')")
-        if not circuit_input:
+        """Guided workflow to view track history, technical specs, and historical winners."""
+        print_header("Circuit History & Track Records", "Venue Specifications & Historical Winners")
+        tracks_cfg = self._load_tracks_registry()
+        sorted_tracks = sorted(
+            tracks_cfg.items(),
+            key=lambda kv: (kv[1].get("round_2026", 99), kv[0]),
+        )
+
+        index_map: Dict[str, tuple] = {}
+        dir_rows: List[List[str]] = []
+        for idx, (key, info) in enumerate(sorted_tracks, start=1):
+            index_map[str(idx)] = (key, info)
+            rnd = str(info.get("round_2026", "-"))
+            venue = str(info.get("circuit_name") or info.get("display_name") or key)
+            country = str(info.get("country", "-"))
+            ergast_id = str(info.get("ergast_circuit_id") or key)
+            dir_rows.append([str(idx), rnd, venue, country, ergast_id])
+
+        if dir_rows:
+            console = get_console()
+            if HAS_RICH and console and _supports_color():
+                from rich.table import Table
+                tbl = Table(title="Configured Championship Circuits", border_style="dim", header_style="bold #00B4D8")
+                tbl.add_column("#", justify="right", style="bold")
+                tbl.add_column("Round", justify="right")
+                tbl.add_column("Circuit / Venue")
+                tbl.add_column("Country")
+                tbl.add_column("Ergast ID", style="dim")
+                for row in dir_rows:
+                    tbl.add_row(*row)
+                console.print(tbl)
+            else:
+                print_table(["#", "Round", "Circuit / Venue", "Country", "Ergast ID"], dir_rows, align_right=[True, True, False, False, False])
+
+        print("\n  0. Return to Historical Menu\n")
+        circuit_input = prompt_str(
+            "Enter #, Circuit ID, or name (e.g. '22', 'qatar', 'cota', 'nurburgring')",
+            allow_empty=True,
+        )
+        if not circuit_input or circuit_input.strip() == "0":
             return
 
-        print_info(f"Querying historical statistics for venue '{circuit_input}'...")
-        c_stats = self.circuit_service.get_circuit_history(circuit_input)
+        cleaned_input = circuit_input.strip()
+        track_info: Optional[Dict[str, Any]] = None
+        if cleaned_input in index_map:
+            canonical_key, track_info = index_map[cleaned_input]
+            ergast_id = str(track_info.get("ergast_circuit_id") or canonical_key).strip().lower()
+        else:
+            ergast_id = resolve_ergast_circuit_id(cleaned_input)
+            canonical_key = resolve_circuit_key(cleaned_input)
+            if canonical_key and canonical_key in tracks_cfg:
+                track_info = tracks_cfg[canonical_key]
+            else:
+                for info in tracks_cfg.values():
+                    if str(info.get("ergast_circuit_id", "")).strip().lower() == ergast_id:
+                        track_info = info
+                        break
+
+        print_info(f"Querying historical statistics for venue '{ergast_id}'...")
+        c_stats = self.circuit_service.get_circuit_history(ergast_id)
         if not c_stats:
-            print_warning(f"No historical Grand Prix records found for circuit '{circuit_input}'.")
+            if track_info:
+                self._render_circuit_spec_card(track_info)
+                print_info(f"No completed Grand Prix history recorded yet for '{ergast_id}'.")
+            else:
+                print_warning(f"No historical Grand Prix records found for circuit '{circuit_input}'.")
             prompt_str("\nPress [Enter] to return", allow_empty=True)
             return
 
         location_str = f"{c_stats.locality or ''}, {c_stats.country or ''}".strip(", ")
         print_header(f"Circuit: {c_stats.circuit_name.upper()}", f"Location: {location_str} | Hosted: {c_stats.first_gp_year}–{c_stats.last_gp_year} ({c_stats.total_races_hosted} Grands Prix)")
+
+        if track_info:
+            self._render_circuit_spec_card(track_info)
 
         if c_stats.top_winning_drivers:
             print(f"\n{Colors.BOLD}Top Winning Drivers:{Colors.RESET}")
@@ -430,6 +552,8 @@ class HistoricalStatsMenu:
 
         prompt_str("\nPress [Enter] to return to Historical Menu", allow_empty=True)
 
+    view_circuit_history = view_circuit_stats
+
     # =========================================================================
     # 6. Season Statistics
     # =========================================================================
@@ -439,6 +563,8 @@ class HistoricalStatsMenu:
         max_year = get_active_season()
         print_header("Championship Season Analytics", "Standings, Participation & Coverage")
         year = prompt_int(f"Enter Season Year (1950–{max_year})", min_val=1950, max_val=max_year, default=max_year - 1)
+        if year is None:
+            return
 
         print_info(f"Fetching championship analytics for season {year}...")
         s_stats = self.season_service.get_season_summary(year)
@@ -477,7 +603,48 @@ class HistoricalStatsMenu:
             for n in s_stats.coverage_notes:
                 print(f"  * {n}")
 
-        prompt_str("\nPress [Enter] to return to Historical Menu", allow_empty=True)
+        full_drivers = getattr(s_stats, "full_drivers_standings", None) or []
+        full_constructors = getattr(s_stats, "full_constructors_standings", None) or []
+        if len(full_drivers) > 10 or len(full_constructors) > 10:
+            toggle = prompt_str("\nEnter 'a' to view full grid standings (with Gap/Podiums/Poles/DNFs/DNS), or press [Enter] to return", allow_empty=True)
+            if toggle and toggle.strip().lower() == "a":
+                if full_drivers:
+                    print(f"\n{Colors.BOLD}Full Drivers Championship Standings ({len(full_drivers)} drivers):{Colors.RESET}")
+                    fd_headers = ["Pos", "Driver", "Constructor", "Pts", "Gap", "Wins", "Pod", "Pole", "DNF", "DNS"]
+                    fd_rows = [
+                        [
+                            str(s.rank),
+                            s.driver_name,
+                            s.team_name[:18],
+                            f"{s.points:.1f}",
+                            "-" if s.gap_to_leader <= 0.0 else f"-{s.gap_to_leader:.1f}",
+                            str(s.wins),
+                            str(s.podiums),
+                            str(s.poles),
+                            str(s.dnfs),
+                            str(s.dns),
+                        ]
+                        for s in full_drivers
+                    ]
+                    print_table(fd_headers, fd_rows)
+                if full_constructors:
+                    print(f"\n{Colors.BOLD}Full Constructors Championship Standings ({len(full_constructors)} teams):{Colors.RESET}")
+                    fc_headers = ["Pos", "Constructor", "Pts", "Gap", "Wins", "Pod"]
+                    fc_rows = [
+                        [
+                            str(cs.rank),
+                            cs.team_name,
+                            f"{cs.points:.1f}",
+                            "-" if cs.gap_to_leader <= 0.0 else f"-{cs.gap_to_leader:.1f}",
+                            str(cs.wins),
+                            str(cs.podiums),
+                        ]
+                        for cs in full_constructors
+                    ]
+                    print_table(fc_headers, fc_rows)
+                prompt_str("\nPress [Enter] to return to Historical Menu", allow_empty=True)
+        else:
+            prompt_str("\nPress [Enter] to return to Historical Menu", allow_empty=True)
 
     # =========================================================================
     # 1. Checkered Flag & Session Results (New Option 1)

@@ -127,9 +127,13 @@ class DataValidator:
             errors.append(f"Duplicate drivers found: {df['Abbreviation'].nunique()} unique out of {len(df)}.")
 
         if "GridPosition" in df.columns:
-            grid_vals = sorted(pd.to_numeric(df["GridPosition"], errors="coerce").astype(int).tolist())
-            expected_vals = list(range(1, expected_grid_size + 1))
-            if grid_vals != expected_vals:
-                errors.append(f"Starting grid is not a unique permutation of 1..{expected_grid_size}.")
+            grid_num = pd.to_numeric(df["GridPosition"], errors="coerce")
+            if grid_num.isna().any():
+                errors.append("GridPosition contains missing or non-numeric values.")
+            else:
+                grid_vals = sorted(grid_num.astype(int).tolist())
+                expected_vals = list(range(1, expected_grid_size + 1))
+                if grid_vals != expected_vals:
+                    errors.append(f"Starting grid is not a unique permutation of 1..{expected_grid_size}.")
 
         return len(errors) == 0, errors

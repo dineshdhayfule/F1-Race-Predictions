@@ -155,13 +155,18 @@ class MonteCarloSimulator:
         dnf_matrix = np.zeros((num_sims, n), dtype=bool)
         dnf_counts = np.zeros(n, dtype=np.int64)
 
-        # Extract circuit event probabilities for race control
-        p_sc = float(active_df["p_safety_car"].iloc[0]) if "p_safety_car" in active_df.columns and pd.notna(active_df["p_safety_car"].iloc[0]) else 0.50
-        p_vsc = float(active_df["p_vsc"].iloc[0]) if "p_vsc" in active_df.columns and pd.notna(active_df["p_vsc"].iloc[0]) else 0.40
-        p_rf = float(active_df["p_red_flag"].iloc[0]) if "p_red_flag" in active_df.columns and pd.notna(active_df["p_red_flag"].iloc[0]) else 0.15
+        if n == 0:
+            p_sc = 0.50
+            rain_prob = 0.15
+            active_result = pd.DataFrame()
+        else:
+            # Extract circuit event probabilities for race control
+            p_sc = float(active_df["p_safety_car"].iloc[0]) if "p_safety_car" in active_df.columns and pd.notna(active_df["p_safety_car"].iloc[0]) else 0.50
+            p_vsc = float(active_df["p_vsc"].iloc[0]) if "p_vsc" in active_df.columns and pd.notna(active_df["p_vsc"].iloc[0]) else 0.40
+            p_rf = float(active_df["p_red_flag"].iloc[0]) if "p_red_flag" in active_df.columns and pd.notna(active_df["p_red_flag"].iloc[0]) else 0.15
 
-        # Extract rain probability
-        rain_prob = float(active_df["rain_probability"].iloc[0]) if "rain_probability" in active_df.columns and pd.notna(active_df["rain_probability"].iloc[0]) else 0.15
+            # Extract rain probability
+            rain_prob = float(active_df["rain_probability"].iloc[0]) if "rain_probability" in active_df.columns and pd.notna(active_df["rain_probability"].iloc[0]) else 0.15
 
         # Vector of wet skill bonuses
         wet_skill_bonuses = np.zeros(n)

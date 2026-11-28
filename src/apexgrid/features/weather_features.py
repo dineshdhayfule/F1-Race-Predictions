@@ -32,14 +32,16 @@ def extract_session_weather_metrics(weather_df: Optional[pd.DataFrame]) -> Dict[
     w = weather_df.copy()
     res = {}
 
-    if "AirTemp" in w.columns:
-        res["air_temperature"] = float(pd.to_numeric(w["AirTemp"], errors="coerce").dropna().mean())
-    if "TrackTemp" in w.columns:
-        res["track_temperature"] = float(pd.to_numeric(w["TrackTemp"], errors="coerce").dropna().mean())
-    if "Humidity" in w.columns:
-        res["humidity"] = float(pd.to_numeric(w["Humidity"], errors="coerce").dropna().mean())
-    if "WindSpeed" in w.columns:
-        res["wind_speed"] = float(pd.to_numeric(w["WindSpeed"], errors="coerce").dropna().mean())
+    for src_col, dst_key in [
+        ("AirTemp", "air_temperature"),
+        ("TrackTemp", "track_temperature"),
+        ("Humidity", "humidity"),
+        ("WindSpeed", "wind_speed"),
+    ]:
+        if src_col in w.columns:
+            valid_vals = pd.to_numeric(w[src_col], errors="coerce").dropna()
+            if not valid_vals.empty:
+                res[dst_key] = float(valid_vals.mean())
     if "Rainfall" in w.columns:
         rain_series = pd.to_numeric(w["Rainfall"], errors="coerce").fillna(0)
         # Proportion of session time with detected rainfall
@@ -136,12 +138,21 @@ class WeatherModel:
             valid_metrics = [m for m in valid_metrics if m]
 
             if valid_metrics:
-                air_temp = float(np.mean([m["air_temperature"] for m in valid_metrics if "air_temperature" in m]))
-                track_temp = float(np.mean([m["track_temperature"] for m in valid_metrics if "track_temperature" in m]))
-                humidity = float(np.mean([m["humidity"] for m in valid_metrics if "humidity" in m]))
-                wind_speed = float(np.mean([m["wind_speed"] for m in valid_metrics if "wind_speed" in m]))
+                air_vals = [m["air_temperature"] for m in valid_metrics if "air_temperature" in m and np.isfinite(m["air_temperature"])]
+                track_vals = [m["track_temperature"] for m in valid_metrics if "track_temperature" in m and np.isfinite(m["track_temperature"])]
+                hum_vals = [m["humidity"] for m in valid_metrics if "humidity" in m and np.isfinite(m["humidity"])]
+                wind_vals = [m["wind_speed"] for m in valid_metrics if "wind_speed" in m and np.isfinite(m["wind_speed"])]
+                if air_vals:
+                    air_temp = float(np.mean(air_vals))
+                if track_vals:
+                    track_temp = float(np.mean(track_vals))
+                if hum_vals:
+                    humidity = float(np.mean(hum_vals))
+                if wind_vals:
+                    wind_speed = float(np.mean(wind_vals))
                 rain_fractions = [m.get("rain_fraction", 0.0) for m in valid_metrics]
-                rain_prob = float(np.clip(np.mean(rain_fractions) * 2.0, rain_prob * 0.5, 0.90))
+                if rain_fractions:
+                    rain_prob = float(np.clip(np.mean(rain_fractions) * 2.0, rain_prob * 0.5, 0.90))
                 confidence = 0.85
 
         wet_indicator = 1.0 if rain_prob >= 0.50 else (0.5 if rain_prob >= 0.25 else 0.0)

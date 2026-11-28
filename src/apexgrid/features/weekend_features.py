@@ -155,6 +155,19 @@ def build_qualifying_features(
 
     q["Abbreviation"] = normalize_driver_series(q["Abbreviation"])
     pos_col = "Position" if "Position" in q.columns else "QualifyingPosition"
+    if pos_col not in q.columns:
+        return pd.DataFrame([
+            {
+                "Abbreviation": d,
+                "quali_pos_norm": np.nan,
+                "quali_gap_pct": np.nan,
+                "quali_no_time": 1.0,
+                "q1_gap_pct": np.nan,
+                "q2_gap_pct": np.nan,
+                "q3_gap_pct": np.nan,
+            }
+            for d in drivers
+        ])
     q["Position"] = pd.to_numeric(q[pos_col], errors="coerce")
 
     for col in ("Q1", "Q2", "Q3"):

@@ -84,24 +84,79 @@ def test_session_results_service_sprint_parsing():
 
 
 def test_dominance_analytics_service():
-    """Dominance service calculates constructor win rates and season rankings."""
+    """Dominance service computes exact win_pct and sorts constructors by wins/championships."""
     service = DominanceAnalyticsService()
     constructors = service.get_constructor_dominance()
     assert len(constructors) >= 15
-    # Ferrari, McLaren, Mercedes, Red Bull among top ranks
     top_teams = [c["constructor"] for c in constructors[:4]]
     assert "Ferrari" in top_teams
     assert "McLaren" in top_teams
+    for entry in constructors:
+        expected_win_pct = round((entry["wins"] / entry["starts"]) * 100, 2)
+        assert entry["win_percentage"] == expected_win_pct
 
-    # Highest win rate seasons
+    # Highest win rate seasons sorted descending
     seasons = service.get_highest_win_rate_seasons(top_n=5)
     assert len(seasons) == 5
-    assert seasons[0]["win_pct"] > 90.0  # Red Bull 2023 or McLaren 1988
+    assert seasons[0]["win_pct"] > 90.0
+    assert all(seasons[i]["win_pct"] >= seasons[i + 1]["win_pct"] for i in range(len(seasons) - 1))
 
-    # 1-2 finishes
+    # 1-2 finishes sorted descending
     one_twos = service.get_one_two_finish_rankings(top_n=5)
     assert len(one_twos) == 5
     assert one_twos[0]["one_twos"] > 50
+    assert all(one_twos[i]["one_twos"] >= one_twos[i + 1]["one_twos"] for i in range(len(one_twos) - 1))
+
+
+def test_session_results_service_race_results_and_practice_nan_handling():
+    """SessionResultsService parses Jolpica race JSON (points/status) and drops NaN practice laps."""
+    mock_api = MagicMock()
+    mock_api.get_json.return_value = {
+        "MRData": {
+            "RaceTable": {
+                "Races": [{
+                    "Results": [
+                        {
+                            "position": "1",
+                            "positionText": "1",
+                            "points": "25",
+                            "grid": "2",
+                            "laps": "57",
+                            "status": "Finished",
+                            "Driver": {"driverId": "norris", "givenName": "Lando", "familyName": "Norris"},
+                            "Constructor": {"name": "McLaren"},
+                            "Time": {"time": "1:30:00.000"},
+                        },
+                        {
+                            "position": "20",
+                            "positionText": "R",
+                            "points": "0",
+                            "grid": "5",
+                            "laps": "12",
+                            "status": "Engine",
+                            "Driver": {"driverId": "leclerc", "givenName": "Charles", "familyName": "Leclerc"},
+                            "Constructor": {"name": "Ferrari"},
+                        },
+                    ]
+                }]
+            }
+        }
+    }
+    service = SessionResultsService(api_client=mock_api)
+    race_res = service.get_race_results(2025, 1)
+    assert len(race_res) == 2
+    assert race_res[0].driver_name == "Lando Norris"
+    assert race_res[0].points == 25.0
+    assert race_res[1].status == "Engine"
+    assert race_res[1].points == 0.0
+
+    mock_loader = MagicMock()
+    mock_loader.load_all_practice_sessions.return_value = {
+        1: {"fp1": pd.DataFrame({"Driver": ["VER", "STR"], "LapTimeSeconds": [81.0, float("nan")]})}
+    }
+    practice_svc = SessionResultsService(data_loader=mock_loader)
+    practice_res = practice_svc.get_practice_classification(2025, 1, "fp1")
+    assert [row["driver"] for row in practice_res] == ["VER"]
 
 
 def test_all_time_records_service():
@@ -259,4 +314,90 @@ def test_session_results_service_sprint_qualifying():
     if len(sqs) > 1:
         assert sqs[1].gap_to_pole is not None
         assert sqs[1].gap_to_pole.startswith("+")
+
+
+def test_season_analytics_full_grid_standings_and_gaps():
+    """SeasonAnalyticsService populates full-grid standings, gap_to_leader, podiums, poles, and dnfs."""
+    from types import SimpleNamespace
+    from apexgrid.historical.analytics import SeasonAnalyticsService, DriverSeasonStanding, ConstructorSeasonStanding
+
+    mock_events = MagicMock()
+    mock_events.get_season_calendar.return_value = SimpleNamespace(total_rounds=23)
+
+    # 13 drivers across 11 constructors in 1 completed round (including a Jolpica-style DNF with numeric position and a DNS)
+    entries = []
+    for i in range(1, 14):
+        is_dnf = i == 12
+        is_dns = i == 13
+        entries.append(
+            RaceResultEntry(
+                position=i,
+                position_text="W" if is_dns else ("R" if is_dnf else str(i)),
+                driver_id=f"drv_{i}",
+                driver_name=f"Driver {i}",
+                driver_number=str(i),
+                constructor_id=f"team_{(i - 1) % 11 + 1}",
+                constructor_name=f"Team {(i - 1) % 11 + 1}",
+                grid_position=i,
+                raw_grid_value=str(i),
+                positions_gained=0,
+                race_time_or_gap="1:30:00",
+                laps_completed=57 if not (is_dnf or is_dns) else (10 if is_dnf else 0),
+                points=float(max(0, 26 - i * 2)),
+                status="Did not start" if is_dns else ("Engine" if is_dnf else "Finished"),
+            )
+        )
+    mock_class = MagicMock()
+    mock_class.get_season_classifications.return_value = {1: entries}
+
+    mock_quali = MagicMock()
+    mock_quali.get_season_qualifying.return_value = {
+        1: [
+            QualifyingResultEntry(
+                position=1,
+                driver_id="drv_1",
+                driver_name="Driver 1",
+                driver_code="DR1",
+                constructor_id="team_1",
+                constructor_name="Team 1",
+                best_lap_time="1:20.000",
+            )
+        ]
+    }
+
+    mock_api = MagicMock()
+    mock_api.get_json.return_value = {}  # Exercise classification fallback path
+
+    svc = SeasonAnalyticsService(
+        api_client=mock_api,
+        events_service=mock_events,
+        classification_service=mock_class,
+        qualifying_service=mock_quali,
+    )
+    summary = svc.get_season_summary(2026)
+    assert summary is not None
+    assert len(summary.top_drivers_standings) == 10
+    assert len(summary.top_constructors_standings) == 10
+    assert len(summary.full_drivers_standings) == 13
+    assert len(summary.full_constructors_standings) == 11
+    assert isinstance(summary.full_drivers_standings[0], DriverSeasonStanding)
+    assert isinstance(summary.full_constructors_standings[0], ConstructorSeasonStanding)
+
+    leader = summary.full_drivers_standings[0]
+    assert leader.rank == 1
+    assert leader.gap_to_leader == 0.0
+    assert leader.podiums == 1
+    assert leader.poles == 1
+
+    p2 = summary.full_drivers_standings[1]
+    assert p2.gap_to_leader == round(leader.points - p2.points, 2)
+    assert p2.podiums == 1
+
+    dnf_drv = next(s for s in summary.full_drivers_standings if s.driver_name == "Driver 12")
+    assert dnf_drv.dnfs == 1
+    assert dnf_drv.dns == 0
+
+    dns_drv = next(s for s in summary.full_drivers_standings if s.driver_name == "Driver 13")
+    assert dns_drv.dns == 1
+    assert dns_drv.dnfs == 0
 

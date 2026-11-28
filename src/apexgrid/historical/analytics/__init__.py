@@ -22,6 +22,8 @@ from apexgrid.historical.analytics.models import (
     QualifyingAnalyticsSummary,
     RacePerformanceSummary,
     CircuitAnalyticsSummary,
+    DriverSeasonStanding,
+    ConstructorSeasonStanding,
     SeasonAnalyticsSummary,
 )
 from apexgrid.historical.analytics.session_results import SessionResultsService
@@ -43,6 +45,8 @@ __all__ = [
     "QualifyingAnalyticsSummary",
     "RacePerformanceSummary",
     "CircuitAnalyticsSummary",
+    "DriverSeasonStanding",
+    "ConstructorSeasonStanding",
     "SeasonAnalyticsSummary",
     "SessionResultsService",
     "DriverAnalyticsService",

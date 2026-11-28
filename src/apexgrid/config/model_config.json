@@ -7,7 +7,17 @@
     "precision_simulations": 25000,
     "fallback_sigma": 2.85,
     "fallback_dnf_prob": 0.158,
-    "incident_shock_scale": 12.0
+    "incident_shock_scale": 12.0,
+    "stage_sigma_map": {
+      "pre_fp1": 3.80,
+      "after_fp1": 3.50,
+      "after_fp2": 3.10,
+      "after_sprint_qualifying": 3.00,
+      "after_sprint_race": 2.85,
+      "after_fp3": 2.85,
+      "after_qualifying": 2.55,
+      "before_race": 2.55
+    }
   },
   "model_selection": {
     "mode": "multi_model",
@@ -43,12 +53,6 @@
       }
     }
   },
-  "feature_pruning": {
-    "enabled": true,
-    "validated_pruned_features": [
-      "sprint_quali_pos"
-    ]
-  },
   "capabilities": {
     "race_pace_intelligence": true,
     "tire_degradation_modeling": false,
@@ -56,33 +60,6 @@
     "race_control_model": true,
     "weather_aware_prediction": false
   },
-  "enhanced_features": [
-    "long_run_pace_gap_pct",
-    "long_run_pace_rank",
-    "race_pace_consistency",
-    "race_pace_sample_count",
-    "long_run_stint_length",
-    "race_pace_vs_quali_delta",
-    "race_pace_confidence",
-    "soft_tyre_deg_rate",
-    "medium_tyre_deg_rate",
-    "hard_tyre_deg_rate",
-    "estimated_tyre_deg_rate",
-    "compound_pace_delta",
-    "tyre_deg_confidence",
-    "optimal_strategy_stops",
-    "strategy_time_loss_sec",
-    "p_safety_car",
-    "p_vsc",
-    "p_red_flag",
-    "air_temperature",
-    "track_temperature",
-    "humidity",
-    "wind_speed",
-    "rain_probability",
-    "wet_conditions_indicator",
-    "weather_confidence"
-  ],
   "features": [
     "GridPosition",
     "grid_norm",

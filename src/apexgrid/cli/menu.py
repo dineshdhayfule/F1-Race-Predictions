@@ -16,7 +16,6 @@ from pathlib import Path
 import sys
 import json
 import re
-import subprocess
 from typing import Dict, Any, List, Optional, Tuple
 import pandas as pd
 import numpy as np
@@ -24,11 +23,7 @@ import numpy as np
 try:
     from dotenv import load_dotenv
     load_dotenv()
-    if "F1_USERNAME" not in os.environ and "email" in os.environ:
-        os.environ["F1_USERNAME"] = os.environ["email"]
-    if "F1_PASSWORD" not in os.environ and "pass" in os.environ:
-        os.environ["F1_PASSWORD"] = os.environ["pass"]
-except Exception:
+except (ImportError, OSError):
     pass
 
 from apexgrid.cli.terminal_ui import (
@@ -59,12 +54,13 @@ from apexgrid.features.grid_features import format_grid_provenance_display, Grid
 from apexgrid.data.data_loader import DataLoader
 from apexgrid.data.data_validator import DataValidator
 from apexgrid.data.season_discovery import SeasonDiscovery
-from apexgrid.features.build_features import FeatureEngineer
+from apexgrid.features.build_features import FeatureEngineer, PRE_QUALI_STAGES
 from apexgrid.pipeline.race_prediction_pipeline import RacePredictionPipeline
 from apexgrid.data.data_manager import DataManager
 from apexgrid.data.calendar_service import CalendarService
 from apexgrid.utils.circuit_mapping import resolve_circuit_key
 from apexgrid.utils.logging_utils import get_logger
+from apexgrid.utils.network import is_internet_available
 from apexgrid.utils.paths import get_runtime_root, resolve_config_file
 from apexgrid.utils.season_utils import get_active_season
 
@@ -344,7 +340,8 @@ class InteractiveMenu:
         while True:
             try:
                 clear_screen()
-                print_banner(season=2026, status_text="Ready")
+                from apexgrid.utils.season_utils import get_active_season
+                print_banner(season=get_active_season(), status_text="Ready")
                 console = get_console()
                 if HAS_RICH and console and _supports_color():
                     console.print("[bold #F5F5F7]MAIN MENU[/]\n")
@@ -473,6 +470,105 @@ class InteractiveMenu:
 
         return circuits[-1][1], circuits[-1][0]
 
+    def _prompt_forecast_mode(self, year: int, round_num: int, track_display: str, stage: str) -> Optional[str]:
+        """Prompts for Full Weekend vs Qualifying & Pole Only when stage is pre-qualifying."""
+        stage_clean = str(stage or "").lower().strip()
+        if stage_clean not in PRE_QUALI_STAGES:
+            return "full"
+
+        print_header("Step 4: Select Forecast Target", f"{track_display} {year} [{stage_clean.upper()}]")
+        print("  1. Full Weekend Forecast (Race + Qualifying)")
+        print("  2. Qualifying & Pole Only (Faster — skips Sunday race simulation)")
+        print("  0. Back\n")
+
+        while True:
+            mode_choice = prompt_choice("Select forecast target", ["1", "2", "0"], default="1")
+            if mode_choice == "0":
+                return None
+            if mode_choice == "2":
+                if round_num <= 1:
+                    print_warning(
+                        f"Qualifying & Pole Only requires at least 1 prior completed round (Round {round_num} has no prior rounds)."
+                    )
+                    continue
+                return "quali_only"
+            return "full"
+
+    def _display_qualifying_results(
+        self,
+        quali_df: pd.DataFrame,
+        track_name: str,
+        year: int,
+        stage: str,
+        top_n: Optional[int] = None,
+        meta: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        """Renders Qualifying & Pole Position predictions with Rich panels and tables."""
+        if quali_df is None or quali_df.empty:
+            print_warning("No qualifying prediction rows available.")
+            return
+
+        print_header(f"QUALIFYING & POLE PREDICTION: {str(track_name).upper()} {year} [{str(stage).upper()}]")
+        if meta:
+            mae_val = meta.get("selected_mae")
+            mae_str = f"{mae_val:.4f}" if isinstance(mae_val, (int, float)) else "N/A (Prior)"
+            sigma_val = meta.get("calibrated_sigma")
+            sigma_str = f"{sigma_val:.2f}" if isinstance(sigma_val, (int, float)) else "N/A"
+            print(f" Model Selected  : {meta.get('selected_model', '3-Way Qualifying Ensemble (40% RF / 30% XGB / 30% Ridge)')}")
+            print(f" Calibration     : {meta.get('calibration_source', 'walk_forward')} (MAE: {mae_str} | Sigma: {sigma_str})\n")
+
+        sorted_df = quali_df.sort_values("ExpectedQualifyingPosition").reset_index(drop=True)
+        console = get_console()
+        if len(sorted_df) >= 3:
+            pole_sorted = sorted_df.sort_values(["PoleProbability", "Top3Probability"], ascending=[False, False]).reset_index(drop=True)
+            p1 = pole_sorted.iloc[0]
+            p2 = pole_sorted.iloc[1]
+            p3 = pole_sorted.iloc[2]
+            if HAS_RICH and console and _supports_color():
+                from rich.columns import Columns
+                from rich.panel import Panel
+                cards = [
+                    Panel(
+                        f"[bold]{p2['Abbreviation']}[/] ({p2.get('TeamName', '')})\nPole: [bold]{p2['PoleProbability']:.1f}%[/] | Top3: {p2['Top3Probability']:.1f}%",
+                        title="P2 FRONT ROW",
+                        border_style="white",
+                    ),
+                    Panel(
+                        f"[bold #FFCC00]{p1['Abbreviation']}[/] ({p1.get('TeamName', '')})\nPole: [bold #00D26A]{p1['PoleProbability']:.1f}%[/] | Top3: {p1['Top3Probability']:.1f}%",
+                        title="[bold #FFCC00]P1 POLE CONTENDER[/]",
+                        border_style="#FFCC00",
+                    ),
+                    Panel(
+                        f"[bold]{p3['Abbreviation']}[/] ({p3.get('TeamName', '')})\nPole: [bold]{p3['PoleProbability']:.1f}%[/] | Top3: {p3['Top3Probability']:.1f}%",
+                        title="P3 SECOND ROW",
+                        border_style="cyan",
+                    ),
+                ]
+                console.print(Columns(cards, equal=True))
+            else:
+                print(
+                    f" Top Pole Contenders: P1 {p1['Abbreviation']} ({p1['PoleProbability']:.1f}%) | "
+                    f"P2 {p2['Abbreviation']} ({p2['PoleProbability']:.1f}%) | "
+                    f"P3 {p3['Abbreviation']} ({p3['PoleProbability']:.1f}%)\n"
+                )
+
+        sub_df = sorted_df if top_n is None else sorted_df.iloc[:top_n]
+        headers = ["Pos", "Driver", "Team", "ExpQuali", "Pole%", "Top3%", "Top5%", "Range"]
+        rows = []
+        for idx, r in sub_df.iterrows():
+            pos_val = int(r["PredictedPosition"]) if "PredictedPosition" in r and pd.notna(r["PredictedPosition"]) else (idx + 1)
+            rows.append([
+                f"P{pos_val}",
+                str(r.get("Abbreviation", "")),
+                str(r.get("TeamName", ""))[:20],
+                f"{float(r['ExpectedQualifyingPosition']):.2f}",
+                f"{float(r['PoleProbability']):.1f}%",
+                f"{float(r['Top3Probability']):.1f}%",
+                f"{float(r['Top5Probability']):.1f}%",
+                f"P{int(r['P5'])}-P{int(r['P95'])}",
+            ])
+        print_table(headers, rows, align_right=[True, False, False, True, True, True, True, False])
+
     def menu_predict_race(self) -> None:
         default = get_active_season()
         step = 1
@@ -481,8 +577,10 @@ class InteractiveMenu:
         round_num = 1
         track_display = ""
         is_sprint = False
+        selected_event = None
         track_key = "unknown"
         stage = "after_qualifying"
+        forecast_mode = "full"
         selected_weekend_only = False
         selected_model_opt = "hybrid"
         selected_custom_rf = None
@@ -557,24 +655,71 @@ class InteractiveMenu:
                 step = 3
 
             elif step == 3:
+                is_online = is_internet_available()
+                fmt_badge = "[bold magenta][SPRINT][/bold magenta]" if is_sprint else "[bold cyan][NORMAL][/bold cyan]"
+                net_badge = "[bold green][ONLINE][/bold green]" if is_online else "[bold red][OFFLINE][/bold red]"
+                console = get_console()
                 print_header("Step 3: Select Prediction Timeline Stage", f"{track_display} (Round {round_num})")
-                available_stages = get_available_stages_for_event(year, is_sprint=is_sprint)
-                default_stage_choice = "1" if year < 2018 else "5"
+                if HAS_RICH and console and _supports_color():
+                    console.print(f"  Format: {fmt_badge}  |  Network: {net_badge}\n")
+                else:
+                    fmt_txt = "[SPRINT]" if is_sprint else "[NORMAL]"
+                    net_txt = "[ONLINE]" if is_online else "[OFFLINE]"
+                    print(f"  Format: {fmt_txt}  |  Network: {net_txt}\n")
 
-                for num, stg, desc in available_stages:
-                    print(f"  {num}. {stg:<24} - {desc}")
+                stage_items = self._get_stage_availability_metadata(
+                    selected_event=selected_event,
+                    year=year,
+                    round_num=round_num,
+                    track_key=track_key,
+                    is_sprint=is_sprint,
+                    is_online=is_online,
+                )
+                selectable_items = [item for item in stage_items if item["selectable"]]
+                default_stage_choice = "1" if year < 2018 else (
+                    selectable_items[-1]["num"] if selectable_items else "1"
+                )
+
+                for item in stage_items:
+                    if HAS_RICH and console and _supports_color():
+                        console.print(f"  {item['num']}. {item['key']:<24} {item['badge']:<38} - {item['desc']}")
+                    else:
+                        plain_badge = re.sub(r"\[/?[^\]]+\]", "", item["badge"])
+                        print(f"  {item['num']}. {item['key']:<24} {plain_badge:<18} - {item['desc']}")
                 print("  0. Cancel / Back\n")
 
-                stage_choice_keys = [s[0] for s in available_stages] + [s[1] for s in available_stages] + ["0"]
-                chosen_stage_val = prompt_choice("Select Stage (# or name)", stage_choice_keys, default=default_stage_choice)
-                if chosen_stage_val == "0":
+                stage_choice_keys = [item["num"] for item in stage_items] + [item["key"] for item in stage_items] + ["0"]
+                stage_lookup = {}
+                for item in stage_items:
+                    stage_lookup[item["num"]] = item
+                    stage_lookup[item["key"]] = item
+
+                while True:
+                    chosen_stage_val = prompt_choice("Select Stage (# or name)", stage_choice_keys, default=default_stage_choice)
+                    if chosen_stage_val == "0":
+                        chosen_item = None
+                        break
+                    chosen_item = stage_lookup.get(chosen_stage_val)
+                    if chosen_item and not chosen_item["selectable"]:
+                        if HAS_RICH and console and _supports_color():
+                            console.print(f"[bold yellow]▲ WARNING:[/bold yellow] {chosen_item['block_reason']}")
+                            console.print("[dim]→ Tip: Select 'pre_fp1' for a pre-weekend forecast or the latest cached/available stage.[/dim]")
+                        else:
+                            print_warning(str(chosen_item["block_reason"]))
+                            print("  -> Tip: Select 'pre_fp1' for a pre-weekend forecast or the latest cached/available stage.")
+                        continue
+                    break
+
+                if chosen_item is None:
                     step = 2
                     continue
 
-                default_stage_key = "before_race" if year < 2018 else "after_qualifying"
-                stage = next((s[1] for s in available_stages if s[0] == chosen_stage_val or s[1] == chosen_stage_val), default_stage_key)
+                stage = chosen_item["key"]
                 selected_weekend_only = False
-                step = 4
+                forecast_mode = self._prompt_forecast_mode(year, round_num, track_display, stage)
+                if forecast_mode is None:
+                    continue
+                step = 7 if forecast_mode == "quali_only" else 4
 
             elif step == 4:
                 clear_screen()
@@ -731,15 +876,51 @@ class InteractiveMenu:
                 print("  0. Back\n")
                 disp_choice = prompt_choice("Select display scope", ["1", "2", "3", "0"], default="2")
                 if disp_choice == "0":
-                    step = 6
+                    step = 3 if forecast_mode == "quali_only" else 6
                     continue
                 top_n = 3 if disp_choice == "1" else (10 if disp_choice == "2" else None)
                 break
 
         # Step 8: Execute Prediction
-        print_header("Executing Prediction Pipeline", "Running 25,000 Monte Carlo Simulations...")
         pipeline = self._get_pipeline()
         console = get_console()
+        if forecast_mode == "quali_only":
+            print_header("Executing Qualifying & Pole Prediction", "Running 25,000 Qualifying Monte Carlo Simulations...")
+            try:
+                if HAS_RICH and console and _supports_color():
+                    with console.status("[bold #00B4D8]Simulating Qualifying & Pole (25,000 draws)...[/]"):
+                        quali_res = pipeline.predict_qualifying(
+                            track_key=track_key,
+                            year=year,
+                            stage=stage,
+                            round_num=round_num,
+                        )
+                else:
+                    quali_res = pipeline.predict_qualifying(
+                        track_key=track_key,
+                        year=year,
+                        stage=stage,
+                        round_num=round_num,
+                    )
+            except (ValueError, MissingSessionTelemetryError, Exception) as e:
+                logger.error(f"Qualifying prediction error: {e}", exc_info=True)
+                print_error(f"Qualifying prediction error [{type(e).__name__}]: {e}")
+                prompt_str("Press [Enter] to return", allow_empty=True)
+                return
+
+            self._display_qualifying_results(
+                quali_res["predictions"],
+                track_name=quali_res["track_name"],
+                year=year,
+                stage=stage,
+                top_n=top_n,
+                meta=quali_res,
+            )
+            print(f"Qualifying artifacts written to:\n  {Colors.DIM}{quali_res['output_dir']}{Colors.RESET}\n")
+            prompt_str("Press [Enter] to return to Main Menu", allow_empty=True)
+            return
+
+        print_header("Executing Prediction Pipeline", "Running 25,000 Monte Carlo Simulations...")
         try:
             if HAS_RICH and console and _supports_color():
                 with console.status("[bold #E10600]Simulating Grand Prix (25,000 Monte Carlo draws)...[/]"):
@@ -779,15 +960,21 @@ class InteractiveMenu:
         # Step 8: Post-Prediction Actions
         self._handle_post_prediction_actions(results)
 
-    def _historical_round_is_future(self, year: int, round_num: int) -> bool:
-        """Return whether the calendar places a prior round in the future."""
+    def _historical_round_is_future(self, year: int, round_num: int) -> Optional[bool]:
+        """Return whether the calendar places a prior round in the future, or None if unverified."""
         try:
             event = next(
                 (ev for ev in self.calendar_service.get_calendar(year) if ev.round_number == round_num),
                 None,
             )
-        except Exception:
-            return False
+        except (OSError, ValueError, RuntimeError, KeyError, AttributeError) as exc:
+            logger.warning(
+                "Could not verify calendar status for %s round %s: %s",
+                year,
+                round_num,
+                exc,
+            )
+            return None
         if event is None:
             return False
         date_value = event.sessions.get("Race") if event.sessions else None
@@ -813,6 +1000,142 @@ class InteractiveMenu:
 
         valid, _ = validate_session_dataframe(df, slug)
         return valid
+
+    _STAGE_TO_SESSION_SLUG: Dict[str, Optional[str]] = {
+        "pre_fp1": None,
+        "after_fp1": "fp1",
+        "after_fp2": "fp2",
+        "after_fp3": "fp3",
+        "after_sprint_qualifying": "sprint_qualifying",
+        "after_sprint": "sprint",
+        "after_sprint_race": "sprint",
+        "after_qualifying": "qualifying",
+        "before_race": "qualifying",
+        "post_race": "race",
+    }
+
+    @staticmethod
+    def _lookup_session_timestamp(selected_event: Any, session_slug: Optional[str]) -> Any:
+        """Resolves the scheduled session timestamp from CalendarEvent.sessions."""
+        if selected_event is None or not session_slug:
+            return None
+        sessions = getattr(selected_event, "sessions", None) or {}
+        if not isinstance(sessions, dict):
+            return None
+
+        aliases = {
+            "fp1": ("practice 1", "fp1", "practice"),
+            "fp2": ("practice 2", "fp2"),
+            "fp3": ("practice 3", "fp3"),
+            "sprint_qualifying": ("sprint qualifying", "sprint shootout", "sprint quali", "sq"),
+            "sprint": ("sprint", "sprint race", "sr"),
+            "qualifying": ("qualifying", "quali", "q"),
+            "race": ("race", "r"),
+        }.get(session_slug, (session_slug,))
+
+        for k, val in sessions.items():
+            if str(k).lower().strip() in aliases and val is not None and str(val).strip() not in ("", "None", "nan", "NaT"):
+                return val
+        return None
+
+    def _get_stage_availability_metadata(
+        self,
+        selected_event: Any,
+        year: int,
+        round_num: int,
+        track_key: str,
+        is_sprint: bool,
+        is_online: bool,
+    ) -> List[Dict[str, Any]]:
+        """
+        Enriches get_available_stages_for_event(year, is_sprint) with live local-cache,
+        UTC schedule timing, and online/offline availability metadata.
+        """
+        base_stages = get_available_stages_for_event(year, is_sprint=is_sprint)
+        event_name = getattr(selected_event, "event_name", "") if selected_event is not None else ""
+        circuit_name = getattr(selected_event, "circuit_name", "") if selected_event is not None else ""
+        event_date_raw = getattr(selected_event, "event_date", None) if selected_event is not None else None
+        now_utc = datetime.now(timezone.utc)
+
+        enriched: List[Dict[str, Any]] = []
+        for num, stage_key, desc in base_stages:
+            session_slug = self._STAGE_TO_SESSION_SLUG.get(stage_key)
+            if session_slug is None:
+                enriched.append({
+                    "num": num,
+                    "key": stage_key,
+                    "desc": desc,
+                    "status": "READY",
+                    "session_slug": None,
+                    "badge": "[bold green][READY][/bold green]",
+                    "selectable": True,
+                    "block_reason": None,
+                })
+                continue
+
+            session_date_raw = self._lookup_session_timestamp(selected_event, session_slug)
+            avail = self._check_session_dataset_availability(
+                year=year,
+                round_num=round_num,
+                circuit_key=track_key,
+                event_name=event_name,
+                circuit_name=circuit_name,
+                session_name=session_slug,
+                session_date_raw=session_date_raw,
+                event_date_raw=event_date_raw,
+            )
+
+            parsed_dt = None
+            date_eval = session_date_raw if session_date_raw is not None else event_date_raw
+            if date_eval is not None and str(date_eval).strip() not in ("", "None", "nan", "NaT"):
+                try:
+                    ts = pd.to_datetime(date_eval)
+                    if pd.notna(ts):
+                        parsed_dt = ts.tz_convert(timezone.utc) if ts.tzinfo is not None else ts.tz_localize(timezone.utc)
+                except (ValueError, TypeError):
+                    parsed_dt = None
+
+            status = avail
+            selectable = True
+            block_reason = None
+            badge = "[dim][UNVERIFIED][/dim]"
+
+            if avail == "YES":
+                badge = "[bold cyan][CACHED][/bold cyan]"
+                selectable = True
+            elif parsed_dt is not None and 0 <= (now_utc - parsed_dt).total_seconds() <= 5400:
+                status = "RECENT_DELAY"
+                badge = "[yellow][RECENT / INGEST LAG][/yellow]"
+                selectable = True
+            elif avail == "FUTURE":
+                start_str = parsed_dt.strftime("%Y-%m-%d %H:%M UTC") if parsed_dt is not None else "TBD"
+                badge = "[dim yellow][FUTURE][/dim yellow]"
+                selectable = False
+                block_reason = f"Session has not started yet (Scheduled: {start_str}). Telemetry cannot be observed."
+            elif avail == "NO":
+                if is_online:
+                    badge = "[bold blue][ONLINE][/bold blue]"
+                    selectable = True
+                else:
+                    badge = "[bold red][OFFLINE - NO DATA][/bold red]"
+                    selectable = False
+                    block_reason = "Session is finished, but local dataset is missing and system is offline."
+            else:
+                badge = "[dim][UNVERIFIED][/dim]"
+                selectable = True
+
+            enriched.append({
+                "num": num,
+                "key": stage_key,
+                "desc": desc,
+                "status": status,
+                "session_slug": session_slug,
+                "badge": badge,
+                "selectable": selectable,
+                "block_reason": block_reason,
+            })
+
+        return enriched
 
     def _audit_prediction_readiness(
         self, track_key: str, year: int, round_num: int, stage: str, is_sprint: bool, weekend_only: bool = False
@@ -848,10 +1171,14 @@ class InteractiveMenu:
                     completed_historical += 1
                 else:
                     invalid_historical.append((r, "; ".join(errors)))
-            elif self._historical_round_is_future(year, r):
-                future_historical.append(r)
             else:
-                invalid_historical.append((r, "race-result dataset is missing or unusable"))
+                future_status = self._historical_round_is_future(year, r)
+                if future_status is True:
+                    future_historical.append(r)
+                elif future_status is None:
+                    invalid_historical.append((r, "calendar availability could not be verified"))
+                else:
+                    invalid_historical.append((r, "race-result dataset is missing or unusable"))
 
         if weekend_only:
             details.append(("OK", "Weekend-Only Mode: Historical season rounds bypassed. Predictions use active weekend session telemetry."))
@@ -1071,18 +1398,20 @@ class InteractiveMenu:
         headers = ["Pos", "Driver", "Team", "Grid", "ExpFinish", "Win%", "Podium%", "Points%", "Range"]
         rows = []
         for _, r in sub_df.iterrows():
-            pos = int(r["PredictedPosition"])
+            raw_pos = r.get("PredictedPosition")
+            pos = int(raw_pos) if pd.notna(raw_pos) else str(r.get("StartingGridStatus", "-"))
             drv = r["Abbreviation"]
             team = r["TeamName"][:20]
             grid_raw = r.get("ActualStartingGrid")
             prov_raw = r.get("provisional_grid_position")
             raw_pit = r.get("is_pit_lane_start", 0)
             grid = format_grid_display(grid_raw, prov_raw, raw_pit)
-            exp = f"{r['ExpectedFinish']:.2f}"
+            exp = f"{r['ExpectedFinish']:.2f}" if pd.notna(r.get("ExpectedFinish")) else "-"
             win = render_probability_bar(r['WinProbability']) if (HAS_RICH and _supports_color()) else f"{r['WinProbability']:.1f}%"
             pod = f"{r['Top3Probability']:.1f}%"
             pts = f"{r['PointsProbability']:.1f}%"
-            rng = f"P{int(r['P5'])}-P{int(r['P95'])}"
+            p5_raw, p95_raw = r.get("P5"), r.get("P95")
+            rng = f"P{int(p5_raw)}-P{int(p95_raw)}" if (pd.notna(p5_raw) and pd.notna(p95_raw)) else "-"
             rows.append([pos, drv, team, grid, exp, win, pod, pts, rng])
 
         align_right = [True, False, False, True, True, True, True, True, False]
@@ -1129,22 +1458,35 @@ class InteractiveMenu:
 
         n_drivers = len(results.get("predictions", []))
         eval_report_path = out_dir / f"{track_key}_{year}_post_race_evaluation.md"
+        quali_csv_path = out_dir / f"{track_key}_{year}_qualifying_predictions.csv"
+        comp_csv_path = out_dir / f"{track_key}_{year}_model_comparison.csv"
         while True:
+            has_quali = quali_csv_path.is_file()
+            comp_df_mem = results.get("model_comparison")
+            has_comp = comp_csv_path.is_file() or (isinstance(comp_df_mem, pd.DataFrame) and not comp_df_mem.empty)
             has_eval = eval_report_path.is_file()
+
+            dynamic_actions: List[Tuple[str, Any]] = []
+            if has_quali:
+                dynamic_actions.append(("View Qualifying & Pole Prediction", "quali"))
+            if has_comp:
+                dynamic_actions.append(("View Walk-Forward Model Comparison", "comp"))
+            if has_eval:
+                dynamic_actions.append(("View Post-Race Evaluation Report", "eval"))
+            dynamic_actions.append(("Compare Predicted Grid vs Actual Grid & Finish", "grid"))
+
             print(f"{Colors.BOLD}Post-Prediction Options:{Colors.RESET}")
             print(f"  1. View full prediction table (All {n_drivers} drivers)")
             print("  2. View Top 3 Race Report")
             print("  3. View Top 10 Race Report")
             print("  4. View full Markdown summary report")
-            if has_eval:
-                print("  5. View Post-Race Evaluation Report")
-                print("  6. Compare Predicted Grid vs Actual Grid & Finish")
-                valid_choices = ["1", "2", "3", "4", "5", "6", "0"]
-            else:
-                print("  5. Compare Predicted Grid vs Actual Grid & Finish")
-                valid_choices = ["1", "2", "3", "4", "5", "0"]
+            opt_map: Dict[str, str] = {}
+            for idx, (label, action_key) in enumerate(dynamic_actions, start=5):
+                print(f"  {idx}. {label}")
+                opt_map[str(idx)] = action_key
             print("  0. Return to Main Menu\n")
 
+            valid_choices = ["1", "2", "3", "4"] + list(opt_map.keys()) + ["0"]
             choice = prompt_choice("Select option", valid_choices, default="0")
             if choice == "0":
                 break
@@ -1157,13 +1499,61 @@ class InteractiveMenu:
             elif choice == "4":
                 p = out_dir / f"{track_key}_{year}_{stage}_report.md"
                 self._view_markdown_file(p)
-            elif choice == "5":
-                if has_eval:
+            elif choice in opt_map:
+                action = opt_map[choice]
+                if action == "quali":
+                    q_df = pd.read_csv(quali_csv_path)
+                    self._display_qualifying_results(
+                        q_df,
+                        track_name=results.get("track_name", track_key),
+                        year=year,
+                        stage=stage,
+                        meta=results.get("qualifying_meta"),
+                    )
+                    prompt_str("Press [Enter] to return to options", allow_empty=True)
+                elif action == "comp":
+                    c_df = pd.read_csv(comp_csv_path) if comp_csv_path.is_file() else comp_df_mem
+                    self._show_model_comparison(
+                        c_df,
+                        track_name=results.get("track_name", track_key),
+                        year=year,
+                        stage=stage,
+                    )
+                    prompt_str("Press [Enter] to return to options", allow_empty=True)
+                elif action == "eval":
                     self._view_markdown_file(eval_report_path)
-                else:
+                elif action == "grid":
                     self._show_grid_comparison(results)
-            elif choice == "6":
-                self._show_grid_comparison(results)
+
+    def _show_model_comparison(
+        self,
+        comp_df: Optional[pd.DataFrame],
+        track_name: str,
+        year: int,
+        stage: str,
+    ) -> None:
+        """Displays walk-forward model comparison metrics (MAE, MedAE, RMSE, Spearman)."""
+        if comp_df is None or comp_df.empty:
+            print_warning("Walk-forward model comparison data is unavailable.")
+            return
+
+        print_header(f"WALK-FORWARD MODEL COMPARISON: {str(track_name).upper()} {year} [{str(stage).upper()}]")
+
+        def _fmt_num(val: Any) -> str:
+            num = pd.to_numeric(val, errors="coerce")
+            return f"{float(num):.4f}" if pd.notna(num) and np.isfinite(num) else "N/A"
+
+        headers = ["Model Configuration", "MAE", "MedAE", "RMSE", "Spearman"]
+        rows = []
+        for _, r in comp_df.iterrows():
+            rows.append([
+                str(r.get("model_name", "-")),
+                _fmt_num(r.get("mae")),
+                _fmt_num(r.get("medae")),
+                _fmt_num(r.get("rmse")),
+                _fmt_num(r.get("spearman")),
+            ])
+        print_table(headers, rows, align_right=[False, True, True, True, True])
 
     def _show_grid_comparison(self, results: Dict[str, Any]) -> None:
         """Displays driver-by-driver Predicted vs Actual Grid and Race Finish comparison."""
@@ -1490,30 +1880,6 @@ class InteractiveMenu:
         except Exception as e:
             print_error(f"Season collection failed: {e}")
         prompt_str("Press [Enter] to continue", allow_empty=True)
-
-    def _run_season_or_historical_collector(self) -> None:
-        """Submenu for choosing between full season, single rounds, or historical circuit collection."""
-        while True:
-            clear_screen()
-            print_banner(season=2026)
-            print_header("Collect Race & Qualifying Data (FastF1)")
-            print("  1. Collect data for an ENTIRE season (all championship rounds)")
-            print("  2. Collect data for specific season rounds (specify round numbers)")
-            print("  3. Collect historical circuit data (configured tracks & year ranges)")
-            print("  0. Back to Data Collection Menu\n")
-
-            sub_choice = prompt_choice("Select collection mode", ["1", "2", "3", "0"], default="1")
-            if sub_choice == "0":
-                break
-            elif sub_choice == "1":
-                self._run_full_season_collector()
-                break
-            elif sub_choice == "2":
-                self._run_season_collector()
-                break
-            elif sub_choice == "3":
-                self._run_historical_circuit_collector()
-                break
 
     def _run_historical_circuit_collector(self) -> None:
         from apexgrid.data.collect_track import format_year_range, collect_historical_track_data
@@ -2224,7 +2590,9 @@ class InteractiveMenu:
             if prefix in self.tracks_cfg:
                 track_folder = prefix
 
-        year = 2026
+        from apexgrid.utils.season_utils import get_active_season
+        year_match = re.search(r"(?:^|_)(19\d{2}|20\d{2})(?:_|$)", pred_csv_path.stem)
+        year = int(year_match.group(1)) if year_match else get_active_season()
 
         # Locate actual results via DataLoader
         actual_df = self.loader.load_target_race(track_folder, year=year)
@@ -2291,7 +2659,9 @@ class InteractiveMenu:
         headers = ["ActualPos", "Driver", "Grid", "PredictedPos", "ExpFinish", "Delta"]
         rows = []
         for _, r in merged.iterrows():
-            act = int(r["ActualFinish"])
+            raw_act = r.get("ActualFinish")
+            act = int(raw_act) if pd.notna(raw_act) else None
+            act_disp = str(act) if act is not None else "DNF"
             drv = r["Abbreviation"]
             grid_raw = r.get("ActualStartingGrid")
             raw_pit = r.get("is_pit_lane_start", 0)
@@ -2302,11 +2672,16 @@ class InteractiveMenu:
                 grid = str(int(round(float(grid_raw))))
             else:
                 grid = "-"
-            pred = int(r["PredictedPosition"])
-            exp = f"{r['ExpectedFinish']:.2f}"
-            delta = pred - act
-            delta_str = f"+{delta}" if delta > 0 else f"{delta}"
-            rows.append([act, drv, grid, pred, exp, delta_str])
+            raw_pred = r.get("PredictedPosition")
+            pred = int(raw_pred) if pd.notna(raw_pred) else None
+            pred_disp = str(pred) if pred is not None else "-"
+            exp = f"{r['ExpectedFinish']:.2f}" if pd.notna(r.get("ExpectedFinish")) else "-"
+            if act is not None and pred is not None:
+                delta = pred - act
+                delta_str = f"+{delta}" if delta > 0 else f"{delta}"
+            else:
+                delta_str = "N/A"
+            rows.append([act_disp, drv, grid, pred_disp, exp, delta_str])
 
         print_table(headers, rows, align_right=[True, False, True, True, True, True])
         prompt_str("Press [Enter] to continue", allow_empty=True)
@@ -2317,7 +2692,7 @@ class InteractiveMenu:
     def menu_system_health(self) -> None:
         clear_screen()
         print_banner(season=2026)
-        print_header("System Health & Diagnostic Center")
+        print_header("System Health & Data Readiness")
 
         # 1. Environment
         print(f"{Colors.BOLD}Environment & Core Dependencies:{Colors.RESET}")
@@ -2356,39 +2731,7 @@ class InteractiveMenu:
             else:
                 print_warning(f"Directory '{d_name}' not yet created.")
 
-        # Action: Option to run diagnostics tests
-        core_test_files = [
-            "tests/test_feature_schema.py",
-            "tests/test_grid_race_logic.py",
-            "tests/test_dynamic_roster.py",
-            "tests/test_dnf_hazard.py",
-            "tests/test_terminal_ui.py",
-            "tests/test_historical_intelligence_v2.py",
-            "tests/test_remediation_integrity.py",
-        ]
-        sim_test_files = [
-            "tests/test_weekend_only_pipeline.py",
-            "tests/test_monte_carlo.py",
-        ]
-
-        print(f"\n{Colors.BOLD}Diagnostics Options:{Colors.RESET}")
-        print("  1. Run Fast Core Engine Tests (~59 tests)")
-        print("  2. Run Weekend-Only & Simulation Tests (~22 tests)")
-        print("  3. Run Full Fast Diagnostic Suite (~81 tests)")
-        print("  0. Back to Main Menu\n")
-        c = prompt_choice("Select action", ["1", "2", "3", "0"], default="0")
-        if c == "1":
-            print_info("Executing fast core engine unit tests...")
-            subprocess.run([sys.executable, "-m", "pytest"] + core_test_files + ["-v"], cwd=self.root_dir)
-            prompt_str("\nPress [Enter] to continue", allow_empty=True)
-        elif c == "2":
-            print_info("Executing weekend-only & simulation tests...")
-            subprocess.run([sys.executable, "-m", "pytest"] + sim_test_files + ["-v"], cwd=self.root_dir)
-            prompt_str("\nPress [Enter] to continue", allow_empty=True)
-        elif c == "3":
-            print_info("Executing full fast diagnostic test suite...")
-            subprocess.run([sys.executable, "-m", "pytest"] + core_test_files + sim_test_files + ["-v"], cwd=self.root_dir)
-            prompt_str("\nPress [Enter] to continue", allow_empty=True)
+        prompt_str("\nPress [Enter] to return to Main Menu", allow_empty=True)
 
     # =========================================================================
     # OPTION 7: CONFIGURATION & SUPPORTED CIRCUITS
@@ -2403,7 +2746,11 @@ class InteractiveMenu:
         blend = self.model_cfg.get("blending", {})
         mc = self.model_cfg.get("monte_carlo", {})
         print(f"  Random Seed           : {self.model_cfg.get('random_seed', 42)}")
-        print(f"  Ensemble Architecture : {m_sel.get('fixed_rf_weight', 0.6)*100:.0f}% Random Forest / {m_sel.get('fixed_xgb_weight', 0.4)*100:.0f}% XGBoost")
+        if m_sel.get("mode", "multi_model") in {"multi_model", "ensemble"}:
+            pe = m_sel.get("promoted_ensemble", {})
+            print(f"  Ensemble Architecture : {pe.get('rf_weight', 0.40)*100:.0f}% RF / {pe.get('xgb_weight', 0.30)*100:.0f}% XGB / {pe.get('ridge_weight', 0.30)*100:.0f}% Ridge")
+        else:
+            print(f"  Ensemble Architecture : {m_sel.get('fixed_rf_weight', 0.6)*100:.0f}% Random Forest / {m_sel.get('fixed_xgb_weight', 0.4)*100:.0f}% XGBoost")
         print(f"  Blending Ratio        : {blend.get('ml_weight', 0.65)*100:.0f}% ML Prediction / {blend.get('grid_weight', 0.35)*100:.0f}% Starting Grid")
         print(f"  Monte Carlo Sims      : {mc.get('default_simulations', 25000):,} draws per driver")
         print(f"  EWMA Form Half-Life   : alpha = {self.model_cfg.get('ewma_alpha', 0.3)}")
@@ -2435,7 +2782,7 @@ class InteractiveMenu:
             rows.append([r, name, c_type, km, sprint, pen_str, k])
 
         print_table(["Round", "Grand Prix", "Type", "Length", "Sprint", "Grid Penalties", "Key"], rows)
-        print(f"{Colors.DIM}Note: Configuration is read-only. Settings live in src/config/tracks.json and src/config/model_config.json.{Colors.RESET}\n")
+        print(f"{Colors.DIM}Note: Configuration is read-only. Settings live in src/apexgrid/config/tracks.json and src/apexgrid/config/model_config.json.{Colors.RESET}\n")
         prompt_str("Press [Enter] to return to Main Menu", allow_empty=True)
 
     # =========================================================================
@@ -2612,8 +2959,16 @@ class InteractiveMenu:
         }
 
         # Year filter
-        year_str = prompt_str("Enter championship year to target [default: 2026, or 'all']: ", default="2026").strip()
-        year_filter = None if year_str.lower() in ("all", "*", "") else int(year_str)
+        while True:
+            year_str = prompt_str("Enter championship year to target [default: 2026, or 'all']: ", default="2026").strip()
+            if year_str.lower() in ("all", "*", ""):
+                year_filter = None
+                break
+            try:
+                year_filter = int(year_str)
+                break
+            except ValueError:
+                print_error(f"Invalid year '{year_str}'. Enter a 4-digit year or 'all'.")
 
         # Historical protection opt-in
         include_historical = False

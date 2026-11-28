@@ -4,6 +4,7 @@ Collects current weekend sessions (FP1, FP2, FP3, Qualifying) for any configured
 Strictly excludes target race result during pre-race data collection.
 """
 
+from datetime import datetime, timezone
 from pathlib import Path
 import os
 import json
@@ -121,7 +122,9 @@ def save_practice_laps(session, target_path: Path, force: bool = False):
         ]
         available = [c for c in keep if c in laps.columns]
         practice_data = laps[available].copy()
-        practice_data["Year"] = session.event.EventDate.year
+        event_date = getattr(session.event, "EventDate", None)
+        event_year = int(event_date.year) if pd.notna(event_date) else datetime.now(timezone.utc).year
+        practice_data["Year"] = event_year
         practice_data["Race"] = session.event.EventName
         practice_data["Session"] = session.name
 
@@ -260,7 +263,7 @@ def collect_historical_track_data(
                 skips.append(f"{y} Race: file already exists ({race_file.name})")
                 logger.info(f"  [SKIP] {y} Race already exists ({race_file.name}).")
 
-        if not race_is_valid and (not race_file.exists() or force):
+        if not race_is_valid:
             try:
                 r_sess = fastf1.get_session(y, round_num, "R")
                 if y < 2018 or not getattr(r_sess, "f1_api_support", True):
@@ -296,7 +299,7 @@ def collect_historical_track_data(
                 skips.append(f"{y} Qualifying: file already exists ({quali_file.name})")
                 logger.info(f"  [SKIP] {y} Qualifying already exists ({quali_file.name}).")
 
-        if not quali_is_valid and (not quali_file.exists() or force):
+        if not quali_is_valid:
             try:
                 q_sess = fastf1.get_session(y, round_num, "Q")
                 if y < 2018 or not getattr(q_sess, "f1_api_support", True):

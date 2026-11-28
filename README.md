@@ -185,16 +185,16 @@ Sparse grids ($n < 20$) scale $\sigma$ proportionally down to a `1.20` floor, an
 
 | File | Purpose |
 |------|---------|
-| [`src/config/model_config.json`](src/config/model_config.json) | Ensemble weights, hyperparameters, feature sets, topology blending |
-| [`src/config/tracks.json`](src/config/tracks.json) | 23 championship circuits, lengths, types, calendar rounds |
-| [`src/config/strategy_config.json`](src/config/strategy_config.json) | Tire compounds, pit loss times, 23 circuit strategy priors |
-| [`src/config/settings.json`](src/config/settings.json) | Cache paths, logging, output directories |
+| [`src/apexgrid/config/model_config.json`](src/apexgrid/config/model_config.json) | Ensemble weights, hyperparameters, feature sets, topology blending |
+| [`src/apexgrid/config/tracks.json`](src/apexgrid/config/tracks.json) | 23 championship circuits, lengths, types, calendar rounds |
+| [`src/apexgrid/config/strategy_config.json`](src/apexgrid/config/strategy_config.json) | Tire compounds, pit loss times, 23 circuit strategy priors |
+| [`src/apexgrid/config/settings.json`](src/apexgrid/config/settings.json) | Raw/processed data paths, cache directory, and output directory |
 
 ---
 
 ## Testing
 
-**197 tests** across `23 test_*.py` files (`194` fast tests + `3` `@pytest.mark.slow` tests):
+**218 tests** across `25 test_*.py` files (`214` fast tests + `4` `@pytest.mark.slow` tests):
 
 ```bash
 pytest -m "not slow" -q   # fast inner-loop suite

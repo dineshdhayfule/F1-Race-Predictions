@@ -4,7 +4,6 @@
   "sc_pit_loss_discount": 0.40,
   "vsc_pit_loss_discount": 0.30,
   "fuel_effect_seconds_per_lap": 0.035,
-  "nominal_fuel_laps": 55,
   "compounds": {
     "SOFT": {
       "base_deg_rate_sec_per_lap": 0.110,

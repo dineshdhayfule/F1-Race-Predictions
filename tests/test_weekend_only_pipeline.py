@@ -187,7 +187,7 @@ def test_monte_carlo_deterministic_seed_with_analytical_score(sample_target_df):
 
 @pytest.mark.slow
 def test_race_prediction_pipeline_weekend_only_execution(tmp_path):
-    """Pipeline runs successfully with weekend_only=True using pure ML ensemble."""
+    """Pipeline runs successfully with weekend_only=True using analytical weekend telemetry scoring."""
     pipeline = RacePredictionPipeline(root_dir=Path("."))
     
     # Run with weekend_only=True on sepang 2026 Round 16 at after_qualifying
@@ -205,8 +205,10 @@ def test_race_prediction_pipeline_weekend_only_execution(tmp_path):
     assert len(df) == 22
     assert "ExpectedFinish" in df.columns
     assert "WinProbability" in df.columns
-    assert "Weekend-Only Multi-Model Ensemble" in results["selected_model"]
-    assert results["validation_status"] == "WEEKEND_ONLY_ML"
+    assert "Analytical Weekend Telemetry Scorer" in results["selected_model"]
+    assert results["validation_status"] == "WEEKEND_ONLY_ANALYTICAL"
+    assert results["is_out_of_sample"] is False
+    assert results["selected_mae"] is None
     assert results["simulation_meta"]["readiness_classification"] == "WEEKEND_ONLY"
     # Stage after_qualifying should use pace_sigma = 2.55
     assert results["simulation_meta"]["calibrated_sigma"] == 2.55

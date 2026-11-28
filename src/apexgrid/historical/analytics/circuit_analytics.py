@@ -15,6 +15,7 @@ from collections import defaultdict
 from apexgrid.historical.api_client import HistoricalAPIClient
 from apexgrid.historical.circuits_service import HistoricalCircuitsService
 from apexgrid.historical.analytics.models import CircuitAnalyticsSummary
+from apexgrid.utils.circuit_mapping import resolve_ergast_circuit_id
 from apexgrid.utils.logging_utils import get_logger
 
 logger = get_logger("historical_circuit_analytics")
@@ -44,7 +45,9 @@ class CircuitAnalyticsService:
         Returns:
             Optional[CircuitAnalyticsSummary]: Aggregated circuit statistics or None if not found.
         """
-        c_clean = circuit_id.strip().lower()
+        c_clean = resolve_ergast_circuit_id(circuit_id)
+        if not c_clean:
+            return None
 
         # 1. Fetch circuit metadata
         circuit_meta = self.circuits_service.get_circuit(c_clean)

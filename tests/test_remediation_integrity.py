@@ -100,9 +100,11 @@ class TestF02StrategyPenaltyDirection:
         strat_sim = PitStrategySimulator()
         sample_target = pd.DataFrame({
             "Abbreviation": ["VER", "NOR"],
+            "QualifyingPosition": [1, 2],
             "GridPosition": [1, 2],
-            "driver_tyre_deg_rate": [0.08, 0.09],
-            "driver_overtake_ability": [0.85, 0.80],
+            "soft_tyre_deg_rate": [0.095, 0.115],
+            "medium_tyre_deg_rate": [0.055, 0.068],
+            "hard_tyre_deg_rate": [0.032, 0.041],
         })
         res = strat_sim.simulate_grid_strategies(sample_target, total_laps=57, circuit_key="bahrain")
         assert len(res) == 2

@@ -226,8 +226,8 @@ class DataManager:
                 canon = resolve_circuit_key(clean_track)
                 if canon:
                     clean_track = canon
-            except Exception:
-                pass
+            except (ValueError, KeyError, TypeError, AttributeError) as exc:
+                logger.debug("Circuit key resolution fallback for '%s': %s", clean_track, exc)
             target_dir = (out_root / clean_track).resolve()
             if not target_dir.is_relative_to(out_root) or target_dir == out_root:
                 raise ValueError(f"Unsafe path traversal detected in circuit identifier: '{track_key}'")
@@ -332,8 +332,8 @@ class DataManager:
                 canon = resolve_circuit_key(clean_track)
                 if canon:
                     clean_track = canon
-            except Exception:
-                pass
+            except (ValueError, KeyError, TypeError, AttributeError) as exc:
+                logger.debug("Circuit key resolution fallback for '%s': %s", clean_track, exc)
 
         from apexgrid.utils.season_utils import get_active_season
         year = year or get_active_season()
@@ -604,8 +604,8 @@ class DataManager:
                     rel = d.relative_to(self.root_dir).parts
                     if rel[0] in ["outputs", "fastf1_cache", "cache", ".cache"] or (len(rel) >= 2 and rel[0] == "data" and rel[1] == "cache"):
                         d.rmdir()
-            except Exception:
-                pass
+            except OSError as exc:
+                logger.debug("Could not remove empty directory %s: %s", d, exc)
 
         status = "COMPLETED"
         if failed_deletions:

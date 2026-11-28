@@ -118,5 +118,13 @@ def test_monte_carlo_draw_depth():
 
 
 def test_custom_weight_pair_must_sum_to_one_hundred_percent():
-    for rf_weight, xgb_weight in [(70.0, 30.0), (80.0, 20.0), (60.0, 40.0)]:
-        assert rf_weight + xgb_weight == 100.0
+    from typer.testing import CliRunner
+    from apexgrid.cli.typer_app import app
+
+    runner = CliRunner()
+    bad_res = runner.invoke(
+        app,
+        ["predict", "-t", "melbourne", "-m", "hybrid", "--rf-weight", "70", "--xgb-weight", "20"],
+    )
+    assert bad_res.exit_code == 2
+    assert "Weight sum must equal 100%" in bad_res.output

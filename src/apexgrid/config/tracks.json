@@ -24,7 +24,24 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "albert_park",
+      "turns": 14,
+      "drs_zones": 4,
+      "first_gp_year": 1996,
+      "lap_record": {
+        "time": "1:19.813",
+        "driver": "Charles Leclerc",
+        "year": 2024
+      },
+      "downforce_level": "High",
+      "tyre_stress": "Medium",
+      "full_throttle_pct": 68,
+      "f1_website_slugs": [
+        "australia",
+        "australian",
+        "melbourne"
+      ]
     },
     "china": {
       "display_name": "Chinese Grand Prix",
@@ -47,7 +64,23 @@
         2025
       ],
       "sprint_weekend_2026": true,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "shanghai",
+      "turns": 16,
+      "drs_zones": 2,
+      "first_gp_year": 2004,
+      "lap_record": {
+        "time": "1:32.238",
+        "driver": "Michael Schumacher",
+        "year": 2004
+      },
+      "downforce_level": "Medium",
+      "tyre_stress": "High",
+      "full_throttle_pct": 67,
+      "f1_website_slugs": [
+        "china",
+        "chinese"
+      ]
     },
     "japan": {
       "display_name": "Japanese Grand Prix",
@@ -72,7 +105,23 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "suzuka",
+      "turns": 18,
+      "drs_zones": 1,
+      "first_gp_year": 1987,
+      "lap_record": {
+        "time": "1:30.983",
+        "driver": "Lewis Hamilton",
+        "year": 2019
+      },
+      "downforce_level": "High",
+      "tyre_stress": "High",
+      "full_throttle_pct": 71,
+      "f1_website_slugs": [
+        "japan",
+        "japanese"
+      ]
     },
     "miami": {
       "display_name": "Miami Grand Prix",
@@ -86,7 +135,7 @@
       "circuit_type": "temporary",
       "track_length_km": 5.412,
       "straightness": 0.55,
-      "speed_bias": 0.70,
+      "speed_bias": 0.7,
       "overtaking_ease": 0.52,
       "historical_data_available": true,
       "historical_years": [
@@ -96,7 +145,22 @@
         2025
       ],
       "sprint_weekend_2026": true,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "miami",
+      "turns": 19,
+      "drs_zones": 3,
+      "first_gp_year": 2022,
+      "lap_record": {
+        "time": "1:29.708",
+        "driver": "Max Verstappen",
+        "year": 2023
+      },
+      "downforce_level": "Medium",
+      "tyre_stress": "Medium",
+      "full_throttle_pct": 68,
+      "f1_website_slugs": [
+        "miami"
+      ]
     },
     "canada": {
       "display_name": "Canadian Grand Prix",
@@ -113,7 +177,7 @@
       "track_length_km": 4.361,
       "straightness": 0.57,
       "speed_bias": 0.73,
-      "overtaking_ease": 0.60,
+      "overtaking_ease": 0.6,
       "historical_data_available": true,
       "historical_years": [
         2022,
@@ -122,7 +186,24 @@
         2025
       ],
       "sprint_weekend_2026": true,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "villeneuve",
+      "turns": 14,
+      "drs_zones": 3,
+      "first_gp_year": 1978,
+      "lap_record": {
+        "time": "1:13.078",
+        "driver": "Valtteri Bottas",
+        "year": 2019
+      },
+      "downforce_level": "Low",
+      "tyre_stress": "Medium",
+      "full_throttle_pct": 74,
+      "f1_website_slugs": [
+        "canada",
+        "canadian",
+        "montreal"
+      ]
     },
     "monaco": {
       "display_name": "Monaco Grand Prix",
@@ -146,7 +227,23 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "monaco",
+      "turns": 19,
+      "drs_zones": 1,
+      "first_gp_year": 1950,
+      "lap_record": {
+        "time": "1:12.909",
+        "driver": "Lewis Hamilton",
+        "year": 2021
+      },
+      "downforce_level": "Very High",
+      "tyre_stress": "Low",
+      "full_throttle_pct": 42,
+      "f1_website_slugs": [
+        "monaco",
+        "monte-carlo"
+      ]
     },
     "barcelona": {
       "display_name": "Spanish Grand Prix",
@@ -172,7 +269,25 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "catalunya",
+      "turns": 14,
+      "drs_zones": 2,
+      "first_gp_year": 1991,
+      "lap_record": {
+        "time": "1:16.330",
+        "driver": "Max Verstappen",
+        "year": 2023
+      },
+      "downforce_level": "High",
+      "tyre_stress": "High",
+      "full_throttle_pct": 69,
+      "f1_website_slugs": [
+        "barcelona-catalunya",
+        "spain",
+        "spanish",
+        "barcelona"
+      ]
     },
     "austria": {
       "display_name": "Austrian Grand Prix",
@@ -198,7 +313,23 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "red_bull_ring",
+      "turns": 10,
+      "drs_zones": 3,
+      "first_gp_year": 1970,
+      "lap_record": {
+        "time": "1:05.619",
+        "driver": "Carlos Sainz",
+        "year": 2020
+      },
+      "downforce_level": "Medium",
+      "tyre_stress": "Medium",
+      "full_throttle_pct": 77,
+      "f1_website_slugs": [
+        "austria",
+        "austrian"
+      ]
     },
     "silverstone": {
       "display_name": "British Grand Prix",
@@ -223,7 +354,23 @@
         2025
       ],
       "sprint_weekend_2026": true,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "silverstone",
+      "turns": 18,
+      "drs_zones": 2,
+      "first_gp_year": 1950,
+      "lap_record": {
+        "time": "1:27.097",
+        "driver": "Max Verstappen",
+        "year": 2020
+      },
+      "downforce_level": "High",
+      "tyre_stress": "High",
+      "full_throttle_pct": 74,
+      "f1_website_slugs": [
+        "great-britain",
+        "british"
+      ]
     },
     "spa": {
       "display_name": "Belgian Grand Prix",
@@ -249,7 +396,23 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "spa",
+      "turns": 19,
+      "drs_zones": 2,
+      "first_gp_year": 1950,
+      "lap_record": {
+        "time": "1:44.701",
+        "driver": "Sergio Perez",
+        "year": 2024
+      },
+      "downforce_level": "Low",
+      "tyre_stress": "High",
+      "full_throttle_pct": 75,
+      "f1_website_slugs": [
+        "belgium",
+        "belgian"
+      ]
     },
     "hungary": {
       "display_name": "Hungarian Grand Prix",
@@ -275,7 +438,24 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "hungaroring",
+      "turns": 14,
+      "drs_zones": 2,
+      "first_gp_year": 1986,
+      "lap_record": {
+        "time": "1:16.627",
+        "driver": "Lewis Hamilton",
+        "year": 2020
+      },
+      "downforce_level": "Very High",
+      "tyre_stress": "Medium",
+      "full_throttle_pct": 58,
+      "f1_website_slugs": [
+        "hungary",
+        "hungarian",
+        "budapest"
+      ]
     },
     "zandvoort": {
       "display_name": "Dutch Grand Prix",
@@ -289,7 +469,7 @@
       "round_2026": 12,
       "circuit_type": "permanent",
       "track_length_km": 4.259,
-      "straightness": 0.30,
+      "straightness": 0.3,
       "speed_bias": 0.48,
       "overtaking_ease": 0.25,
       "historical_data_available": true,
@@ -300,7 +480,23 @@
         2025
       ],
       "sprint_weekend_2026": true,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "zandvoort",
+      "turns": 14,
+      "drs_zones": 2,
+      "first_gp_year": 1952,
+      "lap_record": {
+        "time": "1:11.097",
+        "driver": "Lewis Hamilton",
+        "year": 2021
+      },
+      "downforce_level": "Very High",
+      "tyre_stress": "High",
+      "full_throttle_pct": 66,
+      "f1_website_slugs": [
+        "netherlands",
+        "dutch"
+      ]
     },
     "monza": {
       "display_name": "Italian Grand Prix",
@@ -325,7 +521,23 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "monza",
+      "turns": 11,
+      "drs_zones": 2,
+      "first_gp_year": 1950,
+      "lap_record": {
+        "time": "1:21.046",
+        "driver": "Rubens Barrichello",
+        "year": 2004
+      },
+      "downforce_level": "Low",
+      "tyre_stress": "Medium",
+      "full_throttle_pct": 81,
+      "f1_website_slugs": [
+        "italy",
+        "italian"
+      ]
     },
     "madrid": {
       "display_name": "Spanish Grand Prix",
@@ -342,11 +554,24 @@
       "track_length_km": 5.414,
       "straightness": 0.46,
       "speed_bias": 0.68,
-      "overtaking_ease": 0.50,
+      "overtaking_ease": 0.5,
       "historical_data_available": false,
       "historical_years": [],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "madrid",
+      "turns": 20,
+      "drs_zones": 2,
+      "first_gp_year": 2026,
+      "lap_record": null,
+      "downforce_level": "Medium",
+      "tyre_stress": "Medium",
+      "full_throttle_pct": 65,
+      "f1_website_slugs": [
+        "madrid",
+        "spain",
+        "spanish"
+      ]
     },
     "baku": {
       "display_name": "Azerbaijan Grand Prix",
@@ -361,7 +586,7 @@
       "circuit_type": "street",
       "track_length_km": 6.003,
       "straightness": 0.583,
-      "speed_bias": 0.60,
+      "speed_bias": 0.6,
       "overtaking_ease": 0.42,
       "historical_data_available": true,
       "historical_years": [
@@ -372,7 +597,23 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "baku",
+      "turns": 20,
+      "drs_zones": 2,
+      "first_gp_year": 2016,
+      "lap_record": {
+        "time": "1:43.009",
+        "driver": "Charles Leclerc",
+        "year": 2019
+      },
+      "downforce_level": "Low",
+      "tyre_stress": "Low",
+      "full_throttle_pct": 72,
+      "f1_website_slugs": [
+        "azerbaijan",
+        "baku"
+      ]
     },
     "sepang": {
       "display_name": "Bahrain Grand Prix",
@@ -397,7 +638,23 @@
         "HAD": 5,
         "COL": 15,
         "LIN": 30
-      }
+      },
+      "ergast_circuit_id": "sepang",
+      "turns": 15,
+      "drs_zones": 2,
+      "first_gp_year": 1999,
+      "lap_record": {
+        "time": "1:34.080",
+        "driver": "Sebastian Vettel",
+        "year": 2017
+      },
+      "downforce_level": "High",
+      "tyre_stress": "High",
+      "full_throttle_pct": 68,
+      "f1_website_slugs": [
+        "malaysia",
+        "malaysian"
+      ]
     },
     "singapore": {
       "display_name": "Singapore Grand Prix",
@@ -409,7 +666,7 @@
       ],
       "round_2026": 17,
       "circuit_type": "street",
-      "track_length_km": 4.940,
+      "track_length_km": 4.94,
       "straightness": 0.36,
       "speed_bias": 0.38,
       "overtaking_ease": 0.28,
@@ -423,7 +680,22 @@
         2025
       ],
       "sprint_weekend_2026": true,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "marina_bay",
+      "turns": 19,
+      "drs_zones": 4,
+      "first_gp_year": 2008,
+      "lap_record": {
+        "time": "1:34.486",
+        "driver": "Daniel Ricciardo",
+        "year": 2024
+      },
+      "downforce_level": "Very High",
+      "tyre_stress": "Medium",
+      "full_throttle_pct": 54,
+      "f1_website_slugs": [
+        "singapore"
+      ]
     },
     "austin": {
       "display_name": "United States Grand Prix",
@@ -450,7 +722,23 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "americas",
+      "turns": 20,
+      "drs_zones": 2,
+      "first_gp_year": 2012,
+      "lap_record": {
+        "time": "1:36.169",
+        "driver": "Charles Leclerc",
+        "year": 2019
+      },
+      "downforce_level": "High",
+      "tyre_stress": "High",
+      "full_throttle_pct": 66,
+      "f1_website_slugs": [
+        "united-states",
+        "austin"
+      ]
     },
     "mexico": {
       "display_name": "Mexico City Grand Prix",
@@ -476,7 +764,23 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "rodriguez",
+      "turns": 17,
+      "drs_zones": 3,
+      "first_gp_year": 1963,
+      "lap_record": {
+        "time": "1:17.774",
+        "driver": "Valtteri Bottas",
+        "year": 2021
+      },
+      "downforce_level": "Very High",
+      "tyre_stress": "Low",
+      "full_throttle_pct": 69,
+      "f1_website_slugs": [
+        "mexico",
+        "hermanos-rodriguez"
+      ]
     },
     "sao_paulo": {
       "display_name": "São Paulo Grand Prix",
@@ -503,7 +807,24 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "interlagos",
+      "turns": 15,
+      "drs_zones": 2,
+      "first_gp_year": 1973,
+      "lap_record": {
+        "time": "1:10.540",
+        "driver": "Valtteri Bottas",
+        "year": 2018
+      },
+      "downforce_level": "Medium",
+      "tyre_stress": "Medium",
+      "full_throttle_pct": 73,
+      "f1_website_slugs": [
+        "brazil",
+        "sao-paulo",
+        "sao paulo"
+      ]
     },
     "las_vegas": {
       "display_name": "Las Vegas Grand Prix",
@@ -527,7 +848,22 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "las_vegas",
+      "turns": 17,
+      "drs_zones": 2,
+      "first_gp_year": 2023,
+      "lap_record": {
+        "time": "1:34.876",
+        "driver": "Lando Norris",
+        "year": 2024
+      },
+      "downforce_level": "Low",
+      "tyre_stress": "Low",
+      "full_throttle_pct": 79,
+      "f1_website_slugs": [
+        "las-vegas"
+      ]
     },
     "qatar": {
       "display_name": "Qatar Grand Prix",
@@ -550,7 +886,22 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "losail",
+      "turns": 16,
+      "drs_zones": 1,
+      "first_gp_year": 2021,
+      "lap_record": {
+        "time": "1:22.384",
+        "driver": "Lando Norris",
+        "year": 2024
+      },
+      "downforce_level": "High",
+      "tyre_stress": "High",
+      "full_throttle_pct": 76,
+      "f1_website_slugs": [
+        "qatar"
+      ]
     },
     "abu_dhabi": {
       "display_name": "Abu Dhabi Grand Prix",
@@ -565,7 +916,7 @@
       "track_length_km": 5.281,
       "straightness": 0.48,
       "speed_bias": 0.66,
-      "overtaking_ease": 0.50,
+      "overtaking_ease": 0.5,
       "historical_data_available": true,
       "historical_years": [
         2022,
@@ -574,7 +925,23 @@
         2025
       ],
       "sprint_weekend_2026": false,
-      "known_penalties_2026": {}
+      "known_penalties_2026": {},
+      "ergast_circuit_id": "yas_marina",
+      "turns": 16,
+      "drs_zones": 2,
+      "first_gp_year": 2009,
+      "lap_record": {
+        "time": "1:25.637",
+        "driver": "Kevin Magnussen",
+        "year": 2024
+      },
+      "downforce_level": "Medium",
+      "tyre_stress": "Medium",
+      "full_throttle_pct": 69,
+      "f1_website_slugs": [
+        "abu-dhabi",
+        "abu dhabi"
+      ]
     }
   }
 }

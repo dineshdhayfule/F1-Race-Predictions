@@ -142,6 +142,32 @@ class CircuitAnalyticsSummary:
 
 
 @dataclass(frozen=True)
+class DriverSeasonStanding:
+    """Full-grid driver championship standing entry for a season."""
+    rank: int
+    driver_name: str
+    team_name: str
+    points: float
+    wins: int
+    podiums: int = 0
+    poles: int = 0
+    gap_to_leader: float = 0.0
+    dnfs: int = 0
+    dns: int = 0
+
+
+@dataclass(frozen=True)
+class ConstructorSeasonStanding:
+    """Full-grid constructor championship standing entry for a season."""
+    rank: int
+    team_name: str
+    points: float
+    wins: int
+    podiums: int = 0
+    gap_to_leader: float = 0.0
+
+
+@dataclass(frozen=True)
 class SeasonAnalyticsSummary:
     """Comprehensive championship season analytical summary."""
     season: int
@@ -156,3 +182,5 @@ class SeasonAnalyticsSummary:
     qualifying_coverage_summary: str
     race_results_coverage_summary: str
     coverage_notes: List[str] = field(default_factory=list)
+    full_drivers_standings: List[DriverSeasonStanding] = field(default_factory=list)
+    full_constructors_standings: List[ConstructorSeasonStanding] = field(default_factory=list)
